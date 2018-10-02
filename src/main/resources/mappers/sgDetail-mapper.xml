@@ -175,14 +175,18 @@
 	</update>
 	
 	<select id="selectChangeDatesInfo" parameterType="_int" resultType="hashmap">
-		SELECT TO_CHAR(SELECT_DATE, 'YYYY-MM-DD') AS "THIS_DAY",
+		SELECT TO_CHAR(SELECT_DATE, 'YYYY. MM. DD. ') AS "THIS_DAY",
+			   TO_CHAR(SELECT_DATE, 'YYYY. MM. ') AS "THIS_WEEK",
+			   TO_CHAR(SELECT_DATE, 'YYYY. MM. ') AS "THIS_MONTH",
 			   TO_CHAR(SELECT_DATE, 'W') AS "WEEK_NUM",
 			   TO_CHAR(SELECT_DATE, 'MM') AS "MONTH",
 			   TO_CHAR(LAST_DAY(SELECT_DATE), 'DD') AS "MONTH_LASTDAY"
 		FROM ( SELECT (SYSDATE + #{ changeDates }) AS "SELECT_DATE" FROM DUAL)  
 	</select>
 	<select id="selectChangeMonthsInfo" parameterType="_int" resultType="hashmap">
-		SELECT TO_CHAR(SELECT_DATE, 'YYYY-MM-DD') AS "THIS_DAY",
+		SELECT TO_CHAR(SELECT_DATE, 'YYYY. MM. DD. ') AS "THIS_DAY",
+			   TO_CHAR(SELECT_DATE, 'YYYY. MM. ') AS "THIS_WEEK",
+			   TO_CHAR(SELECT_DATE, 'YYYY. MM. ') AS "THIS_MONTH",
 			   TO_CHAR(SELECT_DATE, 'W') AS "WEEK_NUM",
 			   TO_CHAR(SELECT_DATE, 'MM') AS "MONTH",
 			   TO_CHAR(LAST_DAY(SELECT_DATE), 'DD') AS "MONTH_LASTDAY"

@@ -85,8 +85,9 @@
 		
 		
 	.priodTabMenuArea {/*  width:100%; */ margin-right:15px; padding:0px 10px 10px 10px; /* border-bottom:1px solid gray; */ text-align:right; }
+	 .priodTabMenuArea tbody { vertical-align:baseline; }
 	  .priodTabMenuArea span { cursor:pointer; font-size:14px; /* font-weight:bold; */ }
-/* 		.prevBtn:hover, .nextBtn:hover { color:#ed876a; font-weight:bold; } */
+ 		.prevBtn:hover, .nextBtn:hover { color:#ed876a; font-weight:bold; }
 		
 	/* 게시물 영역 */		
 	.centerContent { width:48.7%; margin-right:0.3%; border-right:1px solid gray; }
@@ -313,22 +314,21 @@
 								<span id="showMemList" class="menuBtn" onclick="selectGrMemList('${gr.studyGroup_Code}', '${loginUser}');">그룹원 보기</span>
 							</div>
 							<div>
-								<span id="showMemRank" class="menuBtn" onclick="selectGrMemRank('${gr.studyGroup_Code}');">그룹원 순위</span>
+								<span id="showMemRank" class="menuBtn" onclick="selectGrMemRankList('${gr.studyGroup_Code}');">그룹원 순위</span>
 								<span style="cursor:auto;">|</span>
 								<span id="showMemStudyStatus" class="menuBtn" onclick="showMemStudyStatus();">수행 현황</span>
 							</div>
 						</div>
 						<div id="leftIncludeArea" class="leftIncludeArea">
-							${selectDate.get.MONTH }, 2
 							<div class="priodTabMenuArea hideMemList">
 								
 								<table width="100%"><tr>
 									<td style="text-align:left;">
-										<span><strong class="prevBtn">< </strong></span>
-										<span class="selectDay"><fmt:formatDate value="${selectDate.THIS_DAY}" pattern="yyyy. MM. dd."/> </span>
-										<span class="selectWeek"><fmt:formatDate value="${data.selectDate.THIS_DAY}" pattern="yyyy. MM."/> ${selectDate.WEEK_NUM}주차 </span>
-										<span class="selectMonth"><fmt:formatDate value="${THIS_DAY}" pattern="yyyy. MM."/></span>
-										<span><strong class="nextBtn"> ></strong></span>
+										<span><strong class="prevBtn">< &nbsp;</strong></span>
+											<span class="selectDay"><label id="thisDay"></label></span>
+											<span class="selectWeek"><label id="thisWeek"></label> <label id="weekNum"></label>주차 </span>
+											<span class="selectMonth"><label id="thisMonth"></label></span>
+										<span><strong class="nextBtn">&nbsp; ></strong></span>
 									</td>
 									<td style="text-align:right;" class="hideMemStudyStatus">
 										<span id="selectDay" class="menuBtn" onclick="selectDay();">일간</span>
@@ -390,13 +390,14 @@
 	function selectGrMemRankList(grCode){
 		$('#showMemList').css({"font-weight":""});
 		$('#showMemRank').css({"font-weight":"bold"});
+		$('.hideMemList').css({"display":""});
 		
 		console.log("changeDates : " + changeDates + " / " + "changeCnt : " + changeCnt + " / ");
 		console.log("dayPick : " + dayPick + " / " + "monthPick : " + monthPick);
 		
 		selectDay();
  		
-		$.ajax({
+/* 		$.ajax({
 			url:"selectGrMemRankPage.sgd",
 			data : { grCode : grCode, thisDay : thisDay,
 					 dayPick : dayPick, monthPick : monthPick },
@@ -406,7 +407,7 @@
  				$('#leftIncludeArea').empty();
 				$('#leftIncludeArea').append(data);
 			}
-		});
+		}); */
 	};
 </script>
 
@@ -427,11 +428,9 @@
 	
 	var changeDates = 0;
 	var changeMonths = 0;
-	
-	var thisDay = 0;
-	
+
+	var grStDate = '${gr.studyGroup_StDate}';
 	function selectDateByPeriod(){
-		
 		if(monthPick == 0 && dayPick != 0){
 			changeDates = changeCnt * dayPick;
 		}else if(monthPick != 0 && dayPick == 0){
@@ -439,7 +438,7 @@
 		}
 
 		console.log("selectDateByPeriod => ");
-		console.log("thisDay => " + thisDay);
+// 		console.log("thisDay => " + thisDay);
 		console.log("changeDates : " + changeDates + " / " + "changeCnt : " + changeCnt + " / ");
 		console.log("dayPick : " + dayPick + " / " + "monthPick : " + monthPick);
 
@@ -450,12 +449,14 @@
 			type : "POST",
 			
 			success:function(data) {
-				thisDay = (selectDate.get(0).THIS_DAY);
+				console.log(data);
 				
-				$('#thisDay').val(thisDay);
+				$('#thisDay').text(data.selectDate.THIS_DAY);
+				$('#thisWeek').text(data.selectDate.THIS_WEEK);
+				$('#thisMonth').text(data.selectDate.THIS_MONTH);
+				$('#weekNum').text(data.selectDate.WEEK_NUM);
 				
 				console.log("에이작스 결과 =>");
-				console.log("thisDay : " + thisDay);
 				console.log("changeDates : " + changeDates + " / " + "changeCnt : " + changeCnt + " / ");
 				console.log("dayPick : " + dayPick + " / " + "monthPick : " + monthPick);
 			}
@@ -463,17 +464,22 @@
 	}
 
 	
-/* 	$('.nextBtn').hover(function(){ 
+/*  	$('.prevBtn').hover(function(){
+ 		if(thisDay <= grStDate){
+			$('.nextBtn').unbind('hover');
+		}
+	});
+ 	$('.nextBtn').hover(function(){
 		if(changeCnt >= 0){
+			$('.nextBtn').unbind('hover');
+		}
+	}); */
+/* 		if(changeCnt >= 0){
 			$(this).css({"cursor":"auto", "color":""});
 		}else{
 			$(this).css({"color":"#ed876a", "font-weight":"weight:bold"});
-		}
-	}); */
-
+		} */
 	$(".prevBtn").click(function(){
-		var grStDate = '${gr.studyGroup_StDate}';
-
 		if(thisDay >= grStDate){
 			changeCnt -= 1;
 			if(thisDay < grStDate){
