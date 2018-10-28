@@ -7,7 +7,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <style>
 	.SGMainBodyRightArea {
-		width:333px;
+		width:333px; 
 		margin-left:7px;
 		margin-bottom:7px;
 	}
@@ -33,13 +33,7 @@
 		padding-top:5px;
 		text-align:center;
 	}
-	.inSGTitleListArea img {
-		width:20px;
-		height:20px;
-		margin-bottom: -5px;
-	}
 	.inSGTitleListArea h4{
-		display:inline-block;
 		border-radius:7px;
 		margin:5px;
 		margin-top:0px;
@@ -82,6 +76,7 @@
 	}
 	.SGBoardListArea, .SGMyBoardListArea {
 		display:inline-block;
+		height:171px;
 		width:98%;
 		border-radius:10px;
 		text-align:center;
@@ -138,6 +133,14 @@
 		text-align:center;
 		cursor:pointer;
 	}
+	.SGBoardChooseBtnUl > li > img {
+		width:20px;
+		height:20px;
+		margin-bottom: -5px;
+	}
+	.SGBoardChooseBtnUl > li:last-child img {
+		display:none;
+	}
 	.SGBoardChooseBtnUl li:first-child {
 		border-right:1px solid gray;
 		font-weight:bold;
@@ -167,11 +170,18 @@
 		<div class="SGBoardArea">
 			<div class="SGBoardChooseBtnArea">
 				<ul class="SGBoardChooseBtnUl">
-					<li onclick="SGBoardList('SGBoardListArea')"><img src="">최근 게시글</li>
-					<li onclick="SGBoardList('SGMyBoardListArea')"><img>내 게시글</li>
+					<li onclick="SGBoardList('SGBoardListArea')"><img src="${contextPath}/resources/images/studyGroup/pencil.png"/> 최근 게시글</li>
+					<li onclick="SGBoardList('SGMyBoardListArea')"><img> 내 게시글</li>
 				</ul>
 			</div>
 			<div class="SGBoardListArea">
+				<div class="SGLastBoardArea">
+					<div class="SGTitleArea">2018년 KH정보교육원 학생들의 모임</div><br>
+					<div class="SGBoardReadCheckArea">
+						<img src="${ contextPath }/resources/images/studyGroup/checked.png">
+					</div>
+					<div class="SGBoardTitleArea">이거 문제좀 풀어주세요</div>
+				</div>
 				<div class="SGLastBoardArea">
 					<div class="SGTitleArea">2018년 KH정보교육원 학생들의 모임</div><br>
 					<div class="SGBoardReadCheckArea">
@@ -198,7 +208,7 @@
 			</div>
 		</div>
 		<div class="inSGTitleListArea">
-			<img src="${contextPath}/resources/images/studyGroup/pencil.png"/><h4>참여 그룹 순위</h4>
+			<h4>참여 그룹 순위</h4>
 			<div class="inSGTitleArea">2018년 KH정보교육원 학생들의 모임</div>
 			<div class="inSGRankingArea">카테고리 283위 / 3,203위</div>
 			<div class="inSGTitleArea">2018년 KH정보교육원 학생들의 모임</div>
