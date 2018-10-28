@@ -65,6 +65,7 @@ public class MemberController {
 			
 			model.addAttribute("loginUser", loginUser);
 			
+			
 			if(loginUser.getMember_Class() == 0) {
 				return "redirect:goMain.me";
 			}else{
