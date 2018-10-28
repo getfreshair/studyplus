@@ -30,6 +30,11 @@ public class MemberController {
 		return "main/main";
 	}
 	
+	@RequestMapping(value="adminMain.me")
+	public String adminMain() {
+		return "admin/home";
+	}
+	
 	@RequestMapping(value="insertMemberPage.me")
 	public String insertMemberPage() {
 		return "member/insertMemberPage";
@@ -60,7 +65,11 @@ public class MemberController {
 			
 			model.addAttribute("loginUser", loginUser);
 			
-			return "redirect:goMain.me";
+			if(loginUser.getMember_Class() == 0) {
+				return "redirect:goMain.me";
+			}else{
+				return "redirect:adminMain.me";
+			}
 		} catch (LoginException e) {
 			model.addAttribute("message", e.getMessage());
 			
