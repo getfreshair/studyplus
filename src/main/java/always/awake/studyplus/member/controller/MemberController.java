@@ -30,6 +30,11 @@ public class MemberController {
 		return "planner/studyPlanner";
 	}
 	
+	@RequestMapping(value="logoutMain.me")
+	public String logoutMain() {
+		return "main/main";
+	}
+	
 	@RequestMapping(value="insertMemberPage.me")
 	public String insertMemberPage() {
 		return "member/insertMemberPage";
@@ -50,7 +55,7 @@ public class MemberController {
 	public String logout(SessionStatus status) {
 		status.setComplete();
 		
-		return "redirect:goMain.me";
+		return "redirect:logoutMain.me";
 	}
 	
 	@RequestMapping(value="login.me", method=RequestMethod.POST)

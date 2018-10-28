@@ -214,9 +214,11 @@
 					<h4 class="modal-title" id="loginModalLabel">로그인</h4>
 				</div>
 				<div class="modal-body">
-					
-
-
+					<form action="login.me" method="POST">
+						<input type="text" name="member_Id">아이디
+						<input type="text" name="member_Pwd">비밀번호
+						<button type="submit">로그인</button>
+					</form>
 				</div>
 			</div>
 		</div>
