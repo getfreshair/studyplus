@@ -25,9 +25,9 @@ public class MemberController {
 	@Autowired
 	private MemberService ms;
 	
-	@RequestMapping(value="goMain.me")
+	@RequestMapping(value="studyPlannerMain.me")
 	public String goMain() {
-		return "main/main";
+		return "planner/studyPlanner";
 	}
 	
 	@RequestMapping(value="insertMemberPage.me")
@@ -60,7 +60,7 @@ public class MemberController {
 			
 			model.addAttribute("loginUser", loginUser);
 			
-			return "redirect:goMain.me";
+			return "redirect:studyPlannerMain.me";
 		} catch (LoginException e) {
 			model.addAttribute("message", e.getMessage());
 			
