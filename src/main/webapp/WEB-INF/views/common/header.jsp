@@ -31,37 +31,12 @@
 			            		</ul>
 			            	</div>
 			            </li>
-						<li><a href="#" data-toggle="modal" data-target="#loginModal">로그인</a></li>
+						<li><a href="logout.me">로그아웃</a></li>
+						<!-- <button onclick="location.href='logout.me'">로그아웃</button> -->
 					</ul>
 				</div>
 			 	<!-- // gnb -->
 			</div>
 		</div>
 	</div>
-	
-	<!-- Modal -->
-	<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="loginModalLabel">로그인</h4>
-				</div>
-				<div class="modal-body">
-					
-
-
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- // Modal -->
-	<script>
-	//모달 오픈
-	$(function(){
-		$('#loginModal').on('shown.bs.modal', function () {
-		//$('#myInput').focus();
-		});
-	})
-	</script>
 </header>
