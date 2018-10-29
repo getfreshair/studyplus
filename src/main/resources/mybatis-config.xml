@@ -14,5 +14,6 @@
 	<mappers>
 		<mapper resource="mappers/member-mapper.xml"/>
 		<mapper resource="mappers/studyGroup-mapper.xml"/>
+		<mapper resource="mappers/studyPlanner-mapper.xml"/>
 	</mappers>
 </configuration>
