@@ -31,7 +31,6 @@
 	.inSGImgArea img {
 		width:300px;
 		height:217px;
-		margin-bottom:-4px;
 	}
 	.inSGInfoArea {
 		margin-left:10px;
@@ -62,7 +61,7 @@
 	.inSGTitle img {
 		width:25px;
 		height:25px;
-		margin-bottom:-6px;
+		margin-bottom:4px;
 	}
 	.inSGIntro {
 		font-size: 12px;
@@ -111,7 +110,7 @@
 		width:86%;
 		font-size:12px;
 		margin-right:4px;
-		height:16px;
+		height:22px;
 	}
 	.inSGAimPercent {
 		position:absolute;
@@ -188,6 +187,10 @@
 			$('.recommendationSGListArea').css('display', 'block');
 		}
 	}
+	
+	function SGdetailPage(){
+		location.href='studyGroupDetailPage.sg';
+	}
 </script>
 </head>
 <body>
@@ -205,7 +208,7 @@
 		<div class="inSGListArea">
 			<!-- 그룹 하나 -->
 			<div class="inSGArea">
-				<div class="inSGImgArea">
+				<div class="inSGImgArea" onclick="SGdetailPage()">
 					<img src="${contextPath}/resources/images/studyGroup/study.jpg">
 				</div>
 				<div class="inSGInfoArea">

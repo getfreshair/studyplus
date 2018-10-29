@@ -4,7 +4,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Study Group Page</title>
 <!-- #### CSS FILES ### -->
 <link rel="stylesheet" href="/studyplus/resources/css/bootstrap.css">
 <link rel="stylesheet" href="/studyplus/resources/css/custom.css">
@@ -12,38 +11,18 @@
 <script src="/studyplus/resources/js/jquery-1.11.1.min.js"></script>
 <script src="/studyplus/resources/js/bootstrap.min.js"></script>
 <style>
-	html, body{
-		width:100%;
-		height:100%;
+	html, body {
 		background:#F8F8F8;
 	}
-	.studyGroup {
-		width:1200px;
-		margin:0 auto;
-	}
-	.SGArea {
-		width:100%;
-		margin:0 auto;
-	}
-	.SGHeaderArea {
-		width:100%;
-	}
-	.SGContentArea {
-		width:100%;
+	.SGInsertArea {
+		display:inline-block;
+		height:300px;
 	}
 </style>
 </head>
 <body>
-	<jsp:include page="../common/header.jsp"/>
-	<div class="studyGroup">
-		<div class="SGArea">
-			<div class="SGHeaderArea">
-				<jsp:include page="./groupHeaderPart/groupHeader/SGHeader.jsp"/>
-			</div>
-			<div class="SGContentArea">
-				<jsp:include page="./groupMainPart/studyGroupMainBody.jsp"/>
-			</div>
-		</div>
+	<div class="SGInsertArea">
+		ㅋ
 	</div>
 </body>
 </html>

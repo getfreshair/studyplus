@@ -46,6 +46,20 @@
 		<url-pattern>*.sg</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>sgDetail</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/config/studyGroup/sgDetail-context.xml</param-value>
+		</init-param>
+	</servlet>
+		
+	<servlet-mapping>
+		<servlet-name>sgDetail</servlet-name>
+		<url-pattern>*.gd</url-pattern>
+	</servlet-mapping>
+	
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
