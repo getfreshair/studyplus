@@ -142,8 +142,8 @@ hr{
 							</div>
 					</div>
 					<hr>
-				<button name="memberSearchBtn" id="searchBtn" onclick="searchMember();"class="btn btn-primary" style="float:right; margin-top:20px; margin-right:100px; font-size:20px">검색초기화</button>
-				<button name="memberSearchBtn" id="searchBtn" class="btn btn-primary" style="float:right; margin-top:20px; margin-right:40px; font-size:20px">검색하기</button>
+				<button type = "button"name="memberSearchBtn" id="searchBtn" onclick="searchMember();"class="btn btn-primary" style="float:right; margin-top:20px; margin-right:100px; font-size:20px">검색초기화</button>
+				<button name="memberSearchBtn2" id="searchBtn2" class="btn btn-primary" style="float:right; margin-top:20px; margin-right:40px; font-size:20px">검색하기</button>
 				</form>
 				<script>
 				function searchMember(){
@@ -156,10 +156,10 @@ hr{
 					$.ajax({
 						url:"adminSearchMember.do",
 						type:"post",
-						data:{searchAll:searchAll},
-							 {searchDate1:searchDate1},
-							 {searchDate2:searchDate2},
-							 {searchOption:searchOption}
+						data:{searchAll:searchAll,
+							 searchDate1:searchDate1,
+							 searchDate2:searchDate2,
+							 searchOption:searchOption},
 						success:function(data){
 							console.log(data);
 						},
@@ -170,7 +170,7 @@ hr{
 					return false;
 				}
 					
-				}
+				
 				
 				</script>
 				<br><br>

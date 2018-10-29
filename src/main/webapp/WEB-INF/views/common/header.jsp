@@ -18,8 +18,8 @@
 				<!-- gnb -->
 				<div class="navbar-collapse collapse" id="navigation">
 					<ul class="nav navbar-nav navbar-right">
-						<li class="menu-st01"><a href="#">프로그램 차단</a></li>
-						<li class="menu-st02"><a href="#">스터디 플래너</a></li>
+						<li class="menu-st01"><a href="showBlockMain.bl">프로그램 차단</a></li>
+						<li class="menu-st02"><a href="studyPlannerMainPage.sp">스터디 플래너</a></li>
 						<li class="menu-st03"><a href="studyGroupMainPage.sg">스터디 그룹</a></li>
 
 						<li  id="menuMore"><a href="#">더보기</a>

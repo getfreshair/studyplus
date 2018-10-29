@@ -27,7 +27,7 @@ public class MemberController {
 	
 	@RequestMapping(value="studyPlannerMain.me")
 	public String goMain() {
-		return "planner/studyPlanner";
+		return "studyPlanner/studyPlanner";
 	}
 	
 	@RequestMapping(value="logoutMain.me")

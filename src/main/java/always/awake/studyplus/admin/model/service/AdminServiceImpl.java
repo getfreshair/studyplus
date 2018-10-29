@@ -1,17 +1,29 @@
 package always.awake.studyplus.admin.model.service;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import always.awake.studyplus.admin.model.dao.AdminDao;
 import always.awake.studyplus.admin.model.vo.Member;
 
 @Service
 public class AdminServiceImpl implements AdminService{
+	@Autowired
+	private SqlSessionTemplate sqlSession;
+	
+	@Autowired
+	private AdminDao ad;
 
 	@Override
-	public ArrayList<Member> searchMember() {
-		return null;
+	public List<Member> searchMember(Map<String,Object> map) {
+		
+		List<Member> list = ad.searchMember(sqlSession, map);
+		
+		return list;
 	}
 	
 	
