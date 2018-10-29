@@ -44,11 +44,10 @@ public class MemberController {
 		return "admin/home";
 	}
 	
-	
 	@RequestMapping(value="insertMember.me")
 	public String insertMember(Model model, Member m, Files files, @RequestParam(value="category_Code", required=false)ArrayList<String> category_Code, HttpServletRequest request) {
 		if(ms.insertMember(model, m, files, category_Code, request) > 0) {
-			return "redirect:goMain.me";
+			return "redirect:logoutMain.me";
 		}else {
 			model.addAttribute("회원 가입을 실패 했어요.!");
 			

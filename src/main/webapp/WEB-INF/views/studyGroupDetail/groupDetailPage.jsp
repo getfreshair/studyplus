@@ -10,112 +10,103 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-
-<!-- #### CSS FILES ### -->
-<link rel="stylesheet" href="/studyplus/resources/css/bootstrap.css">
-<link rel="stylesheet" href="/studyplus/resources/css/custom.css">
-
-<!-- #### JAVASCRIPT FILES ### -->
-<script src="/studyplus/resources/js/jquery-1.11.1.min.js"></script>
-<script src="/studyplus/resources/js/bootstrap.min.js"></script>
-
-
-<style>
-/* 전체영역 */
-	.pageAll * { font-family:맑은고딕 !important;}
-	.pageWrap { width:1200px; margin:0px auto; }
-	.pageContentArea { width:98%; margin:0px auto; }
-</style>
-
-<style>
-/* 	상단부 */
-	.titleArea { width:100%; margin-bottom:20px; display:flex; }
-	.topInfoArea { border-radius:15px; background:rgb(255, 225, 177); padding:25px 0px; text-align:center; 
-					border-style:hidden; box-shadow:4px 5px 5px 1px lightgray; }
+	<!-- #### CSS FILES ### -->
+	<link rel="stylesheet" href="/studyplus/resources/css/bootstrap.css">
+	<link rel="stylesheet" href="/studyplus/resources/css/custom.css">
 	
-	    .topInfoAllWrapTbl { width:100%; height:100%; margin:0px auto; /* vertical-align:middle; */ }
-        .topInfoContWrapTbl { width:100%; height:100%; margin:0px auto; vertical-align:middle; }
+	<!-- #### JAVASCRIPT FILES ### -->
+	<script src="/studyplus/resources/js/jquery-1.11.1.min.js"></script>
+	<script src="/studyplus/resources/js/bootstrap.min.js"></script>
 	
-	.groupInfoArea { width:61%; margin-right:0.8%; display:flex; }
-	  .groupInfoLeft { width:45%; padding:0px 20px; border-right:1px solid gray; }
-		.category { background:lightgray; float:left; }
-		.groupTitleTblWrap { margin-left:5px; }
-		  .groupTitleTbl { width:100%; margin: 0px 0px 5px; }
-		  .groupTitleTbl h2 { font-weight:bold; line-height:1.3; font-size:27px; margin:0px; }
- 		  .groupTitleTbl .groupIntro { height:55px; padding:10px 5px 15px 5px; font-size:14px; table-layout:fixed; word-break:break-all; }
-		  .groupOptDetailTbl { width:230px; display:inline-table; font-size:14px; }
- 		  .groupOptDetailTbl td { padding:7px 5px 1px 5px; border-bottom:1px solid gray; }
-		  .groupOptDetailTbl strong { float:left; }
-		  .groupOptDetailTbl span { float:right; }
-	  .groupInfoRight { width:55%; padding:0px 20px; }
-	    .radiBtn { background:gray; float:right; cursor:pointer; color:white; border-radius:10px; }
- 	      .groupStatBoxLeft { float:left; background:rgb(211, 0, 0, 0.4); }
- 		  .groupStatBoxRight { float:right; background:rgb(52, 152, 219, 0.4); }
-	 	  .statBox { width:171px; height:220px; border-radius:15px; padding:3px 7px; display:table; }
-  		    .statBoxContTbl { display:table-cell; vertical-align:middle; margin:0px; }
-  		    .statBoxContTbl tbody { width:130px; height:170px; display: inline-block; }
-		    .statBoxContTbl h3 { font-weight:bold; line-height:1.3; margin:0px 0px 5px; }
-  		    .statBoxContTbl tr:first-child td { /* width:140px; */ padding-bottom:12px; font-size:1.5em; border-bottom:1px dashed; }
-   		    .statBoxContTbl tr:nth-child(2n) td > div { width:100%; height:91px; margin:0px auto; display:inline-table; text-align:center; }
-   		    .statBoxContTbl tr:nth-child(2n) td div div { padding-top:8px; /* font-size:13px; */ display:inline-block; text-align:right;  }
-   		    .statBoxContTbl tr:nth-child(2n) td div div strong { float:right;  }
-			.goalRatio { font-weight:bold; font-size:18px; padding-top:0px !important; display:table-cell !important; vertical-align:middle; text-align:center !important; }
-
-	.myInfoArea { width:38.2%; padding:25px 20px; }
-	  .joinGroupBtn { font-weight:bold; font-size:25px; }
- 	  .myStatBox { float:left; background:rgb(211, 0, 0, 0.4); }
-	  .lineGraph { background:white; opacity:0.8; width:100%; height:220px; float:right; padding:3px 7px; display:inline-block; }
-</style>	
-
-<style>
-/*	하단 컨텐츠 작성 */
-	.contentArea { width:100%; /* height:600px; */ margin-bottom:10px; display:flex; }
-	.bottomContentArea { background:rgb(235, 235, 235, 0.4); /* height:100%; */ padding:20px 15px; display:inline-block; text-align:center; }
 	
-
+<!-- /* 전체영역 */ -->
+	<style>
+		.pageAll * { font-family:맑은고딕 !important;}
+		.pageWrap { width:1200px; margin:0px auto; }
+		.pageContentArea { width:98%; margin:0px auto; }
+	</style>
 	
-/*	좌측 영역 */
-	.leftContent { width:26.7%; padding-right:0px; margin-right:0.3%; border-right:1px solid gray; }
-	  .leftContentWrap { width:100%; /* height:100%; */ display:inline-block; }
-		.leftContentTabMenu {/*  width:100%; */ margin-right:15px; padding-bottom:10px; border-bottom:1px solid gray; margin-bottom:10px; text-align:right; }
-		.leftContentTabMenu div { display:inline-table; }
-		.leftContentTabMenu div:first-child { float:left; }
-		.leftContentTabMenu span { cursor:pointer; padding:0px 5px; font-size:15px; /* font-weight:bold; */ }
+<!-- /* 상단부 */ -->
+	<style>
+		.titleArea { width:100%; margin-bottom:20px; display:flex; }
+		.topInfoArea { border-radius:15px; background:rgb(255, 225, 177); padding:25px 0px; text-align:center; 
+						border-style:hidden; box-shadow:4px 5px 5px 1px lightgray; }
 		
-		.leftIncludeArea { width:100%; overflow:auto; background:yellow; }
+		    .topInfoAllWrapTbl { width:100%; height:100%; margin:0px auto; /* vertical-align:middle; */ }
+	        .topInfoContWrapTbl { width:100%; height:100%; margin:0px auto; vertical-align:middle; }
+		
+		.groupInfoArea { width:61%; margin-right:0.8%; display:flex; }
+		  .groupInfoLeft { width:45%; padding:0px 20px; border-right:1px solid gray; }
+			.category { background:lightgray; float:left; }
+			.groupTitleTblWrap { margin-left:5px; }
+			  .groupTitleTbl { width:100%; margin: 0px 0px 5px; }
+			  .groupTitleTbl h2 { font-weight:bold; line-height:1.3; font-size:27px; margin:0px; }
+	 		  .groupTitleTbl .groupIntro { height:55px; padding:10px 5px 15px 5px; font-size:14px; table-layout:fixed; word-break:break-all; }
+			  .groupOptDetailTbl { width:230px; display:inline-table; font-size:14px; }
+	 		  .groupOptDetailTbl td { padding:7px 5px 1px 5px; border-bottom:1px solid gray; }
+			  .groupOptDetailTbl strong { float:left; }
+			  .groupOptDetailTbl span { float:right; }
+		  .groupInfoRight { width:55%; padding:0px 20px; }
+		    .radiBtn { background:gray; float:right; cursor:pointer; color:white; border-radius:10px; }
+	 	      .groupStatBoxLeft { float:left; background:rgb(211, 0, 0, 0.4); }
+	 		  .groupStatBoxRight { float:right; background:rgb(52, 152, 219, 0.4); }
+		 	  .statBox { width:171px; height:220px; border-radius:15px; padding:3px 7px; display:table; }
+	  		    .statBoxContTbl { display:table-cell; vertical-align:middle; margin:0px; }
+	  		    .statBoxContTbl tbody { width:130px; height:170px; display: inline-block; }
+			    .statBoxContTbl h3 { font-weight:bold; line-height:1.3; margin:0px 0px 5px; }
+	  		    .statBoxContTbl tr:first-child td { /* width:140px; */ padding-bottom:12px; font-size:1.5em; border-bottom:1px dashed; }
+	   		    .statBoxContTbl tr:nth-child(2n) td > div { width:100%; height:91px; margin:0px auto; display:inline-table; text-align:center; }
+	   		    .statBoxContTbl tr:nth-child(2n) td div div { padding-top:8px; /* font-size:13px; */ display:inline-block; text-align:right;  }
+	   		    .statBoxContTbl tr:nth-child(2n) td div div strong { float:right;  }
+				.goalRatio { font-weight:bold; font-size:18px; padding-top:0px !important; display:table-cell !important; vertical-align:middle; text-align:center !important; }
+	
+		.myInfoArea { width:38.2%; padding:25px 20px; }
+		  .joinGroupBtn { font-weight:bold; font-size:25px; }
+	 	  .myStatBox { float:left; background:rgb(211, 0, 0, 0.4); }
+		  .lineGraph { background:white; opacity:0.8; width:100%; height:220px; float:right; padding:3px 7px; display:inline-block; }
+	</style>	
+	
+<!-- /*	하단 컨텐츠 작성 */ -->
+	<style>
+		.contentArea { width:100%; /* height:600px; */ margin-bottom:10px; display:flex; }
+		.bottomContentArea { background:rgb(235, 235, 235, 0.4); /* height:100%; */ padding:20px 15px; display:inline-block; text-align:center; }
 		
 		
+	/*	그룹원 리스트 영역 */
+		.leftContent { width:26.7%; padding-right:0px; margin-right:0.3%; border-right:1px solid gray; }
+		  .leftContentWrap { width:100%; /* height:100%; */ display:inline-block; }
+			.leftContentTabMenu {/*  width:100%; */ margin-right:15px; padding-bottom:10px; border-bottom:1px solid gray; margin-bottom:10px; text-align:right; }
+			.leftContentTabMenu div { display:inline-table; }
+			.leftContentTabMenu div:first-child { float:left; }
+			.leftContentTabMenu span { cursor:pointer; padding:0px 5px; font-size:15px; /* font-weight:bold; */ }
+			
+			.leftIncludeArea { width:100%; overflow:auto; background:yellow; }
+			
+	/* 게시물 영역 */		
+		.centerContent { width:48.7%; margin-right:0.3%; border-right:1px solid gray; }
 		
-	.centerContent { width:48.7%; margin-right:0.3%; border-right:1px solid gray; }
+	/* 실시간 채팅 영역 */	
+		.rightContent { width:24%; }
+	</style>
 	
-	
-	
-	.rightContent { width:24%; }
-	
-	
-	
-	
-</style>
-
-<style>
-/*	공통 요소 속성 */
-	.radiusSmallWrapTd { height:10px; vertical-align:top; max-height:10px;}
-	.radiusBoxSmall { border-radius:15px; margin-bottom:13px; padding:3px 12px; font-size:12px; font-weight:bold; display:inline; }
-	.afterLoginShow { /* display:none; */ }  /* 후에 로그인 회원이 아니면 none으로 변경속성 변경하기(스타일 태그 지우고)  */
-</style>
-
-	<jsp:include page="../common/header.jsp"/>
-	
+<!-- /*	공통 요소 속성 */ -->
+	<style>
+		.radiusSmallWrapTd { height:10px; vertical-align:top; max-height:10px;}
+		.radiusBoxSmall { border-radius:15px; margin-bottom:13px; padding:3px 12px; font-size:12px; font-weight:bold; display:inline; }
+		.afterLoginShow { /* display:none; */ }  /* 후에 로그인 회원이 아니면 none으로 변경속성 변경하기(스타일 태그 지우고)  */
+	</style>
 </head>
 
 <body>
+
+	<jsp:include page="../common/header.jsp"/>
+	
 	<div class="pageAll"><br>
 	<div class="pageWrap">
 		<div class="pageContentArea">
 		
 			<div class="titleArea">
 				<div class="groupInfoArea topInfoArea">
-				
 					<div class="groupInfoLeft">
 						<table class="topInfoAllWrapTbl">
 							<tr><td class="radiusSmallWrapTd">
@@ -244,4 +235,7 @@
 	</div>
 	</div>	
 </body>
+	
+	<jsp:include page="../common/footer.jsp"/><jsp:include page="../common/footer.jsp"/>
+	
 </html>

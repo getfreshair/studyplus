@@ -188,8 +188,10 @@
 		}
 	}
 	
-	function SGdetailPage(){
-		location.href='studyGroupDetailPage.sg';
+	function SGdetailPage(group_No){
+		group_No = 1;
+		
+		location.href='selectOneGroup.sgd?group_No=' + group_No;
 	}
 </script>
 </head>
@@ -208,7 +210,7 @@
 		<div class="inSGListArea">
 			<!-- 그룹 하나 -->
 			<div class="inSGArea">
-				<div class="inSGImgArea" onclick="SGdetailPage()">
+				<div class="inSGImgArea" onclick="SGdetailPage(${group_no})">
 					<img src="${contextPath}/resources/images/studyGroup/study.jpg">
 				</div>
 				<div class="inSGInfoArea">

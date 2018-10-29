@@ -196,6 +196,5 @@ public class SGDetail implements Serializable {
             + categroy_Name + ", studyGroup_OpenStatus=" + studyGroup_OpenStatus + ", studyGroup_Pwd=" + studyGroup_Pwd
             + ", groupTotalStudyTime=" + groupTotalStudyTime + "]";
    }
-
    
 }
