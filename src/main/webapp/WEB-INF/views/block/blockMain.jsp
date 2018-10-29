@@ -254,7 +254,7 @@
 		position: absolute;
 		top:0;
 		left:0;
-		background :url("resources/images/test.jpg") 50% no-repeat;
+		background :url("resources/images/block/test.jpg") 50% no-repeat;
 		width:100%;
 		height:750px;
 		opacity: 0.2;
@@ -274,7 +274,7 @@
 		</div>
 		<div class="contentDiv col-xs-12 col-md-4">
 			<div class="profileDiv" style="width:90%; height:150px; margin-top:50px ; margin-left:50px ">
-				<img src="resources/images/profile.jpg" style="border-radius:70px">
+				<img src="resources/images/block/profile.jpg" style="border-radius:70px">
 				<span style="font-size:2em; font-weight: bold; margin:20px; color:orangered ">오늘의 적은 어제의 나 </span>
 				<script>
 					// 메인타이머 초기화
@@ -501,11 +501,11 @@
 							
 							if(mlist.get(i).getMember_Id().equals("user1")){
 						%>
-							<img src="resources/images/star2.jpg" style="top:49%; left:49%; position:absolute; width:<%=size%>px;height:<%=size%> px">
+							<img src="resources/images/block/star2.jpg" style="top:49%; left:49%; position:absolute; width:<%=size%>px;height:<%=size%> px">
 						<% 
 							} else {
 						%>
-  							<img src="resources/images/star.jpg" style="top:<%=x%>%; left:<%=y%>%; position:absolute; width:<%=size%>px;height:<%=size%> px">
+  							<img src="resources/images/block/star.jpg" style="top:<%=x%>%; left:<%=y%>%; position:absolute; width:<%=size%>px;height:<%=size%> px">
 						<%	}
 						}
   					%>
@@ -556,13 +556,13 @@
 	    	
 	    	<div style="height:200px; widht:100%">
 	    		<a>
-	    			<img src="resources/images/Advertising.jpg" style="height:100%; width:100%">
+	    			<img src="resources/images/block/Advertising.jpg" style="height:100%; width:100%">
 	    		</a>
 	    	</div>
 	    </div>
 		<div class="contentDiv col-xs-12 col-md-4" " >
 			<div align="right">
-			<img src="resources/images/goal.png" style="width:80% ; height:750px" >
+			<img src="resources/images/block/goal.png" style="width:80% ; height:750px" >
 			</div>
 			일정 리스트
 			<ul>
