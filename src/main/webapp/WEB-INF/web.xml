@@ -1,127 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
-	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>
-			classpath:root-context.xml
-			/WEB-INF/config/security/spring-security.xml
-		</param-value>
-	</context-param>
-	
-	<!-- Creates the Spring Container shared by all Servlets and Filters -->
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
+   <!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+   <context-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>
+         classpath:root-context.xml
+         /WEB-INF/config/security/spring-security.xml
+      </param-value>
+   </context-param>
+   
+   <!-- Creates the Spring Container shared by all Servlets and Filters -->
+   <listener>
+      <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+   </listener>
 
-	<!-- Processes application requests -->
-	<servlet>
-		<servlet-name>member</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/config/member/member-context.xml</param-value>
-		</init-param>
-	</servlet>
-		
-	<servlet-mapping>
-		<servlet-name>member</servlet-name>
-		<url-pattern>*.me</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>studyGroup</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/config/studyGroup/studyGroup-context.xml</param-value>
-		</init-param>
-	</servlet>
-		
-	<servlet-mapping>
-		<servlet-name>studyGroup</servlet-name>
-		<url-pattern>*.sg</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>sgDetail</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/config/studyGroup/sgDetail-context.xml</param-value>
-		</init-param>
+   <!-- Processes application requests -->
+   <servlet>
+      <servlet-name>member</servlet-name>
+      <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+      <init-param>
+         <param-name>contextConfigLocation</param-name>
+         <param-value>/WEB-INF/config/member/member-context.xml</param-value>
+      </init-param>
+   </servlet>
+      
+   <servlet-mapping>
+      <servlet-name>member</servlet-name>
+      <url-pattern>*.me</url-pattern>
+   </servlet-mapping>
+   
+   <servlet>
+      <servlet-name>studyGroup</servlet-name>
+      <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+      <init-param>
+         <param-name>contextConfigLocation</param-name>
+         <param-value>/WEB-INF/config/studyGroup/studyGroup-context.xml</param-value>
+      </init-param>
+   </servlet>
+      
+   <servlet-mapping>
+      <servlet-name>studyGroup</servlet-name>
+      <url-pattern>*.sg</url-pattern>
+   </servlet-mapping>
+   
+   <servlet>
+      <servlet-name>sgDetail</servlet-name>
+      <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+      <init-param>
+         <param-name>contextConfigLocation</param-name>
+         <param-value>/WEB-INF/config/studyGroup/sgDetail-context.xml</param-value>
+      </init-param>
+   </servlet>
+  
+   <servlet-mapping>
+      <servlet-name>sgDetail</servlet-name>
+      <url-pattern>*.gd</url-pattern>
+   </servlet-mapping>
+  
+   <servlet>  
+      <servlet-name>admin</servlet-name>
+      <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+      <init-param>
+         <param-name>contextConfigLocation</param-name>
+         <param-value>/WEB-INF/config/admin/admin-context.xml</param-value>
+      </init-param>
+   </servlet>
+   
+   <servlet-mapping>
+      <servlet-name>admin</servlet-name>
+      <url-pattern>*.do</url-pattern>
+   </servlet-mapping>
+
+    <servlet>
+      <servlet-name>studyPlanner</servlet-name>
+      <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+      <init-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/config/studyPlanner/studyPlanner-context.xml</param-value>
+      </init-param>
     </servlet>
-    <servlet>  
-	<servlet-name>admin</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/config/admin/admin-context.xml</param-value>
-		</init-param>
-	</servlet>
-		
-	<servlet-mapping>
-		<servlet-name>sgDetail</servlet-name>
-		<url-pattern>*.gd</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>admin</servlet-name>
-		<url-pattern>*.do</url-pattern>
-	</servlet-mapping>
-	<filter>
-		<filter-name>encodingFilter</filter-name>
-		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-		<init-param>
-			<param-name>encoding</param-name>
-			<param-value>UTF-8</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>encodingFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<servlet>
-		<servlet-name>studyPlanner</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/config/studyPlanner/studyPlanner-context.xml</param-value>
-		</init-param>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>studyPlanner</servlet-name>
-		<url-pattern>*.sp</url-pattern>
-	</servlet-mapping>
-	
+    <servlet-mapping>
+      <servlet-name>studyPlanner</servlet-name>
+      <url-pattern>*.sp</url-pattern>
+    </servlet-mapping>  
+  
+   <filter>
+      <filter-name>encodingFilter</filter-name>
+      <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+      <init-param>
+         <param-name>encoding</param-name>
+         <param-value>UTF-8</param-value>
+      </init-param>
+   </filter>
+   <filter-mapping>
+      <filter-name>encodingFilter</filter-name>
+      <url-pattern>/*</url-pattern>
+   </filter-mapping>
 </web-app>
