@@ -1,5 +1,6 @@
 package always.awake.studyplus.admin.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletResponse;
@@ -9,6 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import always.awake.studyplus.admin.model.vo.Member;
 
@@ -25,17 +30,19 @@ public class AdminController {
 		return "admin/home";
 	}
 	
-/*	@RequestMapping("duplicationCheck.me")
-	public void duplicationCheck(@RequestParam("userId")String id, HttpServletResponse response) {
+	@RequestMapping("adminSearchMember.do")
+	public void AdminSearchMember(@RequestParam("searchAll")String searchAll,@RequestParam("searchDate1")String searchDate1,
+	@RequestParam("searchDate2")String searchDate2,@RequestParam("searchOption")String searchOption, HttpServletResponse response) {
 		
-		System.out.println(id);
 		ObjectMapper mapper = new ObjectMapper();
 		
-		Member m = new Member();
-		m.setUserId(id);
+		
+		ArrayList<Member> list = new ArrayList<Member>();
+		
+		
 		
 		try {
-			response.getWriter().print(mapper.writeValueAsString(m));
+			response.getWriter().print(mapper.writeValueAsString(list));
 		} catch (JsonGenerationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -46,5 +53,5 @@ public class AdminController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}*/
+	}
 }

@@ -12,6 +12,7 @@
 	}
 	.leftSideArea {
 		width:250px;
+		z-index:10 !important;
 	}
 	.adminBody {
 		width:1334px;

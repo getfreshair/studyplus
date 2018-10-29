@@ -40,6 +40,7 @@
 	cursor: pointer;
 	background: #727272;
 	background: linear-gradient(#727272, #002535);
+	z-index:50 !important;
 }
 #accordian h3:hover {
 	text-shadow: 0 0 1px rgba(255, 255, 255, 0.7);
@@ -107,6 +108,7 @@ $(function(){
 <body>
 	<nav>
 	<div id="accordian">
+	<iframe scrolling="no" frameborder="no" clocktype="html5" style=" z-index:999; overflow:hidden;border:0;margin:0;padding:0;width:250px;height:165px;"src="https://www.clocklink.com/html5embed.php?clock=044&timezone=JST&color=white&Title=&Message=&Target=&From=2018,1,1,0,0,0&Color=white"></iframe>
 	<ul>
 		
 		<li>
