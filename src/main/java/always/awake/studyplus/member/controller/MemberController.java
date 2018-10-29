@@ -39,6 +39,11 @@ public class MemberController {
 	public String insertMemberPage() {
 		return "member/insertMemberPage";
 	}
+	@RequestMapping(value="goAdmin.me")
+	public String goAdmin() {
+		return "admin/home";
+	}
+	
 	
 	@RequestMapping(value="insertMember.me")
 	public String insertMember(Model model, Member m, Files files, @RequestParam(value="category_Code", required=false)ArrayList<String> category_Code, HttpServletRequest request) {
@@ -65,7 +70,12 @@ public class MemberController {
 			
 			model.addAttribute("loginUser", loginUser);
 			
-			return "redirect:studyPlannerMain.me";
+			if(loginUser.getMember_Class()==0) {
+				return "redirect:studyPlannerMain.me";				
+			}else {
+				return "redirect:goAdmin.me";
+			}
+			
 		} catch (LoginException e) {
 			model.addAttribute("message", e.getMessage());
 			

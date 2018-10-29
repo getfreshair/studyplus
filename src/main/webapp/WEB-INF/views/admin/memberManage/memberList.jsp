@@ -115,14 +115,14 @@ hr{
 								<div class="searchById">
 									<p class="searchAll">통합검색</p>
 									<input class="form-control" type="search" id="searchAll"
-										name="searchAll" style="width:300px; height:50px; font-size:20px">
+										name="search" style="width:300px; height:50px; font-size:20px">
 								</div>
 								<div class="searchByDate">
 									<p class="searchDate">가입일</p>
 									<input class="form-control" type="date" id="searchDate1"
-										name="searchDate1" style="width:150px; height:50px">
+										name="enrollDate1" style="width:150px; height:50px">
 									<input class="form-control" type="date" id="searchDate2"
-										name="searchDate2" style="width:150px; height:50px">
+										name="enrollDate2" style="width:150px; height:50px">
 								</div>
 								<div class="searchByCategory">
 									<p class="searchCategory">카테고리</p>
