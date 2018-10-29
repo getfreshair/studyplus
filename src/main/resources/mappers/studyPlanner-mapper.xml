@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="StudyPlanner">
+	<!-- <resultMap type="StudyTime" id="StudyTimeResultSet">
+		<id property="studytime_code" column="studytime_code"></id>
+		<result property="studyTime_date" column="studyTime_date"/>
+		<result property="studyTime_timezone" column="studyTime_timezone"/>
+		<result property="studyTime_studyTime" column="studyTime_studyTime"/>
+		<result property="studyTime_division" column="studyTime_division"/>
+		<result property="studyGroup_code" column="studyGroup_code"/>
+		<result property="member_code" column="member_code"/>
+	</resultMap>
+	
+	<select id="selectTodayChart" parameterType="StudyTime" resultType="java.lang.String">
+	SELECT * FROM STUDYTIME WHERE MEMBER_CODE = #{}
+	</select> -->
+</mapper>

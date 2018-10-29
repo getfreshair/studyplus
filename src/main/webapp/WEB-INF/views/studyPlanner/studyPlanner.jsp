@@ -16,11 +16,12 @@
 <script src="/studyplus/resources/js/bootstrap.min.js"></script>
 <script src="/studyplus/resources/js/Nwagon.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script src="/studyplus/resources/js/studyPlannerPage.js"></script>
 <!-- <script src="/studyplus/resources/js/datepicker.min.js"></script>
 <script src="/studyplus/resources/js/datepicker.ko.js"></script> -->
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" /> -->
+<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> -->
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 
 <style type="text/css">
@@ -42,6 +43,7 @@
 		<!-- // Header -->
 		<!-- section -->
 		<section>
+			<%-- <input type="hidden" value="${loginUser}"> --%>
 			<div class="study_planner">
 				<div class="row">
 					<!-- 플래너 영역 -->
@@ -80,20 +82,6 @@
 												<canvas id="today_donut" width="200" height="200"></canvas>
 												<span class="chart_per">20%</span>
 											</div>
-											<script type="text/javascript">
-											$(function(){
-												var ctx = document.getElementById("today_donut").getContext('2d');
-												var today_donut = new Chart(ctx, {
-														type: 'doughnut',
-														data: data = {
-														datasets: [{
-														data: [20,80],
-														backgroundColor: ['#36a2eb']
-														}],
-													}
-												});
-											});
-											</script>
 										</div>
 										<div class="right_area">
 											<p class="tit">자바의 정석자바의 정석자바의 정석자바의 정석</p>
@@ -179,70 +167,7 @@
 								<!-- <div class="datepicker-here" data-language='ko'></div> -->
 								<input type="text" id="datepicker1">
 								<div class="chart">
-
-<script type="text/javascript">
-$(function() {
-	  $( "#datepicker1" ).datepicker({
-	    dateFormat: 'yy-mm-dd',
-	    prevText: '이전 달',
-	    nextText: '다음 달',
-	    monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-	    monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-	    dayNames: ['일','월','화','수','목','금','토'],
-	    dayNamesShort: ['일','월','화','수','목','금','토'],
-	    dayNamesMin: ['일','월','화','수','목','금','토'],
-	    showMonthAfterYear: true,
-	    changeMonth: true,
-	    changeYear: true,
-	    yearSuffix: '년'
-	  });
-	});
-	/* $(".date").click(function(){
-		$(".datepicker-here").show();
-	}); */
-</script>
-
-									<canvas id="myChart"></canvas>
-									
-<script>
-var ctx = document.getElementById("myChart").getContext('2d');
-var myChart = new Chart(ctx, {
-	type: 'bar',
-	data: {
-		labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-		datasets: [{
-			label: '# of Votes',
-			data: [12, 19, 3, 5, 2, 3],
-			backgroundColor: [
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-				'rgba(255, 206, 86, 0.2)',
-				'rgba(75, 192, 192, 0.2)',
-				'rgba(153, 102, 255, 0.2)',
-				'rgba(255, 159, 64, 0.2)'
-			],
-			borderColor: [
-				'rgba(255,99,132,1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(255, 206, 86, 1)',
-				'rgba(75, 192, 192, 1)',
-				'rgba(153, 102, 255, 1)',
-				'rgba(255, 159, 64, 1)'
-			],
-			borderWidth: 1
-		}]
-	},
-	options: {
-		scales: {
-			yAxes: [{
-				ticks: {
-					beginAtZero:true
-				}
-			}]
-		}
-	}
-});
-</script>
+									<canvas id="todayChart"></canvas>
 								</div>
 							</div>
 							<!-- // 일간공부량 -->
@@ -252,44 +177,7 @@ var myChart = new Chart(ctx, {
 									<span class="txt">공부 성향</span>
 								</div>
 								<div class="chart">
-									<div id="Nwagon"></div>
-
-<script>
-var options = {
-	'legend':{
-		names: [
-			'Perceivable',
-			'Information Loss',
-			'Understandable',
-			'Enough Time',
-			'Epilepsy Prevent',
-			'Operable',
-			'Navigation',
-			'Error Prevent'
-		],
-		hrefs: [
-			'http://nuli.navercorp.com//sharing/a11y#k1',
-			'http://nuli.navercorp.com//sharing/a11y#k2',
-			'http://nuli.navercorp.com//sharing/a11y#k3',
-			'http://nuli.navercorp.com//sharing/a11y#k4',
-			'http://nuli.navercorp.com//sharing/a11y#k5',
-			'http://nuli.navercorp.com//sharing/a11y#k6',
-			'http://nuli.navercorp.com//sharing/a11y#k7',
-			'http://nuli.navercorp.com//sharing/a11y#k8'
-		]
-	},
-	'dataset': {
-		title: 'Web accessibility status',
-		values: [[34,53,67,23,78,45,69,98]],
-		bgColor: '#f9f9f9',
-		fgColor: '#30a1ce',
-	},
-	'chartDiv': 'Nwagon',
-	'chartType': 'radar',
-	'chartSize': { width: 500, height: 300 }
-};
-Nwagon.chart(options);
-</script>
+									<div id="studyTendencyChart"></div>
 								</div>
 							</div>
 							<!-- // 공부성향 -->
@@ -400,67 +288,6 @@ Nwagon.chart(options);
 						</div>
 					</div>
 					<!-- // 메신저 기능 -->
-					<script type="text/javascript">
-					// 메신저 노출
-					function snsScrollUp(){
-						$(".click_area").click(function(){
-							if($(this).hasClass("on") != true){
-								$(this).addClass("on");
-								$(".sns_wrap").animate({
-									"height":"460px"
-								}, 400);
-							}else{
-								$(this).removeClass("on");
-								$(".sns_wrap").animate({
-									"height":"43px"
-								}, 400);
-							}
-						});
-					}
-
-					// 채팅 슬라이드
-					function snsSlideChat(){
-						$(".friend_list .name").click(function(){
-							$(".chating").animate({
-								"left": 0
-							},400);
-						});
-						$(".chat_close").click(function(){
-							$(".chating").animate({
-								"left": "100%"
-							},400)
-						});
-					}
-
-					// 스크롤박스 하단 그림자
-					function scrollShadow(){
-						// 오늘 목표
-						var todayH = $(".today_goals .goals_list").height();
-						console.log(todayH);
-						if(todayH > 220){
-							$(".today_goals").append('<div class="shadow_box"></div>');
-						}
-						// 주간 목표
-						var weekH = $(".weekly_goals .goals_list").height();
-						if(weekH > 220){
-							$(".weekly_goals").append('<div class="shadow_box"></div>');
-						}
-						// 메신저
-						/*var snsH = $(".sns_wrap .inner");
-						var overH = $(".sns_wrap .friend_list").height();
-						if(overH > 416){
-							console.log("test")
-							$(snsH).append('<div class="shadow_box"></div>');
-						}*/
-					}
-
-					$(function(){
-						snsScrollUp();
-						snsSlideChat();
-						scrollShadow();
-					});
-					</script>
-
 				</div>
 			</div>
 		</section>
@@ -479,50 +306,10 @@ Nwagon.chart(options);
 							<button type="button" class="btn btn-default">시간 단위 설정</button>
 							<button type="button" class="btn btn-default">페이지 단위 설정</button>
 						</div>
-
-						<script type="text/javascript">
-						$(function(){
-							// 모달
-							$(".book_form").hide();
-							$(".tab button:first-child").click(function(){
-								var iptCk = $(".time_form input");
-								for(var i = 0; i < iptCk.length; i++){
-									if(iptCk.eq(i).val() !== ""){
-										confirm("입력된 정보는 삭제됩니다.");
-									}
-								}
-								
-								$(".book_form").hide();
-								$(".time_form").show();
-							});
-							$(".tab button:last-child").click(function(){
-								$(".time_form").hide();
-								$(".book_form").show();
-							});
-						});
-						</script>
 						<!-- 시간 단위 설정 -->
 						<div class="time_form">
 							<div class="col-sm-5 col-xs-12 chart_area">
 								<canvas id="modal_donut" width="200" height="200"></canvas>
-								<script type="text/javascript">
-								$(function(){
-									var ctx = document.getElementById("modal_donut").getContext('2d');
-									var modal_donut = new Chart(ctx, {
-											type: 'doughnut',
-											data: data = {
-											datasets: [{
-											data: [20,80],
-											// data: [10, 20, 30],
-											backgroundColor: ['#36a2eb']
-											// backgroundColor: ['#ff6384','#36a2eb','#cc65fe']
-										}],
-											labels: ['목표달성','미달성']
-										}
-									});
-								});
-								</script>
-
 							</div>
 							<div class="col-sm-7 col-xs-12 ipt_area">
 								<dl>
@@ -579,13 +366,6 @@ Nwagon.chart(options);
 			</div>
 		</div>
 		<!-- // Modal -->
-		<script type="text/javascript">
-		$(function(){
-			$('#myModal').on('shown.bs.modal', function () {
-				$('#myInput').focus();
-				});
-			});
-		</script>
 
 		<!-- Footer -->
 		<jsp:include page="../common/footer.jsp"/>
