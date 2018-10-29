@@ -10,14 +10,18 @@
 <link rel="stylesheet" href="/studyplus/resources/css/bootstrap.css">
 <link rel="stylesheet" href="/studyplus/resources/css/custom.css">
 <link rel="stylesheet" href="/studyplus/resources/css/Nwagon.css">
-<link rel="stylesheet" href="/studyplus/resources/css/datepicker.min.css">
+<!-- <link rel="stylesheet" href="/studyplus/resources/css/datepicker.min.css"> -->
 <!-- #### JAVASCRIPT FILES ### -->
 <script src="/studyplus/resources/js/jquery-1.11.1.min.js"></script>
 <script src="/studyplus/resources/js/bootstrap.min.js"></script>
 <script src="/studyplus/resources/js/Nwagon.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-<script src="/studyplus/resources/js/datepicker.min.js"></script>
-<script src="/studyplus/resources/js/datepicker.ko.js"></script>
+<!-- <script src="/studyplus/resources/js/datepicker.min.js"></script>
+<script src="/studyplus/resources/js/datepicker.ko.js"></script> -->
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 
 <style type="text/css">
 	body{background:#f8f8f8;}
@@ -172,13 +176,30 @@
 									<span class="txt">일간 공부량</span>
 									<a href="#" class="date">2018. 09. 10. ></a>
 								</div>
-								<div class="datepicker-here" data-language='ko'></div>
+								<!-- <div class="datepicker-here" data-language='ko'></div> -->
+								<input type="text" id="datepicker1">
 								<div class="chart">
 
 <script type="text/javascript">
-	$(".date").click(function(){
-		$(".datepicker-here").show();
+$(function() {
+	  $( "#datepicker1" ).datepicker({
+	    dateFormat: 'yy-mm-dd',
+	    prevText: '이전 달',
+	    nextText: '다음 달',
+	    monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	    monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	    dayNames: ['일','월','화','수','목','금','토'],
+	    dayNamesShort: ['일','월','화','수','목','금','토'],
+	    dayNamesMin: ['일','월','화','수','목','금','토'],
+	    showMonthAfterYear: true,
+	    changeMonth: true,
+	    changeYear: true,
+	    yearSuffix: '년'
+	  });
 	});
+	/* $(".date").click(function(){
+		$(".datepicker-here").show();
+	}); */
 </script>
 
 									<canvas id="myChart"></canvas>
@@ -567,24 +588,8 @@ Nwagon.chart(options);
 		</script>
 
 		<!-- Footer -->
-		<footer id="footer">
-			<div class="container">
-				<div class="col-md-12 col-sm-12">
-					<ul class="footer-link">
-						<li><a href="#">광고상품 안내</a></li>
-						<li><a href="#">자주하는질문</a></li>
-						<li><a href="#">문의게시판</a></li>
-						<li><a href="#">회사소개</a></li>
-						<li><a href="#">이용약관</a></li>
-						<li><a href="#">개인정보취급방침</a></li>
-					</ul>
-					<p><span>회사명 : kh정보교육원</span><span>개발자 : 양소나, 신재익, 이주혁, 양동혁, 박기완, 최수정</span></p>
-					<p class="copyright">Copyright © 2018 ALWAYS AWAKE Team. All Right Reserved.</p>
-				</div>
-			</div>
-		</footer>
-		 <!-- // Footer -->
-
+		<jsp:include page="../common/footer.jsp"/>
+		<!-- // Footer -->
 	</div>
 </body>
 </html>
