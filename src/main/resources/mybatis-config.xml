@@ -9,10 +9,13 @@
 		<typeAlias type="always.awake.studyplus.member.model.vo.Member" alias="Member"/>
 		<typeAlias type="always.awake.studyplus.member.model.vo.InterestCategory" alias="InterestCategory"/>
 		<typeAlias type="always.awake.studyplus.member.model.vo.Files" alias="Files"/>
+		<typeAlias type="always.awake.studyplus.studyPlanner.model.vo.Goal" alias="Goal"/>
+		<typeAlias type="always.awake.studyplus.sgDetail.model.vo.SGDetail" alias="SGDetail"/>
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="mappers/member-mapper.xml"/>
 		<mapper resource="mappers/studyGroup-mapper.xml"/>
+		<mapper resource="mappers/block-mapper.xml"/>
 	</mappers>
 </configuration>
