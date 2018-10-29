@@ -26,7 +26,7 @@
 	#cont0 .main_txt .line02 span{color:#000;}
 	#cont0 .main_txt .line03{font-size:1.3em; color:#4e4e4e;}
 	#cont1 .banner-tr{text-align:right;}
-	#cont1 .img01{position:absolute;left: -160px;top: -87px;width: 390px;}
+	#cont1 .img01{position:absolute;left:-160px;top:-32px;width:330px;}
 	#cont1 .img02{width:100%;}
 	#cont1 .planner01{margin-top:20px; margin-bottom:16px;}
 	#cont1 .planner01 div{padding-left:4px;}
@@ -42,12 +42,15 @@
 	#cont3 img{width:100%;}
 	#cont3 .img01{margin-top:50px;}
 	.modal-dialog{top:100px;}
+	.modal-dialog .btn-center{margin-top:20px;}
+	.modal-dialog .btn-center .btn{margin-top:15px;}
+	.modal-content{margin:0 auto;}
 	.modal-open .modal{z-index:9999;}
 	/* 작은사이즈 */
 	@media (max-width: 768px) {
 	#cont0.container{background-position:100% 60%;}
 	#cont0 .main_txt{left:5%; top:8%;}
-	#cont0 .img01{width: 246px;}
+	#cont0 .img01{width:246px;}
 	}
 	/* 중간사이즈 */
 	@media (max-width: 992px) {
@@ -95,15 +98,15 @@
                                 <li class="menu-st01"><a href="#" onclick="contAnchor('1')" target="_self">프로그램 차단</a></li>
                                 <li class="menu-st02"><a href="#" onclick="contAnchor('2')" target="_self">스터디 플래너</a></li>
                                 <li class="menu-st03"><a href="#" onclick="contAnchor('3')" target="_self">스터디 그룹</a></li>
-                                <li><a href="#" id="menuMore">더보기</a>
-                                	<div class="more_box">
-                                		<ul>
-                                			<li>공지사항</li>
-                                			<li>자주 묻는 질문</li>
-                                			<li>1:1문의</li>
-                                			<li>약관 및 정책</li>
-                                		</ul>
-                                	</div>
+                                <li  id="menuMore"><a href="#">더보기</a>
+                                    <div class="more_box">
+                                        <ul>
+                                            <li><a href="#">공지사항</a></li>
+                                            <li><a href="#">자주 묻는 질문</a></li>
+                                            <li><a href="#">1:1문의</a></li>
+                                            <li><a href="#">약관 및 정책</a></li>
+                                        </ul>
+                                    </div>
                                 </li>
                                 <li><a href="#" data-toggle="modal" data-target="#loginModal">로그인</a></li>
                             </ul>
@@ -183,41 +186,35 @@
             <!-- // 영역4 -->
         </div>
         <!-- // section -->
-        
         <!-- Footer -->
-        <footer id="footer">
-            <div class="container">
-                <div class="col-md-12 col-sm-12">
-                    <ul class="footer-link">
-                        <li><a href="#">광고상품 안내</a></li>
-                        <li><a href="#">자주하는질문</a></li>
-                        <li><a href="#">문의게시판</a></li>
-                        <li><a href="#">회사소개</a></li>
-                        <li><a href="#">이용약관</a></li>
-                        <li><a href="#">개인정보취급방침</a></li>
-                    </ul>
-                    <p><span>회사명 : kh정보교육원</span><span>개발자 : 양소나, 신재익, 이주혁, 양동혁, 박기완, 최수정</span></p>
-                    <p class="copyright">Copyright © 2018 ALWAYS AWAKE Team. All Right Reserved.</p>
-                </div>
-            </div>
-        </footer>
-       <!-- // Footer -->
-
+		<jsp:include page="../common/footer.jsp"/>
+       	<!-- // Footer -->
     </div>
     
     <!-- Modal -->
 	<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
-			<div class="modal-content">
+			<div class="modal-content modal-sm">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					<h4 class="modal-title" id="loginModalLabel">로그인</h4>
 				</div>
 				<div class="modal-body">
 					<form action="login.me" method="POST">
-						<input type="text" name="member_Id">아이디
-						<input type="text" name="member_Pwd">비밀번호
-						<button type="submit">로그인</button>
+						<div class="form-group">
+							<label for="InputId">아이디</label>
+							<input type="text" name="member_Id" class="form-control" id="InputId" placeholder="아이디를 입력하세요">
+						</div>
+						<div class="form-group">
+							<label for="InputPassword">비밀번호</label>
+							<input type="text" name="member_Pwd" class="form-control" id="InputPassword" placeholder="비밀번호를 입력하세요">
+						</div>
+						<div class="btn-center">
+							<a href="#">아이디 찾기</a> |
+							<a href="#">비밀번호 찾기</a> |
+							<a href="insertMemberPage.me">회원가입</a>
+							<button type="submit" class="btn btn-primary btn-block">로그인</button>
+						</div>
 					</form>
 				</div>
 			</div>
