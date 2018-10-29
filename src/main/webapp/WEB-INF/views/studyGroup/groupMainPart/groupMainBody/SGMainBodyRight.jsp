@@ -33,13 +33,7 @@
 		padding-top:5px;
 		text-align:center;
 	}
-	.inSGTitleListArea img {
-		width:20px;
-		height:20px;
-		margin-bottom: -5px;
-	}
 	.inSGTitleListArea h4{
-		display:inline-block;
 		border-radius:7px;
 		margin:5px;
 		margin-top:0px;
@@ -86,6 +80,7 @@
 		border-radius:10px;
 		text-align:center;
 		margin:0 auto;
+		height:162px;
 	}
 	.SGMyBoardListArea {
 		display:none;
@@ -142,6 +137,13 @@
 		border-right:1px solid gray;
 		font-weight:bold;
 	}
+	.SGBoardChooseBtnUl li:last-child img {
+		display:none;
+	}
+	.SGBoardChooseBtnUl li img {
+		width:20px;
+		height:20px;
+	}
 </style>
 <script>
 	function SGBoardList(page){
@@ -157,17 +159,42 @@
 			$('.SGMyBoardListArea').css('display', 'inline-block');
 		}
 	}
+	
+	function studyGroupInsertPage(){
+		$.ajax({
+			url: 'studyGroupInsertPage.sg',
+			beforeSend : function(){
+				var path = '${ contextPath }';
+				$('.SGContentArea').empty();
+				
+				$img = $('<img>');
+				$img.attr('src', path + '/resources/images/studyGroup/groupListLoading.gif');
+				$img.css({
+					'width': '50px',
+					'height': '50px',
+					'display': 'inline-block',
+					'margin-left': '575px'
+				});
+				
+				$('.SGContentArea').html($img);
+			},
+			success: function(data){
+				$('.SGContentArea').empty();
+				$('.SGContentArea').html(data);
+			}
+		});
+	}
 </script>
 </head>
 <body>
 	<div class="SGMainBodyRightArea">
-		<div class="insertSGImgArea">
+		<div class="insertSGImgArea" onclick="studyGroupInsertPage()">
 			<img src="${contextPath}/resources/images/studyGroup/insertGroup.png">
 		</div>
 		<div class="SGBoardArea">
 			<div class="SGBoardChooseBtnArea">
 				<ul class="SGBoardChooseBtnUl">
-					<li onclick="SGBoardList('SGBoardListArea')"><img src="">최근 게시글</li>
+					<li onclick="SGBoardList('SGBoardListArea')"><img src="${contextPath}/resources/images/studyGroup/pencil.png"/> 최근 게시글</li>
 					<li onclick="SGBoardList('SGMyBoardListArea')"><img>내 게시글</li>
 				</ul>
 			</div>
@@ -179,17 +206,10 @@
 					</div>
 					<div class="SGBoardTitleArea">이거 문제좀 풀어주세요</div>
 				</div>
-				<div class="SGLastBoardArea">
-					<div class="SGTitleArea">2018년 KH정보교육원 학생들의 모임</div><br>
-					<div class="SGBoardReadCheckArea">
-						<img src="${ contextPath }/resources/images/studyGroup/checked.png">
-					</div>
-					<div class="SGBoardTitleArea">이거 문제좀 풀어주세요</div>
-				</div>
 			</div>
 			<div class="SGMyBoardListArea">
 				<div class="SGMyBoardArea">
-					<div class="SGTitleArea">2018년 KH정보교육원 학생들의 모임</div><br>
+					<div class="SGTitleArea">연봉을 올려봐요!!!</div><br>
 					<div class="SGBoardReadCheckArea">
 						<img src="${ contextPath }/resources/images/studyGroup/checked.png">
 					</div>
@@ -198,7 +218,7 @@
 			</div>
 		</div>
 		<div class="inSGTitleListArea">
-			<img src="${contextPath}/resources/images/studyGroup/pencil.png"/><h4>참여 그룹 순위</h4>
+			<h4>참여 그룹 순위</h4>
 			<div class="inSGTitleArea">2018년 KH정보교육원 학생들의 모임</div>
 			<div class="inSGRankingArea">카테고리 283위 / 3,203위</div>
 			<div class="inSGTitleArea">2018년 KH정보교육원 학생들의 모임</div>

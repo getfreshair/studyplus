@@ -13,6 +13,7 @@
 		position: absolute;
 		display:inline-block;
 		margin-top:5px;
+		margin-left:5px;
 	}
 </style>
 </head>

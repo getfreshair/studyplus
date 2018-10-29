@@ -5,7 +5,9 @@
 <head>
 <meta charset="UTF-8">
 <style>
-
+	.studyGroupRealTimeRankArea {
+		margin-bottom:5px;
+	}
 </style>
 </head>
 <body>

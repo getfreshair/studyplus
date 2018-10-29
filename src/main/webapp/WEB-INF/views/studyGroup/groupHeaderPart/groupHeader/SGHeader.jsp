@@ -71,34 +71,12 @@
 		margin-top:-30px;
 		vertical-align:text-top;
 	}
-	.SGFiledListArea {
-		display:none;
-	}
-	.SGFiledListUl{
-		list-style:none;
-		text-align:center;
-		padding-left:0px;
-		display: inline-block;
-		margin-top:5px;
-		margin-bottom:0px;
-	}
-	.SGFiledListUl > li{
-		display:inline-block;
-		text-align:center;
-		margin-left:3px;
-		margin-right:3px;
-		font-size:12px;
-		font-weight:bold;
-		color:white;
-		font-family:monospace;
-	}
-	.SGFiledListUl > li:hover{
-		cursor:pointer;
-		color:#FFB85A;
-	}
 </style>
 </head>
 <script>
+	$(function(){
+		
+	})
 	$(function(){
 		$(".searchGroupName").keypress(function(key) {
 			if(key.which == 13){
@@ -111,16 +89,15 @@
 					beforeSend : function(){
 						var path = '${ contextPath }';
 						$('.SGContentArea').empty();
-						$('.SGHeaderSeachArea').css({
-							'background': 'black',
-							'height': '60px'
-						});
-						$('.SGMainFiledListArea').css('display', 'none');
-						$('.SGFiledListArea').css('display', 'block');
 						
 						$img = $('<img>');
 						$img.attr('src', path + '/resources/images/studyGroup/groupListLoading.gif');
-						$img.width('50px').height('50px');
+						$img.css({
+							'width': '50px',
+							'height': '50px',
+							'display': 'inline-block',
+							'margin-left': '575px'
+						});
 						
 						$('.SGContentArea').html($img);
 					},
@@ -151,19 +128,6 @@
 			<button>취준</button>
 			<button>자격증</button>
 			<button>기타</button>
-		</div>
-		<div class="SGFiledListArea">
-			<ul class="SGFiledListUl">
-				<li>전체</li>
-				<li>고입</li>
-				<li>대입</li>
-				<li>고시</li>
-				<li>공시</li>
-				<li>외국어</li>
-				<li>취준</li>
-				<li>자격증</li>
-				<li>기타</li>
-			</ul>
 		</div>
 	</div>
 </body>

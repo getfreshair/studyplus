@@ -12,7 +12,18 @@ public class StudyGroupController {
 	}
 	
 	@RequestMapping(value="searchGroupListPage.sg")
-	public String searchGroupList() {
+	public String searchGroupListPage() {
 		return "studyGroup/groupListPart/studyGroupListBody";
 	}
+	
+	@RequestMapping(value="studyGroupDetailPage.sg")
+	public String studyGroupDetailPage() {
+		return "studyGroupDetail/groupDetailPage";
+	}
+	
+	@RequestMapping(value="studyGroupInsertPage.sg")
+	public String studyGroupInsertPage() {
+		return "studyGroup/groupInsertPart/groupInsertBody/studyGroupInsertBody";
+	}
+	
 }

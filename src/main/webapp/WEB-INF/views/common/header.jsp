@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <header>
-	<div class="navbar-affixed-top" data-spy="affix" data-offset-top="150">
+	<div class="navbar-affixed-top" data-spy="affix" data-offset-top="1">
 		<div class="navbar navbar-default">
 			<div class="container">
 				<div class="navbar-header">
@@ -21,6 +21,7 @@
 						<li class="menu-st01"><a href="#">프로그램 차단</a></li>
 						<li class="menu-st02"><a href="#">스터디 플래너</a></li>
 						<li class="menu-st03"><a href="studyGroupMainPage.sg">스터디 그룹</a></li>
+
 						<li  id="menuMore"><a href="#">더보기</a>
                             <div class="more_box">
                                 <ul>
@@ -31,6 +32,7 @@
                                 </ul>
                             </div>
                         </li>
+
 						<li><a href="logout.me">로그아웃</a></li>
 					</ul>
 				</div>
