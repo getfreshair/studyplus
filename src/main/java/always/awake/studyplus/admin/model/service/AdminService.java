@@ -9,5 +9,5 @@ import always.awake.studyplus.admin.model.vo.Member;
 
 public interface AdminService {
 
-	public List<Member> searchMember(Map<String, Object> map);
+	public List<Map<String, Object>> searchMember(Map<String, Object> map);
 }

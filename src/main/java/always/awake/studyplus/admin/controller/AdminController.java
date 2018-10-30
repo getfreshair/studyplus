@@ -1,6 +1,9 @@
 package always.awake.studyplus.admin.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,17 +50,32 @@ public class AdminController {
 		System.out.println(searchDate1);
 		System.out.println(searchDate2);
 		System.out.println(searchOption);
+		
+		Date date1 = null;
+		Date date2 = null;
+		
+		SimpleDateFormat transFormat  = new SimpleDateFormat("yyyy-MM-dd");
+		
+		try {
+			date1 =  transFormat.parse(searchDate1);
+			date2 = transFormat.parse(searchDate2);
+		} catch (ParseException e1) {
+		}
+		
 		Map<String, Object> map = new HashMap<String,Object>();
 		
-		map.put("All",searchAll);
-		map.put("Date1",searchDate1);
-		map.put("Date2",searchDate2);
-		map.put("Option",searchOption);
+		
+		map.put("All",searchAll.toString());
+		map.put("Date1",date1);
+		map.put("Date2",date2);
+		map.put("Option",searchOption.toString());
 	
-		List<Member> list = as.searchMember(map);
+		List<Map<String, Object>> list = as.searchMember(map);
 		
-		System.out.println("완료");
-		
+		System.out.println(list.get(0));
+		System.out.println(list.get(1));
+		System.out.println(list.get(2));
+		System.out.println(list.get(3));
 		try {
 			response.getWriter().print(mapper.writeValueAsString(list));
 		} catch (JsonGenerationException e) {
