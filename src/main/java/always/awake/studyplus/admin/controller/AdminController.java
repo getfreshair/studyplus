@@ -1,6 +1,7 @@
 package always.awake.studyplus.admin.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -68,8 +69,13 @@ public class AdminController {
 		map.put("All",searchAll.toString());
 		map.put("Date1",date1);
 		map.put("Date2",date2);
-		map.put("Option",searchOption.toString());
-	
+		if(searchOption.equals("123")) {
+			map.put("Option",searchOption);
+			System.out.println("제발");
+		}else {
+			map.put("Option",searchOption);
+			
+		}
 		List<Map<String, Object>> list = as.searchMember(map);
 		
 		System.out.println(list.get(0));
@@ -77,6 +83,7 @@ public class AdminController {
 		System.out.println(list.get(2));
 		System.out.println(list.get(3));
 		try {
+			response.setContentType("text/html;charset=UTF-8");
 			response.getWriter().print(mapper.writeValueAsString(list));
 		} catch (JsonGenerationException e) {
 			// TODO Auto-generated catch block

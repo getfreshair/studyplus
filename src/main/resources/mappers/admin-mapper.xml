@@ -58,25 +58,32 @@
 	JOIN FILES F ON(M.MEMBER_CODE = F.MEMBER_CODE)
 	JOIN NEED N ON(M.MEMBER_CODE = N.MEMBER_CODE)
 	JOIN NEEDLEVEL NL ON(N.NEEDLEVEL_CODE = NL.NEEDLEVEL_CODE)
-	<where>
+	WHERE
+	1=1
 	<if test="#{All} != null">
+		AND(
 		M.MEMBER_ID LIKE '%' || #{All} || '%'
 		OR L.LOCATION_NAME LIKE '%' || #{All} || '%'
 		OR M.MEMBER_NICKNAME LIKE '%' || #{All} || '%'
 		OR M.MEMBER_PHONE LIKE '%' || #{All} || '%'
 		OR M.MEMBER_GENDER LIKE '%' || #{All} || '%'
-		AND
+		)
 	</if>
-	<if test="(#{Date1} != null &amp;&amp;  #{Date2} != null)">
+	<if test="#{Date1} != null &amp;&amp;  #{Date2} != null ">
+		AND
 		M.MEMBER_ENROLLDATE BETWEEN #{Date1} AND #{Date2}
-		AND
 	</if>
-	<if test="#{Option} != null">
+	<if test='#{Option} == "123"'>
+		AND
+		C.CATEGORY_CODE IN ( SELECT CATEGORY_CODE
+							FROM CATEGORY)
+	</if>
+	<if test="#{Option} != null ">
+		AND
 		C.CATEGORY_NAME = #{Option}
+	</if> 
 		AND
-	</if>
 		M.MEMBER_CLASS = 0
-	</where>
 	</select>
 	
 	
