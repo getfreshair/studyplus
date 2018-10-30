@@ -32,6 +32,7 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Override
 	public Member login(Member m) throws LoginException {
+		
 		String encPassword = md.selectEncPassword(sqlSession, m);
 		
 		if(!passwordEncoder.matches(m.getMember_Pwd(), encPassword)) {

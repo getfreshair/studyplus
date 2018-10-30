@@ -11,8 +11,12 @@ public class StudyPlannerDaoImpl implements StudyPlannerDao{
 	//일간 공부량 차트
 	@Override
 	public StudyTime todayChart(SqlSessionTemplate sqlSession) {
-//		StudyTime st = sqlSession.selectOne("StudyGroup.")
-		return null;
+		System.out.println("dao 들어왔냐2222");
+		
+		StudyTime st = sqlSession.selectOne("StudyTime.selectTodayChart");
+
+		System.out.println(st.getMemberCode());
+		return st;
 	}
 
 }

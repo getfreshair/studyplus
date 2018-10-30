@@ -14,13 +14,16 @@ public class StudyPlannerServiceImpl implements StudyPlannerService{
 	@Autowired
 	private StudyPlannerDao spd;
 	
-	//일간 공부량 차트
 	@Override
 	public StudyTime todayChart() {
+		System.out.println("service test");
+		System.out.println(sqlSession.hashCode());
+		
 		StudyTime st = new StudyTime();
 		st = spd.todayChart(sqlSession);
 		
 		return st;
+		
 	}
-
+	
 }
