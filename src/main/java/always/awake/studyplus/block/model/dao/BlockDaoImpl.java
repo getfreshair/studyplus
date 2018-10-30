@@ -25,4 +25,10 @@ public class BlockDaoImpl implements BlockDao{
 		return sqlSession.selectList("Block.selectGroupListAndTimes",member_Code);
 	}
 
+	@Override
+	public int selectTodayStudyTime(SqlSessionTemplate sqlSession, int member_Code) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Block.selectTodayStudyTime",member_Code);
+	}
+
 }

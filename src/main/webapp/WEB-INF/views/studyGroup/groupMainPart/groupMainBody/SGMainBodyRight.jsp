@@ -177,6 +177,7 @@
 					'display': 'inline-block',
 					'margin-left': '575px'
 				});
+				$('html, body').css('background', 'white');
 				
 				$('.SGInsertArea').attr('display', 'block');
 				$('.SGInsertArea').html($img);

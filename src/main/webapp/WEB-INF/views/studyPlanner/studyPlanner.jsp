@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,7 +44,6 @@
 		<!-- // Header -->
 		<!-- section -->
 		<section>
-			<%-- <input type="hidden" value="${loginUser}"> --%>
 			<div class="study_planner">
 				<div class="row">
 					<!-- 플래너 영역 -->
@@ -164,8 +164,8 @@
 									<span class="txt">일간 공부량</span>
 									<a href="#" class="date">2018. 09. 10. ></a>
 								</div>
-								<div class="datepicker-here" data-language='ko'></div>
-								<input type="text" id="datepicker1">
+								<!-- <div class="datepicker-here" data-language='ko'></div> -->
+								<input type="text" id="todayDatePicker">
 								<div class="chart">
 									<canvas id="todayChart"></canvas>
 								</div>

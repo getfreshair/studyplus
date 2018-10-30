@@ -14,10 +14,10 @@
 		<typeAlias type="always.awake.studyplus.admin.model.vo.Member" alias="adminMember"/>
 		<typeAlias type="always.awake.studyplus.admin.model.vo.InterestCategory" alias="adminInterestCategory"/>
 		<typeAlias type="always.awake.studyplus.admin.model.vo.Files" alias="adminFiles"/>
-<!-- 		<typeAlias type="always.awake.studyplus.studygruop.vo.Files" alias=""/> -->
+		<!-- <typeAlias type="always.awake.studyplus.studygruop.vo.Files" alias=""/> -->
+		<!-- <typeAlias type="always.awake.studyplus.studyGroup.model.vo" alias=""/> -->
 		<typeAlias type="always.awake.studyplus.studyPlanner.model.vo.StudyTime" alias="StudyTime"/>
 	</typeAliases>
-
 
 	<mappers>
 		<mapper resource="mappers/member-mapper.xml" />
