@@ -1,4 +1,4 @@
-package always.awake.studyplus.stuydgroup.model.vo;
+package always.awake.studyplus.studyGroup.model.vo;
 
 import java.sql.Date;
 
