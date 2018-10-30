@@ -89,7 +89,7 @@
 hr{
 	border-top: 1px solid gray !important;
 }
-.th{
+th{
 	text-align: center !important;
 }
 </style>
@@ -132,7 +132,7 @@ hr{
 									<select class="form-control" id="searchOption"
 											 name="category_Code" 
 											style="width:150px; height:50px" >
-										<option value="">선택안함</option>
+										<option value="123">선택안함</option>
 										<option value="고입">고입</option>
 										<option value="대입">대입</option>
 										<option value="고시">고시</option>
@@ -167,16 +167,40 @@ hr{
 						success:function(data){
 							var data = JSON.parse(data);
 							console.log(data);
-							console.log(data[0].category.category_name);
+							getMemberList(data);
 						},
 						error:function(){
 							console.log("에러 발생!");
 						}
 					})
 					return false;
+					
 				}
 					
+				function getMemberList(data){
+					var table = document.querySelector('#memberListTable');
+					html = '<tr class="head"><th width="2%">'+
+					'<input type="checkbox" class="masterCheck"></th>'+
+					'<th width="8%">회원번호</th>'+
+					'<th width="10%">아이디</th>'+
+					'<th width="10%">닉네임</th>'+
+					'<th width="20%">휴대전화</th>'+
+					'<th width="10%">지역</th>'+
+					'<th width="7%">성별</th>'+
+					'<th width="15%">가입일</th>'+
+					'<th width="10%">카테고리</th><tr>'
+					console.log(data.length);
+					for(var i = 0; i < data.length; i++){
+						console.log("12");
+						html += '<tr><td><input type="checkbox" class="masterCheck"></td><td>'
+								+data[i].MEMBER_CODE+ '</td><td>' + data[i].MEMBER_ID + '</td><td>'
+								+data[i].MEMBER_NICKNAME + '</td><td>' + data[i].MEMBER_PHONE + '</td><td>'
+								+data[i].LOCATION_NAME + '</td><td>' + data[i].MEMBER_GENDER+'</td><td>' + 
+								data[i].MEMBER_ENROLLDATE + '</td><td>'	+ data[i].CATEGORY_NAME + '</td></tr>';
+					}
+					table.innerHTML = html;
 				
+				}
 				
 				</script>
 				<br><br>
@@ -185,34 +209,15 @@ hr{
 					<tr class="head" >
 						<th width="2%" ><input type="checkbox" class="masterCheck"></th>
 						<th width="8%">회원번호</th>
-						<th width="15%">아이디</th>
-						<th width="10%">이름</th>
-						<th width="20%">이메일</th>
+						<th width="10%">아이디</th>
+						<th width="10%">닉네임</th>
 						<th width="20%">휴대전화</th>
+						<th width="10%">지역</th>
+						<th width="7">성별</th>
 						<th width="15%">가입일</th>
 						<th width="10%">카테고리</th>
 					</tr>
-						<c:choose>
-								<c:when test="${fn:length(list) > 0}">
-									<c:forEach items="${list }" var="row">
-										<tr>
-											<td><input type="checkbox" class="masterCheck"></td>
-											<td>${row.MEMBER_CODE }</td>
-											<td>${row.MEMBER_ID }</td>
-											<td>${row.MEMBER_NICKNAME }</td>
-											<td>${row.MEMBER_PHONE }</td>
-											<td>${row.MEMBER_JOB }</td>
-											<td>${row.MEMBER_ENROLLDATE }</td>
-											<td>${row.CATEGORY_NAME }</td>
-										</tr>
-									</c:forEach>
-								</c:when>
-							<c:otherwise>
-									<tr>
-										<td colspan="4">조회된 결과가 없습니다.</td>
-									</tr>
-								</c:otherwise>
-							</c:choose>
+					
 
 					<tr>
 						<td><input type="checkbox" class="masterCheck"></th>
