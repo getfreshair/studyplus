@@ -1,12 +1,23 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.*, always.awake.studyplus.member.model.vo.*, java.io.*,java.lang.Process" %>
+<%@ page import="java.util.*, always.awake.studyplus.member.model.vo.*, java.util.*,
+				 java.io.*,java.lang.Process,always.awake.studyplus.studyPlanner.model.vo.*,
+				 always.awake.studyplus.sgDetail.model.vo.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
-	int groupSize = 2;
-	int goalSize = 2;
+	HashMap<String,Object> dataMap = (HashMap<String,Object>)request.getAttribute("dataMap");
+	ArrayList<Goal> goalList = (ArrayList<Goal>)dataMap.get("goalList");
+	ArrayList<SGDetail> groupList = (ArrayList<SGDetail>)dataMap.get("groupList");
+	int todayStudyTime = (Integer)dataMap.get("todayStudyTime");
+	
+	int goalSize = goalList.size();
+	int groupSize = groupList.size();
+	System.out.println("그룹 사이즈 : " + groupSize);
+	System.out.println("목표 사이즈 : " + goalSize);
+	
+	System.out.println(new String(new SimpleDateFormat("HH").format(new Date())) + " 시간대");
 %>
 <%-- <%
 	// 디렉토리 체크
@@ -304,6 +315,59 @@
 						goalTimmerStatus[i] = 0;
 					}
 					
+					function TempSaveTimeDates(){
+						
+						var todayStudyTime = <%=todayStudyTime%>;
+						console.log(goalTimmerTimes[0]);
+						var goalList = [
+								<% for (int i = 0 ; i < goalList.size(); i ++) {%>
+									{
+										'goalCode':'<%=goalList.get(i).getGoalCode()%>',
+										'goalName':'<%=goalList.get(i).getGoalContent()%>',
+										'goalTimeZone':'<%=new String(new SimpleDateFormat("HH").format(new Date()))%>',
+										'goalStudyTime':goalTimmerTimes[<%=i%>]/10
+									}
+									<% if( i != goalList.size() -1) {%>
+									,
+									<%}%>
+								
+								<%} %>
+								
+						]
+						var groupList = [
+							<% for (int i = 0 ; i < groupList.size(); i ++) {%>
+							{
+								'groupCode':'<%=groupList.get(i).getStudyGroup_Code()%>',
+								'groupName':'<%=goalList.get(i).getGoalContent()%>',
+								'groupTimeZone':'<%=new String(new SimpleDateFormat("HH").format(new Date()))%>',
+								'groupStudyTime':groupTimmerTimes[<%=i%>]/10
+							}
+							<% if( i != goalList.size() -1) {%>
+							,
+							<%}%>
+						
+						<%} %>
+						
+						]
+						
+						
+						console.log(goalList);
+						console.log(groupList);
+						$.ajax({
+			                  url:"blockTimesTempSave.bl",
+			                  type:"post",
+			                  data:{todayStudyTime:todayStudyTime,
+			                	  goalList:goalList,
+			                	  groupList:groupList},
+			                  success:function(data){
+			                	  console.log("시간 정보 임시 저장 완료");
+			                  },
+			                  error:function(){
+			                     console.log("에러 발생!");
+			                  }
+			               })
+			               return false;
+					}
 					
 					// 타이머 상태/버튼 컨트롤용 함수
 					function startPause(division,num){
@@ -322,6 +386,7 @@
 									goalTimmerStatus[i] = 0;
 								}
 								document.getElementById("startPause").innerHTML ="공부시작";
+								TempSaveTimeDates();
 							}
 						} else if ( division =='group'){
 							var groupTimmerButtonName = "groupStartPause"+num
@@ -515,19 +580,34 @@
 		</div>
 		<div class="contentDiv col-xs-12 col-md-4" style="margin-top : 50px;">
 		<div style="height:250px; widht:100%">
-			그룹 리스트
-			<ul>
-				<li>서울대가 목표! <br>
-				<span id="outputGroup0" style="width:100px; height:50px; margin-top:50px; font-size:2em;">00 : 00 : 00 : 00</span>
-				<div id="controls" style="display:inline-block; margin-left:30px ;">
-  						<button id="groupStartPause0" class="btn btn-primary" onclick="startPause('group',0)">공부시작</button>
-  					</div></li>
-				<li>책책책 책을 읽읍시다 <br>
-					<span id="outputGroup1" style="width:100px; height:50px; margin-top:50px; font-size:2em;">00 : 00 : 00 : 00</span>
+			
+			<c:if test="${groupSize eq 0}">
+				가입된 그룹이 없습니다.
+			</c:if>
+			<c:if test="${groupSize ne 0}">
+				그룹 리스트
+				<ul>
+					<!-- <li>서울대가 목표! <br>
+					<span id="outputGroup0" style="width:100px; height:50px; margin-top:50px; font-size:2em;">00 : 00 : 00 : 00</span>
 					<div id="controls" style="display:inline-block; margin-left:30px ;">
-  						<button id="groupStartPause1" class="btn btn-primary" onclick="startPause('group',1)">공부시작</button>
-  					</div></li>
-			</ul>
+	  						<button id="groupStartPause0" class="btn btn-primary" onclick="startPause('group',0)">공부시작</button>
+	  					</div></li>
+					<li>책책책 책을 읽읍시다 <br>
+						<span id="outputGroup1" style="width:100px; height:50px; margin-top:50px; font-size:2em;">00 : 00 : 00 : 00</span>
+						<div id="controls" style="display:inline-block; margin-left:30px ;">
+	  						<button id="groupStartPause1" class="btn btn-primary" onclick="startPause('group',1)">공부시작</button>
+	  					</div></li> -->
+	  					<c:forEach var="group" items="<%=groupList %>" varStatus="index">
+	  						<li>${group.studyGroup_Name }
+	  						<br>
+	  							<span id="outputGroup${index.index }" style="width:100px; height:50px; margin-top:50px; font-size:2em;">00 : 00 : 00 : 00</span>
+								<div id="controls" style="display:inline-block; margin-left:30px ;">
+	  								<button id="groupStartPause${index.index }" class="btn btn-primary" onclick="startPause('group',${index.index })">공부시작</button>
+	  							</div>
+	  						</li>
+	  					</c:forEach>
+				</ul>
+			</c:if>
 		</div>
 
 			<div class="hovereffect" style="height:200px; widht:100%">
@@ -566,6 +646,17 @@
 			</div>
 			일정 리스트
 			<ul>
+				<c:forEach var="goal" items="<%=goalList %>" varStatus="index">
+	  				<li>${goal.goalContent }
+	  				<br>
+	  					<span id="outputGoal${index.index }" style="width:100px; height:50px; margin-top:50px; font-size:2em;">00 : 00 : 00 : 00</span>
+						<div id="controls" style="display:inline-block; margin-left:30px ;">
+	  						<button id="goalStartPause${index.index }" class="btn btn-primary" onclick="startPause('goal',${index.index })">공부시작</button>
+	  					</div>
+	  				</li>
+	  			</c:forEach>
+	  		</ul>
+			<!-- <ul>
 				<li>영단어 1천자 ( 1시간 ) <br>
 				<span id="outputGoal0" style="width:100px; height:50px; margin-top:50px; font-size:2em;">00 : 00 : 00 : 00</span>
 				<div id="controls" style="display:inline-block; margin-left:30px ;">
@@ -576,7 +667,7 @@
 					<div id="controls" style="display:inline-block; margin-left:30px ;">
   						<button id="goalStartPause1" class="btn btn-primary" onclick="startPause('goal',1)">공부시작</button>
   					</div></li>
-			</ul>
+			</ul> -->
 		</div>
 	</div>
 </body>

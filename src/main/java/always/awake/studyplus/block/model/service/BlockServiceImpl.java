@@ -19,14 +19,16 @@ public class BlockServiceImpl implements BlockService{
 	
 	// 그룹,목표 리스트 조회용 메소드
 	@Override
-	public HashMap<String, ArrayList<Object>> selectStudyTimes(int member_Code) {
-		HashMap<String, ArrayList<Object>> dataMap = null;
+	public HashMap<String,Object> selectStudyTimes(int member_Code) {
+		HashMap<String,Object> dataMap = new HashMap<String,Object>();
 		
 		List goalList = bd.selectGoalTimes(sqlSession, member_Code);
 		List groupList = bd.selectGroupTimes(sqlSession,member_Code);
-		
-		System.out.println(goalList);
-		System.out.println(groupList);
+		int todayStudyTime = bd.selectTodayStudyTime(sqlSession, member_Code);
+
+		dataMap.put("goalList", goalList);
+		dataMap.put("groupList",groupList);
+		dataMap.put("todayStudyTime",todayStudyTime);
 		
 		return dataMap;
 		
