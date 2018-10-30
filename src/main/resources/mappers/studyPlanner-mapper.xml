@@ -4,18 +4,40 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="StudyPlanner">
-	<!-- <resultMap type="StudyTime" id="StudyTimeResultSet">
-		<id property="studytime_code" column="studytime_code"></id>
-		<result property="studyTime_date" column="studyTime_date"/>
-		<result property="studyTime_timezone" column="studyTime_timezone"/>
-		<result property="studyTime_studyTime" column="studyTime_studyTime"/>
-		<result property="studyTime_division" column="studyTime_division"/>
-		<result property="studyGroup_code" column="studyGroup_code"/>
-		<result property="member_code" column="member_code"/>
+<mapper namespace="StudyTime">
+	<resultMap type="StudyTime" id="StudyTimeResultSet">
+		<id property="studyTimeCode" column="STUDYTIME_CODE"></id>
+		<result property="studyTimeDate" column="STUDYTIME_DATE"/>
+		<result property="studyTimeTimezone" column="STUDYTIME_TIMEZONE"/>
+		<result property="studyTimeStudyTime" column="STUDYTIME_STUDYTIME"/>
+		<result property="studyTimeDivision" column="STUDYTIME_DIVISION"/>
+		<result property="studyGroupCode" column="STUDYGROUP_CODE"/>
+		<result property="memberCode" column="MEMBER_CODE"/>
 	</resultMap>
 	
-	<select id="selectTodayChart" parameterType="StudyTime" resultType="java.lang.String">
-	SELECT * FROM STUDYTIME WHERE MEMBER_CODE = #{}
-	</select> -->
+
+	<!-- <resultMap type="Member" id="memberResultSet">
+		<id property="member_Code" column="member_Code"></id>
+		<result property="member_Id" column="member_Id"/>
+		<result property="member_Pwd" column="member_Pwd"/>
+		<result property="member_Nickname" column="member_Nickname"/>
+		<result property="member_EnrollDate" column="member_EnrollDate"/>
+		<result property="member_Status" column="member_Status"/>
+		<result property="member_Class" column="member_Class"/>
+		<result property="member_Introduction" column="member_Introduction"/>
+		<result property="member_Age" column="member_Age"/>
+		<result property="member_Job" column="member_Job"/>
+		<result property="member_Gender" column="member_Gender"/>
+		<result property="location_Code" column="location_Code"/>
+		<result property="member_Phone" column="member_Phone"/>
+		<result property="member_SMSConfirmation" column="member_SMSConfirmation"/>
+		<collection property="files" javaType="Files" resultMap="filesSet"/>
+		<collection property="category_Name" javaType="java.util.ArrayList" resultMap="interestCategoryResultSet"/>
+	</resultMap> -->
+	
+	<select id="selectTodayChart" resultMap="StudyTimeResultSet">
+		SELECT * 
+		FROM STUDYTIME 
+		WHERE MEMBER_CODE = 3
+	</select>
 </mapper>

@@ -114,11 +114,12 @@ function modalChart(){
 function todayChart(){
 	var ctx = document.getElementById("todayChart").getContext('2d');
 	$.ajax({
-		url : "/studyPlannerTodayChart.sp",
+		url : "studyPlannerTodayChart.sp",
         //data : {nick : nick},
         type : "post",
         success : function(data) {
         	
+        	console.log(data);
         	
         	var todayChart = new Chart(ctx, {
         		type: 'bar',
@@ -127,7 +128,7 @@ function todayChart(){
         				"1시", "2시", "3시", "4시", "5시", "6시", "7시", "8시", "9시", "10시", "11시", "12시"],
         			datasets: [{
         				label: '# of Votes',
-        				data: [15, 3, 5, 2, 3, 1, 2, 3, 4, 5, 6, 12,
+        				data: [data, 3, 5, 2, 3, 1, 2, 3, 4, 5, 6, 12,
         					19, 3, 5, 2, 3, 1, 2, 3, 4, 5, 6, 12],
         				backgroundColor: [
         					'rgba(255, 99, 132, 0.2)',
@@ -207,7 +208,6 @@ function todayDatePicker(){
 		$(".datepicker-here").show();
 	}); */
 }
-
 
 //공부성향 분석 차트
 function studyTendencyChart(){
