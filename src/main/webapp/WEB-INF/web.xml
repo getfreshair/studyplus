@@ -57,7 +57,7 @@
   
    <servlet-mapping>
       <servlet-name>sgDetail</servlet-name>
-      <url-pattern>*.gd</url-pattern>
+      <url-pattern>*.sgd</url-pattern>
    </servlet-mapping>
   
    <servlet>  

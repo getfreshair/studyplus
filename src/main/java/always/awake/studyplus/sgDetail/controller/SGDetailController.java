@@ -1,20 +1,31 @@
 package always.awake.studyplus.sgDetail.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+
+import always.awake.studyplus.sgDetail.model.service.SGDetailService;
+import always.awake.studyplus.sgDetail.model.vo.SGDetail;
 
 @Controller
 public class SGDetailController {
+	@Autowired
+	private SGDetailService sgs;
+	
+	@RequestMapping(value="selectOneGroup.sgd", method=RequestMethod.GET)
+	public String selectOneGroup(HttpServletRequest request, HttpServletResponse response, Model model) {
 		
-	@RequestMapping(value="/selectOneGroup.sgd", method=RequestMethod.POST)
-	public String selectOneGroupDetail(int studyGroupCode) {
-		System.out.println("그룹 No : " + studyGroupCode);
+		int sgCode = Integer.parseInt(request.getParameter("group_No"));
+		System.out.println("그룹 No : " + sgCode);
+			
+		SGDetail sg = sgs.selectOneGroup(sgCode);
+		System.out.println("서비스에서 받아온 sgDetail객체 : " + sgCode);
 		
-		
-								
-											
 		return "studyGroupDetail/groupDetailPage";
 	}
 	
