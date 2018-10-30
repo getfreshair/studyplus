@@ -5,9 +5,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import always.awake.studyplus.sgDetail.model.service.SGDetailService;
 import always.awake.studyplus.sgDetail.model.vo.SGDetail;
@@ -18,16 +18,25 @@ public class SGDetailController {
 	private SGDetailService sgs;
 	
 	@RequestMapping(value="selectOneGroup.sgd", method=RequestMethod.GET)
-	public String selectOneGroup(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public ModelAndView selectOneGroup(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
 		
 		int sgCode = Integer.parseInt(request.getParameter("group_No"));
 		System.out.println("그룹 No : " + sgCode);
 			
-		SGDetail sg = sgs.selectOneGroup(sgCode);
-		System.out.println("서비스에서 받아온 sgDetail객체 : " + sgCode);
+		try {
+			SGDetail sg = sgs.selectOneGroup(sgCode);
+			System.out.println("서비스에서 받아온 sgDetail객체 : " + sgCode);
+			
+			mv.addObject("sg", sg);
+			mv.setViewName("studyGroupDetail/groupDetailPage");
+						
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		return "studyGroupDetail/groupDetailPage";
+		return mv;
 	}
+	
 	
 /*		@RequestMapping(value="/selectOneGroup.sgd", method=RequestMethod.POST)
 		public String selectOneGroupDetail(@RequestParam("userId")String userId, @RequestParam(value="userPwd", defaultValue="1234", required=false)String userPwd) {

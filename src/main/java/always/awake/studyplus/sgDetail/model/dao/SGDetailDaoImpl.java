@@ -12,10 +12,10 @@ public class SGDetailDaoImpl implements SGDetailDao{
 	public SGDetail selectOneGroup(SqlSessionTemplate sqlSession, int sgCode) {
 		System.out.println("dao 오니");
 		
-		System.out.println(sqlSession.selectOne("SGDetail.selectOneGroup", sgCode));
+//		System.out.println(sqlSession.selectOne("SGDetail.selectOneGroup", sgCode));
 		
-//		return sqlSession.selectOne("SGDetail.selectOneGroup", sgCode);
-		return null;
+		return sqlSession.selectOne("SGDetail.selectOneGroup", sgCode);
+//		return null;
 	}
 
 

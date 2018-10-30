@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="SGDetail">
+	<resultMap  type="always.awake.studyplus.sgDetail.model.vo.SGDetail" id="SGDetailResultSet">
+		<id property="studyGroup_Code" column="STUDYGROUP_CODE"/>
+		
+		<result property="studyGroup_Code" column="STUDYGROUP_CODE"/>
+		<result property="member_Code" column="MEMBER_CODE"/>
+		<result property="member_NickName" column="MEMBER_NICKNAME"/>
+		<result property="studyGroup_Name" column="STUDYGROUP_NAME"/>
+		<result property="location_Code" column="LOCATION_CODE"/>
+		<result property="location_Name" column="LOCATION_NAME"/>
+		<result property="studyGroup_GoalTime" column="STUDYGROUP_GOALTIME"/>
+		<result property="studyGroup_MaxNum" column="STUDYGROUP_MAXNUM"/>
+		<result property="studyGroup_Intro" column="STUDYGROUP_INTRO"/>
+		<result property="syudyGroup_Status" column="STUDYGROUP_STATUS"/>
+		<result property="studyGroup_StDate" column="STUDYGROUP_STDATE"/>
+		<result property="studyGroup_EdDate" column="STUDYGROUP_EDDATE"/>
+		<result property="category_Code" column="CATEGORY_CODE"/>
+		<result property="categroy_Name" column="CATEGORY_NAME"/>
+		<result property="studyGroup_OpenStatus" column="STUDYGROUP_OPENSTATUS"/>
+		<result property="studyGroup_Pwd" column="STUDYGROUP_PWD"/>
+		<result property="groupTotalStudyTime" column="GROUPTOTALSTUDYTIME"/>
+		<result property="groupMemberCount" column="GROUPMEMBERCOUNT"/>
+	</resultMap>
+	
+	<!-- select 그룹  detail 쿼리 -->
+	<select id="selectOneGroup" resultMap="SGDetailResultSet" parameterType="SGDetail">
+		SELECT SG.*, L.LOCATION_NAME, C.CATEGORY_NAME
+		FROM STUDYGROUP SG
+		JOIN LOCATION L ON(L.LOCATION_CODE = SG.LOCATION_CODE)
+		JOIN CATEGORY C ON(C.CATEGORY_CODE = SG.CATEGORY_CODE)
+		WHERE STUDYGROUP_CODE = #{ sgCode }
+	</select> 
+	
+</mapper>

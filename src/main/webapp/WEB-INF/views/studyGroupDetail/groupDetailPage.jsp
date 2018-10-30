@@ -39,9 +39,9 @@
 		  .groupInfoLeft { width:45%; padding:0px 20px; border-right:1px solid gray; }
 			.category { background:lightgray; float:left; }
 			.groupTitleTblWrap { margin-left:5px; }
-			  .groupTitleTbl { width:100%; margin: 0px 0px 5px; }
-			  .groupTitleTbl h2 { font-weight:bold; line-height:1.3; font-size:27px; margin:0px; }
-	 		  .groupTitleTbl .groupIntro { height:55px; padding:10px 5px 15px 5px; font-size:14px; table-layout:fixed; word-break:break-all; }
+			  .groupTitleTbl { width:100%; margin-bottom:0px;/* margin: 0px 0px 5px; */ }
+			  .groupTitleTbl h2 { font-weight:bold; line-height:1.7; font-size:27px; margin:0px; }
+	 		  .groupTitleTbl .groupIntro { height:55px; padding:15px;/* 10px 5px 15px 5px; */ font-size:15px; table-layout:fixed; word-break:break-all; }
 			  .groupOptDetailTbl { width:230px; display:inline-table; font-size:14px; }
 	 		  .groupOptDetailTbl td { padding:7px 5px 1px 5px; border-bottom:1px solid gray; }
 			  .groupOptDetailTbl strong { float:left; }
@@ -110,29 +110,29 @@
 					<div class="groupInfoLeft">
 						<table class="topInfoAllWrapTbl">
 							<tr><td class="radiusSmallWrapTd">
-								<div class="category radiusBoxSmall">${ sg.location_Name } / ${ sg.category_Name }<!-- 카테고리 / 세부항목 --></div>
+								<div class="category radiusBoxSmall">${sg.location_Name} / ${sg.category_Name}</div>
 							</td></tr>
 							<tr><td>
 								<table class="topInfoContWrapTbl groupTitleTblWrap">
 									<tr><td>
 										<table class="groupTitleTbl">
-											<tr><td><h2>${ sg.studyGroup_Name }<!-- 그룹 이름 위치 --></h2></td></tr>
+											<tr><td><h2>${sg.studyGroup_Name}</h2></td></tr>
 											<tr><td class="groupIntro">
-												${ sg.studyGroup_Intro }<!-- 간단한 소개나 방장이 하고싶은 말 -->
+												${sg.studyGroup_Intro}
 											</td></tr>
 										</table>
 									</td></tr>
 									<tr><td>
 										<table class="groupOptDetailTbl">
 											<tr>
-												<td><strong>목표시간</strong>	<span>${ sg.studyGroup_GoalTime } 시간</span></td>
+												<td><strong>목표시간</strong>	<span>'${sg.studyGroup_GoalTime} / 3600' 시간</span></td>
 											</tr>
 											<tr>
-												<td><strong>참여인원</strong>	<span>${ sg.groupMemberCount } / ${ sg.studyGroup_MaxNum } 명</span></td>
+												<td><strong>참여인원</strong>	<span>${sg.groupMemberCount} / ${sg.studyGroup_MaxNum} 명</span></td>
 											</tr>
 											<tr>
-												<td><strong>시 작 일</strong>	<span>${ sg.studyGroup_StDate } (<!-- sysdate-startDate -->3 일 째)</span></td>
-<!-- 												<td><strong>시 작 일</strong>	<span>2018. 10. 16. (6 일 째)</span></td> -->
+												<td><strong>시 작 일</strong>		<span>${sg.studyGroup_StDate} (<!-- sysdate-startDate -->3 일 째)</span></td>
+<!-- 												<td><strong>시 작 일</strong>		<span>2018. 10. 16. (6 일 째)</span></td> -->
 											</tr>
 				<!-- 							<tr> -->
 				<!-- 								<td><strong>강퇴기준</strong>	<span>1 시간</span></td> -->
@@ -202,7 +202,7 @@
 								</div></td>
 							</tr></table>
 						</td></tr>
-<!-- 만약 로그인유저가 그룹 멤버라면 보이도록 -->
+<!-- 만약 로그인유저가 그룹 멤버라면 보이도록 끝 -->
 					</table>			
 				</div>
 			</div>
@@ -236,7 +236,6 @@
 	</div>
 	</div>	
 </body>
-	
-	<jsp:include page="../common/footer.jsp"/><jsp:include page="../common/footer.jsp"/>
+
 	
 </html>
