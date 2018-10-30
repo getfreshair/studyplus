@@ -75,18 +75,21 @@
     	width: 266px;
     	font-size: 12px;
     	font-weight: bold;
+    	text-align:left;
 	}
 	.inSGJoinTime {
 		display:inline-block;
 		background:white;
 		margin-top:5px;
-		width:145px;
+		width:151px;
 		padding:3px;
+		padding-left:0px;
 		border-radius:7px;
 		font-weight:bold;
 		font-size:12px;
 		margin-right:3px;
 		overflow:hidden;
+		text-align:left;
 	}
 	.inSGAim {
 		position:relative;
@@ -134,7 +137,7 @@
     	display: inline-block;
     	font-size: 12px;
 	}
-	.inSGuserInfo {
+	.inSGUserInfo {
 		font-weight:bold;
 		padding-bottom: 5px;
 	}
@@ -193,6 +196,164 @@
 		
 		location.href='selectOneGroup.sgd?group_No=' + group_No;
 	}
+	
+	$(function(){
+		var member_Code = '${ sessionScope.loginUser.member_Code }';
+		
+		/* 가입 그룹, 개설 그룹 */
+		$.ajax({
+			url: 'studyGroupSelectJoinSGList.sg',
+			type : 'POST',
+			data : {
+				member_Code : member_Code
+			},
+			beforeSend : function(){
+				$('.inSGListArea').empty();
+				
+				$img = $('<img>');
+				$img.attr('src', '/studyplus/resources/images/studyGroup/groupListLoading.gif');
+				$img.css({
+					'width': '50px',
+					'height': '50px',
+					'display': 'inline-block',
+					'margin-left': '403px',
+					'margin-top': '50px'
+				});
+				
+				$('.inSGListArea').html($img);
+			},
+			success : function(data){
+				$inSGArea = $('<div class="inSGArea">');
+				$inSGImgARea = $('<div class="inSGImgArea">');
+				$inSGImg = $('<img>');
+				$inSGInfoArea = $('<div class="inSGInfoArea">');
+				$inSGTitle = $('<div class="inSGTitle">');
+				$inSGTrophyImg = $('<img>');
+				$inSGTitleH4 = $('<h4>');
+				
+				$inSGIntro = $('<div class="inSGIntro">');
+				$inSGEnrolldate = $('<div class="inSGEnrolldate">');
+				$inSGDate = $('<div class="inSGDate">');
+				$inSGJoinTime = $('<div class="inSGJoinTime">');
+				$inSGAim = $('<div class="inSGAim">');
+				$inSGAimProgress = $('<div class="inSGAimProgress">');
+				$inSGAimPercent = $('<div class="inSGAimPercent">');
+				$inSGUserImageArea = $('<div class="inSGUserImageArea">');
+				$inSGUserInfo = $('<div class="inSGUserInfo">');
+				$inSGUserImage = $('<div class="inSGUserImage">');
+				$inSGUserImg = $('<img>');
+				
+				$inSGImg.attr('src', "${ contextPath }/resources/upload/studyplus/thumbnail/fuck.jpg");
+				$inSGTrophyImg.attr('src', "${ contextPath }/resources/images/studyGroup/trophy.png");
+				$inSGTitleH4.append('SHOW ME THE MONEY');
+				$inSGIntro.append('분산시키거나 분리시키는 것. 특히 제한된 지역에 집중되어 있는 부대가 적의 공격으로부터 받는 취약성을 감소시키기 위해 분산 또는 분리시키는 것.');
+				$inSGEnrolldate.append('그룹 개설일 : 2018년  10월  1일');
+				$inSGDate.append('그룹 가입일 : 2018년  10월  12일');
+				$inSGJoinTime.append('총 활동 시간 : 392시간');
+				$inSGAimPercent.append('그룹 목표 86%');
+				$inSGUserInfo.append('참여 인원');
+				$inSGUserImg.attr('src', '${ contextPath }/resources/images/studyGroup/userImg.png');
+				
+				$inSGImgARea.append($inSGImg);
+				$inSGTitle.append($inSGTrophyImg);
+				$inSGTitle.append($inSGTitleH4);
+				$inSGInfoArea.append($inSGTitle);
+				$inSGInfoArea.append($inSGIntro);
+				$inSGInfoArea.append($inSGEnrolldate);
+				$inSGInfoArea.append($inSGDate);
+				$inSGInfoArea.append($inSGJoinTime);
+				$inSGAim.append($inSGAimProgress);
+				$inSGAim.append($inSGAimPercent);
+				$inSGInfoArea.append($inSGAim);
+				$inSGUserImageArea.append($inSGUserInfo);
+				$inSGUserImage.append($inSGUserImg);
+				$inSGUserImageArea.append($inSGUserImage);
+				$inSGInfoArea.append($inSGUserImageArea);
+				
+				$inSGArea.append($inSGImgARea);
+				$inSGArea.append($inSGInfoArea);
+				
+				
+				$('.inSGListArea').empty();
+				$('.inSGListArea').append($inSGArea);
+			}
+		});
+		
+		$.ajax({
+			url: 'studyGroupSelectRecommendSGList.sg',
+			data : {
+				member_Code : member_Code
+			},
+			beforeSend : function(){
+				$('.recommendationSGListArea').empty();
+				
+				$img = $('<img>');
+				$img.attr('src', '/studyplus/resources/images/studyGroup/groupListLoading.gif');
+				$img.css({
+					'width': '50px',
+					'height': '50px',
+					'display': 'inline-block',
+					'margin-left': '403px',
+					'margin-top': '50px'
+				});
+				
+				$('.recommendationSGListArea').html($img);
+			},
+			success : function(data){
+				$inSGArea = $('<div class="inSGArea">');
+				$inSGImgARea = $('<div class="inSGImgArea">');
+				$inSGImg = $('<img>');
+				$inSGInfoArea = $('<div class="inSGInfoArea">');
+				$inSGTitle = $('<div class="inSGTitle">');
+				$inSGTrophyImg = $('<img>');
+				$inSGTitleH4 = $('<h4>');
+				$inSGIntro = $('<div class="inSGIntro">');
+				$inSGEnrolldate = $('<div class="inSGEnrolldate">');
+				$inSGDate = $('<div class="inSGDate">');
+				$inSGJoinTime = $('<div class="inSGJoinTime">');
+				$inSGAim = $('<div class="inSGAim">');
+				$inSGAimProgress = $('<div class="inSGAimProgress">');
+				$inSGAimPercent = $('<div class="inSGAimPercent">');
+				$inSGUserImageArea = $('<div class="inSGUserImageArea">');
+				$inSGUserInfo = $('<div class="inSGUserInfo">');
+				$inSGUserImage = $('<div class="inSGUserImage">');
+				$inSGUserImg = $('<img>');
+				
+				$inSGImg.attr('src', "${ contextPath }/resources/upload/studyplus/thumbnail/fuck.jpg");
+				$inSGTrophyImg.attr('src', "${ contextPath }/resources/images/studyGroup/trophy.png");
+				$inSGTitleH4.append('SHOW ME THE MONEY');
+				$inSGIntro.append('분산시키거나 분리시키는 것. 특히 제한된 지역에 집중되어 있는 부대가 적의 공격으로부터 받는 취약성을 감소시키기 위해 분산 또는 분리시키는 것.');
+				$inSGEnrolldate.append('그룹 개설일 : 2018년  10월  1일');
+				$inSGDate.append('그룹 가입일 : 2018년  10월  12일');
+				$inSGJoinTime.append('총 활동 시간 : 392시간');
+				$inSGAimPercent.append('그룹 목표 86%');
+				$inSGUserInfo.append('참여 인원');
+				$inSGUserImg.attr('src', '${ contextPath }/resources/images/studyGroup/userImg.png');
+				
+				$inSGImgARea.append($inSGImg);
+				$inSGTitle.append($inSGTrophyImg);
+				$inSGTitle.append($inSGTitleH4);
+				$inSGInfoArea.append($inSGTitle);
+				$inSGInfoArea.append($inSGIntro);
+				$inSGInfoArea.append($inSGEnrolldate);
+				$inSGInfoArea.append($inSGDate);
+				$inSGInfoArea.append($inSGJoinTime);
+				$inSGAim.append($inSGAimProgress);
+				$inSGAim.append($inSGAimPercent);
+				$inSGInfoArea.append($inSGAim);
+				$inSGUserImageArea.append($inSGUserInfo);
+				$inSGUserImage.append($inSGUserImg);
+				$inSGUserImageArea.append($inSGUserImage);
+				$inSGInfoArea.append($inSGUserImageArea);
+				
+				$inSGArea.append($inSGImgARea);
+				$inSGArea.append($inSGInfoArea);
+				
+				$('.recommendationSGListArea').empty();
+				$('.recommendationSGListArea').append($inSGArea);
+			}
+		});
+	});
 </script>
 </head>
 <body>
@@ -207,170 +368,9 @@
 				<li onclick="changeGroupList('recommendationSGListArea')">추천 그룹</li>
 			</ul>
 		</div>
-		<div class="inSGListArea">
-			<!-- 그룹 하나 -->
-			<div class="inSGArea">
-				<div class="inSGImgArea" onclick="SGdetailPage(${group_no})">
-					<img src="${contextPath}/resources/images/studyGroup/study.jpg">
-				</div>
-				<div class="inSGInfoArea">
-					<div class="inSGTitle">
-						<img src="${contextPath}/resources/images/studyGroup/trophy.png">
-						<h4>2018년 KH정보교육원 학생들의 모임</h4>
-					</div>
-					<div class="inSGIntro">분산시키거나 분리시키는 것. 특히 제한된 지역에 집중되어 있는 부대가 적의 공격으로부터 받는 취약성을 감소시키기 위해 분산 또는 분리시키는 것.</div>
-					<div class="inSGEnrolldate">그룹 개설일 : 2018년 10월 1일 15시 21분 </div>
-					<div class="inSGDate">그룹 가입일 : 2018년 10월 12일 19시 35분</div>
-					<div class="inSGJoinTime">총 활동 시간 : 392시간 </div>
-					<div class="inSGAim">
-						<div class="inSGAimProgress"></div>
-						<div class="inSGAimPercent">그룹 목표 86%</div>
-					</div>
-					<div class="inSGUserImageArea">
-						<div class="inSGuserInfo">참여 인원</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- 여기까지 그룹 하나 -->
-		</div>
-		<div class="inMySGListArea">
-			<!-- 그룹 하나 -->
-			<div class="inSGArea">
-				<div class="inSGImgArea">
-					<img src="${contextPath}/resources/images/studyGroup/study.jpg">
-				</div>
-				<div class="inSGInfoArea">
-					<div class="inSGTitle">2018년 KH정보교육원 학생들의 모임</div>
-					<div class="inSGIntro">분산시키거나 분리시키는 것. 특히 제한된 지역에 집중되어 있는 부대가 적의 공격으로부터 받는 취약성을 감소시키기 위해 분산 또는 분리시키는 것.</div>
-					<div class="inSGEnrolldate">그룹 개설일 : 2018년 10월 1일 15시 21분 </div>
-					<div class="inSGDate">그룹 가입일 : 2018년 10월 12일 19시 35분</div>
-					<div class="inSGJoinTime">총 활동 시간 : 392시간 </div>
-					<div class="inSGAim">
-						<div class="inSGAimProgress"></div>
-						<div class="inSGAimPercent">그룹 목표 86%</div>
-					</div>
-					<div class="inSGUserImageArea">
-						<div class="inSGuserInfo">참여 인원</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- 여기까지 그룹 하나 -->
-		</div>
+		<div class="inSGListArea"></div>
+		<div class="inMySGListArea"></div>
 		<div class="recommendationSGListArea">
-			<!-- 그룹 하나 -->
-			<div class="inSGArea">
-				<div class="inSGImgArea">
-					<img src="${contextPath}/resources/images/studyGroup/study.jpg">
-				</div>
-				<div class="inSGInfoArea">
-					<div class="inSGTitle">2018년 KH정보교육원 학생들의 모임</div>
-					<div class="inSGIntro">분산시키거나 분리시키는 것. 특히 제한된 지역에 집중되어 있는 부대가 적의 공격으로부터 받는 취약성을 감소시키기 위해 분산 또는 분리시키는 것.</div>
-					<div class="inSGEnrolldate">그룹 개설일 : 2018년 10월 1일 15시 21분 </div>
-					<div class="inSGDate">그룹 가입일 : 2018년 10월 12일 19시 35분</div>
-					<div class="inSGJoinTime">총 활동 시간 : 392시간 </div>
-					<div class="inSGAim">
-						<div class="inSGAimProgress"></div>
-						<div class="inSGAimPercent">그룹 목표 86%</div>
-					</div>
-					<div class="inSGUserImageArea">
-						<div class="inSGuserInfo">참여 인원</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-						<div class="inSGUserImage">
-							<img src="${contextPath}/resources/images/studyGroup/userImg.png">
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- 여기까지 그룹 하나 -->
 		</div>
 	</div>
 	<br>
