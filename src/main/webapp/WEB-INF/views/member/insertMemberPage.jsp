@@ -56,6 +56,8 @@
 	.inputMemberInfo label {
 		font-size:13px;
 		color:#8C8C8C;
+		padding-top: 5px;
+    	padding-left: 5px;
 	}
 	.fieldCheckBox label, .localRadio label {
 		color:#484848;
@@ -198,7 +200,7 @@
 				});
 			}
 		})
-	})
+	});
 	
 	function previewFile() {
 		var preview = document.getElementById('drawThumbnailImg');
@@ -212,7 +214,7 @@
 		if(file) {
 			reader.readAsDataURL(file);
 		}
-	}
+	};
 </script>
 </head>
 <body>

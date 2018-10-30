@@ -31,6 +31,10 @@
 	.SGContentArea {
 		width:100%;
 	}
+	.SGInsertArea {
+		width:100%;
+		display:none;
+	}
 </style>
 </head>
 <body>
@@ -43,6 +47,7 @@
 			<div class="SGContentArea">
 				<jsp:include page="./groupMainPart/studyGroupMainBody.jsp"/>
 			</div>
+			<div class="SGInsertArea"></div>
 		</div>
 	</div>
 </body>

@@ -165,7 +165,9 @@
 			url: 'studyGroupInsertPage.sg',
 			beforeSend : function(){
 				var path = '${ contextPath }';
-				$('.SGContentArea').empty();
+				
+				$('.SGHeaderArea').css('display', 'none');
+				$('.SGContentArea').css('display', 'none');
 				
 				$img = $('<img>');
 				$img.attr('src', path + '/resources/images/studyGroup/groupListLoading.gif');
@@ -176,11 +178,12 @@
 					'margin-left': '575px'
 				});
 				
-				$('.SGContentArea').html($img);
+				$('.SGInsertArea').attr('display', 'block');
+				$('.SGInsertArea').html($img);
 			},
 			success: function(data){
-				$('.SGContentArea').empty();
-				$('.SGContentArea').html(data);
+				$('.SGInsertArea').empty();
+				$('.SGInsertArea').html(data);
 			}
 		});
 	}
