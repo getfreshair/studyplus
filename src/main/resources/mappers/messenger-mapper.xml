@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Messenger">
+	<resultMap type="Member" id="friendsResultSet">
+		<id property="member_Code" column="member_Code"></id>
+		<result property="member_Id" column="member_Id" />
+		<result property="member_Pwd" column="member_Pwd" />
+		<result property="member_Nickname" column="member_Nickname" />
+		<result property="member_EnrollDate" column="member_EnrollDate" />
+		<result property="member_Status" column="member_Status" />
+		<result property="member_Class" column="member_Class" />
+		<result property="member_Introduction"
+			column="member_Introduction" />
+		<result property="member_Age" column="member_Age" />
+		<result property="member_Job" column="member_Job" />
+		<result property="member_Gender" column="member_Gender" />
+		<result property="location_Code" column="location_Code" />
+		<result property="member_Phone" column="member_Phone" />
+		<result property="member_SMSConfirmation"
+			column="member_SMSConfirmation" />
+		<collection property="files" javaType="Files"
+			resultMap="friendfilesSet" />
+	</resultMap>
+
+	<resultMap type="Files" id="friendfilesSet">
+		<id property="files_Code" column="files_Code" />
+		<result property="files_BoardType" column="fileBoardType" />
+		<result property="files_OriginName" column="files_OriginName" />
+		<result property="files_Name" column="files_Name" />
+		<result property="files_EnrollDate" column="files_EnrollDate" />
+		<result property="files_Status" column="files_Status" />
+		<result property="files_DeleteDate" column="files_DeleteDate" />
+		<result property="member_Code" column="member_Code" />
+		<result property="group_Code" column="group_Code" />
+		<result property="pr_Code" column="pr_Code" />
+		<result property="board_Code" column="board_Code" />
+	</resultMap>
+
+	<select id="selectFriendList" parameterType="_int"
+		resultMap="friendsResultSet">
+		SELECT M.MEMBER_CODE, M.MEMBER_ID, M.MEMBER_PWD, M.MEMBER_NICKNAME,
+		M.MEMBER_ENROLLDATE, M.MEMBER_STATUS, M.MEMBER_CLASS,
+		M.MEMBER_INTRODUCTION, M.MEMBER_AGE, M.MEMBER_JOB, M.MEMBER_PHONE,
+		M.MEMBER_SMSCONFIRMATION, M.MEMBER_GENDER, L.LOCATION_NAME,
+		F.FILES_CODE, F.FILES_BOARDTYPE, F.FILES_NAME, NL.NEEDLEVEL_LEVEL
+		FROM MEMBER M
+		JOIN LOCATION L ON(M.LOCATION_CODE = L.LOCATION_CODE)
+		JOIN FILES F ON(M.MEMBER_CODE = F.MEMBER_CODE)
+		JOIN NEED N ON(M.MEMBER_CODE = N.MEMBER_CODE)
+		JOIN NEEDLEVEL NL ON(N.NEEDLEVEL_CODE = NL.NEEDLEVEL_CODE)
+		WHERE M.MEMBER_CODE IN (SELECT MEMBER_CODE2 FROM FRIEND WHERE MEMBER_CODE1 = #{ member_Code } )
+		AND M.MEMBER_STATUS = 0
+	</select>
+
+
+</mapper>

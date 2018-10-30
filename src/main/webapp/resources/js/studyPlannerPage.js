@@ -24,6 +24,7 @@ $(function(){
 function snsScrollUp(){
 	$(".click_area").click(function(){
 		if($(this).hasClass("on") != true){
+			getFriendList();
 			$(this).addClass("on");
 			$(".sns_wrap").animate({
 				"height":"460px"
