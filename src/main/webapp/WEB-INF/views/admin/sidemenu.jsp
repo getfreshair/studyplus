@@ -40,6 +40,7 @@
 	cursor: pointer;
 	background: #727272;
 	background: linear-gradient(#727272, #002535);
+	
 	z-index:50 !important;
 }
 #accordian h3:hover {
@@ -88,6 +89,11 @@
 h3:hover i{
 	color:gray;
 }
+#ad{
+display:none;
+	opacity:0 !important;
+	
+}
 
 </style>
 <script>
@@ -108,8 +114,8 @@ $(function(){
 <body>
 	<nav>
 	<div id="accordian">
-	<iframe scrolling="no" frameborder="no" clocktype="html5" style=" z-index:999; overflow:hidden;border:0;margin:0;padding:0;width:250px;height:165px;"src="https://www.clocklink.com/html5embed.php?clock=044&timezone=JST&color=white&Title=&Message=&Target=&From=2018,1,1,0,0,0&Color=white"></iframe>
-	<ul>
+	<iframe scrolling="no" frameborder="no" clocktype="html5" style=" z-index:999; overflow:hidden;border:0;margin:0;padding:0;width:250px;height:100px;"src="https://www.clocklink.com/html5embed.php?clock=044&timezone=JST&color=white&Title=&Message=&Target=&From=2018,1,1,0,0,0&Color=white"></iframe>
+	<ul style="padding-left:0">
 		
 		<li>
 			<i class='fas fa-home' style='font-size:24px; float:left; margin-left:5px ;margin-top:10px;'></i>
