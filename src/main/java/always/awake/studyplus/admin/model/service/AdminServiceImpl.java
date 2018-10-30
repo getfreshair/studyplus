@@ -19,9 +19,9 @@ public class AdminServiceImpl implements AdminService{
 	private AdminDao ad;
 
 	@Override
-	public List<Member> searchMember(Map<String,Object> map) {
+	public List<Map<String, Object>> searchMember(Map<String,Object> map) {
 		
-		List<Member> list = ad.searchMember(sqlSession, map);
+		List<Map<String, Object>> list = ad.searchMember(sqlSession, map);
 		
 		return list;
 	}

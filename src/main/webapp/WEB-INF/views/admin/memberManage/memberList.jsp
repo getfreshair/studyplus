@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -129,14 +132,15 @@ hr{
 									<select class="form-control" id="searchOption"
 											 name="category_Code" 
 											style="width:150px; height:50px" >
-										<option value="1">고입</option>
-										<option value="2">대입</option>
-										<option value="3">고시</option>
-										<option value="4">공시</option>
-										<option value="5">외국어</option>
-										<option value="6">취준</option>
-										<option value="7">자격증</option>
-										<option value="8">기타</option>
+										<option value="">선택안함</option>
+										<option value="고입">고입</option>
+										<option value="대입">대입</option>
+										<option value="고시">고시</option>
+										<option value="공시">공시</option>
+										<option value="외국어">외국어</option>
+										<option value="취준">취준</option>
+										<option value="자격증">자격증</option>
+										<option value="기타">기타</option>
 									</select>
 								</div>
 							</div>
@@ -161,7 +165,9 @@ hr{
 							 searchDate2:searchDate2,
 							 searchOption:searchOption},
 						success:function(data){
+							var data = JSON.parse(data);
 							console.log(data);
+							console.log(data[0].category.category_name);
 						},
 						error:function(){
 							console.log("에러 발생!");
@@ -186,15 +192,37 @@ hr{
 						<th width="15%">가입일</th>
 						<th width="10%">카테고리</th>
 					</tr>
+						<c:choose>
+								<c:when test="${fn:length(list) > 0}">
+									<c:forEach items="${list }" var="row">
+										<tr>
+											<td><input type="checkbox" class="masterCheck"></td>
+											<td>${row.MEMBER_CODE }</td>
+											<td>${row.MEMBER_ID }</td>
+											<td>${row.MEMBER_NICKNAME }</td>
+											<td>${row.MEMBER_PHONE }</td>
+											<td>${row.MEMBER_JOB }</td>
+											<td>${row.MEMBER_ENROLLDATE }</td>
+											<td>${row.CATEGORY_NAME }</td>
+										</tr>
+									</c:forEach>
+								</c:when>
+							<c:otherwise>
+									<tr>
+										<td colspan="4">조회된 결과가 없습니다.</td>
+									</tr>
+								</c:otherwise>
+							</c:choose>
+
 					<tr>
 						<td><input type="checkbox" class="masterCheck"></th>
-						<td>1</th>
-						<td>sji1123</th>
-						<td>신재익</th>
-						<td>sji1123@naver.com</th>
-						<td>010-5242-1241</th>
-						<td>2018-10-1</th>
-						<td>공무원</th>
+						<td>1</td>
+						<td>sji1123</td>
+						<td>신재익</td>
+						<td>sji1123@naver.com</td>
+						<td>010-5242-1241</td>
+						<td>2018-10-1</td>
+						<td>공무원</td>
 					</tr>
 				</table>
 				</div>
