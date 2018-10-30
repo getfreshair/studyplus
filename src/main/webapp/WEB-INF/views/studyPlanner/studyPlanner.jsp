@@ -20,8 +20,8 @@
 <!-- <script src="/studyplus/resources/js/datepicker.min.js"></script>
 <script src="/studyplus/resources/js/datepicker.ko.js"></script> -->
 
-<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" /> -->
-<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 
 <style type="text/css">
@@ -164,7 +164,7 @@
 									<span class="txt">일간 공부량</span>
 									<a href="#" class="date">2018. 09. 10. ></a>
 								</div>
-								<!-- <div class="datepicker-here" data-language='ko'></div> -->
+								<div class="datepicker-here" data-language='ko'></div>
 								<input type="text" id="datepicker1">
 								<div class="chart">
 									<canvas id="todayChart"></canvas>

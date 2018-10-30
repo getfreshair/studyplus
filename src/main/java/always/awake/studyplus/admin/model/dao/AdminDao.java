@@ -11,6 +11,6 @@ import always.awake.studyplus.admin.model.vo.Member;
 
 public interface AdminDao {
 
-	List<Member> searchMember(SqlSessionTemplate sqlSession, Map<String, Object> map);
+	List<Map<String, Object>> searchMember(SqlSessionTemplate sqlSession, Map<String, Object> map);
 
 }

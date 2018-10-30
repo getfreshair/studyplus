@@ -12,8 +12,8 @@ import always.awake.studyplus.admin.model.vo.Member;
 public class AdminDaoImpl implements AdminDao {
 
 	@Override
-	public List<Member> searchMember(SqlSessionTemplate sqlSession, Map<String,Object> map) {
-		
+	public List<Map<String, Object>> searchMember(SqlSessionTemplate sqlSession, Map<String,Object> map) {
+		System.out.println("DAO"+(map.get("All") == null));
 		return sqlSession.selectList("Admin.selectMember", map);
 	}
 
