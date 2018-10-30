@@ -110,28 +110,29 @@
 					<div class="groupInfoLeft">
 						<table class="topInfoAllWrapTbl">
 							<tr><td class="radiusSmallWrapTd">
-								<div class="category radiusBoxSmall">카테고리 / 세부항목</div>
+								<div class="category radiusBoxSmall">${ sg.location_Name } / ${ sg.category_Name }<!-- 카테고리 / 세부항목 --></div>
 							</td></tr>
 							<tr><td>
 								<table class="topInfoContWrapTbl groupTitleTblWrap">
 									<tr><td>
 										<table class="groupTitleTbl">
-											<tr><td><h2>그룹 이름 위치</h2></td></tr>
+											<tr><td><h2>${ sg.studyGroup_Name }<!-- 그룹 이름 위치 --></h2></td></tr>
 											<tr><td class="groupIntro">
-												간단한 소개나 방장이 하고싶은 말이나 서브타이틀 쓰는 장소야sdfasefasdfsf ㄴㄹ니ㅏㅓ리나ㅓㄷ셔놀이너ㅣ더리나오래ㅗ
+												${ sg.studyGroup_Intro }<!-- 간단한 소개나 방장이 하고싶은 말 -->
 											</td></tr>
 										</table>
 									</td></tr>
 									<tr><td>
 										<table class="groupOptDetailTbl">
 											<tr>
-												<td><strong>목표시간</strong>	<span>12 시간</span></td>
+												<td><strong>목표시간</strong>	<span>${ sg.studyGroup_GoalTime } 시간</span></td>
 											</tr>
 											<tr>
-												<td><strong>참여인원</strong>	<span>10 / 25 명</span></td>
+												<td><strong>참여인원</strong>	<span>${ sg.groupMemberCount } / ${ sg.studyGroup_MaxNum } 명</span></td>
 											</tr>
 											<tr>
-												<td><strong>시 작 일</strong>		<span>2018. 10. 16. (6 일 째)</span></td>
+												<td><strong>시 작 일</strong>	<span>${ sg.studyGroup_StDate } (<!-- sysdate-startDate -->3 일 째)</span></td>
+<!-- 												<td><strong>시 작 일</strong>	<span>2018. 10. 16. (6 일 째)</span></td> -->
 											</tr>
 				<!-- 							<tr> -->
 				<!-- 								<td><strong>강퇴기준</strong>	<span>1 시간</span></td> -->
