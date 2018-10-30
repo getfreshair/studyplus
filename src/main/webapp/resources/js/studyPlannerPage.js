@@ -6,11 +6,17 @@ $(function(){
 	goalAddMdal();			//목표 등록 모달
 	modalChart();			//목표등록 모달 내 공부량 차트
 	
-	todayChart();			//일간 공부량 차트
+	//todayChart();			//일간 공부량 차트
 	todayDatePicker();		//일간 공부량 날짜선택
 	studyTendencyChart();	//공부성향 분석 차트
 	
 	GoalListChart();		//목표 리스트 노출된 부분 공부량 차트
+	
+	
+	
+	
+	todayChartTodaydate();
+	todayChartChangeDate();
 });
 
 
@@ -49,7 +55,6 @@ function snsSlideChat(){
 function scrollShadow(){
 	// 오늘 목표
 	var todayH = $(".today_goals .goals_list").height();
-	console.log(todayH);
 	if(todayH > 220){
 		$(".today_goals").append('<div class="shadow_box"></div>');
 	}
@@ -111,86 +116,114 @@ function modalChart(){
 };
 
 //일간 공부량 차트
-function todayChart(){
+function todayChartTodaydate(){
+	//페이지 진입시 오늘 날짜 선택
+	var now = new Date();
+	var year= now.getFullYear();
+    var mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
+    var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
+            
+    var chan_val = year + '-' + mon + '-' + day;
+    $(this).val(chan_val);
+
+	console.log("오늘날짜 : " + chan_val);
+	
+	var dateVal = chan_val; //컨트롤러에 보낼 날짜
+	
+	todayChart(dateVal);
+}
+
+//일간 공부량 날짜 변경시
+function todayChartChangeDate(){
+	$("#todayDatePicker").change(function(){
+		var dateVal = $("#todayDatePicker").val(); //컨트롤러에 보낼 날짜
+		console.log("선택한날짜 : " + dateVal);
+		todayChart(dateVal);
+	});
+}
+
+//일간 공부량 차트
+function todayChart(dateVal){
 	var ctx = document.getElementById("todayChart").getContext('2d');
 	$.ajax({
 		url : "studyPlannerTodayChart.sp",
-        //data : {nick : nick},
-        type : "post",
-        success : function(data) {
-        	
-        	console.log(data);
-        	
-        	var todayChart = new Chart(ctx, {
-        		type: 'bar',
-        		data: {
-        			labels: ["0시", "1시", "2시", "3시", "4시", "5시", "6시", "7시", "8시", "9시", "10시", "11시", "12시", 
-        				"1시", "2시", "3시", "4시", "5시", "6시", "7시", "8시", "9시", "10시", "11시", "12시"],
-        			datasets: [{
-        				label: '# of Votes',
-        				data: [data, 3, 5, 2, 3, 1, 2, 3, 4, 5, 6, 12,
-        					19, 3, 5, 2, 3, 1, 2, 3, 4, 5, 6, 12],
-        				backgroundColor: [
-        					'rgba(255, 99, 132, 0.2)',
-        					'rgba(54, 162, 235, 0.2)',
-        					'rgba(255, 206, 86, 0.2)',
-        					'rgba(75, 192, 192, 0.2)',
-        					'rgba(153, 102, 255, 0.2)',
-        					'rgba(255, 159, 64, 0.2)',
-        					'rgba(255, 99, 132, 0.2)',
-        					'rgba(54, 162, 235, 0.2)',
-        					'rgba(255, 206, 86, 0.2)',
-        					'rgba(75, 192, 192, 0.2)',
-        					'rgba(153, 102, 255, 0.2)',
-        					'rgba(255, 99, 132, 0.2)',
-        					'rgba(54, 162, 235, 0.2)',
-        					'rgba(255, 206, 86, 0.2)',
-        					'rgba(75, 192, 192, 0.2)',
-        					'rgba(153, 102, 255, 0.2)',
-        					'rgba(255, 159, 64, 0.2)',
-        					'rgba(255, 99, 132, 0.2)',
-        					'rgba(54, 162, 235, 0.2)',
-        					'rgba(255, 206, 86, 0.2)',
-        					'rgba(75, 192, 192, 0.2)',
-        				],
-        				/*borderColor: [
-        					'rgba(255,99,132,1)',
-        					'rgba(54, 162, 235, 1)',
-        					'rgba(255, 206, 86, 1)',
-        					'rgba(75, 192, 192, 1)',
-        					'rgba(153, 102, 255, 1)',
-        					'rgba(255, 159, 64, 1)',
-        					'rgba(255,99,132,1)',
-        					'rgba(54, 162, 235, 1)',
-        					'rgba(255, 206, 86, 1)',
-        					'rgba(75, 192, 192, 1)',
-        					'rgba(153, 102, 255, 1)'
-        				],*/
-        				borderWidth: 1
-        			}]
-        		},
-        		options: {
-        			scales: {
-        				yAxes: [{
-        					ticks: {
-        						beginAtZero:true
-        					}
-        				}]
-        			}
-        		}
-        	});
-        	
-        	
-        },
-        error : function() {
-        	console.log("에러발생!");
-        }
+		data : {dateVal : dateVal},
+		type : "post",
+		success : function(data) {
+			
+			//console.log(data);
+			
+			var todayChart = new Chart(ctx, {
+				type: 'bar',
+				data: {
+					labels: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", 
+						"13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"],
+						datasets: [{
+							//label: '# of Votes',
+							data: [23, 3, 5, 2, 3, 1, 2, 3, 4, 5, 6, 12, 12,
+								19, 3, 5, 2, 3, 1, 2, 3, 4, 5, 6],
+								backgroundColor: [
+									'rgba(255, 99, 132, 0.2)',
+									'rgba(54, 162, 235, 0.2)',
+									'rgba(255, 206, 86, 0.2)',
+									'rgba(75, 192, 192, 0.2)',
+									'rgba(153, 102, 255, 0.2)',
+									'rgba(255, 159, 64, 0.2)',
+									'rgba(255, 99, 132, 0.2)',
+									'rgba(54, 162, 235, 0.2)',
+									'rgba(255, 206, 86, 0.2)',
+									'rgba(75, 192, 192, 0.2)',
+									'rgba(153, 102, 255, 0.2)',
+									'rgba(255, 99, 132, 0.2)',
+									'rgba(54, 162, 235, 0.2)',
+									'rgba(255, 206, 86, 0.2)',
+									'rgba(75, 192, 192, 0.2)',
+									'rgba(153, 102, 255, 0.2)',
+									'rgba(255, 159, 64, 0.2)',
+									'rgba(255, 99, 132, 0.2)',
+									'rgba(54, 162, 235, 0.2)',
+									'rgba(255, 206, 86, 0.2)',
+									'rgba(75, 192, 192, 0.2)',
+									],
+									/*borderColor: [
+    					'rgba(255,99,132,1)',
+    					'rgba(54, 162, 235, 1)',
+    					'rgba(255, 206, 86, 1)',
+    					'rgba(75, 192, 192, 1)',
+    					'rgba(153, 102, 255, 1)',
+    					'rgba(255, 159, 64, 1)',
+    					'rgba(255,99,132,1)',
+    					'rgba(54, 162, 235, 1)',
+    					'rgba(255, 206, 86, 1)',
+    					'rgba(75, 192, 192, 1)',
+    					'rgba(153, 102, 255, 1)'
+    				],*/
+									borderWidth: 1
+						}]
+				},
+				options: {
+					scales: {
+						yAxes: [{
+							ticks: {
+								beginAtZero:true
+							}
+						}]
+					}
+				}
+			});
+			
+			
+		},
+		error : function() {
+			console.log("에러발생!");
+		}
 	});
+	
 }
 
 //일간 공부량 날짜선택
 function todayDatePicker(){
-	$( "#datepicker1" ).datepicker({
+	$( "#todayDatePicker" ).datepicker({
 		dateFormat: 'yy-mm-dd',
 		prevText: '이전 달',
 		nextText: '다음 달',
@@ -203,7 +236,7 @@ function todayDatePicker(){
 		changeMonth: true,
 		changeYear: true,
 		yearSuffix: '년'
-	});
+	}).datepicker("setDate", new Date());
 	/* $(".date").click(function(){
 		$(".datepicker-here").show();
 	}); */

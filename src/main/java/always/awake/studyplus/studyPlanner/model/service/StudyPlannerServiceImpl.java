@@ -1,5 +1,7 @@
 package always.awake.studyplus.studyPlanner.model.service;
 
+import java.util.HashMap;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,16 +16,13 @@ public class StudyPlannerServiceImpl implements StudyPlannerService{
 	@Autowired
 	private StudyPlannerDao spd;
 	
+	//일간 공부량 차트
 	@Override
-	public StudyTime todayChart() {
-		System.out.println("service test");
-		System.out.println(sqlSession.hashCode());
+	public HashMap<String, Object> selectTodayChart(HashMap<String, Object> hmap) {
 		
-		StudyTime st = new StudyTime();
-		st = spd.todayChart(sqlSession);
-		
-		return st;
-		
+		HashMap<String, Object> todayChart = spd.todayChart(sqlSession, hmap);
+	
+		return todayChart;
 	}
 	
 }

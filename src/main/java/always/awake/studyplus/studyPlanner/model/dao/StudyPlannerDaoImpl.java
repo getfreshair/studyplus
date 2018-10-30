@@ -1,22 +1,20 @@
 package always.awake.studyplus.studyPlanner.model.dao;
 
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.stereotype.Repository;
+import java.util.HashMap;
 
-import always.awake.studyplus.studyPlanner.model.vo.StudyTime;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class StudyPlannerDaoImpl implements StudyPlannerDao{
-
+	@Autowired
+	private SqlSessionTemplate sqlSession;
+	
 	//일간 공부량 차트
 	@Override
-	public StudyTime todayChart(SqlSessionTemplate sqlSession) {
-		System.out.println("dao 들어왔냐2222");
-		
-		StudyTime st = sqlSession.selectOne("StudyTime.selectTodayChart");
-
-		System.out.println(st.getMemberCode());
-		return st;
+	public HashMap<String, Object> todayChart(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap) {
+		return sqlSession.selectOne("StudyTime.selectTodayChart", hmap);
 	}
 
 }
