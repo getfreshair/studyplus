@@ -18,15 +18,15 @@ public class Member implements java.io.Serializable{
 	private int location_Code;
 	private String member_Phone;
 	private String member_SMSConfirmation;
-	private Files files;
+	private Files member_Files;
 	private ArrayList<InterestCategory> category_Name;
 	
 	public Member() {super();}
 
 	public Member(int member_Code, String member_Id, String member_Pwd, String member_Nickname, Date member_EnrollDate,
 			int member_Status, int member_Class, String member_Introduction, int member_Age, String member_Job,
-			String member_Gender, int location_Code, String member_Phone, String member_SMSConfirmation, Files files,
-			ArrayList<InterestCategory> category_Name) {
+			String member_Gender, int location_Code, String member_Phone, String member_SMSConfirmation,
+			Files member_Files, ArrayList<InterestCategory> category_Name) {
 		super();
 		this.member_Code = member_Code;
 		this.member_Id = member_Id;
@@ -42,7 +42,7 @@ public class Member implements java.io.Serializable{
 		this.location_Code = location_Code;
 		this.member_Phone = member_Phone;
 		this.member_SMSConfirmation = member_SMSConfirmation;
-		this.files = files;
+		this.member_Files = member_Files;
 		this.category_Name = category_Name;
 	}
 
@@ -158,12 +158,12 @@ public class Member implements java.io.Serializable{
 		this.member_SMSConfirmation = member_SMSConfirmation;
 	}
 
-	public Files getFiles() {
-		return files;
+	public Files getmember_Files() {
+		return member_Files;
 	}
 
-	public void setFiles(Files files) {
-		this.files = files;
+	public void setmember_Files(Files member_Files) {
+		this.member_Files = member_Files;
 	}
 
 	public ArrayList<InterestCategory> getCategory_Name() {
@@ -181,8 +181,8 @@ public class Member implements java.io.Serializable{
 				+ ", member_Status=" + member_Status + ", member_Class=" + member_Class + ", member_Introduction="
 				+ member_Introduction + ", member_Age=" + member_Age + ", member_Job=" + member_Job + ", member_Gender="
 				+ member_Gender + ", location_Code=" + location_Code + ", member_Phone=" + member_Phone
-				+ ", member_SMSConfirmation=" + member_SMSConfirmation + ", files=" + files + ", category_Name="
-				+ category_Name + "]";
+				+ ", member_SMSConfirmation=" + member_SMSConfirmation + ", member_Files=" + member_Files
+				+ ", category_Name=" + category_Name + "]";
 	}
-
+	
 }

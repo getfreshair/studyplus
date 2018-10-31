@@ -12,7 +12,6 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import always.awake.studyplus.common.CommonUitls;
 import always.awake.studyplus.member.model.dao.MemberDao;
@@ -43,7 +42,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public int insertMember(Model model, Member m, Files files, ArrayList<String> category_Code,
+	public int insertMember(Member m, Files files, ArrayList<String> category_Code,
 			HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String filePath = root + "\\upload\\member\\thumbnail";

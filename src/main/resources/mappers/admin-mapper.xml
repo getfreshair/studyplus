@@ -20,7 +20,7 @@
 		<result property="location_Code" column="location_Code"/>
 		<result property="member_Phone" column="member_Phone"/>
 		<result property="member_SMSConfirmation" column="member_SMSConfirmation"/>
-		<collection property="files" javaType="Files" resultMap="adminFiles"/>
+		<collection property="files" javaType="memberFiles" resultMap="adminFiles"/>
 		<collection property="category_Name" javaType="java.util.ArrayList" resultMap="adminInterestCategory"/>
 	</resultMap>
 	
