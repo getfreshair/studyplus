@@ -186,12 +186,29 @@
 							<!-- 주간공부량 -->
 							<div class="col-sm-6 col-xs-12 analysis_box st03">
 								<div class="box_tit">
-									<span class="txt">주간 공부량</span>
+									<span class="txt">주간 · 월간 공부량</span>
 									<a href="#" class="date">2018. 09. 10. ></a>
 								</div>
 								<div class="chart">
-									
+									<div class="tab">
+										<button type="button" class="btn btn-default" id="weeklyBtn">주간</button>
+										<button type="button" class="btn btn-default" id="monthlyBtn">월간</button>
+									</div>
+									<canvas id="weeklyChart"></canvas>
+									<canvas id="monthlyChart"></canvas>
 								</div>
+								<script>
+									$(function(){
+										$("#weeklyBtn").click(function(){
+											$("#monthlyChart").hide();
+											$("#weeklyChart").show();
+										});
+										$("#monthlyBtn").click(function(){
+											$("#weeklyChart").hide();
+											$("#monthlyChart").show();
+										});
+									});
+								</script>
 							</div>
 							<!-- // 주간공부량 -->
 							<!-- 학습평가 -->
@@ -236,6 +253,7 @@
 													
 													$('#friendsList').append($li);
 												}
+												snsSlideChat();
 											},
 											error:function(){
 												console.log("에러 발생!!!");

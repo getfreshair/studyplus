@@ -19,10 +19,9 @@ public class StudyPlannerServiceImpl implements StudyPlannerService{
 	//일간 공부량 차트
 	@Override
 	public List<HashMap<String, Object>> selectTodayChart(List<HashMap<String, Object>> list) {
-		List<HashMap<String, Object>> todayChart = spd.todayChart(sqlSession, list);
 		
-		//System.out.println("제발!! : " + todayChart);
-	
+		List<HashMap<String, Object>> todayChart = spd.todayChart(sqlSession, list);
+
 		return todayChart;
 	}
 	

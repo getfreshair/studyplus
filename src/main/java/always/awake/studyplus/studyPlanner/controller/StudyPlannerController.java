@@ -29,17 +29,16 @@ public class StudyPlannerController {
 	
 	@RequestMapping(value="studyPlannerTodayChart.sp")
 	public void duplicationCheck(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
-		
+		//파라미터값 받음
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int loginUserCode = loginUser.getMember_Code();
 		
 		String chartDate = request.getParameter("dateVal");
 		
-		//System.out.println("로그인 유저코드" + loginUserCode);
-		//System.out.println("컨트롤러 날짜 조회 : " + chartDate);
-			
+		//날짜 특수문자 제거	
 		String chartDate2 = chartDate.replaceAll("-", "/");
 		
+		//HashMap
 		HashMap<String, Object> hmap = new HashMap<String, Object>();
 		hmap.put("loginUserCode", loginUserCode);
 		hmap.put("chartDate", chartDate2);
@@ -49,36 +48,35 @@ public class StudyPlannerController {
 
 		List<HashMap<String, Object>> resultList = sps.selectTodayChart(list);
 		
-		/*int testest = 0;
+		//공부시간 문자열로 만들어서 전달
+		String studyTime = "";
+		label :
 		for(int i = 0; i < 24; i++) {
-			if(Integer.parseInt((resultList.get(i).get("STUDYTIME_TIMEZONE").toString())) == i) {
-				testest += (Integer.parseInt((resultList.get(i).get("STUDYTIME_STUDYTIME").toString()))/60) + "*";
-			}else {
-				testest += 0;
-			}
-			System.out.println(testest);
-		}*/
-		
-		int timeArr[] = new int[24];
-		for(int i = 0; i < 24; i++) {
-			timeArr[i] = 0;
-		}
-		for(int i = 0; i < 24; i++) {
+			
 			for(int j = 0; j < resultList.size(); j++) {
-				if(Integer.parseInt((resultList.get(j).get("STUDYTIME_TIMEZONE").toString())) == i) {
-					timeArr[i] = Integer.parseInt((resultList.get(j).get("STUDYTIME_STUDYTIME").toString()))/60;
+				if(i == Integer.parseInt(resultList.get(j).get("STUDYTIME_TIMEZONE").toString())) {
+					studyTime += resultList.get(j).get("STUDYTIME_STUDYTIME").toString() + "," ;
+					resultList.remove(j);
+					continue label;
 				}
 			}
-
-			//System.out.println(timeArr[i]);
+			studyTime +=  "0," ;
 		}
-		
+		studyTime = studyTime.substring(0,studyTime.length() -1);
 		
 		try {
-			response.getWriter().print(timeArr[0]);
+			response.getWriter().print(studyTime);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-			
 	}
+	
+	@RequestMapping(value="studyPlannerWeeklyChart.sp")
+	public void weeklyChart(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+		//파라미터값 받음
+		/*Member loginUser = (Member) session.getAttribute("loginUser");
+		int loginUserCode = loginUser.getMember_Code();
+		
+		String chartDate = request.getParameter("dateVal");*/
+	} 
 }
