@@ -93,6 +93,7 @@ th{
 	text-align: center !important;
 }
 </style>
+
 </head>
 <body>
 	<div class="adminArea">
@@ -132,7 +133,7 @@ th{
 									<select class="form-control" id="searchOption"
 											 name="category_Code" 
 											style="width:150px; height:50px" >
-										<option value="123">선택안함</option>
+										<option value="전체">전체</option>
 										<option value="고입">고입</option>
 										<option value="대입">대입</option>
 										<option value="고시">고시</option>
@@ -155,7 +156,7 @@ th{
 					var searchDate1 = $("#searchDate1").val();
 					var searchDate2 = $("#searchDate2").val();
 					var searchOption = $("#searchOption").val();
-					
+				
 					
 					$.ajax({
 						url:"adminSearchMember.do",
@@ -180,7 +181,7 @@ th{
 				function getMemberList(data){
 					var table = document.querySelector('#memberListTable');
 					html = '<tr class="head"><th width="2%">'+
-					'<input type="checkbox" class="masterCheck"></th>'+
+					'<input type="checkbox" id ="masterCheck"></th>'+
 					'<th width="8%">회원번호</th>'+
 					'<th width="10%">아이디</th>'+
 					'<th width="10%">닉네임</th>'+
@@ -192,22 +193,30 @@ th{
 					console.log(data.length);
 					for(var i = 0; i < data.length; i++){
 						console.log("12");
-						html += '<tr><td><input type="checkbox" class="masterCheck"></td><td>'
+						html += '<tr><td><input onclick='+'"event.cancelBubble=true"'+ ' type="checkbox"'+ 'name="selectMemberCode" ' + 'class="childCheck"' + 'value="'+data[i].MEMBER_CODE+'"></td><td>'
 								+data[i].MEMBER_CODE+ '</td><td>' + data[i].MEMBER_ID + '</td><td>'
 								+data[i].MEMBER_NICKNAME + '</td><td>' + data[i].MEMBER_PHONE + '</td><td>'
 								+data[i].LOCATION_NAME + '</td><td>' + data[i].MEMBER_GENDER+'</td><td>' + 
 								data[i].MEMBER_ENROLLDATE + '</td><td>'	+ data[i].CATEGORY_NAME + '</td></tr>';
 					}
 					table.innerHTML = html;
-				
+					$(document).ready(function () {
+					    $("#masterCheck").click(function () {
+					        $(".childCheck").prop('checked', $(this).prop('checked'));
+					    });
+					});
+					
+					
+					
 				}
-				
+			
 				</script>
+				
 				<br><br>
 				<div class="table" style="margin-top:50px">
 				<table id="memberListTable" class="table table-hover"  name="memberListTable" style="font-size:14px; align:ceter; text-align:center;">
 					<tr class="head" >
-						<th width="2%" ><input type="checkbox" class="masterCheck"></th>
+						<th width="2%" ></th>
 						<th width="8%">회원번호</th>
 						<th width="10%">아이디</th>
 						<th width="10%">닉네임</th>
@@ -217,18 +226,6 @@ th{
 						<th width="15%">가입일</th>
 						<th width="10%">카테고리</th>
 					</tr>
-					
-
-					<tr>
-						<td><input type="checkbox" class="masterCheck"></th>
-						<td>1</td>
-						<td>sji1123</td>
-						<td>신재익</td>
-						<td>sji1123@naver.com</td>
-						<td>010-5242-1241</td>
-						<td>2018-10-1</td>
-						<td>공무원</td>
-					</tr>
 				</table>
 				</div>
 				<button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-warning" style="float:right; margin-top:20px; margin-right:100px; font-size:20px;">제재하기</button>
@@ -236,6 +233,7 @@ th{
 				<div class="modal fade" id="myModal" role="dialog">
 				<div class="modal-dialog modal-lg">
 			     	<div class="modal-content">
+			     		<input type="hidden" class="hiddenvalue"/>
 			        	<div class="modal-header">
 			         	 <h4 class="modal-title" style="width:120px; margin-top:5px">제제 사유 : </h4>
 			         	  <select class="form-control" id="selectLock">
@@ -247,7 +245,7 @@ th{
 			        	</div>
 			       		 <div class="modal-body">
 			       		 	<label>제재 만료일  : </label>
-			         		<input class="form-control" type="date" id="penaltyEndDate" style="width: 100%">
+			         		<input class="form-control" type="date" id="lockDate" style="width: 100%">
 			         		<textarea class="form-control" id="lockArea" style="width : 100% !important; height:200px !important;">
 			         	 	
 			         	 	</textarea>
@@ -268,17 +266,82 @@ th{
 			        				textarea.value="";
 			        			}
 			        		})
-			        	})
+			        	});
 			        </script>
+			      
 			       		<div class="modal-footer">
-			       			<button type="button" class="btn btn-warning" data-dismiss="modal" id="lockMemberBtn">회원 제재</button>
+			       			<button type="button" class="btn btn-warning" data-dismiss="modal" id="lockMember">회원 제재</button>
 			         	 	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 			        	</div>
 			  		</div>
 					</div>
 			  </div>
+			  <script>
+			  			$(function(){
+			  			$('#lockMember').click(function(){
+						var checkBoxs = document.getElementsByName("selectMemberCode"); // 체크박스 객체
+						var len = checkBoxs.length;
+						var checkRow = "";
+						var checkCnt = 0;
+						var checkLast = "";
+						var rowid = '';
+						var values = "";
+						var cnt = 0;
+						var title = $('#selectLock').val();
+						var textarea = document.getElementById("lockArea").value;
+						var lockDate = document.getElementById("lockDate").value;
+						console.log('시ㅓ지서빚더리');
+						for(var i = 0; i < len ; i ++){
+							if(checkBoxs[i].checked == true){
+								checkCnt++;
+								checkLast = i;
+							}
+						}
+						for(var i = 0; i < len ; i ++){
+							if(checkBoxs[i].checked == true){
+								checkRow = checkBoxs[i].value;
+								
+								if(checkCnt == 1){
+									rowid += checkRow;
+								} else {
+									if(i == checkLast){
+										rowid += checkRow ;
+									} else {
+										rowid += checkRow + ",";
+									}
+								}
+								
+								cnt ++;
+								checkRow = '';
+							}	
+						}
+						if(rowid === ''){
+							alert('제재 처리할 회원을 선택해 주세요.')
+							return;
+						}
+						$.ajax({
+							url:"adminPenaltyMember.do",
+							type:"get",
+							data:{title:title,
+								 textarea:textarea,
+								 lockDate:lockDate,
+								 memberCode:rowid},
+							success:function(data){
+								var data = JSON.parse(data);
+								alert(data+"명의 회원이 제재되었습니다.");
+							},
+							error:function(){
+								console.log("에러 발생!");
+							}
+						})
+						return false;
+						
+						})
+			  		});
+					</script>
 			</div>
 		</div>
 	</div>
+	
 </body>
 </html>

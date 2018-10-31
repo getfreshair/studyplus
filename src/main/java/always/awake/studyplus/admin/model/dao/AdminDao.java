@@ -13,4 +13,10 @@ public interface AdminDao {
 
 	List<Map<String, Object>> searchMember(SqlSessionTemplate sqlSession, Map<String, Object> map);
 
+
+	int penaltyMember(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
+
+	int penaltyMemberUpdate(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
 }

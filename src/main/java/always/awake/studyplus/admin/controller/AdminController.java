@@ -40,6 +40,43 @@ public class AdminController {
 	public String showAdminView() {
 		return "admin/home";
 	}
+	@RequestMapping("adminPenaltyMember.do")
+	public void duplicationCheck(@RequestParam("title")String title, @RequestParam("textarea")String textarea,@RequestParam("lockDate")String lockDate,@RequestParam("memberCode")String memberCode,HttpServletResponse response) {
+		
+		System.out.println(title);
+		System.out.println(memberCode);
+		System.out.println(lockDate);
+		
+		String[] selectMemberCode = memberCode.split(",");
+		
+		
+		int result = 0;
+		
+		HashMap<String ,Object> map = new HashMap<String, Object>();
+		for(int i = 0 ; i < selectMemberCode.length; i++) {
+			int code = Integer.parseInt(selectMemberCode[i].trim());
+			map.put("title", title);
+			map.put("textArea",textarea);
+			map.put("lockDate",lockDate);
+			map.put("code",code);
+			result += as.penaltyMember(map);
+		}
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		try {
+			response.getWriter().print(mapper.writeValueAsString(result));
+		} catch (JsonGenerationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	@RequestMapping("adminSearchMember.do")
 	public void AdminSearchMember(@RequestParam("searchAll")String searchAll,@RequestParam("searchDate1")String searchDate1,
@@ -69,13 +106,8 @@ public class AdminController {
 		map.put("All",searchAll.toString());
 		map.put("Date1",date1);
 		map.put("Date2",date2);
-		if(searchOption.equals("123")) {
-			map.put("Option",searchOption);
-			System.out.println("제발");
-		}else {
-			map.put("Option",searchOption);
-			
-		}
+		map.put("Option",searchOption);
+		
 		List<Map<String, Object>> list = as.searchMember(map);
 		
 		System.out.println(list.get(0));
