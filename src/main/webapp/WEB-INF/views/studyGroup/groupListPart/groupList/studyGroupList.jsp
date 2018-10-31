@@ -22,7 +22,7 @@
 	}
 	.SGListInfoArea {
 		text-align:justify;
-		margin-bottom:30px;
+		margin-bottom:10px;
 	}
 	.SGInfoRightArea {
 		width:245px;
@@ -93,10 +93,25 @@
 		display:inline-block;
 		float:right;
 	}
-	.SGInfoLockArea img {
+	.SGInfoLockImg {
 		width: 15px;
     	height: 15px;
     	margin-right:10px;
+	}
+	.SGPIArea {
+		text-align:center;
+		margin-bottom:30px;
+	}
+	.SGPageBtn {
+		display: inline-block;
+	    background: #FCCE00;
+	    color:white;
+	    border-radius: 10%;
+	    height: 40px;
+	    width: 40px;
+	    font-size: 21px;
+	    padding-right: 1px;
+	    padding-top: 4px;
 	}
 </style>
 <script>
@@ -104,347 +119,67 @@
 		selectSGList($('.searchGroupName').val(), 1);
 	});
 	
-	function moreSGList(searchSGName, pageNo){
+	function moreSGList(searchSGName, currentPage){
 		selectSGList(searchSGName, pageNo);
 	}
 	
-	function selectSGList(searchSGName, pageNo){
-		alert(searchSGName, pageNo);
-		
+	function selectSGList(searchSGName, currentPage){
 		$.ajax({
 			url: 'selectStudyGroupList.sg',
 			data: {
 				searchSGName : searchSGName,
-				pageNo : pageNo
+				currentPage : currentPage
 			},
 			beforeSend : function(){
 				
 			},
 			success : function(data){
-				console.log(data);
+				$SGListInfoArea = $('.SGListInfoArea');
+				$SGInfoArea = $('<div class="SGInfoArea">');
+				$SGInfoThumbnailImgArea = $('<div class="SGInfoThumbnailImgArea">');
+				$SGInfoThumbnailImg = $('<img class="SGInfoThumbnailImg">').attr('src', "${ contextPath }/resources/images/studyGroup/poster.jpg");
+				$SGInfoRightArea = $('<div class="SGInfoRightArea">');
+				$SGInfoCLArea = $('<div class="SGInfoCLArea">');
+				$SGInfoCategoryArea = $('<div class="SGInfoCategoryArea">').append('카테고리');
+				$SGInfoLocationArea = $('<div class="SGInfoLocationArea">').append('지역');
+				$SGInfoTitleArea = $('<div class="SGInfoTitleArea">'); //아래 이미지 어펜드 후 제목 어펜드
+				$SGInfoBossImg = $('<img class="SGInfoBossImg">').attr('src', "${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.member_Files.files_Name}");
+				$SGInfoCommentArea = $('<div class="SGInfoCommentArea">').append('There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable.');
+				$SGInfoDGArea = $('<div class="SGInfoDGArea">');
+				$SGDateArea = $('<div class="SGDateArea">').append('2018년 10월 24일');
+				$SGGoalArea = $('<div class="SGGoalArea">').append('일간 목표 : ' + '12시간');
+				$SGInfoMaxCrewArea = $('<div class="SGInfoMaxCrewArea">').append('모집 인원 : ' + '15' + '명 / ' + '20' + '명');
+				$SGInfoLockArea = $('<div class="SGInfoLockArea">');
+				$SGInfoLockImg = $('<img class="SGInfoLockImg">').attr('src', '${ contextPath }/resources/images/studyGroup/key.png');
+				
+				$SGInfoThumbnailImgArea.append($SGInfoThumbnailImg);
+				$SGInfoRightArea.append($SGInfoThumbnailImgArea);
+				$SGInfoCLArea.append($SGInfoCategoryArea);
+				$SGInfoCLArea.append($SGInfoLocationArea);
+				$SGInfoRightArea.append($SGInfoCLArea);
+				$SGInfoTitleArea.append($SGInfoBossImg);
+				$SGInfoTitleArea.append("'SHOW ME THE MONEY' IN START");
+				$SGInfoRightArea.append($SGInfoTitleArea);
+				$SGInfoRightArea.append($SGInfoCommentArea);
+				$SGInfoDGArea.append($SGDateArea);
+				$SGInfoDGArea.append($SGGoalArea);
+				$SGInfoRightArea.append($SGInfoDGArea);
+				
+				$SGInfoLockArea.append($SGInfoLockImg);
+				$SGInfoMaxCrewArea.append($SGInfoLockArea);
+				$SGInfoRightArea.append($SGInfoMaxCrewArea);
+				$SGInfoArea.append($SGInfoThumbnailImgArea);
+				$SGInfoArea.append($SGInfoRightArea);
+				
+				$SGListInfoArea.append($SGInfoArea);
 			}
 		});
 	};
-	
 </script>
 </head>
 <body>
-	<div class="SGListAdArea">
-		<img src="${contextPath}/resources/images/ad/ad2.jpg">
-	</div>
-	<div class="SGListInfoArea">
-		<div class="SGInfoArea">
-			<div class="SGInfoThumbnailImgArea">
-				<img class="SGInfoThumbnailImg" src="${ contextPath }/resources/images/studyGroup/poster.jpg"/>
-			</div>
-			<div class="SGInfoRightArea">
-				<div class="SGInfoCLArea">
-					<div class="SGInfoCategoryArea">카테고리</div>
-					<div class="SGInfoLocationArea">지역</div>
-				</div>
-				<div class="SGInfoTitleArea">
-					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.member_Files.files_Name}">
-						2018년도 안에 취업 해야지
-				</div>
-				<div class="SGInfoCommentArea">
-					안녕하세요
-					hellow fuckasdf안녕하신가 그래 안녕
-					와우
-					안녕항냐고러어ㅓㅇ러어렁러어ㅜㅝdnfdf920390
-				</div>
-				<div class="SGInfoDGArea">
-					<div class="SGDateArea">2018년 10월 24일</div>
-					<div class="SGGoalArea">일간 목표 : 12시간</div>
-				</div>
-				<div class="SGInfoMaxCrewArea">
-					모집 인원 : 15명 / 20명
-					<div class="SGInfoLockArea">
-						<img src="${ contextPath }/resources/images/studyGroup/key.png"/>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		
-		<div class="SGInfoArea">
-			<div class="SGInfoThumbnailImgArea">
-				<img class="SGInfoThumbnailImg" src="${ contextPath }/resources/images/studyGroup/poster1.jpg"/>
-			</div>
-			<div class="SGInfoRightArea">
-				<div class="SGInfoCLArea">
-					<div class="SGInfoCategoryArea">카테고리</div>
-					<div class="SGInfoLocationArea">지역</div>
-				</div>
-				<div class="SGInfoTitleArea">
-					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.member_Files.files_Name}">
-						2018년도 안에 취업 해야지
-				</div>
-				<div class="SGInfoCommentArea">
-					안녕하세요
-					hellow fuckasdf안녕하신가 그래 안녕
-					와우
-					안녕항냐고러어ㅓㅇ러어렁러어ㅜㅝdnfdf920390
-				</div>
-				<div class="SGInfoDGArea">
-					<div class="SGDateArea">2018년 10월 24일</div>
-					<div class="SGGoalArea">일간 목표 : 12시간</div>
-				</div>
-				<div class="SGInfoMaxCrewArea">
-					모집 인원 : 15명 / 20명
-					<div class="SGInfoLockArea">
-						<img src="${ contextPath }/resources/images/studyGroup/key.png"/>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="SGInfoArea">
-			<div class="SGInfoThumbnailImgArea">
-				<img class="SGInfoThumbnailImg" src="${ contextPath }/resources/images/studyGroup/poster10.jpg"/>
-			</div>
-			<div class="SGInfoRightArea">
-				<div class="SGInfoCLArea">
-					<div class="SGInfoCategoryArea">카테고리</div>
-					<div class="SGInfoLocationArea">지역</div>
-				</div>
-				<div class="SGInfoTitleArea">
-					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.member_Files.files_Name}">
-						2018년도 안에 취업 해야지
-				</div>
-				<div class="SGInfoCommentArea">
-					안녕하세요
-					hellow fuckasdf안녕하신가 그래 안녕
-					와우
-					안녕항냐고러어ㅓㅇ러어렁러어ㅜㅝdnfdf920390
-				</div>
-				<div class="SGInfoDGArea">
-					<div class="SGDateArea">2018년 10월 24일</div>
-					<div class="SGGoalArea">일간 목표 : 12시간</div>
-				</div>
-				<div class="SGInfoMaxCrewArea">
-					모집 인원 : 15명 / 20명
-					<div class="SGInfoLockArea">
-						<img src="${ contextPath }/resources/images/studyGroup/key.png"/>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="SGInfoArea">
-			<div class="SGInfoThumbnailImgArea">
-				<img class="SGInfoThumbnailImg" src="${ contextPath }/resources/images/studyGroup/poster2.jpg"/>
-			</div>
-			<div class="SGInfoRightArea">
-				<div class="SGInfoCLArea">
-					<div class="SGInfoCategoryArea">카테고리</div>
-					<div class="SGInfoLocationArea">지역</div>
-				</div>
-				<div class="SGInfoTitleArea">
-					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.member_Files.files_Name}">
-						2018년도 안에 취업 해야지
-				</div>
-				<div class="SGInfoCommentArea">
-					안녕하세요
-					hellow fuckasdf안녕하신가 그래 안녕
-					와우
-					안녕항냐고러어ㅓㅇ러어렁러어ㅜㅝdnfdf920390
-				</div>
-				<div class="SGInfoDGArea">
-					<div class="SGDateArea">2018년 10월 24일</div>
-					<div class="SGGoalArea">일간 목표 : 12시간</div>
-				</div>
-				<div class="SGInfoMaxCrewArea">
-					모집 인원 : 15명 / 20명
-					<div class="SGInfoLockArea">
-						<img src="${ contextPath }/resources/images/studyGroup/key.png"/>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="SGInfoArea">
-			<div class="SGInfoThumbnailImgArea">
-				<img class="SGInfoThumbnailImg" src="${ contextPath }/resources/images/studyGroup/poster3.png"/>
-			</div>
-			<div class="SGInfoRightArea">
-				<div class="SGInfoCLArea">
-					<div class="SGInfoCategoryArea">카테고리</div>
-					<div class="SGInfoLocationArea">지역</div>
-				</div>
-				<div class="SGInfoTitleArea">
-					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.member_Files.files_Name}">
-						2018년도 안에 취업 해야지
-				</div>
-				<div class="SGInfoCommentArea">
-					안녕하세요
-					hellow fuckasdf안녕하신가 그래 안녕
-					와우
-					안녕항냐고러어ㅓㅇ러어렁러어ㅜㅝdnfdf920390
-				</div>
-				<div class="SGInfoDGArea">
-					<div class="SGDateArea">2018년 10월 24일</div>
-					<div class="SGGoalArea">일간 목표 : 12시간</div>
-				</div>
-				<div class="SGInfoMaxCrewArea">
-					모집 인원 : 15명 / 20명
-					<div class="SGInfoLockArea">
-						<img src="${ contextPath }/resources/images/studyGroup/key.png"/>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="SGInfoArea">
-			<div class="SGInfoThumbnailImgArea">
-				<img class="SGInfoThumbnailImg" src="${ contextPath }/resources/images/studyGroup/poster4.png"/>
-			</div>
-			<div class="SGInfoRightArea">
-				<div class="SGInfoCLArea">
-					<div class="SGInfoCategoryArea">카테고리</div>
-					<div class="SGInfoLocationArea">지역</div>
-				</div>
-				<div class="SGInfoTitleArea">
-					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.member_Files.files_Name}">
-						2018년도 안에 취업 해야지
-				</div>
-				<div class="SGInfoCommentArea">
-					안녕하세요
-					hellow fuckasdf안녕하신가 그래 안녕
-					와우
-					안녕항냐고러어ㅓㅇ러어렁러어ㅜㅝdnfdf920390
-				</div>
-				<div class="SGInfoDGArea">
-					<div class="SGDateArea">2018년 10월 24일</div>
-					<div class="SGGoalArea">일간 목표 : 12시간</div>
-				</div>
-				<div class="SGInfoMaxCrewArea">
-					모집 인원 : 15명 / 20명
-					<div class="SGInfoLockArea">
-						<img src="${ contextPath }/resources/images/studyGroup/key.png"/>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="SGInfoArea">
-			<div class="SGInfoThumbnailImgArea">
-				<img class="SGInfoThumbnailImg" src="${ contextPath }/resources/images/studyGroup/poster5.jpg"/>
-			</div>
-			<div class="SGInfoRightArea">
-				<div class="SGInfoCLArea">
-					<div class="SGInfoCategoryArea">카테고리</div>
-					<div class="SGInfoLocationArea">지역</div>
-				</div>
-				<div class="SGInfoTitleArea">
-					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.member_Files.files_Name}">
-						2018년도 안에 취업 해야지
-				</div>
-				<div class="SGInfoCommentArea">
-					안녕하세요
-					hellow fuckasdf안녕하신가 그래 안녕
-					와우
-					안녕항냐고러어ㅓㅇ러어렁러어ㅜㅝdnfdf920390
-				</div>
-				<div class="SGInfoDGArea">
-					<div class="SGDateArea">2018년 10월 24일</div>
-					<div class="SGGoalArea">일간 목표 : 12시간</div>
-				</div>
-				<div class="SGInfoMaxCrewArea">
-					모집 인원 : 15명 / 20명
-					<div class="SGInfoLockArea">
-						<img src="${ contextPath }/resources/images/studyGroup/key.png"/>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="SGInfoArea">
-			<div class="SGInfoThumbnailImgArea">
-				<img class="SGInfoThumbnailImg" src="${ contextPath }/resources/images/studyGroup/poster7.jpg"/>
-			</div>
-			<div class="SGInfoRightArea">
-				<div class="SGInfoCLArea">
-					<div class="SGInfoCategoryArea">카테고리</div>
-					<div class="SGInfoLocationArea">지역</div>
-				</div>
-				<div class="SGInfoTitleArea">
-					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.member_Files.files_Name}">
-						2018년도 안에 취업 해야지
-				</div>
-				<div class="SGInfoCommentArea">
-					안녕하세요
-					hellow fuckasdf안녕하신가 그래 안녕
-					와우
-					안녕항냐고러어ㅓㅇ러어렁러어ㅜㅝdnfdf920390
-				</div>
-				<div class="SGInfoDGArea">
-					<div class="SGDateArea">2018년 10월 24일</div>
-					<div class="SGGoalArea">일간 목표 : 12시간</div>
-				</div>
-				<div class="SGInfoMaxCrewArea">
-					모집 인원 : 15명 / 20명
-					<div class="SGInfoLockArea">
-						<img src="${ contextPath }/resources/images/studyGroup/key.png"/>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="SGInfoArea">
-			<div class="SGInfoThumbnailImgArea">
-				<img class="SGInfoThumbnailImg" src="${ contextPath }/resources/images/studyGroup/poster8.png"/>
-			</div>
-			<div class="SGInfoRightArea">
-				<div class="SGInfoCLArea">
-					<div class="SGInfoCategoryArea">카테고리</div>
-					<div class="SGInfoLocationArea">지역</div>
-				</div>
-				<div class="SGInfoTitleArea">
-					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.member_Files.files_Name}">
-						2018년도 안에 취업 해야지
-				</div>
-				<div class="SGInfoCommentArea">
-					안녕하세요
-					hellow fuckasdf안녕하신가 그래 안녕
-					와우
-					안녕항냐고러어ㅓㅇ러어렁러어ㅜㅝdnfdf920390
-				</div>
-				<div class="SGInfoDGArea">
-					<div class="SGDateArea">2018년 10월 24일</div>
-					<div class="SGGoalArea">일간 목표 : 12시간</div>
-				</div>
-				<div class="SGInfoMaxCrewArea">
-					모집 인원 : 15명 / 20명
-					<div class="SGInfoLockArea">
-						<img src="${ contextPath }/resources/images/studyGroup/key.png"/>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="SGInfoArea">
-			<div class="SGInfoThumbnailImgArea">
-				<img class="SGInfoThumbnailImg" src="${ contextPath }/resources/images/studyGroup/poster9.jpg"/>
-			</div>
-			<div class="SGInfoRightArea">
-				<div class="SGInfoCLArea">
-					<div class="SGInfoCategoryArea">카테고리</div>
-					<div class="SGInfoLocationArea">지역</div>
-				</div>
-				<div class="SGInfoTitleArea">
-					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.member_Files.files_Name}">
-						2018년도 안에 취업 해야지
-				</div>
-				<div class="SGInfoCommentArea">
-					안녕하세요
-					hellow fuckasdf안녕하신가 그래 안녕
-					와우
-					안녕항냐고러어ㅓㅇ러어렁러어ㅜㅝdnfdf920390
-				</div>
-				<div class="SGInfoDGArea">
-					<div class="SGDateArea">2018년 10월 24일</div>
-					<div class="SGGoalArea">일간 목표 : 12시간</div>
-				</div>
-				<div class="SGInfoMaxCrewArea">
-					모집 인원 : 15명 / 20명
-					<div class="SGInfoLockArea">
-						<img src="${ contextPath }/resources/images/studyGroup/key.png"/>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	<div class="SGListAdArea"><img src="${contextPath}/resources/images/ad/ad2.jpg"></div>
+	<div class="SGListInfoArea"></div>
+	<div class="SGPIArea"><div class="SGPageBtn">1</div></div>
 </body>
 </html>
