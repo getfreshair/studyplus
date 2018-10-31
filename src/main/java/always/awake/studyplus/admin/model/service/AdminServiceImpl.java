@@ -1,5 +1,6 @@
 package always.awake.studyplus.admin.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,13 @@ public class AdminServiceImpl implements AdminService{
 		List<Map<String, Object>> list = ad.searchMember(sqlSession, map);
 		
 		return list;
+	}
+
+	@Override
+	public int penaltyMember(HashMap<String, Object> map) {
+		int result = ad.penaltyMember(sqlSession, map);
+		int result1 = ad.penaltyMemberUpdate(sqlSession, map);
+		return result;
 	}
 	
 	
