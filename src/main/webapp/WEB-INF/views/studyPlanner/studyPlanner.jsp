@@ -225,17 +225,23 @@
 											success : function(data) {
 												$('#friendsList').empty();
 												for(var i=0; i<data.length ;i++){
-													
 													var $li = $('<li>' + 
 																		'<span class="img_area">' +
 																		'<img src="/studyplus/resources/upload/member/thumbnail/' + data[i].member_Files.files_Name + '" alt="study plus logo" style="width:100%;">' + 
 																	'</span>' +
-																	'<span class="name">' + data[i].member_Nickname + '</span>' + 
+																	'<span class="name nameClass' + i +'">' + data[i].member_Nickname + '</span>' + 
 																	'<span class="status"></span>' + 
 																'</li>');
-													
+	
 													$('#friendsList').append($li);
+													
+													$('.nameClass' + i).click(function(){
+														var member2_Nickname = $(this).text();
+														var member1_Nickname = '${ loginUser.member_Nickname }';
+														location.href="openChat.ms?member1_Nickname="+ member1_Nickname + "&member2_Nickname=" + member2_Nickname;
+													});
 												}
+												snsSlideChat();
 											},
 											error:function(){
 												console.log("에러 발생!!!");
@@ -245,6 +251,7 @@
 								</script>
 							</ul>
 							<div class="chating">
+						
 								<div class="">
 
 								</div>
