@@ -33,6 +33,14 @@ public class AdminServiceImpl implements AdminService{
 		int result1 = ad.penaltyMemberUpdate(sqlSession, map);
 		return result;
 	}
+
+	@Override
+	public List<Map<String, Object>> getPenaltyList(Map<String,Object> map) {
+		
+		List<Map<String, Object>> list = ad.getPenaltyList(sqlSession, map);
+		
+		return list;
+	}
 	
 	
 }

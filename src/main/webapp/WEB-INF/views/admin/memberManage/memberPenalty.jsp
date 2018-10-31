@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,22 +67,34 @@ hr{
 					<br>
 					<br>
 					<div style="display: inline-block; width: 47%; height: 300px; overflow: auto">
-						<h4>최근 제재 :  xx 명</h4>
+						
+						<h4>최근 제재 :  명</h4>
 						<table class="table table-hover" align="center" id="penaltyMember" style="font-size:15px; text-align:center; ">
 							<tr class="head">
 								<th width="15%">회원번호</th>
 								<th width="15%">아이디</th>
-								<th width="15%">일자</th>
-								<th width="15%">구분</th>
+								<th width="15%">정지일</th>
+								<th width="15%">만료일</th>
 							</tr>
-							<tr>
-								<td>1</td>
-								<td>2</td>
-								<td>3</td>
-								<td>4</td>
-							</tr>
+							
+							
+							<c:forEach items="${data}"  var="penaltyList" >
+							
+								<tr>
+								<td>${penaltyList.MEMBER_CODE}</td>
+								<td>${penaltyList.MEMBER_ID}</td>
+								<td>${penaltyList.BLOCK_STARTDATE}</td>
+								<td>${penaltyList.BLOCK_ENDDATE}</td>
+								</tr>
+							
+							</c:forEach>
 						</table>
 					</div>
+					<script>
+								$(function(){
+									console.log(${data});
+								})
+					</script> 
 				<div class="vertical_line" ></div>
 					<div style="display: inline-block; width: 47%; height: 300px; overflow: auto">
 						<h4 style="display: inline-block">제재 만료 처리</h4>

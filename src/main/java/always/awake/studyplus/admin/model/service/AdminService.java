@@ -12,4 +12,6 @@ public interface AdminService {
 	public List<Map<String, Object>> searchMember(Map<String, Object> map);
 
 	public int penaltyMember(HashMap<String, Object> map);
+
+	public List<Map<String, Object>> getPenaltyList(Map<String, Object> map);
 }

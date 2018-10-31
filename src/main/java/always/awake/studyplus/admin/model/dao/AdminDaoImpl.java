@@ -29,4 +29,10 @@ public class AdminDaoImpl implements AdminDao {
 	public int penaltyMemberUpdate(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
 		
 		return sqlSession.update("Admin.penaltyMemberUpdate", map);
+	}
+
+	@Override
+	public List<Map<String, Object>> getPenaltyList(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+
+		return sqlSession.selectList("Admin.getPenaltyList", map);
 	}}

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -34,8 +35,30 @@ public class AdminController {
 	
 	@RequestMapping(value="movePage.me", method=RequestMethod.GET)
 	public String showMemberList(@RequestParam("page") String page) {
+		
+		if(page.equals("admin/memberManage/memberPenalty")) {
+			return "redirect:getPenaltyList.do";
+		}
+		
 		return page;
 	}
+	@RequestMapping("getPenaltyList.do")
+	public ModelAndView getPenaltyList(ModelAndView mv) {
+		
+		Map<String, Object> map = new HashMap<String,Object>();
+		
+		
+		List<Map<String, Object>> list = as.getPenaltyList(map);
+		
+		mv.setViewName("admin/memberManage/memberPenalty");
+		mv.addObject("data", list);
+		
+		return mv;
+		
+	}
+	
+	
+	
 	@RequestMapping("adminView.me")
 	public String showAdminView() {
 		return "admin/home";
