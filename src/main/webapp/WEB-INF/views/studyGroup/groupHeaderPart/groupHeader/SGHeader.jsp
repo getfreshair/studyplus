@@ -75,13 +75,6 @@
 </head>
 <script>
 	$(function(){
-		
-	})
-	$(function(){
-		$('.searchGroupName').click(function(){
-			$('.searchGroupName').val("");
-		});
-		
 		$('.searchGroupName').keypress(function(key) {
 			if(key.which == 13){
 				$.ajax({

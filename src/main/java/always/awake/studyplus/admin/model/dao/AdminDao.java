@@ -19,4 +19,7 @@ public interface AdminDao {
 
 	int penaltyMemberUpdate(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
 
+
+	List<Map<String, Object>> getPenaltyList(SqlSessionTemplate sqlSession, Map<String, Object> map);
+
 }

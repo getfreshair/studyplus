@@ -2,21 +2,19 @@ $(function(){
 	snsScrollUp();			//메신저 노출
 	snsSlideChat();			//채팅 슬라이드
 	scrollShadow();			//스크롤박스 하단 그림자
-	
+
 	goalAddMdal();			//목표 등록 모달
 	modalChart();			//목표등록 모달 내 공부량 차트
-	
-	//todayChart();			//일간 공부량 차트API
+
 	todayDatePicker();		//일간 공부량 날짜선택
 	studyTendencyChart();	//공부성향 분석 차트
-	
+
 	GoalListChart();		//목표 리스트 노출된 부분 공부량 차트
-	
-	
-	
+
 	
 	todayChartTodaydate();	//일간 공부량 현재 날짜
 	todayChartChangeDate();	//일간 공부량 날짜 변경시
+
 });
 
 
@@ -79,7 +77,7 @@ function goalAddMdal(){
 	$('#myModal').on('shown.bs.modal', function () {
 		$('#myInput').focus();
 	});
-	
+
 	//목표 시간단위, 페이지단위 등록 탭
 	$(".book_form").hide();
 	$(".tab button:first-child").click(function(){
@@ -89,7 +87,7 @@ function goalAddMdal(){
 				confirm("입력된 정보는 삭제됩니다.");
 			}
 		}
-		
+
 		$(".book_form").hide();
 		$(".time_form").show();
 	});
@@ -103,15 +101,15 @@ function goalAddMdal(){
 function modalChart(){
 	var ctx = document.getElementById("modal_donut").getContext('2d');
 	var modal_donut = new Chart(ctx, {
-			type: 'doughnut',
-			data: data = {
-			datasets: [{
-			data: [20,80],
-			// data: [10, 20, 30],
-			backgroundColor: ['#36a2eb']
-			// backgroundColor: ['#ff6384','#36a2eb','#cc65fe']
-		}],
-			labels: ['목표달성','미달성']
+		type: 'doughnut',
+		data: data = {
+				datasets: [{
+					data: [20,80],
+					// data: [10, 20, 30],
+					backgroundColor: ['#36a2eb']
+				// backgroundColor: ['#ff6384','#36a2eb','#cc65fe']
+				}],
+				labels: ['목표달성','미달성']
 		}
 	});
 };
@@ -121,16 +119,14 @@ function todayChartTodaydate(){
 	//페이지 진입시 현재 날짜 선택
 	var now = new Date();
 	var year= now.getFullYear();
-    var mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
-    var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
-            
-    var chan_val = year + '-' + mon + '-' + day;
-    $(this).val(chan_val);
+	var mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
+	var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
 
-	//console.log("오늘날짜 : " + chan_val);
-	
+	var chan_val = year + '-' + mon + '-' + day;
+	$(this).val(chan_val);
+
 	var dateVal = chan_val; //컨트롤러에 보낼 날짜
-	
+
 	todayChart(dateVal);
 }
 
@@ -205,12 +201,13 @@ function todayChart(dateVal){
 					}
 				}
 			});
+
 		},
 		error : function() {
 			console.log("에러발생!");
 		}
 	});
-	
+
 }
 
 //일간 공부량 날짜선택
@@ -307,37 +304,37 @@ function weeklyChart(dateVal){
 //공부성향 분석 차트
 function studyTendencyChart(){
 	var options = {
-		'legend':{
-			names: [
-				'Perceivable',
-				'Information Loss',
-				'Understandable',
-				'Enough Time',
-				'Epilepsy Prevent',
-				'Operable',
-				'Navigation',
-				'Error Prevent'
-			],
-			hrefs: [
-				'http://nuli.navercorp.com//sharing/a11y#k1',
-				'http://nuli.navercorp.com//sharing/a11y#k2',
-				'http://nuli.navercorp.com//sharing/a11y#k3',
-				'http://nuli.navercorp.com//sharing/a11y#k4',
-				'http://nuli.navercorp.com//sharing/a11y#k5',
-				'http://nuli.navercorp.com//sharing/a11y#k6',
-				'http://nuli.navercorp.com//sharing/a11y#k7',
-				'http://nuli.navercorp.com//sharing/a11y#k8'
-			]
-		},
-		'dataset': {
-			title: 'Web accessibility status',
-			values: [[34,53,67,23,78,45,69,98]],
-			bgColor: '#f9f9f9',
-			fgColor: '#30a1ce',
-		},
-		'chartDiv': 'studyTendencyChart',
-		'chartType': 'radar',
-		'chartSize': { width: 500, height: 300 }
+			'legend':{
+				names: [
+					'Perceivable',
+					'Information Loss',
+					'Understandable',
+					'Enough Time',
+					'Epilepsy Prevent',
+					'Operable',
+					'Navigation',
+					'Error Prevent'
+					],
+					hrefs: [
+						'http://nuli.navercorp.com//sharing/a11y#k1',
+						'http://nuli.navercorp.com//sharing/a11y#k2',
+						'http://nuli.navercorp.com//sharing/a11y#k3',
+						'http://nuli.navercorp.com//sharing/a11y#k4',
+						'http://nuli.navercorp.com//sharing/a11y#k5',
+						'http://nuli.navercorp.com//sharing/a11y#k6',
+						'http://nuli.navercorp.com//sharing/a11y#k7',
+						'http://nuli.navercorp.com//sharing/a11y#k8'
+						]
+			},
+			'dataset': {
+				title: 'Web accessibility status',
+				values: [[34,53,67,23,78,45,69,98]],
+				bgColor: '#f9f9f9',
+				fgColor: '#30a1ce',
+			},
+			'chartDiv': 'studyTendencyChart',
+			'chartType': 'radar',
+			'chartSize': { width: 500, height: 300 }
 	};
 	Nwagon.chart(options);
 }
