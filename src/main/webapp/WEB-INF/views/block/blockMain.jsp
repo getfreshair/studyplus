@@ -1,23 +1,20 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%@ page import="java.util.*, always.awake.studyplus.member.model.vo.*, java.util.*,
 				 java.io.*,java.lang.Process,always.awake.studyplus.studyPlanner.model.vo.*,
 				 always.awake.studyplus.sgDetail.model.vo.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <%
 	HashMap<String,Object> dataMap = (HashMap<String,Object>)request.getAttribute("dataMap");
 	ArrayList<Goal> goalList = (ArrayList<Goal>)dataMap.get("goalList");
 	ArrayList<SGDetail> groupList = (ArrayList<SGDetail>)dataMap.get("groupList");
 	int todayStudyTime = (Integer)dataMap.get("todayStudyTime");
-	
 	int goalSize = goalList.size();
-	int groupSize = groupList.size();
-	System.out.println("그룹 사이즈 : " + groupSize);
-	System.out.println("목표 사이즈 : " + goalSize);
-	
-	System.out.println(new String(new SimpleDateFormat("HH").format(new Date())) + " 시간대");
+	int groupSize = groupList.size(); 
 %>
 <%-- <%
 	// 디렉토리 체크
@@ -289,7 +286,7 @@
 				<span style="font-size:2em; font-weight: bold; margin:20px; color:orangered ">오늘의 적은 어제의 나 </span>
 				<script>
 					// 메인타이머 초기화
-					var mainTimmerTime = 0;  				// 메인컨트롤 타이머용 시간
+					var mainTimmerTime = <%=todayStudyTime%>*10;  				// 메인컨트롤 타이머용 시간
 					var mainTimmerStatus = 0;				// 메인컨트롤 타이머 상태 
 					
 					// 그룹용 타이머 초기화
@@ -298,11 +295,15 @@
 					var executeGroupTimmerName = '';		// 실행중인 그룹타이머 이름
 					var originGroupTimmerIndex = 0;			// 실행중인 그룹타이머 인덱스
 					// 그룹용 타이머 배열 초기화
-					for (var i = 0 ; i < <%=groupSize%> ; i ++) {
-						groupTimmerTimes[i] = 0;
-						groupTimmerStatus[i] = 0;
-					}
-					
+					<% 
+						for(int i = 0; i < groupList.size() ; i ++){
+					%>
+						groupTimmerTimes[<%=i%>] = <%=groupList.get(i).getGroupTotalStudyTime()%> * 10 ;
+						
+						groupTimmerStatus[<%=i%>] = 0;
+					<%
+						}
+					%>
 					// 목표용 타이머 초기화
 					var goalTimmerTimes = new Array();		// 목표 타이머의 시간
 					var goalTimmerStatus = new Array(); 	// 목표 타이머의 상태
@@ -310,22 +311,26 @@
 					var originGoalTimmerIndex = 0;			// 실행중인 그룹타이머 인덱스
 					
 					// 목표용 타이머 배열 초기화
-					for (var i = 0 ; i < <%=goalSize%> ; i ++) {
-						goalTimmerTimes[i] = 0;
-						goalTimmerStatus[i] = 0;
-					}
-					
+					<% 
+						for( int i = 0; i < goalList.size(); i ++) {
+					%>
+							goalTimmerTimes[<%=i%>] = <%=goalList.get(i).getGoalAchieveAmount()%>* 10;
+							goalTimmerStatus[<%=i%>] = 0;
+					<%
+						}
+					%>					
 					function TempSaveTimeDates(){
 						
-						var todayStudyTime = <%=todayStudyTime%>;
+						var todayStudyTime = mainTimmerTime/10;
+						var originTodayStudyTime = <%=todayStudyTime%>;
 						console.log(goalTimmerTimes[0]);
 						var goalList = [
 								<% for (int i = 0 ; i < goalList.size(); i ++) {%>
 									{
-										'goalCode':'<%=goalList.get(i).getGoalCode()%>',
-										'goalName':'<%=goalList.get(i).getGoalContent()%>',
-										'goalTimeZone':'<%=new String(new SimpleDateFormat("HH").format(new Date()))%>',
-										'goalStudyTime':goalTimmerTimes[<%=i%>]/10
+										goalCode:<%=goalList.get(i).getGoalCode()%>,
+										goalStudyTime:goalTimmerTimes[<%=i%>]/10,
+										originGoalStudyTime:<%=goalList.get(i).getGoalAchieveAmount()%>,
+										timmerStatus:goalTimmerStatus[<%=i%>]
 									}
 									<% if( i != goalList.size() -1) {%>
 									,
@@ -334,31 +339,34 @@
 								<%} %>
 								
 						]
-						var groupList = [
-							<% for (int i = 0 ; i < groupList.size(); i ++) {%>
-							{
-								'groupCode':'<%=groupList.get(i).getStudyGroup_Code()%>',
-								'groupName':'<%=goalList.get(i).getGoalContent()%>',
-								'groupTimeZone':'<%=new String(new SimpleDateFormat("HH").format(new Date()))%>',
-								'groupStudyTime':groupTimmerTimes[<%=i%>]/10
-							}
-							<% if( i != goalList.size() -1) {%>
-							,
-							<%}%>
-						
+						var goalList = "";
+						<% for (int i = 0 ; i < goalList.size(); i ++) {%>
+						var tempGoalInfo<%=i%> = "goalCode:"+<%=goalList.get(i).getGoalCode()%> + "*" +
+								   		 "goalStudyTime:"+goalTimmerTimes[<%=i%>]/10 + "*" +
+								   		 "originGoalStudyTime:"+<%=goalList.get(i).getGoalAchieveAmount()%> + "*" +
+								   		 "timmerStatus:"+goalTimmerStatus[<%=i%>];
+						goalList += tempGoalInfo<%=i%>+",";
 						<%} %>
 						
-						]
 						
-						
-						console.log(goalList);
+						var groupList = "";
+						<% for (int i = 0 ; i < groupList.size(); i ++) {%>
+						var tempGroupInfo<%=i%> = "groupCode:"+<%=groupList.get(i).getStudyGroup_Code()%> + "*" +
+								   		 "groupStudyTime:"+groupTimmerTimes[<%=i%>]/10 + "*" +
+								   		 "originGroupStudyTime:"+<%=groupList.get(i).getGroupTotalStudyTime()%> + "*" +
+								   		 "timmerStatus:"+groupTimmerStatus[<%=i%>] ;
+						groupList += tempGroupInfo<%=i%>+",";
+					<%} %>
 						console.log(groupList);
+						console.log(goalList);
 						$.ajax({
 			                  url:"blockTimesTempSave.bl",
 			                  type:"post",
 			                  data:{todayStudyTime:todayStudyTime,
-			                	  goalList:goalList,
-			                	  groupList:groupList},
+			                	  	originTodayStudyTime:originTodayStudyTime,
+			                	  	groupList:groupList,
+			                	  	goalList:goalList
+			                  },
 			                  success:function(data){
 			                	  console.log("시간 정보 임시 저장 완료");
 			                  },
@@ -454,9 +462,9 @@
 						 if(mainTimmerStatus == 1){
 							 setTimeout(function(){
 								 mainTimmerTime++;
-						 		var mainHour =  Math.floor(((mainTimmerTime/10)/60)/60)
-						 		var mainMins = Math.floor((mainTimmerTime/10)/60);
-						 		var mainSecs = Math.floor(mainTimmerTime/10);
+						 		var mainHour =  Math.floor((((mainTimmerTime/10)/60)/60)%24)
+						 		var mainMins = Math.floor(((mainTimmerTime/10)/60)%60);
+						 		var mainSecs = Math.floor((mainTimmerTime/10)%60);
 						 		var mainTenths = mainTimmerTime % 10;
 						 
 						 		if(mainHour < 10) {
@@ -480,9 +488,9 @@
 						if(groupTimmerStatus[num] == 1){
 							 setTimeout(function(){
 								groupTimmerTimes[num]++;
-						 		var groupHour =  Math.floor(((groupTimmerTimes[num]/10)/60)/60)
-						 		var groupMins = Math.floor((groupTimmerTimes[num]/10)/60);
-						 		var groupSecs = Math.floor(groupTimmerTimes[num]/10);
+						 		var groupHour =  Math.floor((((groupTimmerTimes[num]/10)/60)/60)%24)
+						 		var groupMins = Math.floor(((groupTimmerTimes[num]/10)/60)%60);
+						 		var groupSecs = Math.floor((groupTimmerTimes[num]/10)%60);
 						 		var groupTenths = groupTimmerTimes[num] % 10;
 						 
 						 		if(groupHour < 10) {
@@ -506,11 +514,11 @@
 						if(goalTimmerStatus[num] == 1){
 							 setTimeout(function(){
 								goalTimmerTimes[num]++;
-						 		var goalHour =  Math.floor(((goalTimmerTimes[num]/10)/60)/60)
-						 		var goalMins = Math.floor((goalTimmerTimes[num]/10)/60);
-						 		var goalSecs = Math.floor(goalTimmerTimes[num]/10);
+						 		var goalHour =  Math.floor((((goalTimmerTimes[num]/10)/60)/60)%24)
+						 		var goalMins = Math.floor(((goalTimmerTimes[num]/10)/60)%60);
+						 		var goalSecs = Math.floor((goalTimmerTimes[num]/10)%60);
 						 		var goalTenths = goalTimmerTimes[num] % 10;
-						 
+						 		
 						 		if(goalHour < 10) {
 						 			goalHour = "0" + goalHour;
 						 		}
@@ -528,8 +536,53 @@
 					}
 				</script>
 				</div>
+				
+						 		
+						 		
+						 		
 				<div class="stopWatchArea" align="center">
-					<span id="output" style="width:100px; height:50px; margin-top:50px; font-size:3em;">00 : 00 : 00 : 00</span>
+
+					<span id="output" style="width:100px; height:50px; margin-top:50px; font-size:3em;">
+					<% 
+						int mHour = (int)Math.floor((((todayStudyTime)/60)/60)%24);
+					   	int mMin = (int)Math.floor((todayStudyTime/60)%60);
+					   	int mSec = (int)Math.floor(todayStudyTime%60);
+					   	
+					   	if(mHour < 10){ 
+					%>
+						0<%=mHour%> : 
+					<%    		
+					   	} else {
+					%>
+					   	<%=mHour%> : 
+					<%    		
+					   	}
+					%>
+					
+					<% 
+				   		if(mMin < 10){ 
+					%>
+							0<%=mMin%> : 
+					<%    		
+						} else {
+					%>
+						   <%=mMin%> : 
+					<%    		
+						}
+					%>
+					
+					<% 
+				   		if(mSec < 10){ 
+					%>
+							0<%=mSec%> : 
+					<%    		
+						} else {
+					%>
+						   <%=mSec%> : 
+					<%    		
+						}
+					%>
+					 00</span>
 					<div id="controls" style="display:inline-block; margin-left:30px ;">
   						<button id="startPause" class="btn btn-primary" onclick="startPause('main')">공부시작</button>
   						<button id="exitStopWatch" class="btn btn-danger">종료</button>
@@ -600,8 +653,36 @@
 	  					<c:forEach var="group" items="<%=groupList %>" varStatus="index">
 	  						<li>${group.studyGroup_Name }
 	  						<br>
-	  							<span id="outputGroup${index.index }" style="width:100px; height:50px; margin-top:50px; font-size:2em;">00 : 00 : 00 : 00</span>
-								<div id="controls" style="display:inline-block; margin-left:30px ;">
+	  							<span id="outputGroup${index.index }" style="width:100px; height:50px; margin-top:50px; font-size:2em;">
+	  								<fmt:parseNumber var="gHour" integerOnly="true" value="${Math.floor(((group.groupTotalStudyTime/60)/60)%24)}"/>
+	  								<fmt:parseNumber var="gMin" integerOnly="true" value="${Math.floor((group.groupTotalStudyTime/60)%60)}"/>
+	  								<fmt:parseNumber var="gSec" integerOnly="true" value="${Math.floor(group.groupTotalStudyTime%60)}"/>
+	  								
+	  								<c:if test="${gHour lt 10}">
+	  									0<c:out value="${gHour }"/> :
+	  								</c:if>
+	  								<c:if test="${gHour ge 10}">
+	  									<c:out value="${gHour }"/> :
+	  								</c:if>
+	  								
+	  								<c:if test="${gMin lt 10}">
+	  									0<c:out value="${gMin }"/> :
+	  								</c:if>
+	  								<c:if test="${gMin ge 10}">
+	  									 <c:out value="${gMin }"/> :
+	  								</c:if>
+	  								
+	  								<c:if test="${gSec lt 10}">
+	  									0<c:out value="${gSec}"/> :
+	  								</c:if>
+	  								<c:if test="${gSec ge 10}">
+	  									<c:out value="${gSec }"/> :
+	  								</c:if>
+	  								00
+	  								   
+	  								
+	  							</span>
+								<div id="controls" style="display:inline-block; margin-left:30px;">
 	  								<button id="groupStartPause${index.index }" class="btn btn-primary" onclick="startPause('group',${index.index })">공부시작</button>
 	  							</div>
 	  						</li>
@@ -649,7 +730,34 @@
 				<c:forEach var="goal" items="<%=goalList %>" varStatus="index">
 	  				<li>${goal.goalContent }
 	  				<br>
-	  					<span id="outputGoal${index.index }" style="width:100px; height:50px; margin-top:50px; font-size:2em;">00 : 00 : 00 : 00</span>
+	  					<span id="outputGoal${index.index }" style="width:100px; height:50px; margin-top:50px; font-size:2em;">
+	  					
+	  								<fmt:parseNumber var="gHour" integerOnly="true" value="${Math.floor(((goal.goalAchieveAmount/60)/60)%24)}"/>
+	  								<fmt:parseNumber var="gMin" integerOnly="true" value="${Math.floor((goal.goalAchieveAmount/60)%60)}"/>
+	  								<fmt:parseNumber var="gSec" integerOnly="true" value="${Math.floor(goal.goalAchieveAmount%60)}"/>
+	  								
+	  								<c:if test="${gHour lt 10}">
+	  									0<c:out value="${gHour }"/> :
+	  								</c:if>
+	  								<c:if test="${gHour ge 10}">
+	  									<c:out value="${gHour }"/> :
+	  								</c:if>
+	  								
+	  								<c:if test="${gMin lt 10}">
+	  									0<c:out value="${gMin }"/> :
+	  								</c:if>
+	  								<c:if test="${gMin ge 10}">
+	  									 <c:out value="${gMin }"/> :
+	  								</c:if>
+	  								
+	  								<c:if test="${gSec lt 10}">
+	  									0<c:out value="${gSec}"/> :
+	  								</c:if>
+	  								<c:if test="${gSec ge 10}">
+	  									<c:out value="${gSec }"/> :
+	  								</c:if>
+	  								00
+	  								</span>
 						<div id="controls" style="display:inline-block; margin-left:30px ;">
 	  						<button id="goalStartPause${index.index }" class="btn btn-primary" onclick="startPause('goal',${index.index })">공부시작</button>
 	  					</div>

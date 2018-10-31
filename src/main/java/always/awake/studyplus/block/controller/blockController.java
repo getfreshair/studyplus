@@ -35,11 +35,13 @@ public class blockController {
 	
 	@RequestMapping("blockTimesTempSave.bl")
 	public void blockTimesTempSave(@RequestParam("todayStudyTime")String todayStudyTime,
-								   @RequestParam("goalList")String[] goalList,
-								   @RequestParam("groupList")String[] groupList) {
-		System.out.println(todayStudyTime);
-		System.out.println(goalList);
+								   @RequestParam("originTodayStudyTime")String originTodayStudyTime,
+								   @RequestParam("groupList")String groupList,
+								   @RequestParam("goalList")String goalList){
+		System.out.println("오늘 공부 총량 : " + todayStudyTime);
+		System.out.println("원래 공부 총량 : " + originTodayStudyTime);
 		System.out.println(groupList);
+		System.out.println(goalList);
 	}
 	
 }
