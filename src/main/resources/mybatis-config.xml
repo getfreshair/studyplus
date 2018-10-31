@@ -26,5 +26,6 @@
 		<mapper resource="mappers/studyPlanner-mapper.xml" />
 		<mapper resource="mappers/admin-mapper.xml" />
 		<mapper resource="mappers/block-mapper.xml" />
+		<mapper resource="mappers/messenger-mapper.xml" />
 	</mappers>
 </configuration>

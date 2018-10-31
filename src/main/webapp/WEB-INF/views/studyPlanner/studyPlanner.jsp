@@ -50,11 +50,11 @@
 					<div class="col-sm-3 col-xs-12 side_area">
 						<div class="user_info">
 							<div class="img_area">
-								<img src="/studyplus/resources/images/common/header_logo.png" alt="study plus logo">
+								<img src="/studyplus/resources/upload/member/thumbnail/${ loginUser.files.files_Name }" alt="study plus logo" style="width:100%;">
 							</div>
 							<div class="right_area">
 								<p>안녕하세요,</p>
-								<p class="name">찡끗쭈구미님</p>
+								<p class="name">${ loginUser.member_Nickname }님 환영합니다.</p>
 							</div>
 							<p class="rank">지역랭킹 : 상위 1% &nbsp;&nbsp; 분야 랭킹 : 상위 73%</p>
 							<p class="need">식물 Lv. 3</p>
@@ -213,70 +213,36 @@
 							친구 10 명 접속중 <span>(10 / 100)</span>
 						</div>
 						<div class="inner">
-							<ul class="friend_list">
-								<li>
-									<span class="img_area">
-										<img src="/studyplus/resources/images/common/header_logo.png" alt="study plus logo">
-									</span>
-									<span class="name">소나나소나나</span>
-									<span class="status"></span>
-								</li>
-								<li>
-									<span class="img_area">
-										<img src="/studyplus/resources/images/common/header_logo.png" alt="study plus logo">
-									</span>
-									<span class="name">동그리동동</span>
-									<span class="status on"></span>
-								</li>
-								<li>
-									<span class="img_area">
-										<img src="/studyplus/resources/images/common/header_logo.png" alt="study plus logo">
-									</span>
-									<span class="name">재이크</span>
-									<span class="status"></span>
-								</li>
-								<li>
-									<span class="img_area">
-										<img src="/studyplus/resources/images/common/header_logo.png" alt="study plus logo">
-									</span>
-									<span class="name">팀장 기완쓰</span>
-									<span class="status on"></span>
-								</li>
-								<li>
-									<span class="img_area">
-										<img src="/studyplus/resources/images/common/header_logo.png" alt="study plus logo">
-									</span>
-									<span class="name">크리스탈 랄라</span>
-									<span class="status on"></span>
-								</li>
-								<li>
-									<span class="img_area">
-										<img src="/studyplus/resources/images/common/header_logo.png" alt="study plus logo">
-									</span>
-									<span class="name">쥬쥬</span>
-									<span class="status on"></span>
-								</li>
-								<li>
-									<span class="img_area">
-										<img src="/studyplus/resources/images/common/header_logo.png" alt="study plus logo">
-									</span>
-									<span class="name">후니후니훈</span>
-									<span class="status on"></span>
-								</li>
-								<li>
-									<span class="img_area">
-										<img src="/studyplus/resources/images/common/header_logo.png" alt="study plus logo">
-									</span>
-									<span class="name">앞머리는 떡져가지고</span>
-									<span class="status on"></span>
-								</li>
-								<li>
-									<span class="img_area">
-										<img src="/studyplus/resources/images/common/header_logo.png" alt="study plus logo">
-									</span>
-									<span class="name">아아너무졸리다아아</span>
-									<span class="status on"></span>
-								</li>
+							<ul id="friendsList" class="friend_list">
+								<script>
+									function getFriendList(){
+										
+										var member_Code = ${ loginUser.member_Code };
+										$.ajax({
+											url : "selectFriendList.ms",
+											type : "POST",
+											data : {member_Code:member_Code},
+											success : function(data) {
+												$('#friendsList').empty();
+												for(var i=0; i<data.length ;i++){
+													
+													var $li = $('<li>' + 
+																		'<span class="img_area">' +
+																		'<img src="/studyplus/resources/upload/member/thumbnail/' + data[i].files.files_Name + '" alt="study plus logo" style="width:100%;">' + 
+																	'</span>' +
+																	'<span class="name">' + data[i].member_Nickname + '</span>' + 
+																	'<span class="status"></span>' + 
+																'</li>');
+													
+													$('#friendsList').append($li);
+												}
+											},
+											error:function(){
+												console.log("에러 발생!!!");
+											}
+										});
+									}
+								</script>
 							</ul>
 							<div class="chating">
 								<div class="">
