@@ -5,5 +5,38 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="StudyGroup">
+	<insert id="insertStudyGroup" parameterType="StudyGroup">
+		INSERT INTO STUDYGROUP
+		<choose>
+			<when test="studygroup_Openstatus eq 0">
+				VALUES(seq_studygroup_studygroup_code.nextval, #{member_Code}, #{studygroup_Name}, #{location_Code}, #{studygroup_Goaltime}, #{studygroup_Maxnum}, #{studygroup_Intro}, SYSDATE, 0, null, #{category_Code}, #{studygroup_Openstatus}, null)
+			</when>
+			<when test="studygroup_Openstatus neq 0">
+				VALUES(seq_studygroup_studygroup_code.nextval, #{member_Code}, #{studygroup_Name}, #{location_Code}, #{studygroup_Goaltime}, #{studygroup_Maxnum}, #{studygroup_Intro}, SYSDATE, 0, null, #{category_Code}, #{studygroup_Openstatus}, #{studygroup_Pwd})
+			</when>
+		</choose>
+	</insert>
 	
+	<select id="selectMemberCode" parameterType="_int" resultType="_int">
+		SELECT STUDYGROUP_CODE 
+		FROM STUDYGROUP 
+		WHERE STUDYGROUP_STDATE = (SELECT MAX(STUDYGROUP_STDATE) 
+								   FROM STUDYGROUP
+								   WHERE MEMBER_CODE = #{member_Code})
+	</select>
+	
+	<insert id="insertStudyGroupFiles" parameterType="StudyGroupFiles">
+		INSERT INTO FILES(FILES_CODE,FILES_BOARDTYPE,FILES_ORIGINNAME,FILES_NAME,FILES_ENROLLDATE,FILES_STATUS,FILES_DELETEDATE,MEMBER_CODE,STUDYGROUP_CODE,PR_CODE,GROUPBOARD_CODE,FILES_ORDER)
+   		VALUES(seq_files_files_code.nextval, 1, #{files_OriginName}, #{files_Name}, SYSDATE, 0, null, null, #{studygroup_Code}, null, null, 0)
+	</insert>
+	
+	<select id="selectStudyGroupList" parameterType="java.lang.String" resultType="java.util.HashMap">
+		SELECT *
+		FROM STUDYGROUP SG
+		JOIN FILES F USING(STUDYGROUP_CODE)
+		WHERE SG.STUDYGROUP_NAME LIKE '%' || #{searchGroupName} || '%'
+		AND F.FILES_ORDER = 0
+		AND F.FILES_STATUS = 0
+		ORDER BY SG.STUDYGROUP_STDATE ASC
+	</select>
 </mapper>

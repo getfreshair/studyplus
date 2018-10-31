@@ -99,6 +99,34 @@
     	margin-right:10px;
 	}
 </style>
+<script>
+	$(function(){
+		selectSGList($('.searchGroupName').val(), 1);
+	});
+	
+	function moreSGList(searchSGName, pageNo){
+		selectSGList(searchSGName, pageNo);
+	}
+	
+	function selectSGList(searchSGName, pageNo){
+		alert(searchSGName, pageNo);
+		
+		$.ajax({
+			url: 'selectStudyGroupList.sg',
+			data: {
+				searchSGName : searchSGName,
+				pageNo : pageNo
+			},
+			beforeSend : function(){
+				
+			},
+			success : function(data){
+				console.log(data);
+			}
+		});
+	};
+	
+</script>
 </head>
 <body>
 	<div class="SGListAdArea">
@@ -115,7 +143,7 @@
 					<div class="SGInfoLocationArea">지역</div>
 				</div>
 				<div class="SGInfoTitleArea">
-					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.files.files_Name}">
+					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.member_Files.files_Name}">
 						2018년도 안에 취업 해야지
 				</div>
 				<div class="SGInfoCommentArea">
@@ -148,7 +176,7 @@
 					<div class="SGInfoLocationArea">지역</div>
 				</div>
 				<div class="SGInfoTitleArea">
-					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.files.files_Name}">
+					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.member_Files.files_Name}">
 						2018년도 안에 취업 해야지
 				</div>
 				<div class="SGInfoCommentArea">
@@ -179,7 +207,7 @@
 					<div class="SGInfoLocationArea">지역</div>
 				</div>
 				<div class="SGInfoTitleArea">
-					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.files.files_Name}">
+					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.member_Files.files_Name}">
 						2018년도 안에 취업 해야지
 				</div>
 				<div class="SGInfoCommentArea">
@@ -210,7 +238,7 @@
 					<div class="SGInfoLocationArea">지역</div>
 				</div>
 				<div class="SGInfoTitleArea">
-					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.files.files_Name}">
+					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.member_Files.files_Name}">
 						2018년도 안에 취업 해야지
 				</div>
 				<div class="SGInfoCommentArea">
@@ -241,7 +269,7 @@
 					<div class="SGInfoLocationArea">지역</div>
 				</div>
 				<div class="SGInfoTitleArea">
-					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.files.files_Name}">
+					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.member_Files.files_Name}">
 						2018년도 안에 취업 해야지
 				</div>
 				<div class="SGInfoCommentArea">
@@ -272,7 +300,7 @@
 					<div class="SGInfoLocationArea">지역</div>
 				</div>
 				<div class="SGInfoTitleArea">
-					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.files.files_Name}">
+					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.member_Files.files_Name}">
 						2018년도 안에 취업 해야지
 				</div>
 				<div class="SGInfoCommentArea">
@@ -303,7 +331,7 @@
 					<div class="SGInfoLocationArea">지역</div>
 				</div>
 				<div class="SGInfoTitleArea">
-					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.files.files_Name}">
+					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.member_Files.files_Name}">
 						2018년도 안에 취업 해야지
 				</div>
 				<div class="SGInfoCommentArea">
@@ -334,7 +362,7 @@
 					<div class="SGInfoLocationArea">지역</div>
 				</div>
 				<div class="SGInfoTitleArea">
-					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.files.files_Name}">
+					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.member_Files.files_Name}">
 						2018년도 안에 취업 해야지
 				</div>
 				<div class="SGInfoCommentArea">
@@ -365,7 +393,7 @@
 					<div class="SGInfoLocationArea">지역</div>
 				</div>
 				<div class="SGInfoTitleArea">
-					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.files.files_Name}">
+					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.member_Files.files_Name}">
 						2018년도 안에 취업 해야지
 				</div>
 				<div class="SGInfoCommentArea">
@@ -396,7 +424,7 @@
 					<div class="SGInfoLocationArea">지역</div>
 				</div>
 				<div class="SGInfoTitleArea">
-					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.files.files_Name}">
+					<img class="SGInfoBossImg" src="${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.member_Files.files_Name}">
 						2018년도 안에 취업 해야지
 				</div>
 				<div class="SGInfoCommentArea">

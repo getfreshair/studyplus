@@ -13,5 +13,5 @@ import always.awake.studyplus.member.model.vo.Member;
 public interface MemberService {
 	public Member login(Member m) throws LoginException;
 
-	public int insertMember(Model model, Member m, Files files, ArrayList<String> category_Code, HttpServletRequest request);
+	public int insertMember(Member m, Files files, ArrayList<String> category_Code, HttpServletRequest request);
 }

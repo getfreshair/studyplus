@@ -13,18 +13,19 @@ public class Files implements java.io.Serializable{
 	private Date files_EnrollDate;
 	private int files_Status;
 	private Date files_DeleteDate;
+	private int studygroup_Code;
 	private int member_Code;
-	private int group_Code;
 	private int pr_Code;
-	private int board_Code;
+	private int groupboard_Code;
+	private int files_Order;
 	
 	public Files() {
 		super();
 	}
 
 	public Files(MultipartFile studygroupThumbnailImg, int files_Code, int files_BoardType, String files_OriginName,
-			String files_Name, Date files_EnrollDate, int files_Status, Date files_DeleteDate, int member_Code,
-			int group_Code, int pr_Code, int board_Code) {
+			String files_Name, Date files_EnrollDate, int files_Status, Date files_DeleteDate, int studygroup_Code,
+			int member_Code, int pr_Code, int groupboard_Code, int files_Order) {
 		super();
 		this.studygroupThumbnailImg = studygroupThumbnailImg;
 		this.files_Code = files_Code;
@@ -34,10 +35,11 @@ public class Files implements java.io.Serializable{
 		this.files_EnrollDate = files_EnrollDate;
 		this.files_Status = files_Status;
 		this.files_DeleteDate = files_DeleteDate;
+		this.studygroup_Code = studygroup_Code;
 		this.member_Code = member_Code;
-		this.group_Code = group_Code;
 		this.pr_Code = pr_Code;
-		this.board_Code = board_Code;
+		this.groupboard_Code = groupboard_Code;
+		this.files_Order = files_Order;
 	}
 
 	public MultipartFile getStudygroupThumbnailImg() {
@@ -104,20 +106,20 @@ public class Files implements java.io.Serializable{
 		this.files_DeleteDate = files_DeleteDate;
 	}
 
+	public int getStudygroup_Code() {
+		return studygroup_Code;
+	}
+
+	public void setStudygroup_Code(int studygroup_Code) {
+		this.studygroup_Code = studygroup_Code;
+	}
+
 	public int getMember_Code() {
 		return member_Code;
 	}
 
 	public void setMember_Code(int member_Code) {
 		this.member_Code = member_Code;
-	}
-
-	public int getGroup_Code() {
-		return group_Code;
-	}
-
-	public void setGroup_Code(int group_Code) {
-		this.group_Code = group_Code;
 	}
 
 	public int getPr_Code() {
@@ -128,12 +130,20 @@ public class Files implements java.io.Serializable{
 		this.pr_Code = pr_Code;
 	}
 
-	public int getBoard_Code() {
-		return board_Code;
+	public int getGroupboard_Code() {
+		return groupboard_Code;
 	}
 
-	public void setBoard_Code(int board_Code) {
-		this.board_Code = board_Code;
+	public void setGroupboard_Code(int groupboard_Code) {
+		this.groupboard_Code = groupboard_Code;
+	}
+
+	public int getFiles_Order() {
+		return files_Order;
+	}
+
+	public void setFiles_Order(int files_Order) {
+		this.files_Order = files_Order;
 	}
 
 	@Override
@@ -141,8 +151,9 @@ public class Files implements java.io.Serializable{
 		return "Files [studygroupThumbnailImg=" + studygroupThumbnailImg + ", files_Code=" + files_Code
 				+ ", files_BoardType=" + files_BoardType + ", files_OriginName=" + files_OriginName + ", files_Name="
 				+ files_Name + ", files_EnrollDate=" + files_EnrollDate + ", files_Status=" + files_Status
-				+ ", files_DeleteDate=" + files_DeleteDate + ", member_Code=" + member_Code + ", group_Code="
-				+ group_Code + ", pr_Code=" + pr_Code + ", board_Code=" + board_Code + "]";
+				+ ", files_DeleteDate=" + files_DeleteDate + ", studygroup_Code=" + studygroup_Code + ", member_Code="
+				+ member_Code + ", pr_Code=" + pr_Code + ", groupboard_Code=" + groupboard_Code + ", files_Order="
+				+ files_Order + "]";
 	}
 
 }

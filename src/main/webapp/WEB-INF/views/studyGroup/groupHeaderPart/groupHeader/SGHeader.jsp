@@ -78,14 +78,14 @@
 		
 	})
 	$(function(){
-		$(".searchGroupName").keypress(function(key) {
+		$('.searchGroupName').click(function(){
+			$('.searchGroupName').val("");
+		});
+		
+		$('.searchGroupName').keypress(function(key) {
 			if(key.which == 13){
-				var searchGroupName = $('.searchGroupName').val();
 				$.ajax({
-					url: 'searchGroupListPage.sg',
-					data: {
-						searchGroupName : searchGroupName
-					},
+					url: 'studyGroupListPage.sg',
 					beforeSend : function(){
 						var path = '${ contextPath }';
 						$('.SGContentArea').empty();

@@ -7,7 +7,7 @@ public class StudyGroup implements java.io.Serializable{
 	private int member_Code;
 	private String studygroup_Name;
 	private int location_Code;
-	private int studygroup_Goaltiem;
+	private int studygroup_Goaltime;
 	private int studygroup_Maxnum;
 	private String studygroup_Intro;
 	private Date studygroup_Sdate;
@@ -16,19 +16,20 @@ public class StudyGroup implements java.io.Serializable{
 	private int category_Code;
 	private int studygroup_Openstatus;
 	private String studygroup_Pwd;
+	private Files studygroup_FIles;
 	
 	public StudyGroup() {}
 
 	public StudyGroup(int studygroup_Code, int member_Code, String studygroup_Name, int location_Code,
-			int studygroup_Goaltiem, int studygroup_Maxnum, String studygroup_Intro, Date studygroup_Sdate,
+			int studygroup_Goaltime, int studygroup_Maxnum, String studygroup_Intro, Date studygroup_Sdate,
 			int studygroup_Status, Date studygroup_Eddate, int category_Code, int studygroup_Openstatus,
-			String studygroup_Pwd) {
+			String studygroup_Pwd, Files studygroup_FIles) {
 		super();
 		this.studygroup_Code = studygroup_Code;
 		this.member_Code = member_Code;
 		this.studygroup_Name = studygroup_Name;
 		this.location_Code = location_Code;
-		this.studygroup_Goaltiem = studygroup_Goaltiem;
+		this.studygroup_Goaltime = studygroup_Goaltime;
 		this.studygroup_Maxnum = studygroup_Maxnum;
 		this.studygroup_Intro = studygroup_Intro;
 		this.studygroup_Sdate = studygroup_Sdate;
@@ -37,6 +38,7 @@ public class StudyGroup implements java.io.Serializable{
 		this.category_Code = category_Code;
 		this.studygroup_Openstatus = studygroup_Openstatus;
 		this.studygroup_Pwd = studygroup_Pwd;
+		this.studygroup_FIles = studygroup_FIles;
 	}
 
 	public int getStudygroup_Code() {
@@ -71,12 +73,12 @@ public class StudyGroup implements java.io.Serializable{
 		this.location_Code = location_Code;
 	}
 
-	public int getStudygroup_Goaltiem() {
-		return studygroup_Goaltiem;
+	public int getStudygroup_Goaltime() {
+		return studygroup_Goaltime;
 	}
 
-	public void setStudygroup_Goaltiem(int studygroup_Goaltiem) {
-		this.studygroup_Goaltiem = studygroup_Goaltiem;
+	public void setStudygroup_Goaltime(int studygroup_Goaltime) {
+		this.studygroup_Goaltime = studygroup_Goaltime;
 	}
 
 	public int getStudygroup_Maxnum() {
@@ -143,14 +145,23 @@ public class StudyGroup implements java.io.Serializable{
 		this.studygroup_Pwd = studygroup_Pwd;
 	}
 
+	public Files getStudygroup_FIles() {
+		return studygroup_FIles;
+	}
+
+	public void setStudygroup_FIles(Files studygroup_FIles) {
+		this.studygroup_FIles = studygroup_FIles;
+	}
+
 	@Override
 	public String toString() {
 		return "StudyGroup [studygroup_Code=" + studygroup_Code + ", member_Code=" + member_Code + ", studygroup_Name="
-				+ studygroup_Name + ", location_Code=" + location_Code + ", studygroup_Goaltiem=" + studygroup_Goaltiem
+				+ studygroup_Name + ", location_Code=" + location_Code + ", studygroup_Goaltime=" + studygroup_Goaltime
 				+ ", studygroup_Maxnum=" + studygroup_Maxnum + ", studygroup_Intro=" + studygroup_Intro
 				+ ", studygroup_Sdate=" + studygroup_Sdate + ", studygroup_Status=" + studygroup_Status
 				+ ", studygroup_Eddate=" + studygroup_Eddate + ", category_Code=" + category_Code
-				+ ", studygroup_Openstatus=" + studygroup_Openstatus + ", studygroup_Pwd=" + studygroup_Pwd + "]";
+				+ ", studygroup_Openstatus=" + studygroup_Openstatus + ", studygroup_Pwd=" + studygroup_Pwd
+				+ ", studygroup_FIles=" + studygroup_FIles + "]";
 	}
-	
+
 }
