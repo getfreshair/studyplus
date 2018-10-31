@@ -17,6 +17,7 @@ public class StudyPlannerDaoImpl implements StudyPlannerDao{
 	@Override
 	public List<HashMap<String, Object>> todayChart(SqlSessionTemplate sqlSession,
 			List<HashMap<String, Object>> list) {
+		
 		List<HashMap<String, Object>> resultList = new ArrayList<HashMap<String, Object>>();
 		
 		HashMap<String, Object> hamp = list.get(0);

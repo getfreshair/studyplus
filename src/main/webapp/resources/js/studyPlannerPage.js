@@ -6,17 +6,15 @@ $(function(){
 	goalAddMdal();			//목표 등록 모달
 	modalChart();			//목표등록 모달 내 공부량 차트
 
-	//todayChart();			//일간 공부량 차트
 	todayDatePicker();		//일간 공부량 날짜선택
 	studyTendencyChart();	//공부성향 분석 차트
 
 	GoalListChart();		//목표 리스트 노출된 부분 공부량 차트
 
+	
+	todayChartTodaydate();	//일간 공부량 현재 날짜
+	todayChartChangeDate();	//일간 공부량 날짜 변경시
 
-
-
-	todayChartTodaydate();
-	todayChartChangeDate();
 });
 
 
@@ -116,9 +114,9 @@ function modalChart(){
 	});
 };
 
-//일간 공부량 차트
+//일간 공부량 현재 날짜
 function todayChartTodaydate(){
-	//페이지 진입시 오늘 날짜 선택
+	//페이지 진입시 현재 날짜 선택
 	var now = new Date();
 	var year= now.getFullYear();
 	var mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
@@ -126,8 +124,6 @@ function todayChartTodaydate(){
 
 	var chan_val = year + '-' + mon + '-' + day;
 	$(this).val(chan_val);
-
-	console.log("오늘날짜 : " + chan_val);
 
 	var dateVal = chan_val; //컨트롤러에 보낼 날짜
 
@@ -138,7 +134,7 @@ function todayChartTodaydate(){
 function todayChartChangeDate(){
 	$("#todayDatePicker").change(function(){
 		var dateVal = $("#todayDatePicker").val(); //컨트롤러에 보낼 날짜
-		console.log("선택한날짜 : " + dateVal);
+		//console.log("선택한날짜 : " + dateVal);
 		todayChart(dateVal);
 	});
 }
@@ -151,16 +147,14 @@ function todayChart(dateVal){
 		data : {dateVal : dateVal},
 		type : "post",
 		success : function(data) {
-
-			/*var arr = new Array();
-			arr = data;*/
-			console.log(data);
-			/*
-
-			for(var i = 0; i < data.length; i++){
-				console.log(data[i]);
-			}*/
-
+			
+			var arr;
+			arr = data.split(",");
+			
+			for(var i = 0; i < arr.length; i++){
+				arr[i] = arr[i]/60;
+			}
+			
 			var todayChart = new Chart(ctx, {
 				type: 'bar',
 				data: {
@@ -168,8 +162,8 @@ function todayChart(dateVal){
 						"13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"],
 						datasets: [{
 							//label: '# of Votes',
-							data: [data, 23, 12, 2, 3, 1, 2, 3, 4, 5, 6, 12, 12,
-								19, 3, 5, 2, 3, 1, 2, 3, 4, 5, 6],
+							data: [arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], arr[7], arr[8], arr[9], arr[10], arr[11], arr[12],
+								arr[13], arr[14], arr[15], arr[16], arr[17], arr[18], arr[19], arr[20], arr[21], arr[22], arr[23]],
 								backgroundColor: [
 									'rgba(255, 99, 132, 0.2)',
 									'rgba(54, 162, 235, 0.2)',
@@ -192,24 +186,12 @@ function todayChart(dateVal){
 									'rgba(54, 162, 235, 0.2)',
 									'rgba(255, 206, 86, 0.2)',
 									'rgba(75, 192, 192, 0.2)',
-									],
-									/*borderColor: [
-    					'rgba(255,99,132,1)',
-    					'rgba(54, 162, 235, 1)',
-    					'rgba(255, 206, 86, 1)',
-    					'rgba(75, 192, 192, 1)',
-    					'rgba(153, 102, 255, 1)',
-    					'rgba(255, 159, 64, 1)',
-    					'rgba(255,99,132,1)',
-    					'rgba(54, 162, 235, 1)',
-    					'rgba(255, 206, 86, 1)',
-    					'rgba(75, 192, 192, 1)',
-    					'rgba(153, 102, 255, 1)'
-    				],*/
-									borderWidth: 1
+									]
 						}]
 				},
 				options: {
+					legend: {display: false,},
+					events: [false],
 					scales: {
 						yAxes: [{
 							ticks: {
@@ -219,7 +201,6 @@ function todayChart(dateVal){
 					}
 				}
 			});
-
 
 		},
 		error : function() {
@@ -248,6 +229,76 @@ function todayDatePicker(){
 	/* $(".date").click(function(){
 		$(".datepicker-here").show();
 	}); */
+}
+
+//주간 공부량 차트
+function weeklyChart(dateVal){
+	var ctx = document.getElementById("weeklyChart").getContext('2d');
+	$.ajax({
+		url : "studyPlannerWeeklyChart.sp",
+		data : {dateVal : dateVal},
+		type : "post",
+		success : function(data) {
+			
+			/*var arr;
+			arr = data.split(",");
+			
+			for(var i = 0; i < arr.length; i++){
+				arr[i] = arr[i]/60;
+			}*/
+			
+			var weeklyChart = new Chart(ctx, {
+				type: 'bar',
+				data: {
+					labels: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", 
+						"13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"],
+						datasets: [{
+							//label: '# of Votes',
+							data: [arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], arr[7], arr[8], arr[9], arr[10], arr[11], arr[12],
+								arr[13], arr[14], arr[15], arr[16], arr[17], arr[18], arr[19], arr[20], arr[21], arr[22], arr[23]],
+								backgroundColor: [
+									'rgba(255, 99, 132, 0.2)',
+									'rgba(54, 162, 235, 0.2)',
+									'rgba(255, 206, 86, 0.2)',
+									'rgba(75, 192, 192, 0.2)',
+									'rgba(153, 102, 255, 0.2)',
+									'rgba(255, 159, 64, 0.2)',
+									'rgba(255, 99, 132, 0.2)',
+									'rgba(54, 162, 235, 0.2)',
+									'rgba(255, 206, 86, 0.2)',
+									'rgba(75, 192, 192, 0.2)',
+									'rgba(153, 102, 255, 0.2)',
+									'rgba(255, 99, 132, 0.2)',
+									'rgba(54, 162, 235, 0.2)',
+									'rgba(255, 206, 86, 0.2)',
+									'rgba(75, 192, 192, 0.2)',
+									'rgba(153, 102, 255, 0.2)',
+									'rgba(255, 159, 64, 0.2)',
+									'rgba(255, 99, 132, 0.2)',
+									'rgba(54, 162, 235, 0.2)',
+									'rgba(255, 206, 86, 0.2)',
+									'rgba(75, 192, 192, 0.2)',
+									]
+						}]
+				},
+				options: {
+					legend: {display: false,},
+					events: [false],
+					scales: {
+						yAxes: [{
+							ticks: {
+								beginAtZero:true
+							}
+						}]
+					}
+				}
+			});
+		},
+		error : function() {
+			console.log("에러발생!");
+		}
+	});
+	
 }
 
 //공부성향 분석 차트
