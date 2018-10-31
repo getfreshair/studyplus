@@ -50,7 +50,7 @@
 					<div class="col-sm-3 col-xs-12 side_area">
 						<div class="user_info">
 							<div class="img_area">
-								<img src="/studyplus/resources/upload/member/thumbnail/${ loginUser.files.files_Name }" alt="study plus logo" style="width:100%;">
+								<img src="/studyplus/resources/upload/member/thumbnail/${ loginUser.member_Files.files_Name }" alt="study plus logo" style="width:100%;">
 							</div>
 							<div class="right_area">
 								<p>안녕하세요,</p>
@@ -228,7 +228,7 @@
 													
 													var $li = $('<li>' + 
 																		'<span class="img_area">' +
-																		'<img src="/studyplus/resources/upload/member/thumbnail/' + data[i].files.files_Name + '" alt="study plus logo" style="width:100%;">' + 
+																		'<img src="/studyplus/resources/upload/member/thumbnail/' + data[i].member_Files.files_Name + '" alt="study plus logo" style="width:100%;">' + 
 																	'</span>' +
 																	'<span class="name">' + data[i].member_Nickname + '</span>' + 
 																	'<span class="status"></span>' + 

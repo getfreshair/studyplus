@@ -22,11 +22,11 @@
 		<result property="member_Phone" column="member_Phone" />
 		<result property="member_SMSConfirmation"
 			column="member_SMSConfirmation" />
-		<collection property="files" javaType="Files"
+		<collection property="member_Files" javaType="MemberFiles"
 			resultMap="friendfilesSet" />
 	</resultMap>
 
-	<resultMap type="Files" id="friendfilesSet">
+	<resultMap type="MemberFiles" id="friendfilesSet">
 		<id property="files_Code" column="files_Code" />
 		<result property="files_BoardType" column="fileBoardType" />
 		<result property="files_OriginName" column="files_OriginName" />
