@@ -82,31 +82,31 @@
 				<span>1</span>
 				<h4>always awake study plus member fighting</h4>
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-				<img src="${contextPath}/resources/upload/studyplus/thumbnail/fuck.jpg"/>
+				<img src="${contextPath}/resources/upload/studygroup/thumbnail/fuck.jpg"/>
 			</div>
 			<div class="RTRankSG">
 				<span>2</span>
 				<h4> vulputate sed cursus ac, ali</h4>
 				<p>Vivamus rutrum pellentesque magna. Etiam feugiat vehicula lacus, sit amet iaculis lectus pulvinar tempor. Praesent a aliquam lacus, vitae ultrici</p>
-				<img src="${contextPath}/resources/upload/studyplus/thumbnail/fuck.jpg"/>
+				<img src="${contextPath}/resources/upload/studygroup/thumbnail/fuck.jpg"/>
 			</div>
 			<div class="RTRankSG">
 				<span>3</span>
 				<h4>Maecenas purus dolor, </h4>
 				<p>s mi. Donec ornare auctor risus, eu interdum risus sagittis sit amet. Praesent nibh nunc, ornare non fermentum non, venenatis et dolor. Pelle</p>
-				<img src="${contextPath}/resources/upload/studyplus/thumbnail/fuck.jpg"/>
+				<img src="${contextPath}/resources/upload/studygroup/thumbnail/fuck.jpg"/>
 			</div>
 			<div class="RTRankSG">
 				<span>4</span>
 				<h4>m eget consecteturdio justo. </h4>
 				<p>ntesque non felis ut elit consectetur cur</p>
-				<img src="${contextPath}/resources/upload/studyplus/thumbnail/fuck.jpg"/>
+				<img src="${contextPath}/resources/upload/studygroup/thumbnail/fuck.jpg"/>
 			</div>
 			<div class="RTRankSG">
 				<span>5</span>
 				<h4>get tellus condimentum s</h4>
 				<p>us iaculis quis mi. Nullam vel erat mauris. In placerat blandit lore</p>
-				<img src="${contextPath}/resources/upload/studyplus/thumbnail/fuck.jpg"/>
+				<img src="${contextPath}/resources/upload/studygroup/thumbnail/fuck.jpg"/>
 			</div>
 		</div>
 		<div class="SGRTRankRightArea">
@@ -114,31 +114,31 @@
 				<span>6</span>
 				<h4>There are many variations of passages of L</h4>
 				<p>Lorem Ipsum available, but the majority have suffered alteration in some form</p>
-				<img src="${contextPath}/resources/upload/studyplus/thumbnail/fuck.jpg"/>
+				<img src="${contextPath}/resources/upload/studygroup/thumbnail/fuck.jpg"/>
 			</div>
 			<div class="RTRankSG">
 				<span>7</span>
 				<h4>d words which don'</h4>
 				<p>look even slightly believable. If you are going to use a passage of L</p>
-				<img src="${contextPath}/resources/upload/studyplus/thumbnail/fuck.jpg"/>
+				<img src="${contextPath}/resources/upload/studygroup/thumbnail/fuck.jpg"/>
 			</div>
 			<div class="RTRankSG">
 				<span>8</span>
 				<h4>m Ipsum, you need to be sure there isn't anything embarrassing hi</h4>
 				<p>den in the middle of text. All the Lorem Ipsum generators on th</p>
-				<img src="${contextPath}/resources/upload/studyplus/thumbnail/fuck.jpg"/>
+				<img src="${contextPath}/resources/upload/studygroup/thumbnail/fuck.jpg"/>
 			</div>
 			<div class="RTRankSG">
 				<span>9</span>
 				<h4>always awake study plus member fighting</h4>
 				<p>we can do this</p>
-				<img src="${contextPath}/resources/upload/studyplus/thumbnail/fuck.jpg"/>
+				<img src="${contextPath}/resources/upload/studygroup/thumbnail/fuck.jpg"/>
 			</div>
 			<div class="RTRankSG">
 				<span>10</span>
 				<h4>chunks as necessary, making this the first true generator on the Internet. It uses a dictionary </h4>
 				<p>generate Lorem</p>
-				<img src="${contextPath}/resources/upload/studyplus/thumbnail/fuck.jpg"/>
+				<img src="${contextPath}/resources/upload/studygroup/thumbnail/fuck.jpg"/>
 			</div>
 		</div>
 	</div>

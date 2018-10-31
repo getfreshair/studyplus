@@ -15,30 +15,15 @@
 		<result property="memberCode" column="MEMBER_CODE"/>
 	</resultMap>
 	
-
-	<!-- <resultMap type="Member" id="memberResultSet">
-		<id property="member_Code" column="member_Code"></id>
-		<result property="member_Id" column="member_Id"/>
-		<result property="member_Pwd" column="member_Pwd"/>
-		<result property="member_Nickname" column="member_Nickname"/>
-		<result property="member_EnrollDate" column="member_EnrollDate"/>
-		<result property="member_Status" column="member_Status"/>
-		<result property="member_Class" column="member_Class"/>
-		<result property="member_Introduction" column="member_Introduction"/>
-		<result property="member_Age" column="member_Age"/>
-		<result property="member_Job" column="member_Job"/>
-		<result property="member_Gender" column="member_Gender"/>
-		<result property="location_Code" column="location_Code"/>
-		<result property="member_Phone" column="member_Phone"/>
-		<result property="member_SMSConfirmation" column="member_SMSConfirmation"/>
-		<collection property="files" javaType="Files" resultMap="filesSet"/>
-		<collection property="category_Name" javaType="java.util.ArrayList" resultMap="interestCategoryResultSet"/>
-	</resultMap> -->
-	
 	<!-- 일간 공부량 차트 -->
-	<select id="selectTodayChart" resultMap="StudyTimeResultSet">
+	<select id="selectTodayChart" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		SELECT * 
 		FROM STUDYTIME 
-		WHERE MEMBER_CODE = 3
+		WHERE MEMBER_CODE = #{loginUserCode}
+		AND STUDYTIME_DIVISION = 1
+		AND STUDYTIME_DATE = #{chartDate}
 	</select>
+	
+	
+	
 </mapper>

@@ -389,7 +389,7 @@
 							<input type="radio" name="studygroup_Openstatus" value="1" onclick=""/>
 							비공개
 						</label>
-						<input type="text" name="studygruop_Pwd" class="SGPassword" placeholder="Password Setting"/>
+						<input type="text" name="studygroup_Pwd" class="SGPassword" placeholder="Password Setting"/>
 					</div>
 				</div>
 				<div class="SGInsertBottomArea">
@@ -399,6 +399,7 @@
 					</div>
 				</div>
 			</div>
+			<input type="hidden" name="member_Code" value="${ sessionScope.loginUser.member_Code }"/>
 			<div class="SGInsertBtnArea">
 				<button type="button">취소</button>
 				<button type="submit">그룹 생성</button>

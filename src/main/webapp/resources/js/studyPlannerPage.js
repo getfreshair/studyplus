@@ -24,6 +24,7 @@ $(function(){
 function snsScrollUp(){
 	$(".click_area").click(function(){
 		if($(this).hasClass("on") != true){
+			getFriendList();
 			$(this).addClass("on");
 			$(".sns_wrap").animate({
 				"height":"460px"
@@ -151,7 +152,14 @@ function todayChart(dateVal){
 		type : "post",
 		success : function(data) {
 			
-			//console.log(data);
+			/*var arr = new Array();
+			arr = data;*/
+			console.log(data);
+			/*
+			
+			for(var i = 0; i < data.length; i++){
+				console.log(data[i]);
+			}*/
 			
 			var todayChart = new Chart(ctx, {
 				type: 'bar',
@@ -160,7 +168,7 @@ function todayChart(dateVal){
 						"13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"],
 						datasets: [{
 							//label: '# of Votes',
-							data: [23, 3, 5, 2, 3, 1, 2, 3, 4, 5, 6, 12, 12,
+							data: [data, 23, 12, 2, 3, 1, 2, 3, 4, 5, 6, 12, 12,
 								19, 3, 5, 2, 3, 1, 2, 3, 4, 5, 6],
 								backgroundColor: [
 									'rgba(255, 99, 132, 0.2)',

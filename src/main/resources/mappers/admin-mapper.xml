@@ -20,7 +20,7 @@
 		<result property="location_Code" column="location_Code"/>
 		<result property="member_Phone" column="member_Phone"/>
 		<result property="member_SMSConfirmation" column="member_SMSConfirmation"/>
-		<collection property="files" javaType="Files" resultMap="adminFiles"/>
+		<collection property="files" javaType="memberFiles" resultMap="adminFiles"/>
 		<collection property="category_Name" javaType="java.util.ArrayList" resultMap="adminInterestCategory"/>
 	</resultMap>
 	
@@ -46,20 +46,14 @@
 	<select id="selectMember" parameterType="map" resultType="hashmap">
 	
 	SELECT M.MEMBER_CODE, M.MEMBER_ID, M.MEMBER_NICKNAME,
-	M.MEMBER_ENROLLDATE, M.MEMBER_STATUS, M.MEMBER_CLASS,
-	M.MEMBER_INTRODUCTION, M.MEMBER_AGE, M.MEMBER_JOB, M.MEMBER_PHONE,
-	M.MEMBER_SMSCONFIRMATION, M.MEMBER_GENDER, L.LOCATION_NAME,
-	C.CATEGORY_NAME, F.FILES_CODE, F.FILES_BOARDTYPE, F.FILES_NAME,
-	NL.NEEDLEVEL_LEVEL
-	FROM MEMBER M
-	JOIN LOCATION L ON(M.LOCATION_CODE = L.LOCATION_CODE)
-	LEFT JOIN INTERESTCATEGORY IC ON(M.MEMBER_CODE = IC.MEMBER_CODE)
-	LEFT JOIN CATEGORY C ON(IC.CATEGORY_CODE = C.CATEGORY_CODE)
-	JOIN FILES F ON(M.MEMBER_CODE = F.MEMBER_CODE)
-	JOIN NEED N ON(M.MEMBER_CODE = N.MEMBER_CODE)
-	JOIN NEEDLEVEL NL ON(N.NEEDLEVEL_CODE = NL.NEEDLEVEL_CODE)
-	WHERE
-	1=1
+		M.MEMBER_ENROLLDATE, M.MEMBER_AGE, M.MEMBER_JOB, M.MEMBER_PHONE,
+		M.MEMBER_GENDER, L.LOCATION_NAME,
+		C.CATEGORY_NAME
+		FROM MEMBER M
+		JOIN LOCATION L ON(M.LOCATION_CODE = L.LOCATION_CODE)
+		LEFT JOIN INTERESTCATEGORY IC ON(M.MEMBER_CODE = IC.MEMBER_CODE)
+		LEFT JOIN CATEGORY C ON(IC.CATEGORY_CODE = C.CATEGORY_CODE)
+	WHERE 1=1
 	<if test="#{All} != null">
 		AND(
 		M.MEMBER_ID LIKE '%' || #{All} || '%'
@@ -69,22 +63,27 @@
 		OR M.MEMBER_GENDER LIKE '%' || #{All} || '%'
 		)
 	</if>
-	<if test="#{Date1} != null &amp;&amp;  #{Date2} != null ">
+	<if test="#{Date1} != null and  #{Date2} != null ">
 		AND
 		M.MEMBER_ENROLLDATE BETWEEN #{Date1} AND #{Date2}
 	</if>
-	<if test='#{Option} == "123"'>
+<!-- 	<if test='#{Option}.toString().eqauls("전체")'>
 		AND
 		C.CATEGORY_CODE IN ( SELECT CATEGORY_CODE
 							FROM CATEGORY)
 	</if>
-	<if test="#{Option} != null ">
+	<if test='#{Option}.toString().equalsIgnoreCase("전체")'>
 		AND
 		C.CATEGORY_NAME = #{Option}
-	</if> 
-		AND
-		M.MEMBER_CLASS = 0
-	</select>
+	</if>  -->
+	</select>																	
 	
+	<insert id="penaltyMemberInsert">
+		insert into BLOCK(BLOCK_CODE,BLOCK_REASON,BLOCK_TYPE,BLOCK_STARTDATE,BLOCK_ENDDATE,BLOCK_STATUS,MEMBER_CODE) VALUES(SEQ_BLOCK_BLOCK_CODE.NEXTVAL, #{textArea}, 0, SYSDATE, #{lockDate}, 0, #{code})
+	</insert>
+	
+	<update id="penaltyMemberUpdate">
+		UPDATE MEMBER SET MEMBER_STATUS = 3 WHERE MEMBER_CODE = #{code}
+	</update>
 	
 </mapper>
