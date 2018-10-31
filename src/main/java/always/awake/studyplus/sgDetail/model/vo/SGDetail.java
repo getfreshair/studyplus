@@ -4,34 +4,36 @@ import java.io.Serializable;
 import java.sql.Date;
 
 public class SGDetail implements Serializable {
-   
-   private int studyGroup_Code;      // 그룹코드
-   private int member_Code;          // 그룹장코드
-   private String member_NickName;    // 그룹장닉네임
-   private String studyGroup_Name;       // 그룹명
-   private int location_Code;         // 지역 코드
-   private String location_Name;      // 지역 명
-   private int studyGroup_GoalTime;      // 목표 시간
-   private int studyGroup_MaxNum;      // 인원수
-   private String studyGroup_Intro;    // 그룹 소개
-   private Date studyGroup_StDate;      // 그룹 생성일
-   private int studyGroup_Status;      // 그룹 상태
-   private Date studyGroup_EdDate;      // 그룹 폐쇄일
-   private int category_Code;         // 카테고리 코드
-   private String category_Name;      // 카테고리 명
-   private int studyGroup_OpenStatus;   // 공개/비공개 여부
-   private String studyGroup_Pwd;      // 그룹 비밀번호
-   private int groupTotalStudyTime;      // 오늘 그룹의 총 공부량
-   
-   private int gr_Dates; 				// 오늘날짜 - 그룹 생성날짜
-   private int gr_Mem_Count;	// 현재 그룹 참여 인원 (DB를 바탕으로 도출 하는 필드)
-   
-   public SGDetail() { }
 
-	public SGDetail(int studyGroup_Code, int member_Code, String member_NickName, String studyGroup_Name, int location_Code,
-			String location_Name, int studyGroup_GoalTime, int studyGroup_MaxNum, String studyGroup_Intro,
-			Date studyGroup_StDate, int studyGroup_Status, Date studyGroup_EdDate, int category_Code, String category_Name,
-			int studyGroup_OpenStatus, String studyGroup_Pwd, int groupTotalStudyTime, int gr_Dates, int gr_Mem_Count) {
+	private int studyGroup_Code; // 그룹코드
+	private int member_Code; // 그룹장코드
+	private String member_NickName; // 그룹장닉네임
+	private String studyGroup_Name; // 그룹명
+	private int location_Code; // 지역 코드
+	private String location_Name; // 지역 명
+	private int studyGroup_GoalTime; // 목표 시간
+	private int studyGroup_MaxNum; // 인원수
+	private String studyGroup_Intro; // 그룹 소개
+	private Date studyGroup_StDate; // 그룹 생성일
+	private int studyGroup_Status; // 그룹 상태
+	private Date studyGroup_EdDate; // 그룹 폐쇄일
+	private int category_Code; // 카테고리 코드
+	private String category_Name; // 카테고리 명
+	private int studyGroup_OpenStatus; // 공개/비공개 여부
+	private String studyGroup_Pwd; // 그룹 비밀번호
+	private int groupTotalStudyTime; // 오늘 그룹의 총 공부량
+
+	private int gr_Dates; // 오늘날짜 - 그룹 생성날짜
+	private int gr_Mem_Count; // 현재 그룹 참여 인원 (DB를 바탕으로 도출 하는 필드)
+
+	public SGDetail() {
+	}
+
+	public SGDetail(int studyGroup_Code, int member_Code, String member_NickName, String studyGroup_Name,
+			int location_Code, String location_Name, int studyGroup_GoalTime, int studyGroup_MaxNum,
+			String studyGroup_Intro, Date studyGroup_StDate, int studyGroup_Status, Date studyGroup_EdDate,
+			int category_Code, String category_Name, int studyGroup_OpenStatus, String studyGroup_Pwd,
+			int groupTotalStudyTime, int gr_Dates, int gr_Mem_Count) {
 		super();
 		this.studyGroup_Code = studyGroup_Code;
 		this.member_Code = member_Code;
@@ -215,10 +217,8 @@ public class SGDetail implements Serializable {
 				+ ", studyGroup_StDate=" + studyGroup_StDate + ", studyGroup_Status=" + studyGroup_Status
 				+ ", studyGroup_EdDate=" + studyGroup_EdDate + ", category_Code=" + category_Code + ", category_Name="
 				+ category_Name + ", studyGroup_OpenStatus=" + studyGroup_OpenStatus + ", studyGroup_Pwd="
-				+ studyGroup_Pwd + ", groupTotalStudyTime=" + groupTotalStudyTime + ", grDates=" + gr_Dates
+				+ studyGroup_Pwd + ", groupTotalStudyTime=" + groupTotalStudyTime + ", gr_Dates=" + gr_Dates
 				+ ", gr_Mem_Count=" + gr_Mem_Count + "]";
 	}
 
-   
-   
 }
