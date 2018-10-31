@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 
@@ -41,7 +42,7 @@
 			.groupTitleTblWrap { margin-left:5px; }
 			  .groupTitleTbl { width:100%; margin-bottom:0px;/* margin: 0px 0px 5px; */ }
 			  .groupTitleTbl h2 { font-weight:bold; line-height:1.7; font-size:27px; margin:0px; }
-	 		  .groupTitleTbl .groupIntro { height:55px; padding:15px;/* 10px 5px 15px 5px; */ font-size:15px; table-layout:fixed; word-break:break-all; }
+	 		  .groupTitleTbl .groupIntro { height:55px; padding:15px 15px 15px 5px; font-size:15px; table-layout:fixed; word-break:keep-all; }
 			  .groupOptDetailTbl { width:230px; display:inline-table; font-size:14px; }
 	 		  .groupOptDetailTbl td { padding:7px 5px 1px 5px; border-bottom:1px solid gray; }
 			  .groupOptDetailTbl strong { float:left; }
@@ -108,12 +109,12 @@
 			<div class="titleArea">
 				<div class="groupInfoArea topInfoArea">
 					<div class="groupInfoLeft">
-						<table class="topInfoAllWrapTbl">
+						<table class="topInfoAllWrapTbl" border="1">
 							<tr><td class="radiusSmallWrapTd">
 								<div class="category radiusBoxSmall">${sg.location_Name} / ${sg.category_Name}</div>
 							</td></tr>
 							<tr><td>
-								<table class="topInfoContWrapTbl groupTitleTblWrap">
+								<table class="topInfoContWrapTbl groupTitleTblWrap" border="1">
 									<tr><td>
 										<table class="groupTitleTbl">
 											<tr><td><h2>${sg.studyGroup_Name}</h2></td></tr>
@@ -124,25 +125,29 @@
 									</td></tr>
 									<tr><td>
 										<table class="groupOptDetailTbl">
-											<tr>
-												<td><strong>목표시간</strong>	<span>'${sg.studyGroup_GoalTime} / 3600' 시간</span></td>
-											</tr>
-											<tr>
-												<td><strong>참여인원</strong>	<span>${sg.groupMemberCount} / ${sg.studyGroup_MaxNum} 명</span></td>
-											</tr>
-											<tr>
-												<td><strong>시 작 일</strong>		<span>${sg.studyGroup_StDate} (<!-- sysdate-startDate -->3 일 째)</span></td>
-<!-- 												<td><strong>시 작 일</strong>		<span>2018. 10. 16. (6 일 째)</span></td> -->
-											</tr>
-				<!-- 							<tr> -->
-				<!-- 								<td><strong>강퇴기준</strong>	<span>1 시간</span></td> -->
-				<!-- 							</tr> -->
+											<tr><td>
+												<strong>목표시간</strong>
+												<span><fmt:formatNumber value="${sg.studyGroup_GoalTime / 3600}" pattern="0"/> 시간</span>
+											</td></tr>
+											<tr><td>
+												<strong>참여인원</strong>
+												<span>${sg.gr_Mem_Count} / ${sg.studyGroup_MaxNum} 명</span>
+											</td></tr>
+											<tr><td>
+												<strong>시 작 일</strong>	
+												<span><fmt:formatDate value="${sg.studyGroup_StDate}" pattern="yyyy. MM. dd."/> (${sg.gr_Dates} 일 째)</span>
+											</td></tr>
 										</table>
 									</td></tr>
 								</table>
 							</td></tr>									
 						</table>
 					</div>
+				
+					
+					
+					
+					
 					<div class="groupInfoRight">
 						<table class="topInfoAllWrapTbl">
 							<tr class="afterLoginShow"><td colspan="2" class="radiusSmallWrapTd">

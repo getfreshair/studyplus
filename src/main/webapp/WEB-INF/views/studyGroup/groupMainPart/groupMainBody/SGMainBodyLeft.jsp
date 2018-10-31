@@ -226,6 +226,7 @@
 				$inSGArea = $('<div class="inSGArea">');
 				$inSGImgARea = $('<div class="inSGImgArea">');
 				$inSGImg = $('<img>').attr('src', "${ contextPath }/resources/upload/studygroup/thumbnail/fuck.jpg");
+        $inSGImg.attr('onclick', "SGdetailPage()");
 				$inSGInfoArea = $('<div class="inSGInfoArea">');
 				$inSGTitle = $('<div class="inSGTitle">');
 				$inSGTrophyImg = $('<img>').attr('src', "${ contextPath }/resources/images/studyGroup/trophy.png");

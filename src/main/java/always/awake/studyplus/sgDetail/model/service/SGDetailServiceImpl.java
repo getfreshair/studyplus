@@ -21,7 +21,7 @@ public class SGDetailServiceImpl implements SGDetailService{
 		
 		SGDetail sg = sgd.selectOneGroup(sqlSession, sgCode);
 		
-		System.out.println("서비스의 SGDetail : " + sg);
+		System.out.println("서비스의 SGDetail : " + sg.toString());
 		return sg;
 	}
 	
