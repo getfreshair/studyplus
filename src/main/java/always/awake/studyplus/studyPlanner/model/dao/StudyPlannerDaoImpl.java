@@ -26,6 +26,26 @@ public class StudyPlannerDaoImpl implements StudyPlannerDao{
 		
 		return resultList;
 	}
+
+	
+	//월간 공부량 차트
+	@Override
+	public List<HashMap<String, Object>> monthlyChart(SqlSessionTemplate sqlSession,
+			List<HashMap<String, Object>> list) {
+		
+		List<HashMap<String, Object>> resultList = new ArrayList<HashMap<String, Object>>();
+		
+		HashMap<String, Object> hamp = list.get(0);
+		System.out.println("dao : " + list.get(0));
+		
+		resultList = sqlSession.selectList("StudyTime.selectMonthlyChart", hamp);
+		System.out.println("dao resultList : " +  resultList);
+		System.out.println(resultList); 
+		
+		return resultList;
+	}
+	
+
 	
 
 }

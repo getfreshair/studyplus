@@ -22,6 +22,9 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 
+<!-- <link rel="stylesheet" href="/studyplus/resources/css/datepicker.min.css">
+<script src="/studyplus/resources/js/datepicker.min.js"></script>
+<script src="/studyplus/resources/js/datepicker.ko.js"></script> -->
 <style type="text/css">
 	body{background:#f8f8f8;}
 	#footer{background: #fff;}
@@ -158,6 +161,7 @@
 								<div class="box_tit">
 									<span class="txt">일간 공부량</span>
 									<input type="text" id="todayDatePicker" class="date">
+									<!-- <input type='text' id="todayDatePicker" class="date" data-language='ko'/> -->
 								</div>
 								<div class="chart">
 									<canvas id="todayChart"></canvas>
@@ -182,6 +186,8 @@
 									<span class="txt">주간 · 월간 공부량</span>
 									<input type="text" id="weeklyDatePicker" class="date">
 									<input type="text" id="monthlyDatePicker" class="date">
+									<!-- <input type='text' id="weeklyDatePicker" class="date" data-language='ko' data-range="true" data-multiple-dates-separator=" ~ "/>
+									<input type='text' id="monthlyDatePicker" class="date" data-language='ko' data-min-view="months" data-view="months"/> -->
 								</div>
 								<div class="chart">
 									<div class="tab">

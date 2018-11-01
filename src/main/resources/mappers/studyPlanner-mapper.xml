@@ -24,6 +24,16 @@
 		AND STUDYTIME_DATE = #{chartDate}
 	</select>
 	
+	<!-- 월간 공부량 차트 -->
+	<select id="selectMonthlyChart" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT * 
+		FROM STUDYTIME 
+		WHERE MEMBER_CODE = #{loginUserCode}
+		AND STUDYTIME_DIVISION = 1
+		AND STUDYTIME_DATE LIKE '%'|| #{chartDateYear} || '/' || #{chartDateMonth} || '%'
+		<!-- AND STUDYTIME_DATE LIKE '%'||#{chartDate}||'%' -->
+	</select>
+	
 	
 	
 </mapper>

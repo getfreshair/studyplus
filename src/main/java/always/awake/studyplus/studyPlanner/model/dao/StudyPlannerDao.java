@@ -10,4 +10,7 @@ public interface StudyPlannerDao {
 	//일간 공부량 차트
 	List<HashMap<String, Object>> todayChart(SqlSessionTemplate sqlSession, List<HashMap<String, Object>> list);
 
+	//월간 공부량 차트
+	List<HashMap<String, Object>> monthlyChart(SqlSessionTemplate sqlSession, List<HashMap<String, Object>> list);
+
 }
