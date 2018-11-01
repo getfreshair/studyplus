@@ -40,53 +40,16 @@ public class blockController {
 	}
 
 	@RequestMapping("blockTimesTempSave.bl")
-	public void blockTimesTempSave(@RequestParam("todayStudyTime") String todayStudyTime,
+	public void blockTimesTempSave(@RequestParam("todayStudyTime") String studyTime,
 			@RequestParam("groupList") String groupList, @RequestParam("goalList") String goalList,
 			HttpServletResponse response) {
 		System.out.println(groupList);
 		System.out.println(goalList);
 
-		///////////////// 오늘의 공부시간 대간대별 임시 저장 ///////////////////
-		String path = "C:\\studyPlanner\\timmerDatas\\";
-		String fileName = "toDayStudyTime.txt";
-		String timeZone = new SimpleDateFormat("HH").format(new Date());
-		// 공부시간대 체크
-		Calendar cal1 = new GregorianCalendar();
-		cal1.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeZone));
-		cal1.set(Calendar.MINUTE, 0);
-		cal1.set(Calendar.SECOND,0);
-		cal1.set(Calendar.MILLISECOND, 0);
-		Calendar cal2 = new GregorianCalendar();
-		
-		File file = new File(path + fileName);
-		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
-			long checkTime = cal2.getTimeInMillis()-cal1.getTimeInMillis(); 
-			// 전 시간대별 공부시간 체크
-			if((Double.parseDouble(todayStudyTime)*1000)>checkTime) {
-				double checkTimeZone = Math.ceil(((Long.parseLong(todayStudyTime)-(checkTime/1000))/3600.0));
-				bw.write("[" + timeZone + "]" + (checkTime/1000));
-				bw.newLine();
-				for (int i = 1; i <= checkTimeZone; i++) {
-					if(i != checkTimeZone) {
-						bw.write("[" + (Integer.parseInt(timeZone)-i) + "]3600");
-						bw.newLine();
-					} else {
-						bw.write("[" + (Integer.parseInt(timeZone)-i) + "]" + (Integer.parseInt(todayStudyTime)-(3600*(i-1))-(checkTime/1000)));
-						bw.newLine();
-					}
-				}
-			} else {
-				bw.write("[" + timeZone + "]" + todayStudyTime);
-				bw.newLine();
-			}
-			bw.flush();
-			bw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		///////////////////////////////////////////////////////////
+		// 파일 기록 
+		// 현재 시간대 설정
+		String timeZone =new SimpleDateFormat("HH").format(new GregorianCalendar().getTimeInMillis());
+		writeTimeDataFile(0,/*Double.parseDouble(studyTime)*/174000,timeZone);
 		try {
 			response.getWriter().println("데이타 임시 저장 성공");
 		} catch (IOException e) {
@@ -96,9 +59,98 @@ public class blockController {
 
 	}
 
+	public void writeTimeDataFile(int dateCount,double studyTime,String timeZone) {
+		
+		System.out.println("dateCount : " +  dateCount + " / studyTime : " + studyTime + " / timeZone : " + timeZone);
+		// 저장할 파일 경로
+		String path = "C:\\studyPlanner\\timmerDatas\\";
+		
+		// 저장할 파일 명
+		Calendar cal = new GregorianCalendar();
+		cal.add(Calendar.DATE, dateCount);
+		if(dateCount < 0) {
+			cal.add(Calendar.HOUR_OF_DAY, 24);
+		}
+		String fileName = new SimpleDateFormat("yyyy-MM-dd-").format(cal.getTimeInMillis())+"StudyTime.txt";
+		
+		// 공부한 시간대 초기화
+		Calendar cal1 = new GregorianCalendar();
+		cal1.add(Calendar.DATE, dateCount);
+		cal1.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeZone));
+		cal1.set(Calendar.MINUTE, 0);
+		cal1.set(Calendar.SECOND, 0);
+		
+		// 파일 생성
+		File file = new File(path + fileName);
+		 
+		// 날짜변경 체크용 변수
+		int check = 0;
+		int sumStudyTime = 0;
+		int saveTimeZone = Integer.parseInt(timeZone)-1;
+		try {
+			// I/O Stream 생성
+			BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
+			
+			// 현재 시간대를 기준으로 현재시간의 지나간 시간
+			long checkTime = cal.getTimeInMillis() - cal1.getTimeInMillis();
+			
+			// 시간대별 공부 시간 저장
+			// 현재 시간대 이전의 공부시간이 존재할 경우
+			if ((studyTime ) > (checkTime/1000)) {
+				double checkTimeZone = Math.ceil(((studyTime - (checkTime / 1000.0)) / 3600.0));
+				// 현재 시간대의 공부량 기록
+				bw.write("[" + saveTimeZone + "]" + (checkTime / 1000));
+				sumStudyTime+= (checkTime / 1000);
+				bw.newLine();
+				// 공부한 시간 기준으로 이전 시간대만큼 반복
+				for (int i = 1; i <= checkTimeZone; i++) {
+					// 이전시간대와 비교 시간대가 일치하지 않을 경우 
+					if (i != checkTimeZone) {
+						bw.write("[" + (saveTimeZone - i) + "]3600");
+						bw.newLine();
+						sumStudyTime+= 3600;
+						if((saveTimeZone - i) < 0){
+							check++;
+							break;
+						}
+					// 이전 시간대와 비교 시간대가 일치할 경우
+					} else {
+						// 이전시간대의 날짜가 넘어가는 경우 체크
+						bw.write("[" + (saveTimeZone - i) + "]"
+								+ (studyTime - (3600 * (i - 1)) - (checkTime / 1000)));
+						bw.newLine();
+					}
+				}
+			} else {
+				bw.write("[" + saveTimeZone + "]" + studyTime);
+				bw.newLine();
+			}
+			bw.flush();
+			bw.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// 재귀호출로 남은 공부 처리 
+		if(check == 1 ) {
+			// (날짜 / 남은시간/ 타임존)을 인자로 메소드 재귀호출
+			System.out.println("sumStudyTime : " + sumStudyTime);
+			System.out.println("studyTime-sumStudyTime : " + (studyTime-sumStudyTime));
+			writeTimeDataFile(--dateCount,studyTime-sumStudyTime,"23");
+		}
+		
+	}
+
 	@RequestMapping(value = "saveStudyTime.bl")
 	public String saveStudyTime() {
-		
+
 		return "redirect:studyPlannerMain.me";
 	}
 
