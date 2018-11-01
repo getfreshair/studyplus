@@ -11,6 +11,7 @@
 	var wsocket;
 	
 	function connect() {
+		// ws://192.168.10.69:8001/studyplus/chat-ws.socket
 		wsocket = new WebSocket("ws://localhost:8001/studyplus/chat-ws.socket");
 		wsocket.onopen = onOpen;
 		//서버로부터 메시지를 받으면 호출되는 함수 지정
