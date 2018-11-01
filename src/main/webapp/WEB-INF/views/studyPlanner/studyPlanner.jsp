@@ -238,7 +238,22 @@
 														var member2_Nickname = $(this).text();
 														var member1_Nickname = '${ loginUser.member_Nickname }';
 // 														location.href="openChat.ms?member1_Nickname="+ member1_Nickname + "&member2_Nickname=" + member2_Nickname;
-														location.href="${contextPath}/web/chat.socket";
+// 														location.href="${contextPath}/web/chat.socket";
+
+														$.ajax({
+															url : "${contextPath}/web/chat.socket",
+															type : "GET",
+															data : {
+																member1_Nickname:member1_Nickname,
+																member2_Nickname:member2_Nickname
+															},
+															success : function(data){
+																console.log(data);
+																$(".chating").empty();
+																$(".chating").append(data);
+																snsSlideChat();
+															}
+														});
 													});
 												}
 												snsSlideChat();
@@ -251,12 +266,7 @@
 								</script>
 							</ul>
 							<div class="chating">
-						
-								<div class="">
-
-								</div>
-
-								<span class="chat_close">[닫기]</span>
+	
 							</div>
 						</div>
 					</div>
