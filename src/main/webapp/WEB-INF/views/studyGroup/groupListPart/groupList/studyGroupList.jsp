@@ -115,9 +115,9 @@
 		background:white;
 		padding: 8px;
 		border-radius: 50%;
-	    width: 38px;
-	    height: 38px;
-	    font-size: 14px;
+	    width: 35px;
+	    height: 35px;
+	    font-size: 12px;
 	    color:#BDBDBD;
 	    border: 1px solid currentColor;
 	}
