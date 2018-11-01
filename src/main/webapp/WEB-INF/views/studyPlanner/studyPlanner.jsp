@@ -237,7 +237,8 @@
 													$('.nameClass' + i).click(function(){
 														var member2_Nickname = $(this).text();
 														var member1_Nickname = '${ loginUser.member_Nickname }';
-														location.href="openChat.ms?member1_Nickname="+ member1_Nickname + "&member2_Nickname=" + member2_Nickname;
+// 														location.href="openChat.ms?member1_Nickname="+ member1_Nickname + "&member2_Nickname=" + member2_Nickname;
+														location.href="${contextPath}/web/chat.socket";
 													});
 												}
 												snsSlideChat();

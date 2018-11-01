@@ -24,16 +24,16 @@
 		<collection property="category_Name" javaType="java.util.ArrayList" resultMap="adminInterestCategory"/>
 	</resultMap>
 	
-	<resultMap type="adminPenalty" id="adminPenaltyResultSet">
-		<id property ="member_Code" column="member_Code"></id>
-		<result property="member_Id" column = "member_Id"/>
-		<result property="member_Status" column ="member_Status"/>
-		<result property="block_Code" column = "block_Code"/>
-		<result property="block_StartDate" column="block_StartDate"/>
-		<result property="block_EndDate" column="block_EndDate"/>
-		<result property="block_Reason" column = "block_Reason"/>
-		<result property="block_status" column="block_status"/>
-	</resultMap>
+<!-- 	<resultMap type="adminPenalty" id="adminPenaltyResultSet"> -->
+<!-- 		<id property ="member_Code" column="member_Code"></id> -->
+<!-- 		<result property="member_Id" column = "member_Id"/> -->
+<!-- 		<result property="member_Status" column ="member_Status"/> -->
+<!-- 		<result property="block_Code" column = "block_Code"/> -->
+<!-- 		<result property="block_StartDate" column="block_StartDate"/> -->
+<!-- 		<result property="block_EndDate" column="block_EndDate"/> -->
+<!-- 		<result property="block_Reason" column = "block_Reason"/> -->
+<!-- 		<result property="block_status" column="block_status"/> -->
+<!-- 	</resultMap> -->
 	
 	<resultMap type="adminInterestCategory" id="admininterestCategoryResultSet">
 		<result property="category_Name" column="category_Name"/>
