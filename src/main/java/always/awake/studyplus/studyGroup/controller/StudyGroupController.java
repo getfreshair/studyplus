@@ -52,7 +52,7 @@ public class StudyGroupController {
 		try {
 			sgs.insertStudyGroup(studygroup, member_Code, files, request);
 			
-			return "studyGroup/studyGroupMain";
+			return "redirect:studyGroupMainPage.sg";
 		} catch (StudyGroupException e) {
 			model.addAttribute("message", e.getMessage());
 			

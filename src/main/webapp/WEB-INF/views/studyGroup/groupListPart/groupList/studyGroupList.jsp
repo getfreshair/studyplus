@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,15 +15,21 @@
 		background:white;
 		display:inline-block;
 		width:385px;
-		text-align:left;
 		margin-bottom:20px;
+	}
+	.SGInfoArea:nth-of-type(1n), .SGInfoArea:nth-of-type(2n) {
+		margin-right:22px;
+	}
+	.SGInfoArea:nth-of-type(3n) {
+		margin-right:0px;
+		margin-left: 1px;
 	}
 	.SGInfoThumbnailImgArea {
 		display:inline-block;
 	}
 	.SGListInfoArea {
 		text-align:justify;
-		margin-bottom:10px;
+		margin-bottom:30px;
 	}
 	.SGInfoRightArea {
 		width:245px;
@@ -93,25 +100,26 @@
 		display:inline-block;
 		float:right;
 	}
-	.SGInfoLockImg {
+	.SGInfoLockArea img {
 		width: 15px;
     	height: 15px;
     	margin-right:10px;
 	}
 	.SGPIArea {
+		display:block;
 		text-align:center;
-		margin-bottom:30px;
+		margin-bottom: 30px;
 	}
 	.SGPageBtn {
 		display: inline-block;
-	    background: #FCCE00;
-	    color:white;
-	    border-radius: 10%;
-	    height: 40px;
-	    width: 40px;
-	    font-size: 21px;
-	    padding-right: 1px;
-	    padding-top: 4px;
+		background:white;
+		padding: 8px;
+		border-radius: 50%;
+	    width: 38px;
+	    height: 38px;
+	    font-size: 14px;
+	    color:#BDBDBD;
+	    border: 1px solid currentColor;
 	}
 </style>
 <script>
@@ -134,52 +142,66 @@
 				
 			},
 			success : function(data){
-				$SGListInfoArea = $('.SGListInfoArea');
-				$SGInfoArea = $('<div class="SGInfoArea">');
-				$SGInfoThumbnailImgArea = $('<div class="SGInfoThumbnailImgArea">');
-				$SGInfoThumbnailImg = $('<img class="SGInfoThumbnailImg">').attr('src', "${ contextPath }/resources/images/studyGroup/poster.jpg");
-				$SGInfoRightArea = $('<div class="SGInfoRightArea">');
-				$SGInfoCLArea = $('<div class="SGInfoCLArea">');
-				$SGInfoCategoryArea = $('<div class="SGInfoCategoryArea">').append('카테고리');
-				$SGInfoLocationArea = $('<div class="SGInfoLocationArea">').append('지역');
-				$SGInfoTitleArea = $('<div class="SGInfoTitleArea">'); //아래 이미지 어펜드 후 제목 어펜드
-				$SGInfoBossImg = $('<img class="SGInfoBossImg">').attr('src', "${contextPath}/resources/upload/member/thumbnail/${sessionScope.loginUser.member_Files.files_Name}");
-				$SGInfoCommentArea = $('<div class="SGInfoCommentArea">').append('There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable.');
-				$SGInfoDGArea = $('<div class="SGInfoDGArea">');
-				$SGDateArea = $('<div class="SGDateArea">').append('2018년 10월 24일');
-				$SGGoalArea = $('<div class="SGGoalArea">').append('일간 목표 : ' + '12시간');
-				$SGInfoMaxCrewArea = $('<div class="SGInfoMaxCrewArea">').append('모집 인원 : ' + '15' + '명 / ' + '20' + '명');
-				$SGInfoLockArea = $('<div class="SGInfoLockArea">');
-				$SGInfoLockImg = $('<img class="SGInfoLockImg">').attr('src', '${ contextPath }/resources/images/studyGroup/key.png');
+				console.log(data);
 				
-				$SGInfoThumbnailImgArea.append($SGInfoThumbnailImg);
-				$SGInfoRightArea.append($SGInfoThumbnailImgArea);
-				$SGInfoCLArea.append($SGInfoCategoryArea);
-				$SGInfoCLArea.append($SGInfoLocationArea);
-				$SGInfoRightArea.append($SGInfoCLArea);
-				$SGInfoTitleArea.append($SGInfoBossImg);
-				$SGInfoTitleArea.append("'SHOW ME THE MONEY' IN START");
-				$SGInfoRightArea.append($SGInfoTitleArea);
-				$SGInfoRightArea.append($SGInfoCommentArea);
-				$SGInfoDGArea.append($SGDateArea);
-				$SGInfoDGArea.append($SGGoalArea);
-				$SGInfoRightArea.append($SGInfoDGArea);
-				
-				$SGInfoLockArea.append($SGInfoLockImg);
-				$SGInfoMaxCrewArea.append($SGInfoLockArea);
-				$SGInfoRightArea.append($SGInfoMaxCrewArea);
-				$SGInfoArea.append($SGInfoThumbnailImgArea);
-				$SGInfoArea.append($SGInfoRightArea);
-				
-				$SGListInfoArea.append($SGInfoArea);
+				for(var key in data){
+					$SGInfoArea = $('<div class="SGInfoArea">');
+					$SGInfoThumbnailImgArea = $('<div class="SGInfoThumbnailImgArea">');
+					$SGInfoThumbnailImg = $('<img class="SGInfoThumbnailImg">').attr('src', "/studyplus/resources/upload/studygroup/thumbnail/" + data[key].SGFILES_NAME);
+					$SGInfoRightArea = $('<div class="SGInfoRightArea">');
+					$SGInfoCLArea = $('<div class="SGInfoCLArea">');
+					$SGInfoCategoryArea = $('<div class="SGInfoCategoryArea">').append(data[key].CATEGORY_NAME);
+					$SGInfoLocationArea = $('<div class="SGInfoLocationArea">').append(data[key].LOCATION_NAME);
+					$SGInfoTitleArea = $('<div class="SGInfoTitleArea">');
+					$SGInfoBossImg = $('<img class="SGInfoBossImg">').attr('src', "/studyplus/resources/upload/member/thumbnail/" + data[key].MFILES_NAME);
+					$SGInfoCommentArea = $('<div class="SGInfoCommentArea">').append(data[key].STUDYGROUP_INTRO);
+					$SGInfoDGArea = $('<div class="SGInfoDGArea">');
+					$SGDateArea = $('<div class="SGDateArea">').append(data[key].STUDYGROUP_STDATE);
+					$SGGoalArea = $('<div class="SGGoalArea">').append('일간 목표 : ' + data[key].STUDYGROUP_GOALTIME + '시간');
+					$SGInfoMaxCrewArea = $('<div class="SGInfoMaxCrewArea">').append('모집 인원 : ' + data[key].JOINGROUP_MEMBERCOUNT + '명 / ' + data[key].STUDYGROUP_MAXNUM + '명');
+					$SGInfoLockArea = $('<div class="SGInfoLockArea">');
+					$SGInfoLockImg = $('<img>').attr('src', '/studyplus/resources/images/studyGroup/key.png');
+					
+					$SGInfoThumbnailImgArea.append($SGInfoThumbnailImg);
+					$SGInfoRightArea.append($SGInfoThumbnailImgArea);
+					$SGInfoCLArea.append($SGInfoCategoryArea);
+					$SGInfoCLArea.append($SGInfoLocationArea);
+					$SGInfoRightArea.append($SGInfoCLArea);
+					$SGInfoTitleArea.append($SGInfoBossImg);
+					$SGInfoTitleArea.append(data[key].STUDYGROUP_NAME);
+					$SGInfoRightArea.append($SGInfoTitleArea);
+					$SGInfoRightArea.append($SGInfoCommentArea);
+					$SGInfoDGArea.append($SGDateArea);
+					$SGInfoDGArea.append($SGGoalArea);
+					$SGInfoRightArea.append($SGInfoDGArea);
+					
+					if(data[key].STUDYGROUP_OPENSTATUS != 0){
+						$SGInfoLockArea.append($SGInfoLockImg);	
+					}
+					
+					$SGInfoMaxCrewArea.append($SGInfoLockArea);
+					$SGInfoRightArea.append($SGInfoMaxCrewArea);
+					$SGInfoArea.append($SGInfoThumbnailImgArea);
+					$SGInfoArea.append($SGInfoRightArea);
+					
+					$('.SGListInfoArea').append($SGInfoArea);
+				}
 			}
 		});
 	};
 </script>
 </head>
 <body>
-	<div class="SGListAdArea"><img src="${contextPath}/resources/images/ad/ad2.jpg"></div>
+	<div class="SGListAdArea"><img src="/studyplus/resources/images/ad/ad2.jpg"></div>
 	<div class="SGListInfoArea"></div>
-	<div class="SGPIArea"><div class="SGPageBtn">1</div></div>
+	<div class="SGPIArea">
+		<div class="SGPageBtn"><<</div>
+		<div class="SGPageBtn"><</div>
+		<div class="SGPageBtn">1</div>
+		<div class="SGPageBtn">2</div>
+		<div class="SGPageBtn">3</div>
+		<div class="SGPageBtn">></div>
+		<div class="SGPageBtn">>></div>
+	</div>
 </body>
 </html>

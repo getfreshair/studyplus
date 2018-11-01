@@ -73,21 +73,21 @@
 			<div class="SGLastBoardArea">
 				<div class="SGTitleArea">2018년 KH정보교육원 학생들의 모임</div><br>
 				<div class="SGBoardReadCheckArea">
-					<img src="${ contextPath }/resources/images/studyGroup/checked.png">
+					<img src="/studyplus/resources/images/studyGroup/checked.png">
 				</div>
 				<div class="SGBoardTitleArea">이거 문제좀 풀어주세요</div>
 			</div>
 			<div class="SGLastBoardArea">
 				<div class="SGTitleArea">2018년 KH정보교육원 학생들의 모임</div><br>
 				<div class="SGBoardReadCheckArea">
-					<img src="${ contextPath }/resources/images/studyGroup/checked.png">
+					<img src="/studyplus/resources/images/studyGroup/checked.png">
 				</div>
 				<div class="SGBoardTitleArea">이거 문제좀 풀어주세요</div>
 			</div>
 			<div class="SGLastBoardArea">
 				<div class="SGTitleArea">2018년 KH정보교육원 학생들의 모임</div><br>
 				<div class="SGBoardReadCheckArea">
-					<img src="${ contextPath }/resources/images/studyGroup/checked.png">
+					<img src="/studyplus/resources/images/studyGroup/checked.png">
 				</div>
 				<div class="SGBoardTitleArea">이거 문제좀 풀어주세요</div>
 			</div>
@@ -97,21 +97,21 @@
 			<div class="SGMyBoardArea">
 				<div class="SGTitleArea">2018년 KH정보교육원 학생들의 모임</div><br>
 				<div class="SGBoardReadCheckArea">
-					<img src="${ contextPath }/resources/images/studyGroup/checked.png">
+					<img src="/studyplus/resources/images/studyGroup/checked.png">
 				</div>
 				<div class="SGBoardTitleArea">정답 공유해드립니다</div>
 			</div>
 			<div class="SGMyBoardArea">
 				<div class="SGTitleArea">2018년 KH정보교육원 학생들의 모임</div><br>
 				<div class="SGBoardReadCheckArea">
-					<img src="${ contextPath }/resources/images/studyGroup/checked.png">
+					<img src="/studyplus/resources/images/studyGroup/checked.png">
 				</div>
 				<div class="SGBoardTitleArea">정답 공유해드립니다</div>
 			</div>
 			<div class="SGMyBoardArea">
 				<div class="SGTitleArea">2018년 KH정보교육원 학생들의 모임</div><br>
 				<div class="SGBoardReadCheckArea">
-					<img src="${ contextPath }/resources/images/studyGroup/checked.png">
+					<img src="/studyplus/resources/images/studyGroup/checked.png">
 				</div>
 				<div class="SGBoardTitleArea">정답 공유해드립니다</div>
 			</div>
