@@ -193,12 +193,12 @@
 <body>
 	<div class="SGMainBodyRightArea">
 		<div class="insertSGImgArea" onclick="studyGroupInsertPage()">
-			<img src="${contextPath}/resources/images/studyGroup/insertGroup.png">
+			<img src="/studyplus/resources/images/studyGroup/insertGroup.png">
 		</div>
 		<div class="SGBoardArea">
 			<div class="SGBoardChooseBtnArea">
 				<ul class="SGBoardChooseBtnUl">
-					<li onclick="SGBoardList('SGBoardListArea')"><img src="${contextPath}/resources/images/studyGroup/pencil.png"/> 최근 게시글</li>
+					<li onclick="SGBoardList('SGBoardListArea')"><img src="/studyplus/resources/images/studyGroup/pencil.png"/> 최근 게시글</li>
 					<li onclick="SGBoardList('SGMyBoardListArea')"><img>내 게시글</li>
 				</ul>
 			</div>
@@ -206,7 +206,7 @@
 				<div class="SGLastBoardArea">
 					<div class="SGTitleArea">2018년 KH정보교육원 학생들의 모임</div><br>
 					<div class="SGBoardReadCheckArea">
-						<img src="${ contextPath }/resources/images/studyGroup/checked.png">
+						<img src="/studyplus/resources/images/studyGroup/checked.png">
 					</div>
 					<div class="SGBoardTitleArea">이거 문제좀 풀어주세요</div>
 				</div>
@@ -215,7 +215,7 @@
 				<div class="SGMyBoardArea">
 					<div class="SGTitleArea">연봉을 올려봐요!!!</div><br>
 					<div class="SGBoardReadCheckArea">
-						<img src="${ contextPath }/resources/images/studyGroup/checked.png">
+						<img src="/studyplus/resources/images/studyGroup/checked.png">
 					</div>
 					<div class="SGBoardTitleArea">정답 공유해드립니다</div>
 				</div>

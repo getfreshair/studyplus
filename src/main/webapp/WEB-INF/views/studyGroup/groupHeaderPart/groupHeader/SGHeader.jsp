@@ -75,16 +75,19 @@
 </head>
 <script>
 	$(function(){
+		$('.searchGroupName').click(function(){
+			$('.searchGroupName').val("");
+		});
+		
 		$('.searchGroupName').keypress(function(key) {
 			if(key.which == 13){
 				$.ajax({
 					url: 'studyGroupListPage.sg',
 					beforeSend : function(){
-						var path = '${ contextPath }';
 						$('.SGContentArea').empty();
 						
 						$img = $('<img>');
-						$img.attr('src', path + '/resources/images/studyGroup/groupListLoading.gif');
+						$img.attr('src', '/studyplus/resources/images/studyGroup/groupListLoading.gif');
 						$img.css({
 							'width': '50px',
 							'height': '50px',
@@ -104,7 +107,7 @@
 	})
 </script>
 <body>
-	<div class="SGHeaderSeachArea" style="background-image:url(${contextPath}/resources/images/studyGroup/group_background.jpg)">
+	<div class="SGHeaderSeachArea" style="background-image:url(/studyplus/resources/images/studyGroup/group_background.jpg)">
 		<div class="SGSeachArea">
 			<input type="text" class="searchGroupName" name="searchGroupName" placeholder="Study Group Name"/>
 		</div>

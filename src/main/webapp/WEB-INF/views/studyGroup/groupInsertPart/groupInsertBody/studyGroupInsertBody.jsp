@@ -277,7 +277,7 @@
 <body>
 	<div class="SGInsertForm">
 		<div class="SGInsertInfoForm">
-			<img src="${ contextPath }/resources/images/studyGroup/point.png">
+			<img src="/studyplus/resources/images/studyGroup/point.png">
 			<h4>스터디 그룹 생성</h4> | 스터디 그룹을 생성합니다.
 		</div>
 		<form action="insertStudyGroup.sg" method="post" encType="multipart/form-data">
@@ -287,7 +287,7 @@
 						<div class="inputMemberInfo">
 							<h4>배너 이미지를 선택해주세요. 최적 해상도는  10 : 4 비율입니다.</h4>
 							<label>
-								<img class="SHInsertImg_plusImg" id="SHInsertImg_plusImg" src="${contextPath}/resources/images/studyGroup/img_plus.png"/>
+								<img class="SHInsertImg_plusImg" id="SHInsertImg_plusImg" src="/studyplus/resources/images/studyGroup/img_plus.png"/>
 								<img class="drawThumbnailImg" id="drawThumbnailImg"/>
 								<input type="file" onchange="previewFile()" class="SGThumbnailImg" id="SGThumbnailImg" name="studygroupThumbnailImg"/>
 							</label>

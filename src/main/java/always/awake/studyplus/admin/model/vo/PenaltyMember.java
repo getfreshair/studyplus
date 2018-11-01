@@ -1,5 +1,8 @@
 package always.awake.studyplus.admin.model.vo;
 
+
+public class PenaltyMember {
+
 import java.sql.Date;
 
 public class PenaltyMember {
@@ -89,7 +92,5 @@ public class PenaltyMember {
 				+ ", block_StartDate=" + block_StartDate + ", block_EndDate=" + block_EndDate + ", block_Reason="
 				+ block_Reason + ", block_Status=" + block_Status + "]";
 	}
-	
-	
 	
 }

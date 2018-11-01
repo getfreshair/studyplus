@@ -225,11 +225,11 @@
 			success : function(data){
 				$inSGArea = $('<div class="inSGArea">');
 				$inSGImgARea = $('<div class="inSGImgArea">');
-				$inSGImg = $('<img>').attr('src', "${ contextPath }/resources/upload/studygroup/thumbnail/fuck.jpg");
+				$inSGImg = $('<img>').attr('src', "/studyplus/resources/upload/studygroup/thumbnail/fuck.jpg");
         		$inSGImg.attr('onclick', "SGdetailPage()");
 				$inSGInfoArea = $('<div class="inSGInfoArea">');
 				$inSGTitle = $('<div class="inSGTitle">');
-				$inSGTrophyImg = $('<img>').attr('src', "${ contextPath }/resources/images/studyGroup/trophy.png");
+				$inSGTrophyImg = $('<img>').attr('src', "/studyplus/resources/images/studyGroup/trophy.png");
 				$inSGTitleH4 = $('<h4>').append('SHOW ME THE MONEY');
 				$inSGIntro = $('<div class="inSGIntro">').append('분산시키거나 분리시키는 것. 특히 제한된 지역에 집중되어 있는 부대가 적의 공격으로부터 받는 취약성을 감소시키기 위해 분산 또는 분리시키는 것.');
 				$inSGEnrolldate = $('<div class="inSGEnrolldate">').append('그룹 개설일 : 2018년  10월  1일');
@@ -241,7 +241,7 @@
 				$inSGUserImageArea = $('<div class="inSGUserImageArea">');
 				$inSGUserInfo = $('<div class="inSGUserInfo">').append('참여 인원');
 				$inSGUserImage = $('<div class="inSGUserImage">');
-				$inSGUserImg = $('<img>').attr('src', '${ contextPath }/resources/images/studyGroup/userImg.png');
+				$inSGUserImg = $('<img>').attr('src', '/studyplus/resources/images/studyGroup/userImg.png');
 				
 				$inSGImgARea.append($inSGImg);
 				$inSGTitle.append($inSGTrophyImg);
@@ -290,10 +290,10 @@
 			success : function(data){
 				$inSGArea = $('<div class="inSGArea">');
 				$inSGImgARea = $('<div class="inSGImgArea">');
-				$inSGImg = $('<img>').attr('src', "${ contextPath }/resources/upload/studygroup/thumbnail/fuck.jpg");
+				$inSGImg = $('<img>').attr('src', "/studyplus/resources/upload/studygroup/thumbnail/fuck.jpg");
 				$inSGInfoArea = $('<div class="inSGInfoArea">');
 				$inSGTitle = $('<div class="inSGTitle">');
-				$inSGTrophyImg = $('<img>').attr('src', "${ contextPath }/resources/images/studyGroup/trophy.png");
+				$inSGTrophyImg = $('<img>').attr('src', "/studyplus/resources/images/studyGroup/trophy.png");
 				$inSGTitleH4 = $('<h4>').append('SHOW ME THE MONEY');
 				
 				$inSGIntro = $('<div class="inSGIntro">').append('분산시키거나 분리시키는 것. 특히 제한된 지역에 집중되어 있는 부대가 적의 공격으로부터 받는 취약성을 감소시키기 위해 분산 또는 분리시키는 것.');
@@ -306,7 +306,7 @@
 				$inSGUserImageArea = $('<div class="inSGUserImageArea">');
 				$inSGUserInfo = $('<div class="inSGUserInfo">').append('참여 인원');
 				$inSGUserImage = $('<div class="inSGUserImage">');
-				$inSGUserImg = $('<img>').attr('src', '${ contextPath }/resources/images/studyGroup/userImg.png');
+				$inSGUserImg = $('<img>').attr('src', '/studyplus/resources/images/studyGroup/userImg.png');
 				
 				$inSGImgARea.append($inSGImg);
 				$inSGTitle.append($inSGTrophyImg);
@@ -337,7 +337,7 @@
 <body>
 	<div class="SGMainBodyLeftArea">
 		<div class="adArea">
-			<img src="${contextPath}/resources/images/ad/ad.png">
+			<img src="/studyplus/resources/images/ad/ad.png">
 		</div>
 		<div class="SGListChangeBtnArea">
 			<ul class="SGListChangeUl">
