@@ -97,13 +97,65 @@
 		UPDATE MEMBER SET MEMBER_STATUS = 3 WHERE MEMBER_CODE = #{code}
 	</update>
 	
+	<update id="penaltyEndMember">
+		UPDATE BLOCK SET BLOCK_STATUS = 1 WHERE BLOCK_CODE = #{code}
+	</update>
+	
+	<update id="penaltyEndMemberUpdate">
+		UPDATE MEMBER SET MEMBER_STATUS = 0 
+		WHERE MEMBER_CODE = (SELECT B.MEMBER_CODE
+                             FROM BLOCK B
+                             WHERE BLOCK_CODE=#{code})
+	</update>
+	
 	<select id="getPenaltyList" parameterType="map" resultType="hashmap">
 		SELECT M.MEMBER_CODE, M.MEMBER_ID, M.MEMBER_STATUS, B.BLOCK_CODE,
 		  		B.BLOCK_STARTDATE, B.BLOCK_ENDDATE, B.BLOCK_REASON, B.BLOCK_STATUS
 		FROM MEMBER M
 		JOIN BLOCK B ON(M.MEMBER_CODE = B.MEMBER_CODE)
-	    WHERE M.MEMBER_STATUS = 3 AND 
+	    WHERE M.MEMBER_STATUS = 3 AND B.BLOCK_ENDDATE > SYSDATE AND
 	    B.ROWID in (SELECT MIN(B.ROWID) from BLOCK B group by B.MEMBER_CODE)
 	</select>
 	
+	<select id="getPenaltyEndList" parameterType="map" resultType="hashmap">
+		SELECT M.MEMBER_CODE, M.MEMBER_ID, M.MEMBER_STATUS, B.BLOCK_CODE,
+		B.BLOCK_STARTDATE, B.BLOCK_ENDDATE, B.BLOCK_REASON, B.BLOCK_STATUS
+		FROM
+		MEMBER M
+		JOIN BLOCK B ON(M.MEMBER_CODE = B.MEMBER_CODE)
+		WHERE M.MEMBER_STATUS = 3 AND SYSDATE > B.BLOCK_ENDDATE AND
+		B.ROWID in (SELECT MIN(B.ROWID) from BLOCK B group by B.MEMBER_CODE)
+	</select>
+	
+	<select id="searchPenaltyHistoryById" parameterType="map" resultType="hashmap">
+		SELECT M.MEMBER_CODE, M.MEMBER_ID, M.MEMBER_STATUS, B.BLOCK_CODE,
+		B.BLOCK_STARTDATE, B.BLOCK_ENDDATE, B.BLOCK_REASON, B.BLOCK_STATUS
+		FROM MEMBER M 
+		JOIN BLOCK B ON(M.MEMBER_CODE = B.MEMBER_CODE)
+		WHERE M.MEMBER_ID LIKE '%' || #{keyword} || '%'
+	</select>
+	
+	<select id="searchPenaltyHistoryByCode" parameterType="map" resultType="hashmap">
+		SELECT M.MEMBER_CODE, M.MEMBER_ID, M.MEMBER_STATUS, B.BLOCK_CODE,
+		B.BLOCK_STARTDATE, B.BLOCK_ENDDATE, B.BLOCK_REASON, B.BLOCK_STATUS
+		FROM MEMBER M 
+		JOIN BLOCK B ON(M.MEMBER_CODE = B.MEMBER_CODE)
+		WHERE M.MEMBER_CODE LIKE '%' || #{keyword} || '%'
+	</select>
+	
+	<select id="searchPenaltyHistoryByReason" parameterType="map" resultType="hashmap">
+		SELECT M.MEMBER_CODE, M.MEMBER_ID, M.MEMBER_STATUS, B.BLOCK_CODE,
+		B.BLOCK_STARTDATE, B.BLOCK_ENDDATE, B.BLOCK_REASON, B.BLOCK_STATUS
+		FROM MEMBER M 
+		JOIN BLOCK B ON(M.MEMBER_CODE = B.MEMBER_CODE)
+		WHERE B.BLOCK_REASON LIKE '%' || #{keyword} || '%'
+	</select>
+	
+	<select id="getDispauseList" parameterType="map" resultType="hashmap">
+		SELECT M.MEMBER_CODE, M.MEMBER_ID, M.MEMBER_NICKNAME, M.MEMBER_GENDER, M.MEMBER_STATUS
+        M.MEMBER_PHONE, M.MEMBER_SMSCONFIRMATION, M.MEMBER_JOB , L.LOGINRECORD_DATE
+        FROM MEMBER M
+        JOIN LOGINRECORD L ON (M.MEMBER_CODE = L.MEMBER_CODE)
+		WHERE M.MEMBER_STATUS = 0 AND (SYSDATE - L.LOGINRECORD_DATE) > 90;
+	</select>
 </mapper>

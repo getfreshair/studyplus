@@ -22,4 +22,25 @@ public interface AdminDao {
 
 	List<Map<String, Object>> getPenaltyList(SqlSessionTemplate sqlSession, Map<String, Object> map);
 
+
+	List<Map<String, Object>> getPenaltyEndList(SqlSessionTemplate sqlSession, Map<String, Object> map);
+
+
+	int penaltyEndMember(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
+
+	int penaltyEndMemberUpdate(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
+
+	List<Map<String, Object>> searchPenaltyHistoryById(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
+
+	List<Map<String, Object>> searchPenaltyHistoryByCode(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
+
+	List<Map<String, Object>> searchPenaltyHistoryByReason(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
+
+	List<Map<String, Object>> getDispauseList(SqlSessionTemplate sqlSession, Map<String, Object> map);
+
 }
