@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import always.awake.studyplus.studyGroup.model.exception.StudyGroupException;
 import always.awake.studyplus.studyGroup.model.service.StudyGroupService;
 import always.awake.studyplus.studyGroup.model.vo.Files;
+import always.awake.studyplus.studyGroup.model.vo.PageInfo;
 import always.awake.studyplus.studyGroup.model.vo.StudyGroup;
 
 @Controller
@@ -48,7 +49,7 @@ public class StudyGroupController {
 	}
 	
 	@RequestMapping(value="insertStudyGroup.sg")
-	public String insertStudyGroup(Model model, @RequestParam("member_Code")int member_Code ,StudyGroup studygroup, Files files, HttpServletRequest request) {
+	public String insertStudyGroup(Model model, @RequestParam("member_Code")int member_Code, StudyGroup studygroup, Files files, HttpServletRequest request) {
 		try {
 			sgs.insertStudyGroup(studygroup, member_Code, files, request);
 			
@@ -66,15 +67,15 @@ public class StudyGroupController {
 	}
 	
 	@RequestMapping(value="selectStudyGroupList.sg")
-	public @ResponseBody List<Map<String, Object>> selectStudyGroupList(@RequestParam("searchSGName")String searchSGName, @RequestParam("currentPage")int currentPage) {
-		List<Map<String, Object>> studyGroupList = null;
+	public @ResponseBody List<Map<String, Object>> selectStudyGroupList(PageInfo pi) {
+		List<Map<String, Object>> sgListAndPi = null;
 		
 		try {
-			studyGroupList = sgs.selectStudyGroupList(searchSGName);
+			sgListAndPi = sgs.sgListAndPi(pi);
 		} catch (StudyGroupException e) {
 			e.printStackTrace();
 		}
 		
-		return studyGroupList;
+		return sgListAndPi;
 	}
 }

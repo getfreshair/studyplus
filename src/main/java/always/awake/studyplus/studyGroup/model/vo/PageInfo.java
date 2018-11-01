@@ -1,6 +1,6 @@
 package always.awake.studyplus.studyGroup.model.vo;
 
-public class PageInfo {
+public class PageInfo implements java.io.Serializable{
 	private int location_Code;
 	private int category_Code;
 	private String searchSGName;
@@ -10,13 +10,14 @@ public class PageInfo {
 	private int maxPage;
 	private int startPage;
 	private int endPage;
+	private int offset;
 	
 	public PageInfo() {
 		super();
 	}
 
 	public PageInfo(int location_Code, int category_Code, String searchSGName, int currentPage, int listCount,
-			int limit, int maxPage, int startPage, int endPage) {
+			int limit, int maxPage, int startPage, int endPage, int offset) {
 		super();
 		this.location_Code = location_Code;
 		this.category_Code = category_Code;
@@ -27,6 +28,7 @@ public class PageInfo {
 		this.maxPage = maxPage;
 		this.startPage = startPage;
 		this.endPage = endPage;
+		this.offset = offset;
 	}
 
 	public int getLocation_Code() {
@@ -101,11 +103,20 @@ public class PageInfo {
 		this.endPage = endPage;
 	}
 
+	public int getOffset() {
+		return offset;
+	}
+
+	public void setOffset(int offset) {
+		this.offset = offset;
+	}
+
 	@Override
 	public String toString() {
 		return "PageInfo [location_Code=" + location_Code + ", category_Code=" + category_Code + ", searchSGName="
 				+ searchSGName + ", currentPage=" + currentPage + ", listCount=" + listCount + ", limit=" + limit
-				+ ", maxPage=" + maxPage + ", startPage=" + startPage + ", endPage=" + endPage + "]";
+				+ ", maxPage=" + maxPage + ", startPage=" + startPage + ", endPage=" + endPage + ", offset=" + offset
+				+ "]";
 	}
-	
+
 }
