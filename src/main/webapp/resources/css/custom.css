@@ -106,7 +106,7 @@ table .board-tit a:hover{color:#1a609c;}
 
 .analysis_box .box_tit{position:relative; padding:14px;}
 .analysis_box .box_tit:before{content:'';display:inline-block; width:24px; height:20px;  background:url("/studyplus/resources/images/planner/ico_diagram.png") 0 50% no-repeat; background-size:100%; vertical-align:top; margin-right:12px;}
-.analysis_box .box_tit .date{float:right; color:#fff; font-weight:bold;}
+.analysis_box .box_tit .date{float:right; color:#fff; font-weight:bold; width:85px; text-align:right; margin-right:25px; background:none; border:none;}
 .analysis_box .box_tit .txt{font-size:14px; font-weight:bold;}
 .analysis_box .box_tit .sub{font-size:11px; font-weight:bold;}
 .analysis_box{position:relative; padding-bottom:8px;}
@@ -118,6 +118,7 @@ table .board-tit a:hover{color:#1a609c;}
 .analysis_box.st03 .box_tit{background:#65cdd8;}
 .analysis_box.st04 .box_tit{background:#5eafe4;}
 .analysis_box.st02 .box_tit:before{background:url("/studyplus/resources/images/planner/ico_raidar.png") 0 50% no-repeat; background-size:100%;}
+.analysis_box.st01 .box_tit:after, .analysis_box.st03 .box_tit:after{content:'>'; display:inline-block; width:10px; height:20px; color:#fff; position:absolute; right:18px;}
 
 /* 일간, 주간 목표 영역 */
 .side_area .user_info{position:relative; padding:15px; margin-bottom:5px; color:#fff; background:#f27553;}

@@ -35,4 +35,48 @@ public class AdminDaoImpl implements AdminDao {
 	public List<Map<String, Object>> getPenaltyList(SqlSessionTemplate sqlSession, Map<String, Object> map) {
 
 		return sqlSession.selectList("Admin.getPenaltyList", map);
-	}}
+	}
+
+	@Override
+	public List<Map<String, Object>> getPenaltyEndList(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		
+		return sqlSession.selectList("Admin.getPenaltyEndList",map);
+	}
+	//제재만료된 회원 차단 테이블 상태 변환
+	@Override
+	public int penaltyEndMember(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		
+		return sqlSession.update("Admin.penaltyEndMember", map);
+	}
+	//제재만료된 회원 상태 변환
+	@Override
+	public int penaltyEndMemberUpdate(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		
+		return sqlSession.update("Admin.penaltyEndMemberUpdate",map);
+	}
+	//제재회원이력 검색(아이디로)
+	@Override
+	public List<Map<String, Object>> searchPenaltyHistoryById(SqlSessionTemplate sqlSession,
+			HashMap<String, Object> hmap) {
+		return sqlSession.selectList("Admin.searchPenaltyHistoryById",hmap);
+	}
+	//제재회원이력 검색(멤버코드로)
+	@Override
+	public List<Map<String, Object>> searchPenaltyHistoryByCode(SqlSessionTemplate sqlSession,
+			HashMap<String, Object> hmap) {
+		return sqlSession.selectList("Admin.searchPenaltyHistoryByCode",hmap);
+	}
+	//제재회원이력 검색(사유로)
+	@Override
+	public List<Map<String, Object>> searchPenaltyHistoryByReason(SqlSessionTemplate sqlSession,
+			HashMap<String, Object> hmap) {
+		return sqlSession.selectList("Admin.searchPenaltyHistoryByReason",hmap);
+	}
+
+	@Override
+	public List<Map<String, Object>> getDispauseList(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		return sqlSession.selectList("Admin.getDispauseList",map);
+	}
+
+
+}
