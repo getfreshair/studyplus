@@ -17,7 +17,7 @@
 		<typeAlias type="always.awake.studyplus.studyGroup.model.vo.StudyGroup" alias="StudyGroup"/>
 		<typeAlias type="always.awake.studyplus.studyGroup.model.vo.Files" alias="StudyGroupFiles"/>
 		<typeAlias type="always.awake.studyplus.studyPlanner.model.vo.StudyTime" alias="StudyTime"/>
-		<typeAlias type="always.awake.studyplus.admin.model.vo.PenaltyMember" alias="adminPenalty"/>
+<!-- 		<typeAlias type="always.awake.studyplus.admin.model.vo.PenaltyMember" alias="adminPenalty"/> -->
 	</typeAliases>
 
 	<mappers>
