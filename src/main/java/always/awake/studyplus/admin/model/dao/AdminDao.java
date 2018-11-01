@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
+import always.awake.studyplus.admin.model.vo.DispauseBoard;
 import always.awake.studyplus.admin.model.vo.Member;
 
 public interface AdminDao {
@@ -42,5 +43,14 @@ public interface AdminDao {
 
 
 	List<Map<String, Object>> getDispauseList(SqlSessionTemplate sqlSession, Map<String, Object> map);
+
+
+	int DispauseMember(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
+
+	List<DispauseBoard> searchDispauseList(SqlSessionTemplate sqlSession, String option, String keyword);
+
+
+	int countArticle(SqlSessionTemplate sqlSession, String option, String keyword);
 
 }

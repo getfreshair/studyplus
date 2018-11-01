@@ -7,6 +7,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import always.awake.studyplus.admin.model.vo.DispauseBoard;
 import always.awake.studyplus.admin.model.vo.Member;
 
 @Repository
@@ -76,6 +77,30 @@ public class AdminDaoImpl implements AdminDao {
 	@Override
 	public List<Map<String, Object>> getDispauseList(SqlSessionTemplate sqlSession, Map<String, Object> map) {
 		return sqlSession.selectList("Admin.getDispauseList",map);
+	}
+
+	@Override
+	public int DispauseMember(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+	
+		return sqlSession.update("Admin.updateDispauseMember", map);
+	}
+
+	@Override
+	public List<DispauseBoard> searchDispauseList(SqlSessionTemplate sqlSession, String option, String keyword) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("option", option);
+		map.put("keyword", keyword);
+		return sqlSession.selectList("Admin.searchDispauseList", map);
+		
+	}
+
+	@Override
+	public int countArticle(SqlSessionTemplate sqlSession, String option, String keyword) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("option", option);
+		map.put("keyword", keyword);
+		return sqlSession.selectOne("Admin.countDispauseArticle", map);
+		
 	}
 
 

@@ -26,6 +26,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import always.awake.studyplus.admin.model.service.AdminService;
+import always.awake.studyplus.admin.model.vo.DispauseBoard;
 import always.awake.studyplus.admin.model.vo.Member;
 
 @SessionAttributes("loginUser")
@@ -66,6 +67,57 @@ public class AdminController {
 		
 		return mv;
 		
+	}
+	
+	@RequestMapping("adminDispauseUpdate.do")
+	public void adminDispauseUpdate(@RequestParam("dispauseid")String dispauseid, HttpServletResponse response) {
+		
+		String[] divideDispauseid = dispauseid.split(",");
+		
+		
+		int result = 0;
+		
+		HashMap<String ,Object> map = new HashMap<String, Object>();
+		
+		for(int i = 0 ; i < divideDispauseid.length; i++) {
+			int code = Integer.parseInt(divideDispauseid[i].trim());
+			map.put("code",code);
+			result += as.DispauseMember(map);
+		}
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		try {
+			response.getWriter().print(mapper.writeValueAsString(result));
+		} catch (JsonGenerationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("adminSearchDispauseHistory.do")
+	public ModelAndView list(String option, String keyword, ModelAndView mv) {
+		
+		List<DispauseBoard> list = as.searchDispauseList(option, keyword);
+		
+		int count = as.countArticle(option, keyword);
+		System.out.println(list);
+		System.out.println(count);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("count", count);
+		map.put("searchOption", option);
+		map.put("keyword", keyword);
+		
+		mv.addObject("map",map);
+		mv.setViewName("jsonView");
+		return mv;
 	}
 	
 	

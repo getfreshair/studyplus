@@ -108,6 +108,11 @@
                              WHERE BLOCK_CODE=#{code})
 	</update>
 	
+	<update id="updateDispauseMember">
+		UPDATE MEMBER SET MEMBER_STATUS = 1
+		WHERE MEMBER_CODE = #{code}
+	</update>
+	
 	<select id="getPenaltyList" parameterType="map" resultType="hashmap">
 		SELECT M.MEMBER_CODE, M.MEMBER_ID, M.MEMBER_STATUS, B.BLOCK_CODE,
 		  		B.BLOCK_STARTDATE, B.BLOCK_ENDDATE, B.BLOCK_REASON, B.BLOCK_STATUS
@@ -152,10 +157,36 @@
 	</select>
 	
 	<select id="getDispauseList" parameterType="map" resultType="hashmap">
-		SELECT M.MEMBER_CODE, M.MEMBER_ID, M.MEMBER_NICKNAME, M.MEMBER_GENDER, M.MEMBER_STATUS
+		SELECT M.MEMBER_CODE, M.MEMBER_ID, M.MEMBER_NICKNAME, M.MEMBER_GENDER, M.MEMBER_STATUS,
         M.MEMBER_PHONE, M.MEMBER_SMSCONFIRMATION, M.MEMBER_JOB , L.LOGINRECORD_DATE
         FROM MEMBER M
         JOIN LOGINRECORD L ON (M.MEMBER_CODE = L.MEMBER_CODE)
-		WHERE M.MEMBER_STATUS = 0 AND (SYSDATE - L.LOGINRECORD_DATE) > 90;
+		WHERE M.MEMBER_STATUS = 0 AND (SYSDATE - L.LOGINRECORD_DATE) > 90
+	</select>
+	
+	<select id="searchDispauseList" parameterType="java.util.HashMap" resultType="always.awake.studyplus.admin.model.vo.DispauseBoard">
+		SELECT M.MEMBER_CODE, M.MEMBER_ID, M.MEMBER_NICKNAME, M.MEMBER_GENDER, M.MEMBER_PHONE,
+				M.MEMBER_SMSCONFIRMATION, L.LOGINRECORD_DATE, M.MEMBER_STATUS
+		FROM MEMBER M
+		JOIN LOGINRECORD L ON (M.MEMBER_CODE = L.MEMBER_CODE)
+		WHERE 1= 1
+		<if test='option eq "memberId"'>
+			AND M.MEMBER_ID LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test='option eq "memberCode"'>
+			AND M.MEMBER_CODE LIKE '%' || #{keyword} || '%'
+		</if>
+	</select>
+	
+	<select id="countDispauseArticle" parameterType="java.util.HashMap" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER M
+		WHERE M.MEMBER_STATUS = 1 
+		<if test='option eq "memberId"'>
+		AND M.MEMBER_ID LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test='option eq "memberCode"'>
+		AND M.MEMBER_CODE LIKE '%' || #{keyword} || '%'
+		</if>
 	</select>
 </mapper>
