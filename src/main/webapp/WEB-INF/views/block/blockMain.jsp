@@ -319,10 +319,10 @@
 					<%
 						}
 					%>					
+					var originTodayStudyTime = <%=todayStudyTime%>;
 					function TempSaveTimeDates(){
 						
 						var todayStudyTime = mainTimmerTime/10;
-						var originTodayStudyTime = <%=todayStudyTime%>;
 						console.log(goalTimmerTimes[0]);
 						var goalList = [
 								<% for (int i = 0 ; i < goalList.size(); i ++) {%>
@@ -357,18 +357,16 @@
 								   		 "timmerStatus:"+groupTimmerStatus[<%=i%>] ;
 						groupList += tempGroupInfo<%=i%>+",";
 					<%} %>
-						console.log(groupList);
-						console.log(goalList);
 						$.ajax({
 			                  url:"blockTimesTempSave.bl",
 			                  type:"post",
-			                  data:{todayStudyTime:todayStudyTime,
-			                	  	originTodayStudyTime:originTodayStudyTime,
+			                  data:{todayStudyTime:todayStudyTime-originTodayStudyTime,
 			                	  	groupList:groupList,
 			                	  	goalList:goalList
 			                  },
 			                  success:function(data){
-			                	  console.log("시간 정보 임시 저장 완료");
+			                	  console.log(data);
+			                	  originTodayStudyTime = todayStudyTime; 
 			                  },
 			                  error:function(){
 			                     console.log("에러 발생!");
@@ -585,7 +583,9 @@
 					 00</span>
 					<div id="controls" style="display:inline-block; margin-left:30px ;">
   						<button id="startPause" class="btn btn-primary" onclick="startPause('main')">공부시작</button>
-  						<button id="exitStopWatch" class="btn btn-danger">종료</button>
+  						<form action="saveStudyTime.bl" method="post">
+  						<button type="submit" id="exitStopWatch" class="btn btn-danger">종료</button>
+  						</form>
   					</div>
   				</div>
   				<br>
