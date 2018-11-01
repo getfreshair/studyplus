@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,12 +54,26 @@ hr{
 								<th width="2%"><input type="checkbox" class="masterCheck"></th>
 								<th width="8%">회원번호</th>
 								<th width="15%">아이디</th>
-								<th width="10%">이름</th>
-								<th width="20%">이메일</th>
+								<th width="10%">닉네임</th>
+								<th width="20%">성별</th>
 								<th width="20%">휴대전화</th>
-								<th width="15%">가입일</th>
-								<th width="10%">카테고리</th>
+								<th width="15%">문자수신여부</th>
+								<th width="10%">최종로그인</th>
 							</tr>
+							<c:forEach items="${data}"  var="disPauseList" >
+							  <c:if test="${disPauseList.MEMBER_STATUS eq 0}">
+								<tr>
+								<td width="10%"><input type="checkbox" class="chlidCheck" name ="selectBlockCode" value="${penaltyEndList.BLOCK_CODE}"></td>
+								<td>${disPauseList.MEMBER_CODE}</td>
+								<td>${disPauseList.MEMBER_ID}</td>
+								<td>${disPauseList.MEMBER_NICKNAME}</td>
+								<td>${disPauseList.MEMBER_GENDER}</td>
+								<td>${disPauseList.MEMBER_PHONE}</td>
+								<td>${disPauseList.MEMBER_ID}</td>
+								<td>${disPauseList.MEMBER_ID}</td>
+								</tr>
+							 </c:if>
+							</c:forEach>
 						</table>
 					</div>
 					<div class="second-div" style="height:300px;">
@@ -66,11 +83,11 @@ hr{
 								<th width="2%"><input type="checkbox" class="masterCheck"></th>
 								<th width="8%">회원번호</th>
 								<th width="15%">아이디</th>
-								<th width="10%">이름</th>
-								<th width="20%">이메일</th>
+								<th width="10%">닉네임</th>
+								<th width="20%">성별</th>
 								<th width="20%">휴대전화</th>
-								<th width="15%">가입일</th>
-								<th width="10%">카테고리</th>
+								<th width="15%">문자수신여부</th>
+								<th width="10%">최종로그인</th>
 							</tr>
 						</table>
 						<div class="searchById" style="margin-left: 300px;">
@@ -80,7 +97,6 @@ hr{
 									style="width: 150px; height: 40px; margin-top: 20px; display: inline-block;">
 									<option value="userId">아이디</option>
 									<option value="userNum">유저번호</option>
-									<option value="distinguish">구분</option>
 								</select>
 							</div>
 

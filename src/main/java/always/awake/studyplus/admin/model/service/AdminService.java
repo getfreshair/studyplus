@@ -14,4 +14,16 @@ public interface AdminService {
 	public int penaltyMember(HashMap<String, Object> map);
 
 	public List<Map<String, Object>> getPenaltyList(Map<String, Object> map);
+
+	public List<Map<String, Object>> getPenaltyEndList(Map<String, Object> map);
+
+	public int penaltyEndMember(HashMap<String, Object> map);
+
+	public List<Map<String, Object>> searchPenaltyHistoryById(HashMap<String, Object> hmap);
+
+	public List<Map<String, Object>> searchPenaltyHistoryByCode(HashMap<String, Object> hmap);
+
+	public List<Map<String, Object>> searchPenaltyHistoryByReason(HashMap<String, Object> hmap);
+
+	public List<Map<String, Object>> getDispauseList(Map<String, Object> map);
 }

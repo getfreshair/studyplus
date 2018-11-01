@@ -41,6 +41,49 @@ public class AdminServiceImpl implements AdminService{
 		
 		return list;
 	}
+
+	@Override
+	public List<Map<String, Object>> getPenaltyEndList(Map<String, Object> map) {
+		
+		List<Map<String, Object>> list1 = ad.getPenaltyEndList(sqlSession, map);
+		
+		return list1;
+	}
+
+	@Override
+	public int penaltyEndMember(HashMap<String, Object> map) {
+		
+		int result = ad.penaltyEndMember(sqlSession, map);
+		int result1 = ad.penaltyEndMemberUpdate(sqlSession, map);
+		
+		return result;
+	}
+
+	//제재히스토리 조회(아이디옵션)
+	@Override
+	public List<Map<String, Object>> searchPenaltyHistoryById(HashMap<String, Object> hmap) {
+		// TODO Auto-generated method stub
+		List<Map<String, Object>> list = ad.searchPenaltyHistoryById(sqlSession, hmap);
+		return list;
+	}
+
+	@Override
+	public List<Map<String, Object>> searchPenaltyHistoryByCode(HashMap<String, Object> hmap) {
+		List<Map<String, Object>> list = ad.searchPenaltyHistoryByCode(sqlSession, hmap);
+		return list;
+	}
+
+	@Override
+	public List<Map<String, Object>> searchPenaltyHistoryByReason(HashMap<String, Object> hmap) {
+		List<Map<String, Object>> list = ad.searchPenaltyHistoryByReason(sqlSession, hmap);
+		return list;
+	}
+
+	@Override
+	public List<Map<String, Object>> getDispauseList(Map<String, Object> map) {
+		List<Map<String, Object>> list = ad.getDispauseList(sqlSession, map);
+		return list;
+	}
 	
 	
 }
