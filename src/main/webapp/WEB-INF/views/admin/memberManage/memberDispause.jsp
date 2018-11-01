@@ -31,6 +31,9 @@
 hr{
 	border-top: 1px solid gray !important;
 }
+th{
+	text-align:center !important;
+}
 </style>
 </head>
 <body>
@@ -48,37 +51,103 @@ hr{
 					<p style="padding-top:2px; padding-left:2px;">휴면계정 처리와 휴면계정의 목록을 확인 할 수 있습니다.</p>
 					<hr>
 					<h5 style=>휴면처리가 필요한 계정</h5>
-					<div class="first-div" style="height:400px;">
+					<div class="first-div" style="height:300px; overflow:auto;">
+					<button class="btn btn-default" id="selectProcessBtn"
+								name="selectProcessBtn" style="font-size:14px ; float:right; margin-right:50px;">선택처리</button>
 						<table id="memberListTable" class="table table-hover" style="font-size:14px; text-align:center">
 							<tr class="head">
-								<th width="2%"><input type="checkbox" class="masterCheck"></th>
+								<th width="1%"><input type="checkbox" class="masterCheck1"></th>
 								<th width="8%">회원번호</th>
 								<th width="15%">아이디</th>
 								<th width="10%">닉네임</th>
-								<th width="20%">성별</th>
+								<th width="7%">성별</th>
 								<th width="20%">휴대전화</th>
-								<th width="15%">문자수신여부</th>
-								<th width="10%">최종로그인</th>
+								<th width="10%">문자수신여부</th>
+								<th width="20%">최종로그인</th>
 							</tr>
 							<c:forEach items="${data}"  var="disPauseList" >
 							  <c:if test="${disPauseList.MEMBER_STATUS eq 0}">
 								<tr>
-								<td width="10%"><input type="checkbox" class="chlidCheck" name ="selectBlockCode" value="${penaltyEndList.BLOCK_CODE}"></td>
+								<td width="10%"><input type="checkbox" class="chlidCheck1" name ="selectBlockCode" value="${disPauseList.MEMBER_CODE}"></td>
 								<td>${disPauseList.MEMBER_CODE}</td>
 								<td>${disPauseList.MEMBER_ID}</td>
 								<td>${disPauseList.MEMBER_NICKNAME}</td>
 								<td>${disPauseList.MEMBER_GENDER}</td>
 								<td>${disPauseList.MEMBER_PHONE}</td>
-								<td>${disPauseList.MEMBER_ID}</td>
-								<td>${disPauseList.MEMBER_ID}</td>
+								<td>${disPauseList.MEMBER_SMSCONFIRMATION}</td>
+								<td>${disPauseList.LOGINRECORD_DATE}</td>
 								</tr>
 							 </c:if>
 							</c:forEach>
 						</table>
 					</div>
+						<script>
+							$(function() {
+								$("#masterCheck1").click(function() {
+									$(".chlidCheck1").prop('checked',$(this).prop('checked'));
+								});
+							});
+						
+			  			$(function(){
+			  			$('#selectProcessBtn').click(function(){
+						var checkBoxs = document.getElementsByName("selectBlockCode"); // 체크박스 객체
+						var len = checkBoxs.length;
+						var checkRow = "";
+						var checkCnt = 0;
+						var checkLast = "";
+						var rowid = '';
+						var values = "";
+						var cnt = 0;
+						
+						for(var i = 0; i < len ; i ++){
+							if(checkBoxs[i].checked == true){
+								checkCnt++;
+								checkLast = i;
+							}
+						}
+						for(var i = 0; i < len ; i ++){
+							if(checkBoxs[i].checked == true){
+								checkRow = checkBoxs[i].value;
+								
+								if(checkCnt == 1){
+									rowid += checkRow;
+								} else {
+									if(i == checkLast){
+										rowid += checkRow ;
+									} else {
+										rowid += checkRow + ",";
+									}
+								}
+								
+								cnt ++;
+								checkRow = '';
+							}	
+						}
+						if(rowid === ''){
+							alert('휴면 처리할 회원을 선택해 주세요.')
+							return;
+						}
+						$.ajax({
+							url:"adminDispauseUpdate.do",
+							type:"get",
+							data:{dispauseid:rowid},
+							success:function(data){
+								var data = JSON.parse(data);
+								alert(data+"명의 회원이 휴면처리 되었습니다..");
+								location.reload();
+							},
+							error:function(){
+								console.log("에러 발생!");
+							}
+						})
+						return false;
+						
+						})
+			  		});
+					</script>
 					<div class="second-div" style="height:300px;">
 						<h5>휴면계정목록</h5>
-						<table id="memberListTable" class="table table-hover" style="font-size:14px; text-align:center">
+						<table id="dipauseMemberListTable" class="table table-hover" style="font-size:14px; text-align:center">
 							<tr class="head">
 								<th width="2%"><input type="checkbox" class="masterCheck"></th>
 								<th width="8%">회원번호</th>
@@ -95,16 +164,58 @@ hr{
 								style="display: inline-block; maring-top: 17px; font-size: 20px;">
 								<select class="form-control" id="searchOption"
 									style="width: 150px; height: 40px; margin-top: 20px; display: inline-block;">
-									<option value="userId">아이디</option>
-									<option value="userNum">유저번호</option>
+									<option value="memberId">아이디</option>
+									<option value="memberCode">유저번호</option>
 								</select>
 							</div>
 
-							<input class="form-control" type="search" id="searchAll"
+							<input class="form-control" type="search" id="keyword"
 								style="width: 300px; padding-down: 30px; margin-top: 14px; height: 40px; font-size: 14px; display: inline-block;">
-							<button class="btn btn-primary" id="searchBtn" name="searchBtn1"
+							<button class="btn btn-primary" id="searchBtn" name="searchBtn1" onclick="getDispauseHistory();"
 								style="font-size: 14px; padding-down: 30px; margin-bottom: 8px; display: inline-block; height: 30px;">검색하기</button>
-
+							<script>
+						function getDispauseHistory(){
+							var option = $("#searchOption").val();
+							var keyword = $("#keyword").val();
+							
+							$.ajax({
+								url:"adminSearchDispauseHistory.do",
+								type:"post",
+								data:{option:option,
+									 keyword:keyword},
+								success:function(data){
+									console.log(data);
+								},
+								error:function(){
+									console.log("에러 발생!");
+								}
+							})
+							return false;
+						}
+					/* function createTable(map){
+						var table = document.querySelector('#dipauseMemberListTable');
+						html = '<tr class="head">'+
+						'<th width="2%">'+
+						'<input type="checkbox" class="masterCheck"></th>'+
+						'<th width="8%">회원번호</th>'
+						'<th width="15%">아이디</th>'
+						'<th width="10%">닉네임</th>'+
+						'<th width="20%">성별</th>'+
+						'<th width="20%">휴대전화</th>'+
+						'<th width="15%">문자수신여부</th>'+
+						'<th width="10%">최종로그인</th>'+
+					'</tr>'
+						for(var i = 0; i < data.length; i++){
+							console.log("12");
+							html += '<tr><td>'+map[i].MEMBER_CODE+'</td><td>'
+									+map[i].MEMBER_ID+ '</td><td>' + map[i].MEMBER_NICKNAME + '</td><td>'
+									+map[i].MEMBER_GENDER + '</td><td>' + map[i].MEMBER_PHONE + '</td><td>'
+									+map[i].MEMBER_SMSCONFIRMATION + '</td><td>' + map[i].LOGINRECORD_DATE+'</td><tr>';
+						}
+						table.innerHTML = html;
+						
+					} */
+					</script>
 						</div>
 					</div>
 				</div>

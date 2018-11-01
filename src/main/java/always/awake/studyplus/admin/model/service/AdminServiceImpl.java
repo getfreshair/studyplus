@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import always.awake.studyplus.admin.model.dao.AdminDao;
+import always.awake.studyplus.admin.model.vo.DispauseBoard;
 import always.awake.studyplus.admin.model.vo.Member;
 
 @Service
@@ -83,6 +84,24 @@ public class AdminServiceImpl implements AdminService{
 	public List<Map<String, Object>> getDispauseList(Map<String, Object> map) {
 		List<Map<String, Object>> list = ad.getDispauseList(sqlSession, map);
 		return list;
+	}
+
+	@Override
+	public int DispauseMember(HashMap<String, Object> map) {
+		int result = ad.DispauseMember(sqlSession, map);
+		return result;
+	}
+
+	@Override
+	public List<DispauseBoard> searchDispauseList(String option, String keyword) {
+
+		return ad.searchDispauseList(sqlSession, option, keyword);
+	}
+
+	@Override
+	public int countArticle(String option, String keyword) {
+		
+		return ad.countArticle(sqlSession, option, keyword);
 	}
 	
 	

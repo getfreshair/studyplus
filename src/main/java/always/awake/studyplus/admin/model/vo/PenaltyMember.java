@@ -1,11 +1,9 @@
 package always.awake.studyplus.admin.model.vo;
 
 
-public class PenaltyMember {
-
 import java.sql.Date;
 
-public class PenaltyMember {
+public class PenaltyMember implements  java.io.Serializable{
 	private int member_Code;
 	private String member_Id;
 	private int block_Code;

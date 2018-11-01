@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import always.awake.studyplus.admin.model.vo.DispauseBoard;
 import always.awake.studyplus.admin.model.vo.Member;
 
 public interface AdminService {
@@ -26,4 +27,10 @@ public interface AdminService {
 	public List<Map<String, Object>> searchPenaltyHistoryByReason(HashMap<String, Object> hmap);
 
 	public List<Map<String, Object>> getDispauseList(Map<String, Object> map);
+
+	public int DispauseMember(HashMap<String, Object> map);
+
+	public List<DispauseBoard> searchDispauseList(String option, String keyword);
+
+	public int countArticle(String option, String keyword);
 }
