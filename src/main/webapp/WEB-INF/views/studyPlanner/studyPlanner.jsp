@@ -251,7 +251,6 @@
 																console.log(data);
 																$(".chating").empty();
 																$(".chating").append(data);
-																$(".chating").append('<span class="chat_close">[닫기]</span>');
 																snsSlideChat();
 															}
 														});
@@ -268,7 +267,6 @@
 							</ul>
 							<div class="chating">
 	
-								<span class="chat_close">[닫기]</span>
 							</div>
 						</div>
 					</div>
