@@ -24,5 +24,14 @@ public class StudyPlannerServiceImpl implements StudyPlannerService{
 
 		return todayChart;
 	}
-	
+
+	//월간 공부량 차트
+	@Override
+	public List<HashMap<String, Object>> selectMonthlyChart(List<HashMap<String, Object>> list) {
+		
+		List<HashMap<String, Object>> monthlyChart = spd.monthlyChart(sqlSession, list);
+		System.out.println("service monthlyChart : " + monthlyChart);
+		return monthlyChart;
+	}
+
 }

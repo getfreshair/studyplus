@@ -10,7 +10,7 @@ $(function(){
 	dateTabBtn();			//주간 월간 선택 버튼
 	todaydate();			//현재 날짜
 	todayChartChangeDate();	//일간 공부량 날짜 변경시
-	weeklyChartChangeDate(); //주간 공부량 날짜 변경시
+	//weeklyChartChangeDate(); //주간 공부량 날짜 변경시
 	monthlyChartChangeDate();//월간 공부량 날짜 변경시
 
 	studyTendencyChart();	//공부성향 분석 차트
@@ -130,15 +130,15 @@ function todaydate(){
 	var dateVal = chan_val; //컨트롤러에 보낼 날짜
 
 	todayChart(dateVal);	//일간 공부량 차트
-	weeklyChart(dateVal);	//주간 공부량 차트
-	monthlyChart(dateVal);	//월간 공부량 차트
+	//weeklyChart(dateVal);	//주간 공부량 차트
+	//monthlyChart(dateVal);	//월간 공부량 차트
 }
 
 //일간 공부량 날짜 변경시
 function todayChartChangeDate(){
 	$("#todayDatePicker").change(function(){
 		var dateVal = $("#todayDatePicker").val(); //컨트롤러에 보낼 날짜
-		//console.log("선택한날짜 : " + dateVal);
+		console.log("선택한날짜 : " + dateVal);
 		todayChart(dateVal);
 	});
 }
@@ -215,16 +215,16 @@ function todayChart(dateVal){
 }
 
 //주간 공부량 날짜 변경시
-function weeklyChartChangeDate(){
+/*function weeklyChartChangeDate(){
 	$("#weeklyDatePicker").change(function(){
 		var dateVal = $("#weeklyDatePicker").val(); //컨트롤러에 보낼 날짜
-		//console.log("선택한날짜 : " + dateVal);
+		console.log("선택한날짜 : " + dateVal);
 		weeklyChart(dateVal);
 	});
-}
+}*/
 
 //주간 공부량 차트
-function weeklyChart(dateVal){
+/*function weeklyChart(dateVal){
 	var ctx = document.getElementById("weeklyChart").getContext('2d');
 	$.ajax({
 		url : "studyPlannerWeeklyChart.sp",
@@ -232,12 +232,12 @@ function weeklyChart(dateVal){
 		type : "post",
 		success : function(data) {
 			
-			/*var arr;
+			var arr;
 			arr = data.split(",");
 			
 			for(var i = 0; i < arr.length; i++){
 				arr[i] = arr[i]/60;
-			}*/
+			}
 			
 			var weeklyChart = new Chart(ctx, {
 				type: 'bar',
@@ -275,13 +275,13 @@ function weeklyChart(dateVal){
 		}
 	});
 	
-}
+}*/
 
 //월간 공부량 날짜 변경시
 function monthlyChartChangeDate(){
 	$("#monthlyDatePicker").change(function(){
 		var dateVal = $("#monthlyDatePicker").val(); //컨트롤러에 보낼 날짜
-		//console.log("선택한날짜 : " + dateVal);
+		console.log("월간 선택한날짜 : " + dateVal);
 		monthlyChart(dateVal);
 	});
 }
@@ -290,11 +290,11 @@ function monthlyChartChangeDate(){
 function monthlyChart(dateVal){
 	var ctx = document.getElementById("monthlyChart").getContext('2d');
 	$.ajax({
-		url : "studyPlannerWeeklyChart.sp",
+		url : "studyPlannerMonthlyChart.sp",
 		data : {dateVal : dateVal},
 		type : "post",
 		success : function(data) {
-			
+			console.log(data);
 			/*var arr;
 			arr = data.split(",");
 			
@@ -302,7 +302,7 @@ function monthlyChart(dateVal){
 				arr[i] = arr[i]/60;
 			}*/
 			
-			var weeklyChart = new Chart(ctx, {
+			var monthlyChart = new Chart(ctx, {
 				type: 'bar',
 				data: {
 					labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
@@ -347,6 +347,29 @@ function monthlyChart(dateVal){
 
 //데이트피커
 function datePicker(){
+	
+	/*$('#todayDatePicker').datepicker({
+	    language: 'ko',
+	    dateFormat: "yy-mm-dd",
+	    autoClose: true,
+	    todayButton: new Date(),
+	    onSelect: function(formattedDate, date, inst) {
+	        $(inst.el).trigger('change');
+	    }
+	});
+	
+	$('#weeklyDatePicker').datepicker({
+	    language: 'ko',
+	    dateFormat: "yy-mm-dd",
+	    autoClose: true
+	});
+	
+	$('#monthlyDatePicker').datepicker({
+	    language: 'ko',
+	    dateFormat: "yy-mm",
+	    autoClose: true
+	});*/
+	
 	//일간 공부량 날짜선택
 	$( "#todayDatePicker" ).datepicker({
 		dateFormat: 'yy-mm-dd',
