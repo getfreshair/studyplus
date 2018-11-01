@@ -7,20 +7,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>STUDY PLUS</title>
-<!-- #### CSS FILES ### -->
+<!-- #### CSS FILES #### -->
 <link rel="stylesheet" href="/studyplus/resources/css/bootstrap.css">
 <link rel="stylesheet" href="/studyplus/resources/css/custom.css">
 <link rel="stylesheet" href="/studyplus/resources/css/Nwagon.css">
-<!-- <link rel="stylesheet" href="/studyplus/resources/css/datepicker.min.css"> -->
-<!-- #### JAVASCRIPT FILES ### -->
+<!-- #### JAVASCRIPT FILES #### -->
 <script src="/studyplus/resources/js/jquery-1.11.1.min.js"></script>
 <script src="/studyplus/resources/js/bootstrap.min.js"></script>
 <script src="/studyplus/resources/js/Nwagon.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <script src="/studyplus/resources/js/studyPlannerPage.js"></script>
-<!-- <script src="/studyplus/resources/js/datepicker.min.js"></script>
-<script src="/studyplus/resources/js/datepicker.ko.js"></script> -->
-
+<!-- #### datepicker #### -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
@@ -28,8 +25,6 @@
 <style type="text/css">
 	body{background:#f8f8f8;}
 	#footer{background: #fff;}
-
-	.datepicker-here{position:absolute; top:40px; right:5px;}
 	
 	/* 모달 */
 	.modal-body .img_area .box{border:1px solid #ddd; width:85%;}
@@ -162,10 +157,8 @@
 							<div class="col-sm-6 col-xs-12 analysis_box st01">
 								<div class="box_tit">
 									<span class="txt">일간 공부량</span>
-									<a href="#" class="date">2018. 09. 10. ></a>
+									<input type="text" id="todayDatePicker" class="date">
 								</div>
-								<!-- <div class="datepicker-here" data-language='ko'></div> -->
-								<input type="text" id="todayDatePicker">
 								<div class="chart">
 									<canvas id="todayChart"></canvas>
 								</div>
@@ -187,7 +180,8 @@
 							<div class="col-sm-6 col-xs-12 analysis_box st03">
 								<div class="box_tit">
 									<span class="txt">주간 · 월간 공부량</span>
-									<a href="#" class="date">2018. 09. 10. ></a>
+									<input type="text" id="weeklyDatePicker" class="date">
+									<input type="text" id="monthlyDatePicker" class="date">
 								</div>
 								<div class="chart">
 									<div class="tab">
@@ -197,18 +191,6 @@
 									<canvas id="weeklyChart"></canvas>
 									<canvas id="monthlyChart"></canvas>
 								</div>
-								<script>
-									$(function(){
-										$("#weeklyBtn").click(function(){
-											$("#monthlyChart").hide();
-											$("#weeklyChart").show();
-										});
-										$("#monthlyBtn").click(function(){
-											$("#weeklyChart").hide();
-											$("#monthlyChart").show();
-										});
-									});
-								</script>
 							</div>
 							<!-- // 주간공부량 -->
 							<!-- 학습평가 -->
@@ -255,7 +237,8 @@
 													$('.nameClass' + i).click(function(){
 														var member2_Nickname = $(this).text();
 														var member1_Nickname = '${ loginUser.member_Nickname }';
-														location.href="openChat.ms?member1_Nickname="+ member1_Nickname + "&member2_Nickname=" + member2_Nickname;
+// 														location.href="openChat.ms?member1_Nickname="+ member1_Nickname + "&member2_Nickname=" + member2_Nickname;
+														location.href="${contextPath}/web/chat.socket";
 													});
 												}
 												snsSlideChat();

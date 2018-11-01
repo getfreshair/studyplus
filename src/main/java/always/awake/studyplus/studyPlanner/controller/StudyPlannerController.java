@@ -35,9 +35,9 @@ public class StudyPlannerController {
 		
 		String chartDate = request.getParameter("dateVal");
 		
-		//날짜 특수문자 제거	
+		//날짜 특수문자 변경
 		String chartDate2 = chartDate.replaceAll("-", "/");
-		
+
 		//HashMap
 		HashMap<String, Object> hmap = new HashMap<String, Object>();
 		hmap.put("loginUserCode", loginUserCode);
