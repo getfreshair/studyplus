@@ -191,22 +191,15 @@ th{
 				<h3>전체 제재이력</h3>
 				<div>
 					<table class="table table-hover" id="penaltyMemberList" style="font-size:15px; text-align:center;">
-					<tr class="head">
-						<th width="7%">제재번호</th>
-						<th width="7%">회원번호</th>
-						<th width="10%">아이디</th>
-						<th width="15%">제재일자</th>
-						<th width="15%">제재만료일</th>
-						<th width="25%">사유</th>
-						<th width="7%">구분</th>
-					</tr>
-					<tr>
-						<td>회원번호</td>
-						<td>아이디</td>
-						<td>일자</td>
-						<td>제재만료일</td>
-						<td>구분</td>
-					</tr>
+						<tr class="head">
+							<th width="7%">제재번호</th>
+							<th width="7%">회원번호</th>
+							<th width="10%">아이디</th>
+							<th width="15%">제재일자</th>
+							<th width="15%">제재만료일</th>
+							<th width="25%">사유</th>
+							<th width="7%">구분</th>
+						</tr>
 					</table>
 				</div>
 					<div class="searchById" style="margin-left:300px;">

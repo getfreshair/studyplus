@@ -53,4 +53,10 @@ public interface AdminDao {
 
 	int countArticle(SqlSessionTemplate sqlSession, String option, String keyword);
 
+
+	List<Map<String, Object>> searchGroupList(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
+
+	int insertNotice(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
 }

@@ -103,6 +103,18 @@ public class AdminServiceImpl implements AdminService{
 		
 		return ad.countArticle(sqlSession, option, keyword);
 	}
+
+	@Override
+	public List<Map<String, Object>> searchGroupList(HashMap<String, Object> map) {
+		
+		return ad.searchGroupList(sqlSession, map);
+	}
+
+	@Override
+	public int insertNotice(HashMap<String, Object> map) {
+
+		return ad.insertNotice(sqlSession, map);
+	}
 	
 	
 }

@@ -57,7 +57,7 @@
 	<select id="selectMember" parameterType="map" resultType="hashmap">
 	
 	SELECT M.MEMBER_CODE, M.MEMBER_ID, M.MEMBER_NICKNAME,
-		M.MEMBER_ENROLLDATE, M.MEMBER_AGE, M.MEMBER_JOB, M.MEMBER_PHONE,
+		TO_CHAR(M.MEMBER_ENROLLDATE,'yyyy-mm-dd'), M.MEMBER_AGE, M.MEMBER_JOB, M.MEMBER_PHONE,
 		M.MEMBER_GENDER, L.LOCATION_NAME,
 		C.CATEGORY_NAME
 		FROM MEMBER M
@@ -65,7 +65,7 @@
 		LEFT JOIN INTERESTCATEGORY IC ON(M.MEMBER_CODE = IC.MEMBER_CODE)
 		LEFT JOIN CATEGORY C ON(IC.CATEGORY_CODE = C.CATEGORY_CODE)
 	WHERE 1=1
-	<if test="#{All} != null">
+	<if test='All neq ""'>
 		AND(
 		M.MEMBER_ID LIKE '%' || #{All} || '%'
 		OR L.LOCATION_NAME LIKE '%' || #{All} || '%'
@@ -74,24 +74,24 @@
 		OR M.MEMBER_GENDER LIKE '%' || #{All} || '%'
 		)
 	</if>
-	<if test="#{Date1} != null and  #{Date2} != null ">
+	<if test='Date1 neq ""'>
 		AND
 		M.MEMBER_ENROLLDATE BETWEEN #{Date1} AND #{Date2}
 	</if>
-<!-- 	<if test='#{Option}.toString().eqauls("전체")'>
-		AND
-		C.CATEGORY_CODE IN ( SELECT CATEGORY_CODE
-							FROM CATEGORY)
-	</if>
-	<if test='#{Option}.toString().equalsIgnoreCase("전체")'>
+	<if test='Option neq "전체"'>
 		AND
 		C.CATEGORY_NAME = #{Option}
-	</if>  -->
+	</if>
 	</select>																	
 	
 	<insert id="penaltyMemberInsert">
 		insert into BLOCK(BLOCK_CODE,BLOCK_REASON,BLOCK_TYPE,BLOCK_STARTDATE,BLOCK_ENDDATE,BLOCK_STATUS,MEMBER_CODE) VALUES(SEQ_BLOCK_BLOCK_CODE.NEXTVAL, #{textArea}, 0, SYSDATE, #{lockDate}, 0, #{code})
 	</insert>
+	
+	<insert id="insertNotice">
+		INSERT INTO NOTICE(NOTICE_CODE, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_ENROLLDATE, NOTICE_DELETEDATE, NOTICE_STATUS, NOTICE_COUNT, MEMBER_CODE) VALUES(SEQ_NOTICE_NOTICE_CODE.NEXTVAL, #{title}, #{content}, SYSDATE, NULL, 0, 0, #{adminCode})
+	</insert>
+	
 	
 	<update id="penaltyMemberUpdate">
 		UPDATE MEMBER SET MEMBER_STATUS = 3 WHERE MEMBER_CODE = #{code}
@@ -166,15 +166,17 @@
 	
 	<select id="searchDispauseList" parameterType="java.util.HashMap" resultType="always.awake.studyplus.admin.model.vo.DispauseBoard">
 		SELECT M.MEMBER_CODE, M.MEMBER_ID, M.MEMBER_NICKNAME, M.MEMBER_GENDER, M.MEMBER_PHONE,
-				M.MEMBER_SMSCONFIRMATION, L.LOGINRECORD_DATE, M.MEMBER_STATUS
+				M.MEMBER_SMSCONFIRMATION, TO_CHAR(L.LOGINRECORD_DATE,'YYYYMMDD') AS LOGINRECORD_DATE, M.MEMBER_STATUS
 		FROM MEMBER M
 		JOIN LOGINRECORD L ON (M.MEMBER_CODE = L.MEMBER_CODE)
 		WHERE 1= 1
 		<if test='option eq "memberId"'>
-			AND M.MEMBER_ID LIKE '%' || #{keyword} || '%'
+			AND
+			M.MEMBER_ID LIKE '%' || #{keyword} || '%'
 		</if>
 		<if test='option eq "memberCode"'>
-			AND M.MEMBER_CODE LIKE '%' || #{keyword} || '%'
+			AND
+			M.MEMBER_CODE LIKE '%' || #{keyword} || '%'
 		</if>
 	</select>
 	
@@ -187,6 +189,30 @@
 		</if>
 		<if test='option eq "memberCode"'>
 		AND M.MEMBER_CODE LIKE '%' || #{keyword} || '%'
+		</if>
+	</select>
+	
+	<select id="searchGroupList" parameterType="java.util.HashMap" resultType="hashmap">
+		SELECT M.MEMBER_ID,M.MEMBER_PHONE, SG.STUDYGROUP_CODE, SG.STUDYGROUP_NAME, SG.STUDYGROUP_OPENSTATUS, SG.STUDYGROUP_INTRO, TO_CHAR(STUDYGROUP_STDATE, 'yyyy-mm-dd') AS STUDYGROUP_STDATE, SG.STUDYGROUP_GOALTIME, SG.STUDYGROUP_MAXNUM, SG.MEMBER_CODE, C.CATEGORY_NAME, L.LOCATION_NAME, NVL(JG.JOINGROUP_MEMBERCOUNT, 0) AS JOINGROUP_MEMBERCOUNT
+		FROM STUDYGROUP SG
+		JOIN LOCATION L USING(LOCATION_CODE)
+		JOIN CATEGORY C USING(CATEGORY_CODE)
+        JOIN MEMBER M ON(SG.MEMBER_CODE = M.MEMBER_CODE)
+		LEFT JOIN (SELECT COUNT(MEMBER_CODE) AS JOINGROUP_MEMBERCOUNT, STUDYGROUP_CODE
+		            FROM JOINGROUP
+		            GROUP BY STUDYGROUP_CODE) JG ON(SG.STUDYGROUP_CODE = JG.STUDYGROUP_CODE)
+		WHERE 1=1
+		<if test='keyword neq ""'>
+			AND (SG.STUDYGROUP_NAME LIKE '%' || #{keyword} || '%' 
+			OR C.CATEGORY_NAME LIKE '%' || #{keyword} || '%'
+			OR L.LOCATION_NAME LIKE '%' || #{keyword} || '%'
+			OR SG.STUDYGROUP_CODE LIKE '%' || #{keyword} || '%')
+		</if>
+		<if test='option neq "전체"'>
+			AND C.CATEGORY_NAME = #{option}
+		</if>
+		<if test='createDate1 neq ""'>
+			AND SG.STUDYGROUP_STDATE BETWEEN #{createDate1} AND #{createDate2}
 		</if>
 	</select>
 </mapper>

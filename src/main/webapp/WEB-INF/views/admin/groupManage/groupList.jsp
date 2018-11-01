@@ -86,6 +86,9 @@
 hr{
 	border-top: 1px solid gray !important;
 }
+th{
+	text-align:center !important;
+}
 </style>
 </head>
 <body>
@@ -124,38 +127,83 @@ hr{
 									<p class="searchCategory">카테고리</p>
 									<select class="form-control" id="searchOption" 
 											style="width:150px; height:50px" >
-										<option value="civilServant">공무원</option>
-										<option value="highSchool">고등학생</option>
-										<option value="certification">자격증</option>
+										<option value="전체">전체</option>
+										<option value="고입">고입</option>
+										<option value="대입">대입</option>
+										<option value="고시">고시</option>
+										<option value="공시">공시</option>
+										<option value="외국어">외국어</option>
+										<option value="취준">취준</option>
+										<option value="자격증">자격증</option>
+										<option value="기타">기타</option>
 									</select>
 								</div>
 							</div>
 					</div>
 					<hr>
 				<button name="memberSearchBtn" id="searchBtn" class="btn btn-primary" style="float:right; margin-top:20px; margin-right:100px; font-size:20px">검색초기화</button>
-				<button name="memberSearchBtn" id="searchBtn" class="btn btn-primary" style="float:right; margin-top:20px; margin-right:40px; font-size:20px">검색하기</button>
+				<button type="button" name="memberSearchBtn" id="searchBtn" class="btn btn-primary" onclick="searchGroup();" style="float:right; margin-top:20px; margin-right:40px; font-size:20px">검색하기</button>
+				<script>
+					function searchGroup(){
+						var keyword = $("#searchAll").val();
+						var createDate1 = $("#searchDate1").val();
+						var createDate2 = $("#searchDate2").val();
+						var option = $("#searchOption").val();
+						
+						$.ajax({
+							url:"adminSearchGroupList.do",
+							type:"post",
+							data:{keyword:keyword,
+								createDate1:createDate1,
+								createDate2:createDate2,
+								option:option},
+							success:function(data){
+								console.log(data);
+								getGroupList(data);
+							},
+							error:function(){
+								console.log("에러 발생!");
+							}
+						})
+						return false;
+					}
+					function getGroupList(data){
+						var table = document.querySelector('#memberListTable');
+						html = '<tr class="head">'+
+						'<th width="5%">그룹번호</th>'+
+						'<th width="15%">그룹명</th>'+
+						'<th width="10%">방장아이디</th>'+
+						'<th width="5%">지역</th>'+
+						'<th width="15%">휴대전화</th>'+
+						'<th width="15%">그룹생성일</th>'+
+						'<th width="5%">목표시간</th>'+
+						'<th width="10%">카테고리</th><tr>'
+						console.log(data.length);
+						for(var i = 0; i < data.length; i++){
+							console.log("12");
+							html += '<tr><td>'
+									+data[i].STUDYGROUP_CODE+ '</td><td>' + data[i].STUDYGROUP_NAME + '</td><td>'
+									+data[i].MEMBER_ID + '</td><td>' + data[i].LOCATION_NAME + '</td><td>'
+									+data[i].MEMBER_PHONE + '</td><td>' + data[i].STUDYGROUP_STDATE+'</td><td>' + 
+									data[i].STUDYGROUP_GOALTIME + '</td><td>'	+ data[i].CATEGORY_NAME + '</td></tr>';
+						}
+						table.innerHTML = html;
+				
+					}
+				</script>
+				
 				<br><br>
 				<div class="table" style="margin-top:50px">
-				<table id="memberListTable" class="table table-hover" align="center" name="memberListTable" style="font-size:14px; text-align:center">
+				<table id="memberListTable" class="table table-hover" align="center" name="groupListTable" style="font-size:14px; text-align:center">
 					<tr class="head">
-						<th width="2%"><input type="checkbox" class="masterCheck"></th>
-						<th width="8%">그룹번호</th>
+						<th width="5%">그룹번호</th>
 						<th width="15%">그룹명</th>
 						<th width="10%">방장아이디</th>
-						<th width="20%">이메일</th>
-						<th width="20%">휴대전화</th>
-						<th width="15%">생성일</th>
-						<th width="10%">그룹원</th>
-					</tr>
-					<tr>
-						<td><input type="checkbox" class="masterCheck"></th>
-						<td>1</td>
-						<td>sji1123</td>
-						<td>신재익</td>
-						<td>sji1123@naver.com</td>
-						<td>010-5242-1241</td>
-						<td>2018-10-1</td>
-						<td>공무원</td>
+						<th width="10%">지역</th>
+						<th width="15%">휴대전화</th>
+						<th width="15%">그룹생성일</th>
+						<th width="5%">목표시간</th>
+						<th width="10%">카테고리</th>
 					</tr>
 				</table>
 				</div>

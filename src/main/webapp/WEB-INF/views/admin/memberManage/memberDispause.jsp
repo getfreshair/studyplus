@@ -81,13 +81,8 @@ th{
 							</c:forEach>
 						</table>
 					</div>
+					
 						<script>
-							$(function() {
-								$("#masterCheck1").click(function() {
-									$(".chlidCheck1").prop('checked',$(this).prop('checked'));
-								});
-							});
-						
 			  			$(function(){
 			  			$('#selectProcessBtn').click(function(){
 						var checkBoxs = document.getElementsByName("selectBlockCode"); // 체크박스 객체
@@ -141,7 +136,11 @@ th{
 							}
 						})
 						return false;
-						
+						$(document).ready(function () {
+						    $("#masterCheck1").click(function () {
+						        $(".childCheck1").prop('checked', $(this).prop('checked'));
+						    });
+						});
 						})
 			  		});
 					</script>
@@ -149,14 +148,14 @@ th{
 						<h5>휴면계정목록</h5>
 						<table id="dipauseMemberListTable" class="table table-hover" style="font-size:14px; text-align:center">
 							<tr class="head">
-								<th width="2%"><input type="checkbox" class="masterCheck"></th>
+								<th width="1%"><input type="checkbox" class="masterCheck"></th>
 								<th width="8%">회원번호</th>
 								<th width="15%">아이디</th>
 								<th width="10%">닉네임</th>
-								<th width="20%">성별</th>
+								<th width="7%">성별</th>
 								<th width="20%">휴대전화</th>
-								<th width="15%">문자수신여부</th>
-								<th width="10%">최종로그인</th>
+								<th width="10%">문자수신여부</th>
+								<th width="20%">최종로그인</th>
 							</tr>
 						</table>
 						<div class="searchById" style="margin-left: 300px;">
@@ -184,7 +183,15 @@ th{
 								data:{option:option,
 									 keyword:keyword},
 								success:function(data){
-									console.log(data);
+									JSON.stringify(data);
+									createTable(data);
+									console.log(data.map.list[0]);
+									console.log(data.map.list[0].loginrecord_Date);
+									$(document).ready(function () {
+									    $("#masterCheck2").click(function () {
+									        $(".childCheck2").prop('checked', $(this).prop('checked'));
+									    });
+									});
 								},
 								error:function(){
 									console.log("에러 발생!");
@@ -192,30 +199,31 @@ th{
 							})
 							return false;
 						}
-					/* function createTable(map){
+						function createTable(data){
 						var table = document.querySelector('#dipauseMemberListTable');
 						html = '<tr class="head">'+
-						'<th width="2%">'+
-						'<input type="checkbox" class="masterCheck"></th>'+
-						'<th width="8%">회원번호</th>'
-						'<th width="15%">아이디</th>'
+						'<th width="1%">'+
+						'<input type="checkbox"'+ 'class="masterCheck2"></th>'+
+						'<th width="8%">회원번호</th>'+
+						'<th width="15%">아이디</th>'+
 						'<th width="10%">닉네임</th>'+
-						'<th width="20%">성별</th>'+
+						'<th width="7%">성별</th>'+
 						'<th width="20%">휴대전화</th>'+
-						'<th width="15%">문자수신여부</th>'+
-						'<th width="10%">최종로그인</th>'+
-					'</tr>'
-						for(var i = 0; i < data.length; i++){
+						'<th width="10%">문자수신여부</th>'+
+						'<th width="20%">최종로그인</th></tr>'
+						for(var i = 0; i < data.map.list.length; i++){
 							console.log("12");
-							html += '<tr><td>'+map[i].MEMBER_CODE+'</td><td>'
-									+map[i].MEMBER_ID+ '</td><td>' + map[i].MEMBER_NICKNAME + '</td><td>'
-									+map[i].MEMBER_GENDER + '</td><td>' + map[i].MEMBER_PHONE + '</td><td>'
-									+map[i].MEMBER_SMSCONFIRMATION + '</td><td>' + map[i].LOGINRECORD_DATE+'</td><tr>';
+							html += '<tr><td><input onclick='+'"event.cancelBubble=true"'+ ' type="checkbox"'+ 'name="selectMemberCode" ' + 'class="childCheck2"' + 'value="'+data.map.list[i].member_Code+'"></td>'+
+									'<td>'+data.map.list[i].member_Code+'</td><td>'
+									+data.map.list[i].member_Id+ '</td><td>' + data.map.list[i].member_Nickname + '</td><td>'
+									+data.map.list[i].member_Gender + '</td><td>' + data.map.list[i].member_Phone + '</td><td>'
+									+data.map.list[i].member_SMSConfirmation + '</td><td>' + data.map.list[i].loginrecord_Date+'</td><tr>';
 						}
 						table.innerHTML = html;
 						
-					} */
+					}
 					</script>
+				
 						</div>
 					</div>
 				</div>
