@@ -15,19 +15,32 @@
 	.SGSeachArea {
 		padding-top:7px;
 	}
-	.SGSeachArea > input[type='text']{
-		border-radius:10px;
-		border-style:double;
-		border-color:white;
-		text-align:center;
-		width:500px;
-		height:22px;
-		padding:0px;
-		padding-left:10px;
-		color:#00A2C9;
+	.SGSearch {
+		border:2px solid transparent;
+		display: inline-block;
+	    margin: 0 auto;
+	    background: white;
+	    border-radius: 20px;
+	    text-align: center;
+	    width: 545px;
+	    height: 26px;
+	    color: #00A2C9;
 	}
-	.SGSeachArea > input[type='text']:focus{
-		border-color:#FCCE00;
+	.SGSearch img {
+		width:18px;
+		height:18px;
+		margin-bottom: 3px;
+	}
+	.SGSearch > img:hover {
+		cursor:pointer;
+	}
+	.SGSearch > input[type='text']{
+		border-style: none;
+	    text-align: center;
+	    width: 500px;
+	    height: 22px;
+	}
+	.SGSearch > input[type='text']:focus{
 		outline:none;
 	}
 	.SGMainFiledListArea {
@@ -75,6 +88,18 @@
 </head>
 <script>
 	$(function(){
+		$('.SGSearch > input[type="text"]').focus(function(){
+			$('.SGSearch').css({
+				'border': '2px solid #B3CEFB'
+			});
+		}).blur(function(){
+			$('.SGSearch').css({
+				'border': '2px solid white'
+			});
+		});
+	});
+	
+	$(function(){
 		$('.searchGroupName').click(function(){
 			$('.searchGroupName').val("");
 		});
@@ -109,7 +134,10 @@
 <body>
 	<div class="SGHeaderSeachArea" style="background-image:url(/studyplus/resources/images/studyGroup/group_background.jpg)">
 		<div class="SGSeachArea">
-			<input type="text" class="searchGroupName" name="searchGroupName" placeholder="Study Group Name"/>
+			<div class="SGSearch">
+				<input type="text" class="searchGroupName" name="searchGroupName" placeholder="Study Group Name"/>
+				<img src="/studyplus/resources/images/studyGroup/location_Icon.png"/>
+			</div>
 		</div>
 		<div class="SGMainFiledListArea">
 			<div class="SGMainInfoArea">

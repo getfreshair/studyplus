@@ -9,6 +9,14 @@
 	<configs>
 	</configs>
 	<autoconfigs>
+		<config>src/main/webapp/WEB-INF/config/member/member-context.xml</config>
+		<config>src/main/webapp/WEB-INF/config/studyPlanner/studyPlanner-context.xml</config>
+		<config>src/main/webapp/WEB-INF/config/security/spring-security.xml</config>
+		<config>src/main/webapp/WEB-INF/config/admin/admin-context.xml</config>
+		<config>src/main/resources/root-context.xml</config>
+		<config>src/main/webapp/WEB-INF/config/studyGroup/studyGroup-context.xml</config>
+		<config>src/main/webapp/WEB-INF/config/block/block-context.xml</config>
+		<config>src/main/webapp/WEB-INF/config/studyGroup/sgDetail-context.xml</config>
 	</autoconfigs>
 	<configSets>
 	</configSets>
