@@ -28,7 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import always.awake.studyplus.admin.model.service.AdminService;
 import always.awake.studyplus.admin.model.vo.DispauseBoard;
-import always.awake.studyplus.admin.model.vo.Member;
+import always.awake.studyplus.member.model.vo.Member;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -50,10 +50,30 @@ public class AdminController {
 		if(page.equals("admin/memberManage/memberDispause")) {
 			return "redirect:getDispauseList.do";
 		}
+		if(page.equals("admin/boardManage/noticeList")) {
+			return "redirect:getNoticeList.do";
+		}
 		
 		return page;
 	}
 	////////////////////////////////////////게시판 관리////////////////////////////////////////////////////////
+	@RequestMapping("getNoticeList.do")
+	public ModelAndView getNoticeList(ModelAndView mv) {
+		
+		Map<String, Object> map = new HashMap<String,Object>();
+		
+		
+		List<Map<String, Object>> list = as.getDispauseList(map);
+	
+		
+		mv.setViewName("admin/boardManage/noticeList");
+		mv.addObject("data", list);
+		
+		return mv;
+		
+	}
+	
+	
 	@RequestMapping("adminInsertNotice.do")
 	public @ResponseBody int insertNotice(@RequestParam String title, @RequestParam String content, HttpSession session, HttpServletResponse response){
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -61,16 +81,12 @@ public class AdminController {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int adminCode = loginUser.getMember_Code();
 		
-		System.out.println(title);
-		System.out.println(content);
-		System.out.println();
 		
 		map.put("title", title);
 		map.put("content", content);
 		map.put("adminCode",adminCode);
 		int result = as.insertNotice(map);
 		
-		System.out.println(result+"성공");
 		return result;
 	}
 	

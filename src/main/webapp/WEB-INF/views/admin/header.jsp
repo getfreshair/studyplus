@@ -24,6 +24,7 @@
 		min-width:800px;
 		background-color:white;
 		border-bottom: 0.1px solid lightgray;
+		height:100px;
 	}
 	.admin_header.top_01{
 		position:relative;
@@ -57,7 +58,9 @@
 		padding : 8px 0 0 10px;
 		text-decoration:none;
 	}
-
+	h1{
+	 	margin-top : 0px !important;
+	}
 
 </style>
 
@@ -65,12 +68,9 @@
 	<header>
 		<div class="headerDiv">
 			<div class="admin_header">
-				<div class="top_01">
-					<h1>
-						<img src="resources/images/admin/header_logo.png">
-					</h1>
-					
-				</div>
+					<h1 >
+						<img src="resources/images/admin/header_logo.png" style="m">
+					</h1>	
 			</div>
 		</div>
 	</header>

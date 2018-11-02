@@ -329,6 +329,7 @@ th{
 							success:function(data){
 								var data = JSON.parse(data);
 								alert(data+"명의 회원이 제재되었습니다.");
+								
 							},
 							error:function(){
 								console.log("에러 발생!");
