@@ -56,6 +56,12 @@
 		OR M.MEMBER_CODE IN (SELECT MEMBER_CODE2 FROM FRIEND WHERE MEMBER_CODE1 = #{ member_Code })
 		AND M.MEMBER_STATUS = 0
 	</select>
+	
+	<select id="selectReceiverMemberCode" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT MEMBER_CODE
+		FROM MEMBER
+		WHERE MEMBER_NICKNAME = #{nickname}
+	</select>
 
 
 </mapper>

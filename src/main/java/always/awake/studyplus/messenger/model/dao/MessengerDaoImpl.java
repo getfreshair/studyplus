@@ -14,8 +14,12 @@ public class MessengerDaoImpl implements MessengerDao{
 	@Override
 	public List selectFriendList(SqlSessionTemplate sqlSession, int member_Code) {
 		// TODO Auto-generated method stub
-		
-		System.out.println(sqlSession.selectList("Messenger.selectFriendList", member_Code));
 		return sqlSession.selectList("Messenger.selectFriendList", member_Code);
+	}
+
+	@Override
+	public int selectReceiverMemberCode(SqlSessionTemplate sqlSession, String nickname) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Messenger.selectReceiverMemberCode", nickname);
 	}
 }

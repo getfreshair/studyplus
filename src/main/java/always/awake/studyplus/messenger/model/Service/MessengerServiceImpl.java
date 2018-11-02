@@ -1,14 +1,12 @@
 package always.awake.studyplus.messenger.model.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import always.awake.studyplus.member.model.vo.Member;
 import always.awake.studyplus.messenger.model.dao.MessengerDao;
+import always.awake.studyplus.messenger.model.dao.MessengerDaoImpl;
 
 @Service
 public class MessengerServiceImpl  implements MessengerService {
@@ -23,6 +21,13 @@ public class MessengerServiceImpl  implements MessengerService {
 	@Override
 	public List selectFriendList(int member_Code) {
 		
+		System.out.println(sqlSession);
 		return md.selectFriendList(sqlSession, member_Code);
+	}
+
+	@Override
+	public int selectReceiverMemberCode(String nickname) {
+		
+		return new MessengerDaoImpl().selectReceiverMemberCode(sqlSession, nickname);
 	}
 }

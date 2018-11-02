@@ -12,7 +12,7 @@
 	
 	function connect() {
 		// ws://192.168.10.69:8001/studyplus/chat-ws.socket
-		wsocket = new WebSocket("ws://localhost:8001/studyplus/chat-ws.socket");
+		wsocket = new WebSocket("ws://192.168.10.69:8001/studyplus/chat-ws.socket");
 		wsocket.onopen = onOpen;
 		//서버로부터 메시지를 받으면 호출되는 함수 지정
 		wsocket.onmessage = onMessage;
@@ -27,8 +27,8 @@
 	}
 	
 	function onOpen(evt) {
-		var msg = 'msg:[' + $('#nickname').val() + '입장!]';
-		//wsocket.send(msg);
+		var msg = 'msg:[' + $('#nickname').val() + '입장!' + ']';
+		wsocket.send(msg);
 	}
 	
 	function onMessage(evt) {
@@ -52,7 +52,7 @@
 	function send() {
 		var nickname = $('#nickname').val();
 		var msg = $('#message').val();
-		wsocket.send("msg:" + nickname + ':' + msg);
+		wsocket.send("msg:" + nickname + ':' + msg + ':' + val);
 		$('#message').val('');
 	}
 	
@@ -64,9 +64,9 @@
 				+ '<tr><td rowspan="2" style="vertical-align: text-top; display: table-cell;">' + '<div class="msgImgArea">'
 			 	+ '<img src="/studyplus/resources/images/studyGroup/img_plus.png" style="width:100%;">'
 			    + '</div></td>' 
-				+ '<td><div class="nicknameArea">' + msg.substr(0, msg.lastIndexOf(":")) + '</div>'
+				+ '<td><div class="nicknameArea">' + msg.substr(0, msg.indexOf(":")) + '</div>'
 				+ '</td></tr>'
-				+ '<tr><td>' + '<div class="msgArea">' + msg.substr(msg.lastIndexOf(":")+1, msg.length-1) + '</div>'
+				+ '<tr><td>' + '<div class="msgArea">' + msg.substr(msg.indexOf(":")+1, msg.lastIndexOf(":")-(msg.indexOf(":")+1)) + '</div>'
 				+ '<div class="dateArea">' +  d.getHours() + '시' + d.getMinutes() + '분</div>'
 				+ '</td></tr>'); 
 		

@@ -10,4 +10,6 @@ import always.awake.studyplus.member.model.vo.Member;
 public interface MessengerService{
 
 	List selectFriendList(int member_Code);
+
+	int selectReceiverMemberCode(String nickname);
 }

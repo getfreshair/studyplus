@@ -7,11 +7,16 @@ import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import always.awake.studyplus.member.model.vo.Member;
+import always.awake.studyplus.messenger.model.Service.MessengerService;
 
 public class ChatWebSocketHandler extends TextWebSocketHandler {
 
 	private Map<String,WebSocketSession> users = new ConcurrentHashMap<String,WebSocketSession>();
 	
+	@Autowired
+	private MessengerService ms;
 	/*
 	 * 클라이언트가 연결되면, 클라이언트의 관련된 WebSocketSession을 users 맵에 저장한다.
 	 * 이 users 맵은 채팅 메시지를 연결된 전체 클라이언트에 전달할 때 사용
@@ -20,7 +25,12 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		System.out.println(session.getId() + " 연결됨");
-		users.put(session.getId(), session);
+		Member loginUser;
+		Map<String, Object> map;
+		map = session.getAttributes();
+		loginUser = (Member)map.get("loginUser");
+
+		users.put(loginUser.getMember_Code() + "", session);
 	}
 	
 	/*
@@ -31,11 +41,34 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		System.out.println(session.getId() + "로부터 메시지 수신 : " + message.getPayload());
-		for(WebSocketSession s : users.values()) {
-			s.sendMessage(message);
-			System.out.println(s.getId() + "에 메시지 발송 : " + message.getPayload());
+		
+		String msg = message.getPayload();
+		msg = msg.substring(4, msg.length());
+		
+		String sendNickname = msg.substring(0, msg.indexOf(":"));
+		String msg_content = msg.substring(msg.indexOf(":")+1, msg.lastIndexOf(":"));
+		String receiverNickname = msg.substring(msg.lastIndexOf(":")+1, msg.length());
+		
+		Member loginUser;
+		Map<String, Object> map;
+		map = session.getAttributes();
+		loginUser = (Member)map.get("loginUser");
+
+		int receiverMemberCode = 0;
+		receiverMemberCode = ms.selectReceiverMemberCode(receiverNickname);
+		System.out.println(receiverMemberCode);
+		
+		if(users.get(receiverMemberCode+"") != null) {
+			users.get(receiverNickname+"").sendMessage(message);
+		}else {
+			System.out.println("없다 : " + users.get(receiverMemberCode+""));
 		}
+		users.get(loginUser.getMember_Code()+"").sendMessage(message);
+		
+//		for(WebSocketSession s : users.values()) {
+//			s.sendMessage(message);
+//			System.out.println(s.getId() + "에 메시지 발송 : " + message.getPayload());
+//		}
 	}
 
 	@Override
@@ -46,7 +79,12 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		System.out.println(session.getId() + " 연결 종료됨");
-		users.remove(session.getId());
+		Member loginUser;
+		Map<String, Object> map;
+		map = session.getAttributes();
+		loginUser = (Member)map.get("loginUser");
+		
+		users.remove(loginUser.getMember_Code() + "");
 	}
 	
 }

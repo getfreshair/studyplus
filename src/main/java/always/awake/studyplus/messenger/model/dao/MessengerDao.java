@@ -11,4 +11,6 @@ public interface MessengerDao {
 
 	List selectFriendList(SqlSessionTemplate sqlSession, int member_Code);
 
+	int selectReceiverMemberCode(SqlSessionTemplate sqlSession, String nickname);
+
 }
