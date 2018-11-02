@@ -1,14 +1,18 @@
 package always.awake.studyplus.block.controller;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import always.awake.studyplus.block.model.service.BlockService;
+import always.awake.studyplus.block.model.vo.StudyTimeInfo;
 import always.awake.studyplus.member.model.vo.Member;
 
 @SessionAttributes("loginUser")
@@ -34,7 +39,7 @@ public class blockController {
 	public String showBlockMain(HttpServletRequest requeest, Model model) {
 
 		HashMap<String, Object> dataMap = bs
-				.selectStudyTimes(((Member) (requeest.getSession().getAttribute("loginUser"))).getMember_Code());
+				.selectStudyTimes(((Member)(requeest.getSession().getAttribute("loginUser"))).getMember_Code());
 		model.addAttribute("dataMap", dataMap);
 		return "block/blockMain";
 	}
@@ -43,13 +48,41 @@ public class blockController {
 	public void blockTimesTempSave(@RequestParam("todayStudyTime") String studyTime,
 			@RequestParam("groupTimmerInfo") String groupTimmerInfo, @RequestParam("goalTimmerInfo") String goalTimmerInfo,
 			HttpServletResponse response) {
-		System.out.println(groupTimmerInfo);
-		System.out.println(goalTimmerInfo);
-
+		// 파일 디렉토리 체크
+		File dir1 = new File("C:\\studyPlanner");
+		if(!dir1.exists()) {
+			dir1.mkdir();
+		} 
+		File dir2 = new File("C:\\studyPlanner\\timmerDatas");
+		if(!dir2.exists()) {
+			dir2.mkdir();
+		}
+		
+		
 		// 현재 시간대 설정
 		String timeZone =new SimpleDateFormat("HH").format(new GregorianCalendar().getTimeInMillis());
-		// 임시 파일 생성
-		//writeTimeDataFile(0,Double.parseDouble(studyTime),timeZone);
+		// 개인 공부 시간 임시 파일 생성
+		writeTimeDataFile("PersonalStudyTime" , 0 , Double.parseDouble(studyTime) , timeZone);
+		
+		// 그룹 공부시간 임시 파일 생성
+		if(!groupTimmerInfo.equals("") && groupTimmerInfo != null) {
+			// Data를 필요한 형태로 추출
+			String[] splitInfo = groupTimmerInfo.split(",");
+			String groupCode = splitInfo[0].substring(splitInfo[0].indexOf(":")+1);
+			double groupStudyTime = Double.parseDouble(splitInfo[1].substring(splitInfo[1].indexOf(":")+1));
+
+			writeTimeDataFile("GroupStudyTime["+groupCode+"]" , 0 , groupStudyTime , timeZone);
+		}
+		
+		// 목표 공부시간 임시 파일 생성
+		if(!goalTimmerInfo.equals("") && goalTimmerInfo != null) {
+			// Data를 필요한 형태로 추출
+			String[] splitInfo = goalTimmerInfo.split(",");
+			String goalCode = splitInfo[0].substring(splitInfo[0].indexOf(":")+1);
+			double goalStudyTime = Double.parseDouble(splitInfo[1].substring(splitInfo[1].indexOf(":")+1));
+			writeTimeDataFile("GoalStudyTime["+goalCode+"]" , 0 , goalStudyTime , timeZone);
+		}
+		
 		try {
 			response.getWriter().println("데이타 임시 저장 성공");
 		} catch (IOException e) {
@@ -59,9 +92,7 @@ public class blockController {
 
 	}
 
-	public void writeTimeDataFile(int dateCount,double studyTime,String timeZone) {
-		
-		System.out.println("dateCount : " +  dateCount + " / studyTime : " + studyTime + " / timeZone : " + timeZone);
+	public void writeTimeDataFile(String division,int dateCount,double studyTime,String timeZone) {
 		// 저장할 파일 경로
 		String path = "C:\\studyPlanner\\timmerDatas\\";
 		
@@ -74,7 +105,7 @@ public class blockController {
 			cal.set(Calendar.SECOND, 0);
 			cal.set(Calendar.MILLISECOND, 0);
 		}
-		String fileName = new SimpleDateFormat("yyyy-MM-dd-").format((cal.getTimeInMillis()-1000))+"StudyTime.txt";
+		String fileName = new SimpleDateFormat("yyyy-MM-dd_").format((cal.getTimeInMillis()-1000))+division+".txt";
 		// 공부한 시간대 초기화
 		Calendar cal1 = new GregorianCalendar();
 		cal1.add(Calendar.DATE, dateCount);
@@ -83,9 +114,6 @@ public class blockController {
 		cal1.set(Calendar.SECOND, 0);
 		cal1.set(Calendar.MILLISECOND, 0);
 		
-		System.out.println("fileName : " + fileName);
-		System.out.println("cal : " + cal.getTime());
-		System.out.println("cal1 : " + cal1.getTime());
 		// 파일 생성
 		File file = new File(path + fileName);
 		 
@@ -111,7 +139,6 @@ public class blockController {
 				// 공부한 시간 기준으로 이전 시간대만큼 반복
 				for (int i = 1; i <= checkTimeZone; i++) {
 					// 이전시간대와 비교 시간대가 일치하지 않을 경우 
-					System.out.println(checkTimeZone + " - " + i + " : " + (checkTimeZone- i) );
 					if (i != checkTimeZone) {
 						if((saveTimeZone - i) < 0){
 							check++;
@@ -142,17 +169,113 @@ public class blockController {
 		// 재귀호출로 남은 공부 처리 
 		if(check == 1 ) {
 			// (날짜 / 남은시간/ 타임존)을 인자로 메소드 재귀호출
-			System.out.println("sumStudyTime : " + sumStudyTime);
-			System.out.println("studyTime-sumStudyTime : " + (studyTime-sumStudyTime));
-			writeTimeDataFile(--dateCount,studyTime-sumStudyTime,"23");
+			writeTimeDataFile(division,--dateCount,studyTime-sumStudyTime,"23");
 		}
 		
 	}
 
 	@RequestMapping(value = "saveStudyTime.bl")
-	public String saveStudyTime() {
-
+	public String insertStudyTime(HttpServletRequest requeest, Model model) {
+		
+		HashMap<String,ArrayList<StudyTimeInfo>> list =  readStudyTimeFiles();
+		
+		int result = bs.insertStudyTimes(list,
+				((Member)(requeest.getSession().getAttribute("loginUser"))).getMember_Code());
+		System.out.println(list);
+		
 		return "redirect:studyPlannerMain.me";
 	}
-
+	
+	// 파일 정보 받기용 메소드
+	public HashMap<String,ArrayList<StudyTimeInfo>> readStudyTimeFiles() {
+		
+		// 전체 리스트를 저장할 리스트
+		HashMap<String,ArrayList<StudyTimeInfo>> totalList =  new HashMap<String,ArrayList<StudyTimeInfo>>();
+		// 개인 또는 그룹 공부시간 정보를 저장할 리스트
+		ArrayList<StudyTimeInfo> StudyTimeList = new ArrayList<StudyTimeInfo>();
+		// 목표 공부시간 정보를 저장할 리스트
+		ArrayList<StudyTimeInfo> goalTimeList = new ArrayList<StudyTimeInfo>();
+		File dir = new File("C:\\studyPlanner\\timmerDatas\\");
+		File[] timmerDataFileList = dir.listFiles();
+		
+		for ( File tempFile : timmerDataFileList) {
+			// 파일이름으로 유효성 체크 && 저장할 컬렉션 분류
+			System.out.println(tempFile.getName());
+			if(tempFile.getName().contains("PersonalStudyTime")
+					|| tempFile.getName().contains("GroupStudyTime[")) {
+				extractionData(tempFile.getName(),StudyTimeList);
+			} else if ( tempFile.getName().contains("GoalStudyTime[")) {
+				extractionData(tempFile.getName(),goalTimeList);
+			} else {
+				System.out.println(tempFile.getName()+"은 studyPlusTimmer파일과 관련없는 파일입니다.");
+			}	
+		}
+		
+		// 파일이 존재하지 않을 경우
+		if(timmerDataFileList.length == 0) {
+			return null;
+		// 파일이 존재할 경우
+		} else {
+			// 그룹 또는 개인 공부시간 파일이 존재할 경우
+			if(StudyTimeList.size() != 0) {
+				totalList.put("studyTimeList",StudyTimeList);
+			} 
+			// 목표 공부시간 파일이 존재할 경우
+			if(goalTimeList.size() != 0) {
+				totalList.put("goalTimeList",goalTimeList);
+			}
+			return totalList;
+		}
+	}
+	
+	// 파일 정보 추출용 메소드
+	public void extractionData(String fileName ,ArrayList<StudyTimeInfo> list) {
+		// 파일 정보를 저장할 vo
+		StudyTimeInfo timeInfo = new StudyTimeInfo();
+		// 그룹,목표 공부시간일 경우 code 추출
+		if(fileName.contains("GoalStudyTime[") || fileName.contains("GroupStudyTime[")){
+			timeInfo.setCode(Integer.parseInt(fileName.substring(fileName.indexOf("[")+1, fileName.lastIndexOf("]"))));
+		} else {
+			// 쓰레기값
+			timeInfo.setCode(-99);
+		}
+		// 공부한 날짜 추출
+		timeInfo.setStudyDate(fileName.substring(0,fileName.indexOf("_")));
+		
+		// 시간대별로 공부시간을 임시저장할 Map
+		HashMap<Integer,Double> timesMap = new HashMap<Integer,Double>();
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("C:\\studyPlanner\\timmerDatas\\" + fileName));
+			String temp = "";
+			while((temp = br.readLine()) != null) {
+				// 시간대 저장할 변수
+				int timeZone = Integer.parseInt(temp.substring(temp.indexOf("[")+1, temp.indexOf("]")));
+				// 공부시간 저장할 변수
+				double studyTime = Double.parseDouble(temp.substring(temp.lastIndexOf("]")+1));
+				
+				// 중복되는 시간대 값 처리  
+				if(timesMap.get(timeZone) != null ) {
+					timesMap.put(timeZone, timesMap.get(timeZone) + studyTime);
+				} else {
+					timesMap.put(timeZone,studyTime);
+				}
+			}
+			// Stream 반환
+			br.close();
+			// 공부시간 정보 저장
+			timeInfo.setTimesMap(timesMap);
+			// 리스트에 공부시간 정보 객체 저장
+			list.add(timeInfo);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			// 임시 파일 삭제
+			File deleteFile = new File("C:\\studyPlanner\\timmerDatas\\" + fileName);
+			deleteFile.delete();
+		}
+	}
 }

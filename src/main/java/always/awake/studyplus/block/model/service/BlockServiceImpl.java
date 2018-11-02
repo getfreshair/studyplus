@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import always.awake.studyplus.block.model.dao.BlockDao;
+import always.awake.studyplus.block.model.vo.StudyTimeInfo;
 
 @Service
 public class BlockServiceImpl implements BlockService{
@@ -32,5 +33,15 @@ public class BlockServiceImpl implements BlockService{
 		
 		return dataMap;
 		
+	}
+
+	// 공부 시간 저장용 메소드
+	@Override
+	public int insertStudyTimes(HashMap<String, ArrayList<StudyTimeInfo>> list, int member_Code) {
+		
+		int 
+		
+		
+		return 0;
 	}
 }

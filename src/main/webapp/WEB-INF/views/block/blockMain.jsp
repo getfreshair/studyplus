@@ -233,7 +233,7 @@
 	
 </style>
 </head>
-<body>
+<body>	
 	<div class="mainDiv">
 		<div align="center" class="topDiv col-xs-12 col-md-12" style="background:black; color:white; height:100px; font-size:3em">
 			top view
@@ -295,16 +295,16 @@
 						if(check1 != -99){
 							groupTimmerInfo = "groupCode:" + groupTimmerCode[check1] + 
 						     				  ",groupStudyTime:" + ((groupTimmerTimes[check1]/10) - groupTimmerOriginTime[check1]);
+							console.log(groupTimmerInfo);
 						}
-						console.log(groupTimmerInfo);
 						
 						// 목표 공부시간
 						var goalTimmerInfo = "";
 						if(check2 != -99){
-							groupTimmerInfo = "goalCode:" + goalTimmerCode[check2] + 
+							goalTimmerInfo = "goalCode:" + goalTimmerCode[check2] + 
 						     				  ",goalStudyTime:" + ((goalTimmerTimes[check2]/10) - goalTimmerOriginTime[check2]);
+							console.log(goalTimmerInfo);
 						}
-						console.log(goalTimmerInfo);
 				
 						$.ajax({
 			                  url:"blockTimesTempSave.bl",
@@ -316,6 +316,9 @@
 			                  success:function(data){
 			                	  console.log(data);
 			                	  originTodayStudyTime = todayStudyTime; 
+			                	  goalTimmerOriginTime[check2] = (goalTimmerTimes[check2]/10);
+			                	  groupTimmerOriginTime[check1] = (groupTimmerTimes[check1]/10);
+			                	  
 			                  },
 			                  error:function(){
 			                     console.log("에러 발생!");
@@ -357,6 +360,7 @@
 							if(executeGroupTimmerName != '' && groupTimmerButtonName != executeGroupTimmerName){
 								document.getElementById(executeGroupTimmerName).innerHTML ="공부시작";
 								groupTimmerStatus[originGroupTimmerIndex] = 0;
+								TempSaveTimeDates(originGroupTimmerIndex, -99);
 							}
 							
 							// 실행중인 타이머 저장
@@ -370,7 +374,7 @@
 								document.getElementById("startPause").innerHTML ="일시정지";
 							}
 
-							// 그룹 타이머 컨틀로 
+							// 그룹 타이머 컨트롤
 							if(groupTimmerStatus[num] == 0 ){
 								groupTimmerStatus[num] = 1;
 								startGroupTimmer(num);
@@ -378,6 +382,7 @@
 							} else {
 								groupTimmerStatus[num] = 0;
 								document.getElementById(groupTimmerButtonName).innerHTML ="공부시작";
+								TempSaveTimeDates(num, -99);
 							}
 						}else if ( division =='goal'){
 							var goalTimmerButtonName = "goalStartPause"+num
@@ -385,6 +390,7 @@
 							if(executeGoalTimmerName != '' && goalTimmerButtonName != executeGoalTimmerName){
 								document.getElementById(executeGoalTimmerName).innerHTML ="공부시작";
 								goalTimmerStatus[originGoalTimmerIndex] = 0;
+								TempSaveTimeDates(-99, originGoalTimmerIndex);
 							}
 							
 							// 실행중인 타이머 저장
@@ -398,7 +404,7 @@
 								document.getElementById("startPause").innerHTML ="일시정지";
 							}
 
-							// 그룹 타이머 컨틀로 
+							// 목표 타이머 컨트롤
 							if(goalTimmerStatus[num] == 0 ){
 								goalTimmerStatus[num] = 1;
 								startGoalTimmer(num);
@@ -406,6 +412,7 @@
 							} else {
 								goalTimmerStatus[num] = 0;
 								document.getElementById(goalTimmerButtonName).innerHTML ="공부시작";
+								TempSaveTimeDates(-99, num);
 							}
 						}
 						
@@ -538,11 +545,47 @@
 						}
 					%>
 					 00</span>
+					 
+					 	<div class="container">
+						  <div class="modal fade" id="myModal" role="dialog">
+						    	<div class="modal-dialog modal-sm">
+						      		<div class="modal-content">
+						        		<div class="modal-header">
+						          			<button type="button" class="close" data-dismiss="modal">&times;</button>
+						          			<h4 class="modal-title">Modal Header</h4>
+						        		</div>
+							        	<div class="modal-body">
+							          		<p>This is a small modal.</p>
+							        	</div>
+							        	<div class="modal-footer">
+							          		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							        	</div>
+						      		</div>
+						    	</div>
+						 	</div>
+						</div>
+					 
+					 
 					<div id="controls" style="display:inline-block; margin-left:30px ;">
   						<button id="startPause" class="btn btn-primary" onclick="startPause('main')">공부시작</button>
-  						<form action="saveStudyTime.bl" method="post">
-  						<button type="submit" id="exitStopWatch" class="btn btn-danger">종료</button>
+  						<form action="saveStudyTime.bl" method="post" id="frm">
+  							<button type="button" id="exitStopWatch" class="btn btn-danger" data-toggle="modal" data-target="#myModal" onclick="doSubmit()">종료</button>
   						</form>
+  						<script type="text/javascript">
+  							function doSubmit() {
+  								startPause('main');
+  								var t = 5;
+  								alert("Data를 저장중입니다.. " + t);
+  								setTimeout(function(){
+  									t = t -1 ;
+  									alert("Data를 저장중입니다.. " + t);
+  								},1000)
+  								setTimeout(function(){
+  									document.getElementById("frm").submit();
+  								},5000);
+  							}
+  							
+  						</script>
   					</div>
   				</div>
   				<br>
