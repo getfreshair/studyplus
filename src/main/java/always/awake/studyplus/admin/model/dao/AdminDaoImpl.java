@@ -103,5 +103,17 @@ public class AdminDaoImpl implements AdminDao {
 		
 	}
 
+	@Override
+	public List<Map<String, Object>> searchGroupList(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		
+		return sqlSession.selectList("Admin.searchGroupList", map);
+	}
+
+	@Override
+	public int insertNotice(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		
+		return sqlSession.insert("Admin.insertNotice",map);
+	}
+
 
 }

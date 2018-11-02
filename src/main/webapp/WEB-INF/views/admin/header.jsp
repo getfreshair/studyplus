@@ -22,8 +22,8 @@
 		overflow:hidden;
 		width:100%;
 		min-width:800px;
-		background-color:#333333;
-		border-top: 3px solid #f7e22a;
+		background-color:white;
+		border-bottom: 0.1px solid lightgray;
 	}
 	.admin_header.top_01{
 		position:relative;
@@ -44,7 +44,6 @@
 		position :relative;
 		overflow: hidden;
 		float:left;
-		padding: 15px 0 0 15px;
 	}
 	.top_01 ul{
 		position: relative;
@@ -68,12 +67,9 @@
 			<div class="admin_header">
 				<div class="top_01">
 					<h1>
-						<a href="#">STUDY PLUS</a>
+						<img src="resources/images/admin/header_logo.png">
 					</h1>
-					<ul>
-						<li><a href="#">내 홈페이지</a></li>
-						<li class="logout"><a href="#">로그아웃</a></li>
-					</ul>
+					
 				</div>
 			</div>
 		</div>

@@ -33,4 +33,8 @@ public interface AdminService {
 	public List<DispauseBoard> searchDispauseList(String option, String keyword);
 
 	public int countArticle(String option, String keyword);
+
+	public List<Map<String, Object>> searchGroupList(HashMap<String, Object> map);
+
+	public int insertNotice(HashMap<String, Object> map);
 }

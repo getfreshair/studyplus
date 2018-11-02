@@ -113,7 +113,12 @@ $(function(){
 </head>
 <body>
 	<nav>
+	
 	<div id="accordian">
+	<div id="inform" style="height:200px; width:250px; background:white; float:left; display:inline-block">
+		<img src = "resources/images/admin/calculator.png" style="z-index:5;">
+		<img src = "resources/images/admin/sideimg.png" style="height:100px; width:250px;">
+	</div>
 	<iframe scrolling="no" frameborder="no" clocktype="html5" style=" z-index:999; overflow:hidden;border:0;margin:0;padding:0;width:250px;height:100px;"src="https://www.clocklink.com/html5embed.php?clock=044&timezone=JST&color=white&Title=&Message=&Target=&From=2018,1,1,0,0,0&Color=white"></iframe>
 	<ul style="padding-left:0">
 		

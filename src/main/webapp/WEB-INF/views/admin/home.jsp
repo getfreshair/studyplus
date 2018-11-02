@@ -28,6 +28,7 @@
 		</div>
 		<div class="adminContentArea">
 			<div class="leftSideArea">
+				
 				<jsp:include page="sidemenu.jsp"></jsp:include>
 			</div>
 			<div class="adminBody">

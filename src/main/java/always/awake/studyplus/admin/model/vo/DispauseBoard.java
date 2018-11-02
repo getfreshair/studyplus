@@ -10,7 +10,7 @@ public class DispauseBoard implements java.io.Serializable{
 	private String member_Gender;
 	private String member_Phone;
 	private int member_SMSConfirmation;
-	private Date loginrecord_Date;
+	private String loginrecord_Date;
 	private int member_Status;
 	
 	public DispauseBoard() {
@@ -18,7 +18,7 @@ public class DispauseBoard implements java.io.Serializable{
 	}
 
 	public DispauseBoard(int member_Code, String member_Id, String member_Nickname, String member_Gender,
-			String member_Phone, int member_SMSConfirmation, Date loginrecord_Date, int member_Status) {
+			String member_Phone, int member_SMSConfirmation, String loginrecord_Date, int member_Status) {
 		super();
 		this.member_Code = member_Code;
 		this.member_Id = member_Id;
@@ -78,11 +78,11 @@ public class DispauseBoard implements java.io.Serializable{
 		this.member_SMSConfirmation = member_SMSConfirmation;
 	}
 
-	public Date getLoginrecord_Date() {
+	public String getLoginrecord_Date() {
 		return loginrecord_Date;
 	}
 
-	public void setLoginrecord_Date(Date loginrecord_Date) {
+	public void setLoginrecord_Date(String loginrecord_Date) {
 		this.loginrecord_Date = loginrecord_Date;
 	}
 
@@ -101,8 +101,5 @@ public class DispauseBoard implements java.io.Serializable{
 				+ ", member_SMSConfirmation=" + member_SMSConfirmation + ", loginrecord_Date=" + loginrecord_Date
 				+ ", member_Status=" + member_Status + "]";
 	}
-
-	
-	
 	
 }

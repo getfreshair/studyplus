@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,6 +53,58 @@ public class AdminController {
 		
 		return page;
 	}
+	////////////////////////////////////////게시판 관리////////////////////////////////////////////////////////
+	@RequestMapping("adminInsertNotice.do")
+	public @ResponseBody int insertNotice(@RequestParam String title, @RequestParam String content, HttpSession session, HttpServletResponse response){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int adminCode = loginUser.getMember_Code();
+		
+		System.out.println(title);
+		System.out.println(content);
+		System.out.println();
+		
+		map.put("title", title);
+		map.put("content", content);
+		map.put("adminCode",adminCode);
+		int result = as.insertNotice(map);
+		
+		System.out.println(result+"성공");
+		return result;
+	}
+	
+	
+	
+	
+	/////////////////////////////////////////게시판 관리끝/////////////////////////////////////////////////
+	
+	/////////////////////////////////////////스터디 그룹 관리 //////////////////////////////////////////////////
+	@RequestMapping("adminSearchGroupList.do")
+	public @ResponseBody List<Map<String, Object>> searchGroupList(@RequestParam String option, @RequestParam String keyword, @RequestParam String createDate1, @RequestParam String createDate2, HttpServletResponse response){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		System.out.println(keyword);
+		System.out.println(option);
+		System.out.println(createDate1);
+		System.out.println(createDate2);
+		
+		
+		map.put("keyword", keyword);
+		map.put("option", option);
+		map.put("createDate1", createDate1);
+		map.put("createDate2", createDate2);
+		
+		
+		List<Map<String, Object>> list = as.searchGroupList(map);
+		
+		System.out.println(list);
+		
+		return list;
+	}
+	/////////////////////////////////////////스터디 그룹   끝 //////////////////////////////////////////////////
+	
+	
 	////////////////////////////////////////////휴면 회원 관리///////////////////////////////
 	@RequestMapping("getDispauseList.do")
 	public ModelAndView getDispauseList(ModelAndView mv) {

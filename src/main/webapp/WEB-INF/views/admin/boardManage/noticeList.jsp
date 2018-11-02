@@ -29,6 +29,9 @@
 hr{
 	border-top: 1px solid gray !important;
 }
+th{
+	text-align:center !important;
+}
 </style>
 </head>
 <body>
@@ -99,8 +102,31 @@ hr{
 			         	 		</textarea>
 						      </div>
 						      <div class="modal-footer">
-						      	<button type="button" class="btn btn-success">작성</button>
+						      	<button type="button" class="btn btn-success" onclick="noticeInsert()">작성</button>
 						        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						      <script>
+						      	function noticeInsert(){
+						      		var noticeTitle = $("#noticeTitle").val();
+						      		var textArea = $("#textArea").val();
+						      		
+						      		console.log(noticeTitle);
+						      		console.log(textArea);
+						      		$.ajax({
+						      			url:"adminInsertNotice.do",
+						      			type:"get",
+						      			data:{title:noticeTitle,
+						      				content:textArea},
+						      			success:function(data){
+						      				
+						      			},
+						      			error:function(){
+						      				console.log("에러발생!");
+						      			}
+						      			
+						      		})
+						      		
+						      	}
+						      </script>
 						      </div>
 						    </div>
 					  </div>
