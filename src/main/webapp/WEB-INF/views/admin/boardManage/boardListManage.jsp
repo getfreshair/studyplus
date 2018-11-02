@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,6 +58,18 @@ hr{
 							<th width="10%">글분류</th>
 							<th width="15%">관리</th>
 						</tr>
+						<c:forEach items="${data.list}"  var="boardList" >
+								  <c:if test="${boardList.NOTICE_STATUS eq 0}">
+									<tr>
+									<td><input type="checkbox" class="childCheck" name="selectNoticeCode" value="${noticeList.NOTICE_CODE}"></td>
+									<td>${boardList.NOTICE_CODE}</td>
+									<td>${boardList.NOTICE_TITLE}</td>
+									<td>${boardList.NOTICE_ENROLLDATE}</td>
+									<td>${boardList.NOTICE_COUNT}</td>
+									<td>${boardList.NOTICE_CONTENT}</td>
+									</tr>
+								 </c:if>
+						</c:forEach>
 					</table>
 					</div>
 					<div class="second-div">
@@ -63,19 +78,27 @@ hr{
 					<div class="option" style="display:inline-block; maring-top:17px;font-size:20px;">
 					<select class="form-control" id="searchOption" 
 								style="width:150px; height:40px; margin-top:20px;display:inline-block;" >
-							<option value="boardInsertDate">게시물등록일</option>
 							<option value="boardTitle">제목</option>
-							<option value="boardContent">글내용</option>
+							<option value="memberCode">회원번호</option>
 					</select>
 					</div>
 					
-					<input class="form-control" type="search" id="searchAll"
+					<input class="form-control" type="search" id="keyword"
 									style="width:300px; padding-down:30px; margin-top:14px; height:40px; font-size:14px; display:inline-block;">
-					<button class="btn btn-primary" id="searchBtn"
+					<button type="button" class="btn btn-primary" id="searchBtn" onclick="searchBoardList();"
 								name="searchBtn1" style="font-size:14px; margin-bottom:6px; display:inline-block;height:35px;">검색하기</button>
 					<button class="btn btn-danger" id="deleteNotice" name="delete" style="margin-bottom:6px; margin-right:150px; 
 								font-size:14px; display:inline-block;">불량게시물탐지</button>
 					</div>
+					<script>
+						function searchBoardList(){
+							var option = $("#searchOpion").val();
+							var keyword = $("#keyword").val();
+							
+							location.href = "getGroupBoardList.do?keyword=" + keyword + "&option=" + option;
+						}
+						
+					</script>
 					</div>
 				</div>
 			</div>

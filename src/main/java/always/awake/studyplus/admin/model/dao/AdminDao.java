@@ -59,4 +59,19 @@ public interface AdminDao {
 
 	int insertNotice(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
 
+
+	int getNoticeListCount(SqlSessionTemplate sqlSession, Map<String, Object> map);
+
+
+	List<Map<String, Object>> getNoticeList(SqlSessionTemplate sqlSession, Map<String, Object> map);
+
+
+	int deleteNotice(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
+
+	int getGroupBoardListCount(SqlSessionTemplate sqlSession, Map<String, Object> map);
+
+
+	List<Map<String, Object>> getGroupBoardList(SqlSessionTemplate sqlSession, Map<String, Object> map);
+
 }
