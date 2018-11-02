@@ -9,31 +9,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import always.awake.studyplus.member.model.vo.Member;
 import always.awake.studyplus.sgDetail.model.service.SGDetailService;
 import always.awake.studyplus.sgDetail.model.vo.SGDetail;
 
 @Controller
 public class SGDetailController {
 	@Autowired
-	private SGDetailService sgs;
+	private SGDetailService gs;
 	
 	@RequestMapping(value="selectOneGroup.sgd", method=RequestMethod.GET)
 	public ModelAndView selectOneGroup(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
 		
 		int sgCode = Integer.parseInt(request.getParameter("group_No"));
-		System.out.println("그룹 No : " + sgCode);
 			
+		Member loginUser = (Member)(request.getSession().getAttribute("loginUser"));
+		int memCode = loginUser.getMember_Code();
+
+		System.out.println("SGDetail 컨트롤러 - \n그룹코드 : " + sgCode + ", \n로그인유저 : " + loginUser.toString() + ", \n로그인멤버코드 : " + memCode + ")");
+		
+		
 		try {
-			SGDetail sg = sgs.selectOneGroup(sgCode);
-			System.out.println("서비스에서 받아온 sgDetail객체 : " + sgCode);
+			int joinStatus = gs.selectJoinStatus(memCode);
+			SGDetail group = gs.selectOneGroup(sgCode);
 			
-			mv.addObject("sg", sg);
+			System.out.println("SGDetail 서비스에서 받아온 결과 - \n가입여부 (가입-1/미가입-0) : " + joinStatus + ", \n그룹 조회 결과 : " + group);
+			
+			mv.addObject("joinStatus", joinStatus);
+			mv.addObject("group", group);
 			mv.setViewName("studyGroupDetail/groupDetailPage");
 						
 		}catch (Exception e) {
 			e.printStackTrace();
+			//예외처리 클래스 생성하기
 		}
-		
+		 
 		return mv;
 	}
 	

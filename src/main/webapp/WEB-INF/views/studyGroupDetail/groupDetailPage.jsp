@@ -111,15 +111,15 @@
 					<div class="groupInfoLeft">
 						<table class="topInfoAllWrapTbl" border="1">
 							<tr><td class="radiusSmallWrapTd">
-								<div class="category radiusBoxSmall">${sg.location_Name} / ${sg.category_Name}</div>
+								<div class="category radiusBoxSmall">${group.location_Name} / ${group.category_Name}</div>
 							</td></tr>
 							<tr><td>
 								<table class="topInfoContWrapTbl groupTitleTblWrap" border="1">
 									<tr><td>
 										<table class="groupTitleTbl">
-											<tr><td><h2>${sg.studyGroup_Name}</h2></td></tr>
+											<tr><td><h2>${group.studyGroup_Name}</h2></td></tr>
 											<tr><td class="groupIntro">
-												${sg.studyGroup_Intro}
+												${group.studyGroup_Intro}
 											</td></tr>
 										</table>
 									</td></tr>
@@ -127,15 +127,15 @@
 										<table class="groupOptDetailTbl">
 											<tr><td>
 												<strong>목표시간</strong>
-												<span><fmt:formatNumber value="${sg.studyGroup_GoalTime / 3600}" pattern="0"/> 시간</span>
+												<span><fmt:formatNumber value="${group.studyGroup_GoalTime / 3600}" pattern="0"/> 시간</span>
 											</td></tr>
 											<tr><td>
 												<strong>참여인원</strong>
-												<span>${sg.gr_Mem_Count} / ${sg.studyGroup_MaxNum} 명</span>
+												<span>${group.gr_Mem_Count} / ${group.studyGroup_MaxNum} 명</span>
 											</td></tr>
 											<tr><td>
 												<strong>시 작 일</strong>	
-												<span><fmt:formatDate value="${sg.studyGroup_StDate}" pattern="yyyy. MM. dd."/> (${sg.gr_Dates} 일 째)</span>
+												<span><fmt:formatDate value="${group.studyGroup_StDate}" pattern="yyyy. MM. dd."/> (${group.gr_Dates} 일 째)</span>
 											</td></tr>
 										</table>
 									</td></tr>

@@ -10,7 +10,7 @@
 		
 		<result property="studyGroup_Code" column="STUDYGROUP_CODE"/>
 		<result property="studyGroup_Name" column="STUDYGROUP_NAME"/>
-		<result property="member_Code" column="MEMBER_CODE"/>
+		<result property="member_Code" column="MEMBER_CODE"/>	<!-- 로그인 유저 코드 -->
 		<result property="member_NickName" column="MEMBER_NICKNAME"/>
 		<result property="location_Code" column="LOCATION_CODE"/>
 		<result property="location_Name" column="LOCATION_NAME"/>
@@ -25,20 +25,49 @@
 		<result property="studyGroup_OpenStatus" column="STUDYGROUP_OPENSTATUS"/>
 		<result property="studyGroup_Pwd" column="STUDYGROUP_PWD"/>
 		
-		<result property="groupTotalStudyTime" column="GROUPTOTALSTUDYTIME"/>
 		<result property="gr_Mem_Count" column="GR_MEM_CNT"/> <!-- //* -->
 		<result property="gr_Dates" column="GR_DATES"/> <!-- //* -->
-		<result property="gr_JoinWheter" column="gr_JoinWheter"/> <!-- //* -->
-		
+		<result property="gr_Day_Total" column="GR_DAY_TOTAL"/> <!-- //* -->
+		<result property="my_Day_Total" column="MY_DAY_TOTAL"/> <!-- //* -->
+		<result property="gr_Fulfill_Mem_Cnt" column="GR_FULFILL_MEM_CNT"/> <!-- //* -->		
 	</resultMap>
+	
+	<select id="selectJoinStatus" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS "JOINSTATUS"
+		FROM JOINGROUP JG
+		WHERE STUDYGROUP_CODE = #{ sgCode } AND JOINGROUP_STATUS = 0 AND MEMBER_CODE = #{ memCode };
+	</select>
 	
 	<!-- select 그룹  detail 쿼리 -->
 	<select id="selectOneGroup" resultMap="SGDetailResultSet" parameterType="SGDetail">
-		SELECT SG.*, L.LOCATION_NAME AS "LOCATION_NAME", C.CATEGORY_NAME AS "CATEGORY_NAME", TRUNC(SYSDATE - SG.STUDYGROUP_STDATE) AS "GR_DATES"
-		FROM STUDYGROUP SG
-		JOIN LOCATION L ON(L.LOCATION_CODE = SG.LOCATION_CODE)
-		JOIN CATEGORY C ON(C.CATEGORY_CODE = SG.CATEGORY_CODE)
-		WHERE STUDYGROUP_CODE = #{ sgCode }
+		WITH GR_TOTAL AS (
+		                SELECT STUDYTIME_DATE, STUDYGROUP_CODE, MEMBER_CODE, GR_MEM_DAY_TOTAL, GR_MEM_CNT,
+		                       LOCATION_NAME, CATEGORY_NAME, STUDYGROUP_NAME, STUDYGROUP_INTRO, STUDYGROUP_GOALTIME,
+		                       STUDYGROUP_MAXNUM, STUDYGROUP_STDATE, GR_DATES
+		                FROM ( SELECT STUDYTIME_DATE, STUDYGROUP_CODE, MEMBER_CODE, STUDYTIME_STUDYTIME  AS "GR_MEM_DAY_TOTAL", GR_MEM_CNT
+		                       FROM STUDYTIME, ( SELECT COUNT(*) AS "GR_MEM_CNT" FROM JOINGROUP WHERE STUDYGROUP_CODE = #{ sgCode } AND JOINGROUP_STATUS = 0 )
+		                       WHERE (STUDYGROUP_CODE, MEMBER_CODE) IN ( SELECT STUDYGROUP_CODE, MEMBER_CODE 
+		                                                                FROM JOINGROUP
+		                                                                WHERE STUDYGROUP_CODE = #{ sgCode } AND JOINGROUP_STATUS = 0 )
+		                       AND STUDYTIME_DATE LIKE SYSDATE )
+		                JOIN ( SELECT L.LOCATION_NAME AS "LOCATION_NAME", C.CATEGORY_NAME AS "CATEGORY_NAME",
+		                              STUDYGROUP_NAME, STUDYGROUP_INTRO, (STUDYGROUP_GOALTIME / 3600) AS "STUDYGROUP_GOALTIME",
+		                              STUDYGROUP_MAXNUM, STUDYGROUP_STDATE, TRUNC(SYSDATE - STUDYGROUP_STDATE + 1) AS "GR_DATES",
+		                              STUDYGROUP_CODE
+		                       FROM STUDYGROUP SG
+		                       JOIN LOCATION L ON(L.LOCATION_CODE = SG.LOCATION_CODE)
+		                       JOIN CATEGORY C ON(C.CATEGORY_CODE = SG.CATEGORY_CODE) ) USING(STUDYGROUP_CODE)
+		                 )
+		SELECT STUDYTIME_DATE, STUDYGROUP_CODE, GR_DAY_TOTAL, MY_DAY_TOTAL, GR_FULFILL_MEM_CNT,
+		       LOCATION_NAME, CATEGORY_NAME, STUDYGROUP_NAME, STUDYGROUP_INTRO, STUDYGROUP_GOALTIME, GR_MEM_CNT, STUDYGROUP_MAXNUM,
+		       STUDYGROUP_STDATE, GR_DATES
+		FROM GR_TOTAL GT,
+			(SELECT SUM(GR_MEM_DAY_TOTAL) AS "GR_DAY_TOTAL" FROM GR_TOTAL),
+			(SELECT GR_MEM_DAY_TOTAL AS "MY_DAY_TOTAL" FROM GR_TOTAL WHERE MEMBER_CODE = #{ memCode }),
+			(SELECT COUNT(GR_MEM_DAY_TOTAL) AS "GR_FULFILL_MEM_CNT" FROM GR_TOTAL WHERE GR_MEM_DAY_TOTAL >= STUDYGROUP_GOALTIME)
+		GROUP BY STUDYTIME_DATE, STUDYGROUP_CODE, GR_DAY_TOTAL, MY_DAY_TOTAL, GR_FULFILL_MEM_CNT,
+		       LOCATION_NAME, CATEGORY_NAME, STUDYGROUP_NAME, STUDYGROUP_INTRO, STUDYGROUP_GOALTIME, GR_MEM_CNT, STUDYGROUP_MAXNUM,
+		       STUDYGROUP_STDATE, GR_DATES
 	</select> 
 	
 </mapper>

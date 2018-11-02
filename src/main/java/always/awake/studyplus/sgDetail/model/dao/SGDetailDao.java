@@ -6,6 +6,9 @@ import always.awake.studyplus.sgDetail.model.vo.SGDetail;
 
 public interface SGDetailDao {
 
+	int selectJoinStatus(SqlSessionTemplate sqlSession, int memCode);
+
 	SGDetail selectOneGroup(SqlSessionTemplate sqlSession, int sgCode);
+
 	
 }

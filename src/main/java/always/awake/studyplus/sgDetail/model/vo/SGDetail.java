@@ -6,7 +6,7 @@ import java.sql.Date;
 public class SGDetail implements Serializable {
 
 	private int studyGroup_Code; // 그룹코드
-	private int member_Code; // 그룹장코드
+	private int member_Code; // 그룹장코드 / 로그인유저 코드
 	private String member_NickName; // 그룹장닉네임
 	private String studyGroup_Name; // 그룹명
 	private int location_Code; // 지역 코드
@@ -21,19 +21,24 @@ public class SGDetail implements Serializable {
 	private String category_Name; // 카테고리 명
 	private int studyGroup_OpenStatus; // 공개/비공개 여부
 	private String studyGroup_Pwd; // 그룹 비밀번호
+	
 	private int groupTotalStudyTime; // 오늘 그룹의 총 공부량
 
 	private int gr_Dates; // 오늘날짜 - 그룹 생성날짜
-	private int gr_Mem_Count; // 현재 그룹 참여 인원 (DB를 바탕으로 도출 하는 필드)
-
-	public SGDetail() {
-	}
+	private int gr_Mem_Count; // 현재 그룹 참여 인원
+	
+	private int gr_Day_Total; // 그룹 오늘 총 공부량
+	private int my_Day_Total; // 그룹 내 로그인 유저 오늘 총 공부량
+	private int gr_Fulfill_Mem_Cnt; // 목표량 달성한 그룹 인원
+	
+	public SGDetail() {	}
 
 	public SGDetail(int studyGroup_Code, int member_Code, String member_NickName, String studyGroup_Name,
 			int location_Code, String location_Name, int studyGroup_GoalTime, int studyGroup_MaxNum,
 			String studyGroup_Intro, Date studyGroup_StDate, int studyGroup_Status, Date studyGroup_EdDate,
 			int category_Code, String category_Name, int studyGroup_OpenStatus, String studyGroup_Pwd,
-			int groupTotalStudyTime, int gr_Dates, int gr_Mem_Count) {
+			int groupTotalStudyTime, int gr_Dates, int gr_Mem_Count, int gr_Day_Total, int my_Day_Total,
+			int gr_Fulfill_Mem_Cnt) {
 		super();
 		this.studyGroup_Code = studyGroup_Code;
 		this.member_Code = member_Code;
@@ -54,6 +59,9 @@ public class SGDetail implements Serializable {
 		this.groupTotalStudyTime = groupTotalStudyTime;
 		this.gr_Dates = gr_Dates;
 		this.gr_Mem_Count = gr_Mem_Count;
+		this.gr_Day_Total = gr_Day_Total;
+		this.my_Day_Total = my_Day_Total;
+		this.gr_Fulfill_Mem_Cnt = gr_Fulfill_Mem_Cnt;
 	}
 
 	public int getStudyGroup_Code() {
@@ -208,6 +216,30 @@ public class SGDetail implements Serializable {
 		this.gr_Mem_Count = gr_Mem_Count;
 	}
 
+	public int getGr_Day_Total() {
+		return gr_Day_Total;
+	}
+
+	public void setGr_Day_Total(int gr_Day_Total) {
+		this.gr_Day_Total = gr_Day_Total;
+	}
+
+	public int getMy_Day_Total() {
+		return my_Day_Total;
+	}
+
+	public void setMy_Day_Total(int my_Day_Total) {
+		this.my_Day_Total = my_Day_Total;
+	}
+
+	public int getGr_Fulfill_Mem_Cnt() {
+		return gr_Fulfill_Mem_Cnt;
+	}
+
+	public void setGr_Fulfill_Mem_Cnt(int gr_Fulfill_Mem_Cnt) {
+		this.gr_Fulfill_Mem_Cnt = gr_Fulfill_Mem_Cnt;
+	}
+
 	@Override
 	public String toString() {
 		return "SGDetail [studyGroup_Code=" + studyGroup_Code + ", member_Code=" + member_Code + ", member_NickName="
@@ -218,7 +250,9 @@ public class SGDetail implements Serializable {
 				+ ", studyGroup_EdDate=" + studyGroup_EdDate + ", category_Code=" + category_Code + ", category_Name="
 				+ category_Name + ", studyGroup_OpenStatus=" + studyGroup_OpenStatus + ", studyGroup_Pwd="
 				+ studyGroup_Pwd + ", groupTotalStudyTime=" + groupTotalStudyTime + ", gr_Dates=" + gr_Dates
-				+ ", gr_Mem_Count=" + gr_Mem_Count + "]";
+				+ ", gr_Mem_Count=" + gr_Mem_Count + ", gr_Day_Total=" + gr_Day_Total + ", my_Day_Total=" + my_Day_Total
+				+ ", gr_Fulfill_Mem_Cnt=" + gr_Fulfill_Mem_Cnt + "]";
 	}
 
+	
 }
