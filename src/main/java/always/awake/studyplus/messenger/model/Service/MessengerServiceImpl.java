@@ -28,6 +28,12 @@ public class MessengerServiceImpl  implements MessengerService {
 	@Override
 	public int selectReceiverMemberCode(String nickname) {
 		
-		return new MessengerDaoImpl().selectReceiverMemberCode(sqlSession, nickname);
+		return md.selectReceiverMemberCode(sqlSession, nickname);
+	}
+
+	@Override
+	public void insertMessage(String msg_content, int member_Code, int receiverMember_Code, int status, int type) {
+	
+		md.insertMessage(sqlSession, msg_content, member_Code, receiverMember_Code, status, type);
 	}
 }

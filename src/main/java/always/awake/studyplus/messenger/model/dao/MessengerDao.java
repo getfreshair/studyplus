@@ -13,4 +13,7 @@ public interface MessengerDao {
 
 	int selectReceiverMemberCode(SqlSessionTemplate sqlSession, String nickname);
 
+	void insertMessage(SqlSessionTemplate sqlSession, String msg_content, int member_Code, int receiverMember_Code,
+			int status, int type);
+
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,7 +29,7 @@
 	
 	function onOpen(evt) {
 		var msg = 'msg:[' + $('#nickname').val() + '입장!' + ']';
-		wsocket.send(msg);
+		
 	}
 	
 	function onMessage(evt) {
@@ -59,6 +60,11 @@
 	function appendMessage(msg) {
 		var d = new Date();
 		
+		
+		if(val == msg.substr(msg.lastIndexOf(":")+1, msg.length)){
+			alert("내가보낸거");
+		}
+		
 		$('#chatMessageArea').append(
 				'<table style="margin-top : 10px;">'
 				+ '<tr><td rowspan="2" style="vertical-align: text-top; display: table-cell;">' + '<div class="msgImgArea">'
@@ -69,6 +75,9 @@
 				+ '<tr><td>' + '<div class="msgArea">' + msg.substr(msg.indexOf(":")+1, msg.lastIndexOf(":")-(msg.indexOf(":")+1)) + '</div>'
 				+ '<div class="dateArea">' +  d.getHours() + '시' + d.getMinutes() + '분</div>'
 				+ '</td></tr>'); 
+		
+		
+		
 		
 		var chatAreaHeight = $('#chatArea').height();
 		var maxScroll = $('#chatMessageArea').height() - chatAreaHeight;
@@ -114,73 +123,66 @@
 	
 </script>
 <style type="text/css">
-	#chatArea {
-		width:100%;
-		height:86%;
-		overflow-y:auto;
-	}
-	
-	#sendArea{
-		
-		width:100%;
-		height:15%;
-		
-	}
-		
-	#message{
+#chatArea {
+	width: 100%;
+	height: 86%;
+	overflow-y: auto;
+	padding-bottom: 5%;
+}
 
-   		width: 73%;
-   		vertical-align: middle;
-	}
-	
-	#sendBtn{
-		
-		width: 20%;
-	    text-align: center;
-	    background: #f1bc3c;
-	    color: white;
-	    display: inline-block;
-	    height: 24px;
-	    vertical-align: middle;
-	}
-	
-	.msgImgArea{
-		margin-left : 5%;
-		border-radius: 50%;
-		width: 35px;
-    	height: 35px;
-	}
-	
-	.nicknameArea{
-	
-		margin-left : 5px;
-	}
-	
-	.msgArea{
-	
-		background : WhiteSmoke;
-		margin-left : 5px;
-		display : inline-block;
-		word-break: break-all;	
-		border-radius : 15%;
-	}
-	
-	.dateArea{
-		
-		margin-left : 3px;
-		font-size : 3px;
-		display : inline-block;
-	}
-	
-	#exitBtn{
-	
-		margin-left : 1%;
-	}
+#sendArea {
+	width: 100%;
+	height: 15%;
+}
+
+#message {
+	width: 73%;
+	vertical-align: middle;
+}
+
+#sendBtn {
+	width: 20%;
+	text-align: center;
+	background: #f1bc3c;
+	color: white;
+	display: inline-block;
+	height: 24px;
+	vertical-align: middle;
+}
+
+.msgImgArea {
+	margin-left: 5%;
+	border-radius: 50%;
+	width: 35px;
+	height: 35px;
+}
+
+.nicknameArea {
+	margin-left: 5px;
+}
+
+.msgArea {
+	background: WhiteSmoke;
+	margin-left: 5px;
+	display: inline-block;
+	word-break: break-all;
+	border-radius: 15%;
+}
+
+.dateArea {
+	margin-left: 3px;
+	font-size: 3px;
+	display: inline-block;
+}
+
+#exitBtn {
+	margin-left: 1%;
+}
 </style>
 </head>
 
 <body>
-	<input type="text" id="nickname" style="display:none;">
+	<input type="text" id="nickname" style="display: none;">
 	<div id="chatArea">
 		<div id="chatMessageArea"></div>
 	</div>
@@ -188,7 +190,7 @@
 	<div id="sendArea">
 		<input type="button" id="exitBtn" value="<" class="chat_close">
 		<input type="text" id="message">
-		<div id="sendBtn">전송</div>	
+		<div id="sendBtn">전송</div>
 	</div>
 </body>
 </html>
