@@ -1,7 +1,6 @@
 package always.awake.studyplus.studyPlanner.controller;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import always.awake.studyplus.member.model.vo.Member;
 import always.awake.studyplus.studyPlanner.model.service.StudyPlannerService;
-import always.awake.studyplus.studyPlanner.model.vo.StudyTime;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -29,6 +27,7 @@ public class StudyPlannerController {
 		return "studyPlanner/studyPlanner";
 	}
 	
+	//일간 공부량 차트
 	@RequestMapping(value="studyPlannerTodayChart.sp")
 	public void duplicationCheck(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		//파라미터값 받음
@@ -73,6 +72,7 @@ public class StudyPlannerController {
 		}
 	}
 	
+	//주간 공부량 차트
 	@RequestMapping(value="studyPlannerWeeklyChart.sp")
 	public void weeklyChart(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		//파라미터값 받음
@@ -80,10 +80,43 @@ public class StudyPlannerController {
 		int loginUserCode = loginUser.getMember_Code();
 		
 		String chartDate = request.getParameter("dateVal");
-		
+
 		//날짜 특수문자 변경
 		String chartDate2 = chartDate.replaceAll("-", "/");
-
+		String[] chartDate3 = chartDate2.split(" ~ ");
+		
+		String[] chartDate4 = new String[2];
+		for(int i = 0; i <chartDate3.length; i++) {
+			chartDate3[i] = chartDate3[i].substring(2, 10);
+			chartDate4[i] = chartDate3[i].substring(6, 8);
+		}
+		//System.out.println("1날짜" + chartDate4[0]);
+		//System.out.println("2날짜" + chartDate4[1]);
+		//HashMap
+		HashMap<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("loginUserCode", loginUserCode);
+		hmap.put("chartDateYear", chartDate3);
+		
+		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		list.add(hmap);
+	
+		List<HashMap<String, Object>> resultList = sps.selectWeeklyChart(list);
+		
+		
+		//System.out.println("데이터 가져옴 : " + resultList);
+		
+		//날짜만 추출해서
+		//가져온 날짜를 arr[7]에 순서대로 더하면서 넣는다.
+		/*String[] resultTime = new String[7];
+		for(int i = 0; i < 6; i++) {
+			for(int j = 0; j < resultList.size(); j++) {
+				if(resultTime[i] == resultList.get(j).get("STUDYTIME_DATE").toString().substring(8, 10)) {
+					resultTime[i] += resultList.get(j).get("STUDYTIME_STUDYTIME").toString();
+				}
+			}
+			System.out.println("resultTime : " + resultTime[i]);
+		}*/
+		
 		
 		try {
 			response.getWriter().print("dfsdf");
@@ -92,6 +125,7 @@ public class StudyPlannerController {
 		}
 	} 
 	
+	//월간 공부량 차트
 	@RequestMapping(value="studyPlannerMonthlyChart.sp")
 	public void monthlyChart(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		//파라미터값 받음
@@ -99,20 +133,12 @@ public class StudyPlannerController {
 		int loginUserCode = loginUser.getMember_Code();
 		
 		String chartDate = request.getParameter("dateVal");
-
 		String chartDateYear = chartDate.substring(2, 4);
-		System.out.println(chartDate);
-		System.out.println(chartDateYear);
-		//날짜 특수문자 변경
-		/*String[] chartDate2 = chartDate.split("-");
-		String chartDateYear = chartDate2[0].substring(2, 4);
-		String chartDateMonth = chartDate2[1];*/
 		
 		//HashMap
 		HashMap<String, Object> hmap = new HashMap<String, Object>();
 		hmap.put("loginUserCode", loginUserCode);
 		hmap.put("chartDateYear", chartDateYear);
-		//hmap.put("chartDateMonth", chartDateMonth);
 		
 		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		list.add(hmap);
@@ -136,7 +162,6 @@ public class StudyPlannerController {
 		for(int i = 0; i < arr.length; i++) {
 			studyTime += arr[i] + ",";
 		}
-
 		
 		try {
 			response.getWriter().print(studyTime);

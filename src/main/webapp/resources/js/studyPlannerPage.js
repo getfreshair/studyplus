@@ -8,7 +8,9 @@ $(function(){
 
 	datePicker();			//데이트피커 날짜선택
 	dateTabBtn();			//주간 월간 선택 버튼
-	todaydate();			//현재 날짜
+	todaydate();			//페이지 진입시 현재 날짜 선택
+	todaydateWeekly()		//페이지 진입시 한 주 선택
+	todaydateYear();		//페이지 진입시 현재 년도 선택
 	todayChartChangeDate();	//일간 공부량 날짜 변경시
 	weeklyChartChangeDate(); //주간 공부량 날짜 변경시
 	monthlyChartChangeDate();//월간 공부량 날짜 변경시
@@ -17,7 +19,6 @@ $(function(){
 
 	GoalListChart();		//목표 리스트 노출된 부분 공부량 차트
 	
-	todaydateYear();		//현재 날짜(년도만)
 
 });
 
@@ -129,25 +130,37 @@ function todaydate(){
 	var chan_val = year + '-' + mon + '-' + day;
 	$(this).val(chan_val);
 
-	var dateVal = chan_val; //컨트롤러에 보낼 날짜
+	var dateVal = chan_val;		//컨트롤러에 보낼 날짜
 
-	todayChart(dateVal);	//일간 공부량 차트
-	//weeklyChart(dateVal);	//주간 공부량 차트
-	//monthlyChart(dateVal);	//월간 공부량 차트
+	$('#todayDatePicker').attr("value",dateVal);
+	todayChart(dateVal);		//일간 공부량 차트
 }
 
-function todaydateYear(){
+//페이지 진입시 한 주 선택
+function todaydateWeekly(){
 	var now = new Date();
 	var year= now.getFullYear();
 	var mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
 	var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
 
-	var chan_val = year;
+	var chan_val = year + '-' + mon + '-' + day;
 	$(this).val(chan_val);
 
-	var dateVal = chan_val; //컨트롤러에 보낼 날짜
+	var dateVal = chan_val;		//컨트롤러에 보낼 날짜
 
-	monthlyChart(dateVal);	//월간 공부량 차트
+	$('#todayDatePicker').attr("value",dateVal);
+	weeklyChart(dateVal);		//주간 공부량 차트
+}
+
+//페이지 진입시 현재 년도 선택
+function todaydateYear(){
+	var now = new Date();
+	var year= now.getFullYear();
+
+	var dateVal = year; 		//컨트롤러에 보낼 날짜
+
+	$('#monthlyDatePicker').attr("value",year);
+	monthlyChart(dateVal);		//월간 공부량 차트
 }
 
 //일간 공부량 날짜 변경시
@@ -237,14 +250,32 @@ function weeklyChartChangeDate(){
 		console.log("선택한날짜 : " + dateVal);
 		weeklyChart(dateVal);
 	});
+	/*$("#weeklyDatePicker").click(function(){
+		$(".datepicker--cell-day").click(function(){
+			var dateVal = $(this).attr("data-year");
+			//console.log("선택한날짜 : " + dateVal);
+			monthlyChart(dateVal);		
+		});
+	});*/
+	
+
+	/*$('#weeklyDatePicker').change(function (e) {
+    var value = $("#weeklyDatePicker").val();
+    var firstDate = moment(value, "MM-DD-YYYY").day(0).format("MM-DD-YYYY");
+    var lastDate =  moment(value, "MM-DD-YYYY").day(6).format("MM-DD-YYYY");
+    $("#weeklyDatePicker").val(firstDate + " - " + lastDate);
+});*/
+	
+	
 }
+
 
 //주간 공부량 차트
 function weeklyChart(dateVal){
 	var ctx = document.getElementById("weeklyChart").getContext('2d');
 	$.ajax({
 		url : "studyPlannerWeeklyChart.sp",
-		data : {dateVal : dateVal},
+		data : {dateVal : "2018-10-28 ~ 2018-11-03"},
 		type : "post",
 		success : function(data) {
 			
@@ -258,7 +289,7 @@ function weeklyChart(dateVal){
 			var weeklyChart = new Chart(ctx, {
 				type: 'bar',
 				data: {
-					labels: ["월", "화", "수", "목", "금", "토", "일"],
+					labels: ["일", "월", "화", "수", "목", "금", "토"],
 						datasets: [{
 							//label: '# of Votes',
 							data: ["0", "1", "2", "3", "4", "5", "6"],
@@ -296,9 +327,9 @@ function weeklyChart(dateVal){
 //월간 공부량 날짜 변경시
 function monthlyChartChangeDate(){
 	$("#monthlyDatePicker").click(function(){
-		var dateVal = $(this).val();
-		$(".datepicker--cell-year").mouseover(function(){
-			console.log("선택한날짜 : " + dateVal);
+		$(".datepicker--cell-year").click(function(){
+			var dateVal = $(this).attr("data-year");
+			//console.log("선택한날짜 : " + dateVal);
 			monthlyChart(dateVal);		
 		});
 	});
@@ -312,7 +343,7 @@ function monthlyChart(dateVal){
 		data : {dateVal : dateVal},
 		type : "post",
 		success : function(data) {
-			console.log(data);
+			//console.log(data);
 			
 			var arr;
 			arr = data.split(",");
@@ -384,12 +415,23 @@ function datePicker(){
 	    autoClose: true
 	});
 	
+	
+	/*$('#weeklyDatePicker').change(function (e) {
+	      var value = $("#weeklyDatePicker").val();
+	      var firstDate = moment(value, "MM-DD-YYYY").day(0).format("MM-DD-YYYY");
+	      var lastDate =  moment(value, "MM-DD-YYYY").day(6).format("MM-DD-YYYY");
+	      $("#weeklyDatePicker").val(firstDate + " - " + lastDate);
+	  });*/
+	
+	
+	
 	$('#monthlyDatePicker').datepicker({
 	    language: 'ko',
 	    dateFormat: "yyyy",
-	    autoClose: true
-	    
+	    autoClose: true,
 	});
+	
+	
 	
 	//일간 공부량 날짜선택
 	/*$( "#todayDatePicker" ).datepicker({
