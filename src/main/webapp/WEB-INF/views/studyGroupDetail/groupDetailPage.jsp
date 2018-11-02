@@ -127,7 +127,8 @@
 										<table class="groupOptDetailTbl">
 											<tr><td>
 												<strong>목표시간</strong>
-												<span><fmt:formatNumber value="${sg.studyGroup_GoalTime / 3600}" pattern="0"/> 시간</span>
+												<span>${sg.studyGroup_GoalTime} 시간</span>
+<%-- 											<span><fmt:formatNumber value="${sg.studyGroup_GoalTime / 3600}" pattern="0"/> 시간</span> --%>
 											</td></tr>
 											<tr><td>
 												<strong>참여인원</strong>
