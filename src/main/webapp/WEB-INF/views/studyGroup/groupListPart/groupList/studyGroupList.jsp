@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -120,71 +121,112 @@
 	    font-size: 12px;
 	    color:#BDBDBD;
 	    border: 1px solid currentColor;
+	    margin-left: 2px;
+    	margin-right: 2px;
 	}
 </style>
 <script>
 	$(function(){
-		selectSGList($('.searchGroupName').val(), 1);
+		selectSGList($('.searchSGName').val(), $("input:radio[class=category_Code]:checked").val(), $("input:radio[class=location_Code]:checked").val(), 1);
 	});
 	
-	function moreSGList(searchSGName, currentPage){
-		selectSGList(searchSGName, pageNo);
+	function moreSGList(searchSGName, category_Code, location_Code, currentPage){
+		selectSGList(searchSGName, category_Code, location_Code, currentPage);
 	}
 	
-	function selectSGList(searchSGName, currentPage){
+	function selectSGList(searchSGName, category_Code, location_Code, currentPage){
+		console.log(searchSGName, category_Code, location_Code, currentPage);
+		
 		$.ajax({
 			url: 'selectStudyGroupList.sg',
 			data: {
 				searchSGName : searchSGName,
+				category_Code : category_Code,
+				location_Code : location_Code,
 				currentPage : currentPage
 			},
 			beforeSend : function(){
 				
 			},
 			success : function(data){
+				$('.SGListInfoArea').empty();
+				$('.SGPIArea').empty();
+				
 				console.log(data);
 				
 				for(var key in data){
-					$SGInfoArea = $('<div class="SGInfoArea">');
-					$SGInfoThumbnailImgArea = $('<div class="SGInfoThumbnailImgArea">');
-					$SGInfoThumbnailImg = $('<img class="SGInfoThumbnailImg">').attr('src', "/studyplus/resources/upload/studygroup/thumbnail/" + data[key].SGFILES_NAME);
-					$SGInfoRightArea = $('<div class="SGInfoRightArea">');
-					$SGInfoCLArea = $('<div class="SGInfoCLArea">');
-					$SGInfoCategoryArea = $('<div class="SGInfoCategoryArea">').append(data[key].CATEGORY_NAME);
-					$SGInfoLocationArea = $('<div class="SGInfoLocationArea">').append(data[key].LOCATION_NAME);
-					$SGInfoTitleArea = $('<div class="SGInfoTitleArea">');
-					$SGInfoBossImg = $('<img class="SGInfoBossImg">').attr('src', "/studyplus/resources/upload/member/thumbnail/" + data[key].MFILES_NAME);
-					$SGInfoCommentArea = $('<div class="SGInfoCommentArea">').append(data[key].STUDYGROUP_INTRO);
-					$SGInfoDGArea = $('<div class="SGInfoDGArea">');
-					$SGDateArea = $('<div class="SGDateArea">').append(data[key].STUDYGROUP_STDATE);
-					$SGGoalArea = $('<div class="SGGoalArea">').append('일간 목표 : ' + data[key].STUDYGROUP_GOALTIME + '시간');
-					$SGInfoMaxCrewArea = $('<div class="SGInfoMaxCrewArea">').append('모집 인원 : ' + data[key].JOINGROUP_MEMBERCOUNT + '명 / ' + data[key].STUDYGROUP_MAXNUM + '명');
-					$SGInfoLockArea = $('<div class="SGInfoLockArea">');
-					$SGInfoLockImg = $('<img>').attr('src', '/studyplus/resources/images/studyGroup/key.png');
-					
-					$SGInfoThumbnailImgArea.append($SGInfoThumbnailImg);
-					$SGInfoRightArea.append($SGInfoThumbnailImgArea);
-					$SGInfoCLArea.append($SGInfoCategoryArea);
-					$SGInfoCLArea.append($SGInfoLocationArea);
-					$SGInfoRightArea.append($SGInfoCLArea);
-					$SGInfoTitleArea.append($SGInfoBossImg);
-					$SGInfoTitleArea.append(data[key].STUDYGROUP_NAME);
-					$SGInfoRightArea.append($SGInfoTitleArea);
-					$SGInfoRightArea.append($SGInfoCommentArea);
-					$SGInfoDGArea.append($SGDateArea);
-					$SGInfoDGArea.append($SGGoalArea);
-					$SGInfoRightArea.append($SGInfoDGArea);
-					
-					if(data[key].STUDYGROUP_OPENSTATUS != 0){
-						$SGInfoLockArea.append($SGInfoLockImg);	
+					if(key <= (data.length - 2)){
+						$SGInfoArea = $('<div class="SGInfoArea">');
+						$SGInfoThumbnailImgArea = $('<div class="SGInfoThumbnailImgArea">');
+						$SGInfoThumbnailImg = $('<img class="SGInfoThumbnailImg">').attr('src', "/studyplus/resources/upload/studygroup/thumbnail/" + data[key].SGFILES_NAME);
+						$SGInfoRightArea = $('<div class="SGInfoRightArea">');
+						$SGInfoCLArea = $('<div class="SGInfoCLArea">');
+						$SGInfoCategoryArea = $('<div class="SGInfoCategoryArea">').append(data[key].CATEGORY_NAME);
+						$SGInfoLocationArea = $('<div class="SGInfoLocationArea">').append(data[key].LOCATION_NAME);
+						$SGInfoTitleArea = $('<div class="SGInfoTitleArea">');
+						$SGInfoBossImg = $('<img class="SGInfoBossImg">').attr('src', "/studyplus/resources/upload/member/thumbnail/" + data[key].MFILES_NAME);
+						$SGInfoCommentArea = $('<div class="SGInfoCommentArea">').append(data[key].STUDYGROUP_INTRO);
+						$SGInfoDGArea = $('<div class="SGInfoDGArea">');
+						$SGDateArea = $('<div class="SGDateArea">').append(data[key].STUDYGROUP_STDATE);
+						$SGGoalArea = $('<div class="SGGoalArea">').append('일간 목표 : ' + data[key].STUDYGROUP_GOALTIME + '시간');
+						$SGInfoMaxCrewArea = $('<div class="SGInfoMaxCrewArea">').append('모집 인원 : ' + data[key].JOINGROUP_MEMBERCOUNT + '명 / ' + data[key].STUDYGROUP_MAXNUM + '명');
+						$SGInfoLockArea = $('<div class="SGInfoLockArea">');
+						$SGInfoLockImg = $('<img>').attr('src', '/studyplus/resources/images/studyGroup/key.png');
+						
+						$SGInfoThumbnailImgArea.append($SGInfoThumbnailImg);
+						$SGInfoRightArea.append($SGInfoThumbnailImgArea);
+						$SGInfoCLArea.append($SGInfoCategoryArea);
+						$SGInfoCLArea.append($SGInfoLocationArea);
+						$SGInfoRightArea.append($SGInfoCLArea);
+						$SGInfoTitleArea.append($SGInfoBossImg);
+						$SGInfoTitleArea.append(data[key].STUDYGROUP_NAME);
+						$SGInfoRightArea.append($SGInfoTitleArea);
+						$SGInfoRightArea.append($SGInfoCommentArea);
+						$SGInfoDGArea.append($SGDateArea);
+						$SGInfoDGArea.append($SGGoalArea);
+						$SGInfoRightArea.append($SGInfoDGArea);
+						
+						if(data[key].STUDYGROUP_OPENSTATUS != 0){
+							$SGInfoLockArea.append($SGInfoLockImg);	
+						}
+						
+						$SGInfoMaxCrewArea.append($SGInfoLockArea);
+						$SGInfoRightArea.append($SGInfoMaxCrewArea);
+						$SGInfoArea.append($SGInfoThumbnailImgArea);
+						$SGInfoArea.append($SGInfoRightArea);
+						
+						$('.SGListInfoArea').append($SGInfoArea);
+					}else{
+						if(data[key].pi.startPage > 9){
+							$SGPageBtn = $('<div class="SGPageBtn">').append('<<');
+							$SGPageBtn.attr('onclick', 'moreSGList("' + data[key].pi.searchSGName + '", "' + data[key].pi.category_Code + '", "' + data[key].pi.location_Code + '", "' + (data[key].pi.startPage - 1) + '")');
+							$('.SGPIArea').append($SGPageBtn);
+						}
+						
+						if(data[key].pi.currentPage > 1){
+							$SGPageBtn = $('<div class="SGPageBtn">').append('<');
+							$SGPageBtn.attr('onclick', 'moreSGList("' + data[key].pi.searchSGName + '", "' + data[key].pi.category_Code + '", "' + data[key].pi.location_Code + '", "' + (data[key].pi.currentPage - 1) + '")');
+							$('.SGPIArea').append($SGPageBtn);
+						}
+						
+						for(var i = data[key].pi.startPage; i <= data[key].pi.endPage; i++){
+							$SGPageBtn = $('<div class="SGPageBtn">').append(i);
+							$SGPageBtn.attr('onclick', 'moreSGList("' + data[key].pi.searchSGName + '", "' + data[key].pi.category_Code + '", "' + data[key].pi.location_Code + '", "' + i + '")');
+							$('.SGPIArea').append($SGPageBtn);
+						}
+						
+						if(data[key].pi.currentPage < data[key].pi.maxPage){
+							$SGPageBtn = $('<div class="SGPageBtn">').append('>');
+							$SGPageBtn.attr('onclick', 'moreSGList("' + data[key].pi.searchSGName + '", "' + data[key].pi.category_Code + '", "' + data[key].pi.location_Code + '", "' + (data[key].pi.currentPage + 1) + '")');
+							$('.SGPIArea').append($SGPageBtn);
+						}
+						
+						if(data[key].pi.endPage < data[key].pi.maxPage){
+							$SGPageBtn = $('<div class="SGPageBtn">').append('>>');
+							$SGPageBtn.attr('onclick', 'moreSGList("' + data[key].pi.searchSGName + '", "' + data[key].pi.category_Code + '", "' + data[key].pi.location_Code + '", "' + (data[key].pi.endPage + 1) + '")');
+							$('.SGPIArea').append($SGPageBtn);
+						}
 					}
-					
-					$SGInfoMaxCrewArea.append($SGInfoLockArea);
-					$SGInfoRightArea.append($SGInfoMaxCrewArea);
-					$SGInfoArea.append($SGInfoThumbnailImgArea);
-					$SGInfoArea.append($SGInfoRightArea);
-					
-					$('.SGListInfoArea').append($SGInfoArea);
 				}
 			}
 		});
@@ -194,14 +236,6 @@
 <body>
 	<div class="SGListAdArea"><img src="/studyplus/resources/images/ad/ad2.jpg"></div>
 	<div class="SGListInfoArea"></div>
-	<div class="SGPIArea">
-		<div class="SGPageBtn"><<</div>
-		<div class="SGPageBtn"><</div>
-		<div class="SGPageBtn">1</div>
-		<div class="SGPageBtn">2</div>
-		<div class="SGPageBtn">3</div>
-		<div class="SGPageBtn">></div>
-		<div class="SGPageBtn">>></div>
-	</div>
+	<div class="SGPIArea"></div> 
 </body>
 </html>

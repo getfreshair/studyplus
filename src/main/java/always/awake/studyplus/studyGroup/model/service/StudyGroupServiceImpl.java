@@ -1,8 +1,6 @@
 package always.awake.studyplus.studyGroup.model.service;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,9 +12,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import always.awake.studyplus.common.CommonUitls;
+import always.awake.studyplus.studyGroup.common.Pagination;
 import always.awake.studyplus.studyGroup.model.dao.StudyGroupDao;
 import always.awake.studyplus.studyGroup.model.exception.StudyGroupException;
 import always.awake.studyplus.studyGroup.model.vo.Files;
+import always.awake.studyplus.studyGroup.model.vo.PageInfo;
 import always.awake.studyplus.studyGroup.model.vo.StudyGroup;
 
 @Service
@@ -41,7 +41,7 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String filePath = root + "\\upload\\studygroup\\thumbnail";
 		
-		files.setStudygroup_Code(sgd.selectMemberCode(sqlSession, member_Code));
+		files.setStudygroup_Code(sgd.selectMemberCode(sqlSession));
 		files.setFiles_OriginName(files.getStudygroupThumbnailImg().getOriginalFilename());
 		files.setFiles_Name(CommonUitls.getRandomString());
 		
@@ -57,8 +57,12 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 	}
 
 	@Override
-	public List<Map<String, Object>> selectStudyGroupList(String searchGroupName) throws StudyGroupException {
-		return sgd.selectStudyGroupList(sqlSession, searchGroupName);
+	public List<Map<String, Object>> sgListAndPi(PageInfo pi) throws StudyGroupException {
+		pi.setListCount(sgd.selectStudyGroupListCount(sqlSession, pi));
+		
+		PageInfo newPi = Pagination.getPageInfo(pi.getCurrentPage(), pi.getListCount(), pi.getSearchSGName(), pi.getLocation_Code(), pi.getCategory_Code());
+		
+		return sgd.selectStudyGroupList(sqlSession, newPi);
 	}
 	
 }

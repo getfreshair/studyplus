@@ -1,13 +1,17 @@
 package always.awake.studyplus.studyGroup.model.dao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import always.awake.studyplus.studyGroup.model.exception.StudyGroupException;
 import always.awake.studyplus.studyGroup.model.vo.Files;
+import always.awake.studyplus.studyGroup.model.vo.PageInfo;
 import always.awake.studyplus.studyGroup.model.vo.StudyGroup;
 
 @Repository
@@ -26,8 +30,8 @@ public class StudyGroupDaoImpl implements StudyGroupDao{
 	}
 
 	@Override
-	public int selectMemberCode(SqlSessionTemplate sqlSession, int member_Code) throws StudyGroupException {
-		int code = sqlSession.selectOne("StudyGroup.selectMemberCode", member_Code);
+	public int selectMemberCode(SqlSessionTemplate sqlSession) throws StudyGroupException {
+		int code = sqlSession.selectOne("StudyGroup.selectMemberCode");
 		
 		try {
 			if(!(code > 0)) throw new StudyGroupException("회원 번호 조회 실패 했다요!");
@@ -50,16 +54,39 @@ public class StudyGroupDaoImpl implements StudyGroupDao{
 	}
 
 	@Override
-	public List<Map<String, Object>> selectStudyGroupList(SqlSessionTemplate sqlSession, String searchGroupName) throws StudyGroupException {
-		List<Map<String, Object>> studyGroupList = null;
+	public int selectStudyGroupListCount(SqlSessionTemplate sqlSession, PageInfo pi) throws StudyGroupException {
+		int listCount = -1;
 		
 		try {
-			studyGroupList = sqlSession.selectList("StudyGroup.selectStudyGroupList", searchGroupName);
+			if(!((listCount = sqlSession.selectOne("StudyGroup.selectStudyGroupListCount", pi)) > -1)) {
+				throw new StudyGroupException("스터디 그룹 카운트 조회 실패 했다요! 쿼리 오류!");
+			}
 		}catch(Exception e) {
 			throw new StudyGroupException(e.getMessage());
 		}
 		
-		return studyGroupList;
+		return listCount;
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectStudyGroupList(SqlSessionTemplate sqlSession, PageInfo pi)throws StudyGroupException {
+		try {
+			List<Map<String, Object>> sgListAndPi;
+			
+			RowBounds rowBounds = new RowBounds(pi.getOffset(), pi.getLimit());
+			
+			sgListAndPi = sqlSession.selectList("StudyGroup.selectStudyGroupList", pi, rowBounds);
+			
+			Map<String, Object> newPi = new HashMap<String, Object>();
+			
+			newPi.put("pi", pi);
+			
+			sgListAndPi.add(newPi);
+			
+			return sgListAndPi;
+		}catch(Exception e) {
+			throw new StudyGroupException(e.getMessage());
+		}
 	}
 
 }
