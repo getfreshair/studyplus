@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import always.awake.studyplus.member.model.vo.Member;
 import always.awake.studyplus.sgDetail.model.service.SGDetailService;
 import always.awake.studyplus.sgDetail.model.vo.SGDetail;
 
@@ -20,15 +19,12 @@ public class SGDetailController {
 	
 	@RequestMapping(value="selectOneGroup.sgd", method=RequestMethod.GET)
 	public ModelAndView selectOneGroup(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
-		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
-		
-		int userCode = loginUser.getMember_Code();
 		
 		int sgCode = Integer.parseInt(request.getParameter("group_No"));
-		int joinStatus = sgs.selectGrJoinStatus(sgCode, userCode);
+		System.out.println("그룹 No : " + sgCode);
 			
 		try {
-			SGDetail sg = sgs.selectOneGroup(sgCode, userCode);
+			SGDetail sg = sgs.selectOneGroup(sgCode);
 			System.out.println("서비스에서 받아온 sgDetail객체 : " + sgCode);
 			
 			mv.addObject("sg", sg);
