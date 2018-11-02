@@ -1,5 +1,6 @@
 package always.awake.studyplus.studyPlanner.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,6 +25,15 @@ public class StudyPlannerServiceImpl implements StudyPlannerService{
 
 		return todayChart;
 	}
+	
+	//주간 공부량 차트
+	@Override
+	public List<HashMap<String, Object>> selectWeeklyChart(List<HashMap<String, Object>> list) {
+
+		List<HashMap<String, Object>> weeklyChart = spd.weeklyChart(sqlSession, list);
+
+		return weeklyChart;
+	}
 
 	//월간 공부량 차트
 	@Override
@@ -33,5 +43,6 @@ public class StudyPlannerServiceImpl implements StudyPlannerService{
 
 		return monthlyChart;
 	}
+
 
 }
