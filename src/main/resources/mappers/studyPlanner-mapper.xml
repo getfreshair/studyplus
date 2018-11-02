@@ -30,7 +30,8 @@
 		FROM STUDYTIME 
 		WHERE MEMBER_CODE = #{loginUserCode}
 		AND STUDYTIME_DIVISION = 1
-		AND STUDYTIME_DATE LIKE '%'|| #{chartDateYear} || '/' || #{chartDateMonth} || '%'
+		<!-- AND STUDYTIME_DATE LIKE '#{chartDateYear}_10___' -->
+		AND STUDYTIME_DATE LIKE #{chartDateYear} || '%'
 		<!-- AND STUDYTIME_DATE LIKE '%'||#{chartDate}||'%' -->
 	</select>
 	
