@@ -236,6 +236,6 @@
 <body>
 	<div class="SGListAdArea"><img src="/studyplus/resources/images/ad/ad2.jpg"></div>
 	<div class="SGListInfoArea"></div>
-	<div class="SGPIArea"></div>
+	<div class="SGPIArea"></div> 
 </body>
 </html>
