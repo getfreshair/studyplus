@@ -11,12 +11,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<!-- <style>
- 	.priodTabMenuArea {/*  width:100%; */ margin-right:15px; padding:0px 10px 10px 10px; /* border-bottom:1px solid gray; */ text-align:right; }
-	  .priodTabMenuArea span { cursor:pointer; font-size:14px; /* font-weight:bold; */ }
-	  	.prevBtn:hover, .nextBtn:hover { color:#ed876a; font-weight:bold; } -->
 <style>
-	  
  	  .memberOneWrapArea { width:263px; /* border:1px dashed red; display:inline-block; */ }
 		.memberInfo { margin:10px 0px; }
 		  .memberInfo td { position:relative; padding-left:12px; text-align:left; display:table-cell; vertical-align:middle; }
@@ -24,8 +19,8 @@
 		    .rankImg img{ margin-left:37px; }
 		   .profImg { width:50px; height:50px; overflow-y:hidden; border-radius:20%; }
 		  	.profImg img { width:100%; }
-		  .nickName	{ width:105px; height:50%; font-size:12.5px; font-weight:bold; line-height:1.2; word-break:break-all; }
-		    .nickName strong { vertical-align:super; }
+		  .nickName	{ width:105px; height:50%; font-size:12.5px; line-height:1.2; word-break:break-all; }
+/* 		    .nickName strong { vertical-align:super; } */
 		  .timeStickAera { width:100%; position:relative; }
  		    .timeStickWrap { width:100%; height:20px; background:lightgray; border-radius:15px; border:2px solid; } 
  		    .timeStickBack { width:100%; height:100%; position:relative; }
@@ -38,10 +33,10 @@
 	<div class="rankPageWrap">
 		
 <!-- 	반복영역 -->
-	  <c:forEach var="i" begin="0" end="${fn:length(list) - 1}" step="1" >	
 		<div class="memberListArea">
 			<div class="memberOneWrapArea">
-				<table class="memberInfo" border="1">
+	  		  <c:forEach var="i" begin="0" end="${fn:length(list) - 1}" step="1" >	
+				<table class="memberInfo">
 					<tr>							
 						<td rowspan="2">
 							<div class="rankImg">
@@ -69,9 +64,9 @@
 						</div>
 					</td></tr>
 				</table>
+	  		  </c:forEach>
 			</div>				
 		</div>
-	  </c:forEach>
 
 	</div>
 </body>
