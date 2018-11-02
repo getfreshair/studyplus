@@ -41,15 +41,15 @@ public class blockController {
 
 	@RequestMapping("blockTimesTempSave.bl")
 	public void blockTimesTempSave(@RequestParam("todayStudyTime") String studyTime,
-			@RequestParam("groupList") String groupList, @RequestParam("goalList") String goalList,
+			@RequestParam("groupTimmerInfo") String groupTimmerInfo, @RequestParam("goalTimmerInfo") String goalTimmerInfo,
 			HttpServletResponse response) {
-		System.out.println(groupList);
-		System.out.println(goalList);
+		System.out.println(groupTimmerInfo);
+		System.out.println(goalTimmerInfo);
 
-		// 파일 기록 
 		// 현재 시간대 설정
 		String timeZone =new SimpleDateFormat("HH").format(new GregorianCalendar().getTimeInMillis());
-		writeTimeDataFile(0,/*Double.parseDouble(studyTime)*/174000,timeZone);
+		// 임시 파일 생성
+		//writeTimeDataFile(0,Double.parseDouble(studyTime),timeZone);
 		try {
 			response.getWriter().println("데이타 임시 저장 성공");
 		} catch (IOException e) {
@@ -69,24 +69,30 @@ public class blockController {
 		Calendar cal = new GregorianCalendar();
 		cal.add(Calendar.DATE, dateCount);
 		if(dateCount < 0) {
-			cal.add(Calendar.HOUR_OF_DAY, 24);
+			cal.set(Calendar.HOUR_OF_DAY, 24);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+			cal.set(Calendar.MILLISECOND, 0);
 		}
-		String fileName = new SimpleDateFormat("yyyy-MM-dd-").format(cal.getTimeInMillis())+"StudyTime.txt";
-		
+		String fileName = new SimpleDateFormat("yyyy-MM-dd-").format((cal.getTimeInMillis()-1000))+"StudyTime.txt";
 		// 공부한 시간대 초기화
 		Calendar cal1 = new GregorianCalendar();
 		cal1.add(Calendar.DATE, dateCount);
 		cal1.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeZone));
 		cal1.set(Calendar.MINUTE, 0);
 		cal1.set(Calendar.SECOND, 0);
+		cal1.set(Calendar.MILLISECOND, 0);
 		
+		System.out.println("fileName : " + fileName);
+		System.out.println("cal : " + cal.getTime());
+		System.out.println("cal1 : " + cal1.getTime());
 		// 파일 생성
 		File file = new File(path + fileName);
 		 
 		// 날짜변경 체크용 변수
 		int check = 0;
 		int sumStudyTime = 0;
-		int saveTimeZone = Integer.parseInt(timeZone)-1;
+		int saveTimeZone = Integer.parseInt(timeZone);
 		try {
 			// I/O Stream 생성
 			BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
@@ -105,14 +111,15 @@ public class blockController {
 				// 공부한 시간 기준으로 이전 시간대만큼 반복
 				for (int i = 1; i <= checkTimeZone; i++) {
 					// 이전시간대와 비교 시간대가 일치하지 않을 경우 
+					System.out.println(checkTimeZone + " - " + i + " : " + (checkTimeZone- i) );
 					if (i != checkTimeZone) {
-						bw.write("[" + (saveTimeZone - i) + "]3600");
-						bw.newLine();
-						sumStudyTime+= 3600;
 						if((saveTimeZone - i) < 0){
 							check++;
 							break;
 						}
+						bw.write("[" + (saveTimeZone - i) + "]3600");
+						bw.newLine();
+						sumStudyTime+= 3600;
 					// 이전 시간대와 비교 시간대가 일치할 경우
 					} else {
 						// 이전시간대의 날짜가 넘어가는 경우 체크
@@ -129,12 +136,6 @@ public class blockController {
 			bw.close();
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

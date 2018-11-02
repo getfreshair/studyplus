@@ -9,21 +9,24 @@ import java.util.GregorianCalendar;
 public class test {
 	public static void main(String[] args) throws ParseException {
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-		long test = 3700 * 1000;
-		Calendar cal1 = new GregorianCalendar();
-		cal1.set(Calendar.HOUR_OF_DAY, 24);
-/*		cal1.set(Calendar.MINUTE, 59);
-		cal1.set(Calendar.SECOND,59);*/
-/*		cal1.set(Calendar.MILLISECOND, 0);*/
-		Calendar cal2 = new GregorianCalendar();
-		cal2.set(Calendar.HOUR_OF_DAY,23);
-		System.out.println(cal1.getTime());
-		System.out.println(((cal1.getTimeInMillis()-cal2.getTimeInMillis()
-				)/1000));
+
 		Calendar a = new GregorianCalendar();
-		a.add(Calendar.DATE, -0);
-		System.out.println(new SimpleDateFormat("yyyy-MM-dd").format(a.getTimeInMillis()));
+		a.set(Calendar.HOUR_OF_DAY, 24);
+		a.add(Calendar.DATE, -1);
+		a.set(Calendar.MINUTE, 0);
+		a.set(Calendar.SECOND, 0);
+		a.set(Calendar.MILLISECOND, 0);
+		System.out.println(new SimpleDateFormat("yyyy-MM-dd : HH:mm:ss").format(a.getTimeInMillis()));
+		
+		Calendar b = new GregorianCalendar();
+		b.set(Calendar.HOUR_OF_DAY, 23);
+		b.add(Calendar.DATE, -1);
+		b.set(Calendar.MINUTE, 0);
+		b.set(Calendar.SECOND, 0);
+		b.set(Calendar.MILLISECOND, 0);
+		System.out.println(new SimpleDateFormat("yyyy-MM-dd : HH:mm:ss").format(b.getTimeInMillis()));
+		
+		System.out.println((a.getTimeInMillis()-b.getTimeInMillis())/1000);
 /*	if(check < test) {
 			System.out.println(test-check);
 			double test2 = Math.ceil(((test-check)/1000.0)/3600.0);

@@ -16,48 +16,6 @@
 	int goalSize = goalList.size();
 	int groupSize = groupList.size(); 
 %>
-<%-- <%
-	// 디렉토리 체크
-	String path1 = "C:\\studyPlanner";
-	File dir1 = new File(path1);
-	
-	String path2 = "C:\\studyPlanner\\timmerDatas";
-	File dir2 = new File(path2);
-	if(!dir1.isDirectory()){
-		dir1.mkdir();
-		
-	}
-	if(!dir2.isDirectory()){
-		dir2.mkdir();
-	}
-	
-	// 오늘 날짜로 파일 생성
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	String today = sdf.format(new Date());
-	File file = new File("C:\\studyPlanner\\timmerDatas\\"+today+".txt");
-	
-	if(!file.exists()){
-		file.createNewFile();
-	} else {
-		BufferedReader br = new BufferedReader(new FileReader(file));
-		String datas= "";
-		String times ="";
-		while((datas = br.readLine()) != null){
-			times = datas;
-		}
-		System.out.println(times);
-		br.close();
-		String[] timesArr = times.split("/");
-		int mainTimmerTime = Integer.parseInt(timesArr[0].substring(timesArr[0].indexOf(":")+1));
-		int groupTimmerTime = Integer.parseInt(timesArr[1].substring(timesArr[0].indexOf(":")+1));
-		int goalTimmerTime = Integer.parseInt(timesArr[2].substring(timesArr[0].indexOf(":")+1));
-		
-	}
-	
-	// DB에서 받아온 리스트 사이즈로 변경 할 것!!!!!!!!
-	int groupSize = 2;
-	int goalSize = 3;
-%> --%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -288,10 +246,13 @@
 					// 메인타이머 초기화
 					var mainTimmerTime = <%=todayStudyTime%>*10;  				// 메인컨트롤 타이머용 시간
 					var mainTimmerStatus = 0;				// 메인컨트롤 타이머 상태 
+					var originTodayStudyTime = <%=todayStudyTime%>;
 					
 					// 그룹용 타이머 초기화
 					var groupTimmerTimes = new Array();		// 그룹 타이머의 시간
 					var groupTimmerStatus = new Array(); 	// 그룹 타이머의 상태
+					var groupTimmerCode = new Array();		// 그룹 타이머의 그룹 코드
+					var groupTimmerOriginTime = new Array();// 그룹 타이머의 기존 공부시간
 					var executeGroupTimmerName = '';		// 실행중인 그룹타이머 이름
 					var originGroupTimmerIndex = 0;			// 실행중인 그룹타이머 인덱스
 					// 그룹용 타이머 배열 초기화
@@ -299,7 +260,8 @@
 						for(int i = 0; i < groupList.size() ; i ++){
 					%>
 						groupTimmerTimes[<%=i%>] = <%=groupList.get(i).getGroupTotalStudyTime()%> * 10 ;
-						
+						groupTimmerCode[<%=i%>] = <%=groupList.get(i).getStudyGroup_Code()%> ;
+						groupTimmerOriginTime[<%=i%>] = <%=groupList.get(i).getGroupTotalStudyTime()%> ;
 						groupTimmerStatus[<%=i%>] = 0;
 					<%
 						}
@@ -307,7 +269,9 @@
 					// 목표용 타이머 초기화
 					var goalTimmerTimes = new Array();		// 목표 타이머의 시간
 					var goalTimmerStatus = new Array(); 	// 목표 타이머의 상태
-					var executeGoalTimmerName = '';		// 실행중인  목표타이머 이름
+					var goalTimmerCode = new Array();		// 목표 타이머의 그룹 코드
+					var goalTimmerOriginTime = new Array();	// 목표 타이머의 기존 공부시간
+					var executeGoalTimmerName = '';			// 실행중인  목표타이머 이름
 					var originGoalTimmerIndex = 0;			// 실행중인 그룹타이머 인덱스
 					
 					// 목표용 타이머 배열 초기화
@@ -315,54 +279,39 @@
 						for( int i = 0; i < goalList.size(); i ++) {
 					%>
 							goalTimmerTimes[<%=i%>] = <%=goalList.get(i).getGoalAchieveAmount()%>* 10;
+							goalTimmerCode[<%=i%>] = <%=goalList.get(i).getGoalCode()%>;
+							goalTimmerOriginTime[<%=i%>] = <%=goalList.get(i).getGoalAchieveAmount()%>;
 							goalTimmerStatus[<%=i%>] = 0;
 					<%
 						}
 					%>					
-					var originTodayStudyTime = <%=todayStudyTime%>;
-					function TempSaveTimeDates(){
-						
+					function TempSaveTimeDates(check1, check2){
+						// 개인 공부시간
 						var todayStudyTime = mainTimmerTime/10;
-						console.log(goalTimmerTimes[0]);
-						var goalList = [
-								<% for (int i = 0 ; i < goalList.size(); i ++) {%>
-									{
-										goalCode:<%=goalList.get(i).getGoalCode()%>,
-										goalStudyTime:goalTimmerTimes[<%=i%>]/10,
-										originGoalStudyTime:<%=goalList.get(i).getGoalAchieveAmount()%>,
-										timmerStatus:goalTimmerStatus[<%=i%>]
-									}
-									<% if( i != goalList.size() -1) {%>
-									,
-									<%}%>
-								
-								<%} %>
-								
-						]
-						var goalList = "";
-						<% for (int i = 0 ; i < goalList.size(); i ++) {%>
-						var tempGoalInfo<%=i%> = "goalCode:"+<%=goalList.get(i).getGoalCode()%> + "*" +
-								   		 "goalStudyTime:"+goalTimmerTimes[<%=i%>]/10 + "*" +
-								   		 "originGoalStudyTime:"+<%=goalList.get(i).getGoalAchieveAmount()%> + "*" +
-								   		 "timmerStatus:"+goalTimmerStatus[<%=i%>];
-						goalList += tempGoalInfo<%=i%>+",";
-						<%} %>
 						
+					
+						// 그룹 공부시간
+						var groupTimmerInfo = "";
+						if(check1 != -99){
+							groupTimmerInfo = "groupCode:" + groupTimmerCode[check1] + 
+						     				  ",groupStudyTime:" + ((groupTimmerTimes[check1]/10) - groupTimmerOriginTime[check1]);
+						}
+						console.log(groupTimmerInfo);
 						
-						var groupList = "";
-						<% for (int i = 0 ; i < groupList.size(); i ++) {%>
-						var tempGroupInfo<%=i%> = "groupCode:"+<%=groupList.get(i).getStudyGroup_Code()%> + "*" +
-								   		 "groupStudyTime:"+groupTimmerTimes[<%=i%>]/10 + "*" +
-								   		 "originGroupStudyTime:"+<%=groupList.get(i).getGroupTotalStudyTime()%> + "*" +
-								   		 "timmerStatus:"+groupTimmerStatus[<%=i%>] ;
-						groupList += tempGroupInfo<%=i%>+",";
-					<%} %>
+						// 목표 공부시간
+						var goalTimmerInfo = "";
+						if(check2 != -99){
+							groupTimmerInfo = "goalCode:" + goalTimmerCode[check2] + 
+						     				  ",goalStudyTime:" + ((goalTimmerTimes[check2]/10) - goalTimmerOriginTime[check2]);
+						}
+						console.log(goalTimmerInfo);
+				
 						$.ajax({
 			                  url:"blockTimesTempSave.bl",
 			                  type:"post",
 			                  data:{todayStudyTime:todayStudyTime-originTodayStudyTime,
-			                	  	groupList:groupList,
-			                	  	goalList:goalList
+			                	    groupTimmerInfo:groupTimmerInfo,
+			                	    goalTimmerInfo:goalTimmerInfo
 			                  },
 			                  success:function(data){
 			                	  console.log(data);
@@ -372,7 +321,7 @@
 			                     console.log("에러 발생!");
 			                  }
 			               })
-			               return false;
+			               return false; 
 					}
 					
 					// 타이머 상태/버튼 컨트롤용 함수
@@ -384,15 +333,23 @@
 								document.getElementById("startPause").innerHTML ="일시정지";
 							} else {
 								mainTimmerStatus = 0;
+								var check1 = -99;
+								var check2 = -99;
 								for (var i = 0 ; i < <%=groupSize%> ; i ++) {
+									if(groupTimmerStatus[i] == 1){
+										check1 = i;
+									}
 									groupTimmerStatus[i] = 0;
 								}
 								
 								for (var i = 0 ; i < <%=goalSize%> ; i ++) {
+									if(goalTimmerStatus[i] == 1){
+										check2 = i;
+									}
 									goalTimmerStatus[i] = 0;
 								}
 								document.getElementById("startPause").innerHTML ="공부시작";
-								TempSaveTimeDates();
+								TempSaveTimeDates(check1, check2);
 							}
 						} else if ( division =='group'){
 							var groupTimmerButtonName = "groupStartPause"+num
