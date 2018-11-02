@@ -220,6 +220,8 @@
 						<div class="inner">
 							<ul id="friendsList" class="friend_list">
 								<script>
+								
+									var val;
 									function getFriendList(){
 										
 										var member_Code = ${ loginUser.member_Code };
@@ -241,20 +243,13 @@
 													$('#friendsList').append($li);
 													
 													$('.nameClass' + i).click(function(){
-														var member2_Nickname = $(this).text();
-														var member1_Nickname = '${ loginUser.member_Nickname }';
-// 														location.href="openChat.ms?member1_Nickname="+ member1_Nickname + "&member2_Nickname=" + member2_Nickname;
-// 														location.href="${contextPath}/web/chat.socket";
-
-														$.ajax({
+														
+														val = $(this).text()+"";
+ 														$.ajax({
 															url : "${contextPath}/web/chat.socket",
 															type : "GET",
-															data : {
-																member1_Nickname:member1_Nickname,
-																member2_Nickname:member2_Nickname
-															},
 															success : function(data){
-																console.log(data);
+
 																$(".chating").empty();
 																$(".chating").append(data);
 																snsSlideChat();
