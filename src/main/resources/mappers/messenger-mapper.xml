@@ -40,6 +40,17 @@
 		<result property="board_Code" column="board_Code" />
 	</resultMap>
 
+	<resultMap type="Message" id="messageResultSet">
+		<id property="message_code" column="message_code"></id>
+		<result property="sender_message_code" column="sender_message_code" />
+		<result property="receiver_message_code" column="receiver_message_code" />
+		<result property="receiver_group_code" column="receiver_group_code" />
+		<result property="message_status" column="message_status" />
+		<result property="message_type" column="message_type" />
+		<result property="message_send_date" column="message_send_date" />
+		<result property="message_content" column="message_content" />
+	</resultMap>
+	
 	<select id="selectFriendList" parameterType="_int"
 		resultMap="friendsResultSet">
 		SELECT M.MEMBER_CODE, M.MEMBER_ID, M.MEMBER_PWD, M.MEMBER_NICKNAME,
@@ -63,5 +74,8 @@
 		WHERE MEMBER_NICKNAME = #{nickname}
 	</select>
 
-
+	<insert id="insertMessage" parameterType="Message">
+		INSERT INTO MESSAGE (MESSAGE_CODE, SENDER_MESSAGE_CODE, RECEIVER_MESSAGE_CODE, MESSAGE_CONTENT, MESSAGE_STATUS, MESSAGE_TYPE, SEND_DATE)
+		VALUES(SEQ_MESSAGE_MESSAGE_CODE.NEXTVAL, #{sender_message_code}, #{receiver_message_code}, #{message_content}, #{message_status}, #{message_type}, SYSDATE)
+	</insert>
 </mapper>

@@ -59,16 +59,13 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 		System.out.println(receiverMemberCode);
 		
 		if(users.get(receiverMemberCode+"") != null) {
-			users.get(receiverNickname+"").sendMessage(message);
+			users.get(receiverMemberCode+"").sendMessage(message);
+			ms.insertMessage(msg_content, loginUser.getMember_Code(), receiverMemberCode, 1, 0); // 내용, 보내는사람, 받는사람, 상태, 구분
 		}else {
 			System.out.println("없다 : " + users.get(receiverMemberCode+""));
+			ms.insertMessage(msg_content, loginUser.getMember_Code(), receiverMemberCode, 0, 0); // 내용, 보내는사람, 받는사람, 상태, 구분
 		}
 		users.get(loginUser.getMember_Code()+"").sendMessage(message);
-		
-//		for(WebSocketSession s : users.values()) {
-//			s.sendMessage(message);
-//			System.out.println(s.getId() + "에 메시지 발송 : " + message.getPayload());
-//		}
 	}
 
 	@Override

@@ -12,4 +12,6 @@ public interface MessengerService{
 	List selectFriendList(int member_Code);
 
 	int selectReceiverMemberCode(String nickname);
+
+	void insertMessage(String msg_content, int member_Code, int receiverMemberCode, int status, int type);
 }
