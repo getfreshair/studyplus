@@ -5,6 +5,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="SGDetail">
+
 	<resultMap  type="always.awake.studyplus.sgDetail.model.vo.SGDetail" id="SGDetailResultSet">
 		<id property="studyGroup_Code" column="STUDYGROUP_CODE"/>
 		
@@ -69,5 +70,26 @@
 		       LOCATION_NAME, CATEGORY_NAME, STUDYGROUP_NAME, STUDYGROUP_INTRO, STUDYGROUP_GOALTIME, GR_MEM_CNT, STUDYGROUP_MAXNUM,
 		       STUDYGROUP_STDATE, GR_DATES
 	</select> 
-	
 </mapper>
+	
+	
+<!-- 	STUDYTIME_DATE
+STUDYGROUP_CODE
+GR_DAY_TOTAL
+MY_DAY_TOTAL
+GR_FULFILL_MEM_CNT
+LOCATION_NAME
+CATEGORY_NAME
+STUDYGROUP_NAME
+STUDYGROUP_INTRO
+STUDYGROUP_GOALTIME
+GR_MEM_CNT
+STUDYGROUP_MAXNUM
+STUDYGROUP_STDATE
+GR_DATES -->
+	
+
+	
+	
+	
+	

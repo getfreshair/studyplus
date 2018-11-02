@@ -101,12 +101,12 @@
 <body>
 
 	<jsp:include page="../common/header.jsp"/>
-	
 	<div class="pageAll"><br>
 	<div class="pageWrap">
 		<div class="pageContentArea">
 		
 			<div class="titleArea">
+				<input type="hidden" id="joinStatus" value="${joinStatus}"/>
 				<div class="groupInfoArea topInfoArea">
 					<div class="groupInfoLeft">
 						<table class="topInfoAllWrapTbl" border="1">
@@ -127,7 +127,8 @@
 										<table class="groupOptDetailTbl">
 											<tr><td>
 												<strong>목표시간</strong>
-												<span><fmt:formatNumber value="${group.studyGroup_GoalTime / 3600}" pattern="0"/> 시간</span>
+												<span>${group.studyGroup_GoalTime} 시간</span>
+<%-- 											<span><fmt:formatNumber value="${group.studyGroup_GoalTime / 3600}" pattern="0"/> 시간</span> --%>
 											</td></tr>
 											<tr><td>
 												<strong>참여인원</strong>
@@ -143,10 +144,6 @@
 							</td></tr>									
 						</table>
 					</div>
-				
-					
-					
-					
 					
 					<div class="groupInfoRight">
 						<table class="topInfoAllWrapTbl">
@@ -160,7 +157,7 @@
 											<tr><td><h3>그룹 순위</h3> <strong>35 위</strong></td></tr>
 											<tr><td><div>
 												<div><strong>이 주의 공부시간</strong> <br> <span>346:57:37</span></div>
-												<div><strong>오늘의 공부시간</strong> <br> <span>6:57:37</span></div>
+												<div><strong>오늘의 공부시간</strong> <br> <span><fmt:formatDate value="${group.studyGroup_StDate}" pattern="yyyy. MM. dd."/>6:57:37</span></div>
 											</div></td></tr>
 										</table>
 									</div></td>
@@ -211,6 +208,17 @@
 					</table>			
 				</div>
 			</div>
+			
+<script>
+	$(function(){
+		if (('#joinStatus').val() < 1){
+			('.afterLoginShow').css({"display":"none"});
+		}
+	});
+
+
+</script>			
+			
 			
 <!-- 만약 로그인유저가 그룹 멤버라면 보이도록 -->
 			<div class="contentArea includeArea">
