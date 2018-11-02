@@ -12,18 +12,28 @@ public class SGDetailServiceImpl implements SGDetailService{
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	@Autowired
-	private SGDetailDao sgd;
+	private SGDetailDao gd;
 	
+	@Override
+	public int selectJoinStatus(int memCode) {
+		System.out.println("서비스");
+		
+		int joinStatus = gd.selectJoinStatus(sqlSession, memCode);
+		
+		return joinStatus;
+	}
 	
 	@Override
 	public SGDetail selectOneGroup(int sgCode) {
 		System.out.println("서비스");
 		
-		SGDetail sg = sgd.selectOneGroup(sqlSession, sgCode);
+		SGDetail group = gd.selectOneGroup(sqlSession, sgCode);
 		
-		System.out.println("서비스의 SGDetail : " + sg.toString());
-		return sg;
+		System.out.println("서비스의 SGDetail : " + group.toString());
+		return group;
 	}
+
+
 	
 	
 

@@ -9,14 +9,17 @@ import always.awake.studyplus.sgDetail.model.vo.SGDetail;
 public class SGDetailDaoImpl implements SGDetailDao{
 
 	@Override
+	public int selectJoinStatus(SqlSessionTemplate sqlSession, int memCode) {
+		System.out.println("dao 오니");
+		return sqlSession.selectOne("SGDetail.selectJoinStatus", memCode);
+	}
+
+	@Override
 	public SGDetail selectOneGroup(SqlSessionTemplate sqlSession, int sgCode) {
 		System.out.println("dao 오니");
-		
-//		System.out.println(sqlSession.selectOne("SGDetail.selectOneGroup", sgCode));
-		
 		return sqlSession.selectOne("SGDetail.selectOneGroup", sgCode);
-//		return null;
 	}
+
 
 
 
