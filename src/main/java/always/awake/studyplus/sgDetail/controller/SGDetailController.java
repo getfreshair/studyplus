@@ -25,18 +25,22 @@ public class SGDetailController {
 			
 		Member loginUser = (Member)(request.getSession().getAttribute("loginUser"));
 		int memCode = loginUser.getMember_Code();
-
-		System.out.println("SGDetail 컨트롤러 - \n그룹코드 : " + sgCode + ", \n로그인유저 : " + loginUser.toString() + ", \n로그인멤버코드 : " + memCode + ")");
-		
 		
 		try {
-			int joinStatus = gs.selectJoinStatus(memCode);
-			SGDetail group = gs.selectOneGroup(sgCode);
+			int joinStatus = gs.selectJoinStatus(sgCode, memCode);
 			
-			System.out.println("SGDetail 서비스에서 받아온 결과 - \n가입여부 (가입-1/미가입-0) : " + joinStatus + ", \n그룹 조회 결과 : " + group);
+			SGDetail group = gs.selectOneGroup(sgCode, joinStatus);
+			
+			System.out.println("SGDetail 컨트롤러 - \n그룹코드 : " + sgCode +
+					", \n\n로그인유저 : " + loginUser.toString() +
+					", \n\n로그인멤버코드 : " + memCode + ")\n\n");
+			System.out.println("SGDetail 서비스에서 받아온 결과 - \n가입여부 (가입-1/미가입-0) : " + joinStatus +
+								", \n\n그룹 조회 결과 : " + group);
 			
 			mv.addObject("joinStatus", joinStatus);
 			mv.addObject("group", group);
+			System.out.println("결과로 쓰일 ModelAndView : " + mv.toString());
+			
 			mv.setViewName("studyGroupDetail/groupDetailPage");
 						
 		}catch (Exception e) {

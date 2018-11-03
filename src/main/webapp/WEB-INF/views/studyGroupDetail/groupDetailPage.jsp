@@ -106,6 +106,7 @@
 		<div class="pageContentArea">
 		
 			<div class="titleArea">
+			<!-- *가입여부 체크 (가입-1 / 미가입-0 ,(**DB상으로는 가입-0, 미가입-1)) -->
 				<input type="hidden" id="joinStatus" value="${joinStatus}"/>
 				<div class="groupInfoArea topInfoArea">
 					<div class="groupInfoLeft">
@@ -127,8 +128,8 @@
 										<table class="groupOptDetailTbl">
 											<tr><td>
 												<strong>목표시간</strong>
-												<span>${group.studyGroup_GoalTime} 시간</span>
-<%-- 											<span><fmt:formatNumber value="${group.studyGroup_GoalTime / 3600}" pattern="0"/> 시간</span> --%>
+												<span><fmt:formatNumber value="${group.studyGroup_GoalTime}" pattern="0"/> 시간</span>
+<%-- 											<span>${group.studyGroup_GoalTime} 시간</span> --%>
 											</td></tr>
 											<tr><td>
 												<strong>참여인원</strong>
@@ -157,15 +158,23 @@
 											<tr><td><h3>그룹 순위</h3> <strong>35 위</strong></td></tr>
 											<tr><td><div>
 												<div><strong>이 주의 공부시간</strong> <br> <span>346:57:37</span></div>
-												<div><strong>오늘의 공부시간</strong> <br> <span><fmt:formatDate value="${group.studyGroup_StDate}" pattern="yyyy. MM. dd."/>6:57:37</span></div>
+												<div>
+													<strong>오늘의 공부시간</strong> <br> 
+													<span><!-- 6:57:37 --><!-- pages-(pages%1) -> 내림처리 -->
+														<c:set var="gr_Day_Total" value="${group.gr_Day_Total}"/>
+														<fmt:formatNumber value="${(gr_Day_Total / 3600) - (gr_Day_Total % 3600)}" pattern="0"/>:
+														<fmt:formatNumber value="${(gr_Day_Total % 3600) / 60}" pattern="0"/>:
+														<fmt:formatNumber value="${(gr_Day_Total % 3600) % 60}" pattern="0"/>
+													</span>
+												</div>
 											</div></td></tr>
 										</table>
 									</div></td>
 									<td><div class="statBox groupStatBoxRight">
 										<table class="statBoxContTbl">
-											<tr><td><h3>목표 완수율</h3> <strong>45.5 %</strong></td></tr>
+											<tr><td><h3>목표 완수율</h3> <strong>${group.gr_Mem_Count / group.studyGroup_MaxNum * 100} %</strong></td></tr>
 											<tr><td>
-												<div><div class="goalRatio">12/25명 완수</div></div>
+												<div><div class="goalRatio">${group.gr_Mem_Count} / ${group.studyGroup_MaxNum} 명 완수</div></div>
 											</td></tr>
 										</table>
 									</div></td>
