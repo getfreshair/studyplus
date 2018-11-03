@@ -134,6 +134,7 @@ function todaydate(){
 
 	$('#todayDatePicker').attr("value",dateVal);
 	todayChart(dateVal);		//일간 공부량 차트
+	//console.log("왜 안되는것이야 : " + dateVal)
 }
 
 //페이지 진입시 한 주 선택
@@ -142,24 +143,46 @@ function todaydateWeekly(){
 	var year= now.getFullYear();
 	var mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
 	var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
-
 	var week = now.getDay();
 	
-	var todayArea = $(".datepicker:nth-child(2) .-current-");//오늘의 날짜
-	//오늘날짜 추출해서 input에 value노출 시키기 
-	/*switch(overWeek){
+	
+	//오늘 달력에 선택된 날짜
+	var currentMon = ($(".datepicker:nth-child(2) .-current-").attr("data-month")*1)+1;
+	var resultCurrentMon = (currentMon+1)>9 ? ''+(currentMon+1) : '0'+(currentMon+1);
+	
+	var currentDay = $(".datepicker:nth-child(2) .-current-").attr("data-date");
+	var resultCurrentDay = (currentDay)>9 ? ''+(currentDay) : '0'+(currentDay);
+
+	var resultToday = $(".datepicker:nth-child(2) .-current-").attr("data-year") + "-" + currentMon + "-" + resultCurrentDay;
+	
+	var todayArea = $(".datepicker:nth-child(2) .-current-");
+	
+	//페이지 진입시 오늘날짜 추출해서 input에 value노출 시키기 
+	switch(week){
 		case 0 : 
-		case 1 : console.log("월");
-		case 2 : console.log("화");
-		case 3 : console.log("수");
-		case 4 : console.log("목");
-		case 5 : console.log("금");
+			var firstDate = resultToday;
+			var lastDate =
+			$(todayArea).next().next().next().next().next().next().attr("data-year") + "-" +
+			(($(todayArea).next().next().next().next().next().next().attr("data-month")*1)+1) + "-" +
+			$(todayArea).next().next().next().next().next().next().attr("data-date");
+			
+			$(".weeklyDateCk").text(resultToday+' ~ '+lastDate);
+			break;
+		case 1 : break;
+		case 2 : break;
+		case 3 : break;
+		case 4 : break;
+		case 5 : 
+			todayArea.prev().prev().prev().prev().prev().css("background","red"); 
+			todayArea.next().css("background","red");
+			break;
 		case 6 : 
-	}*/
+			todayArea.prev().prev().prev().prev().prev().prev().css("background","red"); break;
+	}
 	
 	$("#weeklyDatePicker").click(function(){
 		//over된 곳의 날짜를 뽑아와서 / 요일을 추출해서 / bg컬러입히기
-		$(".datepicker--cell").mouseover(function(){
+		$(".datepicker:nth-child(2) .datepicker--cell").mouseover(function(){
 			//해달 셀의 날자 추출
 			var pickYear = $(this).attr("data-year");
 			var pickMon = $(this).attr("data-month") * 1 + 1;
@@ -173,13 +196,13 @@ function todaydateWeekly(){
 			console.log(overWeek);*/
 	
 			//over시 요일추출해서 bg컬러입힘
-			switch(overWeek){
+			/*switch(overWeek){
 				case 0 : 
-				case 1 : console.log("월");break;
-				case 2 : console.log("화");break;
-				case 3 : console.log("수");break;
-				case 4 : console.log("목");break;
-				case 5 : console.log("금");break;
+				case 1 : break;
+				case 2 : break;
+				case 3 : break;
+				case 4 : break;
+				case 5 : break;
 				case 6 : //토요일
 					$(this).siblings().css({"background":"white"});
 					$(this).css({"background":"#5cc4ef"});
@@ -190,7 +213,7 @@ function todaydateWeekly(){
 					$(this).prev().prev().prev().prev().prev().css(overBg); 
 					$(this).prev().prev().prev().prev().prev().prev().css(overBg); 
 					break;
-			}
+			}*/
 			
 		}).click(function(){
 			//해달 셀의 날자 추출
@@ -201,40 +224,130 @@ function todaydateWeekly(){
 			var overDate = pickYear + "-" + pickMon  + "-" + pickDay;
 			var overWeek = new Date(overDate).getDay(); //click한 날짜의 요일 추출
 			
-			//클릭시 해당 주의 날짜를 출력함
+			//클릭시 해당 주의 날짜를 출력함(노가다의 끝판왕)
 			switch(overWeek){
-				case 0 : 
-				case 1 : console.log("월");break;
-				case 2 : console.log("화");break;
-				case 3 : console.log("수");break;
-				case 4 : console.log("목");break;
-				case 5 : console.log("금");break;
+				case 0 : //일요일
+					var firstYear = $(this).attr("data-year");
+					var firstMon = $(this).attr("data-month");
+					var firstDate = $(this).attr("data-date");
+					
+					var lastYear = $(this).next().next().next().next().next().next().attr("data-year");
+					var lastMon = $(this).next().next().next().next().next().next().attr("data-month");
+					var lastDate = $(this).next().next().next().next().next().next().attr("data-date");
+					
+					var resultDate = firstYear + "-" + ((firstMon * 1) +1)  + "-" + firstDate;
+					var lastDate = lastYear + "-" + ((lastMon * 1) +1)  + "-" + lastDate;
+					var result = resultDate + ' ~ ' + lastDate;
+				
+					$("#weeklyDatePicker").attr("value", result);
+					$(".weeklyDateCk").text(result);
+					break;
+					
+				case 1 : //월요일
+					var firstYear = $(this).prev().attr("data-year");
+					var firstMon = $(this).prev().attr("data-month");
+					var firstDate = $(this).prev().attr("data-date");
+					
+					var lastYear = $(this).next().next().next().next().next().attr("data-year");
+					var lastMon = $(this).next().next().next().next().next().attr("data-month");
+					var lastDate = $(this).next().next().next().next().next().attr("data-date");
+					
+					var resultDate = firstYear + "-" + ((firstMon * 1) +1)  + "-" + firstDate;
+					var lastDate = lastYear + "-" + ((lastMon * 1) +1)  + "-" + lastDate;
+					var result = resultDate + ' ~ ' + lastDate;
+				
+					$("#weeklyDatePicker").attr("value", result);
+					$(".weeklyDateCk").text(result);
+					break;
+					
+				case 2 : //화요일
+					var firstYear = $(this).prev().prev().attr("data-year");
+					var firstMon = $(this).prev().prev().attr("data-month");
+					var firstDate = $(this).prev().prev().attr("data-date");
+					
+					var lastYear = $(this).next().next().next().next().attr("data-year");
+					var lastMon = $(this).next().next().next().next().attr("data-month");
+					var lastDate = $(this).next().next().next().next().attr("data-date");
+					
+					var resultDate = firstYear + "-" + ((firstMon * 1) +1)  + "-" + firstDate;
+					var lastDate = lastYear + "-" + ((lastMon * 1) +1)  + "-" + lastDate;
+					var result = resultDate + ' ~ ' + lastDate;
+				
+					$("#weeklyDatePicker").attr("value", result);
+					$(".weeklyDateCk").text(result);
+					break;
+					
+				case 3 : //수요일
+					var firstYear = $(this).prev().prev().prev().attr("data-year");
+					var firstMon = $(this).prev().prev().prev().attr("data-month");
+					var firstDate = $(this).prev().prev().prev().attr("data-date");
+					
+					var lastYear = $(this).next().next().next().attr("data-year");
+					var lastMon = $(this).next().next().next().attr("data-month");
+					var lastDate = $(this).next().next().next().attr("data-date");
+					
+					var resultDate = firstYear + "-" + ((firstMon * 1) +1)  + "-" + firstDate;
+					var lastDate = lastYear + "-" + ((lastMon * 1) +1)  + "-" + lastDate;
+					var result = resultDate + ' ~ ' + lastDate;
+				
+					$("#weeklyDatePicker").attr("value", result);
+					$(".weeklyDateCk").text(result);
+					break;
+					
+				case 4 : //목요일
+					var firstYear = $(this).prev().prev().prev().prev().attr("data-year");
+					var firstMon = $(this).prev().prev().prev().prev().attr("data-month");
+					var firstDate = $(this).prev().prev().prev().prev().attr("data-date");
+					
+					var lastYear = $(this).next().next().attr("data-year");
+					var lastMon = $(this).next().next().attr("data-month");
+					var lastDate = $(this).next().next().attr("data-date");
+					
+					var resultDate = firstYear + "-" + ((firstMon * 1) +1)  + "-" + firstDate;
+					var lastDate = lastYear + "-" + ((lastMon * 1) +1)  + "-" + lastDate;
+					var result = resultDate + ' ~ ' + lastDate;
+				
+					$("#weeklyDatePicker").attr("value", result);
+					$(".weeklyDateCk").text(result);
+					break;
+					
+				case 5 : //금요일
+					var firstYear = $(this).prev().prev().prev().prev().prev().attr("data-year");
+					var firstMon = $(this).prev().prev().prev().prev().prev().attr("data-month");
+					var firstDate = $(this).prev().prev().prev().prev().prev().attr("data-date");
+					
+					var lastYear = $(this).next().attr("data-year");
+					var lastMon = $(this).next().attr("data-month");
+					var lastDate = $(this).next().attr("data-date");
+					
+					var resultDate = firstYear + "-" + ((firstMon * 1) +1)  + "-" + firstDate;
+					var lastDate = lastYear + "-" + ((lastMon * 1) +1)  + "-" + lastDate;
+					var result = resultDate + ' ~ ' + lastDate;
+					
+					$("#weeklyDatePicker").attr("value", result);
+					$(".weeklyDateCk").text(result);
+					break;
+					
 				case 6 : //토요일
 					var firstYear = $(this).prev().prev().prev().prev().prev().prev().attr("data-year");
 					var firstMon = $(this).prev().prev().prev().prev().prev().prev().attr("data-month");
 					var firstDate = $(this).prev().prev().prev().prev().prev().prev().attr("data-date");
 					
-					var firstDate = firstYear + "-" + firstMon  + "-" + firstDate;
+					var resultDate = firstYear + "-" + ((firstMon * 1) +1)  + "-" + firstDate;
 					var lastDate = overDate;
-					var result = firstDate + ' ~ ' + lastDate;
-					$(this).prev().prev().prev().prev().prev().prev().addClass("-selected-");
+					var result = resultDate + ' ~ ' + lastDate;
 					
-					var selectDate = $(".datepicker:nth-child(2) .-selected-");
 					$("#weeklyDatePicker").attr("value", result);
-					
+					$(".weeklyDateCk").text(result);
 					break;
 			}
 				
 		});
 	});
-	
-	var chan_val = year + '-' + mon + '-' + day;
-	$(this).val(chan_val);
 
-	var dateVal = chan_val;		//컨트롤러에 보낼 날짜
-
-	$('#weeklyDatePicker').attr("value",dateVal);
-	weeklyChart(dateVal);		//주간 공부량 차트
+	var dateVal = $(".weeklyDateCk").text(); //컨트롤러에 보낼 날짜
+	console.log("컨트롤러에 보낼 날짜 : " + dateVal);
+	weeklyChart(dateVal); //주간 공부량 차트
 }
 
 //페이지 진입시 현재 년도 선택
@@ -250,22 +363,33 @@ function todaydateYear(){
 
 //일간 공부량 날짜 변경시
 function todayChartChangeDate(){
-	$("#todayDatePicker").change(function(){
+	/*$("#todayDatePicker").change(function(){
+		console.log("체인지가 안먹힌다?")
 		var dateVal = $("#todayDatePicker").val(); //컨트롤러에 보낼 날짜
 		console.log("선택한날짜 : " + dateVal);
 		todayChart(dateVal);
+	});*/
+	
+	$("#todayDatePicker").click(function(){
+		$(".datepicker:nth-child(1) .datepicker--cell-day").click(function(){
+			var dateVal = $(this).attr("data-year") + "-" + (($(this).attr("data-month")*1) +1) + "-" + $(this).attr("data-date");
+			//console.log("선택한날짜 : " + dateVal);
+			$('#todayDatePicker').attr("value",dateVal);
+			todayChart(dateVal);
+		});
 	});
 }
 
 //일간 공부량 차트
 function todayChart(dateVal){
 	var ctx = document.getElementById("todayChart").getContext('2d');
+	//console.log("input의 값은 들어오나?" + dateVal)
 	$.ajax({
 		url : "studyPlannerTodayChart.sp",
 		data : {dateVal : dateVal},
 		type : "post",
 		success : function(data) {
-			
+			//console.log("일간공부량 데이터" + data);
 			var arr;
 			arr = data.split(",");
 			
@@ -330,37 +454,27 @@ function todayChart(dateVal){
 
 //주간 공부량 날짜 변경시
 function weeklyChartChangeDate(){
-	$("#weeklyDatePicker").change(function(){
+	/*$("#weeklyDatePicker").change(function(){
 		var dateVal = $("#weeklyDatePicker").val(); //컨트롤러에 보낼 날짜
 		console.log("선택한날짜 : " + dateVal);
 		weeklyChart(dateVal);
-	});
-	/*$("#weeklyDatePicker").click(function(){
+	});*/
+	$("#weeklyDatePicker").click(function(){
 		$(".datepicker--cell-day").click(function(){
 			var dateVal = $(this).attr("data-year");
 			//console.log("선택한날짜 : " + dateVal);
 			monthlyChart(dateVal);		
 		});
-	});*/
-	
-
-	/*$('#weeklyDatePicker').change(function (e) {
-    var value = $("#weeklyDatePicker").val();
-    var firstDate = moment(value, "MM-DD-YYYY").day(0).format("MM-DD-YYYY");
-    var lastDate =  moment(value, "MM-DD-YYYY").day(6).format("MM-DD-YYYY");
-    $("#weeklyDatePicker").val(firstDate + " - " + lastDate);
-});*/
-	
+	});		
 	
 }
-
 
 //주간 공부량 차트
 function weeklyChart(dateVal){
 	var ctx = document.getElementById("weeklyChart").getContext('2d');
 	$.ajax({
 		url : "studyPlannerWeeklyChart.sp",
-		data : {dateVal : "2018-10-28 ~ 2018-11-03"},
+		data : {dateVal : dateVal},
 		type : "post",
 		success : function(data) {
 			
@@ -377,7 +491,7 @@ function weeklyChart(dateVal){
 					labels: ["일", "월", "화", "수", "목", "금", "토"],
 						datasets: [{
 							//label: '# of Votes',
-							data: ["0", "1", "2", "3", "4", "5", "6"],
+							data: [arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6]],
 								backgroundColor: [
 									'rgba(255, 99, 132, 0.2)',
 									'rgba(54, 162, 235, 0.2)',
@@ -484,36 +598,27 @@ function monthlyChart(dateVal){
 function datePicker(){
 	
 	$('#todayDatePicker').datepicker({
-	    //language: 'ko',
-	    dateFormat: "yy-mm-dd",
-	    //autoClose: true,
+	    language: 'ko',
+	    dateFormat: "yyyy-mm-dd",
+	    autoClose: true,
 	    todayButton: new Date(),
-	    moveToOtherYearsOnSelect: false,
+	    /*moveToOtherYearsOnSelect: false,
 	    onSelect: function(formattedDate, date, inst) {
 	        $(inst.el).trigger('change');
-	    }
+	    }*/
 	});
 	
 	$('#weeklyDatePicker').datepicker({
-	    //language: 'ko',
-	    dateFormat: "yy-mm-dd",
-	    //autoClose: true
+	    language: 'ko',
+	    dateFormat: "yyyy-mm-dd",
+	    autoClose: true
 	});
-	
-	
-	/*$('#weeklyDatePicker').change(function (e) {
-	      var value = $("#weeklyDatePicker").val();
-	      var firstDate = moment(value, "MM-DD-YYYY").day(0).format("MM-DD-YYYY");
-	      var lastDate =  moment(value, "MM-DD-YYYY").day(6).format("MM-DD-YYYY");
-	      $("#weeklyDatePicker").val(firstDate + " - " + lastDate);
-	  });*/
-	
-	
+
 	
 	$('#monthlyDatePicker').datepicker({
-	   // language: 'ko',
+	    language: 'ko',
 	    dateFormat: "yyyy",
-	   // autoClose: true,
+	    autoClose: true
 	});
 	
 	
@@ -581,6 +686,7 @@ function dateTabBtn(){
 	//페이지 진입시 default
 	$("#weeklyChart").show();
 	$("#weeklyDatePicker").show();
+	$(".weeklyDateCk").show();
 	$("#monthlyChart").hide();
 	$("#monthlyDatePicker").hide();
 	$("#weeklyBtn").click(function(){ //주간공부량 선택시
@@ -588,10 +694,12 @@ function dateTabBtn(){
 		$("#monthlyDatePicker").hide();
 		$("#weeklyChart").show();
 		$("#weeklyDatePicker").show();
+		$(".weeklyDateCk").show();
 	});
 	$("#monthlyBtn").click(function(){ //월간공부량 선택시
 		$("#weeklyChart").hide();
 		$("#weeklyDatePicker").hide();
+		$(".weeklyDateCk").hide();
 		$("#monthlyChart").show();
 		$("#monthlyDatePicker").show();
 	});

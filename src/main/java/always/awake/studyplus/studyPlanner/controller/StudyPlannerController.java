@@ -2,6 +2,8 @@ package always.awake.studyplus.studyPlanner.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,6 +37,7 @@ public class StudyPlannerController {
 		int loginUserCode = loginUser.getMember_Code();
 		
 		String chartDate = request.getParameter("dateVal");
+		//System.out.println("일간날짜 이상하다 : " + chartDate);
 		
 		//날짜 특수문자 변경
 		String chartDate2 = chartDate.replaceAll("-", "/");
@@ -63,8 +66,9 @@ public class StudyPlannerController {
 			}
 			studyTime +=  "0," ;
 		}
-		studyTime = studyTime.substring(0,studyTime.length() -1);
+		//studyTime = studyTime.substring(0,studyTime.length() -1);
 		
+		//System.out.println("일간공부량 데이터 : " + studyTime);
 		try {
 			response.getWriter().print(studyTime);
 		} catch (IOException e) {
@@ -75,27 +79,74 @@ public class StudyPlannerController {
 	//주간 공부량 차트
 	@RequestMapping(value="studyPlannerWeeklyChart.sp")
 	public void weeklyChart(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+		
 		//파라미터값 받음
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int loginUserCode = loginUser.getMember_Code();
 		
 		String chartDate = request.getParameter("dateVal");
 
+		System.out.println("주간 공부 값이 잘 들어와? : " + chartDate);
+		
 		//날짜 특수문자 변경
 		String chartDate2 = chartDate.replaceAll("-", "/");
 		String[] chartDate3 = chartDate2.split(" ~ ");
 		
+		//월,일의 갯수를 도출해서 한자리 수 일경우 앞에 0을 붙여줌
+		String[] firstDate = chartDate3[0].split("/");
+		if(firstDate[1].length() == 1) {
+			firstDate[1] = "0"+firstDate[1];
+		}
+		if(firstDate[2].length() == 1) {
+			firstDate[2] = "0"+firstDate[2];
+		}
+		
+		String[] lastDate = chartDate3[1].split("/");
+		if(lastDate[1].length() == 1) {
+			lastDate[1] = "0"+lastDate[1];
+		}
+		if(lastDate[2].length() == 1) {
+			lastDate[2] = "0"+lastDate[2];
+		}
+		
+		String firstDateResult = firstDate[0] + "/" + firstDate[1] + "/" + firstDate[2];
+		String lastDateResult = lastDate[0] + "/" + lastDate[1] + "/" + lastDate[2];
+		//DB에 넣을 최종 날짜
 		String[] chartDate4 = new String[2];
+		chartDate4[0] = firstDateResult.substring(2, 10);
+		chartDate4[1] = lastDateResult.substring(2, 10);
+		
+		
+		
+		
+		/*for (int i = 0; i < firstDate.length; i++) {
+			System.out.println("처음날짜 : " + firstDate[i]);
+		}
+		
+		for (int i = 0; i < lastDate.length; i++) {
+			System.out.println("마지막날짜 : " + lastDate[i]);
+			
+		}*/
+		//2018/11/04 ~ 2018/11/04
+		//chartDate3[0] : 2018/11/04
+		//chartDate3[1] : 2018/11/10
+		//for(int i =0; i<firstDate)
+		
+		
+		/*String[] chartDate4 = new String[2];
 		for(int i = 0; i <chartDate3.length; i++) {
 			chartDate3[i] = chartDate3[i].substring(2, 10);
 			chartDate4[i] = chartDate3[i].substring(6, 8);
-		}
+		}*/
 		//System.out.println("1날짜" + chartDate4[0]);
 		//System.out.println("2날짜" + chartDate4[1]);
 		//HashMap
 		HashMap<String, Object> hmap = new HashMap<String, Object>();
 		hmap.put("loginUserCode", loginUserCode);
-		hmap.put("chartDateYear", chartDate3);
+		hmap.put("chartDateYear", chartDate4);
+		
+		System.out.println("chartDate4 : " +chartDate4[0]);
+		System.out.println("chartDate4 : " +chartDate4[1]);
 		
 		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		list.add(hmap);
@@ -103,19 +154,44 @@ public class StudyPlannerController {
 		List<HashMap<String, Object>> resultList = sps.selectWeeklyChart(list);
 		
 		
-		//System.out.println("데이터 가져옴 : " + resultList);
-		String[] resultDate = new String[7];
-		for(int i = 0; i < 6; i++) {
-			for(int j = 0; j < resultList.size(); j++) {
-				if(resultList.get(i).get("STUDYTIME_DATE").toString() == resultList.get(j).get("STUDYTIME_DATE").toString()) {
-					resultDate[i] += resultList.get(j).get("STUDYTIME_STUDYTIME").toString();
-				}
+		System.out.println("데이터 가져옴 : " + resultList);
+
+		// 기준날짜 캘린더 객체 생성
+		Calendar cal = new GregorianCalendar(Integer.parseInt("20" + chartDate4[0].substring(0, chartDate4[0].indexOf("/"))),
+											Integer.parseInt(chartDate4[0].substring(chartDate4[0].indexOf("/") + 1, chartDate4[0].lastIndexOf("/"))) - 1,
+											Integer.parseInt(chartDate4[0].substring(chartDate4[0].lastIndexOf("/")+1)));
+		
+		// 주간 공부시간 초기화
+		int times[] = new int[7];
+		
+		// 시간 정보 기록
+		for (int i = 0; i < resultList.size(); i++) {
+			String date = resultList.get(i).get("STUDYTIME_DATE").toString().substring(0,resultList.get(i).get("STUDYTIME_DATE").toString().indexOf(" "));
+			int time = Integer.parseInt(resultList.get(i).get("SUM(STUDYTIME_STUDYTIME)").toString());
+			Calendar temp = new GregorianCalendar(Integer.parseInt(date.substring(0, date.indexOf("-"))),
+					Integer.parseInt(date.substring(date.indexOf("-") + 1, date.lastIndexOf("-"))) - 1,
+					Integer.parseInt(date.substring(date.lastIndexOf("-")+1)));
+			int div = (int)(((((temp.getTimeInMillis() - cal.getTimeInMillis())/1000)/60)/60)/24);
+			switch(div) {
+				case 0 : times[0] = time; break; 
+				case 1 : times[1] = time; break; 
+				case 2 : times[2] = time; break; 
+				case 3 : times[3] = time; break; 
+				case 4 : times[4] = time; break; 
+				case 5 : times[5] = time; break; 
+				case 6 : times[6] = time; break; 
 			}
-			//System.out.println("resultDate[i] : " + resultDate[i]);
 		}
 		
+		
+		String studyTime = "";
+		for (int i = 0; i < times.length; i++) {
+			studyTime += times[i] + ",";
+		}
+		System.out.println("week studyTime : " + studyTime);
+		
 		try {
-			response.getWriter().print("dfsdf");
+			response.getWriter().print(studyTime);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

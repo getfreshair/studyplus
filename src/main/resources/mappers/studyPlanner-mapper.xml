@@ -26,13 +26,13 @@
 	
 	<!-- 주간 공부량 차트 -->
 	<select id="selectWeeklyChart" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		SELECT * 
-		FROM STUDYTIME 
-		WHERE MEMBER_CODE = #{loginUserCode}
+		SELECT SUM(STUDYTIME_STUDYTIME), STUDYTIME_DATE
+        FROM STUDYTIME
+        WHERE MEMBER_CODE = #{loginUserCode}
 		AND STUDYTIME_DIVISION = 1
 		AND STUDYTIME_DATE BETWEEN #{chartDateYear[0]} AND #{chartDateYear[1]}
-		
-		<!-- AND STUDYTIME_DATE LIKE #{chartDateYear[0]} || '%' -->
+        GROUP BY STUDYTIME_DATE
+        ORDER BY STUDYTIME_DATE
 	</select>
 	
 	<!-- 월간 공부량 차트 -->
