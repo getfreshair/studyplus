@@ -4,11 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import always.awake.studyplus.admin.model.vo.DispauseBoard;
 import always.awake.studyplus.admin.model.vo.Member;
+import always.awake.studyplus.admin.model.vo.PageInfo;
 
 @Repository
 public class AdminDaoImpl implements AdminDao {
@@ -115,5 +117,50 @@ public class AdminDaoImpl implements AdminDao {
 		return sqlSession.insert("Admin.insertNotice",map);
 	}
 
+	@Override
+	public int getNoticeListCount(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		return sqlSession.selectOne("Admin.getNoticeListCount" , map);
+	}
+
+
+	@Override
+	public List<Map<String, Object>> getNoticeList(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		PageInfo pi = (PageInfo) map.get("pi");
+		
+		int offset = (pi.getCurrentPage()-1)* pi.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
+		
+		map.put("rowBounds", rowBounds);
+		
+		return sqlSession.selectList("Admin.getNoticeList",map,rowBounds);
+	}
+
+	@Override
+	public int deleteNotice(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+
+		return sqlSession.update("Admin.deleteNotice", map);
+	}
+
+	@Override
+	public int getGroupBoardListCount(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+
+		return sqlSession.selectOne("Admin.getGroupBoardListCount",map);
+	}
+
+	@Override
+	public List<Map<String, Object>> getGroupBoardList(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		PageInfo pi = (PageInfo) map.get("pi");
+		
+		int offset = (pi.getCurrentPage()-1)* pi.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
+		
+		map.put("rowBounds", rowBounds);
+		
+		return sqlSession.selectList("Admin.getGroupBoardList",map,rowBounds);
+	}
+
+	
 
 }

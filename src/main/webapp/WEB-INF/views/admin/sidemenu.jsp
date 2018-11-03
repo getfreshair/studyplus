@@ -97,18 +97,18 @@ display:none;
 
 </style>
 <script>
-$(function(){
-	$("#accordian h3").click(function(){
-		$("#accordian ul ul").slideUp();
-		if(!$(this).next().is(":visible"))
-		{
-			$(this).next().slideDown();
-		}
+	$(function() {
+		$("#accordian h3").click(function() {
+			$("#accordian ul ul").slideUp();
+			if (!$(this).next().is(":visible")) {
+				$(this).next().slideDown();
+			}
+		})
 	})
-})
-	function goPage(page){
-			location.href="movePage.me?page=" + page;
-		}
+
+	function goPage(page) {
+		location.href = "movePage.me?page=" + page;
+	}
 </script>
 </head>
 <body>
@@ -147,8 +147,8 @@ $(function(){
 			<i class='fas fa-clipboard' style='font-size:24px; float:left; margin-left:5px ;margin-top:10px;'></i>
 			<h3>게시판관리<i class='fas fa-angle-down' style='font-size:24px; margin-left:22px;'></i></h3>
 			<ul>
-				<li><a onclick="goPage('admin/boardManage/noticeList')">공지사항</a></li>
-				<li><a onclick="goPage('admin/boardManage/boardListManage')">게시판관리</a></li>
+				<li><a href ='getNoticeList.do'>공지사항</a></li>
+				<li><a href ='getGroupBoardList.do'>게시판관리</a></li>
 			</ul>
 		</li>
 		<li <%-- <% if ( activeCheck.equals("groupManage")){ %>

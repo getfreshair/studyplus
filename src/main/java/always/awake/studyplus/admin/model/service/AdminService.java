@@ -7,6 +7,7 @@ import java.util.Map;
 
 import always.awake.studyplus.admin.model.vo.DispauseBoard;
 import always.awake.studyplus.admin.model.vo.Member;
+import always.awake.studyplus.admin.model.vo.PageInfo;
 
 public interface AdminService {
 
@@ -37,4 +38,14 @@ public interface AdminService {
 	public List<Map<String, Object>> searchGroupList(HashMap<String, Object> map);
 
 	public int insertNotice(HashMap<String, Object> map);
+
+	public int getNoticeListCount(Map<String, Object> map);
+
+	public List<Map<String, Object>> getNoticeList(Map<String, Object> map);
+
+	public int deleteNotice(HashMap<String, Object> map);
+
+	public int getGroupBoardListCount(Map<String, Object> map);
+
+	public List<Map<String, Object>> getGroupBoardList(Map<String, Object> map);
 }

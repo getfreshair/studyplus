@@ -290,7 +290,7 @@ th{
 						var title = $('#selectLock').val();
 						var textarea = document.getElementById("lockArea").value;
 						var lockDate = document.getElementById("lockDate").value;
-						console.log('시ㅓ지서빚더리');
+						
 						for(var i = 0; i < len ; i ++){
 							if(checkBoxs[i].checked == true){
 								checkCnt++;

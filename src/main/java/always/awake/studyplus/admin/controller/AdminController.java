@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -26,8 +27,10 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import always.awake.studyplus.admin.common.Pagination;
 import always.awake.studyplus.admin.model.service.AdminService;
 import always.awake.studyplus.admin.model.vo.DispauseBoard;
+import always.awake.studyplus.admin.model.vo.PageInfo;
 import always.awake.studyplus.member.model.vo.Member;
 
 @SessionAttributes("loginUser")
@@ -50,24 +53,101 @@ public class AdminController {
 		if(page.equals("admin/memberManage/memberDispause")) {
 			return "redirect:getDispauseList.do";
 		}
-		if(page.equals("admin/boardManage/noticeList")) {
-			return "redirect:getNoticeList.do";
-		}
 		
 		return page;
 	}
 	////////////////////////////////////////게시판 관리////////////////////////////////////////////////////////
-	@RequestMapping("getNoticeList.do")
-	public ModelAndView getNoticeList(ModelAndView mv) {
+	@RequestMapping("getGroupBoardList.do")
+	public ModelAndView getGroupBoardList(ModelAndView mv, HttpServletRequest request) {
+		int currentPage = 1;
 		
-		Map<String, Object> map = new HashMap<String,Object>();
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
+		String option = request.getParameter("option");
+		String keyword = request.getParameter("keyword");
 		
+		Map<String, Object> map = new HashMap<String, Object>();	
 		
-		List<Map<String, Object>> list = as.getDispauseList(map);
+		map.put("option", option);
+		map.put("keyword", keyword);
+		
+		System.out.println(option);
+		System.out.println(keyword);
+		
+		int listCount = as.getGroupBoardListCount(map);
+		
+		System.out.println("listCount : " + listCount);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		map.put("pi", pi);
+				
+		List<Map<String, Object>> list = as.getGroupBoardList(map);
+		
+		System.out.println(list);
+		map.put("list", list);
+		
+		mv.addObject("data", map);
+		mv.setViewName("admin/boardManage/boardListManage");
+		
+		return mv;
+		
+	}
 	
+	
+	
+	@RequestMapping("adminDeleteNotice.do")
+	public @ResponseBody int deleteNotice(@RequestParam String noticeCode, HttpSession session, HttpServletResponse response){
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		
+		String[] nCode = noticeCode.split(",");
+		
+		int result = 0;
+		
+		
+		for(int i = 0 ; i < nCode.length; i++) {
+			int code = Integer.parseInt(nCode[i].trim());
+			map.put("code",code);
+			result += as.deleteNotice(map);
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping("getNoticeList.do")
+	public ModelAndView getNoticeList(ModelAndView mv, HttpServletRequest request) {
+		int currentPage = 1;
+		
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
+		String option = request.getParameter("option");
+		String keyword = request.getParameter("keyword");
+		
+		Map<String, Object> map = new HashMap<String, Object>();	
+		
+		map.put("option", option);
+		map.put("keyword", keyword);
+		
+		System.out.println(option);
+		System.out.println(keyword);
+		
+		int listCount = as.getNoticeListCount(map);
+		
+		System.out.println("listCount : " + listCount);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		map.put("pi", pi);
+				
+		List<Map<String, Object>> list = as.getNoticeList(map);
+		
+		System.out.println(list);
+		map.put("list", list);
+		
+		mv.addObject("data", map);
 		mv.setViewName("admin/boardManage/noticeList");
-		mv.addObject("data", list);
 		
 		return mv;
 		

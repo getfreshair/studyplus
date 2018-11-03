@@ -113,6 +113,12 @@
 		WHERE MEMBER_CODE = #{code}
 	</update>
 	
+	<update id="deleteNotice">
+		UPDATE NOTICE SET NOTICE_STATUS=1, NOTICE_DELETEDATE = SYSDATE
+		WHERE NOTICE_CODE = #{code} 
+	</update>
+	
+	
 	<select id="getPenaltyList" parameterType="map" resultType="hashmap">
 		SELECT M.MEMBER_CODE, M.MEMBER_ID, M.MEMBER_STATUS, B.BLOCK_CODE,
 		  		B.BLOCK_STARTDATE, B.BLOCK_ENDDATE, B.BLOCK_REASON, B.BLOCK_STATUS
@@ -213,6 +219,77 @@
 		</if>
 		<if test='createDate1 neq ""'>
 			AND SG.STUDYGROUP_STDATE BETWEEN #{createDate1} AND #{createDate2}
+		</if>
+	</select>
+	
+	<select id="getNoticeListCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM NOTICE
+		WHERE NOTICE_STATUS = 0
+		<if test='option eq "noticeCode"'>
+			AND NOTICE_CODE LIKE '%' ||#{keyword}|| '%'
+		</if>
+		<if test='option eq "noticeTitle"'>
+			AND NOTICE_TITLE LIKE '%' ||#{keyword}|| '%'
+		</if>
+	</select>
+	
+	<select id="getNoticeList" parameterType="map" resultType="hashmap">
+		SELECT *
+		FROM NOTICE N
+		WHERE NOTICE_STATUS = 0
+		<if test='option eq "noticeCode"'>
+			AND NOTICE_CODE LIKE '%' ||#{keyword}|| '%'
+		</if>
+		<if test='option eq "noticeTitle"'>
+			AND NOTICE_TITLE LIKE '%' ||#{keyword}|| '%'
+		</if>
+		ORDER BY NOTICE_CODE DESC
+	</select>
+	
+	<select id="getGroupBoardListCount" parameterType="map" resultType="_int">
+		SELECT SUM(NUM)
+		FROM (
+		SELECT COUNT(*) AS NUM
+		FROM GROUPBOARD
+		WHERE 1=1
+		<if test='option eq "boardContent"'>
+			AND GROUPBOARD_CONTENT LIKE '%' ||#{keyword}|| '%'
+		</if>
+		<if test='option eq "memberCode"'>
+			AND MEMBER_CODE LIKE '%' ||#{keyword}|| '%' 
+		</if>
+		UNION ALL
+		SELECT COUNT(*)AS NUM
+		FROM REPLY
+		WHERE 1=1
+		<if test='option eq ""'>
+			)
+		</if>
+		<if test='option eq "boardContent"'>
+			AND REPLY_CONTENT LIKE '%' ||#{keyword}|| '%')
+		</if>
+		<if test='option eq "memberCode"'>
+			AND MEMBER_CODE LIKE '%' ||#{keyword}|| '%' )
+		</if>
+		
+		
+	</select>
+	
+	<select id="getGroupBoardList" parameterType="map" resultType="_int">
+		SELECT G.GROUPBOARD_CODE,G.MEMBER_CODE, G.GROUPBOARD_CONTENT, G.GROUPBOARD_POSTDATE, G.GROUPBOARD_TYPE ,
+				G.GROUPBOARD_STATUS, G.STUDYGROUP_CODE, G.GROUPBOARD_DELDATE, R.REPLY_CODE,R.MEMBER_CODE, 
+				R.REPLY_DATE, R.REPLY_CONTENT
+		FROM GROUPBOARD G
+		JOIN REPLY R ON (G.GROUPBOARD_CODE = R.GROUPBOARD_CODE)
+		WHERE 1=1
+		<if test='option eq "boardContent"'>
+			AND (G.GROUPBOARD_CONTENT LIKE '%' ||#{keyword}|| '%'
+			OR R.REPLY_CONTENT LIKE '%' ||#{keyword}|| '%')
+		</if>
+		<if test='option eq "memberCode"'>
+			AND (G.MEMBER_CODE LIKE '%' ||#{keyword}|| '%'
+			OR R.MEMBER_CODE LIKE '%' ||#{keyword}|| '%' )
 		</if>
 	</select>
 </mapper>

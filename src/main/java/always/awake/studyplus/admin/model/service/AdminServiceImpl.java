@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import always.awake.studyplus.admin.model.dao.AdminDao;
 import always.awake.studyplus.admin.model.vo.DispauseBoard;
 import always.awake.studyplus.admin.model.vo.Member;
+import always.awake.studyplus.admin.model.vo.PageInfo;
 
 @Service
 public class AdminServiceImpl implements AdminService{
@@ -115,6 +116,39 @@ public class AdminServiceImpl implements AdminService{
 
 		return ad.insertNotice(sqlSession, map);
 	}
+
+	@Override
+	public int getNoticeListCount(Map<String, Object> map) {
+		return ad.getNoticeListCount(sqlSession ,map);
+	}
+
+
+	@Override
+	public List<Map<String, Object>> getNoticeList(Map<String, Object> map) {
+
+		return ad.getNoticeList(sqlSession, map);
+	}
+
+	@Override
+	public int deleteNotice(HashMap<String, Object> map) {
+		
+		return ad.deleteNotice(sqlSession, map);
+	}
+
+	@Override
+	public int getGroupBoardListCount(Map<String, Object> map) {
+
+		return ad.getGroupBoardListCount(sqlSession, map);
+	}
+
+	@Override
+	public List<Map<String, Object>> getGroupBoardList(Map<String, Object> map) {
+
+		return ad.getGroupBoardList(sqlSession, map);
+	}
+
+	
+	
 	
 	
 }
