@@ -36,4 +36,22 @@ public class MessengerDaoImpl implements MessengerDao{
 		
 		sqlSession.insert("Messenger.insertMessage", msg);
 	}
+
+	@Override
+	public List<Object> selectMessageList(SqlSessionTemplate sqlSession, int member_Code, String receiverNickName) {
+		// TODO Auto-generated method stub
+		
+		Message msg = new Message();
+		msg.setSender_message_code(member_Code);
+		int receiver_message_code = sqlSession.selectOne("Messenger.selectReceiverMemberCode", receiverNickName);
+		msg.setReceiver_message_code(receiver_message_code);
+		
+		return sqlSession.selectList("Messenger.selectMessageList", msg);
+	}
+
+	@Override
+	public Member selectSenderMember(SqlSessionTemplate sqlSession, int member_Code) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Messenger.selectSenderMember", member_Code);
+	}
 }

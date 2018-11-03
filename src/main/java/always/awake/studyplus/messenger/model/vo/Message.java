@@ -12,13 +12,16 @@ public class Message {
 	private int message_type;
 	private Date message_send_date;
 	private String message_content;
+	private String sender_nickName;
+	private String sender_img_name;
 	
 	public Message() {
 		super();
 	}
 
 	public Message(int message_code, int sender_message_code, int receiver_message_code, int receiver_group_code,
-			int message_status, int message_type, Date message_send_date, String message_content) {
+			int message_status, int message_type, Date message_send_date, String message_content,
+			String sender_nickName, String sender_img_name) {
 		super();
 		this.message_code = message_code;
 		this.sender_message_code = sender_message_code;
@@ -28,6 +31,8 @@ public class Message {
 		this.message_type = message_type;
 		this.message_send_date = message_send_date;
 		this.message_content = message_content;
+		this.sender_nickName = sender_nickName;
+		this.sender_img_name = sender_img_name;
 	}
 
 	public int getMessage_code() {
@@ -94,13 +99,28 @@ public class Message {
 		this.message_content = message_content;
 	}
 
+	public String getSender_nickName() {
+		return sender_nickName;
+	}
+
+	public void setSender_nickName(String sender_nickName) {
+		this.sender_nickName = sender_nickName;
+	}
+
+	public String getSender_img_name() {
+		return sender_img_name;
+	}
+
+	public void setSender_img_name(String sender_img_name) {
+		this.sender_img_name = sender_img_name;
+	}
+
 	@Override
 	public String toString() {
 		return "Message [message_code=" + message_code + ", sender_message_code=" + sender_message_code
 				+ ", receiver_message_code=" + receiver_message_code + ", receiver_group_code=" + receiver_group_code
 				+ ", message_status=" + message_status + ", message_type=" + message_type + ", message_send_date="
-				+ message_send_date + ", message_content=" + message_content + "]";
+				+ message_send_date + ", message_content=" + message_content + ", sender_nickName=" + sender_nickName
+				+ ", sender_img_name=" + sender_img_name + "]";
 	}
-
-	
 }

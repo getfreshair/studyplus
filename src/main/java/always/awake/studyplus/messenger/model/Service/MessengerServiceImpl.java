@@ -5,6 +5,8 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import always.awake.studyplus.member.model.vo.Member;
 import always.awake.studyplus.messenger.model.dao.MessengerDao;
 import always.awake.studyplus.messenger.model.dao.MessengerDaoImpl;
 
@@ -35,5 +37,17 @@ public class MessengerServiceImpl  implements MessengerService {
 	public void insertMessage(String msg_content, int member_Code, int receiverMember_Code, int status, int type) {
 	
 		md.insertMessage(sqlSession, msg_content, member_Code, receiverMember_Code, status, type);
+	}
+
+	@Override
+	public List<Object> selectMessageList(int member_Code, String receiverNickName) {
+		// TODO Auto-generated method stub
+		return md.selectMessageList(sqlSession, member_Code, receiverNickName);
+	}
+
+	@Override
+	public Member selectSenderMember(int member_Code) {
+		// TODO Auto-generated method stub
+		return md.selectSenderMember(sqlSession, member_Code);
 	}
 }
