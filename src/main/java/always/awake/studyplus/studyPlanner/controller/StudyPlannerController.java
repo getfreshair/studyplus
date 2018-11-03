@@ -104,19 +104,15 @@ public class StudyPlannerController {
 		
 		
 		//System.out.println("데이터 가져옴 : " + resultList);
-		
-		//날짜만 추출해서
-		//가져온 날짜를 arr[7]에 순서대로 더하면서 넣는다.
-		/*String[] resultTime = new String[7];
+		String[] resultDate = new String[7];
 		for(int i = 0; i < 6; i++) {
 			for(int j = 0; j < resultList.size(); j++) {
-				if(resultTime[i] == resultList.get(j).get("STUDYTIME_DATE").toString().substring(8, 10)) {
-					resultTime[i] += resultList.get(j).get("STUDYTIME_STUDYTIME").toString();
+				if(resultList.get(i).get("STUDYTIME_DATE").toString() == resultList.get(j).get("STUDYTIME_DATE").toString()) {
+					resultDate[i] += resultList.get(j).get("STUDYTIME_STUDYTIME").toString();
 				}
 			}
-			System.out.println("resultTime : " + resultTime[i]);
-		}*/
-		
+			//System.out.println("resultDate[i] : " + resultDate[i]);
+		}
 		
 		try {
 			response.getWriter().print("dfsdf");

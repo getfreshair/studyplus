@@ -143,12 +143,97 @@ function todaydateWeekly(){
 	var mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
 	var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
 
+	var week = now.getDay();
+	
+	var todayArea = $(".datepicker:nth-child(2) .-current-");//오늘의 날짜
+	//오늘날짜 추출해서 input에 value노출 시키기 
+	/*switch(overWeek){
+		case 0 : 
+		case 1 : console.log("월");
+		case 2 : console.log("화");
+		case 3 : console.log("수");
+		case 4 : console.log("목");
+		case 5 : console.log("금");
+		case 6 : 
+	}*/
+	
+	$("#weeklyDatePicker").click(function(){
+		//over된 곳의 날짜를 뽑아와서 / 요일을 추출해서 / bg컬러입히기
+		$(".datepicker--cell").mouseover(function(){
+			//해달 셀의 날자 추출
+			var pickYear = $(this).attr("data-year");
+			var pickMon = $(this).attr("data-month") * 1 + 1;
+			var pickDay = $(this).attr("data-date");
+			
+			var overDate = pickYear + "-" + pickMon  + "-" + pickDay;
+			var overWeek = new Date(overDate).getDay(); //over한 날짜의 요일 추출
+			var overBg = {"background":"#efefef"}; //over시 적용할 bg
+			/*console.log(pickMon)
+			console.log(overDate);
+			console.log(overWeek);*/
+	
+			//over시 요일추출해서 bg컬러입힘
+			switch(overWeek){
+				case 0 : 
+				case 1 : console.log("월");break;
+				case 2 : console.log("화");break;
+				case 3 : console.log("수");break;
+				case 4 : console.log("목");break;
+				case 5 : console.log("금");break;
+				case 6 : //토요일
+					$(this).siblings().css({"background":"white"});
+					$(this).css({"background":"#5cc4ef"});
+					$(this).prev().css(overBg); 
+					$(this).prev().prev().css(overBg); 
+					$(this).prev().prev().prev().css(overBg); 
+					$(this).prev().prev().prev().prev().css(overBg); 
+					$(this).prev().prev().prev().prev().prev().css(overBg); 
+					$(this).prev().prev().prev().prev().prev().prev().css(overBg); 
+					break;
+			}
+			
+		}).click(function(){
+			//해달 셀의 날자 추출
+			var pickYear = $(this).attr("data-year");
+			var pickMon = $(this).attr("data-month") * 1 + 1;
+			var pickDay = $(this).attr("data-date");
+			
+			var overDate = pickYear + "-" + pickMon  + "-" + pickDay;
+			var overWeek = new Date(overDate).getDay(); //click한 날짜의 요일 추출
+			
+			//클릭시 해당 주의 날짜를 출력함
+			switch(overWeek){
+				case 0 : 
+				case 1 : console.log("월");break;
+				case 2 : console.log("화");break;
+				case 3 : console.log("수");break;
+				case 4 : console.log("목");break;
+				case 5 : console.log("금");break;
+				case 6 : //토요일
+					var firstYear = $(this).prev().prev().prev().prev().prev().prev().attr("data-year");
+					var firstMon = $(this).prev().prev().prev().prev().prev().prev().attr("data-month");
+					var firstDate = $(this).prev().prev().prev().prev().prev().prev().attr("data-date");
+					
+					var firstDate = firstYear + "-" + firstMon  + "-" + firstDate;
+					var lastDate = overDate;
+					var result = firstDate + ' ~ ' + lastDate;
+					$(this).prev().prev().prev().prev().prev().prev().addClass("-selected-");
+					
+					var selectDate = $(".datepicker:nth-child(2) .-selected-");
+					$("#weeklyDatePicker").attr("value", result);
+					
+					break;
+			}
+				
+		});
+	});
+	
 	var chan_val = year + '-' + mon + '-' + day;
 	$(this).val(chan_val);
 
 	var dateVal = chan_val;		//컨트롤러에 보낼 날짜
 
-	$('#todayDatePicker').attr("value",dateVal);
+	$('#weeklyDatePicker').attr("value",dateVal);
 	weeklyChart(dateVal);		//주간 공부량 차트
 }
 
@@ -399,9 +484,9 @@ function monthlyChart(dateVal){
 function datePicker(){
 	
 	$('#todayDatePicker').datepicker({
-	    language: 'ko',
+	    //language: 'ko',
 	    dateFormat: "yy-mm-dd",
-	    autoClose: true,
+	    //autoClose: true,
 	    todayButton: new Date(),
 	    moveToOtherYearsOnSelect: false,
 	    onSelect: function(formattedDate, date, inst) {
@@ -410,9 +495,9 @@ function datePicker(){
 	});
 	
 	$('#weeklyDatePicker').datepicker({
-	    language: 'ko',
+	    //language: 'ko',
 	    dateFormat: "yy-mm-dd",
-	    autoClose: true
+	    //autoClose: true
 	});
 	
 	
@@ -426,9 +511,9 @@ function datePicker(){
 	
 	
 	$('#monthlyDatePicker').datepicker({
-	    language: 'ko',
+	   // language: 'ko',
 	    dateFormat: "yyyy",
-	    autoClose: true,
+	   // autoClose: true,
 	});
 	
 	
