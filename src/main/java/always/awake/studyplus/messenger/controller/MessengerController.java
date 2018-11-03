@@ -37,4 +37,13 @@ public class MessengerController {
 		mv.setViewName("messenger/chatting");
 		return mv;
 	}
+	
+	@RequestMapping(value="selectMessageList.ms")
+	public @ResponseBody List<Object> selectMessageList(@RequestParam int member_Code, @RequestParam String receiverNickName,
+			HttpServletResponse response){
+		
+		List<Object> messageList = ms.selectMessageList(member_Code, receiverNickName);
+
+		return messageList;
+	}
 }

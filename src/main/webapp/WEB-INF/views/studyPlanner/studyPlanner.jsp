@@ -7,6 +7,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>STUDY PLUS</title>
+<!-- 소켓 접속 -->
 <!-- #### CSS FILES #### -->
 <link rel="stylesheet" href="/studyplus/resources/css/bootstrap.css">
 <link rel="stylesheet" href="/studyplus/resources/css/custom.css">
@@ -36,6 +37,19 @@
 </style>
 </head>
 <body>
+
+	<script>
+		$.ajax({
+			url : "${contextPath}/web/chat.socket",
+			type : "GET",
+			success : function(data){
+	
+				$(".chating").empty();
+				$(".chating").append(data);
+				snsSlideChat();
+			}
+		});
+	</script>
 	<div id="all">
 		<!-- Header -->
 		<jsp:include page="../common/header.jsp"/>
@@ -222,7 +236,7 @@
 							<ul id="friendsList" class="friend_list">
 								<script>
 								
-									var val;
+									var receiverNickName;
 									function getFriendList(){
 										
 										var member_Code = ${ loginUser.member_Code };
@@ -245,15 +259,52 @@
 													
 													$('.nameClass' + i).click(function(){
 														
-														val = $(this).text()+"";
- 														$.ajax({
-															url : "${contextPath}/web/chat.socket",
-															type : "GET",
+														receiverNickName = $(this).text()+"";
+														$('#chatMessageArea').empty();
+														// 메시지 불러서 넣어줘라
+														$.ajax({
+															url : "selectMessageList.ms",
+															type : "POST",
+															data : {member_Code:member_Code, receiverNickName:receiverNickName},
 															success : function(data){
-
-																$(".chating").empty();
-																$(".chating").append(data);
-																snsSlideChat();
+																
+																for(var i=0; i<data.length ;i++){
+																
+																	if(data[i].sender_nickName == '${loginUser.member_Nickname}'){
+																		$('#chatMessageArea').append(
+																				'<div style="width:98%; display: inline-block;">' + 
+																				'<table style="margin-top : 10px; float:right;">'
+																						+ '<tr><td>'
+																						+ '<div class="dateArea">'
+																						+ data[i].message_send_date
+																						+ '분</div>' 
+																						+ '<div class="msgArea" style="background : #fde09a;">'
+																						+ data[i].message_content
+																						+ '</div>' 
+																						+  '</td></tr></div>');
+																		
+																	}else{
+																		$('#chatMessageArea').append(
+																				'<table style="margin-top : 10px;">'
+																						+ '<tr><td rowspan="2" style="vertical-align: text-top; display: table-cell;">'
+																						+ '<div class="msgImgArea">'
+																						+ '<img src="/studyplus/resources/upload/member/thumbnail/'+ data[i].sender_img_name + '" style="width:100%;">'
+																						+ '</div></td>'
+																						+ '<td><div class="nicknameArea">'
+																						+ data[i].sender_nickName
+																						+ '</div>'
+																						+ '</td></tr>'
+																						+ '<tr><td>'
+																						+ '<div class="msgArea">'
+																						+ data[i].message_content
+																						+ '</div>' + '<div class="dateArea">'
+																						+ data[i].message_send_date
+																						+ '분</div>' + '</td></tr>');
+																	}
+																}
+																var chatAreaHeight = $('#chatArea').height();
+																var maxScroll = $('#chatMessageArea').height() - chatAreaHeight;
+																$('#chatArea').scrollTop(maxScroll);
 															}
 														});
 													});
