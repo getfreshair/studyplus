@@ -14,6 +14,7 @@
 	connect();
 	function connect() {
 		// ws://192.168.10.69:8001/studyplus/chat-ws.socket
+		//192.168.43.188:8001/studyplus ws://localhost:8001/studyplus/chat-ws.socket
 		wsocket = new WebSocket("ws://localhost:8001/studyplus/chat-ws.socket");
 		wsocket.onopen = onOpen;
 		//서버로부터 메시지를 받으면 호출되는 함수 지정
@@ -24,11 +25,12 @@
 	}
 
 	function disconnect() {
-		var msg = 'msg:' + '${loginUser.member_Nickname}' + ":퇴장";
+		
 	}
 
 	function onOpen(evt) {
-		var msg = 'msg:' + '${loginUser.member_Nickname}' + ":입장";
+		
+		var msg = 'msg:' + '${loginUser.member_Nickname}' + ":입장"; // 입장 시 친구에게 알리기 위해 메시지 송출
 		wsocket.send(msg);
 	}
 
@@ -36,17 +38,11 @@
 		var data = evt.data;
 		if (data.substring(0, 4) == 'msg:') {
 			appendMessage(data.substring(4));
-			/* 닉네임 추출 == 자기 닉네임과 같은지 체크 */
-			if (data.substring(msg.indexOf(":")+1, msg.lastIndexOf(":")) == $('#nickname')
-					.val()
-					&& data.lastIndexOf('퇴장!') != -1) {
-				wsocket.close();
-			}
 		}
 	}
 
 	function onClose(evt) {
-		//퇴장 한 이후 부과적인 작업이 있을 경우 명시
+		
 		$('#nickname').val("");
 		$('#message').attr('disabled', true);
 	}
@@ -61,13 +57,23 @@
 	function appendMessage(msg) {
 		var d = new Date();
 
-		if (msg.substr(msg.indexOf(":")+1, msg.length) == '입장') {
+		if (msg.substr(msg.indexOf(":")+1, msg.length) == '입장') { // 친구 입장 시 접속 친구 증가
 
-			// 접속 친구 증가~
-		} else if(msg.substr(msg.indexOf(":")+1, msg.length) == '퇴장'){
+			loginFriends = loginFriends + 1; 
+			$('.loginFriends').text(loginFriends);
+			$('#status' + msg.substr(0, msg.indexOf(":"))).removeClass('status').addClass('status.on');
+		} else if(msg.substr(msg.indexOf(":")+1, msg.length) == '퇴장'){ // 친구 퇴장 시 접속 친구 감소
 			
-			// 접속 친구 감소~
-		} else {
+			loginFriends = loginFriends - 1; 
+			$('.loginFriends').text(loginFriends);
+			$('#status' + msg.substr(0, msg.indexOf(":"))).removeClass('status.on').addClass('status');
+		} else if(msg.substr(msg.indexOf(":")+1, msg.length) == '초기'){ //  로그인 시 접속 친구 파악 프로세스
+			
+			loginFriends = msg.substr(0, msg.indexOf("/"));
+			$('.loginFriends').text(loginFriends);
+			var allFriends = msg.substr(msg.indexOf("/")+1, msg.indexOf(":")-2);
+			$('.allFriends').text(allFriends);
+		} else { // 기타 메시지
 	
 			if (receiverNickName == msg.substr(msg.lastIndexOf(":") + 1,
 					msg.length)) { // 내가 보냈을 때 채팅창에 출력
@@ -85,15 +91,32 @@
 												- (msg.indexOf(":") + 1))
 										+ '</div>' 
 										+  '</td></tr></div>');
-			} else if (msg.substr(msg.lastIndexOf(":") + 1, msg.length) == '${loginUser.member_Code}') { // 내가 받았을 때
-
+			} else if (receiverNickName == msg.substr(0, msg.indexOf(":"))) { // 내가 받았을 때
+				
 				if (receiverNickName == msg.substr(0, msg.indexOf(":"))) { // 채팅창 상대(receiverNickName) == 보낸이 // 채팅방에 들어와있을때  
+					// 메시지 상태 읽음 DB 인설트
+					var receiver_member_code = ${sessionScope.loginUser.member_Code};
+					
+					$.ajax({
+						url : "${contextPath}/insertMessage.ms",
+						type : "POST",
+						data : {
+							msg_content : msg.substr(msg.indexOf(":") + 1, msg.lastIndexOf(":") - (msg.indexOf(":") + 1)),
+							sender_member_nickname : msg.substr(0, msg.indexOf(":")),
+							receiver_member_code : receiver_member_code,
+							status : 1,
+							type : 0
+						},
+						success : function(data){
 
+						}
+					});
+				
 					$('#chatMessageArea').append(
 									'<table style="margin-top : 10px;">'
 											+ '<tr><td rowspan="2" style="vertical-align: text-top; display: table-cell;">'
 											+ '<div class="msgImgArea">'
-											+ '<img src="/studyplus/resources/images/studyGroup/img_plus.png" style="width:100%;">'
+											+ '<img class="chatProfile" src="/studyplus/resources/images/studyGroup/img_plus.png" style="width : 30px; height : 100px; border-radius : 50%; width:100%;">'
 											+ '</div></td>'
 											+ '<td><div class="nicknameArea">'
 											+ msg.substr(0, msg.indexOf(":"))
@@ -113,10 +136,44 @@
 											+ d.getHours() + '시'
 											+ d.getMinutes() + '분</div>'
 											+ '</td></tr>');
-				} else {
-					// 안읽은 메시지 + 1 해줘라
-					// 메시지 상태 안읽음을 바꿔라
+					
+					$.ajax({
+						url : "selcectMemberProfile.ms",
+						type : "POST",
+						data : {
+							
+							member_Nickname : msg.substr(0, msg.indexOf(":"))
+						},
+						async: false,
+						success : function(data){
+							
+							$('.chatProfile').attr("src", "/studyplus/resources/upload/member/thumnail/" + data);
+						}
+					});
 				}
+			}else {
+				
+				// 메시지 상태 안읽음 DB 인설트
+				unreadMsg = unreadMsg + 1;
+				$('.undreadMsg').text(unreadMsg);
+
+				$('.friendList'+msg.substr(0, msg.indexOf(":"))).html(parseInt($('.friendList'+msg.substr(0, msg.indexOf(":"))).html(), 10)+1);
+				
+				var receiver_member_code = ${sessionScope.loginUser.member_Code};
+				$.ajax({
+					url : "${contextPath}/insertMessage.ms",
+					type : "POST",
+					data : {
+						msg_content : msg.substr(msg.indexOf(":") + 1, msg.lastIndexOf(":") - (msg.indexOf(":") + 1)),
+						sender_member_nickname : msg.substr(0, msg.indexOf(":")),
+						receiver_member_code : receiver_member_code,
+						status : 0,
+						type : 0
+					},
+					success : function(data){
+
+					}
+				});
 			}
 
 			var chatAreaHeight = $('#chatArea').height();
@@ -179,6 +236,9 @@
 	border-radius: 50%;
 	width: 35px;
 	height: 35px;
+	overflow : hidden;
+	background: #fff;
+    border: 1px solid #ddd;
 }
 
 .nicknameArea {

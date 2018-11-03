@@ -38,6 +38,7 @@
    			<beans:bean class="always.awake.studyplus.messenger.controller.HandshakeInterceptor"/>
     	</websocket:handshake-interceptors>
 	</websocket:handlers>
+	
 	<!-- 위의 echoHandler 매핑. 자동 스캔 안해놨기에 직접 매핑 -->
 	<beans:bean id="echoHandler" class="always.awake.studyplus.messenger.controller.EchoHandler"/>
 	<beans:bean id="chatHandler" class="always.awake.studyplus.messenger.controller.ChatWebSocketHandler"/>

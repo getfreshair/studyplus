@@ -9,9 +9,18 @@ public interface MessengerService{
 
 	int selectReceiverMemberCode(String nickname);
 
-	void insertMessage(String msg_content, int member_Code, int receiverMemberCode, int status, int type);
-
 	List<Object> selectMessageList(int member_Code, String receiverNickName);
 	
 	Member selectSenderMember(int member_Code);
+
+	void insertMessage(String msg_content, String sender_member_nickname, int receiver_member_code, int status,
+			int type);
+
+	int selectUnreadMessage(int member_Code);
+	
+	int unreadToRead(int member_Code, String receiverNickName);
+
+	int selectEachUnreadMessage(int member_Code, int eachFriendMemberCode);
+
+	String selcectMemberProfile(String member_Nickname);
 }

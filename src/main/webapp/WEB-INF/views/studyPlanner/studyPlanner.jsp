@@ -39,6 +39,10 @@
 <body>
 
 	<script>
+	
+		var loginFriends = 0;
+		var unreadMsg = 0;
+		
 		$.ajax({
 			url : "${contextPath}/web/chat.socket",
 			type : "GET",
@@ -49,6 +53,21 @@
 				snsSlideChat();
 			}
 		});
+		
+		$.ajax({
+			url : "selectUnreadMessage.ms",
+			type : "POST",
+			data : {
+				
+				member_Code :  '${ loginUser.member_Code }'
+			},
+			success : function(data){
+		
+				unreadMsg = data;
+				$('.undreadMsg').text(unreadMsg);
+			}
+		});
+		
 	</script>
 	<div id="all">
 		<!-- Header -->
@@ -230,7 +249,8 @@
 					<!-- 메신저 기능 -->
 					<div class="sns_wrap">
 						<div class="click_area">
-							친구 10 명 접속중 <span>(10 / 100)</span>
+							친구 <span class="loginFriends"> </span>명 접속중 <span>(<span class="loginFriends"> </span> / <span class="allFriends"> </span>)</span>
+							<div class="undreadMsg" style="display:inline-block; background : red; color : white; width : 30px; height : 21px; border-radius : 30px; margin-left : 5%;"></div>
 						</div>
 						<div class="inner">
 							<ul id="friendsList" class="friend_list">
@@ -246,15 +266,36 @@
 											data : {member_Code:member_Code},
 											success : function(data) {
 												$('#friendsList').empty();
+												
 												for(var i=0; i<data.length ;i++){
+													var eachFriendMemberCode = data[i].member_Code;
+													var eachFriendMemberNickname = data[i].member_Nickname;
 													var $li = $('<li>' + 
 																		'<span class="img_area">' +
 																		'<img src="/studyplus/resources/upload/member/thumbnail/' + data[i].member_Files.files_Name + '" alt="study plus logo" style="width:100%;">' + 
 																	'</span>' +
-																	'<span class="name nameClass' + i +'">' + data[i].member_Nickname + '</span>' + 
-																	'<span class="status"></span>' + 
+																	'<span class="name nameClass' + i +'">' + data[i].member_Nickname + '</span>' +
 																'</li>');
 	
+													$.ajax({
+														url : "eachUnreadMsg.ms",
+														type : "POST",
+														data : {
+															
+															member_Code : member_Code,
+															eachFriendMemberCode : eachFriendMemberCode
+														},
+														async: false,
+														success : function(data) {
+
+															$li.append( 
+																	'<span class="friendList' + eachFriendMemberNickname + ' eachUndreadMsg" style="display:inline-block; background : red; color : white; width : 30px; height : 21px; border-radius : 30px; margin-left : 5%; position : absolute; right : 30px; top : 8px; text-align : center;">' +
+																	+ data + '</span>'
+																	+ '<span id="status'+  eachFriendMemberNickname  +'"class="status"></span>');
+														}
+														
+													});
+													
 													$('#friendsList').append($li);
 													
 													$('.nameClass' + i).click(function(){
@@ -262,14 +303,27 @@
 														receiverNickName = $(this).text()+"";
 														$('#chatMessageArea').empty();
 														// 메시지 불러서 넣어줘라
+														
 														$.ajax({
 															url : "selectMessageList.ms",
 															type : "POST",
 															data : {member_Code:member_Code, receiverNickName:receiverNickName},
 															success : function(data){
 																
-																for(var i=0; i<data.length ;i++){
+																// 읽은 처리 
+																$.ajax({
+																		url : "unreadToRead.ms",
+																		type : "POST",
+																		data : {member_Code:member_Code, receiverNickName:receiverNickName},
+																		success : function(data){
+																			unreadMsg = unreadMsg - data;
+																			$('.undreadMsg').text(unreadMsg);
+																			$('.friendList'+receiverNickName).html(parseInt($('.friendList'+receiverNickName).html(), 10)-data); // this is 
+																		}
+																});
 																
+																for(var i=0; i<data.length ;i++){
+																	
 																	if(data[i].sender_nickName == '${loginUser.member_Nickname}'){
 																		$('#chatMessageArea').append(
 																				'<div style="width:98%; display: inline-block;">' + 
@@ -288,7 +342,7 @@
 																				'<table style="margin-top : 10px;">'
 																						+ '<tr><td rowspan="2" style="vertical-align: text-top; display: table-cell;">'
 																						+ '<div class="msgImgArea">'
-																						+ '<img src="/studyplus/resources/upload/member/thumbnail/'+ data[i].sender_img_name + '" style="width:100%;">'
+																						+ '<img src="/studyplus/resources/upload/member/thumbnail/'+ data[i].sender_img_name + '" alt="study plus logo" style="border-radius : 50%; width:100%;">'
 																						+ '</div></td>'
 																						+ '<td><div class="nicknameArea">'
 																						+ data[i].sender_nickName

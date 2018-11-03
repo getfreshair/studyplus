@@ -46,4 +46,45 @@ public class MessengerController {
 
 		return messageList;
 	}
+	
+	@RequestMapping(value="insertMessage.ms")
+	public @ResponseBody int insertMessage(@RequestParam String msg_content, @RequestParam String sender_member_nickname, @RequestParam int receiver_member_code,
+			@RequestParam int status, @RequestParam int type) {
+		
+		ms.insertMessage(msg_content, sender_member_nickname, receiver_member_code, status, type);
+		
+		return 1;
+	}
+	
+	@RequestMapping(value="selectUnreadMessage.ms")
+	public @ResponseBody int selectUnreadMessage(@RequestParam int member_Code) {
+		
+		int msgCount = ms.selectUnreadMessage(member_Code);
+		
+		return msgCount;
+	}
+	
+	@RequestMapping(value="unreadToRead.ms")
+	public @ResponseBody int unreadToRead(@RequestParam int member_Code, @RequestParam String receiverNickName) {
+		
+		int updateCount = ms.unreadToRead(member_Code, receiverNickName);
+		
+		return updateCount;
+	}
+	
+	@RequestMapping(value="eachUnreadMsg.ms")
+	public @ResponseBody int eachUnreadMsg(@RequestParam int member_Code, int eachFriendMemberCode) {
+		
+		int msgCount = ms.selectEachUnreadMessage(member_Code, eachFriendMemberCode);
+		
+		return msgCount;
+	}
+	
+	@RequestMapping(value="selcectMemberProfile.ms")
+	public @ResponseBody String selcectMemberProfile(@RequestParam String member_Nickname) {
+		
+		String imgName = ms.selcectMemberProfile(member_Nickname);
+		
+		return imgName;
+	}
 }

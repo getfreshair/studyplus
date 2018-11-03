@@ -100,4 +100,35 @@
 		JOIN FILES F ON(M.MEMBER_CODE = F.MEMBER_CODE)
 		WHERE M.MEMBER_CODE = #{member_Code}
 	</select>
+	
+	<select id="selectUnreadMessage" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM MESSAGE
+		WHERE RECEIVER_MESSAGE_CODE = #{member_Code}
+		AND MESSAGE_STATUS = 0
+	</select>
+	
+	<update id="unreadToRead" parameterType="map">
+		UPDATE MESSAGE 
+		SET MESSAGE_STATUS = 1 
+		WHERE SENDER_MESSAGE_CODE = #{receiver_member_code}
+		AND RECEIVER_MESSAGE_CODE = #{member_Code}
+		AND MESSAGE_STATUS = 0
+	</update>
+	
+	<select id="selectEachUnreadMessage" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM MESSAGE
+		WHERE MESSAGE_STATUS = 0
+		AND SENDER_MESSAGE_CODE = #{eachFriendMemberCode}
+		AND RECEIVER_MESSAGE_CODE = #{member_Code}
+	</select>
+	
+	<select id="selcectMemberProfile" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT FILES_NAME
+		FROM FILES
+		JOIN MEMBER USING(MEMBER_CODE)
+		WHERE FILES_BOARDTYPE = 0
+		AND MEMBER_NICKNAME = #{member_Nickname}
+	</select>
 </mapper>
