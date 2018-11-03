@@ -12,7 +12,7 @@ public class SGDetail implements Serializable {
 	private int location_Code; // 지역 코드
 	private String location_Name; // 지역 명
 	private int studyGroup_GoalTime; // 목표 시간
-	private int studyGroup_MaxNum; // 인원수
+	private int studyGroup_MaxNum; // 최대 인원수
 	private String studyGroup_Intro; // 그룹 소개
 	private Date studyGroup_StDate; // 그룹 생성일
 	private int studyGroup_Status; // 그룹 상태

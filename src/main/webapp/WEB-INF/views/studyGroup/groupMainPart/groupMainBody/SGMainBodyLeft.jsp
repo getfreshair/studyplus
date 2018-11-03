@@ -192,8 +192,8 @@
 	}
 	
 	function SGdetailPage(group_No){
-		group_No = 1;
-		
+ 		/* 정리하기 */
+		group_No = 1;		
 		location.href='selectOneGroup.sgd?group_No=' + group_No;
 	}
 	
