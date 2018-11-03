@@ -23,7 +23,7 @@
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script> -->
 
 <link rel="stylesheet" href="/studyplus/resources/css/datepicker.min.css">
-<script src="/studyplus/resources/js/datepicker.min.js"></script>
+<script src="/studyplus/resources/js/datepicker.js"></script>
 <script src="/studyplus/resources/js/datepicker.ko.js"></script>
 <style type="text/css">
 	body{background:#f8f8f8;}
@@ -187,6 +187,7 @@
 									<!-- <input type="text" id="weeklyDatePicker" class="date">
 									<input type="text" id="monthlyDatePicker" class="date"> -->
 									<input type='text' id="weeklyDatePicker" class="date" data-language='ko' data-range="true" data-multiple-dates-separator=" ~ "/>
+									<!-- <input type='text' id="weeklyDatePicker" class="date" data-language='ko'/> -->
 									<input type='text' id="monthlyDatePicker" class="date" data-language='ko' data-min-view="years" data-view="years"/>
 								</div>
 								<div class="chart">
