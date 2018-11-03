@@ -8,9 +8,9 @@ public interface SGDetailDao {
 
 	int selectJoinStatus(SqlSessionTemplate sqlSession, int grCode, int memCode);
 
-	SGDetail selectOneGrDetailTotal(SqlSessionTemplate sqlSession, int grCode, int memCode);
+	SGDetail selectOneGrDetailJoinBefore(SqlSessionTemplate sqlSession, int grCode);
 
-	SGDetail selectOneJoinGrTop(SqlSessionTemplate sqlSession, int grCode, int memCode);
+	SGDetail selectOneJoinGrDetailTop(SqlSessionTemplate sqlSession, int grCode, int memCode);
 
 	int selectJoinAbleChk(SqlSessionTemplate sqlSession, int grCode);
 

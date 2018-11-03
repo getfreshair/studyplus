@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import always.awake.studyplus.member.model.vo.Member;
@@ -26,33 +27,32 @@ public class SGDetailController {
 		
 		int grCode = Integer.parseInt(request.getParameter("group_No"));
 			
-		Member loginUser = (Member)(request.getSession().getAttribute("loginUser"));
-		int memCode = loginUser.getMember_Code();
-
-		//		test 지우기
-		memCode = 1;	
+		int memCode = ((Member)(request.getSession().getAttribute("loginUser"))).getMember_Code();
 		
-		System.out.println("\n\n1,2-data SGDetail 컨트롤러)\n그룹코드 : < " + grCode +
-				" > \n로그인유저 : \n  < " + loginUser.toString() +
-				" > \n로그인멤버코드 : < " + memCode + " >\n\n");
+		//		test 지우기
+		memCode = 4;	
 		
 		try {
 			int joinStatus = gs.selectJoinStatus(grCode, memCode);
 			
-			SGDetail gr = gs.selectOneGrDetailTotal(grCode, memCode);
+			SGDetail group = gs.selectOneGrDetailJoinBefore(grCode);
 			
-			System.out.println("1-result) SGDetail 컨트롤러 결과 \n가입여부 (가입-1(이상) / 미가입-0) : < " + joinStatus +
-								" > \n그룹 조회 결과 : \n  < " + gr + " >\n");
-			
-			mv.addObject("joinStatus", joinStatus);
-			mv.addObject("gr", gr);
-			System.out.println("1,2-view) SGDetail 컨트롤러\nModelAndView :\n  <" + mv.toString() + ">");
-			
-			if(joinStatus >= 1) {
-				SGDetail joinGroup = gs.selectOneJoinGrTop(grCode, memCode);
-				mv.addObject("joinTop", joinGroup);
+			if(group != null) {
+				//예외처리하기
 			}
 			
+			mv.addObject("joinStatus", joinStatus);
+			mv.addObject("gr", group);
+
+			System.out.println("컨트롤러");
+			System.out.println(joinStatus + " / " + group);
+			System.out.println("Model & Veiw : " + mv);
+			
+			if(joinStatus >= 1) {
+				SGDetail joinGrTop = gs.selectOneJoinGrDetailTop(grCode, memCode);
+				mv.addObject("join", joinGrTop);
+			}
+
 			mv.setViewName("studyGroupDetail/groupDetailPage");
 						
 		}catch (Exception e) {
@@ -64,30 +64,25 @@ public class SGDetailController {
 		return mv;
 	}
 	
-	
-	@RequestMapping(value="insertGroupJoin.sgd", method=RequestMethod.POST)
-	public void insertGroupJoin(@RequestParam("grCode")int grCode, @RequestParam("loginUser")Member loginUser, HttpServletResponse response) {
+	@RequestMapping(value="insertGroupJoin.sgd")
+	public @ResponseBody int insertGroupJoin(@RequestParam int grCode, @RequestParam int memCode, HttpServletResponse response){
 		
-		int memCode = loginUser.getMember_Code();
-		System.out.println("로그인멤버 code : " + memCode);
+//		test 지우기
+		memCode = 4;
 		
-		int joinAbleCnt = -1;
 		int groupJoin = -1;
 		
 		try {
-			joinAbleCnt = gs.selectJoinAbleChk(grCode);
-			System.out.println("가입 가능 인원 결과 받아온 컨트롤러 : < " + joinAbleCnt + " >");
+			int joinAbleCnt = gs.selectJoinAbleChk(grCode);
 			
 			if(joinAbleCnt >= 1) {	//최대 가능 인원 - 현재 인원이 1보다 크면 가입 가능
 				groupJoin = gs.insertGroupJoin(grCode, memCode);
 			}
-			
-			response.getWriter().print(groupJoin);
-			
+						
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		return groupJoin;
 	}
 	
 /*		@RequestMapping(value="/selectOneGroup.sgd", method=RequestMethod.POST)
