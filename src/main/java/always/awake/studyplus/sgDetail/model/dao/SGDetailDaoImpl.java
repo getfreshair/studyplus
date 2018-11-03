@@ -13,28 +13,25 @@ public class SGDetailDaoImpl implements SGDetailDao{
 
 	@Override
 	public int selectJoinStatus(SqlSessionTemplate sqlSession, int sgCode, int memCode) {
-		System.out.println("가입여부 확인 dao 오니");
-		
-		HashMap<String, Object> hm = new HashMap<String, Object>();
-		
-//		test 지우기
-		memCode = 1;		
+		System.out.println("가입여부 확인 Dao req \n");
+		HashMap<String, Object> hm = new HashMap<String, Object>();	
 		
 		hm.put("sgCode", sgCode);
 		hm.put("memCode", memCode);
-		System.out.println("가입여부 확인 Dao HM : " + hm);
+		System.out.println("1-response) \n가입여부 확인 Dao res -> HM : < " + hm + " >");
 		
 		return sqlSession.selectOne("SGDetail.selectJoinStatus", hm);
 	}
 
 	@Override
-	public SGDetail selectOneGroup(SqlSessionTemplate sqlSession, int sgCode, int joinStatus) {
-		System.out.println("그룹 한 개 선택하는 dao 오니");
-		
+	public SGDetail selectOneGroup(SqlSessionTemplate sqlSession, int sgCode, int memCode, int joinStatus) {
+		System.out.println("그룹 한 개 선택하는 Dao req \n");
 		Map<String, Object> hm = new HashMap<String, Object>();
 		
 		hm.put("sgCode", sgCode);
+		hm.put("memCode", memCode);
 		hm.put("joinStatus", joinStatus);
+		System.out.println("2-response) \n그룹 한 개 선택하는 Dao res -> HM : < " + hm + " >");
 		
 		return sqlSession.selectOne("SGDetail.selectOneGroup", hm);
 	}

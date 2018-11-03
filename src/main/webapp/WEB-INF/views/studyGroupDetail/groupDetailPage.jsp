@@ -43,7 +43,7 @@
 			  .groupTitleTbl { width:100%; margin-bottom:0px;/* margin: 0px 0px 5px; */ }
 			  .groupTitleTbl h2 { font-weight:bold; line-height:1.7; font-size:27px; margin:0px; }
 	 		  .groupTitleTbl .groupIntro { height:55px; padding:15px 15px 15px 5px; font-size:15px; table-layout:fixed; word-break:keep-all; }
-			  .groupOptDetailTbl { width:230px; display:inline-table; font-size:14px; }
+			  .groupOptDetailTbl { width:225px; display:inline-table; font-size:14px; }
 	 		  .groupOptDetailTbl td { padding:7px 5px 1px 5px; border-bottom:1px solid gray; }
 			  .groupOptDetailTbl strong { float:left; }
 			  .groupOptDetailTbl span { float:right; }
@@ -94,7 +94,6 @@
 	<style>
 		.radiusSmallWrapTd { height:10px; vertical-align:top; max-height:10px;}
 		.radiusBoxSmall { border-radius:15px; margin-bottom:13px; padding:3px 12px; font-size:12px; font-weight:bold; display:inline; }
-		.afterLoginShow { /* display:none; */ }  /* 후에 로그인 회원이 아니면 none으로 변경속성 변경하기(스타일 태그 지우고)  */
 	</style>
 </head>
 
@@ -110,17 +109,17 @@
 				<input type="hidden" id="joinStatus" value="${joinStatus}"/>
 				<div class="groupInfoArea topInfoArea">
 					<div class="groupInfoLeft">
-						<table class="topInfoAllWrapTbl" border="1">
+						<table class="topInfoAllWrapTbl">
 							<tr><td class="radiusSmallWrapTd">
-								<div class="category radiusBoxSmall">${group.location_Name} / ${group.category_Name}</div>
+								<div class="category radiusBoxSmall">${gr.location_Name} / ${gr.category_Name}</div>
 							</td></tr>
 							<tr><td>
-								<table class="topInfoContWrapTbl groupTitleTblWrap" border="1">
+								<table class="topInfoContWrapTbl groupTitleTblWrap">
 									<tr><td>
 										<table class="groupTitleTbl">
-											<tr><td><h2>${group.studyGroup_Name}</h2></td></tr>
+											<tr><td><h2>${gr.studyGroup_Name}</h2></td></tr>
 											<tr><td class="groupIntro">
-												${group.studyGroup_Intro}
+												${gr.studyGroup_Intro}
 											</td></tr>
 										</table>
 									</td></tr>
@@ -128,16 +127,20 @@
 										<table class="groupOptDetailTbl">
 											<tr><td>
 												<strong>목표시간</strong>
-												<span><fmt:formatNumber value="${group.studyGroup_GoalTime}" pattern="0"/> 시간</span>
-<%-- 											<span>${group.studyGroup_GoalTime} 시간</span> --%>
+												<span><fmt:formatNumber value="${gr.studyGroup_GoalTime}" pattern="0"/> 시간</span>
+<%-- 											<span>${gr.studyGroup_GoalTime} 시간</span> --%>
 											</td></tr>
 											<tr><td>
 												<strong>참여인원</strong>
-												<span>${group.gr_Mem_Count} / ${group.studyGroup_MaxNum} 명</span>
+												<span>${gr.gr_Mem_Count} / ${gr.studyGroup_MaxNum} 명</span>
 											</td></tr>
 											<tr><td>
 												<strong>시 작 일</strong>	
-												<span><fmt:formatDate value="${group.studyGroup_StDate}" pattern="yyyy. MM. dd."/> (${group.gr_Dates} 일 째)</span>
+												<span><fmt:formatDate value="${gr.studyGroup_StDate}" pattern="yy. MM. dd."/>
+													(${gr.gr_Dates} 일 째)
+<%-- 												<span style="font-size:12px; line-height:1.9; font-weight:bold;">&nbsp;(${gr.gr_Dates} 일 째)</span> --%>
+												</span>
+												
 											</td></tr>
 										</table>
 									</td></tr>
@@ -148,23 +151,27 @@
 					
 					<div class="groupInfoRight">
 						<table class="topInfoAllWrapTbl">
-							<tr class="afterLoginShow"><td colspan="2" class="radiusSmallWrapTd">
+						  <c:if test="${joinStatus >= 1}">
+							<tr><td colspan="2" class="radiusSmallWrapTd">
 								<div onclick="" class="radiBtn radiusBoxSmall">통계보기</div>
 							</td></tr>
+						  </c:if>
 							<tr><td>
 								<table class="topInfoContWrapTbl"><tr>
 									<td width="50%"><div class="statBox groupStatBoxLeft">
 										<table class="statBoxContTbl">
-											<tr><td><h3>그룹 순위</h3> <strong>35 위</strong></td></tr>
+											<tr><td><h3>그룹 순위</h3> <strong>00 위</strong></td></tr>
 											<tr><td><div>
-												<div><strong>이 주의 공부시간</strong> <br> <span>346:57:37</span></div>
+												<div><strong>이 주의 공부시간</strong> <br> <span>000:00:00</span></div>
 												<div>
 													<strong>오늘의 공부시간</strong> <br> 
 													<span><!-- 6:57:37 --><!-- pages-(pages%1) -> 내림처리 -->
-														<c:set var="gr_Day_Total" value="${group.gr_Day_Total}"/>
-														<fmt:formatNumber value="${(gr_Day_Total / 3600) - (gr_Day_Total % 3600)}" pattern="0"/>:
-														<fmt:formatNumber value="${(gr_Day_Total % 3600) / 60}" pattern="0"/>:
-														<fmt:formatNumber value="${(gr_Day_Total % 3600) % 60}" pattern="0"/>
+														<c:set var="gr_Day_Hour" value="${(gr.gr_Day_Total / 3600)}"/>
+														<c:set var="gr_Day_Min" value="${(gr.gr_Day_Total % 3600) / 60}"/>
+														<fmt:formatNumber var="gr_Hour" value="${gr_Day_Hour - (gr_Day_Hour % 1)}" pattern="#00"/>
+														<fmt:formatNumber var="gr_Min" value="${gr_Day_Min - (gr_Day_Min % 1)}" pattern="00"/>
+														<fmt:formatNumber var="gr_Sec" value="${(gr.gr_Day_Total % 3600) % 60}" pattern="00"/>
+														${gr_Hour}:${gr_Min}:${gr_Sec}
 													</span>
 												</div>
 											</div></td></tr>
@@ -172,9 +179,9 @@
 									</div></td>
 									<td><div class="statBox groupStatBoxRight">
 										<table class="statBoxContTbl">
-											<tr><td><h3>목표 완수율</h3> <strong>${group.gr_Mem_Count / group.studyGroup_MaxNum * 100} %</strong></td></tr>
+											<tr><td><h3>목표 완수율</h3> <strong>${gr.gr_Fulfill_Mem_Cnt / gr.studyGroup_MaxNum * 100} %</strong></td></tr>
 											<tr><td>
-												<div><div class="goalRatio">${group.gr_Mem_Count} / ${group.studyGroup_MaxNum} 명 완수</div></div>
+												<div><div class="goalRatio">${gr.gr_Fulfill_Mem_Cnt} / ${gr.studyGroup_MaxNum} 명 완수</div></div>
 											</td></tr>
 										</table>
 									</div></td>
@@ -186,21 +193,35 @@
 				
 				<div class="myInfoArea topInfoArea">
 					<table class="topInfoAllWrapTbl">
+					<!-- 그룹 미가입시 -->
+					  <c:if test="${joinStatus < 1}">
 						<tr><td>
 							<div><a href="" class="joinGroupBtn">그룹 가입하기</a></div>
 						</td></tr>
-<!-- 만약 로그인유저가 그룹 멤버라면 보이도록 -->
-						<tr class="afterLoginShow"><td class="radiusSmallWrapTd">
+					  </c:if>
+					  
+					<!-- 그룹 가입시 -->
+					  <c:if test="${joinStatus >= 1}">
+						<tr><td class="radiusSmallWrapTd">
 							<div onclick="" class="radiBtn radiusBoxSmall">설 정</div>
 						</td></tr>
-						<tr class="afterLoginShow"><td>
-							<table class="topInfoContWrapTbl"><tr>
+						<tr><td>
+							<table class="topInfoContWrapTbl" style="display:table;"><tr>
 								<td><div class="statBox groupStatBoxLeft">
 									<table class="statBoxContTbl">
-										<tr><td><h3>나의 순위</h3> <strong>5 위</strong></td></tr>
+										<tr><td><h3>나의 순위</h3> <strong>0 위</strong></td></tr>
 										<tr><td><div>
-											<div><strong>이 주의 공부시간</strong> <br> <span>46:57:37</span></div>
-											<div><strong>오늘의 공부시간</strong> <br> <span>6:57:37</span></div>
+											<div><strong>이 주의 공부시간</strong> <br> <span>00:00:00</span></div>
+											<div><strong>오늘의 공부시간</strong> <br>
+												<span>
+													<c:set var="my_Day_Hour" value="${(gr.my_Day_Total / 3600)}"/>
+													<c:set var="my_Day_Min" value="${(gr.my_Day_Total % 3600) / 60}"/>
+													<fmt:formatNumber var="my_Hour" value="${my_Day_Hour - (my_Day_Hour % 1)}" pattern="#00"/>
+													<fmt:formatNumber var="my_Min" value="${my_Day_Min - (my_Day_Min % 1)}" pattern="00"/>
+													<fmt:formatNumber var="my_Sec" value="${(gr.my_Day_Total % 3600) % 60}" pattern="00"/>
+													${my_Hour}:${my_Min}:${my_Sec}
+												</span>
+											</div>
 										</div></td></tr>
 									</table>
 								</div></td>
@@ -213,6 +234,7 @@
 								</div></td>
 							</tr></table>
 						</td></tr>
+					  </c:if>
 <!-- 만약 로그인유저가 그룹 멤버라면 보이도록 끝 -->
 					</table>			
 				</div>
@@ -220,9 +242,11 @@
 			
 <script>
 	$(function(){
-		if (('#joinStatus').val() < 1){
-			('.afterLoginShow').css({"display":"none"});
-		}
+// 		alert("실행되나?");
+		/* alert($('#joinStatus').val());
+		if ($('#joinStatus').val() < 1){
+			$('.afterLoginShow').css({"display":"none"});
+		} */
 	});
 
 
@@ -259,5 +283,10 @@
 	</div>	
 </body>
 
-	
 </html>
+
+
+
+
+
+	

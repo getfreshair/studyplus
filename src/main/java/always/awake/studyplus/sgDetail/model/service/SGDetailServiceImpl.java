@@ -16,21 +16,21 @@ public class SGDetailServiceImpl implements SGDetailService{
 	
 	@Override
 	public int selectJoinStatus(int sgCode, int memCode) {
-		System.out.println("가입여부 확인 서비스");
-		
+		System.out.println("1-request) \n가입여부 확인 서비스 req");
 		int joinStatus = gd.selectJoinStatus(sqlSession, sgCode, memCode);
-		System.out.println("joinStatus 확인 서비스 : " + joinStatus);
+		
+		System.out.println("가입여부 확인 서비스 res -> joinStatus : < " + joinStatus + " >\n\n");
 		
 		return joinStatus;
 	}
 	
 	@Override
-	public SGDetail selectOneGroup(int sgCode, int joinStatus) {
-		System.out.println("그룹 디테일 조회하는 서비스");
+	public SGDetail selectOneGroup(int sgCode, int memCode, int joinStatus) {
+		System.out.println("2-request) \n그룹 디테일 조회하는 서비스 req");
 		
-		SGDetail group = gd.selectOneGroup(sqlSession, sgCode, joinStatus);
+		SGDetail group = gd.selectOneGroup(sqlSession, sgCode, memCode, joinStatus);
 		
-		System.out.println("그룹 디테일 조회하는 서비스의 SGDetail : " + group.toString());
+		System.out.println("그룹 디테일 조회하는 서비스 res ->\n  SGDetail group : \n  < " + group.toString() + " >\n\n");
 		
 		return group;
 	}
