@@ -6,6 +6,7 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import always.awake.studyplus.block.model.vo.StudyTimeInfo;
 import always.awake.studyplus.sgDetail.model.vo.SGDetail;
 
 @Repository
@@ -24,11 +25,26 @@ public class BlockDaoImpl implements BlockDao{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("Block.selectGroupListAndTimes",member_Code);
 	}
-
+	
+	// 오늘 개인 공부시간 총량 조회용 메소드
 	@Override
 	public int selectTodayStudyTime(SqlSessionTemplate sqlSession, int member_Code) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("Block.selectTodayStudyTime",member_Code);
+	}
+
+	// 목표 공부시간 업데이트용 메소드
+	@Override
+	public int updateGoalStudyTime(SqlSessionTemplate sqlSession, ArrayList<StudyTimeInfo> goalSutudyInfo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("Block.updateGoalStudyTimes", goalSutudyInfo);
+	}
+
+	// 개인 또는 그룹의 공부시간 기록용 메소드
+	@Override
+	public int insertStudyTime(SqlSessionTemplate sqlSession, ArrayList<StudyTimeInfo> arrayList) {
+		// TODO Auto-generated method stub
+		return 1;
 	}
 
 }
