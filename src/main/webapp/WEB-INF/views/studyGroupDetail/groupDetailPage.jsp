@@ -313,7 +313,7 @@
 					<div class="leftContentWrap">
 						<div class="leftContentTabMenu">
 							<div>
-								<span onclick="selectGrMemList(this);">그룹원 보기</span>
+								<span onclick="selectGrMemList();">그룹원 보기</span>
 							</div>
 							<div>
 								<span>그룹원 순위</span>
@@ -338,15 +338,19 @@
 			
 <script>
 	function selectGrMemList(){
-		var this
-// 		$('#leftIncludeArea').append($('#source'));
-
-		/* $.ajax({
-			url:"list.html",
-			success:function(result) {
-				$("#leftIncludeArea").html(result);
+// 		 $("#leftIncludeArea").append("<jsp:include page='leftGroupListArea.jsp'/>");
+// 		 $("#leftIncludeArea").html("<jsp:include page='leftGroupListArea.jsp'/>");
+		 alert("에이작스 들어간다~");
+		 $.ajax({
+			url:"selectGroupMemberList.sgd",
+			data : { grCode : grCode },
+			type : "POST",
+			success:function(data) {
+				
+				$("#leftIncludeArea").html(data);
+				
 			}
-		}); */
+		});
 	};
 
 

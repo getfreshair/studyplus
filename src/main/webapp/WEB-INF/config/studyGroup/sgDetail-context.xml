@@ -22,4 +22,7 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="always.awake.studyplus" />
+	
+	<beans:bean id="jsonView" class="net.sf.json.spring.web.servlet.view.JsonView"/>
+	
 </beans:beans>

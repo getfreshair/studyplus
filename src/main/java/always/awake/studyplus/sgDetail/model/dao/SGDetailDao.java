@@ -1,5 +1,8 @@
 package always.awake.studyplus.sgDetail.model.dao;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 
 import always.awake.studyplus.sgDetail.model.vo.SGDetail;
@@ -15,6 +18,8 @@ public interface SGDetailDao {
 	int selectJoinAbleChk(SqlSessionTemplate sqlSession, int grCode);
 
 	int insertGroupJoin(SqlSessionTemplate sqlSession, int grCode, int memCode);
+
+	List<HashMap<String, Object>> selectGroupMemberList(SqlSessionTemplate sqlSession, int grCode);
 
 	
 }

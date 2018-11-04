@@ -1,6 +1,8 @@
 package always.awake.studyplus.sgDetail.controller;
 
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -84,6 +86,30 @@ public class SGDetailController {
 		}
 		return groupJoin;
 	}
+	
+	/*@RequestMapping(value="selectGroupMemberList.sgd", method=RequestMethod.POST)
+	public ModelAndView selectGroupMemberList(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
+		
+		
+		
+		return mv;
+	}
+	*/
+	@RequestMapping("selectGroupMemberList.sgd")
+	public ModelAndView selectGroupMemberList(int grCode, ModelAndView mv) {
+		System.out.println("1. " + grCode);
+		System.out.println("1. " + mv);
+		List<HashMap<String, Object>> memberList = gs.selectGroupMemberList(grCode);
+		
+		System.out.println("쿼리 실행 결과-컨트롤러 : < " +  memberList + " >");
+		mv.addObject("grMemList", memberList);
+		mv.setViewName("jsonView");
+		System.out.println("MV : < " + mv + " >");
+		return mv;		
+	}
+
+	
+	
 	
 /*		@RequestMapping(value="/selectOneGroup.sgd", method=RequestMethod.POST)
 		public String selectOneGroupDetail(@RequestParam("userId")String userId, @RequestParam(value="userPwd", defaultValue="1234", required=false)String userPwd) {

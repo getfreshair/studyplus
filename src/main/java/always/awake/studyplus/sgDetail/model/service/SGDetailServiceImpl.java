@@ -1,5 +1,8 @@
 package always.awake.studyplus.sgDetail.model.service;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,6 +46,12 @@ public class SGDetailServiceImpl implements SGDetailService{
 	public int insertGroupJoin(int grCode, int memCode) {
 		int groupJoin = gd.insertGroupJoin(sqlSession, grCode, memCode);
 		return groupJoin;
+	}
+
+	@Override
+	public List<HashMap<String, Object>> selectGroupMemberList(int grCode) {
+		List<HashMap<String, Object>> memberList = gd.selectGroupMemberList(sqlSession, grCode);
+		return memberList;
 	}
 	
 	
