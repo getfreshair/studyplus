@@ -25,21 +25,25 @@ public class SGDetailController {
 			
 		Member loginUser = (Member)(request.getSession().getAttribute("loginUser"));
 		int memCode = loginUser.getMember_Code();
+
+		//		test 지우기
+		memCode = 1;	
+		
+		System.out.println("\n\n1,2-data SGDetail 컨트롤러)\n그룹코드 : < " + sgCode +
+				" > \n로그인유저 : \n  < " + loginUser.toString() +
+				" > \n로그인멤버코드 : < " + memCode + " >\n\n");
 		
 		try {
 			int joinStatus = gs.selectJoinStatus(sgCode, memCode);
 			
-			SGDetail group = gs.selectOneGroup(sgCode, joinStatus);
+			SGDetail gr = gs.selectOneGroup(sgCode, memCode, joinStatus);
 			
-			System.out.println("SGDetail 컨트롤러 - \n그룹코드 : " + sgCode +
-					", \n\n로그인유저 : " + loginUser.toString() +
-					", \n\n로그인멤버코드 : " + memCode + ")\n\n");
-			System.out.println("SGDetail 서비스에서 받아온 결과 - \n가입여부 (가입-1/미가입-0) : " + joinStatus +
-								", \n\n그룹 조회 결과 : " + group);
+			System.out.println("1-result) SGDetail 컨트롤러 결과 \n가입여부 (가입-1(이상) / 미가입-0) : < " + joinStatus +
+								" > \n그룹 조회 결과 : \n  < " + gr + " >\n");
 			
 			mv.addObject("joinStatus", joinStatus);
-			mv.addObject("group", group);
-			System.out.println("결과로 쓰일 ModelAndView : " + mv.toString());
+			mv.addObject("gr", gr);
+			System.out.println("1,2-view) SGDetail 컨트롤러\nModelAndView :\n  <" + mv.toString() + ">");
 			
 			mv.setViewName("studyGroupDetail/groupDetailPage");
 						
