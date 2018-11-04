@@ -72,4 +72,13 @@
 		AND TO_CHAR(STUDYTIME_DATE,'YYYY/MM/DD') = TO_CHAR(SYSDATE,'YYYY/MM/DD')
 		AND STUDYTIME_DIVISION = 0
 	</select>
+	
+	<update id="updateGoalStudyTimes" parameterType="arraylist">		
+		<foreach collection="list" item="list"  index="index" 
+				 separator=";" open="DECLARE BEGIN" close="; END;" >	
+			UPDATE GOAL
+			SET GOAL_ACHIEVEAMOUNT = (GOAL_ACHIEVEAMOUNT + #{list.totalTime})
+			WHERE GOAL_CODE = #{list.code}
+		</foreach>
+	</update>
 </mapper>

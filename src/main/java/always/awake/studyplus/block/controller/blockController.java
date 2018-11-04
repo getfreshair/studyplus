@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +36,7 @@ public class blockController {
 	@Autowired
 	private BlockService bs;
 
+	// 차단메인화면 전환용 메소드
 	@RequestMapping("showBlockMain.bl")
 	public String showBlockMain(HttpServletRequest requeest, Model model) {
 
@@ -44,6 +46,7 @@ public class blockController {
 		return "block/blockMain";
 	}
 
+	// 임시파일 저장용 메소드
 	@RequestMapping("blockTimesTempSave.bl")
 	public void blockTimesTempSave(@RequestParam("todayStudyTime") String studyTime,
 			@RequestParam("groupTimmerInfo") String groupTimmerInfo, @RequestParam("goalTimmerInfo") String goalTimmerInfo,
@@ -92,6 +95,8 @@ public class blockController {
 
 	}
 
+	
+	// 파일 생성용 메소드
 	public void writeTimeDataFile(String division,int dateCount,double studyTime,String timeZone) {
 		// 저장할 파일 경로
 		String path = "C:\\studyPlanner\\timmerDatas\\";
@@ -166,7 +171,7 @@ public class blockController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// 재귀호출로 남은 공부 처리 
+		// 재귀호출로 남은 공부시간 처리 
 		if(check == 1 ) {
 			// (날짜 / 남은시간/ 타임존)을 인자로 메소드 재귀호출
 			writeTimeDataFile(division,--dateCount,studyTime-sumStudyTime,"23");
@@ -174,6 +179,8 @@ public class blockController {
 		
 	}
 
+	
+	// 공부시간 저장용 메소드
 	@RequestMapping(value = "saveStudyTime.bl")
 	public String insertStudyTime(HttpServletRequest requeest, Model model) {
 		
@@ -182,7 +189,7 @@ public class blockController {
 		int result = bs.insertStudyTimes(list,
 				((Member)(requeest.getSession().getAttribute("loginUser"))).getMember_Code());
 		System.out.println(list);
-		
+		System.out.println("아니이이이이이!@");
 		return "redirect:studyPlannerMain.me";
 	}
 	
@@ -200,7 +207,6 @@ public class blockController {
 		
 		for ( File tempFile : timmerDataFileList) {
 			// 파일이름으로 유효성 체크 && 저장할 컬렉션 분류
-			System.out.println(tempFile.getName());
 			if(tempFile.getName().contains("PersonalStudyTime")
 					|| tempFile.getName().contains("GroupStudyTime[")) {
 				extractionData(tempFile.getName(),StudyTimeList);
@@ -223,6 +229,19 @@ public class blockController {
 			// 목표 공부시간 파일이 존재할 경우
 			if(goalTimeList.size() != 0) {
 				totalList.put("goalTimeList",goalTimeList);
+				
+				// 총 공부시간 저장
+				for (int i = 0; i < goalTimeList.size(); i++) {
+					StudyTimeInfo temp = goalTimeList.get(i);
+					int totalTime = 0;
+					Set key = temp.getTimesMap().keySet();
+					for(Iterator iterator = key.iterator();
+							iterator.hasNext();) {
+						totalTime += temp.getTimesMap().get(iterator.next());
+					}
+					goalTimeList.get(i).setTotalTime(totalTime);
+				}
+				
 			}
 			return totalList;
 		}

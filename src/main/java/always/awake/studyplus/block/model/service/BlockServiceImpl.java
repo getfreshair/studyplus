@@ -38,10 +38,25 @@ public class BlockServiceImpl implements BlockService{
 	// 공부 시간 저장용 메소드
 	@Override
 	public int insertStudyTimes(HashMap<String, ArrayList<StudyTimeInfo>> list, int member_Code) {
+		// 리턴값 저장용 변수 쓰레기값으로 초기화
+		int result = -99;
+		int result1 = -99;
+		int result2 = -99;
 		
-		int 
+		if(list.get("goalTimeList") != null) {
+			result1 = bd.updateGoalStudyTime(sqlSession,list.get("goalTimeList"));
+		}
+	/*	if(list.get("studyTimeList") != null) {
+			result2 = bd.insertStudyTime(sqlSession, list.get("studyTimeList"));
+		}
 		
+		if ((result1 > 0 || result1 == -99 ) 
+				&& (result2 > 0 || result2 == -99 )) {
+			result = 1;
+		} else {
+			result = 0;
+		}*/
 		
-		return 0;
+		return result;
 	}
 }
