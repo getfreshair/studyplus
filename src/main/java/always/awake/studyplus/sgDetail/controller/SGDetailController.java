@@ -98,7 +98,6 @@ public class SGDetailController {
 	@RequestMapping("selectGroupMemberList.sgd")
 	public ModelAndView selectGroupMemberList(int grCode, ModelAndView mv) {
 		System.out.println("1. " + grCode);
-		System.out.println("1. " + mv);
 		List<HashMap<String, Object>> memberList = gs.selectGroupMemberList(grCode);
 		
 		System.out.println("쿼리 실행 결과-컨트롤러 : < " +  memberList + " >");
