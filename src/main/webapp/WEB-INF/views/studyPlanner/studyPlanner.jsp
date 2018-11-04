@@ -24,11 +24,20 @@
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script> -->
 
 <link rel="stylesheet" href="/studyplus/resources/css/datepicker.min.css">
-<script src="/studyplus/resources/js/datepicker.js"></script>
+<script src="/studyplus/resources/js/datepicker.min.js"></script>
 <script src="/studyplus/resources/js/datepicker.ko.js"></script>
 <style type="text/css">
 	body{background:#f8f8f8;}
 	#footer{background: #fff;}
+	
+	.weeklyDateCk{
+    width: 175px;
+    height: 25px;
+    position: absolute;
+    right: 35px;
+    top: 13px;
+    color: #fff;
+    background: #65cdd8;}
 	
 	/* 모달 */
 	.modal-body .img_area .box{border:1px solid #ddd; width:85%;}
@@ -200,8 +209,9 @@
 									<span class="txt">주간 · 월간 공부량</span>
 									<!-- <input type="text" id="weeklyDatePicker" class="date">
 									<input type="text" id="monthlyDatePicker" class="date"> -->
-									<input type='text' id="weeklyDatePicker" class="date" data-language='ko' data-range="true" data-multiple-dates-separator=" ~ "/>
-									<!-- <input type='text' id="weeklyDatePicker" class="date" data-language='ko'/> -->
+									<!-- <input type='text' id="weeklyDatePicker" class="date" data-language='ko' data-range="true" data-multiple-dates-separator=" ~ "/> -->
+									<input type='text' id="weeklyDatePicker" class="date" data-language='ko'/>
+									<label for="weeklyDatePicker" class="weeklyDateCk"></label>
 									<input type='text' id="monthlyDatePicker" class="date" data-language='ko' data-min-view="years" data-view="years"/>
 								</div>
 								<div class="chart">

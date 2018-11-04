@@ -13,7 +13,7 @@
         defaults = {
             classes: '',
             inline: false,
-            language: 'ko',
+            language: 'ru',
             startDate: new Date(),
             firstDay: '',
             weekends: [6, 0],
@@ -49,7 +49,7 @@
             clearButton: false,
 
             showEvent: 'focus',
-            autoClose: true,
+            autoClose: false,
 
             // navigation
             monthsField: 'monthsShort',
