@@ -23,7 +23,6 @@ public class MessengerServiceImpl  implements MessengerService {
 	@Override
 	public List selectFriendList(int member_Code) {
 		
-		System.out.println(sqlSession);
 		return md.selectFriendList(sqlSession, member_Code);
 	}
 
@@ -31,12 +30,6 @@ public class MessengerServiceImpl  implements MessengerService {
 	public int selectReceiverMemberCode(String nickname) {
 		
 		return md.selectReceiverMemberCode(sqlSession, nickname);
-	}
-
-	@Override
-	public void insertMessage(String msg_content, int member_Code, int receiverMember_Code, int status, int type) {
-	
-		md.insertMessage(sqlSession, msg_content, member_Code, receiverMember_Code, status, type);
 	}
 
 	@Override
@@ -50,4 +43,35 @@ public class MessengerServiceImpl  implements MessengerService {
 		// TODO Auto-generated method stub
 		return md.selectSenderMember(sqlSession, member_Code);
 	}
+
+	@Override
+	public void insertMessage(String msg_content, String sender_member_nickname, int receiver_member_code, int status,
+			int type) {
+		System.out.println("dh");
+		md.insertMessage(sqlSession, msg_content, sender_member_nickname, receiver_member_code, status, type);
+	}
+
+	@Override
+	public int selectUnreadMessage(int member_Code) {
+		// TODO Auto-generated method stub
+		return md.selectUnreadMessage(sqlSession, member_Code);
+	}
+
+	@Override
+	public int unreadToRead(int member_Code, String receiverNickName) {
+		// TODO Auto-generated method stub
+		return md.unreadToRead(sqlSession, member_Code, receiverNickName);
+	}
+
+	@Override
+	public int selectEachUnreadMessage(int member_Code, int eachFriendMemberCode) {
+		// TODO Auto-generated method stub
+		return md.selectEachUnreadMessage(sqlSession, member_Code, eachFriendMemberCode);
+	}
+
+	@Override
+	public String selcectMemberProfile(String member_Nickname) {
+		// TODO Auto-generated method stub
+		return md.selcectMemberProfile(sqlSession, member_Nickname);
+	}	
 }

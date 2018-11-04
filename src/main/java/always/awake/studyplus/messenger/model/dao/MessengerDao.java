@@ -13,11 +13,18 @@ public interface MessengerDao {
 
 	int selectReceiverMemberCode(SqlSessionTemplate sqlSession, String nickname);
 
-	void insertMessage(SqlSessionTemplate sqlSession, String msg_content, int member_Code, int receiverMember_Code,
-			int status, int type);
-
 	List<Object> selectMessageList(SqlSessionTemplate sqlSession, int member_Code, String receiverNickName);
 
 	Member selectSenderMember(SqlSessionTemplate sqlSession, int member_Code);
 
+	void insertMessage(SqlSessionTemplate sqlSession, String msg_content, String sender_member_nickname,
+			int receiver_member_code, int status, int type);
+
+	int selectUnreadMessage(SqlSessionTemplate sqlSession, int member_Code);
+
+	int unreadToRead(SqlSessionTemplate sqlSession, int member_Code, String receiverNickName);
+
+	int selectEachUnreadMessage(SqlSessionTemplate sqlSession, int member_Code, int eachFriendMemberCode);
+
+	String selcectMemberProfile(SqlSessionTemplate sqlSession, String member_Nickname);
 }
