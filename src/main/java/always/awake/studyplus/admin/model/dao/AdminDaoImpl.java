@@ -8,6 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import always.awake.studyplus.admin.model.vo.Banner;
 import always.awake.studyplus.admin.model.vo.DispauseBoard;
 import always.awake.studyplus.admin.model.vo.Member;
 import always.awake.studyplus.admin.model.vo.PageInfo;
@@ -158,7 +159,23 @@ public class AdminDaoImpl implements AdminDao {
 		
 		map.put("rowBounds", rowBounds);
 		
-		return sqlSession.selectList("Admin.getGroupBoardList",map,rowBounds);
+		List<Map<String, Object>> list = sqlSession.selectList("Admin.getGroupBoardList",map,rowBounds);
+		
+		System.out.println("dao" + list);
+		
+		return list;
+	}
+
+	@Override
+	public int updateBoardStatus(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+	
+		return sqlSession.update("Admin.updateBoardStatus", map);
+	}
+
+	@Override
+	public int insertCPP(SqlSessionTemplate sqlSession, Banner b, String originFileName, String changeName) {
+
+		return sqlSession.insert("Admin.insertCPP", b);
 	}
 
 	

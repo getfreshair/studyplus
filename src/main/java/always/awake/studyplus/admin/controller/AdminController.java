@@ -1,5 +1,6 @@
 package always.awake.studyplus.admin.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
@@ -16,19 +17,23 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import always.awake.studyplus.admin.common.CommonUtils;
 import always.awake.studyplus.admin.common.Pagination;
 import always.awake.studyplus.admin.model.service.AdminService;
+import always.awake.studyplus.admin.model.vo.Banner;
 import always.awake.studyplus.admin.model.vo.DispauseBoard;
 import always.awake.studyplus.admin.model.vo.PageInfo;
 import always.awake.studyplus.member.model.vo.Member;
@@ -56,7 +61,82 @@ public class AdminController {
 		
 		return page;
 	}
+	////////////////////////////////////////광고 관리////////////////////////////////////////////
+	@RequestMapping("insertCPP.do")
+	public String insertMember(Model model ,Banner b, HttpServletRequest request,
+		@RequestParam(name="photo", required=false) MultipartFile photo) {
+		System.out.println(photo);
+		
+		String prCompany = request.getParameter("prCompany");
+		String prTitle = request.getParameter("prTitle");
+		String prUrl = request.getParameter("prUrl");
+		String prStartDate = request.getParameter("prStartDate");
+		String prEndDate = request.getParameter("prEndDate");
+		int prCost = Integer.parseInt(request.getParameter("prCost"));
+		
+		System.out.println(prCompany);
+		System.out.println(prStartDate);
+		//사진 저장할 경로 지정12152
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		
+		//파일의 경로는 root 하위의 uploadFiles이다.
+		String filePath = root + "\\upload\\admin\\thumbnail";
+		
+		System.out.println(filePath);
+		
+		//파일명 변경
+		String originFileName = photo.getOriginalFilename();
+		String ext = originFileName.substring(originFileName.lastIndexOf(".")); //확장자 분리하기위한 로직
+		String changeName = CommonUtils.getRandomString();
+		
+		//업로드된 파일을 지정한 경로에 저장
+		try {
+		photo.transferTo(new File(filePath + "\\" + changeName + ext));
+		
+		b.setPr_Company(prCompany);
+		b.setPr_Title(prTitle);
+		b.setPr_Link(prUrl);
+		b.setPr_StartDate(prStartDate);
+		b.setPr_EndDate(prEndDate);
+		b.setPr_Contractmoney(prCost);
+		
+		int result = as.insertCPP(b, originFileName, changeName);
+		
+		
+		
+		return "redirect:goMain.me";
+		
+		} catch (Exception e) {
+		//실패시 파일을 삭제
+		new File(filePath + "\\" + changeName + ext).delete();
+		
+		model.addAttribute("msg","회원가입 실패!!");
+		
+		return "common/errorPage";
+		}
+	}
+	
+	////////////////////////////////////////광고 관리 끝////////////////////////////////////////////
 	////////////////////////////////////////게시판 관리////////////////////////////////////////////////////////
+	@RequestMapping("updateBoardStatus.do")
+	public @ResponseBody int updateBoardStatus(@RequestParam String boardCode, HttpSession session, HttpServletResponse response){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		String[] nCode = boardCode.split(",");
+		
+		System.out.println(nCode);
+		
+		int result = 0;
+		
+		for(int i = 0 ; i < nCode.length; i++) {
+			int code = Integer.parseInt(nCode[i].trim());
+			map.put("code",code);
+			result += as.updateBoardStatus(map);
+		}
+		
+		return result;
+	}
+	
 	@RequestMapping("getGroupBoardList.do")
 	public ModelAndView getGroupBoardList(ModelAndView mv, HttpServletRequest request) {
 		int currentPage = 1;

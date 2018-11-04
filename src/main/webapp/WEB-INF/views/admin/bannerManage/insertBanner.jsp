@@ -88,16 +88,15 @@ hr{
 								<div class="modal-header">
 									<h4 class="modal-title">CPP광고등록</h4>
 								</div>
-								<form method="post"
-									action="" onsubmit="return checkModalForm()" name="moform">
+								<form action="insertCPP.do" method="post" enctype="multipart/form-data"> 
 									<div class="modal-body">
 										<label>광고업체명</label> <input type="text" name="prCompany"
 											class="form-control modalContent modalContent1">
 										<label>광고제목</label> <input type="text" name="prTitle"
 											class="form-control modalContent modalContent2">
-										<label>URL</label> <input type="text" id="prUrl"
+										<label>URL</label> <input type="text" name="prUrl"
 											class="form-control modalContent modalContent3"
-											name="" placeholder="">
+											placeholder="">
 										<label>이미지</label>	<div id="imageArea" style="height:200px; width:200px; border-style:dashed;">
 											<img id="prImage" width="194px" height="194px">
 											<!-- <input type="file"
@@ -105,7 +104,7 @@ hr{
 											placeholder="이미지"> -->
 											</div>
 											<div id="fileArea">
-												<input type="file" id="prImageClick" onchange="loadImg(this);">
+												<input type="file" name="photo" id="prImageClick" onchange="loadImg(this);">
 											</div>
 											<script>
 												$(function(){
@@ -129,11 +128,11 @@ hr{
 												}
 											</script>
 										<label>광고시작일</label> <input type="date" 
-											class="form-control modalContent modalContent5" name="">
+											class="form-control modalContent modalContent5" name="prStartDate">
 										<label>광고종료일</label> <input type="date" 
-											class="form-control modalContent modalContent6" name="">
+											class="form-control modalContent modalContent6" name="prEndDate">
 										<label>광고금액</label> <input type="text"
-											class="form-control modalContent modalContent7" name=""
+											class="form-control modalContent modalContent7" name="prCost"
 											placeholder="금액을 입력하세요">
 									</div>
 									<div class="modal-footer">

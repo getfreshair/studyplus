@@ -118,6 +118,10 @@
 		WHERE NOTICE_CODE = #{code} 
 	</update>
 	
+	<update id="updateBoardStatus">
+		UPDATE GROUPBOARD SET GROUPBOARD_STATUS = 2
+		WHERE GROUPBOARD_CODE = #{code}
+	</update>
 	
 	<select id="getPenaltyList" parameterType="map" resultType="hashmap">
 		SELECT M.MEMBER_CODE, M.MEMBER_ID, M.MEMBER_STATUS, B.BLOCK_CODE,
@@ -263,8 +267,8 @@
 		SELECT COUNT(*)AS NUM
 		FROM REPLY
 		WHERE 1=1
-		<if test='option eq ""'>
-			)
+		<if test="option eq null">
+		)
 		</if>
 		<if test='option eq "boardContent"'>
 			AND REPLY_CONTENT LIKE '%' ||#{keyword}|| '%')
@@ -272,24 +276,39 @@
 		<if test='option eq "memberCode"'>
 			AND MEMBER_CODE LIKE '%' ||#{keyword}|| '%' )
 		</if>
-		
-		
+
 	</select>
 	
-	<select id="getGroupBoardList" parameterType="map" resultType="_int">
-		SELECT G.GROUPBOARD_CODE,G.MEMBER_CODE, G.GROUPBOARD_CONTENT, G.GROUPBOARD_POSTDATE, G.GROUPBOARD_TYPE ,
-				G.GROUPBOARD_STATUS, G.STUDYGROUP_CODE, G.GROUPBOARD_DELDATE, R.REPLY_CODE,R.MEMBER_CODE, 
-				R.REPLY_DATE, R.REPLY_CONTENT
+	<select id="getGroupBoardList" parameterType="map" resultType="hashmap">
+		SELECT code, member, content, post, type , boardCode, nick ,groupName , status, board
+		from
+		(SELECT G.GROUPBOARD_CODE as code,G.MEMBER_CODE as member, G.GROUPBOARD_CONTENT as content, TO_CHAR(G.GROUPBOARD_POSTDATE,'yyyymmdd') as post, '그룹' as type , G.STUDYGROUP_CODE as boardCode, M.MEMBER_NICKNAME as nick, SG.STUDYGROUP_NAME as groupName, g.groupboard_status as status ,g.groupboard_type as board
 		FROM GROUPBOARD G
-		JOIN REPLY R ON (G.GROUPBOARD_CODE = R.GROUPBOARD_CODE)
-		WHERE 1=1
+		JOIN MEMBER M ON (M.MEMBER_CODE = G.MEMBER_CODE)
+		JOIN STUDYGROUP SG ON (SG.STUDYGROUP_CODE = G.STUDYGROUP_CODE)
+		WHERE 1=1 
+		<if test='option eq "memberCode"'>
+		AND G.MEMBER_CODE = #{keyword}
+		</if>
 		<if test='option eq "boardContent"'>
-			AND (G.GROUPBOARD_CONTENT LIKE '%' ||#{keyword}|| '%'
-			OR R.REPLY_CONTENT LIKE '%' ||#{keyword}|| '%')
+		AND G.GROUPBOARD_CONTENT LIKE '%'||#{keyword}||'%'
+		</if>
+		UNION ALL
+		SELECT R.REPLY_CODE as code,R.MEMBER_CODE as member, R.REPLY_CONTENT as content, TO_CHAR(R.REPLY_DATE,'yyyymmdd') as post, '리플' as type, R.GROUPBOARD_CODE as boardCode, M.MEMBER_NICKNAME as nick, SG.STUDYGROUP_NAME as groupName, g.groupboard_status as status ,g.groupboard_type as board
+		FROM REPLY R
+		JOIN MEMBER M ON (M.MEMBER_CODE = R.MEMBER_CODE)
+		JOIN GROUPBOARD G ON (R.GROUPBOARD_CODE = G.GROUPBOARD_CODE)
+		JOIN STUDYGROUP SG ON (SG.STUDYGROUP_CODE = g.studygroup_code)
+		WHERE 1=1
+		<if test="option eq null">
+		)
 		</if>
 		<if test='option eq "memberCode"'>
-			AND (G.MEMBER_CODE LIKE '%' ||#{keyword}|| '%'
-			OR R.MEMBER_CODE LIKE '%' ||#{keyword}|| '%' )
+		AND R.MEMBER_CODE = #{keyword})
 		</if>
+		<if test='option eq "boardContent"'>
+		AND R.REPLY_CONTENT LIKE '%'||#{keyword}||'%')
+		</if>
+		
 	</select>
 </mapper>

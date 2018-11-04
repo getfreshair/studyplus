@@ -21,4 +21,13 @@ public class GroupBoard {
 	private Date reply_Date;
 	private String reply_Content;
 	private String studygroup_Name;
+	private int code;
+	private String member;
+	private String content;
+	private String post;
+	private String type;
+	private String boardCode;
+	private String nick;
+	private String groupName;
+	
 }
