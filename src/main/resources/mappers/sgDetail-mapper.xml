@@ -184,13 +184,52 @@
 		FROM ( SELECT (SYSDATE + #{ changeDates }) AS "SELECT_DATE" FROM DUAL)  
 	</select>
 	<select id="selectChangeMonthsInfo" parameterType="_int" resultType="hashmap">
-		SELECT TO_CHAR(SELECT_DATE, 'YYYY. MM. DD. ') AS "THIS_DAY",
-			   TO_CHAR(SELECT_DATE, 'YYYY. MM. ') AS "THIS_WEEK",
-			   TO_CHAR(SELECT_DATE, 'YYYY. MM. ') AS "THIS_MONTH",
+		SELECT TO_CHAR(SELECT_DATE, 'YYYY. MM. DD.') AS "THIS_DAY",
+			   TO_CHAR(SELECT_DATE, 'YYYY. MM.') AS "THIS_WEEK",
+			   TO_CHAR(SELECT_DATE, 'YYYY. MM.') AS "THIS_MONTH",
 			   TO_CHAR(SELECT_DATE, 'W') AS "WEEK_NUM",
 			   TO_CHAR(SELECT_DATE, 'MM') AS "MONTH",
 			   TO_CHAR(LAST_DAY(SELECT_DATE), 'DD') AS "MONTH_LASTDAY"
 		FROM ( SELECT ADD_MONTHS(SYSDATE, #{ changeMonths }) as "SELECT_DATE" FROM DUAL)
+	</select>
+	
+	<select id="selectGroupMemberRankList" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			WITH DATE_PERIOD AS
+					( SELECT DECODE(#{ periodType },
+									1, TRUNC(TO_DATE(#{ thisDay })),
+									2, TRUNC(TO_DATE(#{ thisDay }), 'DY'),
+									3, TRUNC(TO_DATE(#{ thisDay }), 'MM')) AS "ST_DATE",
+			                 DECODE(#{ periodType },
+			                 		1, TRUNC(TO_DATE(#{ thisDay })),
+			                 		2, TRUNC(TO_DATE(#{ thisDay }), 'DY') + 6,
+			                 		3, LAST_DAY(TRUNC(TO_DATE(#{ thisDay })))) + 0.99999 AS "END_DATE"
+			          FROM DUAL )
+			SELECT ST_DATE, END_DATE, STUDYGROUP_CODE, MEMBER_CODE, MEMBER_NICKNAME,
+			       MEM_PERIOD_TOTAL, MEM_FULFILL_STATUS, FILES_NAME
+			FROM ( SELECT P.ST_DATE, P.END_DATE, STUDYGROUP_CODE, MEMBER_CODE,
+			              NVL(MEM_PERIOD_TOTAL, 0) AS "MEM_PERIOD_TOTAL",
+			              NVL(DECODE(SIGN(MEM_PERIOD_TOTAL - STUDYGROUP_GOALTIME), 1, 1, 0, 1, -1, 0), 0) AS "MEM_FULFILL_STATUS"
+			       FROM ( SELECT STUDYGROUP_CODE, MEMBER_CODE FROM JOINGROUP
+			              WHERE ( TRUNC(JOINGROUP_ENROLLDATE) <= TRUNC(TO_DATE(#{ thisDay }))
+			              	  		AND TRUNC(JOINGROUP_DELETEDATE) >= TRUNC(TO_DATE(#{ thisDay }))
+			                  OR (TRUNC(JOINGROUP_ENROLLDATE) <= TRUNC(TO_DATE(#{ thisDay })))
+			                  		AND JOINGROUP_STATUS = 0 )
+			              AND STUDYGROUP_CODE = #{ grCode }
+			              GROUP BY STUDYGROUP_CODE, MEMBER_CODE )
+			       LEFT JOIN( SELECT ST_DATE, END_DATE, STUDYGROUP_CODE, MEMBER_CODE,
+			       					 SUM(STUDYTIME_STUDYTIME) AS "MEM_PERIOD_TOTAL"
+			                  FROM STUDYTIME, ( SELECT * FROM DATE_PERIOD )
+			                  WHERE STUDYGROUP_CODE = #{ grCode } AND STUDYTIME_DIVISION = 1
+			                  AND STUDYTIME_DATE BETWEEN ST_DATE AND END_DATE
+			                  GROUP BY ST_DATE, END_DATE, STUDYGROUP_CODE, MEMBER_CODE ) USING(STUDYGROUP_CODE, MEMBER_CODE),
+			     ( SELECT STUDYGROUP_GOALTIME FROM STUDYGROUP WHERE STUDYGROUP_CODE = #{ grCode } ),
+			     ( SELECT * FROM DATE_PERIOD ) P )
+			JOIN ( SELECT MEMBER_CODE, MEMBER_NICKNAME, FILES_NAME
+			       FROM MEMBER
+			       JOIN FILES USING(MEMBER_CODE) ) USING(MEMBER_CODE)
+			ORDER BY MEM_PERIOD_TOTAL DESC, MEMBER_NICKNAME ASC
+		]]>
 	</select>
 	
 </mapper>

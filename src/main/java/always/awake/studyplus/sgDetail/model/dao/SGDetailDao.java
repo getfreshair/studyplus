@@ -1,5 +1,6 @@
 package always.awake.studyplus.sgDetail.model.dao;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,6 +31,9 @@ public interface SGDetailDao {
 	HashMap<String, Object> selectChangeDatesInfo(SqlSessionTemplate sqlSession, int changeDates);
 
 	HashMap<String, Object> selectChangeMonthsInfo(SqlSessionTemplate sqlSession, int changeMonths);
+
+//	List<HashMap<String, Object>> selectGroupMemberRankList(SqlSessionTemplate sqlSession,
+//															int grCode, Date date, int periodType);
 
 
 

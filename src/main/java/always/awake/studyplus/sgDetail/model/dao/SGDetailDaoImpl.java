@@ -56,7 +56,7 @@ public class SGDetailDaoImpl implements SGDetailDao{
 
 	@Override
 	public List<HashMap<String, Object>> selectGroupMemberList(SqlSessionTemplate sqlSession, int grCode) {
-		return sqlSession.selectList("selectGroupMemberList", grCode);
+		return sqlSession.selectList("SGDetail.selectGroupMemberList", grCode);
 	}
 
 	@Override
@@ -87,5 +87,16 @@ public class SGDetailDaoImpl implements SGDetailDao{
 	public HashMap<String, Object> selectChangeMonthsInfo(SqlSessionTemplate sqlSession, int changeMonths) {
 		return sqlSession.selectOne("SGDetail.selectChangeMonthsInfo", changeMonths);
 	}
+
+/*	@Override
+	public List<HashMap<String, Object>> selectGroupMemberRankList(SqlSessionTemplate sqlSession, int grCode,
+																				String date, int periodType) {
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		
+		hm.put("grCode", grCode);
+		hm.put("thisDay", date);
+		hm.put("periodType", periodType);
+		return sqlSession.selectList("SGDetail.selectGroupMemberRankList", hm);
+	}*/
 	
 }

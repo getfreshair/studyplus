@@ -93,7 +93,7 @@
 	.centerContent { width:48.7%; margin-right:0.3%; border-right:1px solid gray; }
 	
 	/* 실시간 채팅 영역 */	
-	.rightContent { width:24%; height : 500px; padding : 20px 5px 0px 5px !important;}
+	.rightContent { width:24%; }
 </style>
 	
 <!-- /*	공통 요소 속성 */ -->
@@ -363,15 +363,6 @@
 //  		selectGrMemList(grCode, loginUserCode);
 		selectGrMemRankList(grCode);
  		
-			$.ajax({
-			url : "${contextPath}/web/groupChat.groupSocket",
-			type : "GET",
-			success : function(data){
-
-				$(".rightContent").empty();
-				$(".rightContent").append(data);
-			}
-		});
 	});
 </script>
 
@@ -405,9 +396,11 @@
 		console.log("dayPick : " + dayPick + " / " + "monthPick : " + monthPick);
 		
 		selectDay();
+		
+		console.log("날짜값 받아왔어 이제 리스트 뿌릴거야");
  		
-/* 		$.ajax({
-			url:"selectGrMemRankPage.sgd",
+ 		$.ajax({
+			url:"selectGroupMemberRankList.sgd",
 			data : { grCode : grCode, thisDay : thisDay,
 					 dayPick : dayPick, monthPick : monthPick },
 			type : "POST",
@@ -416,7 +409,7 @@
  				$('#leftIncludeArea').empty();
 				$('#leftIncludeArea').append(data);
 			}
-		}); */
+		});
 	};
 </script>
 
@@ -437,8 +430,9 @@
 	
 	var changeDates = 0;
 	var changeMonths = 0;
-
+	var thisDay = 0;
 	var grStDate = '${gr.studyGroup_StDate}';
+	
 	function selectDateByPeriod(){
 		if(monthPick == 0 && dayPick != 0){
 			changeDates = changeCnt * dayPick;
@@ -447,7 +441,7 @@
 		}
 
 		console.log("selectDateByPeriod => ");
-// 		console.log("thisDay => " + thisDay);
+		console.log("thisDay => " + thisDay);
 		console.log("changeDates : " + changeDates + " / " + "changeCnt : " + changeCnt + " / ");
 		console.log("dayPick : " + dayPick + " / " + "monthPick : " + monthPick);
 
@@ -459,6 +453,7 @@
 			
 			success:function(data) {
 				console.log(data);
+				thisDay = data.selectDate.THIS_DAY + "";
 				
 				$('#thisDay').text(data.selectDate.THIS_DAY);
 				$('#thisWeek').text(data.selectDate.THIS_WEEK);
@@ -466,8 +461,10 @@
 				$('#weekNum').text(data.selectDate.WEEK_NUM);
 				
 				console.log("에이작스 결과 =>");
+				console.log("thisDay : " + thisDay);
 				console.log("changeDates : " + changeDates + " / " + "changeCnt : " + changeCnt + " / ");
 				console.log("dayPick : " + dayPick + " / " + "monthPick : " + monthPick);
+				
 			}
 		});
 	}
@@ -495,8 +492,11 @@
 				changeCnt += 1;
 			}
 		}
-				
-		selectDateByPeriod();
+		//** 중요 (nextBtn도)
+// 		그래프영역, 좌측 하단 메뉴 영역 별로 번호 정하고 해당 번호 저장하는 변수 값에 따라 호출하는 함수 달리하기
+// 		if("랭킹리스트 호출 하는 함수 부를 때 실행시키기"){
+			selectDateByPeriod();
+// 		}		
 	});
 	
 	$(".nextBtn").click(function(){

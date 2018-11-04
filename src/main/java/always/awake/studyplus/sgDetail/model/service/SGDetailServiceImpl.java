@@ -84,4 +84,10 @@ public class SGDetailServiceImpl implements SGDetailService{
 		return selectChangeDates;
 	}
 
+/*	@Override
+	public List<HashMap<String, Object>> selectGroupMemberRankList(int grCode, String date, int periodType) {
+		List<HashMap<String, Object>> list = gd.selectGroupMemberRankList(sqlSession, grCode, date, periodType);
+		return list;
+	}*/
+
 }

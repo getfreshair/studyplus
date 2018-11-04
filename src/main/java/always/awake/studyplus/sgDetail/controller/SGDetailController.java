@@ -1,5 +1,6 @@
 package always.awake.studyplus.sgDetail.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -177,21 +178,37 @@ public class SGDetailController {
 		return mv;
 	}
 	
-	/*	@RequestMapping("selectGrMemRankPage.sgd")
-	public ModelAndView selectGrMemRankPage(@RequestParam int grCode, @RequestParam String thisDay,
+		@RequestMapping("selectGroupMemberRankList.sgd")
+	public ModelAndView selectGroupMemberRankList(@RequestParam int grCode, @RequestParam String thisDay,
 												@RequestParam int dayPick, @RequestParam int monthPick, ModelAndView mv) {
 		try {
+			int periodType = 0;
+			
+			if(dayPick == 1) { periodType = 1; }
+			else if(dayPick == 7) { periodType = 2; }
+			else if(monthPick == 1) { periodType = 3; }
+			
+			java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy. MM. dd"); 
+			Date date = dateFormat.parse(thisDay);
+			
 			System.out.println("페이지 여는 컨트롤러 왔어");
-			System.out.println(grCode + " / " + thisDay + " / " + dayPick + " / " + monthPick);
+			System.out.println(periodType + " / " + grCode + " / " + date + " / " + dayPick + " / " + monthPick);
+			
+//			List<HashMap<String, Object>> list = gs.selectGroupMemberRankList(grCode, date, periodType);
+			
+			/*System.out.println("쿼리 실행 결과-컨트롤러 : < " +  list + " >");
+			mv.addObject("list", list);*/
+//			mv.addObject("loginUserCode", loginUserCode);
+			
+			mv.setViewName("studyGroupDetail/leftGroupListArea");
+			System.out.println("MV : < " + mv + " >");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		
-		mv.setViewName("studyGroupDetail/leftGroupStudyTimeRank");
 		return mv;
-	}*/
+	}
 	
 	
 }
