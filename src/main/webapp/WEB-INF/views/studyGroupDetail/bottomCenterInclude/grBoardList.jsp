@@ -20,7 +20,7 @@
 						margin-bottom:10px; text-align:right; }
 	  .boardFilterBtn { padding:0px 5px; font-size:15px; }
 	  
-  .boardListWrap { width:100%; display:inline-block; overflow-y:auto; height:100%; max-height:590px; min-height:480px }
+  .boardListWrap { width:100%; display:inline-block; overflow-y:scroll; height:100%; max-height:590px; min-height:480px }
 	.boardListArea { width:521.7px; }
       
       .boardOneWrap { background:mistyrose; width:100%; border-radius:15px; padding:20px; margin-bottom:10px; }
@@ -34,15 +34,16 @@
 		  .boardContentPreview { width:100%; height:100%; overflow:hidden; }
 			.scrollBlind { width:105%; height:100%; max-height:130px; min-height:20px; overflow-y:scroll; padding-right:5px; }
 			.contentPreArea { cursor:pointer !important; font-size:13px; text-align:left; }
-  	   .bottomLine { border-bottom:1px solid gray; margin:5px 0px; }
-  	   .boardStatus { text-align:left; padding:0px 10px; }	  
-  	     .boardStatus img { width:20px; height:20px; cursor:pointer; vertical-align:top; }	  
-  	     .reactCnt { margin-right:5px; vertical-align:text-bottom; cursor:default; font-size:13px; }	  
+  	   .boardBottomStatusWrap { width:100%; }
+  	     .bottomLine { border-bottom:1px solid gray; margin:5px 0px; }
+  	     .boardStatus { text-align:right; padding:0px 10px; }	  
+  	       .boardStatus img { width:25px; height:25px; cursor:pointer; vertical-align:top; }	  
+  	       .reactCnt { margin-right:5px; vertical-align:text-bottom; cursor:default; font-size:13px; }	  
 </style>
 
 <style>
 	.modalWrap { width:100%; height:100%; position:absolute; left:0px; top:0px; display:none; }
-	  .settingArea { z-index:300; position:relative; top:15%; }
+	  .settingArea { z-index:300; position:relative; top:25%; }
 </style>
 
 </head>
@@ -105,13 +106,15 @@
 								</div>
 							</div>
 						</div>
-						<hr class="bottomLine">
-						<div class="boardStatus">
-							<img src="${ contextPath }/resources/images/studyGroupDetail/heartEmpty.png" />
-<%-- 							<img src="${ contextPath }/resources/images/studyGroupDetail/heartFull.png" /> --%>
-							<strong class="reactCnt">3</strong>
-							<img src="${ contextPath }/resources/images/studyGroupDetail/reply.png" />
-							<strong class="reactCnt">3</strong>
+						<div class="boardBottomStatusWrap">
+							<hr class="bottomLine">
+							<div class="boardStatus">
+								<img src="${ contextPath }/resources/images/studyGroupDetail/heartEmpty.png" />
+	<%-- 							<img src="${ contextPath }/resources/images/studyGroupDetail/heartFull.png" /> --%>
+								<strong class="reactCnt">3</strong>
+								<img src="${ contextPath }/resources/images/studyGroupDetail/reply.png" />
+								<strong class="reactCnt">3</strong>
+							</div>
 						</div>
 					</div>
 					

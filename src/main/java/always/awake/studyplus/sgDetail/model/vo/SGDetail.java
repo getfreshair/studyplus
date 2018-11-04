@@ -6,7 +6,7 @@ import java.sql.Date;
 public class SGDetail implements Serializable {
 
 	private int studyGroup_Code; // 그룹코드
-	private int lederMem_Code; //그룹장 코드
+	private int leaderMem_Code; //그룹장 코드
 	private int member_Code; // 그룹장코드 / 로그인유저 코드
 	private String member_NickName; // 그룹장닉네임
 	private String studyGroup_Name; // 그룹명
@@ -38,7 +38,7 @@ public class SGDetail implements Serializable {
 	
 	public SGDetail() {	}
 
-	public SGDetail(int studyGroup_Code, int lederMem_Code, int member_Code, String member_NickName,
+	public SGDetail(int studyGroup_Code, int leaderMem_Code, int member_Code, String member_NickName,
 			String studyGroup_Name, int location_Code, String location_Name, int studyGroup_GoalTime,
 			int studyGroup_MaxNum, String studyGroup_Intro, Date studyGroup_StDate, int studyGroup_Status,
 			Date studyGroup_EdDate, int category_Code, String category_Name, int studyGroup_OpenStatus,
@@ -47,7 +47,7 @@ public class SGDetail implements Serializable {
 			int gr_Fulfill_Mem_Cnt, int gr_Week_Fulfill_Ratio) {
 		super();
 		this.studyGroup_Code = studyGroup_Code;
-		this.lederMem_Code = lederMem_Code;
+		this.leaderMem_Code = leaderMem_Code;
 		this.member_Code = member_Code;
 		this.member_NickName = member_NickName;
 		this.studyGroup_Name = studyGroup_Name;
@@ -84,12 +84,12 @@ public class SGDetail implements Serializable {
 		this.studyGroup_Code = studyGroup_Code;
 	}
 
-	public int getLederMem_Code() {
-		return lederMem_Code;
+	public int getLeaderMem_Code() {
+		return leaderMem_Code;
 	}
 
-	public void setLederMem_Code(int lederMem_Code) {
-		this.lederMem_Code = lederMem_Code;
+	public void setLeaderMem_Code(int leaderMem_Code) {
+		this.leaderMem_Code = leaderMem_Code;
 	}
 
 	public int getMember_Code() {
@@ -302,7 +302,7 @@ public class SGDetail implements Serializable {
 
 	@Override
 	public String toString() {
-		return "SGDetail [studyGroup_Code=" + studyGroup_Code + ", lederMem_Code=" + lederMem_Code + ", member_Code="
+		return "SGDetail [studyGroup_Code=" + studyGroup_Code + ", leaderMem_Code=" + leaderMem_Code + ", member_Code="
 				+ member_Code + ", member_NickName=" + member_NickName + ", studyGroup_Name=" + studyGroup_Name
 				+ ", location_Code=" + location_Code + ", location_Name=" + location_Name + ", studyGroup_GoalTime="
 				+ studyGroup_GoalTime + ", studyGroup_MaxNum=" + studyGroup_MaxNum + ", studyGroup_Intro="

@@ -12,20 +12,17 @@
 <title>Insert title here</title>
 
 <style>
- 	  .memberOneWrapArea { width:263px; }
-		.memberInfo3 { margin:10px 0px; width:100%; }
-		  .memberInfo3 td { padding-left:7px; text-align:left; }
-		   .emptyZone { width:50px; }
-		   .emptyZone div { width:100%; }
-		   .dayMenu	{ width:30px; font-size:9px; line-height:1.2; word-break:break-all; padding-left:2px !important; text-align:center !important; cursor:default; }
-		   .profImg { width:50px; height:50px; overflow-y:hidden; border-radius:50%; }
-		  	.profImg img { width:100%; }
-		   .nickName	{ width:105px; height:50%; font-size:12.5px; line-height:1.2; word-break:break-all; }
-/* 		    .nickName strong { vertical-align:super; } */
-		    .timeStickTbl td { padding-left:3px; }
-		    .timeStickTbl table { width:100%; }
- 		    .memberTimeAera { width:100%; padding:1.5px 0px; text-align:center; background:lawngreen; border-radius:3px; }
- 			.memberTimeTotal{ /* z-index:999; width:100%; height:100%; */ letter-spacing:-0.4px; font-size:7px; font-weight:bold; }	
+	/*	그룹원 리스트 - 회원 표시 영역 -> 메인에 작성 */
+  .memberOneWrapArea { width:263px; }
+	.memberInfo3 { margin:10px 0px; width:100%; }
+	  .memberInfo3 td { padding-left:7px; text-align:left; }
+	   .emptyZone { width:50px; }
+	   .emptyZone div { width:100%; }
+	   .dayMenu	{ width:30px; font-size:9px; line-height:1.2; word-break:break-all; padding-left:2px !important; text-align:center !important; cursor:default; }
+	    .timeStickTbl td { padding-left:3px; }
+	    .timeStickTbl table { width:100%; }
+		    .memberTimeAera { width:100%; padding:1.5px 0px; text-align:center; background:lawngreen; border-radius:3px; }
+			.memberTimeTotal{ /* z-index:999; width:100%; height:100%; */ letter-spacing:-0.4px; font-size:7px; font-weight:bold; }	
 </style>
 
 </head>
@@ -39,7 +36,7 @@
 					<tr>
 						<td><div class="emptyZone"><div></div></div></td>					
 						<td class="dayMenu"><strong>SUN</strong></td>
-						<td class="dayMenu"><strong>MON</strong></td>
+						<td class="dayMenu" style="letter-spacing:-1px;"><strong>MON</strong></td>
 						<td class="dayMenu"><strong>TUE</strong></td>
 						<td class="dayMenu"><strong>WED</strong></td>
 						<td class="dayMenu"><strong>THU</strong></td>

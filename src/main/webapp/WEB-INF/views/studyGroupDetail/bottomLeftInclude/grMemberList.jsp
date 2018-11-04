@@ -43,7 +43,7 @@
 						  <c:if test="${i.LEADER_CODE == i.MEMBER_CODE}">
 <%-- 						  <c:if test="${grMemList[i].LEADER_CODE == grMemList[i].MEMBER_CODE}"> --%>
 							<div class="rankImg">
-								<img width="100%" src="${ contextPath }/resources/upload/studygroup/thumbnail/medal.png" />
+								<img width="100%" src="${ contextPath }/resources/images/studyGroupDetail/grLeader.png" />
 							</div>
 						  </c:if>							
 							<div class="profImg">
