@@ -61,12 +61,12 @@
 
 			loginFriends = loginFriends + 1; 
 			$('.loginFriends').text(loginFriends);
-			$('#status' + msg.substr(0, msg.indexOf(":"))).removeClass('status').addClass('status.on');
+			$('#status' + msg.substr(0, msg.indexOf(":"))).addClass('on');
 		} else if(msg.substr(msg.indexOf(":")+1, msg.length) == '퇴장'){ // 친구 퇴장 시 접속 친구 감소
 			
 			loginFriends = loginFriends - 1; 
 			$('.loginFriends').text(loginFriends);
-			$('#status' + msg.substr(0, msg.indexOf(":"))).removeClass('status.on').addClass('status');
+			$('#status' + msg.substr(0, msg.indexOf(":"))).removeClass('on');
 		} else if(msg.substr(msg.indexOf(":")+1, msg.length) == '초기'){ //  로그인 시 접속 친구 파악 프로세스
 			
 			loginFriends = msg.substr(0, msg.indexOf("/"));
@@ -116,7 +116,7 @@
 									'<table style="margin-top : 10px;">'
 											+ '<tr><td rowspan="2" style="vertical-align: text-top; display: table-cell;">'
 											+ '<div class="msgImgArea">'
-											+ '<img class="chatProfile" src="/studyplus/resources/images/studyGroup/img_plus.png" style="width : 30px; height : 100px; border-radius : 50%; width:100%;">'
+											+ '<img class="chatProfile" src="/studyplus/resources/images/studyGroup/img_plus.png" style="width : 30px; border-radius : 50%; width:100%;">'
 											+ '</div></td>'
 											+ '<td><div class="nicknameArea">'
 											+ msg.substr(0, msg.indexOf(":"))
@@ -147,7 +147,7 @@
 						async: false,
 						success : function(data){
 							
-							$('.chatProfile').attr("src", "/studyplus/resources/upload/member/thumnail/" + data);
+							$('.chatProfile').attr("src", "/studyplus/resources/upload/member/thumbnail/" + data);
 						}
 					});
 				}

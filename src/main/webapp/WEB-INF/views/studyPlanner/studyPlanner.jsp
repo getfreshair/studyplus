@@ -300,12 +300,29 @@
 
 															$li.append( 
 																	'<span class="friendList' + eachFriendMemberNickname + ' eachUndreadMsg" style="display:inline-block; background : red; color : white; width : 30px; height : 21px; border-radius : 30px; margin-left : 5%; position : absolute; right : 30px; top : 8px; text-align : center;">' +
-																	+ data + '</span>'
-																	+ '<span id="status'+  eachFriendMemberNickname  +'"class="status"></span>');
+																	+ data + '</span>');
 														}
 														
 													});
 													
+													$.ajax({
+														url : "friendStatus.ms",
+														type : "POST",
+														data : {
+															eachFriendMemberCode : eachFriendMemberCode
+														},
+														async : false,
+														success : function(data){
+															
+															if(data == 0){
+																
+																$li.append('<span id="status'+  eachFriendMemberNickname  +'"class="status"></span>');
+															}else{
+																
+																$li.append('<span id="status'+  eachFriendMemberNickname  +'"class="status on"></span>');
+															}
+														}
+													});
 													$('#friendsList').append($li);
 													
 													$('.nameClass' + i).click(function(){
@@ -332,7 +349,31 @@
 																		}
 																});
 																
-																for(var i=0; i<data.length ;i++){
+																var year = '0';
+																var month = '0';
+																var date = '0';
+																var day = '0';
+																
+																for(var i=0; i<data.length; i++){
+																	
+																	var msg_year = data[i].message_send_date.substring(0, 4);
+																	var msg_month = data[i].message_send_date.substring(5, 7);
+																	var msg_date = data[i].message_send_date.substring(8, 10);
+																	var msg_day = data[i].message_send_date.substring(11, 14);
+																	
+																	if(year != msg_year || month != msg_month || date != msg_date || day != msg_day){
+																		
+																		year = msg_year;
+																		month = msg_month;
+																		date = msg_date;
+																		day = msg_day;
+																	
+																	
+																		$('#chatMessageArea').append('<div style="position:relative">'
+																								+ '<div style="position:absolute; margin-top:-7px; margin-left:38%; background:white; text-align:center; font-size : 7px;">' + year + "년 " + month + "월 " + date + "일 " + day + '</div>'
+																								+ '<hr>'
+																								+ '</div>');
+																	}
 																	
 																	if(data[i].sender_nickName == '${loginUser.member_Nickname}'){
 																		$('#chatMessageArea').append(
@@ -340,8 +381,9 @@
 																				'<table style="margin-top : 10px; float:right;">'
 																						+ '<tr><td>'
 																						+ '<div class="dateArea">'
-																						+ data[i].message_send_date
-																						+ '분</div>' 
+																						+ data[i].message_send_date.substring(15, 17) + '시'
+																						+ data[i].message_send_date.substring(18, 20) + '분' 
+																						+ '</div>' 
 																						+ '<div class="msgArea" style="background : #fde09a;">'
 																						+ data[i].message_content
 																						+ '</div>' 
@@ -362,8 +404,9 @@
 																						+ '<div class="msgArea">'
 																						+ data[i].message_content
 																						+ '</div>' + '<div class="dateArea">'
-																						+ data[i].message_send_date
-																						+ '분</div>' + '</td></tr>');
+																						+ data[i].message_send_date.substring(15, 17) + '시'
+																						+ data[i].message_send_date.substring(18, 20) + '분' 
+																						+ '</div>' + '</td></tr>');
 																	}
 																}
 																var chatAreaHeight = $('#chatArea').height();

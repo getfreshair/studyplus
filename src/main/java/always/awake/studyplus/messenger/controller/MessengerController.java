@@ -29,8 +29,7 @@ public class MessengerController {
 	
 	@RequestMapping(value="openChat.ms")
 	public ModelAndView openChat(@RequestParam("member1_Nickname")String member1_Nickname, @RequestParam("member2_Nickname")String member2_Nickname, ModelAndView mv){
-		System.out.println(member1_Nickname + ", " + member2_Nickname);
-		
+
 		mv.addObject("member1_Nickname", member1_Nickname);
 		mv.addObject("member2_Nickname", member2_Nickname);
 
@@ -39,7 +38,7 @@ public class MessengerController {
 	}
 	
 	@RequestMapping(value="selectMessageList.ms")
-	public @ResponseBody List<Object> selectMessageList(@RequestParam int member_Code, @RequestParam String receiverNickName,
+	public @ResponseBody List<Object> selectMessageList(@RequestParam int member_Code, String receiverNickName,
 			HttpServletResponse response){
 		
 		List<Object> messageList = ms.selectMessageList(member_Code, receiverNickName);
@@ -48,7 +47,7 @@ public class MessengerController {
 	}
 	
 	@RequestMapping(value="insertMessage.ms")
-	public @ResponseBody int insertMessage(@RequestParam String msg_content, @RequestParam String sender_member_nickname, @RequestParam int receiver_member_code,
+	public @ResponseBody int insertMessage(@RequestParam String msg_content, String sender_member_nickname, int receiver_member_code,
 			@RequestParam int status, @RequestParam int type) {
 		
 		ms.insertMessage(msg_content, sender_member_nickname, receiver_member_code, status, type);
@@ -65,7 +64,7 @@ public class MessengerController {
 	}
 	
 	@RequestMapping(value="unreadToRead.ms")
-	public @ResponseBody int unreadToRead(@RequestParam int member_Code, @RequestParam String receiverNickName) {
+	public @ResponseBody int unreadToRead(@RequestParam int member_Code, String receiverNickName) {
 		
 		int updateCount = ms.unreadToRead(member_Code, receiverNickName);
 		
@@ -86,5 +85,19 @@ public class MessengerController {
 		String imgName = ms.selcectMemberProfile(member_Nickname);
 		
 		return imgName;
+	}
+	
+	@RequestMapping(value="friendStatus.ms")
+	public @ResponseBody int friendStatus(@RequestParam int eachFriendMemberCode) {
+		
+		int status = ms.friendStatus(eachFriendMemberCode);
+		
+		return status;
+	}
+	
+	@RequestMapping(value="logoutStatus.ms")
+	public @ResponseBody void logutStatus(@RequestParam int member_Code) {
+		
+		ms.updateMemberStatusOut(member_Code);
 	}
 }

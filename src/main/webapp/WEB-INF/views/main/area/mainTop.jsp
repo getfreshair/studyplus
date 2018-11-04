@@ -23,7 +23,7 @@
 			<c:forEach var="list" items="${sessionScope.loginUser.category_Name}" end="${fn:length(sessionScope.loginUser.category_Name)}" begin="0">
 				${list.category_Name}
 			</c:forEach>
-			<button onclick="location.href='logout.me'">로그아웃</button>
+			<button onclick="logoutStatus.ms">로그아웃</button>
 		</c:when>
 	</c:choose>
 </body>

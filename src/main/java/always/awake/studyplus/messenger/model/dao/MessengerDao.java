@@ -27,4 +27,10 @@ public interface MessengerDao {
 	int selectEachUnreadMessage(SqlSessionTemplate sqlSession, int member_Code, int eachFriendMemberCode);
 
 	String selcectMemberProfile(SqlSessionTemplate sqlSession, String member_Nickname);
+
+	void updateMemberStatus(SqlSessionTemplate sqlSession, int member_Code);
+
+	void updateMemberStatusOut(SqlSessionTemplate sqlSession, int member_Code);
+
+	int friendStatus(SqlSessionTemplate sqlSession, int eachFriendMemberCode);
 }
