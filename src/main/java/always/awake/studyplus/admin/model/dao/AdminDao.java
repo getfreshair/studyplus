@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
+import always.awake.studyplus.admin.model.vo.Banner;
 import always.awake.studyplus.admin.model.vo.DispauseBoard;
 import always.awake.studyplus.admin.model.vo.Member;
 
@@ -73,5 +74,11 @@ public interface AdminDao {
 
 
 	List<Map<String, Object>> getGroupBoardList(SqlSessionTemplate sqlSession, Map<String, Object> map);
+
+
+	int updateBoardStatus(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
+
+	int insertCPP(SqlSessionTemplate sqlSession, Banner b, String originFileName, String changeName);
 
 }

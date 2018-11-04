@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import always.awake.studyplus.admin.model.dao.AdminDao;
+import always.awake.studyplus.admin.model.vo.Banner;
 import always.awake.studyplus.admin.model.vo.DispauseBoard;
 import always.awake.studyplus.admin.model.vo.Member;
 import always.awake.studyplus.admin.model.vo.PageInfo;
@@ -145,6 +146,17 @@ public class AdminServiceImpl implements AdminService{
 	public List<Map<String, Object>> getGroupBoardList(Map<String, Object> map) {
 
 		return ad.getGroupBoardList(sqlSession, map);
+	}
+
+	@Override
+	public int updateBoardStatus(HashMap<String, Object> map) {
+		return ad.updateBoardStatus(sqlSession, map);
+	}
+
+	@Override
+	public int insertCPP(Banner b, String originFileName, String changeName) {
+
+		return ad.insertCPP(sqlSession, b, originFileName, changeName);
 	}
 
 	

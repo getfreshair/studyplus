@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import always.awake.studyplus.admin.model.vo.Banner;
 import always.awake.studyplus.admin.model.vo.DispauseBoard;
 import always.awake.studyplus.admin.model.vo.Member;
 import always.awake.studyplus.admin.model.vo.PageInfo;
@@ -48,4 +49,8 @@ public interface AdminService {
 	public int getGroupBoardListCount(Map<String, Object> map);
 
 	public List<Map<String, Object>> getGroupBoardList(Map<String, Object> map);
+
+	public int updateBoardStatus(HashMap<String, Object> map);
+
+	public int insertCPP(Banner b, String originFileName, String changeName);
 }
