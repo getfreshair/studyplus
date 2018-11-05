@@ -142,6 +142,31 @@
 		WHERE GROUPBOARD_CODE = #{code}
 	</update>
 	
+	<update id="updateCPP">
+		UPDATE PR SET PR_TITLE = #{b.pr_Title}, PR_LINK = #{b.pr_Link} , PR_CONTRACTMONEY = #{b.pr_Contractmoney}
+		WHERE PR_CODE = #{b.pr_Code}
+	</update>
+	
+	<update id="updateCPPImg">
+		UPDATE FILES SET FILES_ORIGINNAME = #{originFileName}, FILES_NAME = #{changeName}
+		WHERE PR_CODE = #{b.pr_Code}
+	</update>
+	
+	<update id="updateCPC">
+		UPDATE PR SET PR_TITLE = #{b.pr_Title}, PR_LINK = #{b.pr_Link} , PR_CONTRACTMONEY = #{b.pr_Contractmoney}
+		WHERE PR_CODE = #{b.pr_Code}
+	</update>
+	
+	<update id="updateCPCImg">
+		UPDATE FILES SET FILES_ORIGINNAME = #{originFileName}, FILES_NAME = #{changeName}
+		WHERE PR_CODE = #{b.pr_Code}
+	</update>
+	
+	<update id="deletePR">
+		UPDATE PR SET PR_STATUS = 2
+		WHERE PR_CODE = #{code} 
+	</update>
+	
 	<select id="getPenaltyList" parameterType="map" resultType="hashmap">
 		SELECT M.MEMBER_CODE, M.MEMBER_ID, M.MEMBER_STATUS, B.BLOCK_CODE,
 		  		B.BLOCK_STARTDATE, B.BLOCK_ENDDATE, B.BLOCK_REASON, B.BLOCK_STATUS
@@ -348,5 +373,31 @@
 		FROM PR
 		JOIN FILES USING(PR_CODE)
 		WHERE PR_CODE = #{prCode}
+	</select>
+	
+	
+	<select id="searchPRList" parameterType="map" resultType="map">
+		SELECT PR_CODE,PR_COMPANY,PR_TITLE,PR_LINK,PR_ORDER,PR_TYPE,
+				PR_CONTRACTMONEY,CATEGORY_CODE, PR_STATUS, TO_CHAR(PR_STARTDATE,'yyyymmdd') AS PR_STARTDATE, TO_CHAR(PR_ENDDATE,'yyyymmdd')AS PR_ENDDATE,
+				FILES_CODE,FILES_BOARDTYPE,FILES_ORIGINNAME,FILES_NAME,
+				FILES_ENROLLDATE,FILES_STATUS,FILES_DELETEDATE, CATEGORY_NAME
+		FROM PR
+		JOIN FILES USING(PR_CODE)
+		JOIN CATEGORY USING(CATEGORY_CODE)
+		WHERE 1=1
+		<if test='keyword neq ""'>
+			AND (PR_COMPANY LIKE '%' || #{keyword} || '%' 
+			OR PR_TITLE LIKE '%' || #{keyword} || '%'
+			OR PR_LINK LIKE '%' || #{keyword} || '%')
+		</if>
+		<if test='option neq "전체"'>
+			AND CATEGORY_NAME = #{option}
+		</if>
+		<if test='createDate1 neq ""'>
+			AND PR_STARTDATE BETWEEN #{createDate1} AND #{createDate2}
+		</if>
+		<if test='createDate2 neq ""'>
+			AND PR_ENDDATE BETWEEN #{createDate1} AND #{createDate2}
+		</if>
 	</select>
 </mapper>

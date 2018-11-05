@@ -93,4 +93,13 @@ public interface AdminDao {
 
 	int updateCPP(SqlSessionTemplate sqlSession, Banner b, String originFileName, String changeName);
 
+
+	int updateCPC(SqlSessionTemplate sqlSession, Banner b, String originFileName, String changeName);
+
+
+	int deletePR(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
+
+	List<Map<String, Object>> searchPRList(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
 }

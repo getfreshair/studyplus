@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+         <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
@@ -22,7 +22,7 @@
 				class="form-control modalContent modalContent1" value="${map[0].PR_COMPANY}" readonly> <label>광고제목</label>
 			<input type="text" name="prTitle"
 				class="form-control modalContent modalContent2" value="${map[0].PR_TITLE }"> <label>URL</label>
-			<input type="text" id="prUrl"
+			<input type="text" name="prUrl"
 				class="form-control modalContent modalContent3"  value="${map[0].PR_LINK}" name=""
 				placeholder=""> <label>이미지</label>
 			<div id="cppImageUpdateArea"
@@ -30,7 +30,7 @@
 				<img id="cppUpdateImage" src="resources/upload/admin/thumbnail/${map[0].FILES_NAME}.png" width="194px" height="194px">
 			</div>
 			<div id="fileArea3">
-				<input type="file" id="cppImageUpdateClick"
+				<input type="file" name="photo" id="cppImageUpdateClick"
 					onchange="loadImg3(this);">
 			</div>
 			<script>
@@ -58,8 +58,9 @@
 				class="form-control modalContent modalContent5" value = "${map[0].PR_STARTDATE}"name="" readonly> <label>광고종료일</label>
 			<input type="text" class="form-control modalContent modalContent6" value = "${map[0].PR_ENDDATE}"
 				name="" readonly > <label>광고금액</label> <input type="text"
-				class="form-control modalContent modalContent7" name="" value="${map[0].PR_CONTRACTMONEY }"
-				placeholder="금액을 입력하세요" readonly>
+				class="form-control modalContent modalContent7" name="prCost" value="${map[0].PR_CONTRACTMONEY }"
+				placeholder="금액을 입력하세요" >
+			<input type="hidden" name = "code" value = "${map[0].PR_CODE }">
 		</div>
 		<div class="modal-footer">
 			<button type="submit" class="btn btn-success" >수정하기</button>
@@ -73,7 +74,7 @@
 		</script>
 	</form>
 			
-							</div>
-						</div>
+	</div>
+</div>
 </body>
 </html>

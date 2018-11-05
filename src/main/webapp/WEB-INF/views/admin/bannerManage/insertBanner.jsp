@@ -60,6 +60,7 @@ th{
 								align="center" name="memberListTable"
 								style="font-size: 14px; text-align: center">
 								<tr class="head">
+									<th width="4%"></th>
 									<th width="5%">광고번호</th>
 									<th width="10%">광고업체명</th>
 									<th width="10%">광고제목</th>
@@ -70,7 +71,9 @@ th{
 								</tr>
 							<c:forEach items="${data}"  var="prList" >
 							  <c:if test="${prList.PR_TYPE eq 0 and (prList.PR_STATUS eq 0 or prList.PR_STATUS eq 1)}">
+								<input type="hidden" id="typeCPP" value="CPP">
 								<tr	data-toggle="modal" data-target="#myModal3">
+								<td><input type="radio" class="chlidCheck1" id ="checkDelete" onclick="event.cancelBubble = true;" value="${prList.PR_CODE}"></td>
 								<td>${prList.PR_CODE}</td>
 								<td>${prList.PR_COMPANY}</td>
 								<td>${prList.PR_TITLE}</td>
@@ -121,7 +124,7 @@ th{
 								style="font-size:14px; margin-bottom:6px; display:inline-block;height:35px;">광고등록</button>
 					<button type="button" id="cppUpdateBtn" class="btn btn-primary" data-toggle="modal" data-target="#myModal3"
 								style="font-size:14px; margin-bottom:6px; display:inline-block;height:35px;margin-left:50px">수정하기</button>
-					<button class="btn btn-warning" id="cppDeleteBtn" name="cppDeleteBtn1" style="margin-bottom:6px; margin-left:50px; 
+					<button class="btn btn-warning" id="cppDeleteBtn" onclick ="deleteCPP();"name="cppDeleteBtn1" style="margin-bottom:6px; margin-left:50px; 
 								font-size:14px; display:inline-block;">삭제하기</button>
 					</div>
 					<script>
@@ -131,12 +134,14 @@ th{
 								}).mouseout(function(){
 									$(this).parents("tr").css({"background":"white"});
 								}).click(function(){
-								    var prCode= $(this).parents().children("td").eq(0).text();
+								    var prCode= $(this).parents().children("td").eq(1).text();
+								    var type = $("#typeCPP").val();
 										console.log(prCode);
 									 	$.ajax({
 											url:"selectPR.do",
 													type:"post",
-													data:{prCode:prCode},
+													data:{prCode:prCode,
+														type:type},
 													success:function(data){
 														console.log(data);
 														$("#myModal3").append(data);
@@ -146,7 +151,24 @@ th{
 													}
 												}) 
 								})
-								})
+							})
+							function deleteCPP(){
+								var prCode = $("#checkDelete").val();
+									console.log("CPP여기오니?"+prCode);
+									$.ajax({
+										url:"deletePR.do",
+										data:{prCode:prCode},
+										success:function(data){
+											console.log(data);
+											location.reload();
+										},
+										error:function(){
+											console.log("에러발생!");
+										}
+									})
+								
+							}
+							
 					</script>
 					</div>
 					<div class="modal fade" id="myModal" role="dialog">
@@ -235,10 +257,9 @@ th{
 					<div class="third-div">
 						<h5>CPC 광고</h5>
 						<div class="table" style="margin-top: 50px; height:300px; overflow:auto;">
-							<table id="memberListTable" class="table table-hover"
-								align="center" name="memberListTable"
+							<table id="CPCTable" class="table table-hover"
 								style="font-size: 14px; text-align: center">
-										<tr class="head">
+								<tr class="head">
 									<th width="4%"></th>
 									<th width="5%">광고번호</th>
 									<th width="10%">광고업체명</th>
@@ -250,11 +271,13 @@ th{
 								</tr>
 							<c:forEach items="${data}"  var="prList" >
 							  <c:if test="${prList.PR_TYPE eq 1 and (prList.PR_STATUS eq 0 or prList.PR_STATUS eq 1)}">
-								<tr>
-								<td><input type="checkbox" class="chlidCheck1" name ="selectBlockCode" value="${prList.PR_CODE}"></td>
+								<input type="hidden" id="typeCPC" value="CPC">
+								<tr	data-toggle="modal" data-target="#myModal4">
+								<td><input type="radio" class="chlidCheck1" id ="checkDelete1" onclick="event.cancelBubble = true;" value="${prList.PR_CODE}"></td>
 								<td>${prList.PR_CODE}</td>
 								<td>${prList.PR_COMPANY}</td>
 								<td>${prList.PR_TITLE}</td>
+								
 								<td><img src="resources/upload/admin/thumbnail/${prList.FILES_NAME}.png" style="height:40px; width:100px;"></td>
 									<c:choose>
 										<c:when test="${prList.CATEGORY_CODE eq 1}">
@@ -302,8 +325,53 @@ th{
 								style="font-size:14px; margin-bottom:6px; display:inline-block;height:35px;">광고등록</button>
 					<button type="button" id="cpcUpdateBtn" class="btn btn-primary" data-toggle="modal" data-target="#myModal4"
 								 style="font-size:14px; margin-bottom:6px; display:inline-block;height:35px;margin-left:50px">수정하기</button>
-					<button class="btn btn-warning" id="cppDeleteBtn" name="cppDeleteBtn1" style="margin-bottom:6px; margin-left:50px; 
+					<button class="btn btn-warning" id="cppDeleteBtn" onclick="deleteCPC();"name="cppDeleteBtn1" style="margin-bottom:6px; margin-left:50px; 
 								font-size:14px; display:inline-block;">삭제하기</button>
+					<script>
+							$(function(){
+								$("#CPCTable").find("td").mouseenter(function(){
+									$(this).parents("tr").css({"background":"lightgray","cursor":"pointer"});
+								}).mouseout(function(){
+									$(this).parents("tr").css({"background":"white"});
+								}).click(function(){
+								    var prCode= $(this).parents().children("td").eq(1).text();
+								    var type = $("#typeCPC").val();
+										console.log(prCode);
+									 	$.ajax({
+											url:"selectPR.do",
+													type:"post",
+													data:{prCode:prCode,
+														  type:type},
+													success:function(data){
+														console.log(data);
+														$("#myModal4").append(data);
+													},
+													error:function(){
+															console.log("에러 발생!");
+													}
+												}) 
+								})
+								})
+									function deleteCPC(){
+									var prCode = $("#checkDelete1").val();
+									console.log("CPP여기오니?"+prCode);
+									$.ajax({
+										url:"deletePR.do",
+										data:{prCode:prCode},
+										success:function(data){
+											console.log(data);
+											location.reload();
+										},
+										error:function(){
+											console.log("에러발생!");
+										}
+									})
+								
+							}
+					</script>
+					
+					
+					
 					<div class="modal fade" id="myModal2" role="dialog">
 						<div class="modal-dialog modal-lg">
 							<div class="modal-content">
@@ -380,68 +448,7 @@ th{
 						</div>
 					</div>
 					<div class="modal fade" id="myModal4" role="dialog">
-						<div class="modal-dialog modal-lg">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h4 class="modal-title">CPC광고등록</h4>
-								</div>
-								<form method="post"
-									action="" onsubmit="return checkModalForm()" name="moform">
-									<div class="modal-body">
-										<label>광고업체명</label> <input type="text" name="prCompany"
-											class="form-control modalContent modalContent1">
-										<label>광고제목</label> <input type="text" name="prTitle"
-											class="form-control modalContent modalContent2">
-										<label>URL</label> <input type="text" id="prUrl"
-											class="form-control modalContent modalContent3"
-											name="" placeholder="">
-										<label>이미지</label>
-										<div id="cpcImageUpdateArea" style="height:200px; width:200px">
-											<img id="cpcUpdateImage" width="200px" height="200px">
-										</div>
-											<div id="fileArea4">
-												<input type="file" id="cpcImageUpdateClick" onchange="loadImg4(this);">
-											</div>
-											<script>
-												$(function(){
-												 	$("#fileArea4").hide();
-												 	
-												 	$("#cpcImageUpdateArea").click(function(){
-												 		$("#cpcImageUpdateClick").click();
-												 	})
-												})
-												function loadImg4(value){
-													 if(value.files && value.files[0]){
-										                  var reader = new FileReader();
-										                 
-										                  reader.onload = function(e){
-										                	  console.log(e);
-										                   		 $("#cpcUpdateImage").attr("src",e.target.result);
-										                		console.log(e.target.result); 
-										                  }
-													 	  reader.readAsDataURL(value.files[0]);
-										            }
-												}
-											</script>
-										<label>광고금액</label> <input type="text"
-											class="form-control modalContent modalContent7" name=""
-											placeholder="금액을 입력하세요">
-									</div>
-									<div class="modal-footer">
-										<button type="submit" class="btn btn-success">추가하기</button>
-										<button type="button" class="btn btn-default"
-											data-dismiss="modal" onclick="cpcImgClose2();">Close</button>
-									</div>
-									<script>
-										function cpcImgClose2(){
-											$("#cpcUpdateImage").removeAttr("src");
-										}
-									
-									</script>
-									
-								</form>
-							</div>
-						</div>
+					
 					</div>
 					</div>
 				</div>

@@ -61,4 +61,10 @@ public interface AdminService {
 	public List<Map<String, Object>> selectPR(HashMap<String, Object> map);
 
 	public int updateCPP(Banner b, String originFileName, String changeName);
+
+	public int updateCPC(Banner b, String originFileName, String changeName);
+
+	public int deletePR(HashMap<String, Object> map);
+
+	public List<Map<String, Object>> searchPRList(HashMap<String, Object> map);
 }

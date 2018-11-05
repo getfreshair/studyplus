@@ -86,6 +86,9 @@
 hr{
 	border-top: 1px solid gray !important;
 }
+th{
+	text-align:center !important;
+}
 </style>
 </head>
 <body>
@@ -124,39 +127,84 @@ hr{
 									<p class="searchCategory">카테고리</p>
 									<select class="form-control" id="searchOption" 
 											style="width:150px; height:50px" >
-										<option value="civilServant">공무원</option>
-										<option value="highSchool">고등학생</option>
-										<option value="certification">자격증</option>
+										<option value="전체">전체</option>
+										<option value="고입">고입</option>
+										<option value="대입">대입</option>
+										<option value="고시">고시</option>
+										<option value="공시">공시</option>
+										<option value="외국어">외국어</option>
+										<option value="취준">취준</option>
+										<option value="자격증">자격증</option>
+										<option value="기타">기타</option>
 									</select>
 								</div>
 							</div>
 					</div>
 					<hr>
 				<button name="memberSearchBtn" id="searchBtn" class="btn btn-primary" style="float:right; margin-top:20px; margin-right:100px; font-size:20px">검색초기화</button>
-				<button name="memberSearchBtn" id="searchBtn" class="btn btn-primary" style="float:right; margin-top:20px; margin-right:40px; font-size:20px">검색하기</button>
+				<button name="memberSearchBtn" id="searchBtn" class="btn btn-primary" onclick="searchPR();"style="float:right; margin-top:20px; margin-right:40px; font-size:20px">검색하기</button>
 				<br><br>
+				<script>
+					function searchPR(){
+						var keyword = $("#searchAll").val();
+						var createDate1 = $("#searchDate1").val();
+						var createDate2 = $("#searchDate2").val();
+						var option = $("#searchOption").val();
+						
+						$.ajax({
+							url:"adminSearchPRList.do",
+							type:"post",
+							data:{keyword:keyword,
+								createDate1:createDate1,
+								createDate2:createDate2,
+								option:option},
+							success:function(data){
+								console.log(data);
+								getPRList(data);
+							},
+							error:function(){
+								console.log("에러 발생!");
+							}
+						})
+						return false;
+					}
+					function getPRList(data){
+						var table = document.querySelector('#PrListTable');
+						html = '<tr class="head">'+
+						'<th width="5%">광고번호</th>'+
+						'<th width="15%">광고업체명</th>'+
+						'<th width="15%">광고이름</th>'+
+						'<th width="10%">광고이미지</th>'+
+						'<th width="5%">카테고리</th>'+
+						'<th width="15%">광고종류</th>'+
+						'<th width="15%">수익</th>'+
+						'<th width="5%">상태</th></tr>'+
+						console.log(data.length);
+						for(var i = 0; i < data.length; i++){
+							console.log("12");
+							html += '<tr><td>'
+									+data[i].PR_CODE+ '</td><td>' + data[i].PR_COMPANY + '</td><td>'
+									+data[i].PR_TITLE + '</td><td><img style="width:100px;height:40px;" src="resources/upload/admin/thumbnail/' + data[i].FILES_NAME +'.png">' +'</td><td>'
+									+data[i].CATEGORY_NAME + '</td><td>' + data[i].PR_TYPE+'</td><td>' + 
+									data[i].PR_CONTRACTMONEY + '</td><td>'	+ data[i].PR_STATUS + '</td></tr>';
+						}
+						table.innerHTML = html;
+				
+					}
+				</script>
 				<div class="table" style="margin-top:50px">
-				<table id="memberListTable" class="table table-hover" align="center" name="memberListTable" style="font-size:14px; text-align:center">
+				<table id="PrListTable" class="table table-hover" style="font-size:14px; text-align:center">
 					<tr class="head">
-						<th width="2%"><input type="checkbox" class="masterCheck"></th>
-						<th width="8%">광고번호</th>
+						<th width="5%">광고번호</th>
 						<th width="15%">광고업체명</th>
+						<th width="15%">광고이름</th>
 						<th width="10%">광고이미지</th>
-						<th width="20%">카테고리</th>
-						<th width="20%">광고종류</th>
+						<th width="5%">카테고리</th>
+						<th width="15%">광고종류</th>
 						<th width="15%">수익</th>
-						<th width="10%">상태</th>
+						<th width="5%">상태</th>
 					</tr>
-					<tr>
-						<td><input type="checkbox" class="masterCheck"></th>
-						<td>1</td>
-						<td>sji1123</td>
-						<td>신재익</td>
-						<td>sji1123@naver.com</td>
-						<td>010-5242-1241</td>
-						<td>2018-10-1</td>
-						<td>공무원</td>
-					</tr>
+					
 				</table>
 				</div>
 				</div>

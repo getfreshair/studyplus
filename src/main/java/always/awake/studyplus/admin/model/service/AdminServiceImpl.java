@@ -182,6 +182,23 @@ public class AdminServiceImpl implements AdminService{
 		return ad.updateCPP(sqlSession, b, originFileName, changeName);
 	}
 
+	@Override
+	public int updateCPC(Banner b, String originFileName, String changeName) {
+		
+		return ad.updateCPC(sqlSession, b, originFileName, changeName);
+	}
+
+	@Override
+	public int deletePR(HashMap<String, Object> map) {
+
+		return ad.deletePR(sqlSession, map);
+	}
+
+	@Override
+	public List<Map<String, Object>> searchPRList(HashMap<String, Object> map) {
+		return ad.searchPRList(sqlSession, map);
+	}
+
 
 	
 	
