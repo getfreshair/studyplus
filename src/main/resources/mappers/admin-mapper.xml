@@ -91,7 +91,26 @@
 	<insert id="insertNotice">
 		INSERT INTO NOTICE(NOTICE_CODE, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_ENROLLDATE, NOTICE_DELETEDATE, NOTICE_STATUS, NOTICE_COUNT, MEMBER_CODE) VALUES(SEQ_NOTICE_NOTICE_CODE.NEXTVAL, #{title}, #{content}, SYSDATE, NULL, 0, 0, #{adminCode})
 	</insert>
+
+	<insert id="insertCPP" parameterType="hashmap" >
+		INSERT INTO PR 
+		VALUES(SEQ_PR_PR_CODE.NEXTVAL, #{b.pr_Company}, #{b.pr_Title}, #{b.pr_Link}, 1,
+		0, #{b.pr_Contractmoney}, #{b.category_Code}, #{b.pr_StartDate}, #{b.pr_EndDate},0)
+	</insert>
+	<insert id="insertFilesCPP" parameterType="hashmap" >
+		INSERT INTO FILES(FILES_CODE, FILES_BOARDTYPE, FILES_ORIGINNAME, FILES_NAME, FILES_ENROLLDATE, FILES_STATUS, FILES_DELETEDATE, PR_CODE) 
+		VALUES(SEQ_FILES_FILES_CODE.NEXTVAL, 3, #{originFileName}, #{changeName}, SYSDATE, 0, NULL, SEQ_PR_PR_CODE.CURRVAL)
+	</insert>
 	
+	<insert id="insertCPC" parameterType="hashmap" >
+		INSERT INTO PR (PR_CODE, PR_COMPANY, PR_TITLE, PR_LINK, PR_ORDER, PR_TYPE, PR_CONTRACTMONEY, CATEGORY_CODE, PR_STATUS)
+		VALUES(SEQ_PR_PR_CODE.NEXTVAL, #{b.pr_Company}, #{b.pr_Title}, #{b.pr_Link}, 0,
+		1, #{b.pr_Contractmoney}, #{b.category_Code},0)
+	</insert>
+	<insert id="insertFilesCPC" parameterType="hashmap" >
+		INSERT INTO FILES(FILES_CODE, FILES_BOARDTYPE, FILES_ORIGINNAME, FILES_NAME, FILES_ENROLLDATE, FILES_STATUS, FILES_DELETEDATE, PR_CODE) 
+		VALUES(SEQ_FILES_FILES_CODE.NEXTVAL, 3, #{originFileName}, #{changeName}, SYSDATE, 0, NULL, SEQ_PR_PR_CODE.CURRVAL)
+	</insert>
 	
 	<update id="penaltyMemberUpdate">
 		UPDATE MEMBER SET MEMBER_STATUS = 3 WHERE MEMBER_CODE = #{code}
@@ -310,5 +329,24 @@
 		AND R.REPLY_CONTENT LIKE '%'||#{keyword}||'%')
 		</if>
 		
+	</select>
+	
+	<select id="getPRList" parameterType="map" resultType="map">
+		SELECT PR_CODE,PR_COMPANY,PR_TITLE,PR_LINK,PR_ORDER,PR_TYPE,
+				PR_CONTRACTMONEY,CATEGORY_CODE, PR_STATUS, TO_CHAR(PR_STARTDATE,'yyyymmdd') as PR_STARTDATE, TO_CHAR(PR_ENDDATE,'yyyymmdd') as PR_ENDDATE,
+				FILES_CODE,FILES_BOARDTYPE,FILES_ORIGINNAME,FILES_NAME,
+				FILES_ENROLLDATE,FILES_STATUS,FILES_DELETEDATE
+		FROM PR
+		JOIN FILES USING(PR_CODE)
+	</select>
+	
+	<select id="selectPR" parameterType="map" resultType="map">
+		SELECT PR_CODE,PR_COMPANY,PR_TITLE,PR_LINK,PR_ORDER,PR_TYPE,
+				PR_CONTRACTMONEY,CATEGORY_CODE, PR_STATUS, PR_STARTDATE, PR_ENDDATE,
+				FILES_CODE,FILES_BOARDTYPE,FILES_ORIGINNAME,FILES_NAME,
+				FILES_ENROLLDATE,FILES_STATUS,FILES_DELETEDATE
+		FROM PR
+		JOIN FILES USING(PR_CODE)
+		WHERE PR_CODE = #{prCode}
 	</select>
 </mapper>

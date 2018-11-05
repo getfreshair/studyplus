@@ -81,4 +81,13 @@ public interface AdminDao {
 
 	int insertCPP(SqlSessionTemplate sqlSession, Banner b, String originFileName, String changeName);
 
+
+	int insertCPC(SqlSessionTemplate sqlSession, Banner b, String originFileName, String changeName);
+
+
+	List<Map<String, Object>> getPRList(SqlSessionTemplate sqlSession);
+
+
+	List<Map<String, Object>> selectPR(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
 }

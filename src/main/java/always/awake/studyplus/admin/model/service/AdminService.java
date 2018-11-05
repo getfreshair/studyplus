@@ -53,4 +53,10 @@ public interface AdminService {
 	public int updateBoardStatus(HashMap<String, Object> map);
 
 	public int insertCPP(Banner b, String originFileName, String changeName);
+
+	public int insertCPC(Banner b, String originFileName, String changeName);
+
+	public List<Map<String, Object>> getPRList();
+
+	public List<Map<String, Object>> selectPR(HashMap<String, Object> map);
 }

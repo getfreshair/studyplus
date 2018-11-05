@@ -5,7 +5,7 @@ import java.sql.Date;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Files implements java.io.Serializable{
-	private MultipartFile userThumbnailImg;
+	private MultipartFile photo;
 	private int files_Code;
 	private int files_BoardType;
 	private String files_OriginName;
@@ -22,11 +22,11 @@ public class Files implements java.io.Serializable{
 		super();
 	}
 
-	public Files(MultipartFile userThumbnailImg, int files_Code, int files_BoardType, String files_OriginName,
-			String files_Name, Date files_EnrollDate, int files_Status, Date files_DeleteDate, int member_Code,
-			int group_Code, int pr_Code, int board_Code) {
+	public Files(MultipartFile photo, int files_Code, int files_BoardType, String files_OriginName, String files_Name,
+			Date files_EnrollDate, int files_Status, Date files_DeleteDate, int member_Code, int group_Code,
+			int pr_Code, int board_Code) {
 		super();
-		this.userThumbnailImg = userThumbnailImg;
+		this.photo = photo;
 		this.files_Code = files_Code;
 		this.files_BoardType = files_BoardType;
 		this.files_OriginName = files_OriginName;
@@ -40,12 +40,12 @@ public class Files implements java.io.Serializable{
 		this.board_Code = board_Code;
 	}
 
-	public MultipartFile getUserThumbnailImg() {
-		return userThumbnailImg;
+	public MultipartFile getPhoto() {
+		return photo;
 	}
 
-	public void setUserThumbnailImg(MultipartFile userThumbnailImg) {
-		this.userThumbnailImg = userThumbnailImg;
+	public void setPhoto(MultipartFile photo) {
+		this.photo = photo;
 	}
 
 	public int getFiles_Code() {
@@ -138,11 +138,11 @@ public class Files implements java.io.Serializable{
 
 	@Override
 	public String toString() {
-		return "Files [userThumbnailImg=" + userThumbnailImg + ", files_Code=" + files_Code + ", files_BoardType="
-				+ files_BoardType + ", files_OriginName=" + files_OriginName + ", files_Name=" + files_Name
-				+ ", files_EnrollDate=" + files_EnrollDate + ", files_Status=" + files_Status + ", files_DeleteDate="
-				+ files_DeleteDate + ", member_Code=" + member_Code + ", group_Code=" + group_Code + ", pr_Code="
-				+ pr_Code + ", board_Code=" + board_Code + "]";
+		return "Files [photo=" + photo + ", files_Code=" + files_Code + ", files_BoardType=" + files_BoardType
+				+ ", files_OriginName=" + files_OriginName + ", files_Name=" + files_Name + ", files_EnrollDate="
+				+ files_EnrollDate + ", files_Status=" + files_Status + ", files_DeleteDate=" + files_DeleteDate
+				+ ", member_Code=" + member_Code + ", group_Code=" + group_Code + ", pr_Code=" + pr_Code
+				+ ", board_Code=" + board_Code + "]";
 	}
 
 }
