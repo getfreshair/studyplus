@@ -18,6 +18,7 @@ $(function(){
 	studyTendencyChart();	//공부성향 분석 차트
 
 	GoalListChart();		//목표 리스트 노출된 부분 공부량 차트
+	todayGoalsList();		//오늘의 목표 리스트
 	
 
 });
@@ -131,7 +132,7 @@ function todaydate(){
 	$(this).val(chan_val);
 
 	var dateVal = chan_val;		//컨트롤러에 보낼 날짜
-	console.log("왜 안되는것이야 : " + dateVal)	
+	//console.log("왜 안되는것이야 : " + dateVal)	
 
 	$('#todayDatePicker').attr("value",dateVal);
 	todayChart(dateVal);		//일간 공부량 차트
@@ -795,4 +796,50 @@ function GoalListChart(){
 				}],
 		}
 	});	
+}
+
+//목표 리스트
+function todayGoalsList(){
+	//이번주 날짜 출력
+
+	
+	var now = new Date();
+	var day = now.getDate();
+	var test = new Date(Date.parse(now) + 0 * 1000 * 60 * 60 * 24); //오늘
+	
+	console.log(day)
+	switch(test.getDay()){
+		case 0 : 
+			$(".today_point span").eq(0).text(day);
+			break;
+		case 1 : 
+			$(".today_point span").eq(0).text((new Date(Date.parse(now) - 1 * 1000 * 60 * 60 * 24).getDate())).addClass('la');
+			$(".today_point span").eq(1).text(day).addClass('on');
+			for(var i = 2; i < 7; i++){
+				$(".today_point span").eq(i).text((new Date(Date.parse(now) + i * 1000 * 60 * 60 * 24).getDate()));
+			}
+			break;
+		case 2 : 
+			break;
+		case 3 : 
+			$(".today_point span").eq(3).text(day).addClass('on');
+			break;
+	}
+	//console.log(chan_val);
+	
+	
+	
+	var goalsList = $(".goals_list li");
+	
+	/*$.ajax({
+		url : "todayGoalsList.sp",
+		data : {dateVal : dateVal},
+		type : "post",
+		success : function(data) {
+			
+		},
+		error : function() {
+			console.log("에러발생!");
+		}
+	});*/
 }

@@ -141,8 +141,8 @@ table .board-tit a:hover{color:#1a609c;}
 .today_point{overflow:hidden; padding:6px 0; border-bottom:1px solid #f3f3f3;}
 .today_point li{float:left; width:14.2%; text-align:center;}
 .today_point li span{position:relative; display:inline-block; width:30px; height:30px; font-weight:bold; color:#000; padding:5px 0; cursor:pointer;}
-.today_point li.on span:before{position:absolute; top:0; left:0; content:''; display:inline-block; width:100%; height:100%; border:2px solid red; border-radius:50%;}
-.today_point li.la span{color:#6e6e6e;}
+.today_point li span.on:before{position:absolute; top:0; left:0; content:''; display:inline-block; width:100%; height:100%; border:2px solid red; border-radius:50%;}
+.today_point li span.la{color:#6e6e6e;}
 
 .goals_list li{position:relative; padding:10px 15px 10px 70px; margin-bottom:6px; box-shadow:1px 1px 8px #d8d8d8; background: #fff url("/studyplus/resources/images/planner/ico_right_arrow.png") 100% 50% no-repeat; background-size:47px;}
 .goals_list .left_area{position:absolute; left:0; top:-5px; width:70px;}
