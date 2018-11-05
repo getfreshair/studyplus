@@ -38,8 +38,6 @@ public class StudyPlannerDaoImpl implements StudyPlannerDao{
 		
 		resultList = sqlSession.selectList("StudyTime.selectWeeklyChart", hamp);
 		
-		System.out.println("dao resultList : " + resultList);
-
 		return resultList;
 	}
 	

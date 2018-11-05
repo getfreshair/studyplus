@@ -19,25 +19,23 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <script src="/studyplus/resources/js/studyPlannerPage.js"></script>
 <!-- #### datepicker #### -->
-<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script> -->
-
 <link rel="stylesheet" href="/studyplus/resources/css/datepicker.min.css">
 <script src="/studyplus/resources/js/datepicker.min.js"></script>
 <script src="/studyplus/resources/js/datepicker.ko.js"></script>
+
 <style type="text/css">
 	body{background:#f8f8f8;}
 	#footer{background: #fff;}
+	.weeklyDateCk{width:175px; height:25px; position:absolute; right:35px; top:13px; color:#fff; background:#65cdd8;}
+    .analysis_box.st03 .tab{margin-bottom:10px;}
+	.analysis_box .chart{padding:15px;}
+	.analysis_box.st01 .chart{padding-top:25px;}
 	
-	.weeklyDateCk{
-    width: 175px;
-    height: 25px;
-    position: absolute;
-    right: 35px;
-    top: 13px;
-    color: #fff;
-    background: #65cdd8;}
+	#studyTendencyChart svg{width:100%;}
+	
+	.today_goals .scroll_area{display:none;}
+	.today_goals .scroll_area.on{display:block;}
+	.today_point li.on2 span:before{position:absolute; top:0; left:0; content:''; display:inline-block; width:100%; height:100%; border:2px solid #5eafe4; border-radius:50%;}
 	
 	/* 모달 */
 	.modal-body .img_area .box{border:1px solid #ddd; width:85%;}
@@ -106,43 +104,77 @@
 								<span class="sub">Today's Goals</span>
 							</div>
 							<ul class="today_point">
-								<li class="la"><span>27</span></li>
-								<li class="la"><span>28</span></li>
-								<li class="on"><span>29</span></li>
-								<li><span>30</span></li>
-								<li><span>1</span></li>
-								<li><span>2</span></li>
-								<li><span>3</span></li>
+								<li class="la"><span>5</span></li>
+								<li class="la"><span>6</span></li>
+								<li><span>7</span></li>
+								<li><span>8</span></li>
+								<li><span>9</span></li>
+								<li><span>10</span></li>
+								<li><span>11</span></li>
 							</ul>
-							<div class="scroll_area">
-								<ul class="goals_list">
-									<li>
-										<div class="left_area">
-											<div class="donut_area">
-												<canvas id="today_donut" width="200" height="200"></canvas>
-												<span class="chart_per">20%</span>
+							<div class="scroll_wrap">
+								<div class="scroll_area">
+									<ul class="goals_list">
+										<li>
+											<div class="left_area">
+												<div class="donut_area">
+													<canvas id="today_donut" width="200" height="200"></canvas>
+													<span class="chart_per">20%</span>
+												</div>
 											</div>
-										</div>
-										<div class="right_area">
-											<p class="tit">자바의 정석자바의 정석자바의 정석자바의 정석</p>
-											<p class="per">102 / 200 페이지</p>
-										</div>
-									</li>
-									<li>
-										<div class="left_area">
-										</div>
-										<div class="right_area">
-											<p class="tit">씨박의 정석</p>
-											<p class="per">3 / 21 시간</p>
-										</div>
-									</li>
-								</ul>
-								<div class="add_btn">
-									<a href="#" data-toggle="modal" data-target="#myModal"></a>
+											<div class="right_area">
+												<p class="tit">자바의 정석자바의 정석자바의 정석자바의 정석</p>
+												<p class="per">102 / 200 페이지</p>
+											</div>
+										</li>
+										<li>
+											<div class="left_area">
+											</div>
+											<div class="right_area">
+												<p class="tit">씨박의 정석</p>
+												<p class="per">3 / 21 시간</p>
+											</div>
+										</li>
+									</ul>
+									<div class="add_btn">
+										<a href="#" data-toggle="modal" data-target="#myModal"></a>
+									</div>
 								</div>
+								<div class="scroll_area">111</div>
+								<div class="scroll_area">222</div>
+								<div class="scroll_area">333</div>
+								<div class="scroll_area">444</div>
+								<div class="scroll_area">555</div>
+								<div class="scroll_area">666</div>
 							</div>
 						</div>
 						<!-- // 오늘의목표 -->
+						<script>
+						$(function(){
+							var pointList = $(".today_point li");
+							var scrollList = $(".today_goals .scroll_wrap .scroll_area");
+
+							pointList.eq(0).addClass('on');
+							scrollList.eq(0).addClass('on');
+							
+							pointList.click(function(){  //일주일 중 날짜 선택시 
+								for(var i = 0; i < pointList.length; i++){
+									
+									if($(this).index() == i){ //클릭한 날짜가 i 와 같을때
+										pointList.removeClass('on'); //날짜 전체에 on을 제거해 주고
+										$(this).addClass('on'); //클릭한 날짜에 on을 붙여준다
+										
+										if($(this).index(i) == scrollList.index(i)){ //클릭한 날짜의 i인덱스와 스크롤리스트의 i인덱스가 같을때
+											scrollList.removeClass('on'); //스크롤리스트 전체에 on을 제거해주고
+											scrollList.eq(i).addClass('on'); //스크롤리스트에 on을 붙여준다
+											
+										}
+									}
+								}
+							});
+							
+						});
+						</script>
 
 						<!-- 이번주목표 -->
 						<div class="weekly_goals">
@@ -203,7 +235,6 @@
 								<div class="box_tit">
 									<span class="txt">일간 공부량</span>
 									<input type="text" id="todayDatePicker" class="date">
-									<!-- <input type='text' id="todayDatePicker" class="date" data-language='ko'/> -->
 								</div>
 								<div class="chart">
 									<canvas id="todayChart"></canvas>
@@ -226,9 +257,6 @@
 							<div class="col-sm-6 col-xs-12 analysis_box st03">
 								<div class="box_tit">
 									<span class="txt">주간 · 월간 공부량</span>
-									<!-- <input type="text" id="weeklyDatePicker" class="date">
-									<input type="text" id="monthlyDatePicker" class="date"> -->
-									<!-- <input type='text' id="weeklyDatePicker" class="date" data-language='ko' data-range="true" data-multiple-dates-separator=" ~ "/> -->
 									<input type='text' id="weeklyDatePicker" class="date" data-language='ko'/>
 									<label for="weeklyDatePicker" class="weeklyDateCk"></label>
 									<input type='text' id="monthlyDatePicker" class="date" data-language='ko' data-min-view="years" data-view="years"/>

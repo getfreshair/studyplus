@@ -86,7 +86,7 @@ public class StudyPlannerController {
 		
 		String chartDate = request.getParameter("dateVal");
 
-		System.out.println("주간 공부 값이 잘 들어와? : " + chartDate);
+		//System.out.println("주간 공부 값이 잘 들어와? : " + chartDate);
 		
 		//날짜 특수문자 변경
 		String chartDate2 = chartDate.replaceAll("-", "/");
@@ -116,37 +116,13 @@ public class StudyPlannerController {
 		chartDate4[0] = firstDateResult.substring(2, 10);
 		chartDate4[1] = lastDateResult.substring(2, 10);
 		
-		
-		
-		
-		/*for (int i = 0; i < firstDate.length; i++) {
-			System.out.println("처음날짜 : " + firstDate[i]);
-		}
-		
-		for (int i = 0; i < lastDate.length; i++) {
-			System.out.println("마지막날짜 : " + lastDate[i]);
-			
-		}*/
-		//2018/11/04 ~ 2018/11/04
-		//chartDate3[0] : 2018/11/04
-		//chartDate3[1] : 2018/11/10
-		//for(int i =0; i<firstDate)
-		
-		
-		/*String[] chartDate4 = new String[2];
-		for(int i = 0; i <chartDate3.length; i++) {
-			chartDate3[i] = chartDate3[i].substring(2, 10);
-			chartDate4[i] = chartDate3[i].substring(6, 8);
-		}*/
-		//System.out.println("1날짜" + chartDate4[0]);
-		//System.out.println("2날짜" + chartDate4[1]);
 		//HashMap
 		HashMap<String, Object> hmap = new HashMap<String, Object>();
 		hmap.put("loginUserCode", loginUserCode);
 		hmap.put("chartDateYear", chartDate4);
 		
-		System.out.println("chartDate4 : " +chartDate4[0]);
-		System.out.println("chartDate4 : " +chartDate4[1]);
+		//System.out.println("chartDate4 : " +chartDate4[0]);
+		//System.out.println("chartDate4 : " +chartDate4[1]);
 		
 		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		list.add(hmap);
@@ -154,7 +130,7 @@ public class StudyPlannerController {
 		List<HashMap<String, Object>> resultList = sps.selectWeeklyChart(list);
 		
 		
-		System.out.println("데이터 가져옴 : " + resultList);
+		//System.out.println("데이터 가져옴 : " + resultList);
 
 		// 기준날짜 캘린더 객체 생성
 		Calendar cal = new GregorianCalendar(Integer.parseInt("20" + chartDate4[0].substring(0, chartDate4[0].indexOf("/"))),
@@ -183,12 +159,11 @@ public class StudyPlannerController {
 			}
 		}
 		
-		
 		String studyTime = "";
 		for (int i = 0; i < times.length; i++) {
 			studyTime += times[i] + ",";
 		}
-		System.out.println("week studyTime : " + studyTime);
+		//System.out.println("week studyTime : " + studyTime);
 		
 		try {
 			response.getWriter().print(studyTime);
