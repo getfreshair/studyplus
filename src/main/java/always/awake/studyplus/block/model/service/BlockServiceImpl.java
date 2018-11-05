@@ -46,8 +46,11 @@ public class BlockServiceImpl implements BlockService{
 		if(list.get("goalTimeList") != null) {
 			result1 = bd.updateGoalStudyTime(sqlSession,list.get("goalTimeList"));
 		}
-	/*	if(list.get("studyTimeList") != null) {
-			result2 = bd.insertStudyTime(sqlSession, list.get("studyTimeList"));
+		if(list.get("studyTimeList") != null) {
+			for (int i = 0; i < list.get("studyTimeList").size(); i++) {
+				list.get("studyTimeList").get(i).setLoginUserCode(member_Code);
+				result2 = bd.insertStudyTime(sqlSession, list.get("studyTimeList").get(i));
+			}
 		}
 		
 		if ((result1 > 0 || result1 == -99 ) 
@@ -55,7 +58,7 @@ public class BlockServiceImpl implements BlockService{
 			result = 1;
 		} else {
 			result = 0;
-		}*/
+		}
 		
 		return result;
 	}

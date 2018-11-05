@@ -49,7 +49,8 @@
 	<!-- 내가 가입한 그룹 리스트와, 그룹별 오늘 공부 총량 -->
 	<select id="selectGroupListAndTimes" resultMap="studyGroupResultSet" parameterType="_int">
 		SELECT J.STUDYGROUP_CODE,G.STUDYGROUP_NAME,LOCATION_NAME,G.STUDYGROUP_GOALTIME,
-		       G.STUDYGROUP_INTRO,C.CATEGORY_NAME,NVL(INTIME,0 ) AS "TOTAL_STUDY_TIME" FROM JOINGROUP J
+		       G.STUDYGROUP_INTRO,C.CATEGORY_NAME,NVL(INTIME,0 ) AS "TOTAL_STUDY_TIME" 
+		FROM JOINGROUP J
 		LEFT JOIN ( SELECT STUDYGROUP_CODE AS "IN_GROUP_CODE" ,SUM(STUDYTIME_STUDYTIME) AS INTIME
 		            FROM STUDYTIME
 		            WHERE MEMBER_CODE = #{member_Code}
@@ -77,8 +78,40 @@
 		<foreach collection="list" item="list"  index="index" 
 				 separator=";" open="DECLARE BEGIN" close="; END;" >	
 			UPDATE GOAL
-			SET GOAL_ACHIEVEAMOUNT = (GOAL_ACHIEVEAMOUNT + #{list.totalTime})
+			SET GOAL_ACHIEVEAMOUNT = TRUNC((GOAL_ACHIEVEAMOUNT + #{list.totalTime}))
 			WHERE GOAL_CODE = #{list.code}
 		</foreach>
 	</update>
+	
+	<insert id="insertStudyTimes" parameterType="always.awake.studyplus.block.model.vo.StudyTimeInfo">
+		<foreach collection="_parameter.timesMap.entrySet()" item="value"  index="key" 
+				 separator=";" open="DECLARE BEGIN" close="; END;">
+				MERGE INTO STUDYTIME S
+				USING DUAL ON
+	    			(TO_CHAR(S.STUDYTIME_DATE,'YYYY-MM-DD') = #{studyDate}
+	     			 AND S.STUDYTIME_TIMEZONE = #{key}
+	     			 AND MEMBER_CODE = #{loginUserCode} 
+	     			 AND <if test="code != -99">
+	            			S.STUDYGROUP_CODE = #{code}
+	            			AND 
+	            			S.STUDYTIME_DIVISION = 1
+	            		 </if>
+	            		 <if test="code == -99">
+	            			STUDYTIME_DIVISION = 0
+	            		</if>
+	     			 )
+				WHEN MATCHED THEN 
+	    			UPDATE SET
+	    			STUDYTIME_STUDYTIME = TRUNC(STUDYTIME_STUDYTIME + #{value})
+				WHEN NOT MATCHED THEN
+	    			INSERT (STUDYTIME_CODE, STUDYTIME_DATE ,STUDYTIME_TIMEZONE,
+	            			STUDYTIME_STUDYTIME,STUDYTIME_DIVISION,STUDYGROUP_CODE,MEMBER_CODE )
+	            	VALUES (SEQ_STUDYTIME_STUDYTIME_CODE.NEXTVAL ,
+	            	 	TO_DATE (#{studyDate},'YYYY/MM/DD'), 
+	            		#{key},TRUNC(#{value}),
+	            		<if test="code == -99">0</if><if test="code != -99">1</if>,
+	            		<if test="code == -99">null</if><if test="code != -99">#{code}</if>,
+	            		#{loginUserCode})
+		</foreach>
+	</insert>
 </mapper>

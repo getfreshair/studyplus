@@ -42,9 +42,9 @@ public class BlockDaoImpl implements BlockDao{
 
 	// 개인 또는 그룹의 공부시간 기록용 메소드
 	@Override
-	public int insertStudyTime(SqlSessionTemplate sqlSession, ArrayList<StudyTimeInfo> arrayList) {
+	public int insertStudyTime(SqlSessionTemplate sqlSession, StudyTimeInfo studyTimeInfo) {
 		// TODO Auto-generated method stub
-		return 1;
+		System.out.println(studyTimeInfo);
+		return sqlSession.insert("Block.insertStudyTimes",studyTimeInfo);
 	}
-
 }
