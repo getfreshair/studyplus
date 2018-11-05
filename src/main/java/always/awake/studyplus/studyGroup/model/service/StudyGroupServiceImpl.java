@@ -54,6 +54,8 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 			
 			throw new StudyGroupException(e.getMessage());
 		}
+		
+		sgd.insertStudyGroupJoin(sqlSession, studygroup);
 	}
 
 	@Override

@@ -199,42 +199,42 @@
 						<input type="radio" class="location_Code" name="location_Code" value="2" onclick="locationCheck()">
 						<img class="locationsCheckImg" src="/studyplus/resources/images/studyGroup/checking_Icon.png"/>
 						서울
-						</label>
+					</label>
 					<label class="locationCheckLabel">
 						<input type="radio" class="location_Code" name="location_Code" value="3" onclick="locationCheck()">
 						<img class="locationsCheckImg" src="/studyplus/resources/images/studyGroup/checking_Icon.png"/>
 						경기
-						</label>
+					</label>
 					<label class="locationCheckLabel">
 						<input type="radio" class="location_Code" name="location_Code" value="4" onclick="locationCheck()">
 						<img class="locationsCheckImg" src="/studyplus/resources/images/studyGroup/checking_Icon.png"/>
 						충청
-						</label>
+					</label>
 					<label class="locationCheckLabel">
 						<input type="radio" class="location_Code" name="location_Code" value="5" onclick="locationCheck()">
 						<img class="locationsCheckImg" src="/studyplus/resources/images/studyGroup/checking_Icon.png"/>
 						전라
-						</label>
+					</label>
 					<label class="locationCheckLabel">
 						<input type="radio" class="location_Code" name="location_Code" value="6" onclick="locationCheck()">
 						<img class="locationsCheckImg" src="/studyplus/resources/images/studyGroup/checking_Icon.png"/>
 						강원
-						</label>
+					</label>
 					<label class="locationCheckLabel">
 						<input type="radio" class="location_Code" name="location_Code" value="7" onclick="locationCheck()">
 						<img class="locationsCheckImg" src="/studyplus/resources/images/studyGroup/checking_Icon.png"/>
 						경상
-						</label>
+					</label>
 					<label class="locationCheckLabel">
 						<input type="radio" class="location_Code" name="location_Code" value="8" onclick="locationCheck()">
 						<img class="locationsCheckImg" src="/studyplus/resources/images/studyGroup/checking_Icon.png"/>
 						제주
-						</label>
+					</label>
 					<label class="locationCheckLabel">
 						<input type="radio" class="location_Code" name="location_Code" value="9" onclick="locationCheck()">
 						<img class="locationsCheckImg" src="/studyplus/resources/images/studyGroup/checking_Icon.png"/>
 						기타
-						</label>
+					</label>
 			    </div>
 			</div>
 		</div>
@@ -261,7 +261,7 @@
 				<input type="radio" class="category_Code" name="category_Code" value="3" onclick="categoryCheckAndListCall()"/>
 				<img class="categoryCheckImg" src="/studyplus/resources/images/studyGroup/checking_Icon.png"/>
 				 고시
-				</label>
+			</label>
 			<label>
 				<input type="radio" class="category_Code" name="category_Code" value="4" onclick="categoryCheckAndListCall()"/>
 				<img class="categoryCheckImg" src="/studyplus/resources/images/studyGroup/checking_Icon.png"/>

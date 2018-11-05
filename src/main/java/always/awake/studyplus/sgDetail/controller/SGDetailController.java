@@ -49,6 +49,7 @@ public class SGDetailController {
 						
 		}catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("나는조빈 ");
 			//예외처리 클래스 생성하기
 		}
 		 

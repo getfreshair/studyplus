@@ -112,7 +112,7 @@
 			      WHEN ROUND(NVL(AT_STUDYTIME, 0) / (SG.STUDYGROUP_GOALTIME * 3600), 2) * 100 < 100 
 			        THEN ROUND(NVL(AT_STUDYTIME, 0) / (SG.STUDYGROUP_GOALTIME * 3600), 2) * 100 END)
 		]]>
-		ORDER BY STUDYGROUP_GOALPERCENT
+		ORDER BY STUDYGROUP_GOALPERCENT DESC
 	</select>
 	
 	<select id="studyGroupSelectRecommendSGList" parameterType="_int" resultType="map">
@@ -140,12 +140,13 @@
 		                                           FROM JOINGROUP
 		                                           GROUP BY STUDYGROUP_CODE) JGC ON(SG.STUDYGROUP_CODE = JGC.STUDYGROUP_CODE)
 		                                 WHERE SG.STUDYGROUP_CODE NOT IN(SELECT STUDYGROUP_CODE
-		                                                                 FROM JOINGROUP
+		                                                                 FROM STUDYGROUP
 		                                                                 WHERE MEMBER_CODE = #{member_Code})
 		                                 GROUP BY ROWNUM, STT.STUDYTIME_TOTAL / JGC.MEMBER_COUNT, SG.STUDYGROUP_CODE
 		                                 ORDER BY STUDYGROUP_GOALPERCENT DESC NULLS LAST)
 		                            WHERE SEQNUM BETWEEN 1 AND 5)
 	</select>
+	
 	<select id="studyGroupInSGRankingList" parameterType="_int" resultType="map">
 		SELECT STUDYGROUP_TIMEAVERAGE, STUDYGROUP_NAME, STUDYGROUP_CODE, CATEGORY_NAME, CATEGORY_TOTALNUM, 
 		INGROUP_CHECK , RANK() OVER( PARTITION BY CATEGORY_CODE ORDER BY STUDYGROUP_TIMEAVERAGE DESC ) AS RANK  
@@ -206,5 +207,10 @@
 		</if>
 		GROUP BY ROWNUM, SG.STUDYGROUP_NAME, SG.STUDYGROUP_INTRO, NVL(ROUND(STT.STUDYTIME_TOTAL / NVL(JGC.MEMBER_COUNT, 0), 0), 0), SG.STUDYGROUP_CODE, SG.CATEGORY_CODE, C.CATEGORY_NAME, F.FILES_NAME
 		ORDER BY STUDYGROUP_RANK
+	</select>
+	
+	<select id="insertStudyGroupJoin" parameterType="StudyGroup">
+		INSERT INTO JOINGROUP(STUDYGROUP_CODE,MEMBER_CODE,JOINGROUP_ENROLLDATE,JOINGROUP_DELETEDATE,JOINGROUP_STATUS,JOINGROUP_CODE)
+		VALUES(SEQ_STUDYGROUP_STUDYGROUP_CODE.CURRVAL, #{member_Code}, SYSDATE, NULL, 0, SEQ_JOINGROUP_JOINGROUP_CODE.NEXTVAL)
 	</select>
 </mapper>
