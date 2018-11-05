@@ -1,6 +1,5 @@
 package always.awake.studyplus.studyGroup.model.dao;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,6 +83,60 @@ public class StudyGroupDaoImpl implements StudyGroupDao{
 			sgListAndPi.add(newPi);
 			
 			return sgListAndPi;
+		}catch(Exception e) {
+			throw new StudyGroupException(e.getMessage());
+		}
+	}
+
+	@Override
+	public List<Map<String, Object>> studyGroupSelectJoinSGList(SqlSessionTemplate sqlSession, int member_Code) throws StudyGroupException {		
+		try {
+			return sqlSession.selectList("StudyGroup.studyGroupSelectJoinSGList", member_Code);
+		}catch(Exception e) {
+			throw new StudyGroupException(e.getMessage());
+		}
+	}
+
+	@Override
+	public List<Map<String, Object>> studyGroupSelectRecommendSGList(SqlSessionTemplate sqlSession, int member_Code) throws StudyGroupException {
+		try {
+			return sqlSession.selectList("StudyGroup.studyGroupSelectRecommendSGList", member_Code);
+		}catch(Exception e) {
+			throw new StudyGroupException(e.getMessage());
+		}
+	}
+
+	@Override
+	public List<Map<String, Object>> studyGroupInSGRankingList(SqlSessionTemplate sqlSession, int member_Code) throws StudyGroupException {
+		try {
+			return sqlSession.selectList("StudyGroup.studyGroupInSGRankingList", member_Code);
+		}catch(Exception e) {
+			throw new StudyGroupException(e.getMessage());
+		}
+	}
+
+	@Override
+	public List<Map<String, Object>> studyGroupInSGLastBoardList(SqlSessionTemplate sqlSession, int member_Code) throws StudyGroupException {
+		try {
+			return sqlSession.selectList("StudyGroup.studyGroupInSGLastBoardList", member_Code);
+		}catch(Exception e) {
+			throw new StudyGroupException(e.getMessage());
+		}
+	}
+
+	@Override
+	public List<Map<String, Object>> studyGroupInSGMyBoardArea(SqlSessionTemplate sqlSession, int member_Code) throws StudyGroupException {
+		try {
+			return sqlSession.selectList("StudyGroup.studyGroupInSGMyBoardArea", member_Code);
+		}catch(Exception e) {
+			throw new StudyGroupException(e.getMessage());
+		}
+	}
+
+	@Override
+	public List<Map<String, Object>> selectStudyGroupSGRTRankList(SqlSessionTemplate sqlSession, int category_Code) throws StudyGroupException {
+		try {
+			return sqlSession.selectList("StudyGroup.selectStudyGroupSGRTRankArea", category_Code);
 		}catch(Exception e) {
 			throw new StudyGroupException(e.getMessage());
 		}

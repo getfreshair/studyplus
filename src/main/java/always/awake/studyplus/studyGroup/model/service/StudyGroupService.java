@@ -16,4 +16,16 @@ public interface StudyGroupService {
 
 	List<Map<String, Object>> sgListAndPi(PageInfo pi) throws StudyGroupException;
 
+	List<Map<String, Object>> studyGroupSelectJoinSGList(int member_Code) throws StudyGroupException;
+
+	List<Map<String, Object>> studyGroupSelectRecommendSGList(int member_Code) throws StudyGroupException;
+
+	List<Map<String, Object>> studyGroupInSGRankingList(int member_Code) throws StudyGroupException;
+
+	List<Map<String, Object>> studyGroupInSGLastBoardList(int member_Code) throws StudyGroupException;
+
+	List<Map<String, Object>> studyGroupInSGMyBoardArea(int member_Code) throws StudyGroupException;
+
+	List<Map<String, Object>> selectStudyGroupSGRTRankList(int category_Code) throws StudyGroupException;
+
 }
