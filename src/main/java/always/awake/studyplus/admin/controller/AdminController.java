@@ -63,20 +63,65 @@ public class AdminController {
 		return page;
 	}
 	////////////////////////////////////////광고 관리////////////////////////////////////////////
+	@RequestMapping("updateCPP.do")
+	public String updateCPP(Model m ,Banner b, Files files, HttpServletRequest request,
+			@RequestParam(name="photo", required=false) MultipartFile photo) {
+			
+			String prTitle = request.getParameter("prTitle");
+			String prUrl = request.getParameter("prUrl");
+			//사진 저장할 경로 지정12152
+			String root = request.getSession().getServletContext().getRealPath("resources");
+			
+			//파일의 경로는 root 하위의 uploadFiles이다.
+			String filePath = root + "\\upload\\admin\\thumbnail";
+			
+			System.out.println(filePath);
+			
+			//파일명 변경
+			String originFileName = photo.getOriginalFilename();
+			String ext = originFileName.substring(originFileName.lastIndexOf(".")); //확장자 분리하기위한 로직
+			String changeName = CommonUtils.getRandomString();
+		
+			b.setPr_Title(prTitle);
+			b.setPr_Link(prUrl);
+			//업로드된 파일을 지정한 경로에 저장
+			try {
+				System.out.println("여기는 오니?");
+				System.out.println(photo);
+			photo.transferTo(new File(filePath + "\\" + changeName + ext));
+			
+			int result = as.updateCPP(b, originFileName, changeName);
+			
+			System.out.println(result);
+			
+			return "redirect:getPRList.do";
+			
+			} catch (Exception e) {
+			//실패시 파일을 삭제
+			new File(filePath + "\\" + changeName + ext).delete();
+			
+			return "common/errorPage";
+			}
+		}
+	
+	
 	@RequestMapping("selectPR.do")
-	public @ResponseBody List<Map<String, Object>> searchPR(@RequestParam String prCode, HttpServletResponse response){
+	public ModelAndView searchPR(ModelAndView mv, String prCode){
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
 		System.out.println(prCode);
 	
 		map.put("prCode", prCode);
-		
+		System.out.println("완료?");
 		List<Map<String, Object>> list = as.selectPR(map);
 		
-		System.out.println(list);
 		
-		return list;
+		mv.addObject("map",list);
+		mv.setViewName("admin/bannerManage/modal");
+		
+		return mv;
 	}
+	
 	@RequestMapping("getPRList.do")
 	public ModelAndView getCPCList(ModelAndView mv,  HttpServletRequest request) {
 		
@@ -183,7 +228,7 @@ public class AdminController {
 		} catch (Exception e) {
 		//실패시 파일을 삭제
 		//new File(filePath + "\\" + changeName + ext).delete();
-		
+		System.out.println(e.getMessage());
 		model.addAttribute("msg","회원가입 실패!!");
 		
 		return "common/errorPage";

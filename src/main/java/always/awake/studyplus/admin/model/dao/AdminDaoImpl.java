@@ -235,6 +235,31 @@ public class AdminDaoImpl implements AdminDao {
 	@Override
 	public List<Map<String, Object>> selectPR(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
 
-		return sqlSession.selectOne("Admin.selectPR", map);
+		return sqlSession.selectList("Admin.selectPR", map);
+	}
+
+	@Override
+	public int updateCPP(SqlSessionTemplate sqlSession, Banner b, String originFileName, String changeName) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("b", b);
+		map.put("originFileName", originFileName);
+		map.put("changeName", changeName);
+		int result = -99;
+		
+		try {
+			result = sqlSession.update("Admin.updateCPP", map);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			if(result>0) {
+				sqlSession.insert("Admin.updateCPP", map);
+			}
+		}catch(Exception e) {
+			System.out.println("아랫것");
+			e.printStackTrace();
+		}
+		return result;
 	}
 }

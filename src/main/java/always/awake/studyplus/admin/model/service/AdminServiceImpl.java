@@ -177,6 +177,11 @@ public class AdminServiceImpl implements AdminService{
 		return ad.selectPR(sqlSession, map);
 	}
 
+	@Override
+	public int updateCPP(Banner b, String originFileName, String changeName) {
+		return ad.updateCPP(sqlSession, b, originFileName, changeName);
+	}
+
 
 	
 	

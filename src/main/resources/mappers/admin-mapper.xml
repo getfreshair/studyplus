@@ -95,7 +95,7 @@
 	<insert id="insertCPP" parameterType="hashmap" >
 		INSERT INTO PR 
 		VALUES(SEQ_PR_PR_CODE.NEXTVAL, #{b.pr_Company}, #{b.pr_Title}, #{b.pr_Link}, 1,
-		0, #{b.pr_Contractmoney}, #{b.category_Code}, #{b.pr_StartDate}, #{b.pr_EndDate},0)
+		0, #{b.pr_Contractmoney}, #{b.category_Code}, #{b.pr_StartDate}, #{b.pr_EndDate}, 0)
 	</insert>
 	<insert id="insertFilesCPP" parameterType="hashmap" >
 		INSERT INTO FILES(FILES_CODE, FILES_BOARDTYPE, FILES_ORIGINNAME, FILES_NAME, FILES_ENROLLDATE, FILES_STATUS, FILES_DELETEDATE, PR_CODE) 

@@ -59,4 +59,6 @@ public interface AdminService {
 	public List<Map<String, Object>> getPRList();
 
 	public List<Map<String, Object>> selectPR(HashMap<String, Object> map);
+
+	public int updateCPP(Banner b, String originFileName, String changeName);
 }
