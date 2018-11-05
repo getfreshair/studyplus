@@ -22,6 +22,6 @@ public interface BlockDao {
 	int updateGoalStudyTime(SqlSessionTemplate sqlSession, ArrayList<StudyTimeInfo> arrayList);
 	
 	// 개인 또는 그룹의 공부시간 기록용 메소드
-	int insertStudyTime(SqlSessionTemplate sqlSession, ArrayList<StudyTimeInfo> arrayList);
+	int insertStudyTime(SqlSessionTemplate sqlSession, StudyTimeInfo studyTimeInfo);
 
 }

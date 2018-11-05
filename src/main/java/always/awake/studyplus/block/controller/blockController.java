@@ -46,6 +46,39 @@ public class blockController {
 		return "block/blockMain";
 	}
 
+	// 시간표 설정 화면 전환용 메소드
+	@RequestMapping("showSchedule.bl")
+	public String showSchedule(HttpServletRequest requeest, Model model) {
+		File dir1 = new File("C:\\studyPlanner");
+		if(!dir1.exists()) {dir1.mkdir();} 
+		
+		File dir2 = new File("C:\\studyPlanner\\blockPrograms");
+		if(!dir2.exists()) {dir2.mkdir();}
+		
+		File schedulaData = new File("C:\\studyPlanner\\blockPrograms\\scheduleData.txt");
+		
+		StringBuilder scheduleData = new StringBuilder();
+		
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(schedulaData));
+			String temp ="";
+			while((temp = br.readLine()) != null) {
+				scheduleData.append(temp);
+			}
+			
+			br.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("scheduleData", scheduleData.toString());
+		return "block/blockSchedule";
+	}
+	
 	// 임시파일 저장용 메소드
 	@RequestMapping("blockTimesTempSave.bl")
 	public void blockTimesTempSave(@RequestParam("todayStudyTime") String studyTime,
@@ -53,13 +86,10 @@ public class blockController {
 			HttpServletResponse response) {
 		// 파일 디렉토리 체크
 		File dir1 = new File("C:\\studyPlanner");
-		if(!dir1.exists()) {
-			dir1.mkdir();
-		} 
+		if(!dir1.exists()) {dir1.mkdir();} 
+		
 		File dir2 = new File("C:\\studyPlanner\\timmerDatas");
-		if(!dir2.exists()) {
-			dir2.mkdir();
-		}
+		if(!dir2.exists()) {dir2.mkdir();}
 		
 		
 		// 현재 시간대 설정
@@ -188,8 +218,7 @@ public class blockController {
 		
 		int result = bs.insertStudyTimes(list,
 				((Member)(requeest.getSession().getAttribute("loginUser"))).getMember_Code());
-		System.out.println(list);
-		System.out.println("아니이이이이이!@");
+
 		return "redirect:studyPlannerMain.me";
 	}
 	
@@ -295,6 +324,35 @@ public class blockController {
 			// 임시 파일 삭제
 			File deleteFile = new File("C:\\studyPlanner\\timmerDatas\\" + fileName);
 			deleteFile.delete();
+		}
+	}
+	
+	//blockScheduleSave.bl
+	@RequestMapping("blockScheduleSave.bl")
+	public void blockScheduleSave(@RequestParam("scheduleData") String scheduleData,HttpServletResponse response) {
+		
+		// 파일 디렉토리 체크
+		File dir1 = new File("C:\\studyPlanner");
+		if(!dir1.exists()) {dir1.mkdir();} 
+		
+		File dir2 = new File("C:\\studyPlanner\\blockPrograms");
+		if(!dir2.exists()) {dir2.mkdir();}
+		
+		File schedulaData = new File("C:\\studyPlanner\\blockPrograms\\scheduleData.txt");
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(schedulaData));
+			bw.write(scheduleData);
+			bw.flush();
+			bw.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			response.getWriter().println("스케쥴 정보 저장 성공!");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

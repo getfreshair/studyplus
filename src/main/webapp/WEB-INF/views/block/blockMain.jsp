@@ -18,6 +18,11 @@
 %>
 <!DOCTYPE html>
 <html>
+<!-- Core stylesheet -->
+<link rel="stylesheet" href="modal-loading.css">
+<!-- CSS3 animations -->
+<link rel="stylesheet" href="modal-loading-animate.css">
+
 <head>
 <script>
 	var ing = false;
@@ -574,15 +579,15 @@
   						<script type="text/javascript">
   							function doSubmit() {
   								startPause('main');
-  								var t = 5;
+  								/* var t = 5;
   								alert("Data를 저장중입니다.. " + t);
   								setTimeout(function(){
   									t = t -1 ;
   									alert("Data를 저장중입니다.. " + t);
-  								},1000)
+  								},1000) */
   								setTimeout(function(){
   									document.getElementById("frm").submit();
-  								},5000);
+  								},3000);
   							}
   							
   						</script>
@@ -705,7 +710,7 @@
 	                <hr>
 	                <hr>
 	                <p class="set2">
-	                    <a href="#">
+	                    <a href="showSchedule.bl">
 	                        <i class="fa fa-calendar" style="margin-right:10px"></i>
 	                    </a>
 	                    <a href="#">

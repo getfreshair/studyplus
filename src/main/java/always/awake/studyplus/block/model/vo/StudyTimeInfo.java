@@ -7,15 +7,18 @@ public class StudyTimeInfo {
 	private HashMap<Integer,Double> timesMap;
 	private String studyDate;
 	private int totalTime ;
+	private int loginUserCode;
 	
 	public StudyTimeInfo() { }
-	
-	public StudyTimeInfo(int code, HashMap<Integer, Double> timesMap, String studyDate, int totalTime) {
+
+	public StudyTimeInfo(int code, HashMap<Integer, Double> timesMap, String studyDate, int totalTime,
+			int loginUserCode) {
 		super();
 		this.code = code;
 		this.timesMap = timesMap;
 		this.studyDate = studyDate;
 		this.totalTime = totalTime;
+		this.loginUserCode = loginUserCode;
 	}
 
 	public int getCode() {
@@ -50,10 +53,18 @@ public class StudyTimeInfo {
 		this.totalTime = totalTime;
 	}
 
+	public int getLoginUserCode() {
+		return loginUserCode;
+	}
+
+	public void setLoginUserCode(int loginUserCode) {
+		this.loginUserCode = loginUserCode;
+	}
+
 	@Override
 	public String toString() {
 		return "StudyTimeInfo [code=" + code + ", timesMap=" + timesMap + ", studyDate=" + studyDate + ", totalTime="
-				+ totalTime + "]";
+				+ totalTime + ", loginUserCode=" + loginUserCode + "]";
 	}
-	
+
 }
