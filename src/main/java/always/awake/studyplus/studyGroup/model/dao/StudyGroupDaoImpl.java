@@ -142,4 +142,12 @@ public class StudyGroupDaoImpl implements StudyGroupDao{
 		}
 	}
 
+	@Override
+	public void insertStudyGroupJoin(SqlSessionTemplate sqlSession, StudyGroup studygroup) throws StudyGroupException {
+		try {
+			sqlSession.insert("StudyGroup.insertStudyGroupJoin", studygroup);
+		}catch(Exception e) {
+			throw new StudyGroupException(e.getMessage());
+		}
+	}
 }

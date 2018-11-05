@@ -210,15 +210,12 @@
 	}
 	
 	function SGdetailPage(group_No){
- 		/* 정리하기 */
-		group_No = 1;		
 		location.href='selectOneGroup.sgd?group_No=' + group_No;
 	}
 	
 	$(function(){
 		var member_Code = '${ sessionScope.loginUser.member_Code }';
 		
-		/* 가입 그룹, 개설 그룹 */
 		$.ajax({
 			url: 'studyGroupSelectJoinSGList.sg',
 			type : 'POST',
@@ -243,8 +240,10 @@
 			success : function(data){
 				var studygroup_Code = -1;
 				var loginuser_Code = ${sessionScope.loginUser.member_Code}; 
-				$('.inSGListArea').empty();
+				var mySGTrophy_Temp = 1;
 				
+				$('.inSGListArea').empty();
+				console.log(data);
 				for(var key in data){
 					if(studygroup_Code != data[key].STUDYGROUP_CODE){
 						studygroup_Code = data[key].STUDYGROUP_CODE;
@@ -252,7 +251,7 @@
 						$inSGArea = $('<div class="inSGArea">');
 						$inSGImgARea = $('<div class="inSGImgArea">');
 						$inSGImg = $('<img>').attr('src', "/studyplus/resources/upload/studygroup/thumbnail/" + data[key].FILES_SUTDYGROUPNAME);
-		        		$inSGImg.attr('onclick', "SGdetailPage()");
+		        		$inSGImg.attr('onclick', "SGdetailPage(" + data[key].STUDYGROUP_CODE + ")");
 						$inSGInfoArea = $('<div class="inSGInfoArea">');
 						$inSGTitle = $('<div class="inSGTitle">');
 						$inSGTrophyImg = $('<img>').attr('src', "/studyplus/resources/images/studyGroup/trophy.png");
@@ -292,6 +291,7 @@
 						$inSGArea.append($inSGInfoArea);
 						
 						if(loginuser_Code == data[key].STUDYGROUP_BOSSCODE){
+							
 							$inMySGArea = $('<div class="inSGArea">');
 							$inMySGImgARea = $('<div class="inSGImgArea">');
 							$inMySGImg = $('<img>').attr('src', "/studyplus/resources/upload/studygroup/thumbnail/" + data[key].FILES_SUTDYGROUPNAME);
@@ -311,9 +311,14 @@
 							$inMySGUserInfo = $('<div class="inSGUserInfo">').append('참여 인원');
 							$inMySGUserImage = $('<div class="inSGUserImage inSGUserImage' + key + '">');
 							
-							
 							$inMySGImgARea.append($inMySGImg);
-							$inMySGTitle.append($inMySGTrophyImg);
+							
+							if(mySGTrophy_Temp == 1){
+								$inMySGTitle.append($inMySGTrophyImg);
+								
+								mySGTrophy_Temp = data[key].STUDYGROUP_BOSSCODE;
+							}
+							
 							$inMySGTitle.append($inMySGTitleH4);
 							$inMySGInfoArea.append($inMySGTitle);
 							$inMySGInfoArea.append($inMySGIntro);
@@ -334,8 +339,6 @@
 						};
 						
 						$('.inSGListArea').append($inSGArea);
-						
-						
 					}
 				}
 				

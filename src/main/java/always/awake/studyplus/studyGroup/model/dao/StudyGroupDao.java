@@ -34,4 +34,6 @@ public interface StudyGroupDao {
 
 	List<Map<String, Object>> selectStudyGroupSGRTRankList(SqlSessionTemplate sqlSession, int category_Code) throws StudyGroupException;
 
+	void insertStudyGroupJoin(SqlSessionTemplate sqlSession, StudyGroup studygroup) throws StudyGroupException;
+
 }

@@ -77,23 +77,21 @@
 <script>
 	$(function(){
 		var category_Code = $('input:radio[class=category_Code]:checked').val();
-		/* var category_Name;
+		var category_Name;
 		
 		switch(category_Code){
-			case 1 : category_Name = '전국';break;
-			case 2 : category_Name = '서울';break;
-			case 3 : category_Name = '경기';break;
-			case 4 : category_Name = '충청';break;
-			case 5 : category_Name = '전라';break;
-			case 6 : category_Name = '강원';break;
-			case 7 : category_Name = '경상';break;
-			case 8 : category_Name = '제주';break;
-			case 9 : category_Name = '기타';break;
+			case '1' : category_Name = '고입 '; break;
+			case '2' : category_Name = '대입 '; break;
+			case '3' : category_Name = '고시 '; break;
+			case '4' : category_Name = '공시 '; break;
+			case '5' : category_Name = '외국어 '; break;
+			case '6' : category_Name = '취준 '; break;
+			case '7' : category_Name = '자격증 '; break;
+			case '8' : category_Name = '기타 '; break;
+			default : category_Name = '전체 '; break;
 		}
 		
-		console.log(category_Name);
-		
-		$('.SGRTRankArea h3').empty().append(category_Name + '스터디 그룹 랭킹'); */
+		$('.SGRTRankArea h3').empty().append(category_Name + '스터디 그룹 랭킹');
 		
 		
 		$.ajax({
@@ -105,7 +103,7 @@
 				
 			},
 			success : function(data){
-				var index = 1;
+				var index = 1
 				
 				for(var key in data){
 					if(data[key].STUDYGROUP_RANK < 6){
