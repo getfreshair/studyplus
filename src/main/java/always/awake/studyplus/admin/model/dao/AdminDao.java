@@ -90,4 +90,7 @@ public interface AdminDao {
 
 	List<Map<String, Object>> selectPR(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
 
+
+	int updateCPP(SqlSessionTemplate sqlSession, Banner b, String originFileName, String changeName);
+
 }
