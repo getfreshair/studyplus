@@ -33,14 +33,22 @@
 	
 	#studyTendencyChart svg{width:100%;}
 	
-	.today_goals .scroll_area{display:none;}
-	.today_goals .scroll_area.on{display:block;}
+	.rank_link, .rank_link:hover, .rank_link:focus{cursor:pointer; color:#fff;}
+	/* .today_goals .scroll_area{display:none;}
+	.today_goals .scroll_area.on{display:block;} */
 	.today_point li.on2 span:before{position:absolute; top:0; left:0; content:''; display:inline-block; width:100%; height:100%; border:2px solid #5eafe4; border-radius:50%;}
 	
 	/* 모달 */
-	.modal-body .img_area .box{border:1px solid #ddd; width:85%;}
+	.modal-body .tab{text-align:center;}
+	/* .modal-body .img_area .box{border:1px solid #ddd; width:85%;} */
 	.modal-body .chart_area{padding:0 20px;}
-	.modal-body .ipt_area{}
+
+	.modal-body .time_form, .modal-body .book_form{padding-top:30px;}
+	.modal-body .ipt_area dt{margin-bottom:5px;}
+	.modal-body .btn-center{clear:both; padding-top:20px;}
+	.modal-body .ipt_wrap input{width:140px; display:inline-block; margin-right:5px;}
+	.modal-body .book_img{border:1px solid #ddd; width:80%; height:180px; text-align:center; margin: 0 auto;}
+	.modal-body .book_info{text-align:center; width:80%; margin:10px auto 0 auto;}
 </style>
 </head>
 <body>
@@ -94,8 +102,10 @@
 								<p>안녕하세요,</p>
 								<p class="name">${ loginUser.member_Nickname }님 환영합니다.</p>
 							</div>
-							<p class="rank">지역랭킹 : 상위 1% &nbsp;&nbsp; 분야 랭킹 : 상위 73%</p>
-							<p class="need">식물 Lv. 3</p>
+							<span class="rank_link" onclick="rankLink()" title="나의 랭킹보기">
+								<p class="rank">지역랭킹 : 상위 1% &nbsp;&nbsp; 분야 랭킹 : 상위 73%</p>
+								<p class="need">식물 Lv. 3</p>
+							</span>
 						</div>
 						<!-- 오늘의목표 -->
 						<div class="today_goals">
@@ -104,13 +114,13 @@
 								<span class="sub">Today's Goals</span>
 							</div>
 							<ul class="today_point">
-								<li class="la"><span>5</span></li>
-								<li class="la"><span>6</span></li>
-								<li><span>7</span></li>
-								<li><span>8</span></li>
-								<li><span>9</span></li>
-								<li><span>10</span></li>
-								<li><span>11</span></li>
+								<li><span></span></li>
+								<li><span></span></li>
+								<li><span></span></li>
+								<li><span></span></li>
+								<li><span></span></li>
+								<li><span></span></li>
+								<li><span></span></li>
 							</ul>
 							<div class="scroll_wrap">
 								<div class="scroll_area">
@@ -127,31 +137,24 @@
 												<p class="per">102 / 200 페이지</p>
 											</div>
 										</li>
-										<li>
-											<div class="left_area">
-											</div>
-											<div class="right_area">
-												<p class="tit">씨박의 정석</p>
-												<p class="per">3 / 21 시간</p>
-											</div>
-										</li>
+										
 									</ul>
 									<div class="add_btn">
 										<a href="#" data-toggle="modal" data-target="#myModal"></a>
 									</div>
 								</div>
-								<div class="scroll_area">111</div>
+								<!-- <div class="scroll_area">111</div>
 								<div class="scroll_area">222</div>
 								<div class="scroll_area">333</div>
 								<div class="scroll_area">444</div>
 								<div class="scroll_area">555</div>
-								<div class="scroll_area">666</div>
+								<div class="scroll_area">666</div> -->
 							</div>
 						</div>
 						<!-- // 오늘의목표 -->
 						<script>
 						$(function(){
-							var pointList = $(".today_point li");
+							/* var pointList = $(".today_point li");
 							var scrollList = $(".today_goals .scroll_wrap .scroll_area");
 
 							pointList.eq(0).addClass('on');
@@ -171,7 +174,7 @@
 										}
 									}
 								}
-							});
+							}); */
 							
 						});
 						</script>
@@ -227,62 +230,20 @@
 					<!-- // 플래너 영역 -->
 					<!-- <button type="button" class="btn btn-primary btn-block">차단하고 공부하기</button> -->
 
-					<!-- 분석 영역 -->
-					<div class="col-sm-9 col-xs-12 center_area">
-						<div class="row">
-							<!-- 일간공부량 -->
-							<div class="col-sm-6 col-xs-12 analysis_box st01">
-								<div class="box_tit">
-									<span class="txt">일간 공부량</span>
-									<input type="text" id="todayDatePicker" class="date">
-								</div>
-								<div class="chart">
-									<canvas id="todayChart"></canvas>
-								</div>
-							</div>
-							<!-- // 일간공부량 -->
-							<!-- 공부성향 -->
-							<div class="col-sm-6 col-xs-12  analysis_box st02">
-								<div class="box_tit">
-									<span class="txt">공부 성향</span>
-								</div>
-								<div class="chart">
-									<div id="studyTendencyChart"></div>
-								</div>
-							</div>
-							<!-- // 공부성향 -->
-						</div>
-						<div class="row">
-							<!-- 주간공부량 -->
-							<div class="col-sm-6 col-xs-12 analysis_box st03">
-								<div class="box_tit">
-									<span class="txt">주간 · 월간 공부량</span>
-									<input type='text' id="weeklyDatePicker" class="date" data-language='ko'/>
-									<label for="weeklyDatePicker" class="weeklyDateCk"></label>
-									<input type='text' id="monthlyDatePicker" class="date" data-language='ko' data-min-view="years" data-view="years"/>
-								</div>
-								<div class="chart">
-									<div class="tab">
-										<button type="button" class="btn btn-default" id="weeklyBtn">주간</button>
-										<button type="button" class="btn btn-default" id="monthlyBtn">월간</button>
-									</div>
-									<canvas id="weeklyChart"></canvas>
-									<canvas id="monthlyChart"></canvas>
-								</div>
-							</div>
-							<!-- // 주간공부량 -->
-							<!-- 학습평가 -->
-							<div class="col-sm-6 col-xs-12 analysis_box st04">
-								<div class="box_tit">
-									<span class="txt">학습 평가</span>
-								</div>
-								<div class="chart">
-								</div>
-							</div>
-							<!-- // 학습평가 -->
-						</div>
+					<!-- 컨텐츠 영역 -->
+					<div id="analysisCont">
+						<jsp:include page="analysisCont.jsp"/> <!-- 분석 -->
 					</div>
-					<!-- // 분석 영역 -->
+					<div id="rankingCont" style="display:none">
+						<jsp:include page="rankingCont.jsp"/> <!-- 랭킹 -->
+					</div>
+					<script>
+						function rankLink(){
+							$("#analysisCont").hide();
+							$("#rankingCont").show();
+						}
+					</script>
+					<!-- // 컨텐츠 영역 -->
 
 					<!-- 메신저 기능 -->
 					<div class="sns_wrap">
@@ -328,29 +289,12 @@
 
 															$li.append( 
 																	'<span class="friendList' + eachFriendMemberNickname + ' eachUndreadMsg" style="display:inline-block; background : red; color : white; width : 30px; height : 21px; border-radius : 30px; margin-left : 5%; position : absolute; right : 30px; top : 8px; text-align : center;">' +
-																	+ data + '</span>');
+																	+ data + '</span>'
+																	+ '<span id="status'+  eachFriendMemberNickname  +'"class="status"></span>');
 														}
 														
 													});
 													
-													$.ajax({
-														url : "friendStatus.ms",
-														type : "POST",
-														data : {
-															eachFriendMemberCode : eachFriendMemberCode
-														},
-														async : false,
-														success : function(data){
-															
-															if(data == 0){
-																
-																$li.append('<span id="status'+  eachFriendMemberNickname  +'"class="status"></span>');
-															}else{
-																
-																$li.append('<span id="status'+  eachFriendMemberNickname  +'"class="status on"></span>');
-															}
-														}
-													});
 													$('#friendsList').append($li);
 													
 													$('.nameClass' + i).click(function(){
@@ -377,31 +321,7 @@
 																		}
 																});
 																
-																var year = '0';
-																var month = '0';
-																var date = '0';
-																var day = '0';
-																
-																for(var i=0; i<data.length; i++){
-																	
-																	var msg_year = data[i].message_send_date.substring(0, 4);
-																	var msg_month = data[i].message_send_date.substring(5, 7);
-																	var msg_date = data[i].message_send_date.substring(8, 10);
-																	var msg_day = data[i].message_send_date.substring(11, 14);
-																	
-																	if(year != msg_year || month != msg_month || date != msg_date || day != msg_day){
-																		
-																		year = msg_year;
-																		month = msg_month;
-																		date = msg_date;
-																		day = msg_day;
-																	
-																	
-																		$('#chatMessageArea').append('<div style="position:relative">'
-																								+ '<div style="position:absolute; margin-top:-7px; margin-left:38%; background:white; text-align:center; font-size : 7px;">' + year + "년 " + month + "월 " + date + "일 " + day + '</div>'
-																								+ '<hr>'
-																								+ '</div>');
-																	}
+																for(var i=0; i<data.length ;i++){
 																	
 																	if(data[i].sender_nickName == '${loginUser.member_Nickname}'){
 																		$('#chatMessageArea').append(
@@ -409,9 +329,8 @@
 																				'<table style="margin-top : 10px; float:right;">'
 																						+ '<tr><td>'
 																						+ '<div class="dateArea">'
-																						+ data[i].message_send_date.substring(15, 17) + '시'
-																						+ data[i].message_send_date.substring(18, 20) + '분' 
-																						+ '</div>' 
+																						+ data[i].message_send_date
+																						+ '분</div>' 
 																						+ '<div class="msgArea" style="background : #fde09a;">'
 																						+ data[i].message_content
 																						+ '</div>' 
@@ -432,9 +351,8 @@
 																						+ '<div class="msgArea">'
 																						+ data[i].message_content
 																						+ '</div>' + '<div class="dateArea">'
-																						+ data[i].message_send_date.substring(15, 17) + '시'
-																						+ data[i].message_send_date.substring(18, 20) + '분' 
-																						+ '</div>' + '</td></tr>');
+																						+ data[i].message_send_date
+																						+ '분</div>' + '</td></tr>');
 																	}
 																}
 																var chatAreaHeight = $('#chatArea').height();
@@ -488,12 +406,18 @@
 									<dd><input type="text" class="form-control" placeholder="목표를 입력하세요"></dd>
 								</dl>
 								<dl>
-									<dt>목표시간</dt>
-									<dd><input type="number" class="form-control" placeholder="시간을 입력하세요"></dd>
+									<dt>목표 시간</dt>
+									<dd class="ipt_wrap">
+										<input type="number" class="form-control" placeholder="ex) 3">
+										<span>시간</span>
+									</dd>
 								</dl>
 								<dl>
-									<dt>코멘트</dt>
-									<dd><input type="text" class="form-control" placeholder="코멘트를 입력하세요"></dd>
+									<dt>달성량</dt>
+									<dd class="ipt_wrap">
+										<input type="number" class="form-control" readonly>
+										<span>/ 3</span>
+									</dd>
 								</dl>
 							</div>
 							<div class="btn-center">
@@ -505,11 +429,10 @@
 						<!-- 페이지 단위 설정 -->
 						<div class="book_form">
 							<div class="col-sm-5 col-xs-12 img_area">
-								<div class="box">
+								<div class="book_img">
 									img area
 								</div>
-								<p>책이름 및 정보 노출</p>
-								<button type="button" class="btn btn-default">책 등록</button>
+								<p class="book_info">자바의 정석</p>
 							</div>
 							<div class="col-sm-7 col-xs-12 ipt_area">
 								<dl>
@@ -518,11 +441,17 @@
 								</dl>
 								<dl>
 									<dt>목표 페이지</dt>
-									<dd><input type="text" class="form-control" placeholder="시간을 입력하세요"></dd>
+									<dd class="ipt_wrap">
+										<input type="number" class="form-control" placeholder="ex) 20">
+										<span>페이지</span>
+									</dd>
 								</dl>
 								<dl>
-									<dt>코멘트</dt>
-									<dd><input type="text" class="form-control" placeholder="코멘트를 입력하세요"></dd>
+									<dt>달성량</dt>
+									<dd class="ipt_wrap">
+										<input type="number" class="form-control">
+										<span>/ 20</span>
+									</dd>
 								</dl>
 							</div>
 							<div class="btn-center">

@@ -24,6 +24,7 @@ import always.awake.studyplus.studyPlanner.model.service.StudyPlannerService;
 public class StudyPlannerController {
 	@Autowired StudyPlannerService sps;
 	
+	//스터디 플래너 페이지 이동
 	@RequestMapping(value="studyPlannerMainPage.sp")
 	public String studyPlannerMainPage() {
 		return "studyPlanner/studyPlanner";
@@ -215,6 +216,20 @@ public class StudyPlannerController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	//오늘의 목표 리스트
+	@RequestMapping(value="todayGoalsList.sp")
+	public void todayGoalsList(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+		
+		/*Member loginUser = (Member) session.getAttribute("loginUser");
+		int loginUserCode = loginUser.getMember_Code();
+		
+		try {
+			response.getWriter().print("msg");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}*/
 	}
 
 }
