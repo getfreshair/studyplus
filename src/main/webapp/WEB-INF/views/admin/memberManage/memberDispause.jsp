@@ -66,7 +66,7 @@ th{
 								<th width="20%">최종로그인</th>
 							</tr>
 							<c:forEach items="${data}"  var="disPauseList" >
-							  <c:if test="${disPauseList.MEMBER_STATUS eq 0}">
+							  <c:if test="${disPauseList.MEMBER_STATUS ne 1 and disPauseList.MEMBER_STATUS ne 2 and disPauseList.MEMBER_STATUS ne 3}">
 								<tr>
 								<td width="10%"><input type="checkbox" class="chlidCheck1" name ="selectBlockCode" value="${disPauseList.MEMBER_CODE}"></td>
 								<td>${disPauseList.MEMBER_CODE}</td>

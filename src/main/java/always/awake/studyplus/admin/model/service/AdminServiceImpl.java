@@ -155,9 +155,28 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	public int insertCPP(Banner b, String originFileName, String changeName) {
-
+		System.out.println("서비스 왔다");
 		return ad.insertCPP(sqlSession, b, originFileName, changeName);
 	}
+
+	@Override
+	public int insertCPC(Banner b, String originFileName, String changeName) {
+		
+		return ad.insertCPC(sqlSession, b, originFileName, changeName);
+	}
+
+	@Override
+	public List<Map<String, Object>> getPRList() {
+		
+		return ad.getPRList(sqlSession);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectPR(HashMap<String, Object> map) {
+		
+		return ad.selectPR(sqlSession, map);
+	}
+
 
 	
 	

@@ -168,7 +168,7 @@ display:none;
 			<i class='fas fa-ad' style='font-size:24px; float:left; margin-left:5px ;margin-top:10px;'></i>
 			<h3>광고관리<i class='fas fa-angle-down' style='font-size:24px; margin-left:45px;'></i></h3>
 			<ul>
-				<li><a onclick="goPage('admin/bannerManage/insertBanner')">광고등록</a></li>
+				<li><a href='getPRList.do'>광고등록</a></li>
 				<li><a onclick="goPage('admin/bannerManage/selectBanner')">광고내역보기</a></li>
 			<!-- 	<li><a onclick="goPage('admin/groupManage/groupList')">입금계좌관리</a></li> -->
 			</ul>

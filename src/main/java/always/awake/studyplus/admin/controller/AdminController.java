@@ -35,6 +35,7 @@ import always.awake.studyplus.admin.common.Pagination;
 import always.awake.studyplus.admin.model.service.AdminService;
 import always.awake.studyplus.admin.model.vo.Banner;
 import always.awake.studyplus.admin.model.vo.DispauseBoard;
+import always.awake.studyplus.admin.model.vo.Files;
 import always.awake.studyplus.admin.model.vo.PageInfo;
 import always.awake.studyplus.member.model.vo.Member;
 
@@ -62,10 +63,83 @@ public class AdminController {
 		return page;
 	}
 	////////////////////////////////////////광고 관리////////////////////////////////////////////
+	@RequestMapping("selectPR.do")
+	public @ResponseBody List<Map<String, Object>> searchPR(@RequestParam String prCode, HttpServletResponse response){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		System.out.println(prCode);
+	
+		map.put("prCode", prCode);
+		
+		List<Map<String, Object>> list = as.selectPR(map);
+		
+		System.out.println(list);
+		
+		return list;
+	}
+	@RequestMapping("getPRList.do")
+	public ModelAndView getCPCList(ModelAndView mv,  HttpServletRequest request) {
+		
+		List<Map<String, Object>> list = as.getPRList();
+		
+		System.out.println(list);
+		
+		mv.addObject("data", list);
+		mv.setViewName("admin/bannerManage/insertBanner");
+		
+		return mv;
+	}
+	
+	@RequestMapping("insertCPC.do")
+	public String insertCPC(Model m ,Banner b, Files files, HttpServletRequest request,
+			@RequestParam(name="photo", required=false) MultipartFile photo) {
+			
+			String prCompany = request.getParameter("prCompany");
+			String prTitle = request.getParameter("prTitle");
+			String prUrl = request.getParameter("prUrl");
+			int prCost = Integer.parseInt(request.getParameter("prCost"));
+			int prCategory = Integer.parseInt(request.getParameter("category"));
+			//사진 저장할 경로 지정12152
+			String root = request.getSession().getServletContext().getRealPath("resources");
+			
+			//파일의 경로는 root 하위의 uploadFiles이다.
+			String filePath = root + "\\upload\\admin\\thumbnail";
+			
+			System.out.println(filePath);
+			
+			//파일명 변경
+			String originFileName = photo.getOriginalFilename();
+			String ext = originFileName.substring(originFileName.lastIndexOf(".")); //확장자 분리하기위한 로직
+			String changeName = CommonUtils.getRandomString();
+		
+			b.setPr_Company(prCompany);
+			b.setPr_Title(prTitle);
+			b.setPr_Link(prUrl);
+			b.setPr_Contractmoney(prCost);
+			b.setCategory_Code(prCategory);
+			//업로드된 파일을 지정한 경로에 저장
+			try {
+				System.out.println("여기는 오니?");
+				System.out.println(photo);
+			photo.transferTo(new File(filePath + "\\" + changeName + ext));
+			
+			int result = as.insertCPC(b, originFileName, changeName);
+			
+			System.out.println(result);
+			
+			return "redirect:getPRList.do";
+			
+			} catch (Exception e) {
+			//실패시 파일을 삭제
+			new File(filePath + "\\" + changeName + ext).delete();
+			
+			return "common/errorPage";
+			}
+		}
+	
 	@RequestMapping("insertCPP.do")
-	public String insertMember(Model model ,Banner b, HttpServletRequest request,
+	public String insertCPP(Model model ,Banner b, Files files, HttpServletRequest request,
 		@RequestParam(name="photo", required=false) MultipartFile photo) {
-		System.out.println(photo);
 		
 		String prCompany = request.getParameter("prCompany");
 		String prTitle = request.getParameter("prTitle");
@@ -73,9 +147,7 @@ public class AdminController {
 		String prStartDate = request.getParameter("prStartDate");
 		String prEndDate = request.getParameter("prEndDate");
 		int prCost = Integer.parseInt(request.getParameter("prCost"));
-		
-		System.out.println(prCompany);
-		System.out.println(prStartDate);
+		int prCategory = Integer.parseInt(request.getParameter("category"));
 		//사진 저장할 경로 지정12152
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		
@@ -88,27 +160,29 @@ public class AdminController {
 		String originFileName = photo.getOriginalFilename();
 		String ext = originFileName.substring(originFileName.lastIndexOf(".")); //확장자 분리하기위한 로직
 		String changeName = CommonUtils.getRandomString();
-		
-		//업로드된 파일을 지정한 경로에 저장
-		try {
-		photo.transferTo(new File(filePath + "\\" + changeName + ext));
-		
+	
 		b.setPr_Company(prCompany);
 		b.setPr_Title(prTitle);
 		b.setPr_Link(prUrl);
 		b.setPr_StartDate(prStartDate);
 		b.setPr_EndDate(prEndDate);
 		b.setPr_Contractmoney(prCost);
+		b.setCategory_Code(prCategory);
+		//업로드된 파일을 지정한 경로에 저장
+		try {
+			System.out.println("여기는 오니?");
+			System.out.println(photo);
+		photo.transferTo(new File(filePath + "\\" + changeName + ext));
 		
 		int result = as.insertCPP(b, originFileName, changeName);
 		
+		System.out.println(result);
 		
-		
-		return "redirect:goMain.me";
+		return "redirect:getPRList.do";
 		
 		} catch (Exception e) {
 		//실패시 파일을 삭제
-		new File(filePath + "\\" + changeName + ext).delete();
+		//new File(filePath + "\\" + changeName + ext).delete();
 		
 		model.addAttribute("msg","회원가입 실패!!");
 		

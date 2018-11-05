@@ -174,10 +174,67 @@ public class AdminDaoImpl implements AdminDao {
 
 	@Override
 	public int insertCPP(SqlSessionTemplate sqlSession, Banner b, String originFileName, String changeName) {
-
-		return sqlSession.insert("Admin.insertCPP", b);
+		System.out.println("dao왔다");
+		System.out.println(b.getPr_Company());
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("b", b);
+		map.put("originFileName", originFileName);
+		map.put("changeName", changeName);
+		
+		int result = -99;
+		
+		try {
+			result = sqlSession.insert("Admin.insertCPP", map);
+		}catch(Exception e) {
+			System.out.println("위에꺼");
+			e.printStackTrace();
+		}
+		try {
+			if(result > 0) {
+				sqlSession.insert("Admin.insertFilesCPP", map);
+			}
+		}catch(Exception e) {
+			System.out.println("아랫것");
+			e.printStackTrace();
+		}
+		return result;
 	}
 
-	
+	@Override
+	public int insertCPC(SqlSessionTemplate sqlSession, Banner b, String originFileName, String changeName) {
 
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("b", b);
+		map.put("originFileName", originFileName);
+		map.put("changeName", changeName);
+		int result = -99;
+		
+		try {
+			result = sqlSession.insert("Admin.insertCPC", map);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			if(result>0) {
+				sqlSession.insert("Admin.insertFilesCPC", map);
+			}
+		}catch(Exception e) {
+			System.out.println("아랫것");
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public List<Map<String, Object>> getPRList(SqlSessionTemplate sqlSession) {
+
+		return sqlSession.selectList("Admin.getPRList");
+	}
+
+	@Override
+	public List<Map<String, Object>> selectPR(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+
+		return sqlSession.selectOne("Admin.selectPR", map);
+	}
 }
