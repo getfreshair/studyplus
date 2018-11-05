@@ -1,7 +1,6 @@
 package always.awake.studyplus.member.controller;
 
-import java.util.ArrayList;
-
+import java.util.ArrayList;import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +17,16 @@ import always.awake.studyplus.member.model.exception.LoginException;
 import always.awake.studyplus.member.model.service.MemberService;
 import always.awake.studyplus.member.model.vo.Files;
 import always.awake.studyplus.member.model.vo.Member;
+import always.awake.studyplus.messenger.model.Service.MessengerService;
 
 @SessionAttributes("loginUser")
 @Controller
 public class MemberController {
 	@Autowired
 	private MemberService ms;
+	
+	@Autowired
+	private MessengerService mss;
 	
 	@RequestMapping(value="studyPlannerMain.me")
 	public String goMain() {
@@ -32,6 +35,7 @@ public class MemberController {
 	
 	@RequestMapping(value="logoutMain.me")
 	public String logoutMain() {
+		
 		return "main/main";
 	}
 	

@@ -10,7 +10,7 @@ public class Message {
 	private int receiver_group_code;
 	private int message_status;
 	private int message_type;
-	private Date message_send_date;
+	private String message_send_date;
 	private String message_content;
 	private String sender_nickName;
 	private String sender_img_name;
@@ -20,7 +20,7 @@ public class Message {
 	}
 
 	public Message(int message_code, int sender_message_code, int receiver_message_code, int receiver_group_code,
-			int message_status, int message_type, Date message_send_date, String message_content,
+			int message_status, int message_type, String message_send_date, String message_content,
 			String sender_nickName, String sender_img_name) {
 		super();
 		this.message_code = message_code;
@@ -83,11 +83,11 @@ public class Message {
 		this.message_type = message_type;
 	}
 
-	public Date getMessage_send_date() {
+	public String getMessage_send_date() {
 		return message_send_date;
 	}
 
-	public void setMessage_send_date(Date message_send_date) {
+	public void setMessage_send_date(String message_send_date) {
 		this.message_send_date = message_send_date;
 	}
 

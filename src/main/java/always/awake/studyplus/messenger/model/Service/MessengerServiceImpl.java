@@ -73,5 +73,23 @@ public class MessengerServiceImpl  implements MessengerService {
 	public String selcectMemberProfile(String member_Nickname) {
 		// TODO Auto-generated method stub
 		return md.selcectMemberProfile(sqlSession, member_Nickname);
-	}	
+	}
+
+	@Override
+	public void updateMemberStatus(int member_Code) {
+		// TODO Auto-generated method stub
+		md.updateMemberStatus(sqlSession, member_Code);
+	}
+
+	@Override
+	public void updateMemberStatusOut(int member_Code) {
+		// TODO Auto-generated method stub
+		md.updateMemberStatusOut(sqlSession, member_Code);
+	}
+
+	@Override
+	public int friendStatus(int eachFriendMemberCode) {
+		// TODO Auto-generated method stub
+		return md.friendStatus(sqlSession, eachFriendMemberCode);
+	}
 }

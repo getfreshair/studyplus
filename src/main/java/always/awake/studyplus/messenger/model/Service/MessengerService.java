@@ -23,4 +23,10 @@ public interface MessengerService{
 	int selectEachUnreadMessage(int member_Code, int eachFriendMemberCode);
 
 	String selcectMemberProfile(String member_Nickname);
+
+	void updateMemberStatus(int member_Code);
+
+	void updateMemberStatusOut(int member_Code);
+
+	int friendStatus(int eachFriendMemberCode);
 }

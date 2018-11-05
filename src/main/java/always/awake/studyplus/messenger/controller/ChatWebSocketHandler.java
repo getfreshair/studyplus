@@ -35,7 +35,8 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 		map = session.getAttributes();
 		loginUser = (Member)map.get("loginUser");
 		users.put(loginUser.getMember_Code() + "", session);
-
+		ms.updateMemberStatus(loginUser.getMember_Code()); // STATUS = 0 비접속(일반회원등급) 8 접속 
+		
 		countLoginFriends(loginUser);
 	}
 
@@ -133,9 +134,9 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 		Map<String, Object> map;
 		map = session.getAttributes();
 		loginUser = (Member)map.get("loginUser");
-
 		sendMsgLogout(loginUser);
-
+		
+		ms.updateMemberStatusOut(loginUser.getMember_Code()); // STATUS = 0 비접속(일반회원등급) 8 접속 
 		users.remove(loginUser.getMember_Code() + "");
 	}
 

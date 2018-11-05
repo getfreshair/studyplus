@@ -91,4 +91,22 @@ public class MessengerDaoImpl implements MessengerDao{
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("Messenger.selcectMemberProfile", member_Nickname);
 	}
+
+	@Override
+	public void updateMemberStatus(SqlSessionTemplate sqlSession, int member_Code) {
+		// TODO Auto-generated method stub
+		sqlSession.update("Messenger.updateMemberStatus", member_Code);
+	}
+
+	@Override
+	public void updateMemberStatusOut(SqlSessionTemplate sqlSession, int member_Code) {
+		// TODO Auto-generated method stub
+		sqlSession.update("Messenger.updateMemberStatusOut", member_Code);
+	}
+
+	@Override
+	public int friendStatus(SqlSessionTemplate sqlSession, int eachFriendMemberCode) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Messenger.friendStatus", eachFriendMemberCode);
+	}
 }
