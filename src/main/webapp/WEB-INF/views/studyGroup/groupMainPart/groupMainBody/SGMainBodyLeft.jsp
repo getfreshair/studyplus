@@ -77,6 +77,14 @@
     	font-weight: bold;
     	text-align:left;
 	}
+	.SGEnrolldate {
+		display: inline-block;
+    	margin-top: 5px;
+    	width: 266px;
+    	font-size: 12px;
+    	font-weight: bold;
+    	text-align:center;
+	}
 	.inSGJoinTime {
 		display:inline-block;
 		background:white;
@@ -110,7 +118,6 @@
 		background:#FCCE00;
 		border-radius:7px;
 		padding:3px;
-		width:86%;
 		font-size:12px;
 		margin-right:4px;
 		height:22px;
@@ -128,6 +135,17 @@
 		width:28px;
 		height:28px;
 		border-radius:50%;
+	}
+	.SGUserImage {
+		display:inline-block;
+	}
+	.SGUserImage img {
+		width:50px;
+		height:50px;
+		margin-top: 4px;
+	}
+	.SGUserImage img:hover {
+		cursor:pointer;
 	}
 	.inSGUserImage img:hover {
 		cursor:pointer;
@@ -223,47 +241,119 @@
 				$('.inSGListArea').html($img);
 			},
 			success : function(data){
-				$inSGArea = $('<div class="inSGArea">');
-				$inSGImgARea = $('<div class="inSGImgArea">');
-				$inSGImg = $('<img>').attr('src', "/studyplus/resources/upload/studygroup/thumbnail/fuck.jpg");
-        		$inSGImg.attr('onclick', "SGdetailPage()");
-				$inSGInfoArea = $('<div class="inSGInfoArea">');
-				$inSGTitle = $('<div class="inSGTitle">');
-				$inSGTrophyImg = $('<img>').attr('src', "/studyplus/resources/images/studyGroup/trophy.png");
-				$inSGTitleH4 = $('<h4>').append('SHOW ME THE MONEY');
-				$inSGIntro = $('<div class="inSGIntro">').append('분산시키거나 분리시키는 것. 특히 제한된 지역에 집중되어 있는 부대가 적의 공격으로부터 받는 취약성을 감소시키기 위해 분산 또는 분리시키는 것.');
-				$inSGEnrolldate = $('<div class="inSGEnrolldate">').append('그룹 개설일 : 2018년  10월  1일');
-				$inSGDate = $('<div class="inSGDate">').append('그룹 가입일 : 2018년  10월  12일');
-				$inSGJoinTime = $('<div class="inSGJoinTime">').append('총 활동 시간 : 392시간');
-				$inSGAim = $('<div class="inSGAim">');
-				$inSGAimProgress = $('<div class="inSGAimProgress">').append('그룹 목표 86%');
-				$inSGAimPercent = $('<div class="inSGAimPercent">');
-				$inSGUserImageArea = $('<div class="inSGUserImageArea">');
-				$inSGUserInfo = $('<div class="inSGUserInfo">').append('참여 인원');
-				$inSGUserImage = $('<div class="inSGUserImage">');
-				$inSGUserImg = $('<img>').attr('src', '/studyplus/resources/images/studyGroup/userImg.png');
-				
-				$inSGImgARea.append($inSGImg);
-				$inSGTitle.append($inSGTrophyImg);
-				$inSGTitle.append($inSGTitleH4);
-				$inSGInfoArea.append($inSGTitle);
-				$inSGInfoArea.append($inSGIntro);
-				$inSGInfoArea.append($inSGEnrolldate);
-				$inSGInfoArea.append($inSGDate);
-				$inSGInfoArea.append($inSGJoinTime);
-				$inSGAim.append($inSGAimProgress);
-				$inSGAim.append($inSGAimPercent);
-				$inSGInfoArea.append($inSGAim);
-				$inSGUserImageArea.append($inSGUserInfo);
-				$inSGUserImage.append($inSGUserImg);
-				$inSGUserImageArea.append($inSGUserImage);
-				$inSGInfoArea.append($inSGUserImageArea);
-				
-				$inSGArea.append($inSGImgARea);
-				$inSGArea.append($inSGInfoArea);
-				
+				var studygroup_Code = -1;
+				var loginuser_Code = ${sessionScope.loginUser.member_Code}; 
 				$('.inSGListArea').empty();
-				$('.inSGListArea').append($inSGArea);
+				
+				for(var key in data){
+					if(studygroup_Code != data[key].STUDYGROUP_CODE){
+						studygroup_Code = data[key].STUDYGROUP_CODE;
+						
+						$inSGArea = $('<div class="inSGArea">');
+						$inSGImgARea = $('<div class="inSGImgArea">');
+						$inSGImg = $('<img>').attr('src', "/studyplus/resources/upload/studygroup/thumbnail/" + data[key].FILES_SUTDYGROUPNAME);
+		        		$inSGImg.attr('onclick', "SGdetailPage()");
+						$inSGInfoArea = $('<div class="inSGInfoArea">');
+						$inSGTitle = $('<div class="inSGTitle">');
+						$inSGTrophyImg = $('<img>').attr('src', "/studyplus/resources/images/studyGroup/trophy.png");
+						$inSGTitleH4 = $('<h4>').append(data[key].STUDYGROUP_NAME);
+						$inSGIntro = $('<div class="inSGIntro">').append(data[key].STUDYGROUP_INTRO);
+						$inSGEnrolldate = $('<div class="inSGEnrolldate">').append('그룹 개설일 : ' + data[key].STUDYGROUP_STDATE);
+						$inSGDate = $('<div class="inSGDate">').append('그룹 가입일 : ' + data[key].JOINGROUP_ENROLLDATE);
+						$inSGJoinTime = $('<div class="inSGJoinTime">').append('총 활동 시간 : ' + data[key].MEAT_STUDYTIME + '시간');
+						$inSGAim = $('<div class="inSGAim">');
+						$inSGAimProgress = $('<div class="inSGAimProgress inSGAimProgress' + key + '">').css('width', data[key].STUDYGROUP_GOALPERCENT + '%');
+						$inSGAimPercent = $('<div class="inSGAimPercent">').append('그룹 목표 ' + data[key].STUDYGROUP_GOALPERCENT + '%');
+						$inSGUserImageArea = $('<div class="inSGUserImageArea">');
+						$inSGUserInfo = $('<div class="inSGUserInfo">').append('참여 인원');
+						$inSGUserImage = $('<div class="inSGUserImage inSGUserImage' + key + '">');
+						
+						
+						$inSGImgARea.append($inSGImg);
+						
+						if(key == 0){
+							$inSGTitle.append($inSGTrophyImg);
+						}
+						
+						$inSGTitle.append($inSGTitleH4);
+						$inSGInfoArea.append($inSGTitle);
+						$inSGInfoArea.append($inSGIntro);
+						$inSGInfoArea.append($inSGEnrolldate);
+						$inSGInfoArea.append($inSGDate);
+						$inSGInfoArea.append($inSGJoinTime);
+						$inSGAim.append($inSGAimProgress);
+						$inSGAim.append($inSGAimPercent);
+						$inSGInfoArea.append($inSGAim);
+						$inSGUserImageArea.append($inSGUserInfo);
+						$inSGUserImageArea.append($inSGUserImage);
+						$inSGInfoArea.append($inSGUserImageArea);
+						
+						$inSGArea.append($inSGImgARea);
+						$inSGArea.append($inSGInfoArea);
+						
+						if(loginuser_Code == data[key].STUDYGROUP_BOSSCODE){
+							$inMySGArea = $('<div class="inSGArea">');
+							$inMySGImgARea = $('<div class="inSGImgArea">');
+							$inMySGImg = $('<img>').attr('src', "/studyplus/resources/upload/studygroup/thumbnail/" + data[key].FILES_SUTDYGROUPNAME);
+			        		$inMySGImg.attr('onclick', "SGdetailPage()");
+							$inMySGInfoArea = $('<div class="inSGInfoArea">');
+							$inMySGTitle = $('<div class="inSGTitle">');
+							$inMySGTrophyImg = $('<img>').attr('src', "/studyplus/resources/images/studyGroup/trophy.png");
+							$inMySGTitleH4 = $('<h4>').append(data[key].STUDYGROUP_NAME);
+							$inMySGIntro = $('<div class="inSGIntro">').append(data[key].STUDYGROUP_INTRO);
+							$inMySGEnrolldate = $('<div class="inSGEnrolldate">').append('그룹 개설일 : ' + data[key].STUDYGROUP_STDATE);
+							$inMySGDate = $('<div class="inSGDate">').append('그룹 가입일 : ' + data[key].JOINGROUP_ENROLLDATE);
+							$inMySGJoinTime = $('<div class="inSGJoinTime">').append('총 활동 시간 : ' + data[key].MEAT_STUDYTIME + '시간');
+							$inMySGAim = $('<div class="inSGAim">');
+							$inMySGAimProgress = $('<div class="inSGAimProgress inSGAimProgress' + key + '">').css('width', data[key].STUDYGROUP_GOALPERCENT + '%');
+							$inMySGAimPercent = $('<div class="inSGAimPercent">').append('그룹 목표 ' + data[key].STUDYGROUP_GOALPERCENT + '%');
+							$inMySGUserImageArea = $('<div class="inSGUserImageArea">');
+							$inMySGUserInfo = $('<div class="inSGUserInfo">').append('참여 인원');
+							$inMySGUserImage = $('<div class="inSGUserImage inSGUserImage' + key + '">');
+							
+							
+							$inMySGImgARea.append($inMySGImg);
+							$inMySGTitle.append($inMySGTrophyImg);
+							$inMySGTitle.append($inMySGTitleH4);
+							$inMySGInfoArea.append($inMySGTitle);
+							$inMySGInfoArea.append($inMySGIntro);
+							$inMySGInfoArea.append($inMySGEnrolldate);
+							$inMySGInfoArea.append($inMySGDate);
+							$inMySGInfoArea.append($inMySGJoinTime);
+							$inMySGAim.append($inMySGAimProgress);
+							$inMySGAim.append($inMySGAimPercent);
+							$inMySGInfoArea.append($inMySGAim);
+							$inMySGUserImageArea.append($inMySGUserInfo);
+							$inMySGUserImageArea.append($inMySGUserImage);
+							$inMySGInfoArea.append($inMySGUserImageArea);
+							
+							$inMySGArea.append($inMySGImgARea);
+							$inMySGArea.append($inMySGInfoArea);
+							
+							$('.inMySGListArea').append($inMySGArea);
+						};
+						
+						$('.inSGListArea').append($inSGArea);
+						
+						
+					}
+				}
+				
+				studygroup_Code = -1;
+				
+				for(var key in data){
+					if(studygroup_Code != data[key].STUDYGROUP_CODE){
+						studygroup_Code = data[key].STUDYGROUP_CODE;
+						
+						for(var img in data){
+							if(studygroup_Code == data[img].STUDYGROUP_CODE){
+								$inSGUserImg = $('<img>').attr('src', '/studyplus/resources/upload/member/thumbnail/' + data[img].FILES_FILES_MEMBERNAME);
+								
+								$('.inSGUserImage' + key).append($inSGUserImg);
+							}
+						}	
+					}
+				}
 			}
 		});
 		
@@ -288,47 +378,50 @@
 				$('.recommendationSGListArea').html($img);
 			},
 			success : function(data){
-				$inSGArea = $('<div class="inSGArea">');
-				$inSGImgARea = $('<div class="inSGImgArea">');
-				$inSGImg = $('<img>').attr('src', "/studyplus/resources/upload/studygroup/thumbnail/fuck.jpg");
-				$inSGInfoArea = $('<div class="inSGInfoArea">');
-				$inSGTitle = $('<div class="inSGTitle">');
-				$inSGTrophyImg = $('<img>').attr('src', "/studyplus/resources/images/studyGroup/trophy.png");
-				$inSGTitleH4 = $('<h4>').append('SHOW ME THE MONEY');
-				
-				$inSGIntro = $('<div class="inSGIntro">').append('분산시키거나 분리시키는 것. 특히 제한된 지역에 집중되어 있는 부대가 적의 공격으로부터 받는 취약성을 감소시키기 위해 분산 또는 분리시키는 것.');
-				$inSGEnrolldate = $('<div class="inSGEnrolldate">').append('그룹 개설일 : 2018년  10월  1일');
-				$inSGDate = $('<div class="inSGDate">').append('그룹 가입일 : 2018년  10월  12일');
-				$inSGJoinTime = $('<div class="inSGJoinTime">').append('총 활동 시간 : 392시간');
-				$inSGAim = $('<div class="inSGAim">');
-				$inSGAimProgress = $('<div class="inSGAimProgress">').append('그룹 목표 86%');
-				$inSGAimPercent = $('<div class="inSGAimPercent">');
-				$inSGUserImageArea = $('<div class="inSGUserImageArea">');
-				$inSGUserInfo = $('<div class="inSGUserInfo">').append('참여 인원');
-				$inSGUserImage = $('<div class="inSGUserImage">');
-				$inSGUserImg = $('<img>').attr('src', '/studyplus/resources/images/studyGroup/userImg.png');
-				
-				$inSGImgARea.append($inSGImg);
-				$inSGTitle.append($inSGTrophyImg);
-				$inSGTitle.append($inSGTitleH4);
-				$inSGInfoArea.append($inSGTitle);
-				$inSGInfoArea.append($inSGIntro);
-				$inSGInfoArea.append($inSGEnrolldate);
-				$inSGInfoArea.append($inSGDate);
-				$inSGInfoArea.append($inSGJoinTime);
-				$inSGAim.append($inSGAimProgress);
-				$inSGAim.append($inSGAimPercent);
-				$inSGInfoArea.append($inSGAim);
-				$inSGUserImageArea.append($inSGUserInfo);
-				$inSGUserImage.append($inSGUserImg);
-				$inSGUserImageArea.append($inSGUserImage);
-				$inSGInfoArea.append($inSGUserImageArea);
-				
-				$inSGArea.append($inSGImgARea);
-				$inSGArea.append($inSGInfoArea);
-				
 				$('.recommendationSGListArea').empty();
-				$('.recommendationSGListArea').append($inSGArea);
+				
+				for(var key in data){
+					$SGArea = $('<div class="inSGArea">');
+					$SGImgARea = $('<div class="inSGImgArea">');
+					$SGImg = $('<img>').attr('src', "/studyplus/resources/upload/studygroup/thumbnail/" + data[key].FILES_NAME);
+					$SGInfoArea = $('<div class="inSGInfoArea">');
+					$SGTitle = $('<div class="inSGTitle">');
+					$SGTrophyImg = $('<img>').attr('src', "/studyplus/resources/images/studyGroup/trophy.png");
+					$SGTitleH4 = $('<h4>').append(data[key].STUDYGROUP_NAME);
+					
+					$SGIntro = $('<div class="inSGIntro">').append(data[key].STUDYGROUP_INTRO);
+					$SGEnrolldate = $('<div class="SGEnrolldate">').append(data[key].STUDYGROUP_STDATE);
+					$SGAim = $('<div class="inSGAim">');
+					$SGAimProgress = $('<div class="inSGAimProgress">').css('width', data[key].STUDYGROUP_GOALPERCENT + '%');
+					$SGAimPercent = $('<div class="inSGAimPercent">').append('그룹 목표 ' + data[key].STUDYGROUP_GOALPERCENT + '%');
+					$SGUserImageArea = $('<div class="inSGUserImageArea">');
+					$SGUserInfo = $('<div class="inSGUserInfo">').append('JOIN');
+					$SGUserImage = $('<div class="SGUserImage">');
+					$SGUserImg = $('<img>').attr('src', '/studyplus/resources/images/studyGroup/join_icon.png');
+					
+					$SGImgARea.append($SGImg);
+					
+					if(key == 0){
+						$SGTitle.append($SGTrophyImg);
+					}
+					
+					$SGTitle.append($SGTitleH4);
+					$SGInfoArea.append($SGTitle);
+					$SGInfoArea.append($SGIntro);
+					$SGInfoArea.append($SGEnrolldate);
+					$SGAim.append($SGAimProgress);
+					$SGAim.append($SGAimPercent);
+					$SGInfoArea.append($SGAim);
+					$SGUserImageArea.append($SGUserInfo);
+					$SGUserImage.append($SGUserImg);
+					$SGUserImageArea.append($SGUserImage);
+					$SGInfoArea.append($SGUserImageArea);
+					
+					$SGArea.append($SGImgARea);
+					$SGArea.append($SGInfoArea);
+					
+					$('.recommendationSGListArea').append($SGArea);	
+				}				
 			}
 		});
 	});

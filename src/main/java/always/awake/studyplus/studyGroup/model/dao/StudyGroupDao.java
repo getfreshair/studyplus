@@ -22,4 +22,16 @@ public interface StudyGroupDao {
 
 	int selectStudyGroupListCount(SqlSessionTemplate sqlSession, PageInfo pi) throws StudyGroupException;
 
+	List<Map<String, Object>> studyGroupSelectJoinSGList(SqlSessionTemplate sqlSession, int member_Code) throws StudyGroupException;
+
+	List<Map<String, Object>> studyGroupSelectRecommendSGList(SqlSessionTemplate sqlSession, int member_Code) throws StudyGroupException;
+
+	List<Map<String, Object>> studyGroupInSGRankingList(SqlSessionTemplate sqlSession, int member_Code) throws StudyGroupException;
+
+	List<Map<String, Object>> studyGroupInSGLastBoardList(SqlSessionTemplate sqlSession, int member_Code) throws StudyGroupException;
+
+	List<Map<String, Object>> studyGroupInSGMyBoardArea(SqlSessionTemplate sqlSession, int member_Code) throws StudyGroupException;
+
+	List<Map<String, Object>> selectStudyGroupSGRTRankList(SqlSessionTemplate sqlSession, int category_Code) throws StudyGroupException;
+
 }

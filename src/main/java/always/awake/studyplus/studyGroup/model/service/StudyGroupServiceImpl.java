@@ -64,5 +64,35 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 		
 		return sgd.selectStudyGroupList(sqlSession, newPi);
 	}
+
+	@Override
+	public List<Map<String, Object>> studyGroupSelectJoinSGList(int member_Code) throws StudyGroupException {
+		return sgd.studyGroupSelectJoinSGList(sqlSession, member_Code);
+	}
+
+	@Override
+	public List<Map<String, Object>> studyGroupSelectRecommendSGList(int member_Code) throws StudyGroupException {
+		return sgd.studyGroupSelectRecommendSGList(sqlSession, member_Code);
+	}
+
+	@Override
+	public List<Map<String, Object>> studyGroupInSGRankingList(int member_Code) throws StudyGroupException {
+		return sgd.studyGroupInSGRankingList(sqlSession, member_Code);
+	}
+
+	@Override
+	public List<Map<String, Object>> studyGroupInSGLastBoardList(int member_Code) throws StudyGroupException {
+		return sgd.studyGroupInSGLastBoardList(sqlSession, member_Code);
+	}
+
+	@Override
+	public List<Map<String, Object>> studyGroupInSGMyBoardArea(int member_Code) throws StudyGroupException {
+		return sgd.studyGroupInSGMyBoardArea(sqlSession, member_Code);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectStudyGroupSGRTRankList(int category_Code) throws StudyGroupException {
+		return sgd.selectStudyGroupSGRTRankList(sqlSession, category_Code);
+	}
 	
 }

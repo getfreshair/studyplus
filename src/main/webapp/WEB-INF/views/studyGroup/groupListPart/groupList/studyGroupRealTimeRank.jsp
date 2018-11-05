@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <style>
 	.SGRTRankArea {
 		width:1200px;
@@ -73,74 +74,86 @@
 		margin-right: 15px;
 	}
 </style>
+<script>
+	$(function(){
+		var category_Code = $('input:radio[class=category_Code]:checked').val();
+		/* var category_Name;
+		
+		switch(category_Code){
+			case 1 : category_Name = '전국';break;
+			case 2 : category_Name = '서울';break;
+			case 3 : category_Name = '경기';break;
+			case 4 : category_Name = '충청';break;
+			case 5 : category_Name = '전라';break;
+			case 6 : category_Name = '강원';break;
+			case 7 : category_Name = '경상';break;
+			case 8 : category_Name = '제주';break;
+			case 9 : category_Name = '기타';break;
+		}
+		
+		console.log(category_Name);
+		
+		$('.SGRTRankArea h3').empty().append(category_Name + '스터디 그룹 랭킹'); */
+		
+		
+		$.ajax({
+			url : 'selectStudyGroupSGRTRankList.sg',
+			data : {
+				category_Code : category_Code
+			},
+			beforeSend : function(){
+				
+			},
+			success : function(data){
+				var index = 1;
+				
+				for(var key in data){
+					if(data[key].STUDYGROUP_RANK < 6){
+						$leftRTRankSG = $('<div class="RTRankSG">');
+						$leftspan = $('<span>').append(index);
+						$lefth4 = $('<h4>').append(data[key].STUDYGROUP_NAME);
+						$leftp = $('<p>').append(data[key].STUDYGROUP_INTRO);
+						$leftimg = $('<img>').attr('src','/studyplus/resources/upload/studygroup/thumbnail/' + data[key].FILES_NAME);
+						
+						$leftRTRankSG.append($leftspan);
+						$leftRTRankSG.append($lefth4);
+						$leftRTRankSG.append($leftp);
+						$leftRTRankSG.append($leftimg);
+						
+						$('.SGRTRankLeftArea').append($leftRTRankSG);
+						
+						index++;
+					}
+				}
+				
+				for(var key in data){
+					if(data[key].STUDYGROUP_RANK > 5){
+						$rightRTRankSG = $('<div class="RTRankSG">');
+						$rightspan = $('<span>').append(index);
+						$righth4 = $('<h4>').append(data[key].STUDYGROUP_NAME);
+						$rightp = $('<p>').append(data[key].STUDYGROUP_INTRO);
+						$rightimg = $('<img>').attr('src','/studyplus/resources/upload/studygroup/thumbnail/' + data[key].FILES_NAME);
+						
+						$rightRTRankSG.append($rightspan);
+						$rightRTRankSG.append($righth4);
+						$rightRTRankSG.append($rightp);
+						$rightRTRankSG.append($rightimg);
+						
+						$('.SGRTRankRightArea').append($rightRTRankSG);
+						
+						index++;
+					}
+				}
+			}
+		});
+	});
+</script>
 </head>
 <body>
 	<div class="SGRTRankArea">
 		<h3>취준 스터디 그룹 랭킹</h3>
-		<div class="SGRTRankLeftArea">
-			<div class="RTRankSG">
-				<span>1</span>
-				<h4>always awake study plus member fighting</h4>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-				<img src="/studyplus/resources/upload/studygroup/thumbnail/fuck.jpg"/>
-			</div>
-			<div class="RTRankSG">
-				<span>2</span>
-				<h4> vulputate sed cursus ac, ali</h4>
-				<p>Vivamus rutrum pellentesque magna. Etiam feugiat vehicula lacus, sit amet iaculis lectus pulvinar tempor. Praesent a aliquam lacus, vitae ultrici</p>
-				<img src="/studyplus/resources/upload/studygroup/thumbnail/fuck.jpg"/>
-			</div>
-			<div class="RTRankSG">
-				<span>3</span>
-				<h4>Maecenas purus dolor, </h4>
-				<p>s mi. Donec ornare auctor risus, eu interdum risus sagittis sit amet. Praesent nibh nunc, ornare non fermentum non, venenatis et dolor. Pelle</p>
-				<img src="/studyplus/resources/upload/studygroup/thumbnail/fuck.jpg"/>
-			</div>
-			<div class="RTRankSG">
-				<span>4</span>
-				<h4>m eget consecteturdio justo. </h4>
-				<p>ntesque non felis ut elit consectetur cur</p>
-				<img src="/studyplus/resources/upload/studygroup/thumbnail/fuck.jpg"/>
-			</div>
-			<div class="RTRankSG">
-				<span>5</span>
-				<h4>get tellus condimentum s</h4>
-				<p>us iaculis quis mi. Nullam vel erat mauris. In placerat blandit lore</p>
-				<img src="/studyplus/resources/upload/studygroup/thumbnail/fuck.jpg"/>
-			</div>
-		</div>
-		<div class="SGRTRankRightArea">
-			<div class="RTRankSG">
-				<span>6</span>
-				<h4>There are many variations of passages of L</h4>
-				<p>Lorem Ipsum available, but the majority have suffered alteration in some form</p>
-				<img src="/studyplus/resources/upload/studygroup/thumbnail/fuck.jpg"/>
-			</div>
-			<div class="RTRankSG">
-				<span>7</span>
-				<h4>d words which don'</h4>
-				<p>look even slightly believable. If you are going to use a passage of L</p>
-				<img src="/studyplus/resources/upload/studygroup/thumbnail/fuck.jpg"/>
-			</div>
-			<div class="RTRankSG">
-				<span>8</span>
-				<h4>m Ipsum, you need to be sure there isn't anything embarrassing hi</h4>
-				<p>den in the middle of text. All the Lorem Ipsum generators on th</p>
-				<img src="/studyplus/resources/upload/studygroup/thumbnail/fuck.jpg"/>
-			</div>
-			<div class="RTRankSG">
-				<span>9</span>
-				<h4>always awake study plus member fighting</h4>
-				<p>we can do this</p>
-				<img src="/studyplus/resources/upload/studygroup/thumbnail/fuck.jpg"/>
-			</div>
-			<div class="RTRankSG">
-				<span>10</span>
-				<h4>chunks as necessary, making this the first true generator on the Internet. It uses a dictionary </h4>
-				<p>generate Lorem</p>
-				<img src="/studyplus/resources/upload/studygroup/thumbnail/fuck.jpg"/>
-			</div>
-		</div>
+		<div class="SGRTRankLeftArea"></div>
+		<div class="SGRTRankRightArea"></div>
 	</div>
 </body>
 </html>

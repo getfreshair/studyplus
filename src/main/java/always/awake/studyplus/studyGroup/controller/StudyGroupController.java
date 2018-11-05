@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import always.awake.studyplus.studyGroup.model.exception.StudyGroupException;
 import always.awake.studyplus.studyGroup.model.service.StudyGroupService;
@@ -39,13 +40,67 @@ public class StudyGroupController {
 	}
 	
 	@RequestMapping(value="studyGroupSelectJoinSGList.sg")
-	public @ResponseBody String studyGroupSelectJoinSGList(@RequestParam("member_Code")int member_Code) {
-		return "JoinSGList";
+	public @ResponseBody List<Map<String, Object>> studyGroupSelectJoinSGList(ModelAndView mav, @RequestParam("member_Code")int member_Code) {
+		try {
+			return sgs.studyGroupSelectJoinSGList(member_Code);
+		} catch (StudyGroupException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	@RequestMapping(value="studyGroupSelectRecommendSGList.sg")
-	public @ResponseBody String studyGroupSelectRecommendSGList(@RequestParam("member_Code")int member_Code) {
-		return "Recommend";
+	public @ResponseBody List<Map<String, Object>> studyGroupSelectRecommendSGList(@RequestParam("member_Code")int member_Code) {
+		try {
+			return sgs.studyGroupSelectRecommendSGList(member_Code);
+		} catch (StudyGroupException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@RequestMapping(value="studyGroupInSGRankingList.sg")
+	public @ResponseBody List<Map<String, Object>> studyGroupInSGRankingList(@RequestParam("member_Code")int member_Code){
+		try {
+			return sgs.studyGroupInSGRankingList(member_Code);
+		} catch (StudyGroupException e) {
+			e.printStackTrace();
+			
+			return null;
+		}
+	} 
+	
+	@RequestMapping(value="studyGroupInSGLastBoardList.sg")
+	public @ResponseBody List<Map<String, Object>> studyGroupInSGLastBoardList(@RequestParam("member_Code")int member_Code){
+		try {
+			return sgs.studyGroupInSGLastBoardList(member_Code);
+		} catch (StudyGroupException e) {
+			e.printStackTrace();
+			
+			return null;
+		}
+	}
+	
+	@RequestMapping(value="studyGroupInSGMyBoardArea.sg")
+	public @ResponseBody List<Map<String, Object>> studyGroupInSGMyBoardArea(@RequestParam("member_Code")int member_Code){
+		try {
+			return sgs.studyGroupInSGMyBoardArea(member_Code);
+		} catch (StudyGroupException e) {
+			e.printStackTrace();
+			
+			return null;
+		}
+	}
+	
+	@RequestMapping(value="selectStudyGroupSGRTRankList.sg")
+	public @ResponseBody List<Map<String, Object>> selectStudyGroupSGRTRankList(@RequestParam("category_Code")int category_Code){
+		try {
+			return sgs.selectStudyGroupSGRTRankList(category_Code);
+		} catch (StudyGroupException e) {
+			e.printStackTrace();
+			
+			return null;
+		}
 	}
 	
 	@RequestMapping(value="insertStudyGroup.sg")

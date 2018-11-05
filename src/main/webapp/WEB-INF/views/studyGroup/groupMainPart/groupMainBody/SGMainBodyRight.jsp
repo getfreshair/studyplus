@@ -32,6 +32,7 @@
 		margin-top:5px;
 		padding-top:5px;
 		text-align:center;
+		height:307px;
 	}
 	.inSGTitleListArea h4{
 		border-radius:7px;
@@ -42,7 +43,8 @@
 		padding-bottom:3px;
 	}
 	.inSGTitleArea {
-		display:inline-block;
+		display:table;
+		margin:0 auto;
 		margin-bottom:5px;
 		background:cadetblue;
 		border-radius:10px;
@@ -81,6 +83,7 @@
 		text-align:center;
 		margin:0 auto;
 		height:162px;
+		overflow: hidden;
 	}
 	.SGMyBoardListArea {
 		display:none;
@@ -146,6 +149,104 @@
 	}
 </style>
 <script>
+	$(function(){
+		var member_Code = ${ sessionScope.loginUser.member_Code };
+		
+		$.ajax({
+			url : 'studyGroupInSGRankingList.sg',
+			data : {
+				member_Code : member_Code
+			},
+			beforeSend : function(){
+				$img = $('<img>');
+				$img.attr('src', '/studyplus/resources/images/studyGroup/groupListLoading.gif');
+				$img.css({
+					'width': '50px',
+					'height': '50px',
+					'display': 'inline-block',
+					'margin-left': '403px',
+					'margin-top': '50px'
+				});
+			},
+			success : function(data){
+				for(var key in data){
+					$inSGTitleArea = $('<div class="inSGTitleArea">').append(data[key].STUDYGROUP_NAME);
+					$('.inSGTitleListArea').append($inSGTitleArea);
+					$inSGRankingArea = $('<div class="inSGRankingArea">').append(data[key].CATEGORY_NAME + ' ' + data[key].RANK + '위 / ' + data[key].CATEGORY_TOTALNUM + '위');
+					$('.inSGTitleListArea').append($inSGRankingArea);
+				}
+				
+				
+			}
+		});	
+		
+		$.ajax({
+			url : 'studyGroupInSGLastBoardList.sg',
+			data : {
+				member_Code : member_Code
+			},
+			beforeSend : function(){
+				$img = $('<img>');
+				$img.attr('src', '/studyplus/resources/images/studyGroup/groupListLoading.gif');
+				$img.css({
+					'width': '50px',
+					'height': '50px',
+					'display': 'inline-block',
+					'margin-left': '403px',
+					'margin-top': '50px'
+				});
+				
+				$('.SGLastBoardArea').append($img);
+			},
+			success : function(data){
+				for(var key in data){
+					$SGLastBoardArea = $('<div class="SGLastBoardArea">');
+					$SGTitleArea = $('<div class="SGTitleArea">').append(data[key].GROUPBOARD_TITLE);
+					$SGLastBoardArea.append($SGTitleArea);
+					$SGBoardReadCheckArea = $('<div class="SGBoardReadCheckArea">').append($('<img>').attr('src', '/studyplus/resources/images/studyGroup/checked.png'));
+					$SGLastBoardArea.append($SGBoardReadCheckArea);
+					$SGBoardTitleArea = $('<div class="SGBoardTitleArea">').append(data[key].GROUPBOARD_CONTENT);
+					$SGLastBoardArea.append($SGBoardTitleArea);
+					
+					$('.SGBoardListArea').append($SGLastBoardArea);
+				}
+			}
+		});
+		
+		$.ajax({
+			url : 'studyGroupInSGMyBoardArea.sg',
+			data : {
+				member_Code : member_Code
+			},
+			beforeSend : function(){
+				$img = $('<img>');
+				$img.attr('src', '/studyplus/resources/images/studyGroup/groupListLoading.gif');
+				$img.css({
+					'width': '50px',
+					'height': '50px',
+					'display': 'inline-block',
+					'margin-left': '403px',
+					'margin-top': '50px'
+				});
+				
+				$('.SGLastBoardArea').append($img);
+			},
+			success : function(data){
+				for(var key in data){
+					$SGMyBoardArea = $('<div class="SGMyBoardArea">');
+					$SGTitleArea = $('<div class="SGTitleArea">').append(data[key].GROUPBOARD_TITLE);
+					$SGMyBoardArea.append($SGTitleArea);
+					$SGBoardReadCheckArea = $('<div class="SGBoardReadCheckArea">').append($('<img>').attr('src', '/studyplus/resources/images/studyGroup/checked.png'));
+					$SGMyBoardArea.append($SGBoardReadCheckArea);
+					$SGBoardTitleArea = $('<div class="SGBoardTitleArea">').append(data[key].GROUPBOARD_CONTENT);
+					$SGMyBoardArea.append($SGBoardTitleArea);
+					
+					$('.SGMyBoardListArea').append($SGMyBoardArea);
+				}
+			}
+		});
+	});
+	
 	function SGBoardList(page){
 		if(page == 'SGBoardListArea') {
 			$('.SGBoardChooseBtnUl li').css('font-weight', 'unset');
@@ -202,38 +303,10 @@
 					<li onclick="SGBoardList('SGMyBoardListArea')"><img>내 게시글</li>
 				</ul>
 			</div>
-			<div class="SGBoardListArea">
-				<div class="SGLastBoardArea">
-					<div class="SGTitleArea">2018년 KH정보교육원 학생들의 모임</div><br>
-					<div class="SGBoardReadCheckArea">
-						<img src="/studyplus/resources/images/studyGroup/checked.png">
-					</div>
-					<div class="SGBoardTitleArea">이거 문제좀 풀어주세요</div>
-				</div>
-			</div>
-			<div class="SGMyBoardListArea">
-				<div class="SGMyBoardArea">
-					<div class="SGTitleArea">연봉을 올려봐요!!!</div><br>
-					<div class="SGBoardReadCheckArea">
-						<img src="/studyplus/resources/images/studyGroup/checked.png">
-					</div>
-					<div class="SGBoardTitleArea">정답 공유해드립니다</div>
-				</div>
-			</div>
+			<div class="SGBoardListArea"></div>
+			<div class="SGMyBoardListArea"></div>
 		</div>
-		<div class="inSGTitleListArea">
-			<h4>참여 그룹 순위</h4>
-			<div class="inSGTitleArea">2018년 KH정보교육원 학생들의 모임</div>
-			<div class="inSGRankingArea">카테고리 283위 / 3,203위</div>
-			<div class="inSGTitleArea">2018년 KH정보교육원 학생들의 모임</div>
-			<div class="inSGRankingArea">카테고리 283위 / 3,203위</div>
-			<div class="inSGTitleArea">2018년 KH정보교육원 학생들의 모임</div>
-			<div class="inSGRankingArea">카테고리 283위 / 3,203위</div>
-			<div class="inSGTitleArea">2018년 KH정보교육원 학생들의 모임</div>
-			<div class="inSGRankingArea">카테고리 283위 / 3,203위</div>
-			<div class="inSGTitleArea">2018년 KH정보교육원 학생들의 모임</div>
-			<div class="inSGRankingArea">카테고리 283위 / 3,203위</div>
-		</div>
+		<div class="inSGTitleListArea"><h4>참여 그룹 순위</h4></div>
 	</div>
 </body>
 </html>

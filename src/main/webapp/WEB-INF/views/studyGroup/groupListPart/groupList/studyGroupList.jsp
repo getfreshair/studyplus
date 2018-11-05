@@ -135,8 +135,6 @@
 	}
 	
 	function selectSGList(searchSGName, category_Code, location_Code, currentPage){
-		console.log(searchSGName, category_Code, location_Code, currentPage);
-		
 		$.ajax({
 			url: 'selectStudyGroupList.sg',
 			data: {
@@ -151,8 +149,6 @@
 			success : function(data){
 				$('.SGListInfoArea').empty();
 				$('.SGPIArea').empty();
-				
-				console.log(data);
 				
 				for(var key in data){
 					if(key <= (data.length - 2)){
