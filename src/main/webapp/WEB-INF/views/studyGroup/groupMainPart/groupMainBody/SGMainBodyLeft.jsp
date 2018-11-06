@@ -428,12 +428,16 @@
 			}
 		});
 	});
+	
+	function StatisticsPage(){
+		location.href="studygroupStatistics.sg";
+	}
 </script>
 </head>
 <body>
 	<div class="SGMainBodyLeftArea">
 		<div class="adArea">
-			<img src="/studyplus/resources/images/ad/ad.png">
+			<img src="/studyplus/resources/images/ad/ad.png" onclick="StatisticsPage()">
 		</div>
 		<div class="SGListChangeBtnArea">
 			<ul class="SGListChangeUl">
