@@ -11,6 +11,7 @@
 		
 		<result property="studyGroup_Code" column="STUDYGROUP_CODE"/>
 		<result property="studyGroup_Name" column="STUDYGROUP_NAME"/>
+		<result property="leaderMem_Code" column="LEADER_CODE"/>	<!-- 로그인 유저 코드 -->
 		<result property="member_Code" column="MEMBER_CODE"/>	<!-- 로그인 유저 코드 -->
 		<result property="member_NickName" column="MEMBER_NICKNAME"/>
 		<result property="location_Code" column="LOCATION_CODE"/>
@@ -44,7 +45,7 @@
 	<select id="selectJoinStatus" resultType="_int" parameterType="hashmap">
 		SELECT COUNT(*) AS "JOINSTATUS"
 		FROM JOINGROUP JG
-		WHERE STUDYGROUP_CODE = #{ sgCode } AND JOINGROUP_STATUS = 0 AND MEMBER_CODE = #{ memCode }
+		WHERE STUDYGROUP_CODE = #{ grCode } AND JOINGROUP_STATUS = 0 AND MEMBER_CODE = #{ memCode }
 	</select>
 	
 <!-- 	*//중요//* => TO_DATE('2018/11/02') -> SYSDATE로 날짜 변경하기 -->
@@ -92,14 +93,14 @@
 		                            JOIN STUDYGROUP GR ON(ST.STUDYGROUP_CODE = GR.STUDYGROUP_CODE) ),
 		                          ( SELECT COUNT(*) AS "GR_MEM_CNT"
 		                            FROM JOINGROUP
-		                            WHERE STUDYGROUP_CODE = #{ sgCode }
+		                            WHERE STUDYGROUP_CODE = #{ grCode }
 		                            AND JOINGROUP_STATUS = 0 )
 		                     GROUP BY STUDYTIME_DATE, STUDYGROUP_CODE, GR_MEM_CNT )
 		              GROUP BY STUDYGROUP_CODE, GR_MEM_CNT ) USING(STUDYGROUP_CODE)
 		       JOIN STUDYGROUP USING(STUDYGROUP_CODE)
 		       JOIN CATEGORY USING(CATEGORY_CODE)
 		       JOIN LOCATION USING(LOCATION_CODE)
-		       WHERE STUDYGROUP_CODE = #{ sgCode } ), 
+		       WHERE STUDYGROUP_CODE = #{ grCode } ), 
 		     ( SELECT TRUNC(TO_DATE('2018/11/04'), 'IW') "WEEK_ST",
 		              TRUNC(TO_DATE('2018/11/04'), 'IW') + 6.99999 "WEEK_END"
 		       FROM DUAL )
@@ -116,14 +117,30 @@
 			                     AND STUDYTIME_DATE BETWEEN TRUNC(TO_DATE('2018/11/04'), 'IW')
 			                     					AND TRUNC(TO_DATE('2018/11/04'), 'IW') + 6.99999
 			                     GROUP BY STUDYGROUP_CODE, MEMBER_CODE )
-			              WHERE STUDYGROUP_CODE = #{ sgCode } )
+			              WHERE STUDYGROUP_CODE = #{ grCode } )
 			       WHERE MEMBER_CODE = #{ memCode } )
 			JOIN ( SELECT STUDYGROUP_CODE, MEMBER_CODE, SUM(STUDYTIME_STUDYTIME) AS "MY_DAY_TOTAL"
 			       FROM STUDYTIME
 			       WHERE STUDYTIME_DIVISION = 1 AND MEMBER_CODE = #{ memCode }
 			       AND STUDYTIME_DATE LIKE TO_DATE('2018/11/04')
 			       GROUP BY STUDYGROUP_CODE, MEMBER_CODE ) USING(STUDYGROUP_CODE)
-	</select> 
+	</select>
+	
+	<select id="selectjoinAbleChk" resultType="_int">
+		SELECT (STUDYGROUP_MAXNUM - GR_MEM_CNT) AS "JOIN_ABLE_CNT"
+		FROM (SELECT COUNT(*) AS "GR_MEM_CNT", STUDYGROUP_CODE
+		      FROM JOINGROUP
+		      WHERE STUDYGROUP_CODE = #{ grCode } AND JOINGROUP_STATUS = 0
+		      GROUP BY STUDYGROUP_CODE)
+		JOIN STUDYGROUP USING(STUDYGROUP_CODE)
+	</select>
+	
+	<insert id="insertGroupJoin" parameterType="SGDetail">
+		INSERT INTO JOINGROUP
+			(JOINGROUP_CODE, STUDYGROUP_CODE, MEMBER_CODE, JOINGROUP_ENROLLDATE, JOINGROUP_STATUS, JOINGROUP_DELETEDATE)
+		VALUES
+			(SEQ_JOINGROUP_JOINGROUP_CODE.NEXTVAL, #{ grCode }, #{ memCode }, SYSDATE, 0, NULL)
+	</insert>
 </mapper>
 	
 	
