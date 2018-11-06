@@ -1,8 +1,8 @@
 package always.awake.studyplus.studyPlanner.model.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface StudyPlannerService {
 
@@ -14,6 +14,9 @@ public interface StudyPlannerService {
 
 	//월간 공부량 차트
 	List<HashMap<String, Object>> selectMonthlyChart(List<HashMap<String, Object>> list);
+
+	//오늘의 목표 리스트
+	List<Map<String, Object>> selectTodayGoals(Map<String, Object> hmap);
 
 
 

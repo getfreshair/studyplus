@@ -3,6 +3,7 @@ package always.awake.studyplus.studyPlanner.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,15 @@ public class StudyPlannerServiceImpl implements StudyPlannerService{
 		List<HashMap<String, Object>> monthlyChart = spd.monthlyChart(sqlSession, list);
 
 		return monthlyChart;
+	}
+
+	//오늘의 목표 리스트
+	@Override
+	public List<Map<String, Object>> selectTodayGoals(Map<String, Object> hmap) {
+		
+		List<Map<String, Object>> todayGoals = spd.selectTodayGoals(sqlSession, hmap);
+		
+		return todayGoals;
 	}
 
 
