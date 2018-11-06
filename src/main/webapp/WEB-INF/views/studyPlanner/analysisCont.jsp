@@ -1,6 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+    <meta name="description" content="A schedule management with jQuery.">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/studyplus/resources/dist/jquery.schedule.css">
+  	<link rel="stylesheet" href="/studyplus/resources/dist/jquery.schedule-demo.css"> 
+	<script src="/studyplus/resources/dist/jquery.schedule.js"></script>
+<style>
+ .jqs-grid-line:before{
+ 	left:0;
+ }
+</style>
 <div class="col-sm-9 col-xs-12 center_area">
 	<div class="row">
 		<!-- 일간공부량 -->
@@ -50,6 +60,32 @@
 				<span class="txt">학습 평가</span>
 			</div>
 			<div class="chart">
+            <div id="schedule2" class="jqs-demo mb-3" style="height:100%; widht:100%"></div>
+            <script>
+            $(function(){
+            	$('#schedule2').jqs({
+            		  mode: 'read',
+            		  data: [
+            		    {
+            		      day: 0,
+            		      periods: [
+            		        ['20:00', '00:00'],
+            		        ['20:00', '22:00'],
+            		        ['00:00', '02:00']
+            		      ]
+            		    }, {
+            		      day: 3,
+            		      periods: [
+            		        ['00:00', '08:30'],
+            		        ['09:00', '12:00']
+            		      ]
+            		    }
+            		  ]
+            		});
+            });
+             
+            </script>
+
 			</div>
 		</div>
 		<!-- // 학습평가 -->

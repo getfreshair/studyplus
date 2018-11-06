@@ -645,16 +645,6 @@
 			<c:if test="${groupSize ne 0}">
 				그룹 리스트
 				<ul>
-					<!-- <li>서울대가 목표! <br>
-					<span id="outputGroup0" style="width:100px; height:50px; margin-top:50px; font-size:2em;">00 : 00 : 00 : 00</span>
-					<div id="controls" style="display:inline-block; margin-left:30px ;">
-	  						<button id="groupStartPause0" class="btn btn-primary" onclick="startPause('group',0)">공부시작</button>
-	  					</div></li>
-					<li>책책책 책을 읽읍시다 <br>
-						<span id="outputGroup1" style="width:100px; height:50px; margin-top:50px; font-size:2em;">00 : 00 : 00 : 00</span>
-						<div id="controls" style="display:inline-block; margin-left:30px ;">
-	  						<button id="groupStartPause1" class="btn btn-primary" onclick="startPause('group',1)">공부시작</button>
-	  					</div></li> -->
 	  					<c:forEach var="group" items="<%=groupList %>" varStatus="index">
 	  						<li>${group.studyGroup_Name }
 	  						<br>
@@ -700,10 +690,10 @@
 	            <div class="overlay">
 	                <h2 >Block Settings</h2>
 	                <p class="set1">
-	                    <a href="#">
+	                    <a href="showProgram.bl">
 	                        <i class="fa fa-desktop" style="margin-right:10px"></i>
 	                    </a>
-	                    <a href="#">
+	                    <a href="showWeb.bl">
 	                        <i class="fa fa-tasks" style="margin-left:10px"></i>
 	                    </a>
 	                </p>
@@ -713,7 +703,7 @@
 	                    <a href="showSchedule.bl">
 	                        <i class="fa fa-calendar" style="margin-right:10px"></i>
 	                    </a>
-	                    <a href="#">
+	                    <a href="showLocation.bl">
 	                        <i class="fa fa-road" style="margin-left:10px"></i>
 	                    </a>
 	                </p>
@@ -769,18 +759,6 @@
 	  				</li>
 	  			</c:forEach>
 	  		</ul>
-			<!-- <ul>
-				<li>영단어 1천자 ( 1시간 ) <br>
-				<span id="outputGoal0" style="width:100px; height:50px; margin-top:50px; font-size:2em;">00 : 00 : 00 : 00</span>
-				<div id="controls" style="display:inline-block; margin-left:30px ;">
-  						<button id="goalStartPause0" class="btn btn-primary" onclick="startPause('goal',0)">공부시작</button>
-  					</div></li>
-				<li>건축학개론 ( 2시간 ) <br>
-					<span id="outputGoal1" style="width:100px; height:50px; margin-top:50px; font-size:2em;">00 : 00 : 00 : 00</span>
-					<div id="controls" style="display:inline-block; margin-left:30px ;">
-  						<button id="goalStartPause1" class="btn btn-primary" onclick="startPause('goal',1)">공부시작</button>
-  					</div></li>
-			</ul> -->
 		</div>
 	</div>
 </body>
