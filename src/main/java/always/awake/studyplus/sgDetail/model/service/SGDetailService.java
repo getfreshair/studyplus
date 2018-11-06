@@ -6,7 +6,9 @@ public interface SGDetailService {
 
 	public int selectJoinStatus(int sgCode, int memCode);
 
-	public SGDetail selectOneGroup(int sgCode, int memCode, int joinStatus);
+	public SGDetail selectOneGrDetailTotal(int sgCode, int memCode, int joinStatus);
+
+	public SGDetail selectOneJoinGrTop(int sgCode, int memCode);
 
 	
 	

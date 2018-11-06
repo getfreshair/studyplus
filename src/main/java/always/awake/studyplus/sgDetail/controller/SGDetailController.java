@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import always.awake.studyplus.member.model.vo.Member;
@@ -36,7 +37,7 @@ public class SGDetailController {
 		try {
 			int joinStatus = gs.selectJoinStatus(sgCode, memCode);
 			
-			SGDetail gr = gs.selectOneGroup(sgCode, memCode, joinStatus);
+			SGDetail gr = gs.selectOneGrDetailTotal(sgCode, memCode, joinStatus);
 			
 			System.out.println("1-result) SGDetail 컨트롤러 결과 \n가입여부 (가입-1(이상) / 미가입-0) : < " + joinStatus +
 								" > \n그룹 조회 결과 : \n  < " + gr + " >\n");
@@ -44,6 +45,11 @@ public class SGDetailController {
 			mv.addObject("joinStatus", joinStatus);
 			mv.addObject("gr", gr);
 			System.out.println("1,2-view) SGDetail 컨트롤러\nModelAndView :\n  <" + mv.toString() + ">");
+			
+			if(joinStatus >= 1) {
+				SGDetail joinGroup = gs.selectOneJoinGrTop(sgCode, memCode);
+				mv.addObject("joinTop", joinGroup);
+			}
 			
 			mv.setViewName("studyGroupDetail/groupDetailPage");
 						
@@ -56,6 +62,13 @@ public class SGDetailController {
 		return mv;
 	}
 	
+	
+	@RequestMapping(value="joinAbleChk.sgd", method=RequestMethod.POST)
+	public int selectGrJoinAbleChk(@RequestParam("grCode")int grCode) {
+//		int ableStatus = gs.selectJoinAbleChk( grCode );
+		
+		return 0;
+	}
 	
 /*		@RequestMapping(value="/selectOneGroup.sgd", method=RequestMethod.POST)
 		public String selectOneGroupDetail(@RequestParam("userId")String userId, @RequestParam(value="userPwd", defaultValue="1234", required=false)String userPwd) {

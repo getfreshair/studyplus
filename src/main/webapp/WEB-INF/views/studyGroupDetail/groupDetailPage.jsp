@@ -107,6 +107,7 @@
 			<div class="titleArea">
 			<!-- *가입여부 체크 (가입-1 / 미가입-0 ,(**DB상으로는 가입-0, 미가입-1)) -->
 				<input type="hidden" id="joinStatus" value="${joinStatus}"/>
+				<input type="hidden" id="grCode" value="${studyGroup_Code}"/>
 				<div class="groupInfoArea topInfoArea">
 					<div class="groupInfoLeft">
 						<table class="topInfoAllWrapTbl">
@@ -127,8 +128,8 @@
 										<table class="groupOptDetailTbl">
 											<tr><td>
 												<strong>목표시간</strong>
-												<span><fmt:formatNumber value="${gr.studyGroup_GoalTime}" pattern="0"/> 시간</span>
-<%-- 											<span>${gr.studyGroup_GoalTime} 시간</span> --%>
+<%-- 												<span><fmt:formatNumber value="${gr.studyGroup_GoalTime}" pattern="0"/> 시간</span> --%>
+												<span>${gr.studyGroup_GoalTime} 시간</span>
 											</td></tr>
 											<tr><td>
 												<strong>참여인원</strong>
@@ -136,11 +137,11 @@
 											</td></tr>
 											<tr><td>
 												<strong>시 작 일</strong>	
-												<span><fmt:formatDate value="${gr.studyGroup_StDate}" pattern="yy. MM. dd."/>
+												<span>
+													<fmt:formatDate value="${gr.studyGroup_StDate}" pattern="yy. MM. dd."/>
 													(${gr.gr_Dates} 일 째)
 <%-- 												<span style="font-size:12px; line-height:1.9; font-weight:bold;">&nbsp;(${gr.gr_Dates} 일 째)</span> --%>
 												</span>
-												
 											</td></tr>
 										</table>
 									</td></tr>
@@ -160,18 +161,27 @@
 								<table class="topInfoContWrapTbl"><tr>
 									<td width="50%"><div class="statBox groupStatBoxLeft">
 										<table class="statBoxContTbl">
-											<tr><td><h3>그룹 순위</h3> <strong>00 위</strong></td></tr>
+											<tr><td><h3>그룹 순위</h3> <strong>${gr.gr_Rank} 위</strong></td></tr>
 											<tr><td><div>
-												<div><strong>이 주의 공부시간</strong> <br> <span>000:00:00</span></div>
+												<div>
+													<strong>이 주의 공부시간</strong> <br>
+													<span>
+														<c:set var="gr_Week_Hour" value="${(gr.gr_Week_Total / 3600)}"/>
+														<c:set var="gr_Week_Min" value="${(gr.gr_Week_Total % 3600) / 60}"/>
+														<fmt:formatNumber var="gr_Week_H" value="${gr_Week_Hour - (gr_Week_Hour % 1)}" pattern="#00"/>
+														<fmt:formatNumber var="gr_Week_M" value="${gr_Week_Min - (gr_Week_Min % 1)}" pattern="00"/>
+														<fmt:formatNumber var="gr_Week_Sec" value="${(gr.gr_Week_Total % 3600) % 60}" pattern="00"/>
+														${gr_Week_H}:${gr_Week_M}:${gr_Week_Sec}
+													</span>
 												<div>
 													<strong>오늘의 공부시간</strong> <br> 
 													<span><!-- 6:57:37 --><!-- pages-(pages%1) -> 내림처리 -->
 														<c:set var="gr_Day_Hour" value="${(gr.gr_Day_Total / 3600)}"/>
 														<c:set var="gr_Day_Min" value="${(gr.gr_Day_Total % 3600) / 60}"/>
-														<fmt:formatNumber var="gr_Hour" value="${gr_Day_Hour - (gr_Day_Hour % 1)}" pattern="#00"/>
-														<fmt:formatNumber var="gr_Min" value="${gr_Day_Min - (gr_Day_Min % 1)}" pattern="00"/>
-														<fmt:formatNumber var="gr_Sec" value="${(gr.gr_Day_Total % 3600) % 60}" pattern="00"/>
-														${gr_Hour}:${gr_Min}:${gr_Sec}
+														<fmt:formatNumber var="gr_Day_H" value="${gr_Day_Hour - (gr_Day_Hour % 1)}" pattern="#00"/>
+														<fmt:formatNumber var="gr_Day_M" value="${gr_Day_Min - (gr_Day_Min % 1)}" pattern="00"/>
+														<fmt:formatNumber var="gr_Day_Sec" value="${(gr.gr_Day_Total % 3600) % 60}" pattern="00"/>
+														${gr_Day_H}:${gr_Day_M}:${gr_Day_Sec}
 													</span>
 												</div>
 											</div></td></tr>
@@ -179,7 +189,7 @@
 									</div></td>
 									<td><div class="statBox groupStatBoxRight">
 										<table class="statBoxContTbl">
-											<tr><td><h3>목표 완수율</h3> <strong>${gr.gr_Fulfill_Mem_Cnt / gr.studyGroup_MaxNum * 100} %</strong></td></tr>
+											<tr><td><h3>목표 완수율</h3> <strong>${gr.gr_Week_Fulfill_Ratio} %</strong></td></tr>
 											<tr><td>
 												<div><div class="goalRatio">${gr.gr_Fulfill_Mem_Cnt} / ${gr.studyGroup_MaxNum} 명 완수</div></div>
 											</td></tr>
@@ -194,11 +204,11 @@
 				<div class="myInfoArea topInfoArea">
 					<table class="topInfoAllWrapTbl">
 					<!-- 그룹 미가입시 -->
-					  <c:if test="${joinStatus < 1}">
+<%-- 					  <c:if test="${joinStatus < 1}"> --%>
 						<tr><td>
-							<div><a href="" class="joinGroupBtn">그룹 가입하기</a></div>
+							<div><a onclick="joinGroup();"href="" class="joinGroupBtn">그룹 가입하기</a></div>
 						</td></tr>
-					  </c:if>
+<%-- 					  </c:if> --%>
 					  
 					<!-- 그룹 가입시 -->
 					  <c:if test="${joinStatus >= 1}">
@@ -209,17 +219,27 @@
 							<table class="topInfoContWrapTbl" style="display:table;"><tr>
 								<td><div class="statBox groupStatBoxLeft">
 									<table class="statBoxContTbl">
-										<tr><td><h3>나의 순위</h3> <strong>0 위</strong></td></tr>
+										<tr><td><h3>나의 순위</h3> <strong>${joinTop.my_Rank} 위</strong></td></tr>
 										<tr><td><div>
-											<div><strong>이 주의 공부시간</strong> <br> <span>00:00:00</span></div>
-											<div><strong>오늘의 공부시간</strong> <br>
+											<div>
+												<strong>이 주의 공부시간</strong> <br>
 												<span>
-													<c:set var="my_Day_Hour" value="${(gr.my_Day_Total / 3600)}"/>
-													<c:set var="my_Day_Min" value="${(gr.my_Day_Total % 3600) / 60}"/>
-													<fmt:formatNumber var="my_Hour" value="${my_Day_Hour - (my_Day_Hour % 1)}" pattern="#00"/>
-													<fmt:formatNumber var="my_Min" value="${my_Day_Min - (my_Day_Min % 1)}" pattern="00"/>
-													<fmt:formatNumber var="my_Sec" value="${(gr.my_Day_Total % 3600) % 60}" pattern="00"/>
-													${my_Hour}:${my_Min}:${my_Sec}
+													<c:set var="my_Week_Hour" value="${(joinTop.my_Week_Total / 3600)}"/>
+													<c:set var="my_Week_Min" value="${(joinTop.my_Week_Total % 3600) / 60}"/>
+													<fmt:formatNumber var="my_Week_H" value="${my_Week_Hour - (my_Week_Hour % 1)}" pattern="#00"/>
+													<fmt:formatNumber var="my_Week_M" value="${my_Week_Min - (my_Week_Min % 1)}" pattern="00"/>
+													<fmt:formatNumber var="my_Week_Sec" value="${(joinTop.my_Week_Total % 3600) % 60}" pattern="00"/>
+													${my_Week_H}:${my_Week_M}:${my_Week_Sec}
+												</span>
+											<div>
+												<strong>오늘의 공부시간</strong> <br>
+												<span>
+													<c:set var="my_Day_Hour" value="${(joinTop.my_Day_Total / 3600)}"/>
+													<c:set var="my_Day_Min" value="${(joinTop.my_Day_Total % 3600) / 60}"/>
+													<fmt:formatNumber var="my_Day_H" value="${my_Day_Hour - (my_Day_Hour % 1)}" pattern="#00"/>
+													<fmt:formatNumber var="my_Day_M" value="${my_Day_Min - (my_Day_Min % 1)}" pattern="00"/>
+													<fmt:formatNumber var="my_Day_Sec" value="${(joinTop.my_Day_Total % 3600) % 60}" pattern="00"/>
+													${my_Day_H}:${my_Day_M}:${my_Day_Sec}
 												</span>
 											</div>
 										</div></td></tr>
@@ -248,6 +268,25 @@
 			$('.afterLoginShow').css({"display":"none"});
 		} */
 	});
+	
+	function joinGroup(){
+		var grCode = $('#grCode').val();
+		/* var joinMemCnt = $('#joinMemCnt').val();
+		var joinMaxCnt = $('#joinMaxCnt').val();
+		alert(joinMemCnt);
+		alert(joinMaxCnt); */
+		
+		
+		$.ajax({
+			url: 'joinAbleChk.sgd',
+			type : 'POST',
+			data : { grCode : grCode },
+			success : function(data){
+
+				
+			}
+	
+	};
 
 
 </script>			

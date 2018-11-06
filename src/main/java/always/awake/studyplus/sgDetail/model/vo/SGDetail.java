@@ -26,10 +26,14 @@ public class SGDetail implements Serializable {
 
 	private int gr_Dates; // 오늘날짜 - 그룹 생성날짜
 	private int gr_Mem_Count; // 현재 그룹 참여 인원
-	
+	private int gr_Rank;	//카테고리별 그룹 순위
+	private int gr_Week_Total;
 	private int gr_Day_Total; // 그룹 오늘 총 공부량
+	private int my_Week_Total;
 	private int my_Day_Total; // 그룹 내 로그인 유저 오늘 총 공부량
+	private int my_Rank;
 	private int gr_Fulfill_Mem_Cnt; // 목표량 달성한 그룹 인원
+	private int gr_Week_Fulfill_Ratio;
 	
 	public SGDetail() {	}
 
@@ -37,8 +41,8 @@ public class SGDetail implements Serializable {
 			int location_Code, String location_Name, int studyGroup_GoalTime, int studyGroup_MaxNum,
 			String studyGroup_Intro, Date studyGroup_StDate, int studyGroup_Status, Date studyGroup_EdDate,
 			int category_Code, String category_Name, int studyGroup_OpenStatus, String studyGroup_Pwd,
-			int groupTotalStudyTime, int gr_Dates, int gr_Mem_Count, int gr_Day_Total, int my_Day_Total,
-			int gr_Fulfill_Mem_Cnt) {
+			int groupTotalStudyTime, int gr_Dates, int gr_Mem_Count, int gr_Rank, int gr_Week_Total, int gr_Day_Total,
+			int my_Week_Total, int my_Day_Total, int my_Rank, int gr_Fulfill_Mem_Cnt, int gr_Week_Fulfill_Ratio) {
 		super();
 		this.studyGroup_Code = studyGroup_Code;
 		this.member_Code = member_Code;
@@ -59,9 +63,14 @@ public class SGDetail implements Serializable {
 		this.groupTotalStudyTime = groupTotalStudyTime;
 		this.gr_Dates = gr_Dates;
 		this.gr_Mem_Count = gr_Mem_Count;
+		this.gr_Rank = gr_Rank;
+		this.gr_Week_Total = gr_Week_Total;
 		this.gr_Day_Total = gr_Day_Total;
+		this.my_Week_Total = my_Week_Total;
 		this.my_Day_Total = my_Day_Total;
+		this.my_Rank = my_Rank;
 		this.gr_Fulfill_Mem_Cnt = gr_Fulfill_Mem_Cnt;
+		this.gr_Week_Fulfill_Ratio = gr_Week_Fulfill_Ratio;
 	}
 
 	public int getStudyGroup_Code() {
@@ -216,12 +225,36 @@ public class SGDetail implements Serializable {
 		this.gr_Mem_Count = gr_Mem_Count;
 	}
 
+	public int getGr_Rank() {
+		return gr_Rank;
+	}
+
+	public void setGr_Rank(int gr_Rank) {
+		this.gr_Rank = gr_Rank;
+	}
+
+	public int getGr_Week_Total() {
+		return gr_Week_Total;
+	}
+
+	public void setGr_Week_Total(int gr_Week_Total) {
+		this.gr_Week_Total = gr_Week_Total;
+	}
+
 	public int getGr_Day_Total() {
 		return gr_Day_Total;
 	}
 
 	public void setGr_Day_Total(int gr_Day_Total) {
 		this.gr_Day_Total = gr_Day_Total;
+	}
+
+	public int getMy_Week_Total() {
+		return my_Week_Total;
+	}
+
+	public void setMy_Week_Total(int my_Week_Total) {
+		this.my_Week_Total = my_Week_Total;
 	}
 
 	public int getMy_Day_Total() {
@@ -232,12 +265,28 @@ public class SGDetail implements Serializable {
 		this.my_Day_Total = my_Day_Total;
 	}
 
+	public int getMy_Rank() {
+		return my_Rank;
+	}
+
+	public void setMy_Rank(int my_Rank) {
+		this.my_Rank = my_Rank;
+	}
+
 	public int getGr_Fulfill_Mem_Cnt() {
 		return gr_Fulfill_Mem_Cnt;
 	}
 
 	public void setGr_Fulfill_Mem_Cnt(int gr_Fulfill_Mem_Cnt) {
 		this.gr_Fulfill_Mem_Cnt = gr_Fulfill_Mem_Cnt;
+	}
+
+	public int getGr_Week_Fulfill_Ratio() {
+		return gr_Week_Fulfill_Ratio;
+	}
+
+	public void setGr_Week_Fulfill_Ratio(int gr_Week_Fulfill_Ratio) {
+		this.gr_Week_Fulfill_Ratio = gr_Week_Fulfill_Ratio;
 	}
 
 	@Override
@@ -250,9 +299,9 @@ public class SGDetail implements Serializable {
 				+ ", studyGroup_EdDate=" + studyGroup_EdDate + ", category_Code=" + category_Code + ", category_Name="
 				+ category_Name + ", studyGroup_OpenStatus=" + studyGroup_OpenStatus + ", studyGroup_Pwd="
 				+ studyGroup_Pwd + ", groupTotalStudyTime=" + groupTotalStudyTime + ", gr_Dates=" + gr_Dates
-				+ ", gr_Mem_Count=" + gr_Mem_Count + ", gr_Day_Total=" + gr_Day_Total + ", my_Day_Total=" + my_Day_Total
-				+ ", gr_Fulfill_Mem_Cnt=" + gr_Fulfill_Mem_Cnt + "]";
+				+ ", gr_Mem_Count=" + gr_Mem_Count + ", gr_Rank=" + gr_Rank + ", gr_Week_Total=" + gr_Week_Total
+				+ ", gr_Day_Total=" + gr_Day_Total + ", my_Week_Total=" + my_Week_Total + ", my_Day_Total="
+				+ my_Day_Total + ", my_Rank=" + my_Rank + ", gr_Fulfill_Mem_Cnt=" + gr_Fulfill_Mem_Cnt
+				+ ", gr_Week_Fulfill_Ratio=" + gr_Week_Fulfill_Ratio + "]";
 	}
-
-	
 }
