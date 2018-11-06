@@ -28,9 +28,17 @@
 		
 		<result property="gr_Mem_Count" column="GR_MEM_CNT"/> <!-- //* -->
 		<result property="gr_Dates" column="GR_DATES"/> <!-- //* -->
+
+		<result property="gr_Rank" column="GR_RANK"/> <!-- //* -->		
+		<result property="gr_Week_Total" column="GR_WEEK_TOTAL"/> <!-- //* -->
 		<result property="gr_Day_Total" column="GR_DAY_TOTAL"/> <!-- //* -->
+
+		<result property="my_Rank" column="MY_RANK"/> <!-- //* -->		
+		<result property="my_Week_Total" column="MY_WEEK_TOTAL"/> <!-- //* -->
 		<result property="my_Day_Total" column="MY_DAY_TOTAL"/> <!-- //* -->
-		<result property="gr_Fulfill_Mem_Cnt" column="GR_FULFILL_MEM_CNT"/> <!-- //* -->		
+
+		<result property="gr_Fulfill_Mem_Cnt" column="GR_WEEK_FULFILL_CNT"/> <!-- //* -->		
+		<result property="gr_Week_Fulfill_Ratio" column="GR_WEEK_FULFILL_RATIO"/> <!-- //* -->	
 	</resultMap>
 	
 	<select id="selectJoinStatus" resultType="_int" parameterType="hashmap">
@@ -41,53 +49,80 @@
 	
 <!-- 	*//중요//* => TO_DATE('2018/11/02') -> SYSDATE로 날짜 변경하기 -->
 	<!-- select 그룹  detail 쿼리 -->
-	<select id="selectOneGroup" resultMap="SGDetailResultSet" parameterType="map">
-		WITH GR_TOTAL AS (
-		                SELECT STUDYTIME_DATE, STUDYGROUP_CODE, MEMBER_CODE, GR_MEM_DAY_TOTAL, GR_MEM_CNT,
-		                       LOCATION_NAME, CATEGORY_NAME, STUDYGROUP_NAME, STUDYGROUP_INTRO, STUDYGROUP_GOALTIME,
-		                       STUDYGROUP_MAXNUM, STUDYGROUP_STDATE, GR_DATES
-		                FROM ( SELECT STUDYTIME_DATE, STUDYGROUP_CODE, MEMBER_CODE, STUDYTIME_STUDYTIME  AS "GR_MEM_DAY_TOTAL", GR_MEM_CNT
-		                       FROM STUDYTIME,
-		                       		( SELECT COUNT(*) AS "GR_MEM_CNT" FROM JOINGROUP
-		                       		  WHERE STUDYGROUP_CODE = #{ sgCode } AND JOINGROUP_STATUS = 0 )
-		                       WHERE (STUDYGROUP_CODE, MEMBER_CODE) IN ( SELECT STUDYGROUP_CODE, MEMBER_CODE 
-		                                                                FROM JOINGROUP
-		                                                                WHERE STUDYGROUP_CODE = #{ sgCode } AND JOINGROUP_STATUS = 0 )
-		                       AND STUDYTIME_DATE LIKE <!-- SYSDATE --> TO_DATE('2018/11/02') )
-		                JOIN ( SELECT L.LOCATION_NAME AS "LOCATION_NAME", C.CATEGORY_NAME AS "CATEGORY_NAME",
-		                              STUDYGROUP_NAME, STUDYGROUP_INTRO, (STUDYGROUP_GOALTIME / 3600) AS "STUDYGROUP_GOALTIME",
-		                              STUDYGROUP_MAXNUM, STUDYGROUP_STDATE,
-		                              TRUNC(<!-- SYSDATE --> TO_DATE('2018/11/02') - STUDYGROUP_STDATE + 1) AS "GR_DATES",
-		                              STUDYGROUP_CODE
-		                       FROM STUDYGROUP SG
-		                       JOIN LOCATION L ON(L.LOCATION_CODE = SG.LOCATION_CODE)
-		                       JOIN CATEGORY C ON(C.CATEGORY_CODE = SG.CATEGORY_CODE) ) USING(STUDYGROUP_CODE)
-		                 )
-		<if test="joinStatus lt 1">
-		SELECT STUDYTIME_DATE, STUDYGROUP_CODE, GR_DAY_TOTAL, GR_FULFILL_MEM_CNT,
-		       LOCATION_NAME, CATEGORY_NAME, STUDYGROUP_NAME, STUDYGROUP_INTRO, STUDYGROUP_GOALTIME, GR_MEM_CNT, STUDYGROUP_MAXNUM,
-		       STUDYGROUP_STDATE, GR_DATES
-		FROM GR_TOTAL GT,
-			(SELECT SUM(GR_MEM_DAY_TOTAL) AS "GR_DAY_TOTAL" FROM GR_TOTAL),
-			(SELECT COUNT(GR_MEM_DAY_TOTAL) AS "GR_FULFILL_MEM_CNT" FROM GR_TOTAL WHERE GR_MEM_DAY_TOTAL >= STUDYGROUP_GOALTIME)
-		GROUP BY STUDYTIME_DATE, STUDYGROUP_CODE, GR_DAY_TOTAL, GR_FULFILL_MEM_CNT,
-		       LOCATION_NAME, CATEGORY_NAME, STUDYGROUP_NAME, STUDYGROUP_INTRO, STUDYGROUP_GOALTIME, GR_MEM_CNT, STUDYGROUP_MAXNUM,
-		       STUDYGROUP_STDATE, GR_DATES
-		</if>
-
-		<if test="joinStatus gte 1">
-		SELECT STUDYTIME_DATE, STUDYGROUP_CODE, GR_DAY_TOTAL, MY_DAY_TOTAL, GR_FULFILL_MEM_CNT,
-		       LOCATION_NAME, CATEGORY_NAME, STUDYGROUP_NAME, STUDYGROUP_INTRO, STUDYGROUP_GOALTIME, GR_MEM_CNT, STUDYGROUP_MAXNUM,
-		       STUDYGROUP_STDATE, GR_DATES
-		FROM GR_TOTAL GT,
-			(SELECT SUM(GR_MEM_DAY_TOTAL) AS "GR_DAY_TOTAL" FROM GR_TOTAL),
-			(SELECT SUM(GR_MEM_DAY_TOTAL) AS "MY_DAY_TOTAL" FROM GR_TOTAL WHERE MEMBER_CODE = #{ memCode }),
-			(SELECT COUNT(GR_MEM_DAY_TOTAL) AS "GR_FULFILL_MEM_CNT" FROM GR_TOTAL WHERE GR_MEM_DAY_TOTAL >= STUDYGROUP_GOALTIME)
-
-		GROUP BY STUDYTIME_DATE, STUDYGROUP_CODE, GR_DAY_TOTAL, MY_DAY_TOTAL, GR_FULFILL_MEM_CNT,
-		       LOCATION_NAME, CATEGORY_NAME, STUDYGROUP_NAME, STUDYGROUP_INTRO, STUDYGROUP_GOALTIME, GR_MEM_CNT, STUDYGROUP_MAXNUM,
-		       STUDYGROUP_STDATE, GR_DATES
-		</if>
+	<select id="selectOneGrDetailTotal" resultMap="SGDetailResultSet" parameterType="hashmap">
+		SELECT WEEK_ST, WEEK_END, LOCATION_NAME, CATEGORY_NAME, STUDYGROUP_CODE,
+		       STUDYGROUP_NAME, STUDYGROUP_INTRO, STUDYGROUP_GOALTIME,
+		       GR_MEM_CNT, STUDYGROUP_MAXNUM, STUDYGROUP_STDATE,
+		       TRUNC((TO_DATE('2018/11/04') - STUDYGROUP_STDATE) + 1) AS "GR_DATES",
+		       GR_WEEK_TOTAL, GR_RANK, GR_DAY_TOTAL,
+		       GR_WEEK_FULFILL_RATIO, GR_WEEK_FULFILL_CNT
+		FROM ( SELECT LOCATION_NAME, CATEGORY_NAME, STUDYGROUP_CODE,
+					  STUDYGROUP_NAME, STUDYGROUP_INTRO,
+					  (STUDYGROUP_GOALTIME / 3600) AS "STUDYGROUP_GOALTIME",
+					  GR_MEM_CNT, STUDYGROUP_MAXNUM, STUDYGROUP_STDATE,
+					  TRUNC((TO_DATE('2018/11/04') - STUDYGROUP_STDATE) + 1) AS "GR_DATES", GR_WEEK_TOTAL,
+					  RANK() OVER (PARTITION BY CATEGORY_NAME ORDER BY GR_WEEK_TOTAL DESC) AS "GR_RANK",
+		              GR_DAY_TOTAL, GR_WEEK_FULFILL_RATIO, GR_WEEK_FULFILL_CNT
+		       FROM ( SELECT STUDYGROUP_CODE, SUM(STUDYTIME_STUDYTIME) AS "GR_WEEK_TOTAL"
+		              FROM STUDYTIME 
+		              WHERE STUDYTIME_DIVISION = 1
+		              AND STUDYTIME_DATE BETWEEN TRUNC(TO_DATE('2018/11/04'), 'IW')
+		              					 AND TRUNC(TO_DATE('2018/11/04'), 'IW') + 6.99999
+		              GROUP BY STUDYGROUP_CODE )
+		       JOIN ( SELECT STUDYGROUP_CODE, SUM(STUDYTIME_STUDYTIME) AS "GR_DAY_TOTAL"
+		              FROM STUDYTIME
+		              WHERE STUDYTIME_DIVISION = 1
+		              AND STUDYTIME_DATE LIKE TO_DATE('2018/11/04')
+		              GROUP BY STUDYGROUP_CODE ) USING(STUDYGROUP_CODE)
+		       JOIN ( SELECT STUDYGROUP_CODE, GR_MEM_CNT,
+		       		  		 AVG((GR_FULFILL_CNT / GR_MEM_CNT) * 100) AS "GR_WEEK_FULFILL_RATIO",
+		       		  		 AVG(GR_FULFILL_CNT) AS "GR_WEEK_FULFILL_CNT"
+		              FROM ( SELECT STUDYTIME_DATE, STUDYGROUP_CODE,
+		              				SUM(DECODE(GR_FULFILL_STATUS, 1, 1)) AS "GR_FULFILL_CNT", GR_MEM_CNT
+		                     FROM ( SELECT STUDYTIME_DATE, ST.STUDYGROUP_CODE, ST.MEMBER_CODE, MEM_WEEKDAY_TOTAL,
+		                     			   DECODE(SIGN(MEM_WEEKDAY_TOTAL - GR.STUDYGROUP_GOALTIME), 1, 1, 0, 1, -1, 0) AS "GR_FULFILL_STATUS"
+		                            FROM ( SELECT TRUNC(STUDYTIME_DATE) AS "STUDYTIME_DATE",
+		                            			  STUDYGROUP_CODE, MEMBER_CODE,
+		                            			  SUM(STUDYTIME_STUDYTIME) AS "MEM_WEEKDAY_TOTAL"
+		                                   FROM STUDYTIME
+		                                   WHERE STUDYTIME_DIVISION = 1
+		                                   AND STUDYTIME_DATE BETWEEN TRUNC(TO_DATE('2018/11/04'), 'IW')
+		                                   					  AND TRUNC(TO_DATE('2018/11/04'), 'IW') + 6.99999
+		                                   GROUP BY TRUNC(STUDYTIME_DATE), STUDYGROUP_CODE, MEMBER_CODE ) ST
+		                            JOIN STUDYGROUP GR ON(ST.STUDYGROUP_CODE = GR.STUDYGROUP_CODE) ),
+		                          ( SELECT COUNT(*) AS "GR_MEM_CNT"
+		                            FROM JOINGROUP
+		                            WHERE STUDYGROUP_CODE = #{ sgCode }
+		                            AND JOINGROUP_STATUS = 0 )
+		                     GROUP BY STUDYTIME_DATE, STUDYGROUP_CODE, GR_MEM_CNT )
+		              GROUP BY STUDYGROUP_CODE, GR_MEM_CNT ) USING(STUDYGROUP_CODE)
+		       JOIN STUDYGROUP USING(STUDYGROUP_CODE)
+		       JOIN CATEGORY USING(CATEGORY_CODE)
+		       JOIN LOCATION USING(LOCATION_CODE)
+		       WHERE STUDYGROUP_CODE = #{ sgCode } ), 
+		     ( SELECT TRUNC(TO_DATE('2018/11/04'), 'IW') "WEEK_ST",
+		              TRUNC(TO_DATE('2018/11/04'), 'IW') + 6.99999 "WEEK_END"
+		       FROM DUAL )
+	</select>
+	
+	<select id="selectOneJoinGrTop" resultMap="SGDetailResultSet" parameterType="hashmap">
+			SELECT STUDYGROUP_CODE, MY_WEEK_TOTAL, MY_DAY_TOTAL, MY_RANK
+			FROM ( SELECT STUDYGROUP_CODE, MEMBER_CODE, MY_WEEK_TOTAL, MY_RANK
+			       FROM ( SELECT STUDYGROUP_CODE, MEMBER_CODE, MY_WEEK_TOTAL,
+			                     RANK() OVER (PARTITION BY STUDYGROUP_CODE ORDER BY MY_WEEK_TOTAL DESC) AS "MY_RANK"
+			              FROM ( SELECT STUDYGROUP_CODE, MEMBER_CODE, SUM(STUDYTIME_STUDYTIME) AS "MY_WEEK_TOTAL"
+			                     FROM STUDYTIME
+			                     WHERE STUDYTIME_DIVISION = 1
+			                     AND STUDYTIME_DATE BETWEEN TRUNC(TO_DATE('2018/11/04'), 'IW')
+			                     					AND TRUNC(TO_DATE('2018/11/04'), 'IW') + 6.99999
+			                     GROUP BY STUDYGROUP_CODE, MEMBER_CODE )
+			              WHERE STUDYGROUP_CODE = #{ sgCode } )
+			       WHERE MEMBER_CODE = #{ memCode } )
+			JOIN ( SELECT STUDYGROUP_CODE, MEMBER_CODE, SUM(STUDYTIME_STUDYTIME) AS "MY_DAY_TOTAL"
+			       FROM STUDYTIME
+			       WHERE STUDYTIME_DIVISION = 1 AND MEMBER_CODE = #{ memCode }
+			       AND STUDYTIME_DATE LIKE TO_DATE('2018/11/04')
+			       GROUP BY STUDYGROUP_CODE, MEMBER_CODE ) USING(STUDYGROUP_CODE)
 	</select> 
 </mapper>
 	

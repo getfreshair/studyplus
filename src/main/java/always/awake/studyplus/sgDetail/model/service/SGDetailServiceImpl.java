@@ -25,14 +25,21 @@ public class SGDetailServiceImpl implements SGDetailService{
 	}
 	
 	@Override
-	public SGDetail selectOneGroup(int sgCode, int memCode, int joinStatus) {
+	public SGDetail selectOneGrDetailTotal(int sgCode, int memCode, int joinStatus) {
 		System.out.println("2-request) \n그룹 디테일 조회하는 서비스 req");
 		
-		SGDetail group = gd.selectOneGroup(sqlSession, sgCode, memCode, joinStatus);
+		SGDetail group = gd.selectOneGrDetailTotal(sqlSession, sgCode, memCode, joinStatus);
 		
 		System.out.println("그룹 디테일 조회하는 서비스 res ->\n  SGDetail group : \n  < " + group.toString() + " >\n\n");
 		
 		return group;
+	}
+
+	@Override
+	public SGDetail selectOneJoinGrTop(int sgCode, int memCode) {
+		SGDetail joinGroup = gd.selectOneJoinGrTop(sqlSession, sgCode, memCode);
+		
+		return joinGroup;
 	}
 
 	

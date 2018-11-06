@@ -24,7 +24,7 @@ public class SGDetailDaoImpl implements SGDetailDao{
 	}
 
 	@Override
-	public SGDetail selectOneGroup(SqlSessionTemplate sqlSession, int sgCode, int memCode, int joinStatus) {
+	public SGDetail selectOneGrDetailTotal(SqlSessionTemplate sqlSession, int sgCode, int memCode, int joinStatus) {
 		System.out.println("그룹 한 개 선택하는 Dao req \n");
 		Map<String, Object> hm = new HashMap<String, Object>();
 		
@@ -33,7 +33,17 @@ public class SGDetailDaoImpl implements SGDetailDao{
 		hm.put("joinStatus", joinStatus);
 		System.out.println("2-response) \n그룹 한 개 선택하는 Dao res -> HM : < " + hm + " >");
 		
-		return sqlSession.selectOne("SGDetail.selectOneGroup", hm);
+		return sqlSession.selectOne("SGDetail.selectOneGrDetailTotal", hm);
+	}
+
+	@Override
+	public SGDetail selectOneJoinGrTop(SqlSessionTemplate sqlSession, int sgCode, int memCode) {
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		
+		hm.put("sgCode", sgCode);
+		hm.put("memCode", memCode);
+		System.out.println("가입 그룹 내 정보 표시하는 dao");
+		return sqlSession.selectOne("SGDetail.selectOneJoinGrTop", hm);
 	}
 
 
