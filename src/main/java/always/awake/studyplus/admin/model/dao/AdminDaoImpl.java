@@ -299,4 +299,27 @@ public class AdminDaoImpl implements AdminDao {
 
 		return sqlSession.selectList("Admin.searchPRList", map);
 	}
+
+	@Override
+	public int getSingleRewardListCount(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+	
+		return sqlSession.selectOne("Admin.getSingleRewardListCount" , map);
+	}
+
+	@Override
+	public List<Map<String, Object>> getSingleRewardList(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		PageInfo pi = (PageInfo) map.get("pi");
+		
+		int offset = (pi.getCurrentPage()-1)* pi.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
+		
+		map.put("rowBounds", rowBounds);
+		
+		List<Map<String, Object>> list = sqlSession.selectList("Admin.getSingleRewardList",map,rowBounds);
+		
+		System.out.println("dao" + list);
+		
+		return list;
+	}
 }

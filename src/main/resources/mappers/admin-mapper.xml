@@ -57,7 +57,7 @@
 	<select id="selectMember" parameterType="map" resultType="hashmap">
 	
 	SELECT M.MEMBER_CODE, M.MEMBER_ID, M.MEMBER_NICKNAME,
-		TO_CHAR(M.MEMBER_ENROLLDATE,'yyyy-mm-dd'), M.MEMBER_AGE, M.MEMBER_JOB, M.MEMBER_PHONE,
+		TO_CHAR(M.MEMBER_ENROLLDATE,'yyyy-mm-dd') AS MEMBER_ENROLLDATE, M.MEMBER_AGE, M.MEMBER_JOB, M.MEMBER_PHONE,
 		M.MEMBER_GENDER, L.LOCATION_NAME,
 		C.CATEGORY_NAME
 		FROM MEMBER M
@@ -399,5 +399,18 @@
 		<if test='createDate2 neq ""'>
 			AND PR_ENDDATE BETWEEN #{createDate1} AND #{createDate2}
 		</if>
+	</select>
+	
+	<select id="getSingleRewardListCount">
+		SELECT count(*)
+		FROM REWARD
+		WHERE REWARD_TYPE=0
+		AND MEMBER_CODE IS NOT NULL
+	</select>
+	
+	
+	<select id="getSingleRewardList">
+	
+	
 	</select>
 </mapper>

@@ -102,4 +102,10 @@ public interface AdminDao {
 
 	List<Map<String, Object>> searchPRList(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
 
+
+	int getSingleRewardListCount(SqlSessionTemplate sqlSession, Map<String, Object> map);
+
+
+	List<Map<String, Object>> getSingleRewardList(SqlSessionTemplate sqlSession, Map<String, Object> map);
+
 }

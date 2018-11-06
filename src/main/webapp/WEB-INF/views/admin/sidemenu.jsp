@@ -180,7 +180,7 @@ display:none;
 			<i class='fas fa-gift' style='font-size:24px; float:left; margin-left:5px ;margin-top:10px;'></i>
 			<h3>지급관리<i class='fas fa-angle-down' style='font-size:24px; margin-left:45px;'></i></h3>
 			<ul>
-				<li><a onclick="goPage('admin/rewardManage/singleReward')">개인지급관리</a></li>
+				<li><a href='getSingleRewardList.do'>개인지급관리</a></li>
 				<li><a onclick="goPage('admin/rewardManage/groupReward')">그룹지급관리</a></li>
 			</ul>
 		</li>

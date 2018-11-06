@@ -62,6 +62,58 @@ public class AdminController {
 		
 		return page;
 	}
+	/////////////////////////////////////////////지급 관리/////////////////////////////////////////////////////////////
+	@RequestMapping("getSingleRewardList.do")
+	public ModelAndView getSingleRewardList(ModelAndView mv, HttpServletRequest request) {
+		int currentPage = 1;
+		
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
+		String option = request.getParameter("option");
+		String keyword = request.getParameter("keyword");
+		
+		Map<String, Object> map = new HashMap<String, Object>();	
+		
+		map.put("option", option);
+		map.put("keyword", keyword);
+		
+		System.out.println(option);
+		System.out.println(keyword);
+		
+		int listCount = as.getSingleRewardListCount(map);
+		
+		System.out.println("listCount : " + listCount);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		map.put("pi", pi);
+				
+		List<Map<String, Object>> list = as.getSingleRewardList(map);
+		
+		System.out.println(list);
+		map.put("list", list);
+		
+		mv.addObject("data", map);
+		mv.setViewName("admin/rewardManage/singleReward");
+		
+		return mv;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	////////////////////////////////////////////지급 관리끝 ////////////////////////////////////////////////////////////
+
+	
 	////////////////////////////////////////광고 관리////////////////////////////////////////////
 	@RequestMapping("adminSearchPRList.do")
 	public @ResponseBody List<Map<String, Object>> searchPRList(@RequestParam String option, @RequestParam String keyword, @RequestParam String createDate1, @RequestParam String createDate2, HttpServletResponse response){
