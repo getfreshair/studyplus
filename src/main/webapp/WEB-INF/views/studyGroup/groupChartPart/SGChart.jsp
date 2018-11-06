@@ -4,10 +4,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- #### CSS FILES ### -->
+<link rel="stylesheet" href="/studyplus/resources/css/bootstrap.css">
+<link rel="stylesheet" href="/studyplus/resources/css/custom.css">
+<!-- #### JAVASCRIPT FILES ### -->
+<script src="/studyplus/resources/js/jquery-1.11.1.min.js"></script>
+<script src="/studyplus/resources/js/bootstrap.min.js"></script>
+<style>
+	html, body {
+		height:100%;
+	}
+</style>
 </head>
 <body>
-z
-	<div>
+	<jsp:include page="../../common/header.jsp"/>
+	<div class="chartForm">
 		<div>
 			<jsp:include page="./SGCategoryChart/SGCategoryChart.jsp"/>
 		</div>

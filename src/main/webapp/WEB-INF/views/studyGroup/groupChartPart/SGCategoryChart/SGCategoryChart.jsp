@@ -10,29 +10,58 @@
 		width:1200px;
 		text-align:center;
 		margin:0 auto;
+		margin-top:20px;
+		margin-bottom:20px;
+	}
+	.categoryChartArea h1 {
+		color: white;
+		background:black;
+		padding-top: 10px;
+    	padding-bottom: 10px;
 	}
 	.categoryChartPart {
 		display:inline-block;
 	}
 	.categoryChartInfo {
+		font-size: 18px;
 	}
-	.categoryChartInfo P {
+	.categoryChartInfo p {
 		display:inline-block;
 		width:100%;
 		margin: 0px;
 		text-align:left;
+		font-size: 14px;
+	}
+	.categoryChartInfo i {
+		font-size:12px;
+	}
+	.chartInfoUp {
+		color: red;
+		font-size: 14px;
+	}
+	.chartInfoDown {
+		color: blue;
+		font-size: 14px;
+	}
+	.chartInfoSame {
+		color: blue;
+		font-size: 14px;
 	}
 	.categoryChartDiv {
 		
 	}
+	.chartDay {
+	    font-size: 25px;
+	    font-weight: bolder;
+	}
 </style>
 <script type="text/javascript">
 	google.load("visualization", "1", {packages : [ "corechart" ]});
-	google.setOnLoadCallback(drawChart);
+	google.setOnLoadCallback(drawCategoryChart);
 
-	function drawChart() {
+	function drawCategoryChart() {
 		var data = google.visualization.arrayToDataTable([
-				[ 'hour', 'Toal', 'In' ], 
+				[ 'hour', 'Total', 'In' ], 
 				[ '0', 10, 20 ],
 				[ '1', 20, 3 ], 
 				[ '2', 30, 40 ],
@@ -61,9 +90,9 @@
 		]);
 
 		var options = {
-			title : 'SG Today Category Statistic',
 			height : 200,
-			width : 350
+			width : 390,
+			legend: {position: 'bottom', textStyle: {fontSize: 16}, maxLines:2}
 		};
 
 		var chartToday = new google.visualization.LineChart(document.getElementById('categoryToday_div'));
@@ -77,27 +106,36 @@
 </head>
 <body>
 	<div class="categoryChartArea">
-		<h2>SG Today Category Statistic</h2>
+		<h1>StudyGroup Category Statistic</h1>
 		<div class="categoryChartPart">
 			<div class="categoryChartInfo">
-				<p><i>1,220분</i>▼10%</p>
-				<p><i>2,220분</i>▲49%</p>
+				<p><i>43분 </i><i class="chartInfoUp">▲ </i> 10%</p>
+				<p><i>121분 </i><i class="chartInfoDown">▼ </i> 49%</p>
 			</div>
 			<div class="categoryChartDiv" id="categoryToday_div"></div>
+			<div class="chartDay">
+				Today
+			</div>
 		</div>
 		<div class="categoryChartPart">
 			<div class="categoryChartInfo">
-				<p>▼10%</p>
-				<p>▲49%</p>
+				<p><i>43분 </i><i class="chartInfoUp">▲ </i> 10%</p>
+				<p><i>121분 </i><i class="chartInfoDown">▼ </i> 49%</p>
 			</div>
 			<div class="categoryChartDiv" id="categoryWeek_div"></div>
+			<div class="chartDay">
+				This Week
+			</div>
 		</div>
 		<div class="categoryChartPart">
 			<div class="categoryChartInfo">
-				<p>▼10%</p>
-				<p>▲49%</p>
+				<p><i>43분 </i><i class="chartInfoUp">▲ </i> 10%</p>
+				<p><i>121분 </i><i class="chartInfoDown">▼ </i> 49%</p>
 			</div>
 			<div class="categoryChartDiv" id="categoryMonth_div"></div>
+			<div class="chartDay">
+				This Month
+			</div>
 		</div>
 	</div>
 </body>
