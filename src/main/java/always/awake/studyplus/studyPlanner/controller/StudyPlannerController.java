@@ -222,14 +222,18 @@ public class StudyPlannerController {
 	@RequestMapping(value="todayGoalsList.sp")
 	public void todayGoalsList(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		
-		/*Member loginUser = (Member) session.getAttribute("loginUser");
+		Member loginUser = (Member) session.getAttribute("loginUser");
 		int loginUserCode = loginUser.getMember_Code();
+		
+		int dayIndex = Integer.parseInt(request.getParameter("dateVal"));
+		
+		System.out.println("잘들어오나??" + dayIndex);
 		
 		try {
 			response.getWriter().print("msg");
 		} catch (IOException e) {
 			e.printStackTrace();
-		}*/
+		}
 	}
 
 }

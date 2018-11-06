@@ -801,45 +801,125 @@ function GoalListChart(){
 //목표 리스트
 function todayGoalsList(){
 	//이번주 날짜 출력
-
-	
 	var now = new Date();
-	var day = now.getDate();
-	var test = new Date(Date.parse(now) + 0 * 1000 * 60 * 60 * 24); //오늘
+	var year= now.getFullYear();
+	var mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
+	var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
+	var chan_val = year + '-' + mon + '-' + day;
 	
-	console.log(day)
-	switch(test.getDay()){
-		case 0 : 
-			$(".today_point span").eq(0).text(day);
-			break;
-		case 1 : 
-			$(".today_point span").eq(0).text((new Date(Date.parse(now) - 1 * 1000 * 60 * 60 * 24).getDate())).addClass('la');
-			$(".today_point span").eq(1).text(day).addClass('on');
-			for(var i = 2; i < 7; i++){
-				$(".today_point span").eq(i).text((new Date(Date.parse(now) + i * 1000 * 60 * 60 * 24).getDate()));
-			}
-			break;
-		case 2 : 
-			break;
-		case 3 : 
-			$(".today_point span").eq(3).text(day).addClass('on');
-			break;
+	//var now = new Date();
+	//var day = now.getDate();
+	//var today = new Date(Date.parse(now) + 0 * 1000 * 60 * 60 * 24); //오늘
+	//console.log(today);
+	
+	
+	
+	//$today 오늘날짜 2018-11-6
+	var $todayVal= new Date(Date.parse(now) + 0 * 1000 * 60 * 60 * 24).getFullYear() + "-" + new Date(Date.parse(now) + 0 * 1000 * 60 * 60 * 24).getMonth() + "-" + new Date(Date.parse(now) + 0 * 1000 * 60 * 60 * 24).getDate();
+	for (var i = 1; i < 7; i++) { 
+		//$prevVal1 -> 1일전 날짜 2018-11-6 ~  $prevVal6 -> 6일전 날짜
+		eval('var $prevVal' + i + '= new Date(Date.parse(now) - i * 1000 * 60 * 60 * 24).getFullYear() + "-" + new Date(Date.parse(now) - i * 1000 * 60 * 60 * 24).getMonth() + "-" + new Date(Date.parse(now) - i * 1000 * 60 * 60 * 24).getDate()');
+		//$nextVal1 -> 1일뒤 날짜 2018-11-6 ~  $nextVal6 -> 6일뒤 날짜
+		eval('var $nextVal' + i + '= new Date(Date.parse(now) + i * 1000 * 60 * 60 * 24).getFullYear() + "-" + new Date(Date.parse(now) + i * 1000 * 60 * 60 * 24).getMonth() + "-" + new Date(Date.parse(now) + i * 1000 * 60 * 60 * 24).getDate()');
 	}
-	//console.log(chan_val);
+	
+	//$today 오늘
+	var $today = (new Date(Date.parse(now) + 0 * 1000 * 60 * 60 * 24).getDate()); 
+	for (var i = 1; i < 7; i++) { 
+		//$prev1 -> 1일전 ~ $prev6 -> 6일전 
+		eval('var $prev' + i + '= (new Date(Date.parse(now) - i * 1000 * 60 * 60 * 24).getDate())');
+		//$next1 -> 1일뒤 ~ $next6 -> 6일뒤 
+		eval('var $next' + i + '= (new Date(Date.parse(now) + i * 1000 * 60 * 60 * 24).getDate())');
+	}
+
+	var $todayPoint = $(".today_point span");
+	
+	switch(now.getDay()){
+	case 0 : //일요일
+		$todayPoint.eq(0).text($today).addClass('on').val($todayVal);
+		$todayPoint.eq(1).text($next1).val($nextVal1);
+		$todayPoint.eq(2).text($next2).val($nextVal2);
+		$todayPoint.eq(3).text($next3).val($nextVal3);
+		$todayPoint.eq(4).text($next4).val($nextVal4);
+		$todayPoint.eq(5).text($next5).val($nextVal5);
+		$todayPoint.eq(6).text($next6).val($nextVal6);
+		break;
+	case 1 : //월요일
+		$todayPoint.eq(0).text($prev1).val($prevVal1);
+		$todayPoint.eq(1).text($today).addClass('on').val($todayVal);
+		$todayPoint.eq(2).text($next1).val($nextVal1);
+		$todayPoint.eq(3).text($next2).val($nextVal2);
+		$todayPoint.eq(4).text($next3).val($nextVal3);
+		$todayPoint.eq(5).text($next4).val($nextVal4);
+		$todayPoint.eq(6).text($next5).val($nextVal5);
+		break;
+	case 2 : //화요일
+		$todayPoint.eq(0).text($prev2).val($prevVal2);
+		$todayPoint.eq(1).text($prev1).val($prevVal1);
+		$todayPoint.eq(2).text($today).addClass('on').val($todayVal);
+		$todayPoint.eq(3).text($next1).val($nextVal1);
+		$todayPoint.eq(4).text($next2).val($nextVal2);
+		$todayPoint.eq(5).text($next3).val($nextVal3);
+		$todayPoint.eq(6).text($next4).val($nextVal4);
+		break;
+	case 3 : //수요일
+		$todayPoint.eq(0).text($prev3).val($prevVal3);
+		$todayPoint.eq(1).text($prev2).val($prevVal2);
+		$todayPoint.eq(2).text($prev1).val($prevVal1);
+		$todayPoint.eq(3).text($today).addClass('on').val($todayVal);
+		$todayPoint.eq(4).text($next1).val($nextVal1);
+		$todayPoint.eq(5).text($next2).val($nextVal2);
+		$todayPoint.eq(6).text($next3).val($nextVal3);
+		break;
+	case 4 : //목요일
+		$todayPoint.eq(0).text($prev4).val($prevVal4);
+		$todayPoint.eq(1).text($prev3).val($prevVal3);
+		$todayPoint.eq(2).text($prev2).val($prevVal2);
+		$todayPoint.eq(3).text($prev1).val($prevVal1);
+		$todayPoint.eq(4).text($today).addClass('on').val($todayVal);
+		$todayPoint.eq(5).text($next1).val($nextVal1);
+		$todayPoint.eq(6).text($next2).val($nextVal2);
+		break;
+	case 5 : //금요일
+		$todayPoint.eq(0).text($prev5).val($prevVal5);
+		$todayPoint.eq(1).text($prev4).val($prevVal4);
+		$todayPoint.eq(2).text($prev3).val($prevVal3);
+		$todayPoint.eq(3).text($prev2).val($prevVal2);
+		$todayPoint.eq(4).text($prev1).val($prevVal1);
+		$todayPoint.eq(5).text($today).addClass('on').val($todayVal);
+		$todayPoint.eq(6).text($next1).val($nextVal1);
+		break;
+	case 6 : //토요일
+		$todayPoint.eq(0).text($prev6).val($prevVal6);
+		$todayPoint.eq(1).text($prev5).val($prevVal5);
+		$todayPoint.eq(2).text($prev4).val($prevVal4);
+		$todayPoint.eq(3).text($prev3).val($prevVal3);
+		$todayPoint.eq(4).text($prev2).val($prevVal2);
+		$todayPoint.eq(5).text($prev1).val($prevVal1);
+		$todayPoint.eq(6).text($today).addClass('on').val($todayVal);
+		break;
+	}
+	
+	
+	$(".today_point li").click(function(){
+		
+		var dateVal = $(this).val();
+		
+		console.log("날짜의 인덱스? : "+dateVal);
+		
+		$.ajax({
+			url : "todayGoalsList.sp",
+			data : {dateVal : dateVal},
+			type : "post",
+			success : function(data) {
+				
+			},
+			error : function() {
+				console.log("에러발생!");
+			}
+		});
+	});
 	
 	
 	
-	var goalsList = $(".goals_list li");
-	
-	/*$.ajax({
-		url : "todayGoalsList.sp",
-		data : {dateVal : dateVal},
-		type : "post",
-		success : function(data) {
-			
-		},
-		error : function() {
-			console.log("에러발생!");
-		}
-	});*/
 }
