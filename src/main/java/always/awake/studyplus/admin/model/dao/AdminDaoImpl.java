@@ -254,12 +254,49 @@ public class AdminDaoImpl implements AdminDao {
 		
 		try {
 			if(result>0) {
-				sqlSession.insert("Admin.updateCPP", map);
+				sqlSession.insert("Admin.updateCPPImg", map);
 			}
 		}catch(Exception e) {
 			System.out.println("아랫것");
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	@Override
+	public int updateCPC(SqlSessionTemplate sqlSession, Banner b, String originFileName, String changeName) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("b", b);
+		map.put("originFileName", originFileName);
+		map.put("changeName", changeName);
+		int result = -99;
+		
+		try {
+			result = sqlSession.update("Admin.updateCPC", map);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			if(result>0) {
+				sqlSession.insert("Admin.updateCPCImg", map);
+			}
+		}catch(Exception e) {
+			System.out.println("아랫것");
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public int deletePR(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+
+		return sqlSession.update("Admin.deletePR", map);
+	}
+
+	@Override
+	public List<Map<String, Object>> searchPRList(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+
+		return sqlSession.selectList("Admin.searchPRList", map);
 	}
 }

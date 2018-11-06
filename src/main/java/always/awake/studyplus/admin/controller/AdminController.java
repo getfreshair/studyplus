@@ -63,15 +63,56 @@ public class AdminController {
 		return page;
 	}
 	////////////////////////////////////////광고 관리////////////////////////////////////////////
-	@RequestMapping("updateCPP.do")
-	public String updateCPP(Model m ,Banner b, Files files, HttpServletRequest request,
+	@RequestMapping("adminSearchPRList.do")
+	public @ResponseBody List<Map<String, Object>> searchPRList(@RequestParam String option, @RequestParam String keyword, @RequestParam String createDate1, @RequestParam String createDate2, HttpServletResponse response){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		System.out.println(keyword);
+		System.out.println(option);
+		System.out.println(createDate1);
+		System.out.println(createDate2);
+		
+		
+		map.put("keyword", keyword);
+		map.put("option", option);
+		map.put("createDate1", createDate1);
+		map.put("createDate2", createDate2);
+		
+		
+		List<Map<String, Object>> list = as.searchPRList(map);
+		
+		System.out.println(list);
+		
+		return list;
+	}
+	
+	
+	@RequestMapping("deletePR.do")
+	public @ResponseBody int deletePR(@RequestParam String prCode, HttpSession session, HttpServletResponse response){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("code", prCode);
+		
+		int result = as.deletePR(map);
+		
+		return result;
+	}
+	
+	
+	@RequestMapping("updateCPC.do")
+	public String updateCPC(Model m ,Banner b, Files files, HttpServletRequest request,
 			@RequestParam(name="photo", required=false) MultipartFile photo) {
 			
 			String prTitle = request.getParameter("prTitle");
 			String prUrl = request.getParameter("prUrl");
 			//사진 저장할 경로 지정12152
+			String prCost = request.getParameter("prCost");
+			int code = Integer.parseInt(request.getParameter("code"));
 			String root = request.getSession().getServletContext().getRealPath("resources");
-			
+			System.out.println(prTitle);
+			System.out.println("code들ㅇ오옴?" + code);
+			System.out.println(photo);
+			System.out.println("link 들어옴" +prUrl);
 			//파일의 경로는 root 하위의 uploadFiles이다.
 			String filePath = root + "\\upload\\admin\\thumbnail";
 			
@@ -81,9 +122,63 @@ public class AdminController {
 			String originFileName = photo.getOriginalFilename();
 			String ext = originFileName.substring(originFileName.lastIndexOf(".")); //확장자 분리하기위한 로직
 			String changeName = CommonUtils.getRandomString();
-		
+			b.setPr_Code(code);
 			b.setPr_Title(prTitle);
 			b.setPr_Link(prUrl);
+			b.setPr_Contractmoney(prCost);
+			
+			//업로드된 파일을 지정한 경로에 저장
+			try {
+				System.out.println("여기는 오니?");
+				System.out.println(photo);
+			photo.transferTo(new File(filePath + "\\" + changeName + ext));
+			
+			int result = as.updateCPC(b, originFileName, changeName);
+			
+			System.out.println("이거하념ㄴ 성공"+result);
+			
+			
+			
+			return "redirect:getPRList.do";
+			
+			} catch (Exception e) {
+			//실패시 파일을 삭제
+			new File(filePath + "\\" + changeName + ext).delete();
+			
+			return "common/errorPage";
+			}
+		}
+	
+	
+	
+	@RequestMapping("updateCPP.do")
+	public String updateCPP(Model m ,Banner b, Files files, HttpServletRequest request,
+			@RequestParam(name="photo", required=false) MultipartFile photo) {
+			
+			String prTitle = request.getParameter("prTitle");
+			String prUrl = request.getParameter("prUrl");
+			//사진 저장할 경로 지정12152
+			String prCost = request.getParameter("prCost");
+			int code = Integer.parseInt(request.getParameter("code"));
+			String root = request.getSession().getServletContext().getRealPath("resources");
+			System.out.println(prTitle);
+			System.out.println("code들ㅇ오옴?" + code);
+			System.out.println(photo);
+			System.out.println("link 들어옴" +prUrl);
+			//파일의 경로는 root 하위의 uploadFiles이다.
+			String filePath = root + "\\upload\\admin\\thumbnail";
+			
+			System.out.println(filePath);
+			
+			//파일명 변경
+			String originFileName = photo.getOriginalFilename();
+			String ext = originFileName.substring(originFileName.lastIndexOf(".")); //확장자 분리하기위한 로직
+			String changeName = CommonUtils.getRandomString();
+			b.setPr_Code(code);
+			b.setPr_Title(prTitle);
+			b.setPr_Link(prUrl);
+			b.setPr_Contractmoney(prCost);
+			
 			//업로드된 파일을 지정한 경로에 저장
 			try {
 				System.out.println("여기는 오니?");
@@ -93,6 +188,8 @@ public class AdminController {
 			int result = as.updateCPP(b, originFileName, changeName);
 			
 			System.out.println(result);
+			
+			
 			
 			return "redirect:getPRList.do";
 			
@@ -106,19 +203,25 @@ public class AdminController {
 	
 	
 	@RequestMapping("selectPR.do")
-	public ModelAndView searchPR(ModelAndView mv, String prCode){
+	public ModelAndView searchPR(ModelAndView mv, String prCode, String type){
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
-		System.out.println(prCode);
+		System.out.println("prcode들어옴"+prCode);
 	
 		map.put("prCode", prCode);
 		System.out.println("완료?");
 		List<Map<String, Object>> list = as.selectPR(map);
 		
+		System.out.println(type);
 		
-		mv.addObject("map",list);
-		mv.setViewName("admin/bannerManage/modal");
-		
+		if(type.equals("CPP")) {
+			System.out.println("들어옴");
+			mv.addObject("map",list);
+			mv.setViewName("admin/bannerManage/modal");
+		}else {
+			mv.addObject("map",list);
+			mv.setViewName("admin/bannerManage/cpcModal");
+		}
 		return mv;
 	}
 	
@@ -142,7 +245,7 @@ public class AdminController {
 			String prCompany = request.getParameter("prCompany");
 			String prTitle = request.getParameter("prTitle");
 			String prUrl = request.getParameter("prUrl");
-			int prCost = Integer.parseInt(request.getParameter("prCost"));
+			String prCost = request.getParameter("prCost");
 			int prCategory = Integer.parseInt(request.getParameter("category"));
 			//사진 저장할 경로 지정12152
 			String root = request.getSession().getServletContext().getRealPath("resources");
@@ -191,7 +294,7 @@ public class AdminController {
 		String prUrl = request.getParameter("prUrl");
 		String prStartDate = request.getParameter("prStartDate");
 		String prEndDate = request.getParameter("prEndDate");
-		int prCost = Integer.parseInt(request.getParameter("prCost"));
+		String prCost = request.getParameter("prCost");
 		int prCategory = Integer.parseInt(request.getParameter("category"));
 		//사진 저장할 경로 지정12152
 		String root = request.getSession().getServletContext().getRealPath("resources");
