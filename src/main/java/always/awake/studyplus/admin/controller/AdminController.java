@@ -62,17 +62,31 @@ public class AdminController {
 		
 		return page;
 	}
+	
 	/////////////////////////////////////////////지급 관리/////////////////////////////////////////////////////////////
-	@RequestMapping("getSingleRewardList.do")
-	public ModelAndView getSingleRewardList(ModelAndView mv, HttpServletRequest request) {
-		int currentPage = 1;
+	@RequestMapping("searchSingleRewardHistory.do")
+	public @ResponseBody List<Map<String, Object>> searchSingleRewardHistory(@RequestParam String option, @RequestParam String keyword, HttpServletResponse response){
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		
-		if(request.getParameter("currentPage") != null) {
+		System.out.println(keyword);
+		System.out.println(option);
+		
+		
+		map.put("keyword", keyword);
+		map.put("option", option);
+		
+		List<Map<String, Object>> list = as.searchSingleRewardHistory(map);
+		
+		System.out.println(list);
+		
+		return list;
+	}
+/*	public ModelAndView searchSingleRewardHistory(ModelAndView mv, String option, String keyword,String currentPage, HttpServletResponse response) {
+		currentPage = "1";
+		
+		if(currentPage != null) {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		}
-		String option = request.getParameter("option");
-		String keyword = request.getParameter("keyword");
-		
 		Map<String, Object> map = new HashMap<String, Object>();	
 		
 		map.put("option", option);
@@ -80,6 +94,51 @@ public class AdminController {
 		
 		System.out.println(option);
 		System.out.println(keyword);
+		
+		int listCount = as.searchSingleRewardHistoryCount(map);
+		
+		System.out.println("listCount : " + listCount);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		map.put("pi", pi);
+				
+		List<Map<String, Object>> list = as.searchSingleRewardHistory(map);
+		
+		System.out.println(list);
+		map.put("list", list);
+		map.put("count", listCount);
+		
+		return list;
+	}
+	*/
+	
+	@RequestMapping("updateSingleReward.do")
+	public @ResponseBody int updateSingleReward(@RequestParam String rewardCode, HttpSession session, HttpServletResponse response){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		String[] nCode = rewardCode.split(",");
+		
+		System.out.println(nCode);
+		
+		int result = 0;
+		
+		for(int i = 0 ; i < nCode.length; i++) {
+			int code = Integer.parseInt(nCode[i].trim());
+			map.put("code",code);
+			result += as.updateSingleReward(map);
+		}
+		return result;
+	}
+	
+	@RequestMapping("getSingleRewardList.do")
+	public ModelAndView getSingleRewardList(ModelAndView mv, HttpServletRequest request) {
+		int currentPage = 1;
+		
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
+		Map<String, Object> map = new HashMap<String, Object>();	
 		
 		int listCount = as.getSingleRewardListCount(map);
 		
@@ -98,19 +157,7 @@ public class AdminController {
 		mv.setViewName("admin/rewardManage/singleReward");
 		
 		return mv;
-		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	////////////////////////////////////////////지급 관리끝 ////////////////////////////////////////////////////////////
 
 	

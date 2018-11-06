@@ -211,9 +211,23 @@ public class AdminServiceImpl implements AdminService{
 		return ad.getSingleRewardList(sqlSession, map);
 	}
 
+	@Override
+	public int updateSingleReward(HashMap<String, Object> map) {
 
-	
-	
-	
-	
+		return ad.updateSingleReward(sqlSession, map);
+	}
+
+	@Override
+	public int searchSingleRewardHistoryCount(Map<String, Object> map) {
+		
+		return ad.searchSingleRewardHistoryCount(sqlSession, map);
+	}
+
+	@Override
+	public List<Map<String, Object>> searchSingleRewardHistory(Map<String, Object> map) {
+
+		return ad.searchSingleRewardHistory(sqlSession, map);
+	}
+
+
 }

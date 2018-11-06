@@ -108,4 +108,13 @@ public interface AdminDao {
 
 	List<Map<String, Object>> getSingleRewardList(SqlSessionTemplate sqlSession, Map<String, Object> map);
 
+
+	int updateSingleReward(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
+
+	int searchSingleRewardHistoryCount(SqlSessionTemplate sqlSession, Map<String, Object> map);
+
+
+	List<Map<String, Object>> searchSingleRewardHistory(SqlSessionTemplate sqlSession, Map<String, Object> map);
+
 }
