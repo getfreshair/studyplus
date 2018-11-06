@@ -24,6 +24,11 @@ public class StudyGroupController {
 	@Autowired
 	private StudyGroupService sgs;
 	
+	@RequestMapping(value="studygroupStatistics.sg")
+	public String studygroupStatistics(){
+		return "studyGroup/groupChartPart/SGChart";
+	}
+	
 	@RequestMapping(value="studyGroupMainPage.sg")
 	public String studyGroupMainPage() {
 		return "studyGroup/studyGroupMain";
