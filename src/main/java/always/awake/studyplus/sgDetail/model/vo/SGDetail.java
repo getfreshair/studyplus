@@ -6,6 +6,7 @@ import java.sql.Date;
 public class SGDetail implements Serializable {
 
 	private int studyGroup_Code; // 그룹코드
+	private int lederMem_Code; //그룹장 코드
 	private int member_Code; // 그룹장코드 / 로그인유저 코드
 	private String member_NickName; // 그룹장닉네임
 	private String studyGroup_Name; // 그룹명
@@ -37,14 +38,16 @@ public class SGDetail implements Serializable {
 	
 	public SGDetail() {	}
 
-	public SGDetail(int studyGroup_Code, int member_Code, String member_NickName, String studyGroup_Name,
-			int location_Code, String location_Name, int studyGroup_GoalTime, int studyGroup_MaxNum,
-			String studyGroup_Intro, Date studyGroup_StDate, int studyGroup_Status, Date studyGroup_EdDate,
-			int category_Code, String category_Name, int studyGroup_OpenStatus, String studyGroup_Pwd,
-			int groupTotalStudyTime, int gr_Dates, int gr_Mem_Count, int gr_Rank, int gr_Week_Total, int gr_Day_Total,
-			int my_Week_Total, int my_Day_Total, int my_Rank, int gr_Fulfill_Mem_Cnt, int gr_Week_Fulfill_Ratio) {
+	public SGDetail(int studyGroup_Code, int lederMem_Code, int member_Code, String member_NickName,
+			String studyGroup_Name, int location_Code, String location_Name, int studyGroup_GoalTime,
+			int studyGroup_MaxNum, String studyGroup_Intro, Date studyGroup_StDate, int studyGroup_Status,
+			Date studyGroup_EdDate, int category_Code, String category_Name, int studyGroup_OpenStatus,
+			String studyGroup_Pwd, int groupTotalStudyTime, int gr_Dates, int gr_Mem_Count, int gr_Rank,
+			int gr_Week_Total, int gr_Day_Total, int my_Week_Total, int my_Day_Total, int my_Rank,
+			int gr_Fulfill_Mem_Cnt, int gr_Week_Fulfill_Ratio) {
 		super();
 		this.studyGroup_Code = studyGroup_Code;
+		this.lederMem_Code = lederMem_Code;
 		this.member_Code = member_Code;
 		this.member_NickName = member_NickName;
 		this.studyGroup_Name = studyGroup_Name;
@@ -79,6 +82,14 @@ public class SGDetail implements Serializable {
 
 	public void setStudyGroup_Code(int studyGroup_Code) {
 		this.studyGroup_Code = studyGroup_Code;
+	}
+
+	public int getLederMem_Code() {
+		return lederMem_Code;
+	}
+
+	public void setLederMem_Code(int lederMem_Code) {
+		this.lederMem_Code = lederMem_Code;
 	}
 
 	public int getMember_Code() {
@@ -291,17 +302,19 @@ public class SGDetail implements Serializable {
 
 	@Override
 	public String toString() {
-		return "SGDetail [studyGroup_Code=" + studyGroup_Code + ", member_Code=" + member_Code + ", member_NickName="
-				+ member_NickName + ", studyGroup_Name=" + studyGroup_Name + ", location_Code=" + location_Code
-				+ ", location_Name=" + location_Name + ", studyGroup_GoalTime=" + studyGroup_GoalTime
-				+ ", studyGroup_MaxNum=" + studyGroup_MaxNum + ", studyGroup_Intro=" + studyGroup_Intro
-				+ ", studyGroup_StDate=" + studyGroup_StDate + ", studyGroup_Status=" + studyGroup_Status
-				+ ", studyGroup_EdDate=" + studyGroup_EdDate + ", category_Code=" + category_Code + ", category_Name="
-				+ category_Name + ", studyGroup_OpenStatus=" + studyGroup_OpenStatus + ", studyGroup_Pwd="
-				+ studyGroup_Pwd + ", groupTotalStudyTime=" + groupTotalStudyTime + ", gr_Dates=" + gr_Dates
-				+ ", gr_Mem_Count=" + gr_Mem_Count + ", gr_Rank=" + gr_Rank + ", gr_Week_Total=" + gr_Week_Total
-				+ ", gr_Day_Total=" + gr_Day_Total + ", my_Week_Total=" + my_Week_Total + ", my_Day_Total="
-				+ my_Day_Total + ", my_Rank=" + my_Rank + ", gr_Fulfill_Mem_Cnt=" + gr_Fulfill_Mem_Cnt
-				+ ", gr_Week_Fulfill_Ratio=" + gr_Week_Fulfill_Ratio + "]";
+		return "SGDetail [studyGroup_Code=" + studyGroup_Code + ", lederMem_Code=" + lederMem_Code + ", member_Code="
+				+ member_Code + ", member_NickName=" + member_NickName + ", studyGroup_Name=" + studyGroup_Name
+				+ ", location_Code=" + location_Code + ", location_Name=" + location_Name + ", studyGroup_GoalTime="
+				+ studyGroup_GoalTime + ", studyGroup_MaxNum=" + studyGroup_MaxNum + ", studyGroup_Intro="
+				+ studyGroup_Intro + ", studyGroup_StDate=" + studyGroup_StDate + ", studyGroup_Status="
+				+ studyGroup_Status + ", studyGroup_EdDate=" + studyGroup_EdDate + ", category_Code=" + category_Code
+				+ ", category_Name=" + category_Name + ", studyGroup_OpenStatus=" + studyGroup_OpenStatus
+				+ ", studyGroup_Pwd=" + studyGroup_Pwd + ", groupTotalStudyTime=" + groupTotalStudyTime + ", gr_Dates="
+				+ gr_Dates + ", gr_Mem_Count=" + gr_Mem_Count + ", gr_Rank=" + gr_Rank + ", gr_Week_Total="
+				+ gr_Week_Total + ", gr_Day_Total=" + gr_Day_Total + ", my_Week_Total=" + my_Week_Total
+				+ ", my_Day_Total=" + my_Day_Total + ", my_Rank=" + my_Rank + ", gr_Fulfill_Mem_Cnt="
+				+ gr_Fulfill_Mem_Cnt + ", gr_Week_Fulfill_Ratio=" + gr_Week_Fulfill_Ratio + "]";
 	}
+
+	
 }

@@ -278,13 +278,17 @@
 		
 		
 		$.ajax({
-			url: 'joinAbleChk.sgd',
+			url: 'insertGroupJoin.sgd',
 			type : 'POST',
 			data : { grCode : grCode },
 			success : function(data){
-
-				
-			}
+					if(data >= 1){
+						location.href="selectOneGroup.sgd?group_No=" + grCode; 
+					}else{
+						alert("그룹 가능 최대 인원을 초과하여 가입 할 수 없습니다.");
+					}
+				}
+			});
 	
 	};
 
