@@ -14,7 +14,7 @@
 	<script src="/studyplus/resources/dist/jquery.schedule.js"></script>
 <style>
 	.scheduleMenu {
-		background: orangered !important;
+		background: red !important;
 	}
 </style>
 <head>
