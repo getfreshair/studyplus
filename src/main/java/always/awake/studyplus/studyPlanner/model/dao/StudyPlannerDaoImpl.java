@@ -9,6 +9,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+
+import always.awake.studyplus.studyPlanner.model.exception.plannerException;
+
 @Repository
 public class StudyPlannerDaoImpl implements StudyPlannerDao{
 	@Autowired
@@ -58,9 +61,13 @@ public class StudyPlannerDaoImpl implements StudyPlannerDao{
 
 	//오늘의 목표 리스트
 	@Override
-	public List<Map<String, Object>> selectTodayGoals(SqlSessionTemplate sqlSession, Map<String, Object> hmap) {
+	public List<Map<String, Object>> selectTodayGoals(SqlSessionTemplate sqlSession, Map<String, Object> hmap) throws plannerException {
 
 		List<Map<String, Object>> todayGoals = sqlSession.selectList("StudyPlanner.selectTodayGoals", hmap);
+		
+		if(todayGoals == null) {
+			throw new plannerException("목표 데이터가 없습니다.");
+		}
 		
 		return todayGoals;
 	}

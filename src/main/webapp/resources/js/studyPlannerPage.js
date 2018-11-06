@@ -17,7 +17,7 @@ $(function(){
 
 	studyTendencyChart();	//공부성향 분석 차트
 
-	GoalListChart();		//목표 리스트 노출된 부분 공부량 차트
+	//GoalListChart();		//목표 리스트 노출된 부분 공부량 차트
 	todayGoalsDate();		//오늘의 목표 날짜
 	//todayGoalsList();		//오늘의 목표 리스트
 	
@@ -786,7 +786,7 @@ function studyTendencyChart(){
 }
 
 //목표 리스트 노출된 부분 공부량 차트 
-function GoalListChart(){
+/*function GoalListChart(){
 	var ctx = document.getElementById("today_donut").getContext('2d');
 	var today_donut = new Chart(ctx, {
 		type: 'doughnut',
@@ -797,7 +797,7 @@ function GoalListChart(){
 				}],
 		}
 	});	
-}
+}*/
 
 //오늘의 목표 날짜
 function todayGoalsDate(){
@@ -808,13 +808,7 @@ function todayGoalsDate(){
 	var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
 	var chan_val = year + '-' + mon + '-' + day;
 	
-	//var now = new Date();
-	//var day = now.getDate();
-	//var today = new Date(Date.parse(now) + 0 * 1000 * 60 * 60 * 24); //오늘
-	//console.log(today);
-	
-	
-	
+
 	//$today 오늘날짜 2018-11-6
 	var $todayVal= new Date(Date.parse(now) + 0 * 1000 * 60 * 60 * 24).getFullYear() + "-" + (new Date(Date.parse(now) + 0 * 1000 * 60 * 60 * 24).getMonth() +1) + "-" + new Date(Date.parse(now) + 0 * 1000 * 60 * 60 * 24).getDate();
 	//$today 오늘
@@ -836,103 +830,131 @@ function todayGoalsDate(){
 	var $todayPoint = $(".today_point span");
 	
 	switch(now.getDay()){
-	case 0 : //일요일
-		$todayPoint.eq(0).text($today).addClass('on').attr("value",$todayVal);
-		$todayPoint.eq(1).text($next1).attr("value",$nextVal1);
-		$todayPoint.eq(2).text($next2).attr("value",$nextVal2);
-		$todayPoint.eq(3).text($next3).attr("value",$nextVal3);
-		$todayPoint.eq(4).text($next4).attr("value",$nextVal4);
-		$todayPoint.eq(5).text($next5).attr("value",$nextVal5);
-		$todayPoint.eq(6).text($next6).attr("value",$nextVal6);
-		break;
-	case 1 : //월요일
-		$todayPoint.eq(0).text($prev1).attr("value",$prevVal1);
-		$todayPoint.eq(1).text($today).addClass('on').attr("value",$todayVal);
-		$todayPoint.eq(2).text($next1).attr("value",$nextVal1);
-		$todayPoint.eq(3).text($next2).attr("value",$nextVal2);
-		$todayPoint.eq(4).text($next3).attr("value",$nextVal3);
-		$todayPoint.eq(5).text($next4).attr("value",$nextVal4);
-		$todayPoint.eq(6).text($next5).attr("value",$nextVal5);
-		break;
-	case 2 : //화요일
-		$todayPoint.eq(0).text($prev2).attr("value",$prevVal2);
-		$todayPoint.eq(1).text($prev1).attr("value",$prevVal1);
-		$todayPoint.eq(2).text($today).addClass('on').attr("value",$todayVal);
-		$todayPoint.eq(3).text($next1).attr("value",$nextVal1);
-		$todayPoint.eq(4).text($next2).attr("value",$nextVal2);
-		$todayPoint.eq(5).text($next3).attr("value",$nextVal3);
-		$todayPoint.eq(6).text($next4).attr("value",$nextVal4);
-		break;
-	case 3 : //수요일
-		$todayPoint.eq(0).text($prev3).attr("value",$prevVal3);
-		$todayPoint.eq(1).text($prev2).attr("value",$prevVal2);
-		$todayPoint.eq(2).text($prev1).attr("value",$prevVal1);
-		$todayPoint.eq(3).text($today).addClass('on').attr("value",$todayVal);
-		$todayPoint.eq(4).text($next1).attr("value",$nextVal1);
-		$todayPoint.eq(5).text($next2).attr("value",$nextVal2);
-		$todayPoint.eq(6).text($next3).attr("value",$nextVal3);
-		break;
-	case 4 : //목요일
-		$todayPoint.eq(0).text($prev4).attr("value",$prevVal4);
-		$todayPoint.eq(1).text($prev3).attr("value",$prevVal3);
-		$todayPoint.eq(2).text($prev2).attr("value",$prevVal2);
-		$todayPoint.eq(3).text($prev1).attr("value",$prevVal1);
-		$todayPoint.eq(4).text($today).addClass('on').attr("value",$todayVal);
-		$todayPoint.eq(5).text($next1).attr("value",$nextVal1);
-		$todayPoint.eq(6).text($next2).attr("value",$nextVal2);
-		break;
-	case 5 : //금요일
-		$todayPoint.eq(0).text($prev5).attr("value",$prevVal5);
-		$todayPoint.eq(1).text($prev4).attr("value",$prevVal4);
-		$todayPoint.eq(2).text($prev3).attr("value",$prevVal3);
-		$todayPoint.eq(3).text($prev2).attr("value",$prevVal2);
-		$todayPoint.eq(4).text($prev1).attr("value",$prevVal1);
-		$todayPoint.eq(5).text($today).addClass('on').attr("value",$todayVal);
-		$todayPoint.eq(6).text($next1).attr("value",$nextVal1);
-		break;
-	case 6 : //토요일
-		$todayPoint.eq(0).text($prev6).attr("value",$prevVal6);
-		$todayPoint.eq(1).text($prev5).attr("value",$prevVal5);
-		$todayPoint.eq(2).text($prev4).attr("value",$prevVal4);
-		$todayPoint.eq(3).text($prev3).attr("value",$prevVal3);
-		$todayPoint.eq(4).text($prev2).attr("value",$prevVal2);
-		$todayPoint.eq(5).text($prev1).attr("value",$prevVal1);
-		$todayPoint.eq(6).text($today).addClass('on').attr("value",$todayVal);
-		break;
+		case 0 : //일요일
+			$todayPoint.eq(0).text($today).addClass('on').attr("value",$todayVal);
+			$todayPoint.eq(1).text($next1).attr("value",$nextVal1);
+			$todayPoint.eq(2).text($next2).attr("value",$nextVal2);
+			$todayPoint.eq(3).text($next3).attr("value",$nextVal3);
+			$todayPoint.eq(4).text($next4).attr("value",$nextVal4);
+			$todayPoint.eq(5).text($next5).attr("value",$nextVal5);
+			$todayPoint.eq(6).text($next6).attr("value",$nextVal6);
+			break;
+		case 1 : //월요일
+			$todayPoint.eq(0).text($prev1).attr("value",$prevVal1).addClass('la');
+			$todayPoint.eq(1).text($today).addClass('on').attr("value",$todayVal);
+			$todayPoint.eq(2).text($next1).attr("value",$nextVal1);
+			$todayPoint.eq(3).text($next2).attr("value",$nextVal2);
+			$todayPoint.eq(4).text($next3).attr("value",$nextVal3);
+			$todayPoint.eq(5).text($next4).attr("value",$nextVal4);
+			$todayPoint.eq(6).text($next5).attr("value",$nextVal5);
+			break;
+		case 2 : //화요일
+			$todayPoint.eq(0).text($prev2).attr("value",$prevVal2).addClass('la');
+			$todayPoint.eq(1).text($prev1).attr("value",$prevVal1).addClass('la');
+			$todayPoint.eq(2).text($today).addClass('on').attr("value",$todayVal);
+			$todayPoint.eq(3).text($next1).attr("value",$nextVal1);
+			$todayPoint.eq(4).text($next2).attr("value",$nextVal2);
+			$todayPoint.eq(5).text($next3).attr("value",$nextVal3);
+			$todayPoint.eq(6).text($next4).attr("value",$nextVal4);
+			break;
+		case 3 : //수요일
+			$todayPoint.eq(0).text($prev3).attr("value",$prevVal3).addClass('la');
+			$todayPoint.eq(1).text($prev2).attr("value",$prevVal2).addClass('la');
+			$todayPoint.eq(2).text($prev1).attr("value",$prevVal1).addClass('la');
+			$todayPoint.eq(3).text($today).addClass('on').attr("value",$todayVal);
+			$todayPoint.eq(4).text($next1).attr("value",$nextVal1);
+			$todayPoint.eq(5).text($next2).attr("value",$nextVal2);
+			$todayPoint.eq(6).text($next3).attr("value",$nextVal3);
+			break;
+		case 4 : //목요일
+			$todayPoint.eq(0).text($prev4).attr("value",$prevVal4).addClass('la');
+			$todayPoint.eq(1).text($prev3).attr("value",$prevVal3).addClass('la');
+			$todayPoint.eq(2).text($prev2).attr("value",$prevVal2).addClass('la');
+			$todayPoint.eq(3).text($prev1).attr("value",$prevVal1).addClass('la');
+			$todayPoint.eq(4).text($today).addClass('on').attr("value",$todayVal);
+			$todayPoint.eq(5).text($next1).attr("value",$nextVal1);
+			$todayPoint.eq(6).text($next2).attr("value",$nextVal2);
+			break;
+		case 5 : //금요일
+			$todayPoint.eq(0).text($prev5).attr("value",$prevVal5).addClass('la');
+			$todayPoint.eq(1).text($prev4).attr("value",$prevVal4).addClass('la');
+			$todayPoint.eq(2).text($prev3).attr("value",$prevVal3).addClass('la');
+			$todayPoint.eq(3).text($prev2).attr("value",$prevVal2).addClass('la');
+			$todayPoint.eq(4).text($prev1).attr("value",$prevVal1).addClass('la');
+			$todayPoint.eq(5).text($today).addClass('on').attr("value",$todayVal);
+			$todayPoint.eq(6).text($next1).attr("value",$nextVal1);
+			break;
+		case 6 : //토요일
+			$todayPoint.eq(0).text($prev6).attr("value",$prevVal6).addClass('la');
+			$todayPoint.eq(1).text($prev5).attr("value",$prevVal5).addClass('la');
+			$todayPoint.eq(2).text($prev4).attr("value",$prevVal4).addClass('la');
+			$todayPoint.eq(3).text($prev3).attr("value",$prevVal3).addClass('la');
+			$todayPoint.eq(4).text($prev2).attr("value",$prevVal2).addClass('la');
+			$todayPoint.eq(5).text($prev1).attr("value",$prevVal1).addClass('la');
+			$todayPoint.eq(6).text($today).addClass('on').attr("value",$todayVal);
+			break;
 	}
 	
 	
-	//오늘날짜 리스트 default로 출력
-	$.ajax({
-		url : "todayGoalsList.sp",
-		data : {dateVal : $todayVal}, //오늘날짜 보냄
-		type : "post",
-		success : function(data) {
-			console.log(data[0].GOAL_CONTENT)
-		},
-		error : function() {
-			console.log("에러발생!");
+	//오늘날짜 리스트 default로 출력(아래 함수 호출)
+	todayGoalsList($todayVal);
+	
+	//날짜 선택시 해당 날짜의 리스트 출력
+	$(".today_point li span").click(function(){
+		
+		var $todayVal = $(this).attr("value");
+		
+		$(".today_goals .goals_list").empty();
+		todayGoalsList($todayVal);
+		
+		//날짜 선택시 bg컬러 효과
+		$(".today_point li span").removeClass('ov');
+		if(!$(this).hasClass('on')){
+			$(this).addClass('ov');
 		}
 	});
-
-	//날짜 선택시 해당 날짜의 리스트 출력
-	/*$(".today_point li span").click(function(){
-		
-		var dateVal = $(this).attr("value");
-		
-		console.log("클릭한 날짜? : "+dateVal);
-		
+	
+	
+	//오늘날짜 리스트 default로 출력
+	function todayGoalsList($todayVal){
 		$.ajax({
-			url : "todayGoalsList.sp",
-			data : {dateVal : dateVal}, //클릭시 해당 날짜 보냄
+			url : "todayGoalsList.sp",  
+			data : {dateVal : $todayVal}, //오늘날짜 보냄
 			type : "post",
 			success : function(data) {
+				
+				//console.log(data.length)
+				//console.log(data[0].GOAL_CONTENT);
+				
+				$(".today_goals .goals_list").empty();
+					
+				for (var i = 0; i < data.length; i++) {
+					
+					var type = data[i].GOAL_TYPE;
+					var type2 = type == 0?"페이지":"시간";
+					$('.today_goals .goals_list').append('<li value="'+ data[i].GOAL_CODE +'">'
+							 + '<div class="left_area">'
+							 + '<div class="donut_area">'
+							 + '<canvas id="today_donut" width="70" height="70"></canvas>'
+							 + '<span class="chart_per">' + 
+							 
+							 + '</span>'
+							 + '</div>'
+							 + '</div>'
+							 + '<div class="right_area">'
+							 + '<p class="tit">' + data[i].GOAL_CONTENT + '</p>'
+							 + '<p class="per">' + data[i].GOAL_ACHIEVEAMOUNT  + ' / ' + data[i].GOAL_GOALAMOUNT + " " + type2 +
+							 +'</p>'
+							 + '</div>'
+							 + '</li>');
+				}
 				
 			},
 			error : function() {
 				console.log("에러발생!");
 			}
 		});
-	});*/
+	}
+	
 		
 }
