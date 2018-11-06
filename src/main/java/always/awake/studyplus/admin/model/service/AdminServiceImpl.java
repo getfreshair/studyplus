@@ -199,6 +199,18 @@ public class AdminServiceImpl implements AdminService{
 		return ad.searchPRList(sqlSession, map);
 	}
 
+	@Override
+	public int getSingleRewardListCount(Map<String, Object> map) {
+
+		return ad.getSingleRewardListCount(sqlSession, map);
+	}
+
+	@Override
+	public List<Map<String, Object>> getSingleRewardList(Map<String, Object> map) {
+
+		return ad.getSingleRewardList(sqlSession, map);
+	}
+
 
 	
 	

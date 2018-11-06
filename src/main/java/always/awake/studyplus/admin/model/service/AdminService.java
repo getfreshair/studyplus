@@ -67,4 +67,8 @@ public interface AdminService {
 	public int deletePR(HashMap<String, Object> map);
 
 	public List<Map<String, Object>> searchPRList(HashMap<String, Object> map);
+
+	public int getSingleRewardListCount(Map<String, Object> map);
+
+	public List<Map<String, Object>> getSingleRewardList(Map<String, Object> map);
 }
