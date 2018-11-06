@@ -54,35 +54,36 @@
 <body>
 
 	<script>
-	
 		var loginFriends = 0;
 		var unreadMsg = 0;
 		
-		$.ajax({
-			url : "${contextPath}/web/chat.socket",
-			type : "GET",
-			success : function(data){
-	
-				$(".chating").empty();
-				$(".chating").append(data);
-				snsSlideChat();
-			}
-		});
-		
-		$.ajax({
-			url : "selectUnreadMessage.ms",
-			type : "POST",
-			data : {
+		$(document).ready(function() {
+			  // Handler for .ready() called.
+				$.ajax({
+					url : "${contextPath}/web/chat.socket",
+					type : "GET",
+					success : function(data){
+			
+						$(".chating").empty();
+						$(".chating").append(data);
+						snsSlideChat();
+					}
+				});
 				
-				member_Code :  '${ loginUser.member_Code }'
-			},
-			success : function(data){
-		
-				unreadMsg = data;
-				$('.undreadMsg').text(unreadMsg);
-			}
-		});
-		
+				$.ajax({
+					url : "selectUnreadMessage.ms",
+					type : "POST",
+					data : {
+						
+						member_Code :  '${ loginUser.member_Code }'
+					},
+					success : function(data){
+				
+						unreadMsg = data;
+						$('.undreadMsg').text(unreadMsg);
+					}
+				});
+			});
 	</script>
 	<div id="all">
 		<!-- Header -->
