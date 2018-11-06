@@ -4,7 +4,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="StudyTime">
+<mapper namespace="StudyPlanner">
 	<resultMap type="StudyTime" id="StudyTimeResultSet">
 		<id property="studyTimeCode" column="STUDYTIME_CODE"></id>
 		<result property="studyTimeDate" column="STUDYTIME_DATE"/>
@@ -13,6 +13,18 @@
 		<result property="studyTimeDivision" column="STUDYTIME_DIVISION"/>
 		<result property="studyGroupCode" column="STUDYGROUP_CODE"/>
 		<result property="memberCode" column="MEMBER_CODE"/>
+	</resultMap>
+	
+	<resultMap type="Goal" id="GoalResultSet">
+		<id property="goalCode" column="GOAL_CODE"></id>
+		<result property="memberCode" column="MEMBER_CODE"/>
+		<result property="goalEnrollDate" column="GOAL_ENROLLDATE"/>
+		<result property="goalContent" column="GOAL_CONTENT"/>
+		<result property="goalType" column="GOAL_TYPE"/>
+		<result property="goalGoalAmount" column="GOAL_GOALAMOUNT"/>
+		<result property="goalAchieveAmount" column="GOAL_ACHIEVEAMOUNT"/>
+		<result property="gaolISBN" column="GOAL_ISBN"/>
+		<result property="goalDivision" column="GOAL_DIVISION"/>
 	</resultMap>
 	
 	<!-- 일간 공부량 차트 -->
@@ -42,6 +54,16 @@
 		WHERE MEMBER_CODE = #{loginUserCode}
 		AND STUDYTIME_DIVISION = 0
 		AND STUDYTIME_DATE LIKE #{chartDateYear} || '%'
+	</select>
+	
+	<!-- 오늘의 목표 리스트 -->
+	<select id="selectTodayGoals" resultType="map" parameterType="map">
+		SELECT GOAL_CODE,MEMBER_CODE,TO_CHAR(GOAL_ENROLLDATE, 'YYYY/MM/DD')AS GOAL_ENROLLDATE,
+		GOAL_CONTENT,GOAL_TYPE,GOAL_GOALAMOUNT,GOAL_ACHIEVEAMOUNT,GOAL_ISBN,GOAL_DIVISION
+		FROM GOAL
+		WHERE GOAL_DIVISION = 0
+		AND MEMBER_CODE = #{loginUserCode}
+		AND GOAL_ENROLLDATE = #{checkDay}
 	</select>
 	
 	

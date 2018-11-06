@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +15,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import always.awake.studyplus.member.model.vo.Member;
 import always.awake.studyplus.studyPlanner.model.service.StudyPlannerService;
@@ -220,20 +224,25 @@ public class StudyPlannerController {
 	
 	//오늘의 목표 리스트
 	@RequestMapping(value="todayGoalsList.sp")
-	public void todayGoalsList(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+	public @ResponseBody List<Map<String, Object>> todayGoalsList(HttpSession session, @RequestParam String dateVal,  HttpServletResponse response) {
 		
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int loginUserCode = loginUser.getMember_Code();
 		
-		int dayIndex = Integer.parseInt(request.getParameter("dateVal"));
+		//String checkDay = request.getParameter("dateVal");
+		//System.out.println("선택한날짜??" + checkDay);
 		
-		System.out.println("잘들어오나??" + dayIndex);
+		Map<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("loginUserCode", loginUserCode);
+		hmap.put("checkDay", dateVal);
 		
-		try {
-			response.getWriter().print("msg");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		List<Map<String, Object>> list = sps.selectTodayGoals(hmap);
+		
+		System.out.println("list.size() : " + list.size());
+		System.out.println("list.get(0) : " +  list.get(0));
+		System.out.println("list.get(1) :" +  list.get(1));
+		
+		return list;
 	}
 
 }
