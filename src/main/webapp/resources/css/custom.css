@@ -147,7 +147,7 @@ table .board-tit a:hover{color:#1a609c;}
 
 .goals_list li{position:relative; padding:10px 15px 10px 70px; margin-bottom:6px; box-shadow:1px 1px 8px #d8d8d8; background: #fff url("/studyplus/resources/images/planner/ico_right_arrow.png") 100% 50% no-repeat; background-size:47px;}
 .goals_list .left_area{position:absolute; left:0; top:-5px; width:70px;}
-.donut_area .chart_per{position: absolute; top: 31px; left: 21px; font-size: 12px;}
+.donut_area .chart_per{position: absolute; top: 31px; left: 21px; font-size: 12px; width:30px; text-align:center;}
 .goals_list .right_area{cursor:pointer; }
 .goals_list .right_area p{margin-bottom:0;}
 .goals_list .right_area .tit{margin-bottom:5px; font-weight:bold; width:90%; display:inline-block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}

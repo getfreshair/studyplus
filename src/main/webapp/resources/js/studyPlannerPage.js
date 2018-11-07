@@ -2,10 +2,7 @@ $(function(){
 	snsScrollUp();			//메신저 노출
 	snsSlideChat();			//채팅 슬라이드
 	scrollShadow();			//스크롤박스 하단 그림자
-
-	goalAddMdal();			//목표 등록 모달
-	modalChart();			//목표등록 모달 내 공부량 차트
-
+	//-------------- 분석 --------------
 	datePicker();			//데이트피커 날짜선택
 	dateTabBtn();			//주간 월간 선택 버튼
 	todaydate();			//페이지 진입시 현재 날짜 선택
@@ -14,13 +11,12 @@ $(function(){
 	todayChartChangeDate();	//일간 공부량 날짜 변경시
 	weeklyChartChangeDate(); //주간 공부량 날짜 변경시
 	monthlyChartChangeDate();//월간 공부량 날짜 변경시
-
 	studyTendencyChart();	//공부성향 분석 차트
-
+	//-------------- 오늘의 목표 --------------
+	todayGoalsList();		//오늘의 목표 리스트
 	//GoalListChart();		//목표 리스트 노출된 부분 공부량 차트
-	todayGoalsDate();		//오늘의 목표 날짜
-	//todayGoalsList();		//오늘의 목표 리스트
-	
+	goalAddMdal();			//목표 등록 모달
+	//modalChart();			//목표등록 모달 내 공부량 차트
 
 });
 
@@ -69,57 +65,7 @@ function scrollShadow(){
 	if(weekH > 220){
 		$(".weekly_goals").append('<div class="shadow_box"></div>');
 	}
-	// 메신저
-	/*var snsH = $(".sns_wrap .inner");
-	var overH = $(".sns_wrap .friend_list").height();
-	if(overH > 416){
-		console.log("test")
-		$(snsH).append('<div class="shadow_box"></div>');
-	}*/
 }
-
-//목표 등록 모달
-function goalAddMdal(){
-	//모달 오픈
-	$('#myModal').on('shown.bs.modal', function () {
-		$('#myInput').focus();
-	});
-
-	//목표 시간단위, 페이지단위 등록 탭
-	$(".book_form").hide();
-	$(".tab button:first-child").click(function(){
-		var iptCk = $(".time_form input");
-		for(var i = 0; i < iptCk.length; i++){
-			if(iptCk.eq(i).val() !== ""){
-				confirm("입력된 정보는 삭제됩니다.");
-			}
-		}
-
-		$(".book_form").hide();
-		$(".time_form").show();
-	});
-	$(".tab button:last-child").click(function(){
-		$(".time_form").hide();
-		$(".book_form").show();
-	});
-}
-
-//목표등록 모달 내 공부량 차트
-function modalChart(){
-	var ctx = document.getElementById("modal_donut").getContext('2d');
-	var modal_donut = new Chart(ctx, {
-		type: 'doughnut',
-		data: data = {
-				datasets: [{
-					data: [20,80],
-					// data: [10, 20, 30],
-					backgroundColor: ['#36a2eb']
-				// backgroundColor: ['#ff6384','#36a2eb','#cc65fe']
-				}],
-				labels: ['목표달성','미달성']
-		}
-	});
-};
 
 //------------------------------------ 일간/주간/월간 차트 ------------------------------------
 //페이지 진입시 현재 날짜 선택
@@ -785,22 +731,10 @@ function studyTendencyChart(){
 	Nwagon.chart(options);
 }
 
-//목표 리스트 노출된 부분 공부량 차트 
-/*function GoalListChart(){
-	var ctx = document.getElementById("today_donut").getContext('2d');
-	var today_donut = new Chart(ctx, {
-		type: 'doughnut',
-		data: data = {
-				datasets: [{
-					data: [20,80],
-					backgroundColor: ['#36a2eb']
-				}],
-		}
-	});	
-}*/
 
-//오늘의 목표 날짜
-function todayGoalsDate(){
+//------------------------------------ 오늘의 목표 ------------------------------------
+//오늘의 목표 날짜, 오늘의 목표 리스트
+function todayGoalsList(){
 	//이번주 날짜 출력
 	var now = new Date();
 	var year= now.getFullYear();
@@ -923,38 +857,120 @@ function todayGoalsDate(){
 			type : "post",
 			success : function(data) {
 				
-				//console.log(data.length)
-				//console.log(data[0].GOAL_CONTENT);
-				
 				$(".today_goals .goals_list").empty();
-					
 				for (var i = 0; i < data.length; i++) {
 					
-					var type = data[i].GOAL_TYPE;
-					var type2 = type == 0?"페이지":"시간";
-					$('.today_goals .goals_list').append('<li value="'+ data[i].GOAL_CODE +'">'
+					var goalCode = data[i].GOAL_CODE; 				//목표코드
+					var content = data[i].GOAL_CONTENT;				//목표명
+					var type = data[i].GOAL_TYPE == 1?"페이지":"시간"; //0일경우 페이지, 1일경우 시간
+					var achiev = data[i].GOAL_ACHIEVEAMOUNT; 		//달성량
+					var goalAmount = data[i].GOAL_GOALAMOUNT; 		//목표량
+					var achievPer = ((data[i].GOAL_ACHIEVEAMOUNT / data[i].GOAL_GOALAMOUNT) * 100).toFixed(0); //달성률
+					var shortfallPer = 100 - achievPer; 			//미달성률
+					
+					$('.today_goals .goals_list').append('<li value="'+ goalCode +'">'
 							 + '<div class="left_area">'
 							 + '<div class="donut_area">'
-							 + '<canvas id="today_donut" width="70" height="70"></canvas>'
-							 + '<span class="chart_per">' + 
-							 
-							 + '</span>'
+							 + '<canvas id="today_donut'+ i +'" width="70" height="70"></canvas>'
+							 + '<span class="chart_per">' + achievPer + '%' + '</span>'
 							 + '</div>'
 							 + '</div>'
 							 + '<div class="right_area">'
-							 + '<p class="tit">' + data[i].GOAL_CONTENT + '</p>'
-							 + '<p class="per">' + data[i].GOAL_ACHIEVEAMOUNT  + ' / ' + data[i].GOAL_GOALAMOUNT + " " + type2 +
-							 +'</p>'
+							 + '<p class="tit">' + content + '</p>'
+							 + '<p class="per">' + achiev  + ' / ' + goalAmount + " " + type
+							 + '</p>'
 							 + '</div>'
 							 + '</li>');
+					
+					//목표 리스트 노출된 부분 공부량 차트 (아래 함수 호출)
+					GoalListChart(goalAmount, achiev, achievPer, shortfallPer, i);
+					
+					//리스트 각 목표 클릭시 상세 팝업창 노출
+					$(".today_goals li .right_area").click(function(goalCode, content, goalAmount, achiev, achievPer, shortfallPer, i){
+						$(this).attr({"data-toggle":"modal", "data-target":"#myModal"});
+						$(".modal .tab").hide();
+						
+					});
+					$(".today_goals button").click(function(){
+						$(".modal .tab").off();
+					});
+					
+					
+					
 				}
-				
 			},
 			error : function() {
 				console.log("에러발생!");
 			}
 		});
 	}
-	
 		
 }
+
+//목표 리스트 노출된 부분 공부량 차트 
+function GoalListChart(goalAmount, achiev, achievPer, shortfallPer, i){
+	var ctx = document.getElementById("today_donut"+i).getContext('2d');
+	var today_donut = new Chart(ctx, {
+		type: 'doughnut',
+		data: data = {
+				datasets: [{
+					data: [achievPer, shortfallPer],
+					backgroundColor: ['#36a2eb']
+				}],
+		},
+		options: {
+			events: [false],
+		}
+	});	
+}
+
+
+//목표 등록 모달
+function goalAddMdal(){
+	//모달 오픈
+	$('#myModal').on('shown.bs.modal');
+
+	$(".book_form").hide();
+	$(".tab button:first-child").click(function(){
+		$(".book_form").hide();
+		$(".time_form").show();
+	});
+	$(".tab button:last-child").click(function(){
+		$(".time_form").hide();
+		$(".book_form").show();
+	});
+	
+	/*var test = $(".time_form").attr("name","goalName");
+	console.log(test)
+	$.ajax({
+		url : "goalAddMdal.sp",  
+		data : {dateVal : $todayVal},
+		type : "post",
+		success : function(data) {
+			
+				
+		},
+		error : function() {
+			console.log("에러발생!");
+		}
+	});
+		*/
+}
+
+//목표등록 모달 내 공부량 차트
+/*function modalChart(){
+	var ctx = document.getElementById("modal_donut").getContext('2d');
+	var modal_donut = new Chart(ctx, {
+		type: 'doughnut',
+		data: data = {
+				datasets: [{
+					data: [20,80],
+					// data: [10, 20, 30],
+					backgroundColor: ['#36a2eb']
+				// backgroundColor: ['#ff6384','#36a2eb','#cc65fe']
+				}],
+				labels: ['목표달성','미달성']
+		}
+	});
+};*/
+

@@ -47,7 +47,7 @@
 	.modal-body .time_form, .modal-body .book_form{padding-top:30px;}
 	.modal-body .ipt_area dt{margin-bottom:5px;}
 	.modal-body .btn-center{clear:both; padding-top:20px;}
-	.modal-body .ipt_wrap input{width:140px; display:inline-block; margin-right:5px;}
+	.modal-body .ipt_wrap input{width:120px; display:inline-block; margin-right:5px;}
 	.modal-body .book_img{border:1px solid #ddd; width:80%; height:180px; text-align:center; margin: 0 auto;}
 	.modal-body .book_info{text-align:center; width:80%; margin:10px auto 0 auto;}
 </style>
@@ -145,30 +145,6 @@
 							</div>
 							<div class="scroll_area">
 								<ul class="goals_list">
-									<li>
-										<div class="left_area">
-										</div>
-										<div class="right_area">
-											<p class="tit">자바의 정석자바의 정석자바의 정석자바의 정석</p>
-											<p class="per">102 / 200 페이지</p>
-										</div>
-									</li>
-									<li>
-										<div class="left_area">
-										</div>
-										<div class="right_area">
-											<p class="tit">씨박의 정석</p>
-											<p class="per">3 / 21 시간</p>
-										</div>
-									</li>
-									<li>
-										<div class="left_area">
-										</div>
-										<div class="right_area">
-											<p class="tit">씨박의 정석</p>
-											<p class="per">3 / 21 시간</p>
-										</div>
-									</li>
 									<li>
 										<div class="left_area">
 										</div>
@@ -380,20 +356,22 @@
 							<button type="button" class="btn btn-default">페이지 단위 설정</button>
 						</div>
 						<!-- 시간 단위 설정 -->
-						<div class="time_form">
+						<div class="time_form" value="1">
 							<div class="col-sm-5 col-xs-12 chart_area">
 								<canvas id="modal_donut" width="200" height="200"></canvas>
 							</div>
 							<div class="col-sm-7 col-xs-12 ipt_area">
 								<dl>
 									<dt>목표명</dt>
-									<dd><input type="text" class="form-control" placeholder="목표를 입력하세요"></dd>
+									<dd><input type="text" class="form-control" placeholder="목표를 입력하세요" name="goalName"></dd>
 								</dl>
 								<dl>
 									<dt>목표 시간</dt>
 									<dd class="ipt_wrap">
-										<input type="number" class="form-control" placeholder="ex) 3">
-										<span>시간</span>
+										<input type="number" class="form-control" placeholder="ex) 2" name="goalTime">
+										<span>시간 &nbsp;&nbsp;</span>
+										<input type="number" class="form-control" placeholder="ex) 30" name="goalMin">
+										<span>분</span>
 									</dd>
 								</dl>
 								<dl>
@@ -411,7 +389,7 @@
 						</div>
 						<!-- // 시간 단위 설정 -->
 						<!-- 페이지 단위 설정 -->
-						<div class="book_form">
+						<div class="book_form" value="0">
 							<div class="col-sm-5 col-xs-12 img_area">
 								<div class="book_img">
 									img area
@@ -421,19 +399,19 @@
 							<div class="col-sm-7 col-xs-12 ipt_area">
 								<dl>
 									<dt>목표명</dt>
-									<dd><input type="text" class="form-control" placeholder="목표를 입력하세요"></dd>
+									<dd><input type="text" class="form-control" placeholder="목표를 입력하세요" name="goalName"></dd>
 								</dl>
 								<dl>
 									<dt>목표 페이지</dt>
 									<dd class="ipt_wrap">
-										<input type="number" class="form-control" placeholder="ex) 20">
+										<input type="number" class="form-control" placeholder="ex) 20" name="goalPage">
 										<span>페이지</span>
 									</dd>
 								</dl>
 								<dl>
 									<dt>달성량</dt>
 									<dd class="ipt_wrap">
-										<input type="number" class="form-control">
+										<input type="number" class="form-control" name="goalAchiev">
 										<span>/ 20</span>
 									</dd>
 								</dl>

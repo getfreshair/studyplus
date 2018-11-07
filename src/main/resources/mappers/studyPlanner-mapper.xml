@@ -66,6 +66,19 @@
 		AND GOAL_ENROLLDATE LIKE TO_DATE(#{checkDay})
 	</select>
 	
+	<!-- 오늘의 목표 등록(시간) -->
+	<insert id="insertTodayGoalsTime" >
+		INSERT INTO GOAL(GOAL_CODE, MEMBER_CODE, GOAL_ENROLLDATE, GOAL_CONTENT, 
+		GOAL_TYPE, GOAL_GOALAMOUNT, GOAL_ISBN, GOAL_DIVISION)
+		<!-- VALUES(6, 4, '18/11/07', '씨박의정석', 1, 120, DEFAULT, 0) -->
+	</insert>
+	
+	<!-- 주간 목표 등록 -->
+	<insert id="insertWeeklyGoals">
+		
+	
+	</insert>
+	
 	
 	
 </mapper>
