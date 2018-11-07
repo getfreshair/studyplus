@@ -25,8 +25,11 @@ public class StudyGroupController {
 	private StudyGroupService sgs;
 	
 	@RequestMapping(value="studygroupStatistics.sg")
-	public String studygroupStatistics(){
-		return "studyGroup/groupChartPart/SGChart";
+	public ModelAndView studygroupStatistics(ModelAndView mv, @RequestParam(value="code")int code){
+		mv.addObject("code", code);
+		mv.setViewName("studyGroup/groupChartPart/SGChart");
+		
+		return mv;
 	}
 	
 	@RequestMapping(value="studyGroupMainPage.sg")
@@ -138,4 +141,13 @@ public class StudyGroupController {
 		
 		return sgListAndPi;
 	}
+	
+	@RequestMapping(value="selectSGCategoryChart.sg")
+	public @ResponseBody List<Map<String, Object>> selectSGCategoryChart(
+			@RequestParam(value="studygroup_Code")int studygroup_Code, @RequestParam(value="period")String period){
+		return sgs.selectSGCategoryChart(studygroup_Code, period);
+	}
+	
+	
+	
 }

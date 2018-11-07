@@ -36,4 +36,6 @@ public interface StudyGroupDao {
 
 	void insertStudyGroupJoin(SqlSessionTemplate sqlSession, StudyGroup studygroup) throws StudyGroupException;
 
+	List<Map<String, Object>> selectSGCategoryChart(SqlSessionTemplate sqlSession, int studygroup_Code, String period);
+
 }
