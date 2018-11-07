@@ -28,4 +28,6 @@ public interface StudyGroupService {
 
 	List<Map<String, Object>> selectStudyGroupSGRTRankList(int category_Code) throws StudyGroupException;
 
+	List<Map<String, Object>> selectSGCategoryChart(int studygroup_Code, String period);
+
 }

@@ -6,34 +6,33 @@
 <meta charset="UTF-8">
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <style>
-	.locationChartArea {
+	.timeAmountChartArea {
 		width:1200px;
 		text-align:center;
 		margin:0 auto;
 		margin-top:20px;
 		margin-bottom:20px;
 	}
-	.locationChartArea h1 {
+	.timeAmountChartArea h1 {
 		color: #999999;
 		background:#F3F3F3;
 		padding-top: 10px;
     	padding-bottom: 10px;
-    	margin-top: 50px;
 	}
-	.locationChartPart {
+	.timeAmountChartPart {
 		display:inline-block;
 	}
-	.locationChartInfo {
+	.timeAmountChartInfo {
 		font-size: 18px;
 	}
-	.locationChartInfo p {
+	.timeAmountChartInfo p {
 		display:inline-block;
 		width:100%;
 		margin: 0px;
 		text-align:left;
 		font-size: 14px;
 	}
-	.locationChartInfo i {
+	.timeAmountChartInfo i {
 		font-size:12px;
 	}
 	.chartInfoUp {
@@ -45,7 +44,7 @@
 	.chartInfoSame {
 	
 	}
-	.locationChartDiv {
+	.timeAmountChartDiv {
 		
 	}
 	.chartDay {
@@ -55,9 +54,9 @@
 </style>
 <script type="text/javascript">
 	google.load("visualization", "1", {packages : [ 'corechart', 'timeline' ]});
-	google.setOnLoadCallback(drawLocationChart);
+	google.setOnLoadCallback(drawTimeAmountChart);
 
-	function drawLocationChart() {
+	function drawTimeAmountChart() {
 		var data = google.visualization.arrayToDataTable([
 				[ 'hour', 'Total', 'In' ], 
 				[ '0', 10, 20 ],
@@ -93,9 +92,9 @@
 			legend: {position: 'bottom', textStyle: {fontSize: 16}, maxLines:2}
 		};
 
-		var chartToday = new google.visualization.LineChart(document.getElementById('locationToday_div'));
-		var chartWeek = new google.visualization.LineChart(document.getElementById('locationWeek_div'));
-		var chartMonth = new google.visualization.LineChart(document.getElementById('locationMonth_div'));
+		var chartToday = new google.visualization.LineChart(document.getElementById('timeAmountToday_div'));
+		var chartWeek = new google.visualization.LineChart(document.getElementById('timeAmountWeek_div'));
+		var chartMonth = new google.visualization.LineChart(document.getElementById('timeAmountMonth_div'));
 		chartToday.draw(data, options);
 		chartWeek.draw(data, options);
 		chartMonth.draw(data, options);
@@ -103,34 +102,31 @@
 </script>
 </head>
 <body>
-	<div class="locationChartArea">
-		<h1>Location Statistic</h1>
-		<div class="locationChartPart">
-			<div class="locationChartInfo">
+	<div class="timeAmountChartArea">
+		<h1>TimeAmount Statistic</h1>
+		<div class="timeAmountChartPart">
+			<div class="timeAmountChartInfo">
 				<p><i>42분 </i><i class="chartInfoUp">▲ </i> 10%</p>
-				<p><i>100분 </i><i class="chartInfoDown">▼ </i> 49%</p>
 			</div>
-			<div class="locationChartDiv" id="locationToday_div"></div>
+			<div class="timeAmountChartDiv" id="timeAmountToday_div"></div>
 			<div class="chartDay">
 				Today
 			</div>
 		</div>
-		<div class="locationChartPart">
-			<div class="locationChartInfo">
-				<p><i>43분 </i><i class="chartInfoUp">▲ </i> 10%</p>
+		<div class="timeAmountChartPart">
+			<div class="timeAmountChartInfo">
 				<p><i>121분 </i><i class="chartInfoDown">▼ </i> 49%</p>
 			</div>
-			<div class="locationChartDiv" id="locationWeek_div"></div>
+			<div class="timeAmountChartDiv" id="timeAmountWeek_div"></div>
 			<div class="chartDay">
 				This Week
 			</div>
 		</div>
-		<div class="locationChartPart">
-			<div class="locationChartInfo">
-				<p><i>33분 </i><i class="chartInfoUp">▲ </i> 10%</p>
+		<div class="timeAmountChartPart">
+			<div class="timeAmountChartInfo">
 				<p><i>51분 </i><i class="chartInfoDown">▼ </i> 49%</p>
 			</div>
-			<div class="locationChartDiv" id="locationMonth_div"></div>
+			<div class="timeAmountChartDiv" id="timeAmountMonth_div"></div>
 			<div class="chartDay">
 				This Month
 			</div>

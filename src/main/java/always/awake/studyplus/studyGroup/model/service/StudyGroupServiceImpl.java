@@ -96,5 +96,10 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 	public List<Map<String, Object>> selectStudyGroupSGRTRankList(int category_Code) throws StudyGroupException {
 		return sgd.selectStudyGroupSGRTRankList(sqlSession, category_Code);
 	}
+
+	@Override
+	public List<Map<String, Object>> selectSGCategoryChart(int studygroup_Code, String period) {
+		return sgd.selectSGCategoryChart(sqlSession, studygroup_Code, period);
+	}
 	
 }

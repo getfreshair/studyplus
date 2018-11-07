@@ -150,4 +150,15 @@ public class StudyGroupDaoImpl implements StudyGroupDao{
 			throw new StudyGroupException(e.getMessage());
 		}
 	}
+
+	@Override
+	public List<Map<String, Object>> selectSGCategoryChart(SqlSessionTemplate sqlSession, int studygroup_Code,
+			String period) {
+		Map<String, Object> searchInfo = new HashMap<String, Object>();
+		
+		searchInfo.put("studygroup_Code", studygroup_Code);
+		searchInfo.put("period", period);
+		
+		return sqlSession.selectList("StudyGroup.selectSGCategoryChart", searchInfo);
+	}
 }

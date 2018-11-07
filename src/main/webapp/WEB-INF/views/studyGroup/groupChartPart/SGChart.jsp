@@ -28,6 +28,9 @@
 		<div>
 			<jsp:include page="./SGTImeZoneChart/SGTImeZoneChart.jsp"/>
 		</div>
+		<div>
+			<jsp:include page="./SGTimeAmountChart/SGTimeAmountChart.jsp"/>
+		</div>
 	</div>
 </body>
 </html>

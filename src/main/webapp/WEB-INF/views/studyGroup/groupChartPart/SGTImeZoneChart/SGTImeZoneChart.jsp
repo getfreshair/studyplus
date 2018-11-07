@@ -13,13 +13,20 @@
 		margin-top:20px;
 		margin-bottom:20px;
 	}
+	.timeZoneChartArea h1{
+		color: #999999;
+		background:#F3F3F3;
+		padding-top: 10px;
+    	padding-bottom: 10px;
+    	margin-top: 50px;
+	}
 </style>
 <script type="text/javascript">
-	google.charts.load("current", {packages : [ "timeline" ]});
+	google.charts.load("current", {packages : [ 'corechart', 'timeline' ]});
 	google.charts.setOnLoadCallback(drawTimeZoneChart);
 	
 	function drawTimeZoneChart() {
-		var container = document.getElementById('example7.1');
+		var container = document.getElementById('timeZoneChartDiv');
 		var chart = new google.visualization.Timeline(container);
 		var dataTable = new google.visualization.DataTable();
 		
@@ -40,8 +47,13 @@
 			id : 'End'
 		});
 		dataTable.addRows([
-				[ 'Magnolia Room', 'Google Charts', new Date(0, 0, 0, 0, 4, 0), new Date(0, 0, 0, 8, 23, 5) ],
-				[ 'Magnolia Room', 'App Engine', new Date(0, 0, 0, 2, 30, 0), new Date(0, 0, 0, 7, 20, 0) ] 
+				[ 'Study Time', 'user01', new Date(0, 0, 0, 00, 00, 00), new Date(0, 0, 0, 1, 00, 00) ],
+				[ 'Study Time', 'user02', new Date(0, 0, 0, 02, 30, 0), new Date(0, 0, 0, 7, 20, 0) ],
+				[ 'Study Time', 'user03', new Date(0, 0, 0, 12, 10, 0), new Date(0, 0, 0, 16, 23, 5) ],
+				[ 'Study Time', 'user04', new Date(0, 0, 0, 12, 4, 0), new Date(0, 0, 0, 13, 1, 50) ],
+				[ 'Study Time', 'user04', new Date(0, 0, 0, 13, 1, 50), new Date(0, 0, 0, 14, 20, 50) ],
+				[ 'Study Time', 'user05', new Date(0, 0, 0, 13, 30, 0), new Date(0, 0, 0, 18, 23, 50) ],
+				[ 'Study Time', 'user06', new Date(0, 0, 0, 18, 2, 0), new Date(0, 0, 0, 24, 0, 0) ]
 		]);
 
 		var options = {
@@ -57,7 +69,8 @@
 </head>
 <body>
 	<div class="timeZoneChartArea">
-		<div id="example7.1" style="height: 200px;"></div>
+		<h1>In Group Study Time Zone</h1>
+		<div id="timeZoneChartDiv"></div>
 	</div>
 </body>
 </html>

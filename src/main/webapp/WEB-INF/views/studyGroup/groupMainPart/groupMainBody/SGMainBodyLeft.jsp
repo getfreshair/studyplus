@@ -243,7 +243,6 @@
 				var mySGTrophy_Temp = 1;
 				
 				$('.inSGListArea').empty();
-				console.log(data);
 				for(var key in data){
 					if(studygroup_Code != data[key].STUDYGROUP_CODE){
 						studygroup_Code = data[key].STUDYGROUP_CODE;
@@ -429,15 +428,15 @@
 		});
 	});
 	
-	function StatisticsPage(){
-		location.href="studygroupStatistics.sg";
+	function StatisticsPage(code){
+		location.href="studygroupStatistics.sg?code=1100";
 	}
 </script>
 </head>
 <body>
 	<div class="SGMainBodyLeftArea">
 		<div class="adArea">
-			<img src="/studyplus/resources/images/ad/ad.png" onclick="StatisticsPage()">
+			<img src="/studyplus/resources/images/ad/ad.png" onclick="StatisticsPage(${sessionScope.loginUser.member_Code})"/>
 		</div>
 		<div class="SGListChangeBtnArea">
 			<ul class="SGListChangeUl">
