@@ -80,8 +80,11 @@ if("geolocation" in navigator){
 				</form>
 				<div class="form-group">
 					<label for="comment">차단할 위치 목록</label>
-					<textarea class="form-control" cols="10" rows="10" id="comment"
-						style="resize: none;"></textarea>
+					<table id="listTable">
+						<tr>
+							<td>dd</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 			<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
@@ -158,11 +161,42 @@ if("geolocation" in navigator){
 			<br>
 			<div id="map" style="width: 450px; height: 400px;"></div>
 			<br>
-			<label style="color:gray ;padding-top:5px"> * 선택 된 마커를 기준으로 위치를 등록합니다.</label><input type="button" value="위치 등록하기" class="btn btn-success" style="float:right; margin-right:5%">
-			<script type="text/javascript"
-				src="//dapi.kakao.com/v2/maps/sdk.js?appkey=53bcac1324c96e6414d7bd70d6c22096"></script>
-			<script>
+
+				<label style="color:gray ;padding-top:5px"> * 선택 된 마커를 기준으로 위치를 등록합니다.</label>
+				<input type="button" onclick="saveLocationInfo()" value="위치 등록하기" class="btn btn-success" style="float:right; margin-right:5%">
+				<input type="hidden" name="latlngOnMap" id="latlngOnMap" value="">
 				
+			
+			<script type="text/javascript"
+				src="//dapi.kakao.com/v2/maps/sdk.js?appkey=53bcac1324c96e6414d7bd70d6c22096&libraries=services">
+			</script>
+			<script>
+				/* function saveLocationInfo() {
+					if( $('#latlngOnMap').val() == ""){
+						alert("원하시는 위치를 지도에서 선택 후 저장을 진행해 주세요.");
+						return;
+					}
+					$.ajax({
+		                  url:"saveBlockLocationData.bl",
+		                  type:"post",
+		                  data:{locationInfo: $('#latlngOnMap').val()
+		                  },
+		                  success:function(data){
+		            		var splitAddr = data.substr(1,(data.length-4)).split(",");
+		            		$('#listTable').empty();
+		            		console.log($('#listTable'));
+		            		for(var i in splitAddr){
+		            			var addr = splitAddr[i].substr(splitAddr[i].indexOf("addr:")+5);
+		            			$('#listTable').append("<tr><td>" + addr + "</td></tr>")
+		            		};
+		            		
+		            		
+		                  },
+		                  error:function(){
+		                     console.log("에러 발생!");
+		                  }
+		               })
+				} */
 				console.log(latitude,longitude);	
 				var container = document.getElementById('map');
 				var options = {
@@ -174,35 +208,11 @@ if("geolocation" in navigator){
 				var marker = new daum.maps.Marker({ 
 				    // 지도 중심좌표에 마커를 생성합니다 
 				    position: map.getCenter() 
-				});
+				}),infowindow = new daum.maps.InfoWindow({zindex:1});
 				
-				/* // 주소-좌표 변환 객체를 생성합니다
-				var geocoder1 = new daum.maps.services.Geocoder();
+				var geocoder = new daum.maps.services.Geocoder();
 				
-				// 주소로 좌표를 검색합니다
-				geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
-
-				    // 정상적으로 검색이 완료됐으면 
-				     if (status === daum.maps.services.Status.OK) {
-
-				        var coords = new daum.maps.LatLng(result[0].y, result[0].x);
-						console.log(coords + " : coords")
-				        // 결과값으로 받은 위치를 마커로 표시합니다
-				        var marker = new daum.maps.Marker({
-				            map: map,
-				            position: coords
-				        });
-
-				        // 인포윈도우로 장소에 대한 설명을 표시합니다
-				        var infowindow = new daum.maps.InfoWindow({
-				            content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
-				        });
-				        infowindow.open(map, marker);
-
-				        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-				        map.setCenter(coords);
-				    } 
-				});    */
+				
 				
 				//나중에 반복문으로 돌려서 수행하기..
 				// 지도에 표시할 원을 생성합니다
@@ -225,18 +235,54 @@ if("geolocation" in navigator){
 				// 지도에 클릭 이벤트를 등록합니다
 				// 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
 				daum.maps.event.addListener(map, 'click', function(mouseEvent) {
+					searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
+				        if (status === daum.maps.services.Status.OK) {
+				            var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+				            detailAddr += '<div>지번주소 : ' + result[0].address.address_name + '</div>';
+				            
+				            var content = '<div class="bAddr">' +
+				                            '<span class="title">선택한 지역 주소 정보</span>' + 
+				                            detailAddr + 
+				                        '</div>';
+				            // 마커를 클릭한 위치에 표시합니다 
+				            marker.setPosition(mouseEvent.latLng);
+				            marker.setMap(map);
+				            $('#latlngOnMap').val($('#latlngOnMap').val()+"/addr:"+result[0].address.address_name.replace(/<\/?[^>]+(>|$)/g, ""));
+				            console.log($('#latlngOnMap').val());
+				            // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
+				            infowindow.setContent(content);
+				            infowindow.open(map, marker);
+				        }   
+				    });
+					
+					daum.maps.event.addListener(map, 'idle', function() {
+					    searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+					});
 
+					function searchAddrFromCoords(coords, callback) {
+					    // 좌표로 행정동 주소 정보를 요청합니다
+					    geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);         
+					}
+
+					function searchDetailAddrFromCoords(coords, callback) {
+					    // 좌표로 법정동 상세 주소 정보를 요청합니다
+					    geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+					}
+
+					// 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
+					function displayCenterInfo(result, status) {
+					    if (status === daum.maps.services.Status.OK) {
+					        var infoDiv = document.getElementById('centerAddr');
+					    }    
+					}
 					// 클릭한 위도, 경도 정보를 가져옵니다 
 					var latlng = mouseEvent.latLng;
 
-					// 마커 위치를 클릭한 위치로 옮깁니다
-					marker.setPosition(latlng);
 
 					var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
 					message += '경도는 ' + latlng.getLng() + ' 입니다';
-
-					console.log(message);
-
+					
+					$('#latlngOnMap').val("lat:" + latlng.getLat()+"/lng:"+latlng.getLng()) 
 				});
 			</script>
 		</div>
