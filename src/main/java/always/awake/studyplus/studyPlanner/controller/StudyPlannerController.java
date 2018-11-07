@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import always.awake.studyplus.block.controller.blockController;
 import always.awake.studyplus.member.model.vo.Member;
 import always.awake.studyplus.studyPlanner.model.exception.plannerException;
 import always.awake.studyplus.studyPlanner.model.service.StudyPlannerService;
@@ -31,7 +32,10 @@ public class StudyPlannerController {
 	
 	//스터디 플래너 페이지 이동
 	@RequestMapping(value="studyPlannerMainPage.sp")
-	public String studyPlannerMainPage() {
+	public String studyPlannerMainPage( Model model) {
+		
+		StringBuilder scheduleData = new blockController().getScheduleData();
+		model.addAttribute("scheduleData", scheduleData.toString());
 		return "studyPlanner/studyPlanner";
 	}
 	
