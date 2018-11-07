@@ -40,8 +40,8 @@
 						  <!-- 로그인유저가 그룹장 일 때 해당 버튼 보이기 -->
 							<td rowspan="2" colspan="2">
 								<!-- 요소 클릭시 hideCh~속성 디스플레이 논, 캔슬버튼 쇼 , 취소 클릭시 디스플레이 논 반대 풀기 -->
-								<div onclick="hideChanLeader();" class="listBtn changeLeaderBtn hideChangeLeader">그룹장 변경</div>
-								<div onclick="cancelChanLeader();" class="listBtn cancelChangeBtn showChangeLeader">변경 취소</div>
+								<div onclick="hideChangeLeader();" class="listBtn changeLeaderBtn hideChangeLeader">그룹장 변경</div>
+								<div onclick="cancelChangeLeader();" class="listBtn cancelChangeBtn showChangeLeader">변경 취소</div>
 							</td>
 						  <!-- 로그인유저가 그룹장 일 때 해당 버튼 보이기 끝 -->
 						  <!-- 로그인유저가 그룹장이 아닐 때 해당 버튼  보이기 -->
@@ -141,25 +141,28 @@
 				</div>
 				
 				<script>
-					function hideChanLeader(){
+					function hideChangeLeader(){
 						$('.hideChangeLeader').css({"display":"none"});
 						$('.showChangeLeader').css({"display":"inline-block"});
 					}
-					function cancelChanLeader(){
+					function cancelChangeLeader(){
 						$('.hideChangeLeader').css({"display":""});
 						$('.showChangeLeader').css({"display":"none"});
 					}
 				</script>
 				
-				
-
-				
-				
+								
 			</div>
-			
 		</div>
-			
-		
 	</div>
 </body>
+
+<script>
+	$(function(){
+		
+		
+	});
+
+
+</script>
 </html>
