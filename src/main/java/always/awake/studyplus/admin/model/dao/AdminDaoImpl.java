@@ -322,4 +322,26 @@ public class AdminDaoImpl implements AdminDao {
 		
 		return list;
 	}
+
+	@Override
+	public int updateSingleReward(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		
+		return sqlSession.update("Admin.updateSingleReward", map);
+	}
+
+	@Override
+	public int searchSingleRewardHistoryCount(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+
+		return sqlSession.selectOne("Admin.searchSingleRewardHistoryCount", map);
+	}
+
+	@Override
+	public List<Map<String, Object>> searchSingleRewardHistory(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		
+		List<Map<String, Object>> list = sqlSession.selectList("Admin.searchSingleRewardHistory",map);
+		
+		System.out.println("dao" + list);
+		
+		return list;
+	}
 }

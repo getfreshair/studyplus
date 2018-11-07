@@ -71,4 +71,10 @@ public interface AdminService {
 	public int getSingleRewardListCount(Map<String, Object> map);
 
 	public List<Map<String, Object>> getSingleRewardList(Map<String, Object> map);
+
+	public int updateSingleReward(HashMap<String, Object> map);
+
+	public int searchSingleRewardHistoryCount(Map<String, Object> map);
+
+	public List<Map<String, Object>> searchSingleRewardHistory(Map<String, Object> map);
 }

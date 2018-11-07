@@ -101,7 +101,7 @@ th{
 									</tr>
 						</c:forEach>
 					</table>
-								<div id="pagingArea" align="center">
+		<div id="pagingArea" align="center">
 			<c:if test="${data.pi.currentPage <= 1}">
 				[이전] &nbsp;
 			</c:if>
