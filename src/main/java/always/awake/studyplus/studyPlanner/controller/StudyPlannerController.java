@@ -223,6 +223,54 @@ public class StudyPlannerController {
 		}
 	}
 	
+	// 주간 랭킹 차트 
+	@RequestMapping(value="studyPlannerWeeklyRankChart.sp")
+	public void weeklyRankChart(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+		
+		//파라미터값 받음
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int loginUserCode = loginUser.getMember_Code();
+		
+		String chartDate = request.getParameter("dateVal");
+		
+		//날짜 특수문자 변경
+		String chartDate2 = chartDate.replaceAll("-", "/");
+		String[] chartDate3 = chartDate2.split(" ~ ");
+		
+		//월,일의 갯수를 도출해서 한자리 수 일경우 앞에 0을 붙여줌
+		String[] firstDate = chartDate3[0].split("/");
+		if(firstDate[1].length() == 1) {
+			firstDate[1] = "0"+firstDate[1];
+		}
+		if(firstDate[2].length() == 1) {
+			firstDate[2] = "0"+firstDate[2];
+		}
+		
+		String[] lastDate = chartDate3[1].split("/");
+		if(lastDate[1].length() == 1) {
+			lastDate[1] = "0"+lastDate[1];
+		}
+		if(lastDate[2].length() == 1) {
+			lastDate[2] = "0"+lastDate[2];
+		}
+		
+		String firstDateResult = firstDate[0] + "/" + firstDate[1] + "/" + firstDate[2];
+		String lastDateResult = lastDate[0] + "/" + lastDate[1] + "/" + lastDate[2];
+		//DB에 넣을 최종 날짜
+		String[] chartDate4 = new String[2];
+		chartDate4[0] = firstDateResult.substring(2, 10);
+		chartDate4[1] = lastDateResult.substring(2, 10);
+		
+		System.out.println(chartDate4[0]);
+		//HashMap
+		HashMap<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("loginUserCode", loginUserCode);
+		hmap.put("chartDateYear", chartDate4);
+		
+		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		list.add(hmap);
+	} 
+	
 	//오늘의 목표 리스트
 	@RequestMapping(value="todayGoalsList.sp")
 	public @ResponseBody List<Map<String, Object>> todayGoalsList(HttpSession session, @RequestParam String dateVal,  HttpServletResponse response) throws plannerException {
@@ -242,5 +290,4 @@ public class StudyPlannerController {
 
 		return list;
 	}
-
 }
