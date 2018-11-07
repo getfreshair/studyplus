@@ -13,7 +13,7 @@
 		margin-top:20px;
 		margin-bottom:20px;
 	}
-	.timeAmountChartArea h1 {
+	.timeAmountChartArea h4 {
 		color: #999999;
 		background:#F3F3F3;
 		padding-top: 10px;
@@ -48,8 +48,8 @@
 		
 	}
 	.chartDay {
-	    font-size: 25px;
-	    font-weight: bolder;
+	    font-size: 12px;
+	    margin-top:10px;
 	}
 </style>
 <script type="text/javascript">
@@ -103,14 +103,14 @@
 </head>
 <body>
 	<div class="timeAmountChartArea">
-		<h1>TimeAmount Statistic</h1>
+		<h4>접속 스터디 그룹 통계</h4>
 		<div class="timeAmountChartPart">
 			<div class="timeAmountChartInfo">
 				<p><i>42분 </i><i class="chartInfoUp">▲ </i> 10%</p>
 			</div>
 			<div class="timeAmountChartDiv" id="timeAmountToday_div"></div>
 			<div class="chartDay">
-				Today
+				오늘
 			</div>
 		</div>
 		<div class="timeAmountChartPart">
@@ -119,7 +119,7 @@
 			</div>
 			<div class="timeAmountChartDiv" id="timeAmountWeek_div"></div>
 			<div class="chartDay">
-				This Week
+				이번 주
 			</div>
 		</div>
 		<div class="timeAmountChartPart">
@@ -128,7 +128,7 @@
 			</div>
 			<div class="timeAmountChartDiv" id="timeAmountMonth_div"></div>
 			<div class="chartDay">
-				This Month
+				이번 달
 			</div>
 		</div>
 	</div>

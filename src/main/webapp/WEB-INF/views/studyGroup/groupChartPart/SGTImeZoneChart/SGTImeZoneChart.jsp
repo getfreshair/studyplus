@@ -13,7 +13,7 @@
 		margin-top:20px;
 		margin-bottom:20px;
 	}
-	.timeZoneChartArea h1{
+	.timeZoneChartArea h4{
 		color: #999999;
 		background:#F3F3F3;
 		padding-top: 10px;
@@ -69,7 +69,7 @@
 </head>
 <body>
 	<div class="timeZoneChartArea">
-		<h1>In Group Study Time Zone</h1>
+		<h4>접속 스터디 그룹 공부 시간대</h4>
 		<div id="timeZoneChartDiv"></div>
 	</div>
 </body>

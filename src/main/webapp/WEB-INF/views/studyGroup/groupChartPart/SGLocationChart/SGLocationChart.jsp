@@ -13,7 +13,7 @@
 		margin-top:20px;
 		margin-bottom:20px;
 	}
-	.locationChartArea h1 {
+	.locationChartArea h4 {
 		color: #999999;
 		background:#F3F3F3;
 		padding-top: 10px;
@@ -49,8 +49,8 @@
 		
 	}
 	.chartDay {
-	    font-size: 25px;
-	    font-weight: bolder;
+	    font-size: 12px;
+	    margin-top:10px;
 	}
 </style>
 <script type="text/javascript">
@@ -104,7 +104,7 @@
 </head>
 <body>
 	<div class="locationChartArea">
-		<h1>Location Statistic</h1>
+		<h4>지역 통계</h4>
 		<div class="locationChartPart">
 			<div class="locationChartInfo">
 				<p><i>42분 </i><i class="chartInfoUp">▲ </i> 10%</p>
@@ -112,7 +112,7 @@
 			</div>
 			<div class="locationChartDiv" id="locationToday_div"></div>
 			<div class="chartDay">
-				Today
+				오늘
 			</div>
 		</div>
 		<div class="locationChartPart">
@@ -122,7 +122,7 @@
 			</div>
 			<div class="locationChartDiv" id="locationWeek_div"></div>
 			<div class="chartDay">
-				This Week
+				이번 주
 			</div>
 		</div>
 		<div class="locationChartPart">
@@ -132,7 +132,7 @@
 			</div>
 			<div class="locationChartDiv" id="locationMonth_div"></div>
 			<div class="chartDay">
-				This Month
+				이번 달
 			</div>
 		</div>
 	</div>
