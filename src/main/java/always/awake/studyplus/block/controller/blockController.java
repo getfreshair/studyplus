@@ -1,3 +1,4 @@
+
 package always.awake.studyplus.block.controller;
 
 import java.io.BufferedReader;
@@ -13,6 +14,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -357,7 +361,7 @@ public class blockController {
 		}
 	}
 
-	// blockScheduleSave.bl
+	// 차단할 시간표 정보를 저장용
 	@RequestMapping("blockScheduleSave.bl")
 	public void blockScheduleSave(@RequestParam("scheduleData") String scheduleData, HttpServletResponse response) {
 
@@ -390,8 +394,25 @@ public class blockController {
 		}
 	}
 
-	@RequestMapping("saveBlockLocationData.bl")
-	public void saveBlockLocationData(@RequestParam("scheduleData") String locationData, HttpServletResponse response) {
+	// 차단할 위치정보 저장용
+	@RequestMapping(value="saveBlockLocationData.bl")
+	public void saveBlockLocationData(String locationInfo, HttpServletResponse response) {
+		
+		writeBlockLocationData(locationInfo);
+
+		List<String> list = getBlockLocationInfo();
+
+		try {
+			response.setContentType("text/html;charset=UTF-8");
+			response.getWriter().println(list);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	// 위치 차단 정보 기록용
+	public void writeBlockLocationData(String locationInfo) {
 		// 파일 디렉토리 체크
 		File dir1 = new File("C:\\studyPlanner");
 		if (!dir1.exists()) {
@@ -403,22 +424,40 @@ public class blockController {
 			dir2.mkdir();
 		}
 
-		File schedulaData = new File("C:\\studyPlanner\\blockPrograms\\locationData.txt");
+		File locationData = new File("C:\\studyPlanner\\blockPrograms\\locationData.txt");
 		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(schedulaData));
-			bw.write(locationData);
+			BufferedWriter bw = new BufferedWriter(new FileWriter(locationData, true));
+			bw.write(locationInfo);
+			bw.newLine();
 			bw.flush();
 			bw.close();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+	}
+
+	// 위치 차단 정보 조회용
+	public List<String> getBlockLocationInfo() {
+		File locationData = new File("C:\\studyPlanner\\blockPrograms\\locationData.txt");
+		ArrayList<String> list = new ArrayList<String>();
 		try {
-			response.getWriter().println("스케쥴 정보 저장 성공!");
+			BufferedReader br = new BufferedReader(new FileReader(locationData));
+			String temp = "";
+			while ((temp = br.readLine()) != null) {
+				list.add(temp);
+			}
+
+			br.close();
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return list;
 	}
 
 }
