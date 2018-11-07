@@ -6,9 +6,9 @@ public interface SGDetailService {
 
 	public int selectJoinStatus(int grCode, int memCode);
 
-	public SGDetail selectOneGrDetailTotal(int grCode, int memCode);
+	public SGDetail selectOneGrDetailJoinBefore(int grCode);
 
-	public SGDetail selectOneJoinGrTop(int grCode, int memCode);
+	public SGDetail selectOneJoinGrDetailTop(int grCode, int memCode);
 
 	public int selectJoinAbleChk(int grCode);
 

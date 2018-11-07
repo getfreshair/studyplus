@@ -106,8 +106,8 @@
 		
 			<div class="titleArea">
 			<!-- *가입여부 체크 (가입-1 / 미가입-0 ,(**DB상으로는 가입-0, 미가입-1)) -->
-				<input type="hidden" id="joinStatus" value="${joinStatus}"/>
-				<input type="hidden" id="grCode" value="${studyGroup_Code}"/>
+<%-- 				<input type="hidden" id="joinStatus" value="${joinStatus}"/> --%>
+				<input type="hidden" id="grCode" value="${gr.studyGroup_Code}"/>
 				<div class="groupInfoArea topInfoArea">
 					<div class="groupInfoLeft">
 						<table class="topInfoAllWrapTbl">
@@ -173,6 +173,7 @@
 														<fmt:formatNumber var="gr_Week_Sec" value="${(gr.gr_Week_Total % 3600) % 60}" pattern="00"/>
 														${gr_Week_H}:${gr_Week_M}:${gr_Week_Sec}
 													</span>
+												</div>
 												<div>
 													<strong>오늘의 공부시간</strong> <br> 
 													<span><!-- 6:57:37 --><!-- pages-(pages%1) -> 내림처리 -->
@@ -191,7 +192,7 @@
 										<table class="statBoxContTbl">
 											<tr><td><h3>목표 완수율</h3> <strong>${gr.gr_Week_Fulfill_Ratio} %</strong></td></tr>
 											<tr><td>
-												<div><div class="goalRatio">${gr.gr_Fulfill_Mem_Cnt} / ${gr.studyGroup_MaxNum} 명 완수</div></div>
+												<div><div class="goalRatio">${gr.gr_Fulfill_Mem_Cnt} / ${gr.gr_Mem_Count} 명 완수</div></div>
 											</td></tr>
 										</table>
 									</div></td>
@@ -204,11 +205,11 @@
 				<div class="myInfoArea topInfoArea">
 					<table class="topInfoAllWrapTbl">
 					<!-- 그룹 미가입시 -->
-<%-- 					  <c:if test="${joinStatus < 1}"> --%>
+					  <c:if test="${joinStatus < 1}">
 						<tr><td>
 							<div><a onclick="joinGroup();"href="" class="joinGroupBtn">그룹 가입하기</a></div>
 						</td></tr>
-<%-- 					  </c:if> --%>
+					  </c:if>
 					  
 					<!-- 그룹 가입시 -->
 					  <c:if test="${joinStatus >= 1}">
@@ -219,26 +220,35 @@
 							<table class="topInfoContWrapTbl" style="display:table;"><tr>
 								<td><div class="statBox groupStatBoxLeft">
 									<table class="statBoxContTbl">
-										<tr><td><h3>나의 순위</h3> <strong>${joinTop.my_Rank} 위</strong></td></tr>
+										<tr><td>
+											<h3>나의 순위</h3>
+											<strong>
+<%-- 											  <c:if test="${join.my_Rank empty}"> --%>
+<%-- 											  	${gr.gr_Mem_Count} --%>
+<%-- 											  </c:if> --%>
+												<fmt:formatNumber value="${join.my_Rank}" pattern="0" /> 위
+											</strong>
+										</td></tr>
 										<tr><td><div>
 											<div>
 												<strong>이 주의 공부시간</strong> <br>
 												<span>
-													<c:set var="my_Week_Hour" value="${(joinTop.my_Week_Total / 3600)}"/>
-													<c:set var="my_Week_Min" value="${(joinTop.my_Week_Total % 3600) / 60}"/>
+													<c:set var="my_Week_Hour" value="${(join.my_Week_Total / 3600)}"/>
+													<c:set var="my_Week_Min" value="${(join.my_Week_Total % 3600) / 60}"/>
 													<fmt:formatNumber var="my_Week_H" value="${my_Week_Hour - (my_Week_Hour % 1)}" pattern="#00"/>
 													<fmt:formatNumber var="my_Week_M" value="${my_Week_Min - (my_Week_Min % 1)}" pattern="00"/>
-													<fmt:formatNumber var="my_Week_Sec" value="${(joinTop.my_Week_Total % 3600) % 60}" pattern="00"/>
+													<fmt:formatNumber var="my_Week_Sec" value="${(join.my_Week_Total % 3600) % 60}" pattern="00"/>
 													${my_Week_H}:${my_Week_M}:${my_Week_Sec}
 												</span>
+											</div>
 											<div>
 												<strong>오늘의 공부시간</strong> <br>
 												<span>
-													<c:set var="my_Day_Hour" value="${(joinTop.my_Day_Total / 3600)}"/>
-													<c:set var="my_Day_Min" value="${(joinTop.my_Day_Total % 3600) / 60}"/>
+													<c:set var="my_Day_Hour" value="${(join.my_Day_Total / 3600)}"/>
+													<c:set var="my_Day_Min" value="${(join.my_Day_Total % 3600) / 60}"/>
 													<fmt:formatNumber var="my_Day_H" value="${my_Day_Hour - (my_Day_Hour % 1)}" pattern="#00"/>
 													<fmt:formatNumber var="my_Day_M" value="${my_Day_Min - (my_Day_Min % 1)}" pattern="00"/>
-													<fmt:formatNumber var="my_Day_Sec" value="${(joinTop.my_Day_Total % 3600) % 60}" pattern="00"/>
+													<fmt:formatNumber var="my_Day_Sec" value="${(join.my_Day_Total % 3600) % 60}" pattern="00"/>
 													${my_Day_H}:${my_Day_M}:${my_Day_Sec}
 												</span>
 											</div>
@@ -271,28 +281,29 @@
 	
 	function joinGroup(){
 		var grCode = $('#grCode').val();
+		var memCode = '${ sessionScope.loginUser.member_Code }';
 		/* var joinMemCnt = $('#joinMemCnt').val();
 		var joinMaxCnt = $('#joinMaxCnt').val();
 		alert(joinMemCnt);
 		alert(joinMaxCnt); */
 		
-		
 		$.ajax({
-			url: 'insertGroupJoin.sgd',
-			type : 'POST',
-			data : { grCode : grCode },
+			url : "insertGroupJoin.sgd",
+			data : { grCode : grCode, memCode : memCode },
+			type : "POST",
 			success : function(data){
 					if(data >= 1){
-						location.href="selectOneGroup.sgd?group_No=" + grCode; 
+						location.href="selectOneGroup.sgd?group_No=" + grCode;
 					}else{
 						alert("그룹 가능 최대 인원을 초과하여 가입 할 수 없습니다.");
 					}
+				},
+			
+			error : function(){
+				alert("에러냐?");
 				}
-			});
-	
+		});
 	};
-
-
 </script>			
 			
 			
@@ -301,12 +312,16 @@
 				<div class="leftContent bottomContentArea">
 					<div class="leftContentWrap">
 						<div class="leftContentTabMenu">
-							<div><span>그룹원 보기</span></div>
 							<div>
-								<span>그룹원 순위</span><span style="cursor:auto;">|</span><span>수행 현황</span>
+								<span onclick="selectGrMemList(this);">그룹원 보기</span>
+							</div>
+							<div>
+								<span>그룹원 순위</span>
+								<span style="cursor:auto;">|</span>
+								<span>수행 현황</span>
 							</div>
 						</div>
-						<div class="leftIncludeArea">
+						<div id="leftIncludeArea" class="leftIncludeArea">
 						
 							<jsp:include page="leftGroupListArea.jsp"/>
 							
@@ -321,6 +336,24 @@
 				</div>
 			</div>
 			
+<script>
+	function selectGrMemList(){
+		var this
+// 		$('#leftIncludeArea').append($('#source'));
+
+		/* $.ajax({
+			url:"list.html",
+			success:function(result) {
+				$("#leftIncludeArea").html(result);
+			}
+		}); */
+	};
+
+
+
+</script>			
+
+			
 		</div>
 	</div>
 	</div>	
@@ -328,8 +361,3 @@
 
 </html>
 
-
-
-
-
-	
