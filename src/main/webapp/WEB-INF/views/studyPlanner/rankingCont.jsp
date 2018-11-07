@@ -132,13 +132,14 @@
 				break;
 		}
 		var dateVal = $(".weeklyRankDateCk").text(); //컨트롤러에 보낼 날짜
-		//weeklyChart(dateVal); //주간 공부량 차트
+		weeklyRankChart(dateVal); //주간 공부량 차트
 	}
 	
 	function weeklyRankChartChangeDate(){
 		
 		$("#weeklyRankDatePicker").click(function(){
 			//over된 곳의 날짜를 뽑아와서 / 요일을 추출해서 / bg컬러입히기
+			
 			$(".datepicker:nth-child(4) .datepicker--cell").mouseover(function(){
 				
 				//mouseover시 해당 셀의 날짜 추출
@@ -356,9 +357,43 @@
 				}
 					
 				var dateVal = $(".weeklyRankDateCk").text(); //컨트롤러에 보낼 날짜
-				//weeklyChart(dateVal); //주간 공부량 차트
+				weeklyRankChart(dateVal); //주간 공부량 차트
 			});
 		});
+	}
+	
+	function weeklyRankChart(dateVal){
+		
+		$.ajax({
+			url : "studyPlannerWeeklyRankChart.sp",
+			data : {dateVal : dateVal},
+			type : "post",
+			success : function(data) {
+				
+				$('#weeklyRankChart').empty();
+				var options = {
+						'legend':{
+							names: ['일', '월', '화', '수', '목', '금', '토'],
+							hrefs: []
+						},
+						'dataset':{
+							title:'Playing time per day',
+							values: [[61, 66], [76, 66], [49, 45], [58, 76],
+									[48, 76], [56, 83], [56, 83]],
+							colorset: ['#30a1ce', '#FF8C00'],
+							fields:['지역', '분야']
+						},
+						'chartDiv' : 'weeklyRankChart',
+						'chartType' : 'line',
+						'chartSize' : {width:680, height:450},
+						'minValue' : 40,
+						'maxValue' : 100,
+						'increment' : 10,
+						'isGuideLineNeeded' : true  //default set to false
+					};
+					Nwagon.chart(options);
+			}
+		});	
 	}
 </script>
 <style>
@@ -378,6 +413,13 @@
 	margin-right: 10px;
 }
 
+.rankSubTitle{
+	
+	margin-left : 30px;
+	margin-top : 30px;
+	margin-botton : 30px;
+	display : inline-block;
+}
 .needInDiv {
 	background: white;
 	border: solid #e1e1e1;
@@ -411,16 +453,22 @@
 }
 
 .rank_chart {
-	margin-top: 20px;
-	height: 422px;
-	width: 422px;
+	height: 500px;
+	width: 100%;
+	margin-bottom : 30px;
 }
 
+#weeklyRankChart{
+	
+	width : 95% !important;
+	margin-left : auto;
+	margin-right : auto;
+}
 .rank_graph {
-	width: 100%;
-	height: 422px;
-	padding-left : 10px;
-	padding-right : 10px;
+	width: 98%;
+    height: 300px;
+    padding-left: 20px;
+    padding-right: 10px;
 }
 
 .progress-title{
@@ -496,7 +544,15 @@
 				<label for="weeklyRankDatePicker" class="weeklyRankDateCk" style="position: absolute; right: 35px; top: 13px; color: white;"></label>
 				<input type='text' id="weeklyRankDatePicker" class="date" data-language='ko'style="position: absolute; top: 13px; right: 35px; opacity: 0;"/>
 				<div class="rank_chart">
-					<canvas id="weeklyRankChart"></canvas>
+					<div class="rankSubTitle">
+						<img src="/studyplus/resources/images/studyGroup/point.png" style="width:30px; height:30px;">
+						<h2 style="display: inline-block; vertical-align: middle; margin-bottom: 20px;"> 개인 주간 일별 랭킹 </h2>
+					</div>
+					<div id="weeklyRankChart"></div>
+				</div>
+				<div class="rankSubTitle">
+					<img src="/studyplus/resources/images/studyGroup/point.png" style="width:30px; height:30px;">
+					<h2 style="display: inline-block; vertical-align: middle; margin-bottom: 20px;"> 개인 주간 종합 랭킹 </h2>
 				</div>
 				<div class="rank_graph">
 					<h3 class="progress-title">지역</h3>
