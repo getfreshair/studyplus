@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import always.awake.studyplus.studyPlanner.model.exception.plannerException;
+
 public interface StudyPlannerService {
 
 	//일간 공부량 차트
@@ -16,7 +18,7 @@ public interface StudyPlannerService {
 	List<HashMap<String, Object>> selectMonthlyChart(List<HashMap<String, Object>> list);
 
 	//오늘의 목표 리스트
-	List<Map<String, Object>> selectTodayGoals(Map<String, Object> hmap);
+	List<Map<String, Object>> selectTodayGoals(Map<String, Object> hmap) throws plannerException;
 
 
 

@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
+import always.awake.studyplus.studyPlanner.model.exception.plannerException;
+
 public interface StudyPlannerDao {
 
 	//일간 공부량 차트
@@ -19,7 +21,7 @@ public interface StudyPlannerDao {
 	List<HashMap<String, Object>> monthlyChart(SqlSessionTemplate sqlSession, List<HashMap<String, Object>> list);
 
 	//오늘의 목표 리스트
-	List<Map<String, Object>> selectTodayGoals(SqlSessionTemplate sqlSession, Map<String, Object> hmap);
+	List<Map<String, Object>> selectTodayGoals(SqlSessionTemplate sqlSession, Map<String, Object> hmap) throws plannerException;
 
 
 }

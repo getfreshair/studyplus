@@ -14,13 +14,14 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 import always.awake.studyplus.member.model.vo.Member;
+import always.awake.studyplus.studyPlanner.model.exception.plannerException;
 import always.awake.studyplus.studyPlanner.model.service.StudyPlannerService;
 
 @SessionAttributes("loginUser")
@@ -224,24 +225,21 @@ public class StudyPlannerController {
 	
 	//오늘의 목표 리스트
 	@RequestMapping(value="todayGoalsList.sp")
-	public @ResponseBody List<Map<String, Object>> todayGoalsList(HttpSession session, @RequestParam String dateVal,  HttpServletResponse response) {
+	public @ResponseBody List<Map<String, Object>> todayGoalsList(HttpSession session, @RequestParam String dateVal,  HttpServletResponse response) throws plannerException {
 		
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int loginUserCode = loginUser.getMember_Code();
-		
-		//String checkDay = request.getParameter("dateVal");
-		//System.out.println("선택한날짜??" + checkDay);
 		
 		Map<String, Object> hmap = new HashMap<String, Object>();
 		hmap.put("loginUserCode", loginUserCode);
 		hmap.put("checkDay", dateVal);
 		
-		List<Map<String, Object>> list = sps.selectTodayGoals(hmap);
+		List<Map<String, Object>> list;
 		
-		System.out.println("list.size() : " + list.size());
-		System.out.println("list.get(0) : " +  list.get(0));
-		System.out.println("list.get(1) :" +  list.get(1));
+		list = sps.selectTodayGoals(hmap);
 		
+		//System.out.println("list.get(0) : " +  list.get(0));
+
 		return list;
 	}
 

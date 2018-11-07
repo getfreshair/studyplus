@@ -26,10 +26,11 @@
 <style type="text/css">
 	body{background:#f8f8f8;}
 	#footer{background: #fff;}
-	.weeklyDateCk{width:175px; height:25px; position:absolute; right:35px; top:13px; color:#fff; background:#65cdd8;}
-    .analysis_box.st03 .tab{margin-bottom:10px;}
+	.weeklyDateCk{width:175px; height:25px; position:absolute; right:38px; top:10px; color:#fff; background:#5eafe4; text-align:right; font-size:14px; line-height:2;}
 	.analysis_box .chart{padding:15px;}
-	.analysis_box.st01 .chart{padding-top:25px;}
+	.analysis_box.st01 .chart{padding:0;}
+	.analysis_box.st03 .chart{padding-top:70px;}
+    .analysis_box.st04 .tab{margin-bottom:20px;}
 	
 	#studyTendencyChart svg{width:100%;}
 	
@@ -126,59 +127,15 @@
 							<div class="scroll_wrap">
 								<div class="scroll_area">
 									<ul class="goals_list">
-										<li>
-											<div class="left_area">
-												<div class="donut_area">
-													<canvas id="today_donut" width="200" height="200"></canvas>
-													<span class="chart_per">20%</span>
-												</div>
-											</div>
-											<div class="right_area">
-												<p class="tit">자바의 정석자바의 정석자바의 정석자바의 정석</p>
-												<p class="per">102 / 200 페이지</p>
-											</div>
-										</li>
-										
+										<!-- 페이지 진입시 todayGoalsDate() 호출 -->
 									</ul>
 									<div class="add_btn">
 										<a href="#" data-toggle="modal" data-target="#myModal"></a>
 									</div>
 								</div>
-								<!-- <div class="scroll_area">111</div>
-								<div class="scroll_area">222</div>
-								<div class="scroll_area">333</div>
-								<div class="scroll_area">444</div>
-								<div class="scroll_area">555</div>
-								<div class="scroll_area">666</div> -->
 							</div>
 						</div>
 						<!-- // 오늘의목표 -->
-						<script>
-						$(function(){
-							/* var pointList = $(".today_point li");
-							var scrollList = $(".today_goals .scroll_wrap .scroll_area");
-
-							pointList.eq(0).addClass('on');
-							scrollList.eq(0).addClass('on');
-							
-							pointList.click(function(){  //일주일 중 날짜 선택시 
-								for(var i = 0; i < pointList.length; i++){
-									
-									if($(this).index() == i){ //클릭한 날짜가 i 와 같을때
-										pointList.removeClass('on'); //날짜 전체에 on을 제거해 주고
-										$(this).addClass('on'); //클릭한 날짜에 on을 붙여준다
-										
-										if($(this).index(i) == scrollList.index(i)){ //클릭한 날짜의 i인덱스와 스크롤리스트의 i인덱스가 같을때
-											scrollList.removeClass('on'); //스크롤리스트 전체에 on을 제거해주고
-											scrollList.eq(i).addClass('on'); //스크롤리스트에 on을 붙여준다
-											
-										}
-									}
-								}
-							}); */
-							
-						});
-						</script>
 
 						<!-- 이번주목표 -->
 						<div class="weekly_goals">

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import always.awake.studyplus.studyPlanner.model.dao.StudyPlannerDao;
+import always.awake.studyplus.studyPlanner.model.exception.plannerException;
 
 @Service
 public class StudyPlannerServiceImpl implements StudyPlannerService{
@@ -47,7 +48,7 @@ public class StudyPlannerServiceImpl implements StudyPlannerService{
 
 	//오늘의 목표 리스트
 	@Override
-	public List<Map<String, Object>> selectTodayGoals(Map<String, Object> hmap) {
+	public List<Map<String, Object>> selectTodayGoals(Map<String, Object> hmap) throws plannerException {
 		
 		List<Map<String, Object>> todayGoals = spd.selectTodayGoals(sqlSession, hmap);
 		
