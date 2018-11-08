@@ -368,14 +368,14 @@
 								<div class="col-sm-7 col-xs-12 ipt_area">
 									<dl>
 										<dt>목표명</dt>
-										<dd><input type="text" class="form-control" placeholder="목표를 입력하세요" name="goalName"></dd>
+										<dd><input type="text" class="form-control" placeholder="목표를 입력하세요" id="goalName" name="goalName"></dd>
 									</dl>
 									<dl>
 										<dt>목표 시간</dt>
 										<dd class="ipt_wrap">
-											<input type="number" class="form-control" placeholder="ex) 2" name="goalTime" value="0" min="0">
+											<input type="number" class="form-control" placeholder="ex) 2" id="goalTime" name="goalTime" value="0" min="0">
 											<span>시간 &nbsp;&nbsp;</span>
-											<input type="number" class="form-control" placeholder="ex) 30" name="goalMin" value="0" min="0">
+											<input type="number" class="form-control" placeholder="ex) 30" id="goalMin" name="goalMin" value="0" min="0">
 											<span>분</span>
 										</dd>
 									</dl>
