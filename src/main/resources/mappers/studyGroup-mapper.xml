@@ -236,6 +236,7 @@
 		                              WHERE CATEGORY_CODE = (SELECT CATEGORY_CODE
 		                                                     FROM STUDYGROUP
 		                                                     WHERE STUDYGROUP_CODE = #{studygroup_Code}))
+		     AND STUDYGROUP_CODE NOT IN(#{studygroup_Code})
 			 <choose>
 			 	<when test="period eq 'thisMonth'">
 					AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 30, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD')) TLTA
@@ -276,6 +277,7 @@
 		                              WHERE CATEGORY_CODE = (SELECT CATEGORY_CODE
 		                                                     FROM STUDYGROUP
 		                                                     WHERE STUDYGROUP_CODE = #{studygroup_Code}))
+		     AND STUDYGROUP_CODE NOT IN(#{studygroup_Code})
 		     <choose>
 			 	<when test="period eq 'thisMonth'">
 					AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 60, 'YYYYMMDD') AND TO_CHAR(SYSDATE - 30, 'YYYYMMDD')) YLTA
@@ -308,4 +310,195 @@
 		)
 	</select>
 	<!-- 주제 별 통계 -->
+	
+	<!-- 주제 시간별 데이터 -->
+	<select id="selectSGCategoryChartTime" parameterType="map" resultType="map">
+		SELECT TZ.TIMEZONE_TIMEZONE, NVL(ST.STUDYTIME_STUDYTIME, 0) AS STUDYTIME_STUDYTIME, NVL(MEST.STUDYTIME_STUDYTIME, 0) AS MESTUDYTIME_STUDYTIME
+		<![CDATA[
+			FROM(SELECT LEVEL - 1 AS TIMEZONE_TIMEZONE
+		     FROM DUAL
+		     CONNECT BY LEVEL <= 24) TZ
+		]]>
+		LEFT JOIN(SELECT NVL(TO_CHAR(TO_DATE(ROUND(AVG(STUDYTIME_STUDYTIME)),'sssss'),'mi'), 0) AS STUDYTIME_STUDYTIME, STUDYTIME_TIMEZONE
+		          FROM STUDYTIME
+		          WHERE STUDYGROUP_CODE IN(SELECT STUDYGROUP_CODE
+		                                   FROM STUDYGROUP
+		                                   WHERE LOCATION_CODE = (SELECT LOCATION_CODE
+		                                                          FROM STUDYGROUP
+		                                                          WHERE STUDYGROUP_CODE = #{studygroup_Code}))
+		          AND STUDYGROUP_CODE NOT IN(#{studygroup_Code})
+		          <choose>
+				 	 <when test="period eq 'thisMonth'">
+						 AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 30, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD')
+					 </when>
+					 <when test="period eq 'thisWeek'">
+						 AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 7, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD')
+					 </when>
+					 <when test="period eq 'today'">
+						 AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')
+					 </when>
+				  </choose>
+		          GROUP BY STUDYTIME_TIMEZONE) ST ON(TZ.TIMEZONE_TIMEZONE = ST.STUDYTIME_TIMEZONE)
+		LEFT JOIN(SELECT NVL(TO_CHAR(TO_DATE(ROUND(AVG(STUDYTIME_STUDYTIME)),'sssss'),'mi'), 0) AS STUDYTIME_STUDYTIME, STUDYTIME_TIMEZONE
+		          FROM STUDYTIME
+		          WHERE STUDYGROUP_CODE = #{studygroup_Code}
+		          <choose>
+				 	 <when test="period eq 'thisMonth'">
+						 AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 30, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD')
+					 </when>
+					 <when test="period eq 'thisWeek'">
+						 AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 7, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD')
+					 </when>
+					 <when test="period eq 'today'">
+						 AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')
+					 </when>
+				  </choose>
+		          GROUP BY STUDYTIME_TIMEZONE) MEST ON(TZ.TIMEZONE_TIMEZONE = MEST.STUDYTIME_TIMEZONE)
+		ORDER BY TZ.TIMEZONE_TIMEZONE
+	</select>
+	<!-- 주제 시간별 데이터 -->
+	
+	<!-- 지역 별 통계 -->
+	<select id="selectSGLocationChart" parameterType="map" resultType="map">
+		SELECT TO_NUMBER(MAX(NVL(SGTODAY_GAP_TIME, TO_CHAR('0')))) - TO_NUMBER(MAX(NVL(SGYESTERDAY_GAP_TIME, TO_CHAR('0')))) AS SG_GAPTIME,
+		TO_NUMBER(MAX(NVL(MESGTODAY_GAP_TIME, TO_CHAR('0')))) - TO_NUMBER(MAX(NVL(MESGYESTERDAY_GAP_TIME, TO_CHAR('0')))) AS MESG_GAPTIME,
+		CASE
+		    WHEN MAX(TO_NUMBER(SGYESTERDAY_GAP_TIME)) != 0 THEN ROUND((((MAX(TO_NUMBER(SGTODAY_GAP_TIME)) / MAX(TO_NUMBER(SGYESTERDAY_GAP_TIME))) * 100) - 100), 2)
+		    WHEN MAX(TO_NUMBER(SGYESTERDAY_GAP_TIME)) = 0 THEN 100
+		END AS SG_GAPTIME_PERCENT,
+		CASE
+		    WHEN MAX(TO_NUMBER(MESGYESTERDAY_GAP_TIME)) != 0 THEN ROUND((((MAX(TO_NUMBER(MESGTODAY_GAP_TIME)) / MAX(TO_NUMBER(MESGYESTERDAY_GAP_TIME))) * 100) - 100), 2)
+		    WHEN MAX(TO_NUMBER(MESGYESTERDAY_GAP_TIME)) = 0 THEN 100
+		END AS MESG_GAPTIME_PERCENT
+		FROM
+		(
+		SELECT TLTA.SGTODAY_GAP_TIME, NULL AS MESGTODAY_GAP_TIME, NULL AS SGYESTERDAY_GAP_TIME, NULL AS MESGYESTERDAY_GAP_TIME
+		FROM(SELECT NVL(TO_CHAR(TO_DATE(ROUND(AVG(STUDYTIME_STUDYTIME)),'sssss'),'mi'), 0) AS SGTODAY_GAP_TIME
+		     FROM STUDYTIME
+		     WHERE STUDYGROUP_CODE IN(SELECT STUDYGROUP_CODE
+		                              FROM STUDYGROUP
+		                              WHERE LOCATION_CODE = (SELECT LOCATION_CODE
+		                                                     FROM STUDYGROUP
+		                                                     WHERE STUDYGROUP_CODE = #{studygroup_Code}))
+		     AND STUDYGROUP_CODE NOT IN(#{studygroup_Code})
+			 <choose>
+			 	<when test="period eq 'thisMonth'">
+					AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 30, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD')) TLTA
+				</when>
+				<when test="period eq 'thisWeek'">
+					AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 7, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD')) TLTA
+				</when>
+				<when test="period eq 'today'">
+					AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) TLTA
+				</when>
+			 </choose>
+		
+		UNION ALL
+		
+		SELECT NULL AS SGTODAY_GAP_TIME, MTLTA.MESGTODAY_GAP_TIME, NULL AS SGYESTERDAY_GAP_TIME, NULL AS MESGYESTERDAY_GAP_TIME
+		FROM(SELECT NVL(TO_CHAR(TO_DATE(ROUND(AVG(STUDYTIME_STUDYTIME)),'sssss'),'mi'), 0) AS MESGTODAY_GAP_TIME
+		     FROM STUDYTIME
+		     WHERE STUDYGROUP_CODE = #{studygroup_Code}
+		     <choose>
+			 	<when test="period eq 'thisMonth'">
+					AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 30, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD')) MTLTA
+				</when>
+				<when test="period eq 'thisWeek'">
+					AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 7, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD')) MTLTA
+				</when>
+				<when test="period eq 'today'">
+					AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) MTLTA
+				</when>
+			 </choose>
+		
+		UNION ALL
+		
+		SELECT NULL AS SGTODAY_GAP_TIME, NULL AS MESGTODAY_GAP_TIME, YLTA.SGYESTERDAY_GAP_TIME, NULL AS MESGYESTERDAY_GAP_TIME
+		FROM(SELECT NVL(TO_CHAR(TO_DATE(ROUND(AVG(STUDYTIME_STUDYTIME)),'sssss'),'mi'), 0) AS SGYESTERDAY_GAP_TIME
+		     FROM STUDYTIME
+		     WHERE STUDYGROUP_CODE IN(SELECT STUDYGROUP_CODE
+		                              FROM STUDYGROUP
+		                              WHERE LOCATION_CODE = (SELECT LOCATION_CODE
+		                                                     FROM STUDYGROUP
+		                                                     WHERE STUDYGROUP_CODE = #{studygroup_Code}))
+		     AND STUDYGROUP_CODE NOT IN(#{studygroup_Code})
+		     <choose>
+			 	<when test="period eq 'thisMonth'">
+					AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 60, 'YYYYMMDD') AND TO_CHAR(SYSDATE - 30, 'YYYYMMDD')) YLTA
+				</when>
+				<when test="period eq 'thisWeek'">
+					AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 14, 'YYYYMMDD') AND TO_CHAR(SYSDATE - 7, 'YYYYMMDD')) YLTA
+				</when>
+				<when test="period eq 'today'">
+					AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') = TO_CHAR(SYSDATE - 1, 'YYYYMMDD')) YLTA
+				</when>
+			 </choose>
+		     
+		UNION ALL
+		
+		SELECT NULL AS SGTODAY_GAP_TIME, NULL AS MESGTODAY_GAP_TIME, NULL AS SGYESTERDAY_GAP_TIME, MYLTA.MESGYESTERDAY_GAP_TIME
+		FROM(SELECT NVL(TO_CHAR(TO_DATE(ROUND(AVG(STUDYTIME_STUDYTIME)),'sssss'),'mi'), 0) AS MESGYESTERDAY_GAP_TIME
+		     FROM STUDYTIME
+		     WHERE STUDYGROUP_CODE = #{studygroup_Code}
+		     <choose>
+			 	<when test="period eq 'thisMonth'">
+					AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 60, 'YYYYMMDD') AND TO_CHAR(SYSDATE - 30, 'YYYYMMDD')) MYLTA
+				</when>
+				<when test="period eq 'thisWeek'">
+					AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 14, 'YYYYMMDD') AND TO_CHAR(SYSDATE - 7, 'YYYYMMDD')) MYLTA
+				</when>
+				<when test="period eq 'today'">
+					AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') = TO_CHAR(SYSDATE - 1, 'YYYYMMDD')) MYLTA
+				</when>
+			 </choose>
+		)
+	</select>
+	<!-- 지역 별 통계 -->
+	
+	<!-- 지역 시간별 데이터 -->
+	<select id="selectSGLocationChartTime" parameterType="map" resultType="map">
+		SELECT TZ.TIMEZONE_TIMEZONE, NVL(ST.STUDYTIME_STUDYTIME, 0) AS STUDYTIME_STUDYTIME, NVL(MEST.STUDYTIME_STUDYTIME, 0) AS MESTUDYTIME_STUDYTIME
+		<![CDATA[
+			FROM(SELECT LEVEL - 1 AS TIMEZONE_TIMEZONE
+		    FROM DUAL
+		    CONNECT BY LEVEL <= 24) TZ
+		]]>
+		LEFT JOIN(SELECT NVL(TO_CHAR(TO_DATE(ROUND(AVG(STUDYTIME_STUDYTIME)),'sssss'),'mi'), 0) AS STUDYTIME_STUDYTIME, STUDYTIME_TIMEZONE
+		          FROM STUDYTIME
+		          WHERE STUDYGROUP_CODE IN(SELECT STUDYGROUP_CODE
+		                                   FROM STUDYGROUP
+		                                   WHERE LOCATION_CODE = (SELECT LOCATION_CODE
+		                                                          FROM STUDYGROUP
+		                                                          WHERE STUDYGROUP_CODE = #{studygroup_Code}))
+				  AND STUDYGROUP_CODE NOT IN(#{studygroup_Code}) 
+		          <choose>
+				 	 <when test="period eq 'thisMonth'">
+						 AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 30, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD')
+					 </when>
+					 <when test="period eq 'thisWeek'">
+						 AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 7, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD')
+					 </when>
+					 <when test="period eq 'today'">
+						 AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')
+					 </when>
+				  </choose>
+		          GROUP BY STUDYTIME_TIMEZONE) ST ON(TZ.TIMEZONE_TIMEZONE = ST.STUDYTIME_TIMEZONE)
+		LEFT JOIN(SELECT NVL(TO_CHAR(TO_DATE(ROUND(AVG(STUDYTIME_STUDYTIME)),'sssss'),'mi'), 0) AS STUDYTIME_STUDYTIME, STUDYTIME_TIMEZONE
+		          FROM STUDYTIME
+		          WHERE STUDYGROUP_CODE = #{studygroup_Code}
+		          <choose>
+				 	 <when test="period eq 'thisMonth'">
+						 AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 30, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD')
+					 </when>
+					 <when test="period eq 'thisWeek'">
+						 AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 7, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD')
+					 </when>
+					 <when test="period eq 'today'">
+						 AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')
+					 </when>
+				  </choose>
+		          GROUP BY STUDYTIME_TIMEZONE) MEST ON(TZ.TIMEZONE_TIMEZONE = MEST.STUDYTIME_TIMEZONE)
+		ORDER BY TZ.TIMEZONE_TIMEZONE
+	</select>
+	<!-- 지역 시간별 데이터 -->
 </mapper>

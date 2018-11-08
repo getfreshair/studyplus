@@ -143,11 +143,13 @@ public class StudyGroupController {
 	}
 	
 	@RequestMapping(value="selectSGCategoryChart.sg")
-	public @ResponseBody List<Map<String, Object>> selectSGCategoryChart(
-			@RequestParam(value="studygroup_Code")int studygroup_Code, @RequestParam(value="period")String period){
+	public @ResponseBody Map<String, Object> selectSGCategoryChart(@RequestParam(value="studygroup_Code")int studygroup_Code, @RequestParam(value="period")String period){
 		return sgs.selectSGCategoryChart(studygroup_Code, period);
 	}
 	
-	
+	@RequestMapping(value="selectSGLocationChart.sg")
+	public @ResponseBody Map<String, Object> selectSGLocationChart(@RequestParam(value="studygroup_Code")int studygroup_Code, @RequestParam(value="period")String period){
+		return sgs.selectSGLocationChart(studygroup_Code, period);
+	}
 	
 }
