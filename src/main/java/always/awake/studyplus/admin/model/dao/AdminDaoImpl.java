@@ -20,7 +20,9 @@ public class AdminDaoImpl implements AdminDao {
 	public List<Map<String, Object>> searchMember(SqlSessionTemplate sqlSession, Map<String,Object> map) {
 		System.out.println("DAO"+(map.get("All") == null));
 		
+		
 		return sqlSession.selectList("Admin.selectMember", map);
+		
 	}
 
 	@Override
