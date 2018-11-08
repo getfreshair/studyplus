@@ -86,6 +86,9 @@ public class blockController {
 		StringBuilder scheduleData = new StringBuilder();
 
 		try {
+			
+			if(!schedulaData.exists()) { schedulaData.createNewFile();}
+			
 			BufferedReader br = new BufferedReader(new FileReader(schedulaData));
 			String temp = "";
 			while ((temp = br.readLine()) != null) {
@@ -99,6 +102,9 @@ public class blockController {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		if(scheduleData.toString().equals("")) {
+			scheduleData.append("emptyData");
 		}
 		return scheduleData;
 	}

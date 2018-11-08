@@ -22,9 +22,16 @@
             <div id="schedule2" class="jqs-demo mb-3" style="height:100%; widht:100%"></div>
             <script>
             $(function(){
+            	var data = "";
+            	if('${scheduleData}' == 'emptyData'){
+            		data = [];
+            	} else {
+            		data = ${scheduleData} ;
+            	}
+
             	$('#schedule2').jqs({
             		  mode: 'read',
-            		  data: ${scheduleData}
+            		  data: data
             	});
             });
              

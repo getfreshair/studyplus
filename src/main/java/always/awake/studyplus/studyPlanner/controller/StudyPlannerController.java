@@ -35,6 +35,7 @@ public class StudyPlannerController {
 	public String studyPlannerMainPage( Model model) {
 		
 		StringBuilder scheduleData = new blockController().getScheduleData();
+
 		model.addAttribute("scheduleData", scheduleData.toString());
 		return "studyPlanner/studyPlanner";
 	}
