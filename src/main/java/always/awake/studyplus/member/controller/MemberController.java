@@ -74,7 +74,7 @@ public class MemberController {
 			model.addAttribute("loginUser", loginUser);
 			
 			if(loginUser.getMember_Class()==0) {
-				return "redirect:studyPlannerMain.me";				
+				return "redirect:studyPlannerMainPage.sp";				
 			}else {
 				return "redirect:goAdmin.me";
 			}

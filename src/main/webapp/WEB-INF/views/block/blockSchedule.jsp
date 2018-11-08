@@ -32,6 +32,12 @@
          <div id="schedule4" class="jqs-demo mb-3"></div>
             <script>
             $(function(){
+            	var data = "";
+            	if('${scheduleData}' == 'emptyData'){
+            		data = [];
+            	} else {
+            		data = ${scheduleData} ;
+            	}
 	            $('#schedule4').jqs({
 	            	  periodColors: [
 	            	    ['rgba(0, 0, 0, 0.5)', '#000', '#fff'],
@@ -39,7 +45,7 @@
 	            	    ['rgba(0, 200, 0, 0.5)', '#0f0', '#000'],
 	            	    ['rgba(0, 0, 200, 0.5)', '#00f', '#000']
 	            	  ],
-	            	  data: ${scheduleData},
+	            	  data: data,
 	            	  periodTitle: 'No title',
 	            	  periodBackgroundColor: 'rgba(0, 0, 0, 0.5)',
 	            	  periodBorderColor: '#000',
