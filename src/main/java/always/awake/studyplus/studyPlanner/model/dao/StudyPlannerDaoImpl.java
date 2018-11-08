@@ -72,5 +72,13 @@ public class StudyPlannerDaoImpl implements StudyPlannerDao{
 		return todayGoals;
 	}
 
+	//오늘의 목표 등록(시간 단위)
+	@Override
+	public int insertTodayTimeGoal(Map<String, Object> hmap) {
+
+		return sqlSession.insert("StudyPlanner.insertTodayTimeGoal", hmap);
+		
+	}
+
 
 }

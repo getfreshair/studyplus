@@ -862,11 +862,19 @@ function todayGoalsList(){
 					
 					var goalCode = data[i].GOAL_CODE; 				//목표코드
 					var content = data[i].GOAL_CONTENT;				//목표명
-					var type = data[i].GOAL_TYPE == 1?"페이지":"시간"; //0일경우 페이지, 1일경우 시간
+					var type = data[i].GOAL_TYPE == 0?"페이지":"시간"; //0일경우 페이지, 1일경우 시간
 					var achiev = data[i].GOAL_ACHIEVEAMOUNT; 		//달성량
 					var goalAmount = data[i].GOAL_GOALAMOUNT; 		//목표량
 					var achievPer = ((data[i].GOAL_ACHIEVEAMOUNT / data[i].GOAL_GOALAMOUNT) * 100).toFixed(0); //달성률
 					var shortfallPer = 100 - achievPer; 			//미달성률
+					
+					//목표 타입이 시간일 경우 시간,분으로 변경
+					if(type != 0){
+						//goalAmount = (goalAmount/60).toFixed(1);
+						goalAmount2 = goalAmount%60;
+					}
+					//console.log("시간을 분으로 나누면? : " + goalAmount);
+					console.log("시간을 분으로 나눈 나머지? : " + goalAmount2);
 					
 					$('.today_goals .goals_list').append('<li value="'+ goalCode +'">'
 							 + '<div class="left_area">'
@@ -885,15 +893,10 @@ function todayGoalsList(){
 					//목표 리스트 노출된 부분 공부량 차트 (아래 함수 호출)
 					GoalListChart(goalAmount, achiev, achievPer, shortfallPer, i);
 					
-					//리스트 각 목표 클릭시 상세 팝업창 노출
-					$(".today_goals li .right_area").click(function(goalCode, content, goalAmount, achiev, achievPer, shortfallPer, i){
-						$(this).attr({"data-toggle":"modal", "data-target":"#myModal"});
-						$(".modal .tab").hide();
-						
-					});
-					$(".today_goals button").click(function(){
-						$(".modal .tab").off();
-					});
+					//목표 리스트 각 목표 클릭시 상세 팝업창 노출(아래 함수 호출)
+					//todayGoalDetail(goalCode, content, goalAmount, achiev, achievPer, shortfallPer, i);
+					
+					
 					
 					
 					
@@ -925,36 +928,74 @@ function GoalListChart(goalAmount, achiev, achievPer, shortfallPer, i){
 }
 
 
+//리스트 각 목표 클릭시 상세 팝업창 노출
+function todayGoalDetail(){
+	
+	$(".today_goals li .right_area").click(function(){
+		
+		var liIndex = $(this).parent().val();
+		console.log(liIndex);
+		/*if(liIndex == i){
+		}*/
+		
+		$(this).attr({"data-toggle":"modal", "data-target":"#myModal"});
+		//$(".modal .tab").hide();
+		//console.log(content);
+		$(".modal #goalName").attr("value",content);
+	});
+	
+	/*$(".today_goals button").click(function(){
+		$(".modal .tab").show();
+	});*/
+
+}
+
 //목표 등록 모달
 function goalAddMdal(){
 	//모달 오픈
 	$('#myModal').on('shown.bs.modal');
 
 	$(".book_form").hide();
-	$(".tab button:first-child").click(function(){
+	$(".modal .tab button:first-child").click(function(){
+		$(".tab button").removeClass('on');
+		$(this).addClass('on');
 		$(".book_form").hide();
 		$(".time_form").show();
 	});
-	$(".tab button:last-child").click(function(){
+	$(".modal .tab button:last-child").click(function(){
+		$(".tab button").removeClass('on');
+		$(this).addClass('on');
 		$(".time_form").hide();
 		$(".book_form").show();
 	});
 	
-	/*var test = $(".time_form").attr("name","goalName");
-	console.log(test)
-	$.ajax({
-		url : "goalAddMdal.sp",  
-		data : {dateVal : $todayVal},
-		type : "post",
-		success : function(data) {
-			
+	//저장버튼 클릭시 데이터 넘김
+	/*$(".time_form #saveBtn").click(function(){
+		
+		var formType= $(".time_form").val();			//폼타입(시간:1, 페이지:0)
+		var goalName = $(".time_form #goalName").val();	//목표명
+		var goalTime = $(".time_form #goalTime").val();	//목표시간
+		var goalMin = $(".time_form #goalMin").val();	//목표분
+		
+		$.ajax({
+			url : "TodayGoalAddModal.sp",  
+			data : {formType : formType, goalName : goalName, goalTime : goalTime, goalMin : goalMin},
+			type : "post",
+			success : function(data) {
+				console.log(data);
 				
-		},
-		error : function() {
-			console.log("에러발생!");
-		}
-	});
-		*/
+			},
+			error : function() {
+				console.log("에러발생!");
+			}
+		});
+	});*/
+	
+	//취소버튼 클릭시 input 초기화
+	/*$(".time_form #resetBtn").click(function(){
+		$(".modal input").val("");
+	});*/
+		
 }
 
 //목표등록 모달 내 공부량 차트

@@ -23,5 +23,8 @@ public interface StudyPlannerDao {
 	//오늘의 목표 리스트
 	List<Map<String, Object>> selectTodayGoals(SqlSessionTemplate sqlSession, Map<String, Object> hmap) throws plannerException;
 
+	//오늘의 목표 등록(시간 단위)
+	int insertTodayTimeGoal(Map<String, Object> hmap);
+
 
 }
