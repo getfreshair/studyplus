@@ -323,7 +323,7 @@
 						</div>
 						<div id="leftIncludeArea" class="leftIncludeArea">
 						
-							<jsp:include page="leftGroupListArea.jsp"/>
+<%-- 							<jsp:include page="leftGroupListArea.jsp"/> --%>
 							
 						</div>
 					</div>
@@ -337,21 +337,18 @@
 			</div>
 			
 <script>
-	function selectGrMemList(){
-// 		 $("#leftIncludeArea").append("<jsp:include page='leftGroupListArea.jsp'/>");
-// 		 $("#leftIncludeArea").html("<jsp:include page='leftGroupListArea.jsp'/>");
-		 alert("에이작스 들어간다~");
-		 $.ajax({
+	
+	$(function(){
+		var grCode = $('#grCode').val();
+ 		$.ajax({
 			url:"selectGroupMemberList.sgd",
 			data : { grCode : grCode },
 			type : "POST",
 			success:function(data) {
-				
-				$("#leftIncludeArea").html(data);
-				
+				console.log(data);
 			}
 		});
-	};
+	});
 
 
 
