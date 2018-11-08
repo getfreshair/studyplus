@@ -41,6 +41,9 @@
 	
 	/* 모달 */
 	.modal-body .tab{text-align:center;}
+	.modal-body .tab button{width:48%; border-width:1px 1px 0 1px !important; border-radius:4px 4px 0 0 !important; border:solid #ddd; background:#ddd;}
+	.modal-body .tab button.on{background:#fff;  border-width:1px 1px 0 1px; border:solid #ccc; color:#333;}
+	.modal-body .tab button:focus{outline:none;}
 	/* .modal-body .img_area .box{border:1px solid #ddd; width:85%;} */
 	.modal-body .chart_area{padding:0 20px;}
 
@@ -352,75 +355,81 @@
 					</div>
 					<div class="modal-body">
 						<div class="tab">
-							<button type="button" class="btn btn-default">시간 단위 설정</button>
+							<button type="button" class="btn btn-default on">시간 단위 설정</button>
 							<button type="button" class="btn btn-default">페이지 단위 설정</button>
 						</div>
 						<!-- 시간 단위 설정 -->
-						<div class="time_form" value="1">
-							<div class="col-sm-5 col-xs-12 chart_area">
-								<canvas id="modal_donut" width="200" height="200"></canvas>
+						<form action="TodayTimeGoalAddModal.sp" method="post">
+							<div class="time_form">
+								<input type="hidden" value="1" name="goalType">
+								<div class="col-sm-5 col-xs-12 chart_area">
+									<canvas id="modal_donut" width="200" height="200"></canvas>
+								</div>
+								<div class="col-sm-7 col-xs-12 ipt_area">
+									<dl>
+										<dt>목표명</dt>
+										<dd><input type="text" class="form-control" placeholder="목표를 입력하세요" name="goalName"></dd>
+									</dl>
+									<dl>
+										<dt>목표 시간</dt>
+										<dd class="ipt_wrap">
+											<input type="number" class="form-control" placeholder="ex) 2" name="goalTime" value="0" min="0">
+											<span>시간 &nbsp;&nbsp;</span>
+											<input type="number" class="form-control" placeholder="ex) 30" name="goalMin" value="0" min="0">
+											<span>분</span>
+										</dd>
+									</dl>
+									<dl>
+										<dt>달성량</dt>
+										<dd class="ipt_wrap">
+											<input type="number" class="form-control" readonly>
+											<span>/ 3</span>
+										</dd>
+									</dl>
+								</div>
+								<div class="btn-center">
+									<button type="reset" class="btn btn-default" data-dismiss="modal" id="resetBtn">취소</button>
+									<button type="submit" class="btn btn-primary" id="saveBtn">저장</button>
+								</div>
 							</div>
-							<div class="col-sm-7 col-xs-12 ipt_area">
-								<dl>
-									<dt>목표명</dt>
-									<dd><input type="text" class="form-control" placeholder="목표를 입력하세요" name="goalName"></dd>
-								</dl>
-								<dl>
-									<dt>목표 시간</dt>
-									<dd class="ipt_wrap">
-										<input type="number" class="form-control" placeholder="ex) 2" name="goalTime">
-										<span>시간 &nbsp;&nbsp;</span>
-										<input type="number" class="form-control" placeholder="ex) 30" name="goalMin">
-										<span>분</span>
-									</dd>
-								</dl>
-								<dl>
-									<dt>달성량</dt>
-									<dd class="ipt_wrap">
-										<input type="number" class="form-control" readonly>
-										<span>/ 3</span>
-									</dd>
-								</dl>
-							</div>
-							<div class="btn-center">
-								<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-								<button type="submit" class="btn btn-primary">저장</button>
-							</div>
-						</div>
+						</form>
 						<!-- // 시간 단위 설정 -->
 						<!-- 페이지 단위 설정 -->
-						<div class="book_form" value="0">
-							<div class="col-sm-5 col-xs-12 img_area">
-								<div class="book_img">
-									img area
+						<form action="" method="post">
+							<div class="book_form">
+								<input type="hidden" value="0" name="goalType">
+								<div class="col-sm-5 col-xs-12 img_area">
+									<div class="book_img">
+										img area
+									</div>
+									<p class="book_info">자바의 정석</p>
 								</div>
-								<p class="book_info">자바의 정석</p>
+								<div class="col-sm-7 col-xs-12 ipt_area">
+									<dl>
+										<dt>목표명</dt>
+										<dd><input type="text" class="form-control" placeholder="목표를 입력하세요" name="goalName"></dd>
+									</dl>
+									<dl>
+										<dt>목표 페이지</dt>
+										<dd class="ipt_wrap">
+											<input type="number" class="form-control" placeholder="ex) 20" name="goalPage" value="0" min="0">
+											<span>페이지</span>
+										</dd>
+									</dl>
+									<dl>
+										<dt>달성량</dt>
+										<dd class="ipt_wrap">
+											<input type="number" class="form-control" name="goalAchiev" value="0" min="0">
+											<span>/ 20</span>
+										</dd>
+									</dl>
+								</div>
+								<div class="btn-center">
+									<button type="button" class="btn btn-default" data-dismiss="modal" id="resetBtn">취소</button>
+									<button type="submit" class="btn btn-primary" id="saveBtn">저장</button>
+								</div>
 							</div>
-							<div class="col-sm-7 col-xs-12 ipt_area">
-								<dl>
-									<dt>목표명</dt>
-									<dd><input type="text" class="form-control" placeholder="목표를 입력하세요" name="goalName"></dd>
-								</dl>
-								<dl>
-									<dt>목표 페이지</dt>
-									<dd class="ipt_wrap">
-										<input type="number" class="form-control" placeholder="ex) 20" name="goalPage">
-										<span>페이지</span>
-									</dd>
-								</dl>
-								<dl>
-									<dt>달성량</dt>
-									<dd class="ipt_wrap">
-										<input type="number" class="form-control" name="goalAchiev">
-										<span>/ 20</span>
-									</dd>
-								</dl>
-							</div>
-							<div class="btn-center">
-								<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-								<button type="submit" class="btn btn-primary">저장</button>
-							</div>
-						</div>
+						</form>
 						<!-- // 페이지 단위 설정 -->
 					 	
 					</div>

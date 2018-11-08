@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -293,5 +294,38 @@ public class StudyPlannerController {
 		//System.out.println("list.get(0) : " +  list.get(0));
 
 		return list;
+	}
+	
+	//오늘의 목표 등록(시간 단위)
+	@RequestMapping(value="TodayTimeGoalAddModal.sp", method=RequestMethod.POST)
+	public String insertTodayTimeGoal(@RequestParam("goalType")int goalType, @RequestParam("goalName")String goalName,
+			@RequestParam("goalTime")int goalTime, @RequestParam("goalMin")int goalMin) {
+		
+		//시간 등록시 초단위로 변경
+		int goalTotaltime = (goalTime * 120) +  (goalMin * 60);
+		
+		Map<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("goalType", goalType);
+		hmap.put("goalName", goalName);
+		hmap.put("goalTotaltime", goalTotaltime);
+		
+		int result = sps.insertTodayTimeGoal(hmap);
+		
+		if(result > 0) {
+			System.out.println("목표 등록 성공!!");
+			
+		}else {
+			System.out.println("목표 등록 실패!");
+		}
+		
+		 /*if(result > 0) {
+			 return "redirect:goMain.me";
+		 }else {
+			 model.addAttribute("msg", "회원가입 실패");
+			 return "common/errorPage";
+		 }*/
+		 
+		
+		return "redirect:studyPlannerMainPage.sp";
 	}
 }

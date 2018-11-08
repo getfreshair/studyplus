@@ -888,12 +888,12 @@ function todayGoalsList(){
 					//리스트 각 목표 클릭시 상세 팝업창 노출
 					$(".today_goals li .right_area").click(function(goalCode, content, goalAmount, achiev, achievPer, shortfallPer, i){
 						$(this).attr({"data-toggle":"modal", "data-target":"#myModal"});
-						$(".modal .tab").hide();
+						//$(".modal .tab").hide();
 						
 					});
-					$(".today_goals button").click(function(){
-						$(".modal .tab").off();
-					});
+					/*$(".today_goals button").click(function(){
+						$(".modal .tab").show();
+					});*/
 					
 					
 					
@@ -931,30 +931,46 @@ function goalAddMdal(){
 	$('#myModal').on('shown.bs.modal');
 
 	$(".book_form").hide();
-	$(".tab button:first-child").click(function(){
+	$(".modal .tab button:first-child").click(function(){
+		$(".tab button").removeClass('on');
+		$(this).addClass('on');
 		$(".book_form").hide();
 		$(".time_form").show();
 	});
-	$(".tab button:last-child").click(function(){
+	$(".modal .tab button:last-child").click(function(){
+		$(".tab button").removeClass('on');
+		$(this).addClass('on');
 		$(".time_form").hide();
 		$(".book_form").show();
 	});
 	
-	/*var test = $(".time_form").attr("name","goalName");
-	console.log(test)
-	$.ajax({
-		url : "goalAddMdal.sp",  
-		data : {dateVal : $todayVal},
-		type : "post",
-		success : function(data) {
-			
+	//저장버튼 클릭시 데이터 넘김
+	/*$(".time_form #saveBtn").click(function(){
+		
+		var formType= $(".time_form").val();			//폼타입(시간:1, 페이지:0)
+		var goalName = $(".time_form #goalName").val();	//목표명
+		var goalTime = $(".time_form #goalTime").val();	//목표시간
+		var goalMin = $(".time_form #goalMin").val();	//목표분
+		
+		$.ajax({
+			url : "TodayGoalAddModal.sp",  
+			data : {formType : formType, goalName : goalName, goalTime : goalTime, goalMin : goalMin},
+			type : "post",
+			success : function(data) {
+				console.log(data);
 				
-		},
-		error : function() {
-			console.log("에러발생!");
-		}
+			},
+			error : function() {
+				console.log("에러발생!");
+			}
+		});
+	});*/
+	
+	//취소버튼 클릭시 input 초기화
+	$(".time_form #resetBtn").click(function(){
+		$(".modal input").val("");
 	});
-		*/
+		
 }
 
 //목표등록 모달 내 공부량 차트
