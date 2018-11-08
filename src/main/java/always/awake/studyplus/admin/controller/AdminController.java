@@ -709,6 +709,8 @@ public class AdminController {
 		Date currentTime = new Date ();
 		String mTime = mSimpleDateFormat.format ( currentTime );
 		
+		System.out.println(list);
+		System.out.println(list1);
 		
 		mv.setViewName("admin/memberManage/memberPenalty");
 		mv.addObject("data", list);
@@ -805,31 +807,17 @@ public class AdminController {
 		System.out.println(searchDate2);
 		System.out.println(searchOption);
 		
-		Date date1 = null;
-		Date date2 = null;
-		
-		SimpleDateFormat transFormat  = new SimpleDateFormat("yyyy-MM-dd");
-		
-		try {
-			date1 =  transFormat.parse(searchDate1);
-			date2 = transFormat.parse(searchDate2);
-		} catch (ParseException e1) {
-		}
 		
 		Map<String, Object> map = new HashMap<String,Object>();
 		
 		
 		map.put("All",searchAll.toString());
-		map.put("Date1",date1);
-		map.put("Date2",date2);
+		map.put("Date1",searchDate1);
+		map.put("Date2",searchDate2);
 		map.put("Option",searchOption);
 		
 		List<Map<String, Object>> list = as.searchMember(map);
-		
-		System.out.println(list.get(0));
-		System.out.println(list.get(1));
-		System.out.println(list.get(2));
-		System.out.println(list.get(3));
+
 		try {
 			response.setContentType("text/html;charset=UTF-8");
 			response.getWriter().print(mapper.writeValueAsString(list));
