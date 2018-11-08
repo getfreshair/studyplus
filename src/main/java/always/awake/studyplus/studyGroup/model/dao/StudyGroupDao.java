@@ -38,4 +38,10 @@ public interface StudyGroupDao {
 
 	List<Map<String, Object>> selectSGCategoryChart(SqlSessionTemplate sqlSession, int studygroup_Code, String period);
 
+	List<Map<String, Object>> selectSGCategoryChartTime(SqlSessionTemplate sqlSession, int studygroup_Code, String period);
+
+	List<Map<String, Object>> selectSGLocationChart(SqlSessionTemplate sqlSession, int studygroup_Code, String period);
+
+	List<Map<String, Object>> selectSGLocationChartTime(SqlSessionTemplate sqlSession, int studygroup_Code, String period);
+
 }

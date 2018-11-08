@@ -152,8 +152,7 @@ public class StudyGroupDaoImpl implements StudyGroupDao{
 	}
 
 	@Override
-	public List<Map<String, Object>> selectSGCategoryChart(SqlSessionTemplate sqlSession, int studygroup_Code,
-			String period) {
+	public List<Map<String, Object>> selectSGCategoryChart(SqlSessionTemplate sqlSession, int studygroup_Code, String period) {
 		Map<String, Object> searchInfo = new HashMap<String, Object>();
 		
 		searchInfo.put("studygroup_Code", studygroup_Code);
@@ -161,4 +160,38 @@ public class StudyGroupDaoImpl implements StudyGroupDao{
 		
 		return sqlSession.selectList("StudyGroup.selectSGCategoryChart", searchInfo);
 	}
+
+	@Override
+	public List<Map<String, Object>> selectSGCategoryChartTime(SqlSessionTemplate sqlSession, int studygroup_Code, String period) {
+		Map<String, Object> searchInfo = new HashMap<String, Object>();
+		
+		searchInfo.put("studygroup_Code", studygroup_Code);
+		searchInfo.put("period", period);
+		
+		return sqlSession.selectList("StudyGroup.selectSGCategoryChartTime", searchInfo);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectSGLocationChart(SqlSessionTemplate sqlSession, int studygroup_Code,
+			String period) {
+		Map<String, Object> searchInfo = new HashMap<String, Object>();
+		
+		searchInfo.put("studygroup_Code", studygroup_Code);
+		searchInfo.put("period", period);
+		
+		return sqlSession.selectList("StudyGroup.selectSGLocationChart", searchInfo);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectSGLocationChartTime(SqlSessionTemplate sqlSession, int studygroup_Code,
+			String period) {
+		Map<String, Object> searchInfo = new HashMap<String, Object>();
+		
+		searchInfo.put("studygroup_Code", studygroup_Code);
+		searchInfo.put("period", period);
+		
+		return sqlSession.selectList("StudyGroup.selectSGLocationChartTime", searchInfo);
+	}
+
+
 }

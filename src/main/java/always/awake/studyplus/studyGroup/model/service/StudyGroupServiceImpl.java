@@ -1,6 +1,8 @@
 package always.awake.studyplus.studyGroup.model.service;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -98,8 +100,29 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 	}
 
 	@Override
-	public List<Map<String, Object>> selectSGCategoryChart(int studygroup_Code, String period) {
-		return sgd.selectSGCategoryChart(sqlSession, studygroup_Code, period);
+	public Map<String, Object> selectSGCategoryChart(int studygroup_Code, String period) {
+		Map<String, Object> chart = new HashMap<String, Object>();
+		
+		List<Map<String, Object>> chartValue = sgd.selectSGCategoryChart(sqlSession, studygroup_Code, period);
+		List<Map<String, Object>> chartValueTime = sgd.selectSGCategoryChartTime(sqlSession, studygroup_Code, period);
+		
+		chart.put("chartValue", chartValue);
+		chart.put("chartValueTime", chartValueTime);
+		
+		return chart;
+	}
+
+	@Override
+	public Map<String, Object> selectSGLocationChart(int studygroup_Code, String period) {
+		Map<String, Object> chart = new HashMap<String, Object>();
+		
+		List<Map<String, Object>> chartValue = sgd.selectSGLocationChart(sqlSession, studygroup_Code, period);
+		List<Map<String, Object>> chartValueTime = sgd.selectSGLocationChartTime(sqlSession, studygroup_Code, period);
+		
+		chart.put("chartValue", chartValue);
+		chart.put("chartValueTime", chartValueTime);
+		
+		return chart;
 	}
 	
 }
