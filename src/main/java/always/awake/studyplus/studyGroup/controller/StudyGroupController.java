@@ -144,12 +144,53 @@ public class StudyGroupController {
 	
 	@RequestMapping(value="selectSGCategoryChart.sg")
 	public @ResponseBody Map<String, Object> selectSGCategoryChart(@RequestParam(value="studygroup_Code")int studygroup_Code, @RequestParam(value="period")String period){
-		return sgs.selectSGCategoryChart(studygroup_Code, period);
+		Map<String, Object> chartData = null;
+		
+		try {
+			chartData = sgs.selectSGCategoryChart(studygroup_Code, period);
+		} catch (StudyGroupException e) {
+			e.printStackTrace();
+		}
+		
+		return chartData;
 	}
 	
 	@RequestMapping(value="selectSGLocationChart.sg")
 	public @ResponseBody Map<String, Object> selectSGLocationChart(@RequestParam(value="studygroup_Code")int studygroup_Code, @RequestParam(value="period")String period){
-		return sgs.selectSGLocationChart(studygroup_Code, period);
+		Map<String, Object> chartData = null;
+		
+		try {
+			chartData = sgs.selectSGLocationChart(studygroup_Code, period);
+		} catch (StudyGroupException e) {
+			e.printStackTrace();
+		}
+		
+		return chartData;
 	}
 	
+	@RequestMapping(value="selectSGtimeZoneChart.sg")
+	public @ResponseBody List<Map<String, Object>> selectSGtimeZoneChart(@RequestParam(value="studygroup_Code")int studygroup_Code){
+		List<Map<String, Object>> chartData = null;
+		
+		try {
+			chartData = sgs.selectSGtimeZoneChart(studygroup_Code);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return chartData;
+	}
+
+	@RequestMapping(value="selectSGTimeAmountChart.sg")
+	public @ResponseBody Map<String, Object> selectSGTimeAmountChart(@RequestParam(value="studygroup_Code")int studygroup_Code, @RequestParam(value="period")String period){
+		Map<String, Object> chartData = null;
+		
+		try {
+			chartData = sgs.selectSGTimeAmountChart(studygroup_Code, period);
+		} catch (StudyGroupException e) {
+			e.printStackTrace();
+		}
+		
+		return chartData;
+	}
 }

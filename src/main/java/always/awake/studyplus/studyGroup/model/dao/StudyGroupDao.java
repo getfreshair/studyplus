@@ -36,12 +36,18 @@ public interface StudyGroupDao {
 
 	void insertStudyGroupJoin(SqlSessionTemplate sqlSession, StudyGroup studygroup) throws StudyGroupException;
 
-	List<Map<String, Object>> selectSGCategoryChart(SqlSessionTemplate sqlSession, int studygroup_Code, String period);
+	List<Map<String, Object>> selectSGCategoryChart(SqlSessionTemplate sqlSession, int studygroup_Code, String period) throws StudyGroupException;
 
-	List<Map<String, Object>> selectSGCategoryChartTime(SqlSessionTemplate sqlSession, int studygroup_Code, String period);
+	List<Map<String, Object>> selectSGCategoryChartTime(SqlSessionTemplate sqlSession, int studygroup_Code, String period) throws StudyGroupException;
 
-	List<Map<String, Object>> selectSGLocationChart(SqlSessionTemplate sqlSession, int studygroup_Code, String period);
+	List<Map<String, Object>> selectSGLocationChart(SqlSessionTemplate sqlSession, int studygroup_Code, String period) throws StudyGroupException;
 
-	List<Map<String, Object>> selectSGLocationChartTime(SqlSessionTemplate sqlSession, int studygroup_Code, String period);
+	List<Map<String, Object>> selectSGLocationChartTime(SqlSessionTemplate sqlSession, int studygroup_Code, String period) throws StudyGroupException;
+
+	List<Map<String, Object>> selectSGtimeZoneChart(SqlSessionTemplate sqlSession, int studygroup_Code) throws StudyGroupException;
+
+	List<Map<String, Object>> selectSGTimeAmountChart(SqlSessionTemplate sqlSession, int studygroup_Code, String period) throws StudyGroupException;
+
+	List<Map<String, Object>> selectSGTimeAmountChartTime(SqlSessionTemplate sqlSession, int studygroup_Code, String period) throws StudyGroupException;
 
 }

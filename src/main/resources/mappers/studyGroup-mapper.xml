@@ -501,4 +501,94 @@
 		ORDER BY TZ.TIMEZONE_TIMEZONE
 	</select>
 	<!-- 지역 시간별 데이터 -->
+	
+	<!-- 접속 그룹 시간별 공부 시간 -->
+	<select id="selectSGtimeZoneChart" parameterType="_int" resultType="map">
+		SELECT M.MEMBER_NICKNAME, STUDYTIME_STARTHH, STUDYTIME_STARTMI, STUDYTIME_STARTSS, STUDYTIME_ENDHH, STUDYTIME_ENDMI, STUDYTIME_ENDSS
+		FROM MEMBER M
+		RIGHT JOIN(SELECT TO_CHAR(STUDYTIME_DATE, 'hh') AS STUDYTIME_STARTHH,
+		           TO_CHAR(STUDYTIME_DATE, 'mi') AS STUDYTIME_STARTMI,
+		           TO_CHAR(STUDYTIME_DATE, 'ss') AS STUDYTIME_STARTSS,
+		           TO_CHAR(STUDYTIME_DATE + ROUND(STUDYTIME_STUDYTIME)/(24*60*60), 'hh') AS STUDYTIME_ENDHH,
+		           TO_CHAR(STUDYTIME_DATE + ROUND(STUDYTIME_STUDYTIME)/(24*60*60), 'mi') AS STUDYTIME_ENDMI,
+		           TO_CHAR(STUDYTIME_DATE + ROUND(STUDYTIME_STUDYTIME)/(24*60*60), 'ss') AS STUDYTIME_ENDSS,
+		           MEMBER_CODE
+		           FROM STUDYTIME
+		           WHERE STUDYGROUP_CODE = #{studygroup_Code}
+		           AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) ST ON(M.MEMBER_CODE = ST.MEMBER_CODE)
+	</select>
+	<!-- 접속 그룹 시간별 공부 시간 -->
+	
+	<!-- 접속  그룹 공부량 -->
+	<select id="selectSGTimeAmountChart" parameterType="map" resultType="map">
+		SELECT TO_NUMBER(MAX(NVL(MESGTODAY_GAP_TIME, TO_CHAR('0')))) - TO_NUMBER(MAX(NVL(MESGYESTERDAY_GAP_TIME, TO_CHAR('0')))) AS MESG_GAPTIME,
+		CASE
+		    WHEN MAX(TO_NUMBER(MESGYESTERDAY_GAP_TIME)) != 0 THEN ROUND((((MAX(TO_NUMBER(MESGTODAY_GAP_TIME)) / MAX(TO_NUMBER(MESGYESTERDAY_GAP_TIME))) * 100) - 100), 2)
+		    WHEN MAX(TO_NUMBER(MESGYESTERDAY_GAP_TIME)) = 0 THEN 100
+		END AS MESG_GAPTIME_PERCENT
+		FROM
+		(
+		SELECT MTLTA.MESGTODAY_GAP_TIME, NULL AS MESGYESTERDAY_GAP_TIME
+		FROM(SELECT NVL(TO_CHAR(TO_DATE(ROUND(AVG(STUDYTIME_STUDYTIME)),'sssss'),'mi'), 0) AS MESGTODAY_GAP_TIME
+		     FROM STUDYTIME
+		     WHERE STUDYGROUP_CODE = #{studygroup_Code}
+		     <choose>
+			 	<when test="period eq 'thisMonth'">
+					AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 30, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD')) MTLTA
+				</when>
+				<when test="period eq 'thisWeek'">
+					AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 7, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD')) MTLTA
+				</when>
+				<when test="period eq 'today'">
+					AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) MTLTA
+				</when>
+			 </choose>
+		
+		UNION ALL
+		
+		SELECT NULL AS MESGTODAY_GAP_TIME, MYLTA.MESGYESTERDAY_GAP_TIME
+		FROM(SELECT NVL(TO_CHAR(TO_DATE(ROUND(AVG(STUDYTIME_STUDYTIME)),'sssss'),'mi'), 0) AS MESGYESTERDAY_GAP_TIME
+		     FROM STUDYTIME
+		     WHERE STUDYGROUP_CODE = #{studygroup_Code}
+		     <choose>
+			 	<when test="period eq 'thisMonth'">
+					AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 60, 'YYYYMMDD') AND TO_CHAR(SYSDATE - 30, 'YYYYMMDD')) MYLTA
+				</when>
+				<when test="period eq 'thisWeek'">
+					AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 14, 'YYYYMMDD') AND TO_CHAR(SYSDATE - 7, 'YYYYMMDD')) MYLTA
+				</when>
+				<when test="period eq 'today'">
+					AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') = TO_CHAR(SYSDATE - 1, 'YYYYMMDD')) MYLTA
+				</when>
+			 </choose>
+		)
+	</select>
+	<!-- 접속  그룹 공부량 -->
+	
+	<!-- 접속  그룹  공부량 데이터-->
+	<select id="selectSGTimeAmountChartTime" parameterType="map" resultType="map">
+		SELECT TZ.TIMEZONE_TIMEZONE, NVL(MEST.STUDYTIME_STUDYTIME, 0) AS MESTUDYTIME_STUDYTIME
+		<![CDATA[
+			FROM(SELECT LEVEL - 1 AS TIMEZONE_TIMEZONE
+		    FROM DUAL
+		    CONNECT BY LEVEL <= 24) TZ
+		]]>
+		LEFT JOIN(SELECT NVL(TO_CHAR(TO_DATE(ROUND(AVG(STUDYTIME_STUDYTIME)),'sssss'),'mi'), 0) AS STUDYTIME_STUDYTIME, STUDYTIME_TIMEZONE
+		          FROM STUDYTIME
+		          WHERE STUDYGROUP_CODE = #{studygroup_Code}
+		          <choose>
+				 	 <when test="period eq 'thisMonth'">
+						 AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 30, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD')
+					 </when>
+					 <when test="period eq 'thisWeek'">
+						 AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') BETWEEN TO_CHAR(SYSDATE - 7, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD')
+					 </when>
+					 <when test="period eq 'today'">
+						 AND TO_CHAR(STUDYTIME_DATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')
+					 </when>
+				  </choose>
+		          GROUP BY STUDYTIME_TIMEZONE) MEST ON(TZ.TIMEZONE_TIMEZONE = MEST.STUDYTIME_TIMEZONE)
+		ORDER BY TZ.TIMEZONE_TIMEZONE
+	</select>
+	<!-- 접속  그룹  공부량 데이터-->
 </mapper>

@@ -131,7 +131,6 @@
 				period : 'thisWeek'
 			},
 			success : function(data){
-				console.log(data);
 				for(var type in data){
 					if(type == 'chartValue'){
 						$locationSGP = $('<p>').append('전체 그룹 : ');
