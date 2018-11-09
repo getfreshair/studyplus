@@ -5,7 +5,7 @@
 		<div class="navbar navbar-default">
 			<div class="container">
 				<div class="navbar-header">
-					<a class="logo_area" href="index.html">
+					<a class="logo_area" href="studyPlannerMain.me">
 						<img src="/studyplus/resources/images/common/header_logo.png" alt="study plus logo">
 					</a>
 					<div class="navbar-buttons">
