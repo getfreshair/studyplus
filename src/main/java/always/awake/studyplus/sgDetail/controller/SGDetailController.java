@@ -1,6 +1,5 @@
 package always.awake.studyplus.sgDetail.controller;
 
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,7 +31,7 @@ public class SGDetailController {
 		int memCode = ((Member)(request.getSession().getAttribute("loginUser"))).getMember_Code();
 		
 		//		test 지우기
-		memCode = 4;	
+		memCode = 5;	
 		
 		try {
 			int joinStatus = gs.selectJoinStatus(grCode, memCode);
@@ -43,6 +42,7 @@ public class SGDetailController {
 				//예외처리하기
 			}
 			
+			mv.addObject("loginUser", memCode);
 			mv.addObject("joinStatus", joinStatus);
 			mv.addObject("gr", group);
 
@@ -68,23 +68,19 @@ public class SGDetailController {
 	
 	@RequestMapping(value="insertGroupJoin.sgd")
 	public @ResponseBody int insertGroupJoin(@RequestParam int grCode, @RequestParam int memCode, HttpServletResponse response){
-		
-//		test 지우기
-		memCode = 4;
-		
-		int groupJoin = -1;
+		int result = -1;
 		
 		try {
 			int joinAbleCnt = gs.selectJoinAbleChk(grCode);
 			
 			if(joinAbleCnt >= 1) {	//최대 가능 인원 - 현재 인원이 1보다 크면 가입 가능
-				groupJoin = gs.insertGroupJoin(grCode, memCode);
+				result = gs.insertGroupJoin(grCode, memCode);
 			}
 						
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return groupJoin;
+		return result;
 	}
 	
 	/*@RequestMapping(value="selectGroupMemberList.sgd", method=RequestMethod.POST)
@@ -96,17 +92,60 @@ public class SGDetailController {
 	}
 	*/
 	@RequestMapping("selectGroupMemberList.sgd")
-	public ModelAndView selectGroupMemberList(int grCode, ModelAndView mv) {
+	public ModelAndView selectGroupMemberList(int grCode, int loginUserCode, ModelAndView mv) {
 		System.out.println("1. " + grCode);
+		System.out.println("1. " + loginUserCode);
 		List<HashMap<String, Object>> memberList = gs.selectGroupMemberList(grCode);
 		
 		System.out.println("쿼리 실행 결과-컨트롤러 : < " +  memberList + " >");
 		mv.addObject("grMemList", memberList);
-		mv.setViewName("jsonView");
+		mv.addObject("loginUserCode", loginUserCode);
+		
+		mv.setViewName("studyGroupDetail/leftGroupListArea");
 		System.out.println("MV : < " + mv + " >");
 		return mv;		
 	}
 
+	@RequestMapping(value="updateChangeGroupLeader.sgd")
+	public ModelAndView updateChangeGroupLeader(@RequestParam int grCode, @RequestParam int afterLeaderCode,
+												  	@RequestParam int nowLeaderCode, HttpServletResponse response){
+		ModelAndView mv = new ModelAndView();
+		int result = -1;
+		
+		try {			
+			result = gs.updateChangeLeader(grCode, afterLeaderCode, nowLeaderCode);
+			
+			if(result >= 1) {
+				List<HashMap<String, Object>> memberList = gs.selectGroupMemberList(grCode);
+				mv.addObject("grMemList", memberList);
+			}			
+			mv.addObject("result", result);
+			mv.setViewName("studyGroupDetail/leftGroupListArea");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mv;
+	}
+	
+	@RequestMapping(value="updateDeleteGroupMember.sgd")
+	public ModelAndView updateDeleteGroupMember(@RequestParam int grCode, @RequestParam int delMemCode, HttpServletResponse response){
+		ModelAndView mv = new ModelAndView();
+		int result = -1;
+		
+		try {			
+			result = gs.updateDeleteGroupMember(grCode, delMemCode);
+			
+			if(result >= 1) {
+				List<HashMap<String, Object>> memberList = gs.selectGroupMemberList(grCode);
+				mv.addObject("grMemList", memberList);
+			}			
+			mv.addObject("result", result);
+			mv.setViewName("studyGroupDetail/leftGroupListArea");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mv;
+	}
 	
 	
 	
