@@ -22,10 +22,15 @@ public class SGDetailDaoImpl implements SGDetailDao{
 	}
 
 	@Override
-	public SGDetail selectOneGrDetailJoinBefore(SqlSessionTemplate sqlSession, int grCode) {
-		return sqlSession.selectOne("SGDetail.selectOneGrDetailJoinBefore", grCode);
+	public SGDetail selectOneGrDetailLeftTop(SqlSessionTemplate sqlSession, int grCode) {
+		return sqlSession.selectOne("SGDetail.selectOneGrDetailLeftTop", grCode);
 	}
 
+	@Override
+	public SGDetail selectOneGrDetailRightTop(SqlSessionTemplate sqlSession, int grCode) {
+		return sqlSession.selectOne("SGDetail.selectOneGrDetailRightTop", grCode);
+	}
+	
 	@Override
 	public SGDetail selectOneJoinGrDetailTop(SqlSessionTemplate sqlSession, int grCode, int memCode) {
 		HashMap<String, Object> hm = new HashMap<String, Object>();
@@ -51,15 +56,7 @@ public class SGDetailDaoImpl implements SGDetailDao{
 
 	@Override
 	public List<HashMap<String, Object>> selectGroupMemberList(SqlSessionTemplate sqlSession, int grCode) {
-		List<HashMap<String, Object>> memberList = null;
-		try {
-			list = sqlSession.selectList("SGDetail.selectGroupMemberList", grCode);
-			System.out.println("dao list : " + list);
-		}catch(Exception e) {
-			System.out.println(e.getMessage());
-		}
-		
-		return memberList;
+		return sqlSession.selectList("selectGroupMemberList", grCode);
 	}
 
 	@Override
@@ -80,6 +77,7 @@ public class SGDetailDaoImpl implements SGDetailDao{
 		hm.put("delMemCode", delMemCode);
 		return sqlSession.update("SGDetail.updateDeleteJoinMemberStatus", hm);
 	}
+
 	
 	
 }
