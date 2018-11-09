@@ -21,5 +21,9 @@ public interface SGDetailDao {
 
 	List<HashMap<String, Object>> selectGroupMemberList(SqlSessionTemplate sqlSession, int grCode);
 
+	int updateChangeLeader(SqlSessionTemplate sqlSession, int grCode, int afterLeaderCode, int nowLeaderCode);
+
+	int updateDeleteMember(SqlSessionTemplate sqlSession, int grCode, int delMemCode);
+
 	
 }
