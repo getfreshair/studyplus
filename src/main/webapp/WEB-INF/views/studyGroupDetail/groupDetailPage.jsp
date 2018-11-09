@@ -81,7 +81,7 @@
 			.leftContentTabMenu div:first-child { float:left; }
 			.leftContentTabMenu span { cursor:pointer; padding:0px 5px; font-size:15px; /* font-weight:bold; */ }
 			
-			.leftIncludeArea { width:100%; overflow:auto; background:yellow; }
+			.leftIncludeArea { width:100%; overflow:auto; /* background:yellow; */ }
 			
 	/* 게시물 영역 */		
 		.centerContent { width:48.7%; margin-right:0.3%; border-right:1px solid gray; }
@@ -270,22 +270,11 @@
 				</div>
 			</div>
 			
-<script>
-	$(function(){
-// 		alert("실행되나?");
-		/* alert($('#joinStatus').val());
-		if ($('#joinStatus').val() < 1){
-			$('.afterLoginShow').css({"display":"none"});
-		} */
-	});
-	
+<script>	
 	function joinGroup(){
 		var grCode = $('#grCode').val();
-		var memCode = '${ sessionScope.loginUser.member_Code }';
-		/* var joinMemCnt = $('#joinMemCnt').val();
-		var joinMaxCnt = $('#joinMaxCnt').val();
-		alert(joinMemCnt);
-		alert(joinMaxCnt); */
+		var memCode = '${loginUser}';
+// 		var memCode = '${ sessionScope.loginUser.member_Code }';
 		
 		$.ajax({
 			url : "insertGroupJoin.sgd",
@@ -297,34 +286,31 @@
 					}else{
 						alert("그룹 가능 최대 인원을 초과하여 가입 할 수 없습니다.");
 					}
-				},
+			},
 			
 			error : function(){
 				alert("에러냐?");
-				}
+			}
 		});
 	};
 </script>			
-			
-			
+						
 <!-- 만약 로그인유저가 그룹 멤버라면 보이도록 -->
 			<div class="contentArea includeArea">
 				<div class="leftContent bottomContentArea">
 					<div class="leftContentWrap">
 						<div class="leftContentTabMenu">
 							<div>
-								<span onclick="selectGrMemList();">그룹원 보기</span>
+								<span id="showMemList" onclick="selectGrMemList('${gr.studyGroup_Code}', '${loginUser}');">그룹원 보기</span>
 							</div>
 							<div>
-								<span>그룹원 순위</span>
+								<span id="showMemRank" onclick="selectGrMemRank('${gr.studyGroup_Code}');">그룹원 순위</span>
 								<span style="cursor:auto;">|</span>
-								<span>수행 현황</span>
+								<span id="showMemStudyStatus" onclick="showMemStudyStatus();">수행 현황</span>
 							</div>
 						</div>
 						<div id="leftIncludeArea" class="leftIncludeArea">
-						
 <%-- 							<jsp:include page="leftGroupListArea.jsp"/> --%>
-							
 						</div>
 					</div>
 				</div>
@@ -335,24 +321,109 @@
 					
 				</div>
 			</div>
-			
-<script>
-	
+
+<!-- 페이지 호출시 -->
+<script>	
 	$(function(){
 		var grCode = $('#grCode').val();
- 		$.ajax({
+// 		var grCode = '${gr.studyGroup_Code}';
+		var loginUserCode = '${loginUser}';
+		
+		selectGrMemList(grCode, loginUserCode);
+ 		
+	});
+</script>
+
+<!-- 그룹원 목록 보기 메뉴 -->
+<script>
+	function selectGrMemList(grCode, loginUserCode){
+		$('#showMemList').css({"font-weight":"bold"});
+		$('#showMemRank').css({"font-weight":""});
+		
+		$.ajax({
 			url:"selectGroupMemberList.sgd",
-			data : { grCode : grCode },
+			data : { grCode : grCode, loginUserCode : loginUserCode },		/* 로그인유저 코드 바꾸기 변경하기 수정하기 */
 			type : "POST",
 			success:function(data) {
 				console.log(data);
+				$('#leftIncludeArea').empty();
+				$('#leftIncludeArea').append(data);
 			}
+		
 		});
-	});
+	};
+	
+	function changeGrLeader(afterLeaderCode, loginUserCode){
+		var grCode= $('#grCode').val();
+		console.log(afterLeaderCode + " / " + grCode);
+		
+		var changeLeaderChk = confirm("그룹장을 변경 하시겠습니까?");
 
+		if(changeLeaderChk){
+			$.ajax({
+				url:"updateChangeGroupLeader.sgd",
+				data : { grCode : grCode, afterLeaderCode : afterLeaderCode, nowLeaderCode : loginUserCode },
+				type : "POST",
+				success:function(data) {
+					console.log(data);
+					$('#leftIncludeArea').empty();
+					$('#leftIncludeArea').append(data);	
+					
+					selectGrMemList(grCode, loginUserCode);
+				},
+				error : function(){
+					alert("그룹장 변경에 실패하였습니다.");
+				}
+			});
+		}
+	}
 
+	function kickOutGrMember(delMemCode, delMemNick, loginUserCode, grLeaderCode){
+		var grCode= $('#grCode').val();
+		console.log(loginUserCode + " / " + grLeaderCode);
+		
+		if(loginUserCode == grLeaderCode){
+			var kickOutChk = confirm(delMemNick + "님을 강퇴 하시겠습니까?");
+ 			
+			if(kickOutChk){
+				$.ajax({
+					url:"updateDeleteGroupMember.sgd",
+					data : { grCode : grCode, delMemCode : delMemCode },
+					type : "POST",
+					success:function(data) {
+						console.log(data);
+						$('#leftIncludeArea').empty();
+						$('#leftIncludeArea').append(data);
+						
+						selectGrMemList(grCode, loginUserCode);
+						
+					}
+				});
+			}
+		}else{
+			alert("강퇴 권한이 없습니다.");
+		}
+	}
+</script>
 
-</script>			
+<script>
+	function selectGrMemRank(grCode, loginUserCode){
+		$('#showMemList').css({"font-weight":""});
+		$('#showMemRank').css({"font-weight":"bold"});
+		
+		$.ajax({
+			url:"selectGroupMemberList.sgd",
+			data : { grCode : grCode, loginUserCode : loginUserCode },		/* 로그인유저 코드 바꾸기 변경하기 수정하기 */
+			type : "POST",
+			success:function(data) {
+				console.log(data);
+				$('#leftIncludeArea').empty();
+				$('#leftIncludeArea').append(data);
+			}
+		
+		});
+	};	
+</script>		
 
 			
 		</div>

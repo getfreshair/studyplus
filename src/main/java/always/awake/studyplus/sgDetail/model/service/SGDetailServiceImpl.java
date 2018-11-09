@@ -53,6 +53,18 @@ public class SGDetailServiceImpl implements SGDetailService{
 		List<HashMap<String, Object>> memberList = gd.selectGroupMemberList(sqlSession, grCode);
 		return memberList;
 	}
+
+	@Override
+	public int updateChangeLeader(int grCode, int afterLeaderCode, int nowLeaderCode) {
+		int updateChangeResult = gd.updateChangeLeader(sqlSession, grCode, afterLeaderCode, nowLeaderCode);
+		return updateChangeResult;
+	}
+
+	@Override
+	public int updateDeleteGroupMember(int grCode, int delMemCode) {
+		int updateDelResult = gd.updateDeleteMember(sqlSession, grCode, delMemCode);
+		return updateDelResult;
+	}
 	
 	
 	

@@ -142,8 +142,9 @@
 			(SEQ_JOINGROUP_JOINGROUP_CODE.NEXTVAL, #{ studyGroup_Code }, #{ member_Code }, SYSDATE, 0, NULL)
 	</insert>
 	
-	<select id="selectGroupMemberList" parameterType="_int" resultType="map">
-		SELECT JG.STUDYGROUP_CODE, JG.MEMBER_CODE, MEMBER_NICKNAME,
+
+	<select id="selectGroupMemberList" parameterType="_int" resultType="java.util.HashMap">
+		SELECT JG.STUDYGROUP_CODE, JG.MEMBER_CODE, MEMBER_NICKNAME, SG.MEMBER_CODE AS "LEADER_CODE",
 			   DECODE(JG.MEMBER_CODE, SG.MEMBER_CODE, 1, 0) AS "DIV_MEM_ROLE",
 			   FILES_NAME, JOINGROUP_ENROLLDATE, JOINGROUP_STATUS
 		FROM JOINGROUP JG
@@ -154,6 +155,22 @@
 		AND JG.STUDYGROUP_CODE = 1100
 		ORDER BY DIV_MEM_ROLE DESC, JOINGROUP_ENROLLDATE ASC		
 	</select>
+	
+	<update id="updateChangeGroupLeader" parameterType="hashmap">
+		UPDATE STUDYGROUP
+		SET MEMBER_CODE = #{ afterLeaderCode }
+		WHERE STUDYGROUP_CODE = #{ grCode }
+		AND MEMBER_CODE = #{ nowLeaderCode }
+	</update>
+	
+	<update id="updateDeleteJoinMemberStatus" parameterType="hashmap">
+		UPDATE JOINGROUP
+		SET JOINGROUP_STATUS = 1, JOINGROUP_DELETEDATE = SYSDATE
+		WHERE STUDYGROUP_CODE = #{ grCode }
+		AND MEMBER_CODE = #{ delMemCode }
+		AND JOINGROUP_STATUS = 0
+		AND JOINGROUP_DELETEDATE IS NULL
+	</update>
 </mapper>
 	
 	

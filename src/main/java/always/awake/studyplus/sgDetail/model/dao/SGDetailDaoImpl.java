@@ -51,7 +51,7 @@ public class SGDetailDaoImpl implements SGDetailDao{
 
 	@Override
 	public List<HashMap<String, Object>> selectGroupMemberList(SqlSessionTemplate sqlSession, int grCode) {
-		List<HashMap<String, Object>> list = null;
+		List<HashMap<String, Object>> memberList = null;
 		try {
 			list = sqlSession.selectList("SGDetail.selectGroupMemberList", grCode);
 			System.out.println("dao list : " + list);
@@ -59,7 +59,27 @@ public class SGDetailDaoImpl implements SGDetailDao{
 			System.out.println(e.getMessage());
 		}
 		
-		return list;
+		return memberList;
 	}
 
+	@Override
+	public int updateChangeLeader(SqlSessionTemplate sqlSession, int grCode, int afterLeaderCode, int nowLeaderCode) {
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		
+		hm.put("grCode", grCode);
+		hm.put("afterLeaderCode", afterLeaderCode);
+		hm.put("nowLeaderCode", nowLeaderCode);
+		return sqlSession.update("SGDetail.updateChangeGroupLeader", hm);
+	}
+
+	@Override
+	public int updateDeleteMember(SqlSessionTemplate sqlSession, int grCode, int delMemCode) {
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		
+		hm.put("grCode", grCode);
+		hm.put("delMemCode", delMemCode);
+		return sqlSession.update("SGDetail.updateDeleteJoinMemberStatus", hm);
+	}
+	
+	
 }

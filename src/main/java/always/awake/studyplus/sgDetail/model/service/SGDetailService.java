@@ -19,6 +19,10 @@ public interface SGDetailService {
 
 	public List<HashMap<String, Object>> selectGroupMemberList(int grCode);
 
+	public int updateChangeLeader(int grCode, int afterLeaderCode, int nowLeaderCode);
+
+	public int updateDeleteGroupMember(int grCode, int delMemCode);
+
 	
 	
 	
