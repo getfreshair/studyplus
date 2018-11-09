@@ -25,11 +25,17 @@ public class SGDetailServiceImpl implements SGDetailService{
 	}
 	
 	@Override
-	public SGDetail selectOneGrDetailJoinBefore(int grCode) {
-		SGDetail group = gd.selectOneGrDetailJoinBefore(sqlSession, grCode);
-		return group;
+	public SGDetail selectOneGrDetailLeftTop(int grCode) {
+		SGDetail grLeftTop = gd.selectOneGrDetailLeftTop(sqlSession, grCode);
+		return grLeftTop;
 	}
-
+	
+	@Override
+	public SGDetail selectOneGrDetailRightTop(int grCode) {
+		SGDetail grRightTop = gd.selectOneGrDetailRightTop(sqlSession, grCode);
+		return grRightTop;
+	}
+	
 	@Override
 	public SGDetail selectOneJoinGrDetailTop(int grCode, int memCode) {
 		SGDetail joinGrTop = gd.selectOneJoinGrDetailTop(sqlSession, grCode, memCode);
@@ -65,7 +71,7 @@ public class SGDetailServiceImpl implements SGDetailService{
 		int updateDelResult = gd.updateDeleteMember(sqlSession, grCode, delMemCode);
 		return updateDelResult;
 	}
-	
+
 	
 	
 	

@@ -11,7 +11,9 @@ public interface SGDetailDao {
 
 	int selectJoinStatus(SqlSessionTemplate sqlSession, int grCode, int memCode);
 
-	SGDetail selectOneGrDetailJoinBefore(SqlSessionTemplate sqlSession, int grCode);
+	SGDetail selectOneGrDetailLeftTop(SqlSessionTemplate sqlSession, int grCode);
+	
+	SGDetail selectOneGrDetailRightTop(SqlSessionTemplate sqlSession, int grCode);
 
 	SGDetail selectOneJoinGrDetailTop(SqlSessionTemplate sqlSession, int grCode, int memCode);
 
@@ -24,6 +26,8 @@ public interface SGDetailDao {
 	int updateChangeLeader(SqlSessionTemplate sqlSession, int grCode, int afterLeaderCode, int nowLeaderCode);
 
 	int updateDeleteMember(SqlSessionTemplate sqlSession, int grCode, int delMemCode);
+
+
 
 	
 }

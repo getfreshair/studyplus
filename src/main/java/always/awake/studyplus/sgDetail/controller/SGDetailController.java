@@ -31,23 +31,23 @@ public class SGDetailController {
 		int memCode = ((Member)(request.getSession().getAttribute("loginUser"))).getMember_Code();
 		
 		//		test 지우기
-		memCode = 5;	
+//		memCode = 5;	
 		
 		try {
 			int joinStatus = gs.selectJoinStatus(grCode, memCode);
 			
-			SGDetail group = gs.selectOneGrDetailJoinBefore(grCode);
+			SGDetail grLeftTop = gs.selectOneGrDetailLeftTop(grCode);
+			SGDetail grRightTop = gs.selectOneGrDetailRightTop(grCode);
 			
-			if(group != null) {
-				//예외처리하기
-			}
+			System.out.println("group : " + grLeftTop);
+			System.out.println("group : " + grRightTop);
 			
 			mv.addObject("loginUser", memCode);
 			mv.addObject("joinStatus", joinStatus);
-			mv.addObject("gr", group);
+			mv.addObject("gr", grLeftTop);
+			mv.addObject("grR", grRightTop);
 
 			System.out.println("컨트롤러");
-			System.out.println(joinStatus + " / " + group);
 			System.out.println("Model & Veiw : " + mv);
 			
 			if(joinStatus >= 1) {
@@ -91,6 +91,7 @@ public class SGDetailController {
 		return mv;
 	}
 	*/
+	
 	@RequestMapping("selectGroupMemberList.sgd")
 	public ModelAndView selectGroupMemberList(int grCode, int loginUserCode, ModelAndView mv) {
 		System.out.println("1. " + grCode);

@@ -8,8 +8,10 @@ import always.awake.studyplus.sgDetail.model.vo.SGDetail;
 public interface SGDetailService {
 
 	public int selectJoinStatus(int grCode, int memCode);
-
-	public SGDetail selectOneGrDetailJoinBefore(int grCode);
+	
+	public SGDetail selectOneGrDetailLeftTop(int grCode);
+	
+	public SGDetail selectOneGrDetailRightTop(int grCode);
 
 	public SGDetail selectOneJoinGrDetailTop(int grCode, int memCode);
 
@@ -22,6 +24,7 @@ public interface SGDetailService {
 	public int updateChangeLeader(int grCode, int afterLeaderCode, int nowLeaderCode);
 
 	public int updateDeleteGroupMember(int grCode, int delMemCode);
+
 
 	
 	
