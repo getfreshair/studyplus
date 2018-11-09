@@ -85,9 +85,6 @@
 		height:162px;
 		overflow: hidden;
 	}
-	.SGMyBoardListArea {
-		display:none;
-	}
 	.SGLastBoardArea, .SGMyBoardArea {
 		border-bottom:1px solid #f0f0f0;
     	display: table;
@@ -100,6 +97,9 @@
 		margin-top:5px;
 		margin-bottom:5px;
 		font-size:13px;
+	}
+	.SGTitleArea:hover {
+		cursor:pointer;
 	}
 	.SGBoardReadCheckArea {
 		display:inline-block;
@@ -175,8 +175,6 @@
 					$inSGRankingArea = $('<div class="inSGRankingArea">').append(data[key].CATEGORY_NAME + ' ' + data[key].RANK + '위 / ' + data[key].CATEGORY_TOTALNUM + '위');
 					$('.inSGTitleListArea').append($inSGRankingArea);
 				}
-				
-				
 			}
 		});	
 		

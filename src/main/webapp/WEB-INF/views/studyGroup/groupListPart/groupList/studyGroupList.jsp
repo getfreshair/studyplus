@@ -41,6 +41,9 @@
 		width: 140px;
     	height: 180px;
 	}
+	.SGInfoThumbnailImg:hover {
+		cursor:pointer;
+	}
 	.SGInfoCategoryArea, .SGInfoLocationArea {
 		display:inline-block;
 		margin:12px;
@@ -62,6 +65,9 @@
     	white-space: nowrap;
     	overflow: hidden;
     	text-overflow: ellipsis;
+	}
+	.SGInfoTitleArea:hover {
+		cursor:pointer;
 	}
 	.SGInfoCommentArea {
 		width: 245px;
@@ -150,11 +156,13 @@
 				$('.SGListInfoArea').empty();
 				$('.SGPIArea').empty();
 				
+				console.log(data);
 				for(var key in data){
 					if(key <= (data.length - 2)){
 						$SGInfoArea = $('<div class="SGInfoArea">');
 						$SGInfoThumbnailImgArea = $('<div class="SGInfoThumbnailImgArea">');
 						$SGInfoThumbnailImg = $('<img class="SGInfoThumbnailImg">').attr('src', "/studyplus/resources/upload/studygroup/thumbnail/" + data[key].SGFILES_NAME);
+						$SGInfoThumbnailImg.attr('onclick', "SGdetailPage(" + data[key].STUDYGROUP_CODE + ")");
 						$SGInfoRightArea = $('<div class="SGInfoRightArea">');
 						$SGInfoCLArea = $('<div class="SGInfoCLArea">');
 						$SGInfoCategoryArea = $('<div class="SGInfoCategoryArea">').append(data[key].CATEGORY_NAME);
@@ -176,6 +184,7 @@
 						$SGInfoRightArea.append($SGInfoCLArea);
 						$SGInfoTitleArea.append($SGInfoBossImg);
 						$SGInfoTitleArea.append(data[key].STUDYGROUP_NAME);
+						$SGInfoTitleArea.attr('onclick', "SGdetailPage(" + data[key].STUDYGROUP_CODE + ")");
 						$SGInfoRightArea.append($SGInfoTitleArea);
 						$SGInfoRightArea.append($SGInfoCommentArea);
 						$SGInfoDGArea.append($SGDateArea);
@@ -227,6 +236,10 @@
 			}
 		});
 	};
+	
+	function SGdetailPage(group_No){
+		location.href='selectOneGroup.sgd?group_No=' + group_No;
+	}
 </script>
 </head>
 <body>

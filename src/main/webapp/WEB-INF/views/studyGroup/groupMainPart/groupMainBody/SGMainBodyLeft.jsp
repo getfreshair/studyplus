@@ -25,6 +25,9 @@
 	.inSGImgArea {
 		display:inline-block;
 	}
+	.inSGImgArea:hover {
+		cursor:pointer;
+	}
 	.inSGArea:first-child .inSGImgArea img:first-child {
 		border-top-left-radius:0px;
 	}
@@ -57,6 +60,9 @@
 		font-weight:bold;
 		padding-top:3px;
     	padding-bottom:3px;
+	}
+	.inSGTitle h4:hover {
+		cursor:pointer;
 	}
 	.inSGTitle img {
 		width:25px;
@@ -209,10 +215,6 @@
 		}
 	}
 	
-	function SGdetailPage(group_No){
-		location.href='selectOneGroup.sgd?group_No=' + group_No;
-	}
-	
 	$(function(){
 		var member_Code = '${ sessionScope.loginUser.member_Code }';
 		
@@ -255,6 +257,7 @@
 						$inSGTitle = $('<div class="inSGTitle">');
 						$inSGTrophyImg = $('<img>').attr('src', "/studyplus/resources/images/studyGroup/trophy.png");
 						$inSGTitleH4 = $('<h4>').append(data[key].STUDYGROUP_NAME);
+						$inSGTitleH4.attr('onclick', "SGdetailPage(" + data[key].STUDYGROUP_CODE + ")");
 						$inSGIntro = $('<div class="inSGIntro">').append(data[key].STUDYGROUP_INTRO);
 						$inSGEnrolldate = $('<div class="inSGEnrolldate">').append('그룹 개설일 : ' + data[key].STUDYGROUP_STDATE);
 						$inSGDate = $('<div class="inSGDate">').append('그룹 가입일 : ' + data[key].JOINGROUP_ENROLLDATE);
@@ -294,11 +297,12 @@
 							$inMySGArea = $('<div class="inSGArea">');
 							$inMySGImgARea = $('<div class="inSGImgArea">');
 							$inMySGImg = $('<img>').attr('src', "/studyplus/resources/upload/studygroup/thumbnail/" + data[key].FILES_SUTDYGROUPNAME);
-			        		$inMySGImg.attr('onclick', "SGdetailPage()");
+			        		$inMySGImg.attr('onclick', "SGdetailPage(" + data[key].STUDYGROUP_CODE + ")");
 							$inMySGInfoArea = $('<div class="inSGInfoArea">');
 							$inMySGTitle = $('<div class="inSGTitle">');
 							$inMySGTrophyImg = $('<img>').attr('src', "/studyplus/resources/images/studyGroup/trophy.png");
 							$inMySGTitleH4 = $('<h4>').append(data[key].STUDYGROUP_NAME);
+							$inMySGTitleH4.attr('onclick', "SGdetailPage(" + data[key].STUDYGROUP_CODE + ")");
 							$inMySGIntro = $('<div class="inSGIntro">').append(data[key].STUDYGROUP_INTRO);
 							$inMySGEnrolldate = $('<div class="inSGEnrolldate">').append('그룹 개설일 : ' + data[key].STUDYGROUP_STDATE);
 							$inMySGDate = $('<div class="inSGDate">').append('그룹 가입일 : ' + data[key].JOINGROUP_ENROLLDATE);
@@ -386,10 +390,12 @@
 					$SGArea = $('<div class="inSGArea">');
 					$SGImgARea = $('<div class="inSGImgArea">');
 					$SGImg = $('<img>').attr('src', "/studyplus/resources/upload/studygroup/thumbnail/" + data[key].FILES_NAME);
+					$SGImg.attr('onclick', "SGdetailPage(" + data[key].STUDYGROUP_CODE + ")");
 					$SGInfoArea = $('<div class="inSGInfoArea">');
 					$SGTitle = $('<div class="inSGTitle">');
 					$SGTrophyImg = $('<img>').attr('src', "/studyplus/resources/images/studyGroup/trophy.png");
 					$SGTitleH4 = $('<h4>').append(data[key].STUDYGROUP_NAME);
+					$SGTitleH4.attr('onclick', "SGdetailPage(" + data[key].STUDYGROUP_CODE + ")");
 					
 					$SGIntro = $('<div class="inSGIntro">').append(data[key].STUDYGROUP_INTRO);
 					$SGEnrolldate = $('<div class="SGEnrolldate">').append(data[key].STUDYGROUP_STDATE);
@@ -430,6 +436,10 @@
 	
 	function StatisticsPage(code){
 		location.href="studygroupStatistics.sg?code=1100";
+	}
+	
+	function SGdetailPage(group_No){
+		location.href='selectOneGroup.sgd?group_No=' + group_No;
 	}
 </script>
 </head>

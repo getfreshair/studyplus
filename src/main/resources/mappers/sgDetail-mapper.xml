@@ -142,7 +142,7 @@
 			(SEQ_JOINGROUP_JOINGROUP_CODE.NEXTVAL, #{ studyGroup_Code }, #{ member_Code }, SYSDATE, 0, NULL)
 	</insert>
 	
-	<select id="selectGroupMemberList" parameterType="_int" resultType="list">
+	<select id="selectGroupMemberList" parameterType="_int" resultType="map">
 		SELECT JG.STUDYGROUP_CODE, JG.MEMBER_CODE, MEMBER_NICKNAME,
 			   DECODE(JG.MEMBER_CODE, SG.MEMBER_CODE, 1, 0) AS "DIV_MEM_ROLE",
 			   FILES_NAME, JOINGROUP_ENROLLDATE, JOINGROUP_STATUS
@@ -151,7 +151,7 @@
 		JOIN STUDYGROUP SG ON(JG.STUDYGROUP_CODE = SG.STUDYGROUP_CODE)
 		JOIN FILES FL ON(JG.MEMBER_CODE = FL.MEMBER_CODE)
 		WHERE JOINGROUP_STATUS = 0
-		AND JG.STUDYGROUP_CODE = #{ grCode }
+		AND JG.STUDYGROUP_CODE = 1100
 		ORDER BY DIV_MEM_ROLE DESC, JOINGROUP_ENROLLDATE ASC		
 	</select>
 </mapper>

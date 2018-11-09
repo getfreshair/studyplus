@@ -53,7 +53,7 @@ public class SGDetailDaoImpl implements SGDetailDao{
 	public List<HashMap<String, Object>> selectGroupMemberList(SqlSessionTemplate sqlSession, int grCode) {
 		List<HashMap<String, Object>> list = null;
 		try {
-			list = sqlSession.selectList("selectGroupMemberList", grCode);
+			list = sqlSession.selectList("SGDetail.selectGroupMemberList", grCode);
 			System.out.println("dao list : " + list);
 		}catch(Exception e) {
 			System.out.println(e.getMessage());

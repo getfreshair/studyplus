@@ -100,7 +100,7 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 	}
 
 	@Override
-	public Map<String, Object> selectSGCategoryChart(int studygroup_Code, String period) {
+	public Map<String, Object> selectSGCategoryChart(int studygroup_Code, String period) throws StudyGroupException {
 		Map<String, Object> chart = new HashMap<String, Object>();
 		
 		List<Map<String, Object>> chartValue = sgd.selectSGCategoryChart(sqlSession, studygroup_Code, period);
@@ -113,11 +113,29 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 	}
 
 	@Override
-	public Map<String, Object> selectSGLocationChart(int studygroup_Code, String period) {
+	public Map<String, Object> selectSGLocationChart(int studygroup_Code, String period) throws StudyGroupException {
 		Map<String, Object> chart = new HashMap<String, Object>();
 		
 		List<Map<String, Object>> chartValue = sgd.selectSGLocationChart(sqlSession, studygroup_Code, period);
 		List<Map<String, Object>> chartValueTime = sgd.selectSGLocationChartTime(sqlSession, studygroup_Code, period);
+		
+		chart.put("chartValue", chartValue);
+		chart.put("chartValueTime", chartValueTime);
+		
+		return chart;
+	}
+
+	@Override
+	public List<Map<String, Object>> selectSGtimeZoneChart(int studygroup_Code) throws StudyGroupException {
+		return sgd.selectSGtimeZoneChart(sqlSession, studygroup_Code);
+	}
+
+	@Override
+	public Map<String, Object> selectSGTimeAmountChart(int studygroup_Code, String period) throws StudyGroupException {
+		Map<String, Object> chart = new HashMap<String, Object>();
+		
+		List<Map<String, Object>> chartValue = sgd.selectSGTimeAmountChart(sqlSession, studygroup_Code, period);
+		List<Map<String, Object>> chartValueTime = sgd.selectSGTimeAmountChartTime(sqlSession, studygroup_Code, period);
 		
 		chart.put("chartValue", chartValue);
 		chart.put("chartValueTime", chartValueTime);

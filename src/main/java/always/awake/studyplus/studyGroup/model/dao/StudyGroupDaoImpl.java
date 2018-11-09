@@ -152,45 +152,96 @@ public class StudyGroupDaoImpl implements StudyGroupDao{
 	}
 
 	@Override
-	public List<Map<String, Object>> selectSGCategoryChart(SqlSessionTemplate sqlSession, int studygroup_Code, String period) {
-		Map<String, Object> searchInfo = new HashMap<String, Object>();
-		
-		searchInfo.put("studygroup_Code", studygroup_Code);
-		searchInfo.put("period", period);
-		
-		return sqlSession.selectList("StudyGroup.selectSGCategoryChart", searchInfo);
+	public List<Map<String, Object>> selectSGCategoryChart(SqlSessionTemplate sqlSession, int studygroup_Code, String period) throws StudyGroupException {
+		try {
+			Map<String, Object> searchInfo = new HashMap<String, Object>();
+			
+			searchInfo.put("studygroup_Code", studygroup_Code);
+			searchInfo.put("period", period);
+			
+			return sqlSession.selectList("StudyGroup.selectSGCategoryChart", searchInfo);
+		}catch(Exception e) {
+			throw new StudyGroupException(e.getMessage());
+		}
 	}
 
 	@Override
-	public List<Map<String, Object>> selectSGCategoryChartTime(SqlSessionTemplate sqlSession, int studygroup_Code, String period) {
-		Map<String, Object> searchInfo = new HashMap<String, Object>();
-		
-		searchInfo.put("studygroup_Code", studygroup_Code);
-		searchInfo.put("period", period);
-		
-		return sqlSession.selectList("StudyGroup.selectSGCategoryChartTime", searchInfo);
+	public List<Map<String, Object>> selectSGCategoryChartTime(SqlSessionTemplate sqlSession, int studygroup_Code, String period) throws StudyGroupException {
+		try {
+			Map<String, Object> searchInfo = new HashMap<String, Object>();
+			
+			searchInfo.put("studygroup_Code", studygroup_Code);
+			searchInfo.put("period", period);
+			
+			return sqlSession.selectList("StudyGroup.selectSGCategoryChartTime", searchInfo);
+		}catch(Exception e) {
+			throw new StudyGroupException(e.getMessage());
+		}
 	}
 
 	@Override
-	public List<Map<String, Object>> selectSGLocationChart(SqlSessionTemplate sqlSession, int studygroup_Code,
-			String period) {
-		Map<String, Object> searchInfo = new HashMap<String, Object>();
-		
-		searchInfo.put("studygroup_Code", studygroup_Code);
-		searchInfo.put("period", period);
-		
-		return sqlSession.selectList("StudyGroup.selectSGLocationChart", searchInfo);
+	public List<Map<String, Object>> selectSGLocationChart(SqlSessionTemplate sqlSession, int studygroup_Code, String period) throws StudyGroupException{
+		try {
+			Map<String, Object> searchInfo = new HashMap<String, Object>();
+			
+			searchInfo.put("studygroup_Code", studygroup_Code);
+			searchInfo.put("period", period);
+			
+			return sqlSession.selectList("StudyGroup.selectSGLocationChart", searchInfo);
+		}catch(Exception e) {
+			throw new StudyGroupException(e.getMessage());
+		}
 	}
 
 	@Override
-	public List<Map<String, Object>> selectSGLocationChartTime(SqlSessionTemplate sqlSession, int studygroup_Code,
-			String period) {
-		Map<String, Object> searchInfo = new HashMap<String, Object>();
-		
-		searchInfo.put("studygroup_Code", studygroup_Code);
-		searchInfo.put("period", period);
-		
-		return sqlSession.selectList("StudyGroup.selectSGLocationChartTime", searchInfo);
+	public List<Map<String, Object>> selectSGLocationChartTime(SqlSessionTemplate sqlSession, int studygroup_Code, String period) throws StudyGroupException {
+		try {
+			Map<String, Object> searchInfo = new HashMap<String, Object>();
+			
+			searchInfo.put("studygroup_Code", studygroup_Code);
+			searchInfo.put("period", period);
+			
+			return sqlSession.selectList("StudyGroup.selectSGLocationChartTime", searchInfo);
+		}catch(Exception e) {
+			throw new StudyGroupException(e.getMessage());
+		}
+	}
+
+	@Override
+	public List<Map<String, Object>> selectSGtimeZoneChart(SqlSessionTemplate sqlSession, int studygroup_Code) throws StudyGroupException {
+		try {
+			return sqlSession.selectList("StudyGroup.selectSGtimeZoneChart", studygroup_Code);
+		}catch(Exception e) {
+			throw new StudyGroupException(e.getMessage());
+		}
+	}
+
+	@Override
+	public List<Map<String, Object>> selectSGTimeAmountChart(SqlSessionTemplate sqlSession, int studygroup_Code, String period) throws StudyGroupException {
+		try {
+			Map<String, Object> searchInfo = new HashMap<String, Object>();
+			
+			searchInfo.put("studygroup_Code", studygroup_Code);
+			searchInfo.put("period", period);
+			
+			return sqlSession.selectList("StudyGroup.selectSGTimeAmountChart", searchInfo);
+		}catch(Exception e) {
+			throw new StudyGroupException(e.getMessage());
+		}
+	}
+
+	@Override
+	public List<Map<String, Object>> selectSGTimeAmountChartTime(SqlSessionTemplate sqlSession, int studygroup_Code, String period) throws StudyGroupException {
+		try {
+			Map<String, Object> searchInfo = new HashMap<String, Object>();
+			
+			searchInfo.put("studygroup_Code", studygroup_Code);
+			searchInfo.put("period", period);
+			
+			return sqlSession.selectList("StudyGroup.selectSGTimeAmountChartTime", searchInfo);
+		}catch(Exception e) {
+			throw new StudyGroupException(e.getMessage());
+		}
 	}
 
 

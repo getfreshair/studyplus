@@ -26,44 +26,60 @@
 	google.charts.setOnLoadCallback(drawTimeZoneChart);
 	
 	function drawTimeZoneChart() {
-		var container = document.getElementById('timeZoneChartDiv');
-		var chart = new google.visualization.Timeline(container);
-		var dataTable = new google.visualization.DataTable();
 		
-		dataTable.addColumn({
-			type : 'string',
-			id : 'Room'
-		});
-		dataTable.addColumn({
-			type : 'string',
-			id : 'Name'
-		});
-		dataTable.addColumn({
-			type : 'date',
-			id : 'Start'
-		});
-		dataTable.addColumn({
-			type : 'date',
-			id : 'End'
-		});
-		dataTable.addRows([
-				[ 'Study Time', 'user01', new Date(0, 0, 0, 00, 00, 00), new Date(0, 0, 0, 1, 00, 00) ],
-				[ 'Study Time', 'user02', new Date(0, 0, 0, 02, 30, 0), new Date(0, 0, 0, 7, 20, 0) ],
-				[ 'Study Time', 'user03', new Date(0, 0, 0, 12, 10, 0), new Date(0, 0, 0, 16, 23, 5) ],
-				[ 'Study Time', 'user04', new Date(0, 0, 0, 12, 4, 0), new Date(0, 0, 0, 13, 1, 50) ],
-				[ 'Study Time', 'user04', new Date(0, 0, 0, 13, 1, 50), new Date(0, 0, 0, 14, 20, 50) ],
-				[ 'Study Time', 'user05', new Date(0, 0, 0, 13, 30, 0), new Date(0, 0, 0, 18, 23, 50) ],
-				[ 'Study Time', 'user06', new Date(0, 0, 0, 18, 2, 0), new Date(0, 0, 0, 24, 0, 0) ]
-		]);
-
-		var options = {
-			timeline : {
-				showRowLabels : false
+		
+		$.ajax({
+			url : 'selectSGtimeZoneChart.sg',
+			data : {
+				studygroup_Code : '${code}',
 			},
-			avoidOverlappingGridLines : false
-		};
+			success : function(data){
+				var container = document.getElementById('timeZoneChartDiv');
+				var chart = new google.visualization.Timeline(container);
+				var dataTable = new google.visualization.DataTable([]);
+				
+				dataTable.addColumn({
+					type : 'string',
+					id : 'Room'
+				});
+				dataTable.addColumn({
+					type : 'string',
+					id : 'Name'
+				});
+				dataTable.addColumn({
+					type : 'date',
+					id : 'Start'
+				});
+				dataTable.addColumn({
+					type : 'date',
+					id : 'End'
+				});
+				
+				var dataRow = new Array();
+				
+				for(var key in data){
+					var STUDYTIME_STARTHH = data[key].STUDYTIME_STARTHH;
+					var STUDYTIME_STARTMI = data[key].STUDYTIME_STARTMI;
+					var STUDYTIME_STARTSS = data[key].STUDYTIME_STARTSS;
+					var STUDYTIME_ENDHH = data[key].STUDYTIME_ENDHH;
+					var STUDYTIME_ENDMI = data[key].STUDYTIME_ENDMI;
+					var STUDYTIME_ENDSS = data[key].STUDYTIME_ENDSS;
+					
+					dataRow = ['Study Time', data[key].MEMBER_NICKNAME, new Date(0, 0, 0, STUDYTIME_STARTHH, STUDYTIME_STARTMI, STUDYTIME_STARTSS), new Date(0, 0, 0, STUDYTIME_ENDHH, STUDYTIME_ENDMI, STUDYTIME_ENDSS)];
+					
+					dataTable.addRows([dataRow]);					
+				}
 
-		chart.draw(dataTable, options);
+				var options = {
+					timeline : {
+						showRowLabels : false
+					},
+					avoidOverlappingGridLines : false
+				};
+
+				chart.draw(dataTable, options);
+			}
+		});
 	}
 </script>
 </head>
