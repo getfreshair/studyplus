@@ -869,12 +869,13 @@ function todayGoalsList(){
 					var shortfallPer = 100 - achievPer; 			//미달성률
 					
 					//목표 타입이 시간일 경우 시간,분으로 변경
-					if(type != 0){
-						//goalAmount = (goalAmount/60).toFixed(1);
-						goalAmount2 = goalAmount%60;
-					}
+					/*if(type != 0){
+						goalAmount = (goalAmount/60).toFixed(1);
+						achiev = (achiev/60).toFixed(1);
+						//goalAmount2 = goalAmount%60;
+					}*/
 					//console.log("시간을 분으로 나누면? : " + goalAmount);
-					console.log("시간을 분으로 나눈 나머지? : " + goalAmount2);
+					//console.log("시간을 분으로 나눈 나머지? : " + goalAmount2);
 					
 					$('.today_goals .goals_list').append('<li value="'+ goalCode +'">'
 							 + '<div class="left_area">'
@@ -894,9 +895,9 @@ function todayGoalsList(){
 					GoalListChart(goalAmount, achiev, achievPer, shortfallPer, i);
 					
 					//목표 리스트 각 목표 클릭시 상세 팝업창 노출(아래 함수 호출)
-					//todayGoalDetail(goalCode, content, goalAmount, achiev, achievPer, shortfallPer, i);
+					todayGoalDetail(goalCode, content, goalAmount, achiev, achievPer, shortfallPer, i);
 					
-					
+					//todayGoalDetail();
 					
 					
 					
@@ -929,19 +930,25 @@ function GoalListChart(goalAmount, achiev, achievPer, shortfallPer, i){
 
 
 //리스트 각 목표 클릭시 상세 팝업창 노출
-function todayGoalDetail(){
-	
+function todayGoalDetail(goalCode, content, goalAmount, achiev, achievPer, shortfallPer, i){
+	console.log("목표코드 : " + goalCode)
 	$(".today_goals li .right_area").click(function(){
 		
 		var liIndex = $(this).parent().val();
-		console.log(liIndex);
-		/*if(liIndex == i){
-		}*/
+		console.log("클릭한애 : " + liIndex);
+		if(liIndex == goalCode){
+			$(this).attr({"data-toggle":"modal", "data-target":"#myModal"});
+			//$(".modal .tab").hide();
+			//console.log(content);
+			$(".modal #goalName").attr("value",content);
+			$(".modal #achiev").attr("value",achiev);
+			$(".modal #goalAmount").attr("value",goalAmount);
+			$(".modal #achiev").attr("value",achiev);
+			$(".modal #goalAmount").text(goalAmount);
 		
-		$(this).attr({"data-toggle":"modal", "data-target":"#myModal"});
-		//$(".modal .tab").hide();
-		//console.log(content);
-		$(".modal #goalName").attr("value",content);
+			$(".modal .time_form").parent().attr("action","TodayTimeGoalUpdateModal.sp?liIndex=" + liIndex);
+		}
+		
 	});
 	
 	/*$(".today_goals button").click(function(){

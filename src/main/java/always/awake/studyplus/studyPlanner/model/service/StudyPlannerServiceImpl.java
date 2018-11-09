@@ -62,7 +62,15 @@ public class StudyPlannerServiceImpl implements StudyPlannerService{
 		int result = spd.insertTodayTimeGoal(hmap);
 		
 		return result;
+	}
+
+	//오늘의 목표 업데이트(시간 단위)
+	@Override
+	public int updateTodayTimeGoal(Map<String, Object> hmap) {
 		
+		int result = spd.updateTodayTimeGoal(hmap);
+		
+		return result;
 	}
 
 

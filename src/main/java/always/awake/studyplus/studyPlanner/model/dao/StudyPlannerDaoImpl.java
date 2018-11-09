@@ -80,5 +80,13 @@ public class StudyPlannerDaoImpl implements StudyPlannerDao{
 		
 	}
 
+	//오늘의 목표 업데이트(시간 단위)
+	@Override
+	public int updateTodayTimeGoal(Map<String, Object> hmap) {
+		
+		return sqlSession.update("StudyPlanner.updateTodayTimeGoal", hmap);
+		
+	}
+
 
 }
