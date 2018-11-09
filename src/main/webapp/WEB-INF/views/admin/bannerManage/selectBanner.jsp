@@ -178,15 +178,14 @@ th{
 						'<th width="5%">카테고리</th>'+
 						'<th width="15%">광고종류</th>'+
 						'<th width="15%">수익</th>'+
-						'<th width="5%">상태</th></tr>'+
+						'<th width="5%">상태</th></tr>'
 						console.log(data.length);
 						for(var i = 0; i < data.length; i++){
-							console.log("12");
 							html += '<tr><td>'
 									+data[i].PR_CODE+ '</td><td>' + data[i].PR_COMPANY + '</td><td>'
 									+data[i].PR_TITLE + '</td><td><img style="width:100px;height:40px;" src="resources/upload/admin/thumbnail/' + data[i].FILES_NAME +'.png">' +'</td><td>'
 									+data[i].CATEGORY_NAME + '</td><td>' + data[i].PR_TYPE+'</td><td>' + 
-									data[i].PR_CONTRACTMONEY + '</td><td>'	+ data[i].PR_STATUS + '</td></tr>';
+									data[i].PR_CONTRACTMONEY + '</td><td>'	+ data[i].PR_STATUS + '</td></tr>'
 						}
 						table.innerHTML = html;
 				
@@ -204,7 +203,6 @@ th{
 						<th width="15%">수익</th>
 						<th width="5%">상태</th>
 					</tr>
-					
 				</table>
 				</div>
 				</div>
