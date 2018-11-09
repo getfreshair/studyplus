@@ -562,7 +562,9 @@ public class AdminController {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int adminCode = loginUser.getMember_Code();
 		
-		
+		System.out.println("졸리다...");
+		System.out.println(title);
+		System.out.println(content);
 		map.put("title", title);
 		map.put("content", content);
 		map.put("adminCode",adminCode);

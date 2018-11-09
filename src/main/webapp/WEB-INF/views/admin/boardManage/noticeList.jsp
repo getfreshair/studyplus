@@ -134,6 +134,14 @@ th{
 								name="searchBtn1" style="font-size:14px;  margin-bottom:6px; display:inline-block;height:35px;">검색하기</button>
 					<button type="button" class="btn btn-info btn-lg" style="margin-bottom:6px; margin-right:150px; 
 								font-size:14px; display:inline-block;" data-toggle="modal" data-target="#myModal">글쓰기</button>
+					<script>
+				    	function searchNotice(){
+			      		var keyword = $("#keyword").val();
+			      		var option = $("#searchOption").val();
+			      	
+			      		location.href = "getNoticeList.do?keyword=" + keyword + "&option=" + option;
+			     	 	} 
+					</script>
 					<div id="myModal" class="modal fade" role="dialog">
 					  <div class="modal-dialog">
 					
@@ -150,15 +158,10 @@ th{
 			         	 		</textarea>
 						      </div>
 						      <div class="modal-footer">
-						      	<button type="button" class="btn btn-success" onclick="noticeInsert()">작성</button>
+						      	<button type="button" class="btn btn-success" onclick="noticeInsert();">작성</button>
 						        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 						      <script>
-						      	function searchNotice(){
-						      		var keyword = $("#keyword").val();
-						      		var option = $("#searchOption").val();
-						      	
-						      		location.href = "getNoticeList.do?keyword=" + keyword + "&option=" + option;
-						      	}
+						  
 						      	function noticeInsert(){
 						      		var noticeTitle = $("#noticeTitle").val();
 						      		var textArea = $("#textArea").val();
@@ -167,7 +170,7 @@ th{
 						      		console.log(textArea);
 						      		$.ajax({
 						      			url:"adminInsertNotice.do",
-						      			type:"get",
+						      			type:"post",
 						      			data:{title:noticeTitle,
 						      				content:textArea},
 						      			success:function(data){
@@ -180,7 +183,6 @@ th{
 						      			}
 						      			
 						      		})
-						      		
 						      	}
 						    	$(document).ready(function () {
 								    $("#masterCheck").click(function () {

@@ -147,10 +147,13 @@ th{
 							</div>
 					</div>
 					<hr>
-				<button type = "button"name="memberSearchBtn" id="searchBtn" onclick="searchMember();"class="btn btn-primary" style="float:right; margin-top:20px; margin-right:100px; font-size:20px">검색초기화</button>
-				<button name="memberSearchBtn2" id="searchBtn2" class="btn btn-primary" style="float:right; margin-top:20px; margin-right:40px; font-size:20px">검색하기</button>
+				<button type = "button" name="memberSearchBtn" id="searchBtn" onclick="reload();"class="btn btn-primary" style="float:right; margin-top:20px; margin-right:100px; font-size:20px">검색초기화</button>
+				<button type="button" name="memberSearchBtn2" id="searchBtn2" onclick="searchMember();" class="btn btn-primary" style="float:right; margin-top:20px; margin-right:40px; font-size:20px">검색하기</button>
 				</form>
 				<script>
+				function reload(){
+					location.reload();
+				}
 				function searchMember(){
 					var searchAll = $("#searchAll").val();
 					var searchDate1 = $("#searchDate1").val();
