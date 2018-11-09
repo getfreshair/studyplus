@@ -45,7 +45,8 @@
 	.modal-body .tab button.on{background:#fff;  border-width:1px 1px 0 1px; border:solid #ccc; color:#333;}
 	.modal-body .tab button:focus{outline:none;}
 	/* .modal-body .img_area .box{border:1px solid #ddd; width:85%;} */
-	.modal-body .chart_area{padding:0 20px;}
+	.modal-body .chart_area{position:relative; padding:0 20px;}
+	.modal-body .chart_area .chart_per{position:absolute; top:50%; width:84%; text-align:center; font-size:22px;}
 
 	.modal-body .time_form, .modal-body .book_form{padding-top:30px;}
 	.modal-body .ipt_area dt{margin-bottom:5px;}
@@ -148,14 +149,14 @@
 							</div>
 							<div class="scroll_area">
 								<ul class="goals_list">
-									<li>
+									<!-- <li>
 										<div class="left_area">
 										</div>
 										<div class="right_area">
 											<p class="tit">씨박의 정석</p>
 											<p class="per">3 / 21 시간</p>
 										</div>
-									</li>
+									</li> -->
 								</ul>
 								<div class="add_btn">
 									<a href="#" data-toggle="modal" data-target="#myModal"></a>
@@ -363,7 +364,8 @@
 							<div class="time_form">
 								<input type="hidden" value="1" name="goalType">
 								<div class="col-sm-5 col-xs-12 chart_area">
-									<canvas id="modal_donut" width="200" height="200"></canvas>
+									<canvas id="today_Modal_donut" width="200" height="200"></canvas>
+									<span class="chart_per"></span>
 								</div>
 								<div class="col-sm-7 col-xs-12 ipt_area">
 									<dl>
@@ -382,8 +384,8 @@
 									<dl>
 										<dt>달성량</dt>
 										<dd class="ipt_wrap">
-											<input type="number" class="form-control" readonly id="achiev"> / 
-											<span id="goalAmount"></span>
+											<span id="achiev">0</span> / 
+											<span id="goalAmount">0</span>
 										</dd>
 									</dl>
 								</div>
@@ -436,6 +438,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<!-- // Modal -->
 
 		<!-- Footer -->

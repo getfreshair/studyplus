@@ -305,6 +305,8 @@ public class StudyPlannerController {
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int loginUserCode = loginUser.getMember_Code();
 		
+		System.out.println("로그인유저 코드 : " + loginUserCode);
+		
 		//시간 등록시 초단위로 변경
 		int goalTotaltime = (goalTime * 120) +  (goalMin * 60);
 		
@@ -335,7 +337,7 @@ public class StudyPlannerController {
 		int loginUserCode = loginUser.getMember_Code();
 		
 		//시간 등록시 초단위로 변경
-		int goalTotaltime = (goalTime * 120) +  (goalMin * 60);
+		int goalTotaltime = (goalTime * 3600) + (goalMin * 60);
 		
 		Map<String, Object> hmap = new HashMap<String, Object>();
 		hmap.put("loginUserCode", loginUserCode);

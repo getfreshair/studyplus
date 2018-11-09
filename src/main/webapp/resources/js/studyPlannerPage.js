@@ -869,13 +869,12 @@ function todayGoalsList(){
 					var shortfallPer = 100 - achievPer; 			//미달성률
 					
 					//목표 타입이 시간일 경우 시간,분으로 변경
-					/*if(type != 0){
-						goalAmount = (goalAmount/60).toFixed(1);
-						achiev = (achiev/60).toFixed(1);
-						//goalAmount2 = goalAmount%60;
-					}*/
-					//console.log("시간을 분으로 나누면? : " + goalAmount);
-					//console.log("시간을 분으로 나눈 나머지? : " + goalAmount2);
+					if(type != 0){
+						goalAmountHour = Math.floor(((goalAmount/60)/60)%24);	//목표량 시간
+						goalAmountMin = ((goalAmount/60)%60);					//목표량 분
+						achievHour = Math.floor(((achiev/60)/60)%24);			//달성량 시간
+						achievMin = ((achiev/60)%60);							//달성량 분
+					}
 					
 					$('.today_goals .goals_list').append('<li value="'+ goalCode +'">'
 							 + '<div class="left_area">'
@@ -884,7 +883,7 @@ function todayGoalsList(){
 							 + '<span class="chart_per">' + achievPer + '%' + '</span>'
 							 + '</div>'
 							 + '</div>'
-							 + '<div class="right_area">'
+							 + '<div class="right_area" value="' + data[i].GOAL_TYPE + '">' 
 							 + '<p class="tit">' + content + '</p>'
 							 + '<p class="per">' + achiev  + ' / ' + goalAmount + " " + type
 							 + '</p>'
@@ -892,14 +891,10 @@ function todayGoalsList(){
 							 + '</li>');
 					
 					//목표 리스트 노출된 부분 공부량 차트 (아래 함수 호출)
-					GoalListChart(goalAmount, achiev, achievPer, shortfallPer, i);
+					GoalListChart(achievPer, shortfallPer, i);
 					
 					//목표 리스트 각 목표 클릭시 상세 팝업창 노출(아래 함수 호출)
-					todayGoalDetail(goalCode, content, goalAmount, achiev, achievPer, shortfallPer, i);
-					
-					//todayGoalDetail();
-					
-					
+					//todayGoalDetail(goalCode, content, goalAmountHour, goalAmountMin, achievHour, achievMin, achievPer, shortfallPer, i);
 					
 				}
 			},
@@ -912,7 +907,7 @@ function todayGoalsList(){
 }
 
 //목표 리스트 노출된 부분 공부량 차트 
-function GoalListChart(goalAmount, achiev, achievPer, shortfallPer, i){
+function GoalListChart(achievPer, shortfallPer, i){
 	var ctx = document.getElementById("today_donut"+i).getContext('2d');
 	var today_donut = new Chart(ctx, {
 		type: 'doughnut',
@@ -929,31 +924,107 @@ function GoalListChart(goalAmount, achiev, achievPer, shortfallPer, i){
 }
 
 
+//------------------------------------------------------------------------------------작업중
+$(function(){
+	
+	var now = new Date();
+	var $todayVal= new Date(Date.parse(now) + 0 * 1000 * 60 * 60 * 24).getFullYear() + "-" + (new Date(Date.parse(now) + 0 * 1000 * 60 * 60 * 24).getMonth() +1) + "-" + new Date(Date.parse(now) + 0 * 1000 * 60 * 60 * 24).getDate();
+	
+	$(".today_goals li .right_area").click(function(){
+	
+		$.ajax({
+			url : "todayGoalsList.sp",  
+			data : {dateVal : $todayVal}, //오늘날짜 보냄
+			type : "post",
+			success : function(data) {
+				
+				$(".today_goals .goals_list").empty();
+				for (var i = 0; i < data.length; i++) {
+					
+					var goalCode = data[i].GOAL_CODE; 				//목표코드
+					var content = data[i].GOAL_CONTENT;				//목표명
+					var type = data[i].GOAL_TYPE == 0?"페이지":"시간"; //0일경우 페이지, 1일경우 시간
+					var achiev = data[i].GOAL_ACHIEVEAMOUNT; 		//달성량
+					var goalAmount = data[i].GOAL_GOALAMOUNT; 		//목표량
+					var achievPer = ((data[i].GOAL_ACHIEVEAMOUNT / data[i].GOAL_GOALAMOUNT) * 100).toFixed(0); //달성률
+					var shortfallPer = 100 - achievPer; 			//미달성률
+					
+					//목표 타입이 시간일 경우 시간,분으로 변경
+					if(type != 0){
+						goalAmountHour = Math.floor(((goalAmount/60)/60)%24);	//목표량 시간
+						goalAmountMin = ((goalAmount/60)%60);					//목표량 분
+						achievHour = Math.floor(((achiev/60)/60)%24);			//달성량 시간
+						achievMin = ((achiev/60)%60);							//달성량 분
+					}
+					
+					$('.today_goals .goals_list').append('<li value="'+ goalCode +'">'
+							 + '<div class="left_area">'
+							 + '<div class="donut_area">'
+							 + '<canvas id="today_donut'+ i +'" width="70" height="70"></canvas>'
+							 + '<span class="chart_per">' + achievPer + '%' + '</span>'
+							 + '</div>'
+							 + '</div>'
+							 + '<div class="right_area" value="' + data[i].GOAL_TYPE + '">' 
+							 + '<p class="tit">' + content + '</p>'
+							 + '<p class="per">' + achiev  + ' / ' + goalAmount + " " + type
+							 + '</p>'
+							 + '</div>'
+							 + '</li>');
+				}
+			},
+			error : function() {
+				console.log("에러발생!");
+			}
+		});
+	});
+});
+//------------------------------------------------------------------------------------
+
+
 //리스트 각 목표 클릭시 상세 팝업창 노출
-function todayGoalDetail(goalCode, content, goalAmount, achiev, achievPer, shortfallPer, i){
+function todayGoalDetail(goalCode, content, goalAmountHour, goalAmountMin, achievHour, achievMin, achievPer, shortfallPer, i){
 	console.log("목표코드 : " + goalCode)
+	
 	$(".today_goals li .right_area").click(function(){
 		
-		var liIndex = $(this).parent().val();
-		console.log("클릭한애 : " + liIndex);
-		if(liIndex == goalCode){
-			$(this).attr({"data-toggle":"modal", "data-target":"#myModal"});
-			//$(".modal .tab").hide();
-			//console.log(content);
-			$(".modal #goalName").attr("value",content);
-			$(".modal #achiev").attr("value",achiev);
-			$(".modal #goalAmount").attr("value",goalAmount);
-			$(".modal #achiev").attr("value",achiev);
-			$(".modal #goalAmount").text(goalAmount);
 		
-			$(".modal .time_form").parent().attr("action","TodayTimeGoalUpdateModal.sp?liIndex=" + liIndex);
+		var liIndex = $(this).parent().val();
+		if($(this).attr("value") == 1){ //타입이 시간일경우
+			
+			
+			
+			if(liIndex == goalCode){
+				$(this).attr({"data-toggle":"modal", "data-target":"#myModal"});
+				$(".modal #goalName").attr("value",content);
+				$(".modal #goalTime").attr("value",goalAmountHour);
+				$(".modal #goalMin").attr("value",goalAmountMin);
+				$(".modal #achiev").text(achievHour + "시간 " + achievMin + "분");
+				$(".modal #goalAmount").text(goalAmountHour + "시간 " + goalAmountMin + "분");
+				$(".modal .chart_per").text(achievPer + "%");
+				
+				$(".modal .time_form").parent().attr("action","TodayTimeGoalUpdateModal.sp?liIndex=" + liIndex);
+
+				//모달 내 차트
+				var ctx = document.getElementById("today_Modal_donut").getContext('2d');
+				var today_donut = new Chart(ctx, {
+					type: 'doughnut',
+					data: data = {
+							datasets: [{
+								data: [achievPer, shortfallPer],
+								backgroundColor: ['#36a2eb']
+							}],
+							labels: ['달성%','미달성%']
+					}
+				});	
+			}
+			
+		}else{ //타입이 페이지일경우
+			
 		}
 		
 	});
 	
-	/*$(".today_goals button").click(function(){
-		$(".modal .tab").show();
-	});*/
+	
 
 }
 
@@ -975,6 +1046,8 @@ function goalAddMdal(){
 		$(".time_form").hide();
 		$(".book_form").show();
 	});
+	
+	
 	
 	//저장버튼 클릭시 데이터 넘김
 	/*$(".time_form #saveBtn").click(function(){
@@ -1002,6 +1075,8 @@ function goalAddMdal(){
 	/*$(".time_form #resetBtn").click(function(){
 		$(".modal input").val("");
 	});*/
+	
+
 		
 }
 
