@@ -26,5 +26,8 @@ public interface StudyPlannerDao {
 	//오늘의 목표 등록(시간 단위)
 	int insertTodayTimeGoal(Map<String, Object> hmap);
 
+	//오늘의 목표 업데이트(시간 단위)
+	int updateTodayTimeGoal(Map<String, Object> hmap);
+
 
 }

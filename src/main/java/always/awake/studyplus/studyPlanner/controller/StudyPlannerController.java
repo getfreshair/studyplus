@@ -280,7 +280,7 @@ public class StudyPlannerController {
 	//오늘의 목표 리스트
 	@RequestMapping(value="todayGoalsList.sp")
 	public @ResponseBody List<Map<String, Object>> todayGoalsList(HttpSession session, @RequestParam String dateVal,  HttpServletResponse response) throws plannerException {
-		
+		//System.out.println("들어오니??" + dateVal);
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int loginUserCode = loginUser.getMember_Code();
 		
@@ -299,13 +299,17 @@ public class StudyPlannerController {
 	
 	//오늘의 목표 등록(시간 단위)
 	@RequestMapping(value="TodayTimeGoalAddModal.sp", method=RequestMethod.POST)
-	public String insertTodayTimeGoal(@RequestParam("goalType")int goalType, @RequestParam("goalName")String goalName,
+	public String insertTodayTimeGoal(HttpSession session, @RequestParam("goalType")int goalType, @RequestParam("goalName")String goalName,
 			@RequestParam("goalTime")int goalTime, @RequestParam("goalMin")int goalMin) {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int loginUserCode = loginUser.getMember_Code();
 		
 		//시간 등록시 초단위로 변경
 		int goalTotaltime = (goalTime * 120) +  (goalMin * 60);
 		
 		Map<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("loginUserCode", loginUserCode);
 		hmap.put("goalType", goalType);
 		hmap.put("goalName", goalName);
 		hmap.put("goalTotaltime", goalTotaltime);
@@ -319,13 +323,35 @@ public class StudyPlannerController {
 			System.out.println("목표 등록 실패!");
 		}
 		
-		 /*if(result > 0) {
-			 return "redirect:goMain.me";
-		 }else {
-			 model.addAttribute("msg", "회원가입 실패");
-			 return "common/errorPage";
-		 }*/
-		 
+		return "redirect:studyPlannerMainPage.sp";
+	}
+	
+	//오늘의 목표 업데이트(시간 단위)
+	@RequestMapping(value="TodayTimeGoalUpdateModal.sp", method=RequestMethod.POST)
+	public String TodayTimeGoalUpdate(HttpSession session, @RequestParam("goalType")int goalType, @RequestParam("goalName")String goalName,
+			@RequestParam("goalTime")int goalTime, @RequestParam("goalMin")int goalMin, @RequestParam("liIndex")int liIndex) {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int loginUserCode = loginUser.getMember_Code();
+		
+		//시간 등록시 초단위로 변경
+		int goalTotaltime = (goalTime * 120) +  (goalMin * 60);
+		
+		Map<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("loginUserCode", loginUserCode);
+		hmap.put("goalType", goalType);
+		hmap.put("goalName", goalName);
+		hmap.put("goalTotaltime", goalTotaltime);
+		hmap.put("liIndex", liIndex);
+		
+		int result = sps.updateTodayTimeGoal(hmap);
+		
+		if(result > 0) {
+			System.out.println("목표 업데이트 성공!!");
+			
+		}else {
+			System.out.println("목표 업데이트 실패!");
+		}
 		
 		return "redirect:studyPlannerMainPage.sp";
 	}

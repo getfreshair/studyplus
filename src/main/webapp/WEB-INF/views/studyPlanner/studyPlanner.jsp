@@ -382,8 +382,8 @@
 									<dl>
 										<dt>달성량</dt>
 										<dd class="ipt_wrap">
-											<input type="number" class="form-control" readonly>
-											<span>/ 3</span>
+											<input type="number" class="form-control" readonly id="achiev"> / 
+											<span id="goalAmount"></span>
 										</dd>
 									</dl>
 								</div>
