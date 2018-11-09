@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +15,7 @@ if("geolocation" in navigator){
 		
 		});
 } else {
-	alert("GPS를 제공하지 않는 인터넷 브라우저 입니다.")
+	alert("GPS를 제공하지 않는 인터넷 브라우저 입니다.\n 지도에 내 위치 표시 기능이 동작하지 않습니다.");
 }
 </script>
 <script
@@ -54,7 +55,7 @@ if("geolocation" in navigator){
 			<h1 style="color: blue;">위치 차단 설정</h1>
 			<div class="form-group" style="margin-left: 30px">
 				<br> <br>
-				<form action="" method="post">
+
 				 <input type="text" id="sample3_postcode" 
 					placeholder="우편번호" class="form-control"
 					style="width: 30%; display: inline-block; margin-bottom: 10px" readonly>
@@ -71,19 +72,62 @@ if("geolocation" in navigator){
 						style="cursor: pointer; position: absolute; right: 0px; top: -1px; z-index: 1"
 						onclick="foldDaumPostcode()" alt="접기 버튼">
 				</div>
-				<input type="text" id="sample3_address"
+				<form action="saveBlockLocationData.bl" method="post" id="frm">
+					<input type="text" id="sample3_address"
 					class="d_form large form-control" placeholder="주소"
-					style="display: inline-block; width: 75%" readonly > &nbsp;&nbsp; 
-					<input type="submit" value="위치 등록하기" class="btn btn-success"
-					style="display: inline-block"> <br> <br> <br>
+					style="display: inline-block; width: 75%" readonly> &nbsp;&nbsp; 
+					<input type="button" value="위치 등록하기" class="btn btn-success"
+					style="display: inline-block" onclick="inputLocationChecker()"> <br> <br> <br>
+					<input type="hidden" name="locationInfo" id="inputLocation" value="">
 				<br>
 				</form>
+				<script>
+					function inputLocationChecker() {
+						if( $('#sample3_address').val() == ""){
+							alert("주소를 입력 후 진행을 해주세요.");
+							return false;
+						} else {
+						 	geocoder.addressSearch($('#sample3_address').val().substr(0,$('#sample3_address').val().lastIndexOf("(")), function(result, status) {
+							    console.log()
+						 		// 정상적으로 검색이 완료됐으면 
+							     if (status === daum.maps.services.Status.OK) {
+							    	$('#inputLocation').val("lat:" + result[0].y + "/lng:" + result[0].x + "/addr:" + $('#sample3_address').val().substr(0,$('#sample3_address').val().lastIndexOf("("))); 
+							    	document.getElementById("frm").submit();
+							    	
+							    } else {
+							    	alert("시스템 오류 발생. 다시 시도해 주세요.");
+							    }
+							});  
+/* 						 	console.log($('#inputLocation').val() + "ㅇ?");
+							alert("시스템 오류 발생. 다시 시도해 주세요.");
+							return false; */
+						 	
+						}
+					}
+				</script>
 				<div class="form-group">
-					<label for="comment">차단할 위치 목록</label>
-					<table id="listTable">
+					<!-- <label for="comment">차단할 위치 목록</label> -->
+					<h3>차단할 위치 목록</h3>
+					<table id="listTable" width="100%" >
+					<c:if test="${list.size() eq 0}">						
 						<tr>
-							<td>dd</td>
+							<td>차단할 위치를 등록해주세요.</td>
 						</tr>
+					</c:if>
+					<c:if test="${list.size() ne 0}">
+					<tr>
+						<th width="10%" style="text-align:center"><input type="checkbox"></th>
+						<th width="90%">주소지</th>
+					</tr>
+						<c:forEach var="info" items="${list }">
+							<tr>
+								<td align="center"><input type="checkbox"></td>
+								<c:set var="index" value='${fn:indexOf(info,"addr:")}'/>
+								<c:set var="length" value='${fn:length(info)}'/>
+								<td>${fn:substring(info,index+5,length)}</td>
+							</tr>
+						</c:forEach>
+					</c:if>
 					</table>
 				</div>
 			</div>
@@ -161,43 +205,23 @@ if("geolocation" in navigator){
 			<br>
 			<div id="map" style="width: 450px; height: 400px;"></div>
 			<br>
-
-				<label style="color:gray ;padding-top:5px"> * 선택 된 마커를 기준으로 위치를 등록합니다.</label>
-				<input type="button" onclick="saveLocationInfo()" value="위치 등록하기" class="btn btn-success" style="float:right; margin-right:5%">
-				<input type="hidden" name="latlngOnMap" id="latlngOnMap" value="">
-				
-			
+				<form action="saveBlockLocationData.bl" method="post" onsubmit="return clickMapChecker()">
+					<label style="color:gray ;padding-top:5px"> * 선택 된 마커를 기준으로 위치를 등록합니다.</label>
+					<input type="submit" value="위치 등록하기" class="btn btn-success" style="float:right; margin-right:5%">
+					<input type="hidden" name="locationInfo" id="latlngOnMap" value="">
+				</form>
 			<script type="text/javascript"
 				src="//dapi.kakao.com/v2/maps/sdk.js?appkey=53bcac1324c96e6414d7bd70d6c22096&libraries=services">
 			</script>
 			<script>
-				/* function saveLocationInfo() {
+				function clickMapChecker() {
 					if( $('#latlngOnMap').val() == ""){
 						alert("원하시는 위치를 지도에서 선택 후 저장을 진행해 주세요.");
-						return;
+						return false;
+					} else {
+						return true;
 					}
-					$.ajax({
-		                  url:"saveBlockLocationData.bl",
-		                  type:"post",
-		                  data:{locationInfo: $('#latlngOnMap').val()
-		                  },
-		                  success:function(data){
-		            		var splitAddr = data.substr(1,(data.length-4)).split(",");
-		            		$('#listTable').empty();
-		            		console.log($('#listTable'));
-		            		for(var i in splitAddr){
-		            			var addr = splitAddr[i].substr(splitAddr[i].indexOf("addr:")+5);
-		            			$('#listTable').append("<tr><td>" + addr + "</td></tr>")
-		            		};
-		            		
-		            		
-		                  },
-		                  error:function(){
-		                     console.log("에러 발생!");
-		                  }
-		               })
-				} */
-				console.log(latitude,longitude);	
+				}
 				var container = document.getElementById('map');
 				var options = {
 					center : new daum.maps.LatLng(latitude,longitude),
@@ -212,9 +236,17 @@ if("geolocation" in navigator){
 				
 				var geocoder = new daum.maps.services.Geocoder();
 				
+				<c:forEach items="${list}" var="item">
+				console.log('${item}');
+				var lat = '${item}'.substr('${item}'.indexOf("lat:")+4,'${item}'.indexOf("/")-5);
+				var lon = '${item}'.substr('${item}'.indexOf("lng:")+4,'${item}'.lastIndexOf("/"));
+				console.log("lat = " + lat + " / lon = " +  lon);
+				console.log('${item}');
+				console.log("------");
+				</c:forEach>
+
 				
 				
-				//나중에 반복문으로 돌려서 수행하기..
 				// 지도에 표시할 원을 생성합니다
 				var circle = new daum.maps.Circle({
 				    center : new daum.maps.LatLng(latitude, longitude),  // 원의 중심좌표 입니다 
@@ -243,12 +275,12 @@ if("geolocation" in navigator){
 				            var content = '<div class="bAddr">' +
 				                            '<span class="title">선택한 지역 주소 정보</span>' + 
 				                            detailAddr + 
-				                        '</div>';
+				                          '</div>';
 				            // 마커를 클릭한 위치에 표시합니다 
 				            marker.setPosition(mouseEvent.latLng);
 				            marker.setMap(map);
 				            $('#latlngOnMap').val($('#latlngOnMap').val()+"/addr:"+result[0].address.address_name.replace(/<\/?[^>]+(>|$)/g, ""));
-				            console.log($('#latlngOnMap').val());
+				            
 				            // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
 				            infowindow.setContent(content);
 				            infowindow.open(map, marker);

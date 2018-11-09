@@ -54,6 +54,10 @@ public class blockController {
 	// 위치 차단 설정 화면 전환용 메소드
 	@RequestMapping("showLocation.bl")
 	public String showLocation(HttpServletRequest requeest, Model model) {
+		
+		List<String> list = getBlockLocationInfo();
+		
+		model.addAttribute("list",list);
 		return "block/blockLocation";
 	}
 
@@ -260,7 +264,7 @@ public class blockController {
 		int result = bs.insertStudyTimes(list,
 				((Member) (requeest.getSession().getAttribute("loginUser"))).getMember_Code());
 
-		return "redirect:studyPlannerMain.me";
+		return "redirect:studyPlannerMainPage.sp";
 	}
 
 	// 파일 정보 받기용 메소드
@@ -402,19 +406,11 @@ public class blockController {
 
 	// 차단할 위치정보 저장용
 	@RequestMapping(value="saveBlockLocationData.bl")
-	public void saveBlockLocationData(String locationInfo, HttpServletResponse response) {
-		
+	public String saveBlockLocationData(String locationInfo) {
+		System.out.println("locationInfo : "  +locationInfo);
 		writeBlockLocationData(locationInfo);
 
-		List<String> list = getBlockLocationInfo();
-
-		try {
-			response.setContentType("text/html;charset=UTF-8");
-			response.getWriter().println(list);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		return "redirect:showLocation.bl";
 	}
 
 	// 위치 차단 정보 기록용
