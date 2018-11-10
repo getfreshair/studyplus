@@ -51,12 +51,12 @@
 		    .radiBtn { background:gray; float:right; cursor:pointer; color:white; border-radius:10px; }
 	 	      .groupStatBoxLeft { float:left; background:rgb(211, 0, 0, 0.4); }
 	 		  .groupStatBoxRight { float:right; background:rgb(52, 152, 219, 0.4); }
-		 	  .statBox { width:171px; height:220px; border-radius:15px; padding:3px 7px; display:table; }
+		 	  .statBox { width:167px; height:220px; border-radius:15px; padding:3px 7px; display:table; }
 	  		    .statBoxContTbl { display:table-cell; vertical-align:middle; margin:0px; }
-	  		    .statBoxContTbl tbody { width:130px; height:170px; display: inline-block; }
-			    .statBoxContTbl h3 { font-weight:bold; line-height:1.3; margin:0px 0px 5px; }
-	  		    .statBoxContTbl tr:first-child td { /* width:140px; */ padding-bottom:12px; font-size:1.5em; border-bottom:1px dashed; }
-	   		    .statBoxContTbl tr:nth-child(2n) td > div { width:100%; height:91px; margin:0px auto; display:inline-table; text-align:center; }
+	  		    .statBoxContTbl tbody { width:160px; height:190px; display:inline-table; vertical-align:middle; }
+			    .statBoxContTbl h3 { font-size:23px; font-weight:bold; line-height:1.2; margin:0px 0px 5px; }
+	  		    .statBoxContTbl tr:first-child td { /* width:140px; */ padding-bottom:12px; font-size:21px; }
+	   		    .statBoxContTbl tr:nth-child(2n) td > div { width:85%; height:92px; border-top:1px dashed; margin:0px auto; display:inline-table; text-align:center; }
 	   		    .statBoxContTbl tr:nth-child(2n) td div div { padding-top:8px; /* font-size:13px; */ display:inline-block; text-align:right;  }
 	   		    .statBoxContTbl tr:nth-child(2n) td div div strong { float:right;  }
 				.goalRatio { font-weight:bold; font-size:18px; padding-top:0px !important; display:table-cell !important; vertical-align:middle; text-align:center !important; }
@@ -100,6 +100,7 @@
 <body>
 
 	<jsp:include page="../common/header.jsp"/>
+	
 	<div class="pageAll"><br>
 	<div class="pageWrap">
 		<div class="pageContentArea">
@@ -158,8 +159,8 @@
 									<td width="50%"><div class="statBox groupStatBoxLeft">
 										<table class="statBoxContTbl">
 											<tr><td>
-												<h3>그룹 순위</h3>
-												<strong>${grR.gr_Rank} 위</strong>
+												<h3>주간<br>그룹 순위</h3>
+												<strong><c:out value="${grR.gr_Rank}" default="-"/> 위</strong>
 											</td></tr>
 											<tr><td><div>
 												<div>
@@ -190,11 +191,11 @@
 									<td><div class="statBox groupStatBoxRight">
 										<table class="statBoxContTbl">
 											<tr><td>
-												<h3>주간 목표 완수율</h3>
-												<strong>${grR.gr_Week_Fulfill_Ratio} %</strong>
+												<h3>주간<br>목표 완수율</h3>
+												<strong><c:out value="${grR.gr_Week_Fulfill_Ratio}" default="-"/> %</strong>
 											</td></tr>
 											<tr><td>
-												<div><div class="goalRatio">${grR.gr_Fulfill_Mem_Cnt} / ${gr.gr_Mem_Count} 명 완수</div></div>
+												<div><div class="goalRatio"><c:out value="${grR.gr_Fulfill_Mem_Cnt}" default="0"/> / ${gr.gr_Mem_Count} 명 완수</div></div>
 											</td></tr>
 										</table>
 									</div></td>
@@ -223,11 +224,11 @@
 								<td><div class="statBox groupStatBoxLeft">
 									<table class="statBoxContTbl">
 										<tr><td>
-											<h3>나의 순위</h3>
+											<h3>나의<br>주간 순위</h3>
 											<strong>
-											  <c:if test="${join eq null}">0 위</c:if>
-											  <c:if test="${join ne null}">${join.my_Rank} 위</c:if>
-<%-- 										  <fmt:formatNumber value="${join.my_Rank}" pattern="0" /> 위 --%>
+										<%-- 	<c:if test="${join eq null}">0 위</c:if>
+ 											 	<c:if test="${join ne null}">${join.my_Rank} 위</c:if> --%>
+										  		<c:out value="${join.my_Rank}" default="-"/> 위
 											</strong>
 										</td></tr>
 										<tr><td><div>
@@ -285,7 +286,7 @@
 					if(data >= 1){
 						location.href="selectOneGroup.sgd?group_No=" + grCode;
 					}else{
-						alert("그룹 가능 최대 인원을 초과하여 가입 할 수 없습니다.");
+						alert("가입 가능 최대 인원을 초과하여 가입 할 수 없습니다.");
 					}
 			},
 			
@@ -312,7 +313,7 @@
 							</div>
 						</div>
 						<div id="leftIncludeArea" class="leftIncludeArea">
-							<jsp:include page="leftGroupStudyTimeRank.jsp"/>
+<%-- 							<jsp:include page="leftGroupStudyTimeRank.jsp"/> --%>
 						</div>
 					</div>
 				</div>
