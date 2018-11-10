@@ -26,6 +26,24 @@ public interface StudyPlannerService {
 	//오늘의 목표 업데이트(시간 단위)
 	int updateTodayTimeGoal(Map<String, Object> hmap);
 
+	//오늘의 목표 업데이트(페이지 단위)
+	int insertTodayBookGoal(Map<String, Object> hmap);
+
+	//오늘의 목표 업데이트(페이지 단위)
+	int updateTodayBookGoal(Map<String, Object> hmap);
+	
+	//주간 목표 등록(시간 단위)
+	int insertWeeklyTimeGoal(Map<String, Object> hmap);
+
+	//주간 목표 업데이트(시간 단위)
+	int updateWeeklyTimeGoal(Map<String, Object> hmap);
+
+	//주간 목표 업데이트(페이지 단위)
+	int insertWeeklyBookGoal(Map<String, Object> hmap);
+
+	//주간 목표 업데이트(페이지 단위)
+	int updateWeeklyBookGoal(Map<String, Object> hmap);
+
 
 
 }

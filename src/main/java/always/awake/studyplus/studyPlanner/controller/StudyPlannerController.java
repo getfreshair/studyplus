@@ -305,10 +305,8 @@ public class StudyPlannerController {
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int loginUserCode = loginUser.getMember_Code();
 		
-		System.out.println("로그인유저 코드 : " + loginUserCode);
-		
 		//시간 등록시 초단위로 변경
-		int goalTotaltime = (goalTime * 120) +  (goalMin * 60);
+		int goalTotaltime = (goalTime * 3600) +  (goalMin * 60);
 		
 		Map<String, Object> hmap = new HashMap<String, Object>();
 		hmap.put("loginUserCode", loginUserCode);
@@ -357,4 +355,176 @@ public class StudyPlannerController {
 		
 		return "redirect:studyPlannerMainPage.sp";
 	}
+	
+	
+	//오늘의 목표 등록(페이지 단위)
+	@RequestMapping(value="TodayBookGoalAddModal.sp", method=RequestMethod.POST)
+	public String insertTodayBookGoal(HttpSession session, @RequestParam("goalType")int goalType, @RequestParam("goalName")String goalName,
+			@RequestParam("goalPage")int goalPage) {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int loginUserCode = loginUser.getMember_Code();
+		
+		Map<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("loginUserCode", loginUserCode);
+		hmap.put("goalType", goalType);
+		hmap.put("goalName", goalName);
+		hmap.put("goalPage", goalPage);
+		
+		int result = sps.insertTodayBookGoal(hmap);
+		
+		if(result > 0) {
+			System.out.println("목표 등록 성공!!");
+			
+		}else {
+			System.out.println("목표 등록 실패!");
+		}
+		
+		return "redirect:studyPlannerMainPage.sp";
+	}
+	
+	
+	//오늘의 목표 업데이트(페이지 단위)
+	@RequestMapping(value="TodayBookGoalUpdateModal.sp", method=RequestMethod.POST)
+	public String TodayBookGoalUpdate(HttpSession session, @RequestParam("goalType")int goalType, @RequestParam("goalName")String goalName,
+			@RequestParam("goalPage")int goalPage, @RequestParam("goalAchiev")int goalAchiev, @RequestParam("liIndex")int liIndex) {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int loginUserCode = loginUser.getMember_Code();
+		
+		Map<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("loginUserCode", loginUserCode);
+		hmap.put("goalType", goalType);
+		hmap.put("goalName", goalName);
+		hmap.put("goalPage", goalPage);
+		hmap.put("goalAchiev", goalAchiev);
+		hmap.put("liIndex", liIndex);
+		
+		int result = sps.updateTodayBookGoal(hmap);
+		
+		if(result > 0) {
+			System.out.println("목표 업데이트 성공!!");
+			
+		}else {
+			System.out.println("목표 업데이트 실패!");
+		}
+		
+		return "redirect:studyPlannerMainPage.sp";
+	}
+	
+	//주간 목표 등록(시간 단위)
+	@RequestMapping(value="WeeklyTimeGoalAddModal.sp", method=RequestMethod.POST)
+	public String insertWeeklyTimeGoal(HttpSession session, @RequestParam("goalType")int goalType, @RequestParam("goalName")String goalName,
+			@RequestParam("goalTime")int goalTime, @RequestParam("goalMin")int goalMin) {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int loginUserCode = loginUser.getMember_Code();
+		
+		//시간 등록시 초단위로 변경
+		int goalTotaltime = (goalTime * 3600) +  (goalMin * 60);
+		
+		Map<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("loginUserCode", loginUserCode);
+		hmap.put("goalType", goalType);
+		hmap.put("goalName", goalName);
+		hmap.put("goalTotaltime", goalTotaltime);
+		
+		int result = sps.insertWeeklyTimeGoal(hmap);
+		
+		if(result > 0) {
+			System.out.println("목표 등록 성공!!");
+			
+		}else {
+			System.out.println("목표 등록 실패!");
+		}
+		
+		return "redirect:studyPlannerMainPage.sp";
+	}
+	
+	//주간 목표 업데이트(시간 단위)
+	@RequestMapping(value="WeeklyTimeGoalUpdateModal.sp", method=RequestMethod.POST)
+	public String WeeklyTimeGoalUpdate(HttpSession session, @RequestParam("goalType")int goalType, @RequestParam("goalName")String goalName,
+			@RequestParam("goalTime")int goalTime, @RequestParam("goalMin")int goalMin, @RequestParam("liIndex")int liIndex) {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int loginUserCode = loginUser.getMember_Code();
+		
+		//시간 등록시 초단위로 변경
+		int goalTotaltime = (goalTime * 3600) + (goalMin * 60);
+		
+		Map<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("loginUserCode", loginUserCode);
+		hmap.put("goalType", goalType);
+		hmap.put("goalName", goalName);
+		hmap.put("goalTotaltime", goalTotaltime);
+		hmap.put("liIndex", liIndex);
+		
+		int result = sps.updateWeeklyTimeGoal(hmap);
+		
+		if(result > 0) {
+			System.out.println("목표 업데이트 성공!!");
+			
+		}else {
+			System.out.println("목표 업데이트 실패!");
+		}
+		
+		return "redirect:studyPlannerMainPage.sp";
+	}
+	
+	
+	//주간 목표 등록(페이지 단위)
+	@RequestMapping(value="WeeklyBookGoalAddModal.sp", method=RequestMethod.POST)
+	public String insertWeeklyBookGoal(HttpSession session, @RequestParam("goalType")int goalType, @RequestParam("goalName")String goalName,
+			@RequestParam("goalPage")int goalPage) {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int loginUserCode = loginUser.getMember_Code();
+		
+		Map<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("loginUserCode", loginUserCode);
+		hmap.put("goalType", goalType);
+		hmap.put("goalName", goalName);
+		hmap.put("goalPage", goalPage);
+		
+		int result = sps.insertWeeklyBookGoal(hmap);
+		
+		if(result > 0) {
+			System.out.println("목표 등록 성공!!");
+			
+		}else {
+			System.out.println("목표 등록 실패!");
+		}
+		
+		return "redirect:studyPlannerMainPage.sp";
+	}
+	
+	
+	//주간 목표 업데이트(페이지 단위)
+	@RequestMapping(value="WeeklyBookGoalUpdateModal.sp", method=RequestMethod.POST)
+	public String WeeklyBookGoalUpdate(HttpSession session, @RequestParam("goalType")int goalType, @RequestParam("goalName")String goalName,
+			@RequestParam("goalPage")int goalPage, @RequestParam("goalAchiev")int goalAchiev, @RequestParam("liIndex")int liIndex) {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int loginUserCode = loginUser.getMember_Code();
+		
+		Map<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("loginUserCode", loginUserCode);
+		hmap.put("goalType", goalType);
+		hmap.put("goalName", goalName);
+		hmap.put("goalPage", goalPage);
+		hmap.put("goalAchiev", goalAchiev);
+		hmap.put("liIndex", liIndex);
+		
+		int result = sps.updateWeeklyBookGoal(hmap);
+		
+		if(result > 0) {
+			System.out.println("목표 업데이트 성공!!");
+			
+		}else {
+			System.out.println("목표 업데이트 실패!");
+		}
+		
+		return "redirect:studyPlannerMainPage.sp";
+	}
+	
 }
