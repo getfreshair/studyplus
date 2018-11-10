@@ -88,5 +88,47 @@ public class StudyPlannerDaoImpl implements StudyPlannerDao{
 		
 	}
 
+	//오늘의 목표 업데이트(페이지 단위)
+	@Override
+	public int insertTodayBookGoal(Map<String, Object> hmap) {
+
+		return sqlSession.insert("StudyPlanner.insertTodayBookGoal", hmap);
+	}
+
+	//오늘의 목표 업데이트(페이지 단위)
+	@Override
+	public int updateTodayBookGoal(Map<String, Object> hmap) {
+		
+		return sqlSession.update("StudyPlanner.updateTodayBookGoal", hmap);
+	}
+
+	//주간 목표 등록(시간 단위)
+	@Override
+	public int insertWeeklyTimeGoal(Map<String, Object> hmap) {
+		
+		return sqlSession.update("StudyPlanner.updateWeeklyTimeGoal", hmap);
+	}
+
+	//주간 목표 업데이트(시간 단위)
+	@Override
+	public int updateWeeklyTimeGoal(Map<String, Object> hmap) {
+		
+		return sqlSession.update("StudyPlanner.updateWeeklyTimeGoal", hmap);
+	}
+
+	//주간 목표 업데이트(페이지 단위)
+	@Override
+	public int insertWeeklyBookGoal(Map<String, Object> hmap) {
+		
+		return sqlSession.update("StudyPlanner.updateWeeklyBookGoal", hmap);
+	}
+
+	//주간 목표 업데이트(페이지 단위)
+	@Override
+	public int updateWeeklyBookGoal(Map<String, Object> hmap) {
+		
+		return sqlSession.update("StudyPlanner.updateWeeklyBookGoal", hmap);
+	}
+
 
 }

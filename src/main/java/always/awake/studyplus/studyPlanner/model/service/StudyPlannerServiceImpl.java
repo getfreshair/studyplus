@@ -73,5 +73,59 @@ public class StudyPlannerServiceImpl implements StudyPlannerService{
 		return result;
 	}
 
+	//오늘의 목표 업데이트(페이지 단위)
+	@Override
+	public int insertTodayBookGoal(Map<String, Object> hmap) {
+
+		int result = spd.insertTodayBookGoal(hmap);
+		
+		return result;
+	}
+
+	//오늘의 목표 업데이트(페이지 단위)
+	@Override
+	public int updateTodayBookGoal(Map<String, Object> hmap) {
+		
+		int result = spd.updateTodayBookGoal(hmap);
+		
+		return result;
+	}
+
+	//주간 목표 등록(시간 단위)
+	@Override
+	public int insertWeeklyTimeGoal(Map<String, Object> hmap) {
+		
+		int result = spd.insertWeeklyTimeGoal(hmap);
+		
+		return result;
+	}
+
+	//주간 목표 업데이트(시간 단위)
+	@Override
+	public int updateWeeklyTimeGoal(Map<String, Object> hmap) {
+		
+		int result = spd.updateWeeklyTimeGoal(hmap);
+		
+		return result;
+	}
+
+	//주간 목표 업데이트(페이지 단위)
+	@Override
+	public int insertWeeklyBookGoal(Map<String, Object> hmap) {
+		
+		int result = spd.insertWeeklyBookGoal(hmap);
+		
+		return result;
+	}
+
+	//주간 목표 업데이트(페이지 단위)
+	@Override
+	public int updateWeeklyBookGoal(Map<String, Object> hmap) {
+		
+		int result = spd.updateWeeklyBookGoal(hmap);
+		
+		return 0;
+	}
+
 
 }

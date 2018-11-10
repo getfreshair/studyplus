@@ -66,7 +66,7 @@
 		AND GOAL_ENROLLDATE LIKE TO_DATE(#{checkDay})
 	</select>
 	
-	<!-- 오늘의 목표 등록(시간) -->
+	<!-- 오늘의 목표 등록(시간 단위) -->
 	<insert id="insertTodayTimeGoal" >
 		INSERT INTO GOAL(GOAL_CODE, MEMBER_CODE, GOAL_ENROLLDATE, GOAL_CONTENT, 
 		GOAL_TYPE, GOAL_GOALAMOUNT, GOAL_ISBN, GOAL_DIVISION)
@@ -79,6 +79,51 @@
 		WHERE GOAL_CODE = #{liIndex}
 		AND MEMBER_CODE = #{loginUserCode}
 		AND GOAL_TYPE = 1
+	</update>
+	
+	<!-- 오늘의 목표 등록(페이지 단위) -->
+	<insert id="insertTodayBookGoal" >
+		INSERT INTO GOAL(GOAL_CODE, MEMBER_CODE, GOAL_ENROLLDATE, GOAL_CONTENT, 
+		GOAL_TYPE, GOAL_GOALAMOUNT, GOAL_ISBN, GOAL_DIVISION)
+		VALUES(SEQ_GOAL_GOAL_CODE.NEXTVAL, #{loginUserCode}, SYSDATE, #{goalName}, 0, #{goalPage}, NULL, 0)
+	</insert>
+	
+	<!-- 오늘의 목표 업데이트(페이지 단위) -->
+	<update id="updateTodayBookGoal">
+		UPDATE GOAL SET GOAL_CONTENT = #{goalName}, GOAL_GOALAMOUNT = #{goalPage}, GOAL_ACHIEVEAMOUNT = #{goalAchiev}
+		WHERE GOAL_CODE = #{liIndex}
+		AND MEMBER_CODE = #{loginUserCode}
+		AND GOAL_TYPE = 0
+	</update>
+	
+	<!-- 주간 목표 등록(시간 단위) -->
+	<insert id="insertWeeklyTimeGoal" >
+		INSERT INTO GOAL(GOAL_CODE, MEMBER_CODE, GOAL_ENROLLDATE, GOAL_CONTENT, 
+		GOAL_TYPE, GOAL_GOALAMOUNT, GOAL_ISBN, GOAL_DIVISION)
+		VALUES(SEQ_GOAL_GOAL_CODE.NEXTVAL, #{loginUserCode}, SYSDATE, #{goalName}, 1, #{goalTotaltime}, NULL, 1)
+	</insert>
+	
+	<!-- 주간 목표 업데이트(시간 단위) -->
+	<update id="updateWeeklyTimeGoal">
+		UPDATE GOAL SET GOAL_CONTENT = #{goalName}, GOAL_GOALAMOUNT = #{goalTotaltime}
+		WHERE GOAL_CODE = #{liIndex}
+		AND MEMBER_CODE = #{loginUserCode}
+		AND GOAL_TYPE = 1
+	</update>
+	
+	<!-- 주간 목표 등록(페이지 단위) -->
+	<insert id="insertWeeklyBookGoal" >
+		INSERT INTO GOAL(GOAL_CODE, MEMBER_CODE, GOAL_ENROLLDATE, GOAL_CONTENT, 
+		GOAL_TYPE, GOAL_GOALAMOUNT, GOAL_ISBN, GOAL_DIVISION)
+		VALUES(SEQ_GOAL_GOAL_CODE.NEXTVAL, #{loginUserCode}, SYSDATE, #{goalName}, 0, #{goalPage}, NULL, 1)
+	</insert>
+	
+	<!-- 주간 목표 업데이트(페이지 단위) -->
+	<update id="updateWeeklyBookGoal">
+		UPDATE GOAL SET GOAL_CONTENT = #{goalName}, GOAL_GOALAMOUNT = #{goalPage}, GOAL_ACHIEVEAMOUNT = #{goalAchiev}
+		WHERE GOAL_CODE = #{liIndex}
+		AND MEMBER_CODE = #{loginUserCode}
+		AND GOAL_TYPE = 0
 	</update>
 	
 	
