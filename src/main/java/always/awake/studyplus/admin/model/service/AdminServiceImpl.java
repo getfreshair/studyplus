@@ -245,7 +245,7 @@ public class AdminServiceImpl implements AdminService{
 		}
 		
 		return result;
-
+	}
 	public List<Map<String, Object>> getGroupRewardList() {
 		
 		return ad.getGroupRewardList(sqlSession);

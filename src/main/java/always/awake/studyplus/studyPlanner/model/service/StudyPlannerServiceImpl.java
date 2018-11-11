@@ -142,7 +142,7 @@ public class StudyPlannerServiceImpl implements StudyPlannerService{
 		ArrayList<PersonalRank> rankList = spd.selectMemberWeeklyRank2(member_Code, chartDate4);
 		
 		return rankList;
-
+	}
 	//주간 목표 리스트
 	@Override
 	public List<Map<String, Object>> selectWeeklyGoals(Map<String, Object> hmap) throws plannerException {
