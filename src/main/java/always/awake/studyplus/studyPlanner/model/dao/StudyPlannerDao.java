@@ -47,5 +47,8 @@ public interface StudyPlannerDao {
 	//주간 목표 업데이트(페이지 단위)
 	int updateWeeklyBookGoal(Map<String, Object> hmap);
 
+	//주간 목표 리스트
+	List<Map<String, Object>> selectWeeklyGoals(SqlSessionTemplate sqlSession, Map<String, Object> hmap) throws plannerException;
+
 
 }

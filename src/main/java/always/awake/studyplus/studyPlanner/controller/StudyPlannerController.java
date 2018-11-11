@@ -1,11 +1,13 @@
 package always.awake.studyplus.studyPlanner.controller;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -267,7 +269,7 @@ public class StudyPlannerController {
 		chartDate4[0] = firstDateResult.substring(2, 10);
 		chartDate4[1] = lastDateResult.substring(2, 10);
 		
-		System.out.println(chartDate4[0]);
+		//System.out.println(chartDate4[0]);
 		//HashMap
 		HashMap<String, Object> hmap = new HashMap<String, Object>();
 		hmap.put("loginUserCode", loginUserCode);
@@ -294,6 +296,24 @@ public class StudyPlannerController {
 		
 		//System.out.println("list.get(0) : " +  list.get(0));
 
+		return list;
+	}
+	
+	//주간 목표 리스트
+	@RequestMapping(value="weeklyGoalsList.sp")
+	public @ResponseBody List<Map<String, Object>> weeklyGoalsList(HttpSession session, @RequestParam String dateVal, HttpServletResponse response) throws plannerException{
+		//System.out.println("들어는 오니??");
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int loginUserCode = loginUser.getMember_Code();
+		
+		Map<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("loginUserCode", loginUserCode);
+		hmap.put("checkDay", dateVal);
+		
+		List<Map<String, Object>> list;
+		
+		list = sps.selectWeeklyGoals(hmap);
+		
 		return list;
 	}
 	
@@ -415,21 +435,52 @@ public class StudyPlannerController {
 	//주간 목표 등록(시간 단위)
 	@RequestMapping(value="WeeklyTimeGoalAddModal.sp", method=RequestMethod.POST)
 	public String insertWeeklyTimeGoal(HttpSession session, @RequestParam("goalType")int goalType, @RequestParam("goalName")String goalName,
-			@RequestParam("goalTime")int goalTime, @RequestParam("goalMin")int goalMin) {
+			@RequestParam("goalTime")int goalTime, @RequestParam("goalMin")int goalMin, @RequestParam("checkWeek")String checkWeek) {
 		
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int loginUserCode = loginUser.getMember_Code();
 		
-		//시간 등록시 초단위로 변경
-		int goalTotaltime = (goalTime * 3600) +  (goalMin * 60);
+		/*Calendar cal = new GregorianCalendar();
+	    String today = cal.get(Calendar.YEAR) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.DAY_OF_MONTH);
+	    System.out.println("오늘날짜 : " + today);
+	    System.out.println("오늘요일 : " + (cal.get(Calendar.DAY_OF_WEEK)));
+	    
+	    cal.add(Calendar.DATE, -1); //어제날짜
+	    String yesterday = cal.get(Calendar.YEAR) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.DAY_OF_MONTH);
+	    System.out.println("어제날짜: " + yesterday);
+	    System.out.println("어제요일 : " + (cal.get(Calendar.DAY_OF_WEEK)));*/
+	    
 		
-		Map<String, Object> hmap = new HashMap<String, Object>();
-		hmap.put("loginUserCode", loginUserCode);
-		hmap.put("goalType", goalType);
-		hmap.put("goalName", goalName);
-		hmap.put("goalTotaltime", goalTotaltime);
+		String[] arr = checkWeek.split(",");
+		String insertDay = "";
+		int goalTotaltime = 0;
+		int result = 0;
 		
-		int result = sps.insertWeeklyTimeGoal(hmap);
+		for(int i = 0; i < arr.length; i++) {
+			System.out.println(arr[i]);
+			insertDay = arr[i];
+			
+			//시간 등록시 초단위로 변경
+			goalTotaltime = (goalTime * 3600) +  (goalMin * 60);
+			
+			Map<String, Object> hmap = new HashMap<String, Object>();
+			hmap.put("loginUserCode", loginUserCode);
+			hmap.put("goalType", goalType);
+			hmap.put("goalName", goalName);
+			hmap.put("goalTotaltime", goalTotaltime);
+			hmap.put("insertDay", insertDay);
+
+			//주간등록일경우 1또는 0 으로 타입 나눠서 넥스트발을 커런트발로 등록하도록함, 
+			//주간 목표 등록시 동일한 목표 코드를 가지도록함
+			if(i == 0) {
+				hmap.put("insertNum", 0); //첫번째로 등록시 넥스트발 하기위함
+			}else {
+				hmap.put("insertNum", 1); //첫번째 이후 등록시 커런트발 하기위함
+			}
+			
+			result = sps.insertWeeklyTimeGoal(hmap);
+		}
+		
 		
 		if(result > 0) {
 			System.out.println("목표 등록 성공!!");

@@ -76,7 +76,7 @@
 							<dl>
 								<dt>달성량</dt>
 								<dd class="ipt_wrap">
-									<input type="number" class="form-control" id="goalAchiev" name="goalAchiev" value="0" min="0">
+									<input type="number" class="form-control" id="goalAchiev" name="goalAchiev" value="0" min="0" disabled>
 									<span>페이지</span>
 								</dd>
 							</dl>
@@ -214,7 +214,26 @@
 								<dd><input type="text" class="form-control" placeholder="목표를 입력하세요" id="goalName" name="goalName"></dd>
 							</dl>
 							<dl>
-								<dt>목표 시간</dt>
+								<dt>이번주 학습 요일 선택</dt>
+								<dd class="sel_wrap">
+									<input type="checkbox" id="sun" name="checkWeek">
+									<label for="sun">일요일</label>
+									<input type="checkbox" id="mon" name="checkWeek">
+									<label for="mon">월요일</label>
+									<input type="checkbox" id="tue" name="checkWeek">
+									<label for="tue">화요일</label>
+									<input type="checkbox" id="wed" name="checkWeek">
+									<label for="wed">수요일</label><br>
+									<input type="checkbox" id="thu" name="checkWeek">
+									<label for="thu">목요일</label>
+									<input type="checkbox" id="fri" name="checkWeek">
+									<label for="fri">금요일</label>
+									<input type="checkbox" id="sat" name="checkWeek">
+									<label for="sat">토요일</label>
+								</dd>
+							</dl>
+							<dl>
+								<dt>하루 목표 시간</dt>
 								<dd class="ipt_wrap">
 									<input type="number" class="form-control" placeholder="ex) 2" id="goalTime" name="goalTime" value="0" min="0">
 									<span>시간 &nbsp;&nbsp;</span>
@@ -253,7 +272,26 @@
 								<dd><input type="text" class="form-control" placeholder="목표를 입력하세요" id="goalName" name="goalName"></dd>
 							</dl>
 							<dl>
-								<dt>목표 페이지</dt>
+								<dt>이번주 학습 요일 선택</dt>
+								<dd class="sel_wrap">
+									<input type="checkbox" id="sun" name="checkWeek">
+									<label for="sun">일요일</label>
+									<input type="checkbox" id="mon" name="checkWeek">
+									<label for="mon">월요일</label>
+									<input type="checkbox" id="tue" name="checkWeek">
+									<label for="tue">화요일</label>
+									<input type="checkbox" id="wed" name="checkWeek">
+									<label for="wed">수요일</label><br>
+									<input type="checkbox" id="thu" name="checkWeek">
+									<label for="thu">목요일</label>
+									<input type="checkbox" id="fri" name="checkWeek">
+									<label for="fri">금요일</label>
+									<input type="checkbox" id="sat" name="checkWeek">
+									<label for="sat">토요일</label>
+								</dd>
+							</dl>
+							<dl>
+								<dt>하루 목표 페이지</dt>
 								<dd class="ipt_wrap">
 									<input type="number" class="form-control" placeholder="ex) 20" id="goalPage" name="goalPage" value="0" min="0">
 									<span>페이지</span>
@@ -262,7 +300,7 @@
 							<dl>
 								<dt>달성량</dt>
 								<dd class="ipt_wrap">
-									<input type="number" class="form-control" id="goalAchiev" name="goalAchiev" value="0" min="0">
+									<input type="number" class="form-control" id="goalAchiev" name="goalAchiev" value="0" min="0" disabled>
 									<span>페이지</span>
 								</dd>
 							</dl>
