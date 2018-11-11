@@ -369,31 +369,97 @@
 			data : {dateVal : dateVal},
 			type : "post",
 			success : function(data) {
+			
+				var rank = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 				
-				$('#weeklyRankChart').empty();
-				var options = {
-						'legend':{
-							names: ['일', '월', '화', '수', '목', '금', '토'],
-							hrefs: []
-						},
-						'dataset':{
-							title:'Playing time per day',
-							values: [[61, 66], [76, 66], [49, 45], [58, 76],
-									[48, 76], [56, 83], [56, 83]],
-							colorset: ['#30a1ce', '#FF8C00'],
-							fields:['지역', '분야']
-						},
-						'chartDiv' : 'weeklyRankChart',
-						'chartType' : 'line',
-						'chartSize' : {width:680, height:450},
-						'minValue' : 40,
-						'maxValue' : 100,
-						'increment' : 10,
-						'isGuideLineNeeded' : true  //default set to false
-					};
-					Nwagon.chart(options);
+				$.ajax({
+					url : "studyPlannerWeeklyRankChart2.sp",
+					data : {dateVal : dateVal},
+					type : "post",
+					success : function(data1) {
+						
+						var max = 1000;
+						
+						for(var i=0; i<14; i++){
+						
+							if(i < 7){
+								
+								if(data[i] != null && max >= data[i].rank){
+									
+									max = data[i].rank;
+								}
+							}else{
+								
+								if(data1[i-7] != null && max >= data1[i-7].rank){
+									
+									max = data1[i-7].rank;
+								}
+							}
+						}
+						
+						for(var i=0; i<14; i++){
+							
+							if(i < 7){
+								
+								if(data[i] == null){
+									
+									rank[i] = 1000;
+								}else{
+									
+									rank[i] = data[i].rank;
+								}
+							}else{
+								
+								if(data1[i-7] == null){
+									
+									rank[i] = 1000;
+								}else{
+									
+									rank[i] = data1[i-7].rank;
+								}
+							}
+						}
+						console.log(rank);
+						
+						$('#weeklyRankChart').empty();
+						var options = {
+								'legend':{
+									names: ['일', '월', '화', '수', '목', '금', '토'],
+									hrefs: []
+								},
+								'dataset':{
+									title:'Playing time per day',
+									values: [[rank[0], rank[7]], [rank[1], rank[8]], [rank[2], rank[9]], [rank[3], rank[10]],
+											[rank[4], rank[11]], [rank[5], rank[12]], [rank[6], rank[13]]],
+									colorset: ['#30a1ce', '#FF8C00'],
+									fields:['지역', '분야']
+								},
+								'chartDiv' : 'weeklyRankChart',
+								'chartType' : 'line',
+								'chartSize' : {width:680, height:450},
+								'minValue' : 1000, //max + 100,
+								'maxValue' :  100, // ((max - 100 >=0 ), max - 100, 0),
+								'increment' : -100,
+								'isGuideLineNeeded' : false  //default set to false
+							};
+							Nwagon.chart(options);
+					}
+				});
 			}
 		});	
+	}
+	
+	
+	function giveWater(){
+		
+		// 물 지급 처리
+		$('#LvUpBack').fadeIn('slow');
+		setTimeout(function() {
+			$('#LvUpBack').fadeOut('slow');
+			$('#need4').fadeOut( "slow", function() {
+				$('#need5').fadeIn('slow');
+			  });
+			}, 2000);
 	}
 </script>
 <style>
@@ -421,10 +487,12 @@
 	display : inline-block;
 }
 .needInDiv {
-	background: white;
+
 	border: solid #e1e1e1;
 	border-width: 0 1px 1px 1px;
 	height: 100%;
+	overflow: hidden;
+    position: relative;
 }
 
 .rankTitle {
@@ -434,7 +502,7 @@
 }
 
 .needTitle {
-	background: #5eafe4;
+	background: beige;
 	height: 5%;
 	padding: 14px;
 }
@@ -531,6 +599,113 @@
 @keyframes animate-positive{
     0%{ width: 0; }
 }
+
+.blue span {
+	background-color: #34c2e3;   
+}
+
+.green span {
+	  background-color: #a5df41;
+	  background-image: -webkit-gradient(linear, left top, left bottom, from(#a5df41), to(#4ca916));
+	  background-image: -webkit-linear-gradient(top, #a5df41, #4ca916);
+	  background-image: -moz-linear-gradient(top, #a5df41, #4ca916);
+	  background-image: -ms-linear-gradient(top, #a5df41, #4ca916);
+	  background-image: -o-linear-gradient(top, #a5df41, #4ca916);
+	  background-image: linear-gradient(top, #a5df41, #4ca916);  
+}
+
+.progress-bar1 {
+	background-color: white;
+	height: 25px;
+	padding: 5px;
+	width: 98%;
+	margin-left : auto;
+	margin-right : auto;	
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
+	-webkit-box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
+	box-shadow: 0 1px 5px #5eafe4 inset, 0 1px 0 #59d3a5;	          
+}
+
+.progress-bar1 span {
+	display: inline-block;
+	height: 100%;	
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-moz-box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+        -webkit-transition: width .4s ease-in-out;
+        -moz-transition: width .4s ease-in-out;
+        -ms-transition: width .4s ease-in-out;
+        -o-transition: width .4s ease-in-out;
+        transition: width .4s ease-in-out;    
+}
+
+.stripes span {
+	-webkit-background-size: 30px 30px;
+	-moz-background-size: 30px 30px;
+	background-size: 30px 30px;			
+	background-image: -webkit-gradient(linear, left top, right bottom,
+						color-stop(.25, rgba(255, 255, 255, .15)), color-stop(.25, transparent),
+						color-stop(.5, transparent), color-stop(.5, rgba(255, 255, 255, .15)),
+						color-stop(.75, rgba(255, 255, 255, .15)), color-stop(.75, transparent),
+						to(transparent));
+	background-image: -webkit-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
+						transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
+						transparent 75%, transparent);
+	background-image: -moz-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
+						transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
+						transparent 75%, transparent);
+	background-image: -ms-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
+						transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
+						transparent 75%, transparent);
+	background-image: -o-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
+						transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
+						transparent 75%, transparent);
+	background-image: linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
+						transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
+						transparent 75%, transparent);            
+	
+	-webkit-animation: animate-stripes 3s linear infinite;
+	-moz-animation: animate-stripes 3s linear infinite;       		
+}
+
+@-webkit-keyframes animate-stripes { 
+	0% {background-position: 0 0;} 100% {background-position: 60px 0;}
+}
+
+@-moz-keyframes animate-stripes {
+	0% {background-position: 0 0;} 100% {background-position: 60px 0;}
+}
+
+.glow span {
+	-moz-box-shadow: 0 5px 5px rgba(255, 255, 255, .7) inset, 0 -5px 5px rgba(255, 255, 255, .7) inset;
+	-webkit-box-shadow: 0 5px 5px rgba(255, 255, 255, .7) inset, 0 -5px 5px rgba(255, 255, 255, .7) inset;
+	box-shadow: 0 5px 5px rgba(255, 255, 255, .7) inset, 0 -5px 5px rgba(255, 255, 255, .7) inset;
+	
+	-webkit-animation: animate-glow 1s ease-out infinite;
+	-moz-animation: animate-glow 1s ease-out infinite; 			
+}
+
+@-webkit-keyframes animate-glow {
+ 0% { -webkit-box-shadow: 0 5px 5px rgba(255, 255, 255, .7) inset, 0 -5px 5px rgba(255, 255, 255, .7) inset;} 
+ 50% { -webkit-box-shadow: 0 5px 5px rgba(255, 255, 255, .3) inset, 0 -5px 5px rgba(255, 255, 255, .3) inset;} 
+ 100% { -webkit-box-shadow: 0 5px 5px rgba(255, 255, 255, .7) inset, 0 -5px 5px rgba(255, 255, 255, .7) inset;}
+ }
+
+@-moz-keyframes animate-glow {
+ 0% { -moz-box-shadow: 0 5px 5px rgba(255, 255, 255, .7) inset, 0 -5px 5px rgba(255, 255, 255, .7) inset;} 
+ 50% { -moz-box-shadow: 0 5px 5px rgba(255, 255, 255, .3) inset, 0 -5px 5px rgba(255, 255, 255, .3) inset;} 
+ 100% { -moz-box-shadow: 0 5px 5px rgba(255, 255, 255, .7) inset, 0 -5px 5px rgba(255, 255, 255, .7) inset;}
+ }
+ 
+ #giveWater:hover {
+ 	cursor : pointer;
+ }
 </style>
 <div class="col-sm-9 col-xs-12 center_area" style="height: 972px;">
 	<div class="row">
@@ -578,6 +753,37 @@
 				<div class="needTitle">
 					<img src="/studyplus/resources/images/planner/ico_need.png"
 						class="titleImg"> <span class="titleTxt"> 새싹 키우기 </span>
+				</div>
+				<div id="LvUpBack" style="position:absolute; background : black; width : 100%; height : 480px; z-index : 800; display : none; overflow:hidden;">			
+					<img src="/studyplus/resources/images/need/effect.gif" style = "width : 600px; height : 800px; z-index : 999; margin-left : 0%; margin-top: -26%;">
+				</div>
+				<div style="background-image : url('/studyplus/resources/images/planner/needBackSky.gif'); background-size : cover; width: 901px; height: 36%;"> 
+				</div>
+				<div style="background-image : url('/studyplus/resources/images/planner/needBackground.png'); background-size: 100% 500px; width: 100%; height: 48%; position: absolute; top: 75px; background-repeat: no-repeat; text-align : center;">
+					<img id="need1" src="/studyplus/resources/images/need/lv1.png" style = "width : 50px; height : 90px; margin-top : 364px; position : relative;  z-index : 900;  display : none;">
+					<img id="need1" src="/studyplus/resources/images/need/lv2.png" style = "width : 14%;  margin-top : 326px; position : relative;  z-index : 900;  display : none;">
+					<img id="need2" src="/studyplus/resources/images/need/lv3.png" style = "width : 14%;  margin-top : 125px; position : relative;  z-index : 900;  display : none;">
+					<img id="need3" src="/studyplus/resources/images/need/lv4.png" style = "width : 30%;  margin-top : 15px; position : relative;  z-index : 900;  display : '';">
+					<img id="need4" src="/studyplus/resources/images/need/lv5.png" style = "width : 67%;  margin-top : -18px; position : relative;  z-index : 900;  display : none;">
+				</div>
+				<div style="width : 100%; height : 50%; margin-top : 145px;">	
+					<div class="rankSubTitle">
+						<img src="/studyplus/resources/images/studyGroup/point.png" style="width:20px; height:20px;">
+						<h4 style="display: inline-block; vertical-align: middle; margin-bottom: 10px;"> 경험치 ( 500 / 500 ) :: 물 주기를 통해 경험치를 올려보세요.</h4>
+					</div>			
+					<div class="progress-bar1 green stripes">
+					    <span style="width: 100%"></span>
+					</div>
+					<div class="rankSubTitle">
+						<img src="/studyplus/resources/images/studyGroup/point.png" style="width:20px; height:20px;">
+						<h4 style="display: inline-block; vertical-align: middle; margin-bottom: 10px;"> 물 ( 40 / 100 ) :: 주간 공부 시간에 비례합니다. </h4>
+					</div>
+					<div class="progress-bar1 blue stripes">
+					    <span style="width: 40%"></span>
+					</div>
+					<div style="width: 100%; height: 40%; background-image : url('/studyplus/resources/images/need/needInforBack.png'); background-size: contain; background-repeat: no-repeat; margin-top: 36px; position : relative;">
+						<div id="giveWater" title="클릭하고 새싹에게 물을 주세요!" onclick="giveWater();" style="width : 70px; height : 70px; margin-top : 49px; margin-left : 60px; position : absolute;"></div>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -10,6 +10,7 @@
 		<typeAlias type="always.awake.studyplus.member.model.vo.InterestCategory" alias="InterestCategory"/>
 		<typeAlias type="always.awake.studyplus.member.model.vo.Files" alias="MemberFiles"/>
     	<typeAlias type="always.awake.studyplus.studyPlanner.model.vo.Goal" alias="Goal"/>
+    	<typeAlias type="always.awake.studyplus.studyPlanner.model.vo.PersonalRank" alias="PersonalRank"/>
 		<typeAlias type="always.awake.studyplus.sgDetail.model.vo.SGDetail" alias="SGDetail"/>
 		<typeAlias type="always.awake.studyplus.admin.model.vo.Member" alias="adminMember"/>
 		<typeAlias type="always.awake.studyplus.admin.model.vo.InterestCategory" alias="adminInterestCategory"/>

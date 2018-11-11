@@ -8,6 +8,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import always.awake.studyplus.studyPlanner.model.exception.plannerException;
+import always.awake.studyplus.studyPlanner.model.vo.PersonalRank;
 
 public interface StudyPlannerDao {
 
@@ -47,8 +48,13 @@ public interface StudyPlannerDao {
 	//주간 목표 업데이트(페이지 단위)
 	int updateWeeklyBookGoal(Map<String, Object> hmap);
 
+	ArrayList<PersonalRank> selectMemberWeeklyRank(int member_Code, String[] chartDate4);
+
+	ArrayList<PersonalRank> selectMemberWeeklyRank2(int member_Code, String[] chartDate4);
+
 	//주간 목표 리스트
 	List<Map<String, Object>> selectWeeklyGoals(SqlSessionTemplate sqlSession, Map<String, Object> hmap) throws plannerException;
+
 
 
 }

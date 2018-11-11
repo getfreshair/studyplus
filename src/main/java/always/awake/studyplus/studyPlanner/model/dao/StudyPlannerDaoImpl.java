@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 
 import always.awake.studyplus.studyPlanner.model.exception.plannerException;
+import always.awake.studyplus.studyPlanner.model.vo.PersonalRank;
 
 @Repository
 public class StudyPlannerDaoImpl implements StudyPlannerDao{
@@ -142,6 +143,34 @@ public class StudyPlannerDaoImpl implements StudyPlannerDao{
 		}
 		
 		return weeklyGoals;
+	}
+
+	@Override
+	public ArrayList<PersonalRank> selectMemberWeeklyRank(int member_Code, String[] chartDate4) {
+		
+		Map<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("member_Code", member_Code);
+		hmap.put("start_Date", chartDate4[0]);
+		hmap.put("end_Date", chartDate4[1]);
+		
+		List<PersonalRank> rankList = new ArrayList<PersonalRank>();
+		rankList = sqlSession.selectList("StudyPlanner.selectMemberWeeklyRank", hmap);
+		
+		return (ArrayList<PersonalRank>) rankList;
+	}
+
+	@Override
+	public ArrayList<PersonalRank> selectMemberWeeklyRank2(int member_Code, String[] chartDate4) {
+		
+		Map<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("member_Code", member_Code);
+		hmap.put("start_Date", chartDate4[0]);
+		hmap.put("end_Date", chartDate4[1]);
+		
+		List<PersonalRank> rankList = new ArrayList<PersonalRank>();
+		rankList = sqlSession.selectList("StudyPlanner.selectMemberWeeklyRank2", hmap);
+		
+		return (ArrayList<PersonalRank>) rankList;
 	}
 
 
