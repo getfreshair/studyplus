@@ -8,9 +8,9 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import always.awake.studyplus.admin.model.exception.AdminException;
 import always.awake.studyplus.admin.model.vo.Banner;
 import always.awake.studyplus.admin.model.vo.DispauseBoard;
-import always.awake.studyplus.admin.model.vo.Member;
 import always.awake.studyplus.admin.model.vo.PageInfo;
 
 @Repository
@@ -345,5 +345,42 @@ public class AdminDaoImpl implements AdminDao {
 		System.out.println("dao" + list);
 		
 		return list;
+	}
+
+	@Override
+	public Map<String, Object> selectImgAndLink(SqlSessionTemplate sqlSession, int member_Code) throws AdminException {
+		try {
+			return sqlSession.selectOne("Admin.selectImgAndLink", member_Code);
+		}catch(Exception e) {
+			throw new AdminException("광고 조회 실패요");
+		}
+	}
+
+	@Override
+	public int selectPRCount(SqlSessionTemplate sqlSession, int pr_Code, int member_Code) throws AdminException {
+		try {
+			Map<String, Integer> data = new HashMap<String, Integer>();
+			
+			data.put("pr_Code", pr_Code);
+			data.put("member_Code", member_Code);
+			
+			return sqlSession.selectOne("Admin.selectPRCount", data);
+		}catch(Exception e) {
+			throw new AdminException("광고 이력 조회 실패요");
+		}
+	}
+
+	@Override
+	public void insertPRCount(SqlSessionTemplate sqlSession, int pr_Code, int member_Code) throws AdminException {
+		try {
+			Map<String, Integer> data = new HashMap<String, Integer>();
+			
+			data.put("pr_Code", pr_Code);
+			data.put("member_Code", member_Code);
+			
+			sqlSession.selectOne("Admin.insertPRCount", data);
+		}catch(Exception e) {
+			throw new AdminException("광고 이력 조회 실패요");
+		}
 	}
 }

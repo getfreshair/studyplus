@@ -114,7 +114,7 @@
                     <p class="line03">프로그램 차단, 스터디 플래너, 스터디 그룹을 통해  체계적인 학습을 하세요.</p>
                 </div>
                 <img class="img01" src="/studyplus/resources/images/main/main_top.gif">
-                <a href="#" class="img02"><img src="/studyplus/resources/images/main/chatbotBtn.png"></a>
+                <a class="img02" onclick="questionPage()"><img src="/studyplus/resources/images/main/chatbotBtn.png"></a>
                 <a href="#" class="img03"><img src="/studyplus/resources/images/main/main_top_bubble.png"></a>
             </div>
              <!-- // 영역1 -->
@@ -228,6 +228,11 @@
             var offset2 = offset -menubarH;
             $('html, body').animate({scrollTop :offset2}, 400);
        }
+    }
+    
+    //무엇이든 물어보세요
+    function questionPage(){
+    	window.open('questionPage.me', '_blank', 'width=400, height=430, left=450, top=50, resizable=no, titlebar=no, status=no');
     }
     
 	//모달 오픈

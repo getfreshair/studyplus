@@ -406,6 +406,7 @@
 					$SGUserInfo = $('<div class="inSGUserInfo">').append('JOIN');
 					$SGUserImage = $('<div class="SGUserImage">');
 					$SGUserImg = $('<img>').attr('src', '/studyplus/resources/images/studyGroup/join_icon.png');
+					$SGUserImg.attr('onclick', "SGdetailPage(" + data[key].STUDYGROUP_CODE + ")");
 					
 					$SGImgARea.append($SGImg);
 					
@@ -434,19 +435,45 @@
 		});
 	});
 	
+	$(function(){
+		$.ajax({
+			url : 'selectImgAndLink.do',
+			data : {
+				member_Code : '${sessionScope.loginUser.member_Code}'
+			},
+			success : function(data){
+				$('.SGMainPRImg').attr('src', '/studyplus/resources/upload/admin/thumbnail/' + data.FILES_NAME);
+				$('.SGMainPRImg').attr('onclick', 'addPRCount(' + data.PR_CODE + ', ' + ${sessionScope.loginUser.member_Code} + ', "' + data.PR_LINK + '")');
+			}
+		});
+	});
+	
 	function StatisticsPage(code){
-		location.href="studygroupStatistics.sg?code=1100";
+		location.href="studygroupStatistics.sg?code=" + code;
 	}
 	
 	function SGdetailPage(group_No){
 		location.href='selectOneGroup.sgd?group_No=' + group_No;
+	}
+	
+	function addPRCount(pr_Code, member_Code, pr_Link){
+		$.ajax({
+			url : 'insertPRCount.do',
+			data : {
+				pr_Code : pr_Code,
+				member_Code : member_Code
+			},
+			success : function(){
+				window.open(pr_Link, '_blank');
+			}
+		})
 	}
 </script>
 </head>
 <body>
 	<div class="SGMainBodyLeftArea">
 		<div class="adArea">
-			<img src="/studyplus/resources/images/ad/ad.png" onclick="StatisticsPage(${sessionScope.loginUser.member_Code})"/>0
+			<img class="SGMainPRImg"/>0
 			<a href="selectOneGroup.sgd?group_No=1">스터디 그룹 디테일</a>
 		</div>
 		<div class="SGListChangeBtnArea">
