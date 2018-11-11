@@ -449,6 +449,7 @@
 		});	
 	}
 	
+	
 	function giveWater(){
 		
 		// 물 지급 처리
