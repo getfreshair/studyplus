@@ -346,4 +346,48 @@ public class AdminDaoImpl implements AdminDao {
 		
 		return list;
 	}
+
+	@Override
+	public List<Map<String, Object>> getGroupRewardList(SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectList("Admin.getGroupRewardList");
+	}
+
+	@Override
+	public int updateGroupReward(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+
+		return sqlSession.insert("Admin.updateGroupReward", map);
+	}
+
+	@Override
+	public List<Map<String, Object>> searchGroupRewardHistory(SqlSessionTemplate sqlSession,
+			HashMap<String, Object> map) {
+		
+		return sqlSession.selectList("Admin.searchGroupRewardHistory", map);
+	}
+
+	@Override
+	public List<Map<String, Object>> getTodayJoinMember(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.getTodayJoinMember");
+	}
+
+	@Override
+	public List<Map<String, Object>> getTotalPenaltyMember(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.getTotalPenaltyMember");
+	}
+
+	@Override
+	public List<Map<String, Object>> getTotalMember(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.getTotalMember");
+	}
+
+	@Override
+	public List<Map<String, Object>> getCategoryMember(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.getCategoryMember");
+	}
+
+	@Override
+	public List<Map<String, Object>> getJoinMemberMonth(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.getJoinMemberMonth");
+	}
 }
