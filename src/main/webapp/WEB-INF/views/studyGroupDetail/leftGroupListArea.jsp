@@ -12,9 +12,13 @@
 <title>Insert title here</title>
 
 <style>
+/* 	  .rankImg { position:absolute; width:15px; margin-top:-3px; } */
+/* 	    .rankImg img{ margin-bottom:47.52px; margin-left:50px; } */
 	  .memberOneWrapArea { width:263px; /* border:1px dashed red; display:inline-block; */ }
 		.memberInfo { margin:10px 0px; }
-		  .memberInfo td { padding-left:12px; text-align:left; display:table-cell; vertical-align:middle; }
+		  .memberInfo td { position:relative; padding-left:12px; text-align:left; display:table-cell; vertical-align:middle; }
+		  .rankImg { position:absolute; width:15px; margin-top:-8px; }
+		    .rankImg img{ margin-left:37px; }
 		  .profImg { width:50px; height:50px; overflow-y:hidden; border-radius:20%; }
 		  	.profImg img { width:100%; }
 		  .nickName	{ width:105px; height:80%; font-size:12.5px; font-weight:bold; line-height:1.2; word-break:break-all; }
@@ -35,17 +39,24 @@
 </head>
 <body>
 	<div class="listPageWrap">
+	
 		<div class="memberListArea">		
 
 		<!-- 그룹장 바꾸기 버튼 누르면 hideChangeLeader 가진 요소 숨김 toggleChangeLeaderBtn보이게 -->
 		  <c:forEach var="i" begin="0" end="${fn:length(grMemList) - 1}" step="1" >
-			<div class="leaderMember memberOneWrapArea">
+			<div class="memberOneWrapArea">
 				<table class="memberInfo" border="1">
 					<tr>							
-						<td rowspan="2"><div class="profImg">
-							<input type="hidden" id="memCode" value="${grMemList[i].MEMBER_CODE}"/>
-							<img src="${ contextPath }/resources/upload/member/thumbnail/${grMemList[i].FILES_NAME}" />
-						</div></td>
+						<td rowspan="2">
+						  <c:if test="${grMemList[i].LEADER_CODE == grMemList[i].MEMBER_CODE}">
+							<div class="rankImg">
+								<img width="100%" src="${ contextPath }/resources/upload/studygroup/thumbnail/medal.png" />
+							</div>
+						  </c:if>							
+							<div class="profImg">
+								<input type="hidden" id="memCode" value="${grMemList[i].MEMBER_CODE}"/>
+								<img src="${ contextPath }/resources/upload/member/thumbnail/${grMemList[i].FILES_NAME}" />
+							</div></td>
 						<td class="nickName"><strong>${grMemList[i].MEMBER_NICKNAME}</strong></td>
 						
 					  <!-- 로그인유저가 그룹장 일 때 해당 버튼 보이기 -->
@@ -103,6 +114,58 @@
 	function cancelChangeLeader(){
 		$('.hideChangeLeader').css({"display":""});
 		$('.showChangeLeader').css({"display":"none"});
+	}
+	
+	function changeGrLeader(afterLeaderCode, loginUserCode){
+		var grCode= $('#grCode').val();
+		console.log(afterLeaderCode + " / " + grCode);
+		
+		var changeLeaderChk = confirm("그룹장을 변경 하시겠습니까?");
+
+		if(changeLeaderChk){
+			$.ajax({
+				url:"updateChangeGroupLeader.sgd",
+				data : { grCode : grCode, afterLeaderCode : afterLeaderCode, nowLeaderCode : loginUserCode },
+				type : "POST",
+				success:function(data) {
+					console.log(data);
+					$('#leftIncludeArea').empty();
+					$('#leftIncludeArea').append(data);	
+					
+					selectGrMemList(grCode, loginUserCode);
+				},
+				error : function(){
+					alert("그룹장 변경에 실패하였습니다.");
+				}
+			});
+		}
+	}
+
+	function kickOutGrMember(delMemCode, delMemNick, loginUserCode, grLeaderCode){
+		var grCode= $('#grCode').val();
+		console.log(loginUserCode + " / " + grLeaderCode);
+		
+		if(loginUserCode == grLeaderCode){
+			var kickOutChk = confirm(delMemNick + "님을 강퇴 하시겠습니까?");
+ 			
+			if(kickOutChk){
+				$.ajax({
+					url:"updateDeleteGroupMember.sgd",
+					data : { grCode : grCode, delMemCode : delMemCode },
+					type : "POST",
+					success:function(data) {
+						console.log(data);
+						$('#leftIncludeArea').empty();
+						$('#leftIncludeArea').append(data);
+						
+						selectGrMemList(grCode, loginUserCode);
+						
+					}
+				});
+			}
+		}else{
+			alert("강퇴 권한이 없습니다.");
+		}
 	}
 	
 </script>

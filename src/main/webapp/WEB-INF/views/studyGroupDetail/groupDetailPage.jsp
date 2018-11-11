@@ -21,80 +21,81 @@
 	
 	
 <!-- /* 전체영역 */ -->
-	<style>
-		.pageAll * { font-family:맑은고딕 !important;}
-		.pageWrap { width:1200px; margin:0px auto; }
-		.pageContentArea { width:98%; margin:0px auto; }
-	</style>
+<style>
+	.pageAll * { font-family:맑은고딕 !important;}
+	.pageWrap { width:1200px; margin:0px auto; }
+	.pageContentArea { width:98%; margin:0px auto; }
+</style>
 	
 <!-- /* 상단부 */ -->
-	<style>
-		.titleArea { width:100%; margin-bottom:20px; display:flex; }
-		.topInfoArea { border-radius:15px; background:rgb(255, 225, 177); padding:25px 0px; text-align:center; 
-						border-style:hidden; box-shadow:4px 5px 5px 1px lightgray; }
-		
-		    .topInfoAllWrapTbl { width:100%; height:100%; margin:0px auto; /* vertical-align:middle; */ }
-	        .topInfoContWrapTbl { width:100%; height:100%; margin:0px auto; vertical-align:middle; }
-		
-		.groupInfoArea { width:61%; margin-right:0.8%; display:flex; }
-		  .groupInfoLeft { width:45%; padding:0px 20px; border-right:1px solid gray; }
-			.category { background:lightgray; float:left; }
-			.groupTitleTblWrap { margin-left:5px; }
-			  .groupTitleTbl { width:100%; margin-bottom:0px;/* margin: 0px 0px 5px; */ }
-			  .groupTitleTbl h2 { font-weight:bold; line-height:1.7; font-size:27px; margin:0px; }
-	 		  .groupTitleTbl .groupIntro { height:55px; padding:15px 15px 15px 5px; font-size:15px; table-layout:fixed; word-break:keep-all; }
-			  .groupOptDetailTbl { width:225px; display:inline-table; font-size:14px; }
-	 		  .groupOptDetailTbl td { padding:7px 5px 1px 5px; border-bottom:1px solid gray; }
-			  .groupOptDetailTbl strong { float:left; }
-			  .groupOptDetailTbl span { float:right; }
-		  .groupInfoRight { width:55%; padding:0px 20px; }
-		    .radiBtn { background:gray; float:right; cursor:pointer; color:white; border-radius:10px; }
-	 	      .groupStatBoxLeft { float:left; background:rgb(211, 0, 0, 0.4); }
-	 		  .groupStatBoxRight { float:right; background:rgb(52, 152, 219, 0.4); }
-		 	  .statBox { width:167px; height:220px; border-radius:15px; padding:3px 7px; display:table; }
-	  		    .statBoxContTbl { display:table-cell; vertical-align:middle; margin:0px; }
-	  		    .statBoxContTbl tbody { width:160px; height:190px; display:inline-table; vertical-align:middle; }
-			    .statBoxContTbl h3 { font-size:23px; font-weight:bold; line-height:1.2; margin:0px 0px 5px; }
-	  		    .statBoxContTbl tr:first-child td { /* width:140px; */ padding-bottom:12px; font-size:21px; }
-	   		    .statBoxContTbl tr:nth-child(2n) td > div { width:85%; height:92px; border-top:1px dashed; margin:0px auto; display:inline-table; text-align:center; }
-	   		    .statBoxContTbl tr:nth-child(2n) td div div { padding-top:8px; /* font-size:13px; */ display:inline-block; text-align:right;  }
-	   		    .statBoxContTbl tr:nth-child(2n) td div div strong { float:right;  }
-				.goalRatio { font-weight:bold; font-size:18px; padding-top:0px !important; display:table-cell !important; vertical-align:middle; text-align:center !important; }
+<style>
+	.titleArea { width:100%; margin-bottom:20px; display:flex; }
+	.topInfoArea { border-radius:15px; background:rgb(255, 225, 177); padding:25px 0px; text-align:center; 
+					border-style:hidden; box-shadow:4px 5px 5px 1px lightgray; }
 	
-		.myInfoArea { width:38.2%; padding:25px 20px; }
-		  .joinGroupBtn { font-weight:bold; font-size:25px; }
-	 	  .myStatBox { float:left; background:rgb(211, 0, 0, 0.4); }
-		  .lineGraph { background:white; opacity:0.8; width:100%; height:220px; float:right; padding:3px 7px; display:inline-block; }
-	</style>	
+	    .topInfoAllWrapTbl { width:100%; height:100%; margin:0px auto; /* vertical-align:middle; */ }
+        .topInfoContWrapTbl { width:100%; height:100%; margin:0px auto; vertical-align:middle; }
+	
+	.groupInfoArea { width:61%; margin-right:0.8%; display:flex; }
+	  .groupInfoLeft { width:45%; padding:0px 20px; border-right:1px solid gray; }
+		.category { background:lightgray; float:left; }
+		.groupTitleTblWrap { margin-left:5px; }
+		  .groupTitleTbl { width:100%; margin-bottom:0px;/* margin: 0px 0px 5px; */ }
+		  .groupTitleTbl h2 { font-weight:bold; line-height:1.7; font-size:27px; margin:0px; }
+ 		  .groupTitleTbl .groupIntro { height:55px; padding:15px 15px 15px 5px; font-size:15px; table-layout:fixed; word-break:keep-all; }
+		  .groupOptDetailTbl { width:225px; display:inline-table; font-size:14px; }
+ 		  .groupOptDetailTbl td { padding:7px 5px 1px 5px; border-bottom:1px solid gray; }
+		  .groupOptDetailTbl strong { float:left; }
+		  .groupOptDetailTbl span { float:right; }
+	  .groupInfoRight { width:55%; padding:0px 20px; }
+	    .radiBtn { background:gray; float:right; cursor:pointer; color:white; border-radius:10px; }
+ 	      .groupStatBoxLeft { float:left; background:rgb(211, 0, 0, 0.4); }
+ 		  .groupStatBoxRight { float:right; background:rgb(52, 152, 219, 0.4); }
+	 	  .statBox { width:167px; height:220px; border-radius:15px; padding:3px 7px; display:table; }
+  		    .statBoxContTbl { display:table-cell; vertical-align:middle; margin:0px; }
+  		    .statBoxContTbl tbody { width:160px; height:190px; display:inline-table; vertical-align:middle; }
+		    .statBoxContTbl h3 { font-size:23px; font-weight:bold; line-height:1.2; margin:0px 0px 5px; }
+  		    .statBoxContTbl tr:first-child td { /* width:140px; */ padding-bottom:12px; font-size:21px; }
+   		    .statBoxContTbl tr:nth-child(2n) td > div { width:85%; height:92px; border-top:1px dashed; margin:0px auto; display:inline-table; text-align:center; }
+   		    .statBoxContTbl tr:nth-child(2n) td div div { padding-top:8px; /* font-size:13px; */ display:inline-block; text-align:right;  }
+   		    .statBoxContTbl tr:nth-child(2n) td div div strong { float:right;  }
+			.goalRatio { font-weight:bold; font-size:18px; padding-top:0px !important; display:table-cell !important; vertical-align:middle; text-align:center !important; }
+
+	.myInfoArea { width:38.2%; padding:25px 20px; }
+	  .joinGroupBtn { font-weight:bold; font-size:25px; }
+ 	  .myStatBox { float:left; background:rgb(211, 0, 0, 0.4); }
+	  .lineGraph { background:white; opacity:0.8; width:100%; height:220px; float:right; padding:3px 7px; display:inline-block; }
+</style>	
 	
 <!-- /*	하단 컨텐츠 작성 */ -->
-	<style>
-		.contentArea { width:100%; /* height:600px; */ margin-bottom:10px; display:flex; }
-		.bottomContentArea { background:rgb(235, 235, 235, 0.4); /* height:100%; */ padding:20px 15px; display:inline-block; text-align:center; }
-		
-		
+<style>
+	.contentArea { width:100%; /* height:600px; */ margin-bottom:10px; display:flex; }
+	.bottomContentArea { background:rgb(235, 235, 235, 0.4); /* height:100%; */ padding:20px 15px; display:inline-block; text-align:center; }
+	
+	
 	/*	그룹원 리스트 영역 */
-		.leftContent { width:26.7%; padding-right:0px; margin-right:0.3%; border-right:1px solid gray; }
-		  .leftContentWrap { width:100%; /* height:100%; */ display:inline-block; }
-			.leftContentTabMenu {/*  width:100%; */ margin-right:15px; padding-bottom:10px; border-bottom:1px solid gray; margin-bottom:10px; text-align:right; }
-			.leftContentTabMenu div { display:inline-table; }
-			.leftContentTabMenu div:first-child { float:left; }
-			.leftContentTabMenu span { cursor:pointer; padding:0px 5px; font-size:15px; /* font-weight:bold; */ }
-			
-			.leftIncludeArea { width:100%; overflow:auto; /* background:yellow; */ }
-			
-	/* 게시물 영역 */		
-		.centerContent { width:48.7%; margin-right:0.3%; border-right:1px solid gray; }
+	.leftContent { width:26.7%; padding-right:0px; margin-right:0.3%; border-right:1px solid gray; }
+	  .leftContentWrap { width:100%; /* height:100%; */ display:inline-block; }
+		.leftContentTabMenu {/*  width:100%; */ margin-right:15px; padding-bottom:10px; border-bottom:1px solid gray; margin-bottom:10px; text-align:right; }
+		.leftContentTabMenu div { display:inline-table; }
+		.leftContentTabMenu div:first-child { float:left; }
+		.leftContentTabMenu span { cursor:pointer; padding:0px 5px; font-size:15px; /* font-weight:bold; */ }
 		
+		.leftIncludeArea { width:100%; overflow:auto; /* background:yellow; */ }
+		
+	/* 게시물 영역 */		
+	.centerContent { width:48.7%; margin-right:0.3%; border-right:1px solid gray; }
+	
 	/* 실시간 채팅 영역 */	
-		.rightContent { width:24%; }
-	</style>
+	.rightContent { width:24%; }
+</style>
 	
 <!-- /*	공통 요소 속성 */ -->
-	<style>
-		.radiusSmallWrapTd { height:10px; vertical-align:top; max-height:10px;}
-		.radiusBoxSmall { border-radius:15px; margin-bottom:13px; padding:3px 12px; font-size:12px; font-weight:bold; display:inline; }
-	</style>
+<style>
+	.radiusSmallWrapTd { height:10px; vertical-align:top; max-height:10px;}
+	.radiusBoxSmall { border-radius:15px; margin-bottom:13px; padding:3px 12px; font-size:12px; font-weight:bold; display:inline; }
+	.menuBtn:hover { font-weight:bold; color:darkgray; }
+</style>
 </head>
 
 <body>
@@ -304,12 +305,12 @@
 					<div class="leftContentWrap">
 						<div class="leftContentTabMenu">
 							<div>
-								<span id="showMemList" onclick="selectGrMemList('${gr.studyGroup_Code}', '${loginUser}');">그룹원 보기</span>
+								<span id="showMemList" class="menuBtn" onclick="selectGrMemList('${gr.studyGroup_Code}', '${loginUser}');">그룹원 보기</span>
 							</div>
 							<div>
-								<span id="showMemRank" onclick="selectGrMemRank('${gr.studyGroup_Code}');">그룹원 순위</span>
+								<span id="showMemRank" class="menuBtn" onclick="selectGrMemRank('${gr.studyGroup_Code}');">그룹원 순위</span>
 								<span style="cursor:auto;">|</span>
-								<span id="showMemStudyStatus" onclick="showMemStudyStatus();">수행 현황</span>
+								<span id="showMemStudyStatus" class="menuBtn" onclick="showMemStudyStatus();">수행 현황</span>
 							</div>
 						</div>
 						<div id="leftIncludeArea" class="leftIncludeArea">
@@ -333,7 +334,8 @@
 // 		var grCode = '${gr.studyGroup_Code}';
 		var loginUserCode = '${loginUser}';
 		
-		selectGrMemList(grCode, loginUserCode);
+//  		selectGrMemList(grCode, loginUserCode);
+		selectGrMemRank(grCode);
  		
 	});
 </script>
@@ -356,77 +358,27 @@
 		
 		});
 	};
-	
-	function changeGrLeader(afterLeaderCode, loginUserCode){
-		var grCode= $('#grCode').val();
-		console.log(afterLeaderCode + " / " + grCode);
-		
-		var changeLeaderChk = confirm("그룹장을 변경 하시겠습니까?");
-
-		if(changeLeaderChk){
-			$.ajax({
-				url:"updateChangeGroupLeader.sgd",
-				data : { grCode : grCode, afterLeaderCode : afterLeaderCode, nowLeaderCode : loginUserCode },
-				type : "POST",
-				success:function(data) {
-					console.log(data);
-					$('#leftIncludeArea').empty();
-					$('#leftIncludeArea').append(data);	
-					
-					selectGrMemList(grCode, loginUserCode);
-				},
-				error : function(){
-					alert("그룹장 변경에 실패하였습니다.");
-				}
-			});
-		}
-	}
-
-	function kickOutGrMember(delMemCode, delMemNick, loginUserCode, grLeaderCode){
-		var grCode= $('#grCode').val();
-		console.log(loginUserCode + " / " + grLeaderCode);
-		
-		if(loginUserCode == grLeaderCode){
-			var kickOutChk = confirm(delMemNick + "님을 강퇴 하시겠습니까?");
- 			
-			if(kickOutChk){
-				$.ajax({
-					url:"updateDeleteGroupMember.sgd",
-					data : { grCode : grCode, delMemCode : delMemCode },
-					type : "POST",
-					success:function(data) {
-						console.log(data);
-						$('#leftIncludeArea').empty();
-						$('#leftIncludeArea').append(data);
-						
-						selectGrMemList(grCode, loginUserCode);
-						
-					}
-				});
-			}
-		}else{
-			alert("강퇴 권한이 없습니다.");
-		}
-	}
 </script>
 
 <script>
-	function selectGrMemRank(grCode, loginUserCode){
+	function selectGrMemRank(grCode){
 		$('#showMemList').css({"font-weight":""});
 		$('#showMemRank').css({"font-weight":"bold"});
-		$('#leftIncludeArea').empty();
 		
-		$.ajax({
-			url:"selectGroupMemberList.sgd",
-			data : { grCode : grCode, loginUserCode : loginUserCode },		/* 로그인유저 코드 바꾸기 변경하기 수정하기 */
+// 		var dayP = 
+		
+ 		$.ajax({
+			url:"selectGrMemRank.sgd",
+			data : { grCode : grCode },		/* 로그인유저 코드 바꾸기 변경하기 수정하기 */
 			type : "POST",
 			success:function(data) {
 				console.log(data);
-// 				$('#leftIncludeArea').empty();
+ 				$('#leftIncludeArea').empty();
 				$('#leftIncludeArea').append(data);
 			}
 		
 		});
+		
 	};	
 </script>		
 
