@@ -79,7 +79,25 @@ public interface AdminService {
 
 	public List<Map<String, Object>> searchSingleRewardHistory(Map<String, Object> map);
 
+
 	public Map<String, Object> selectImgAndLink(int member_Code) throws AdminException;
 
 	public int insertPRCount(int pr_Code, int member_Code) throws AdminException;
+
+	public List<Map<String, Object>> getGroupRewardList();
+
+	public int updateGroupReward(HashMap<String, Object> map);
+
+	public List<Map<String, Object>> searchGroupRewardHistory(HashMap<String, Object> map);
+
+	public List<Map<String, Object>> getTodayJoinMember();
+
+	public List<Map<String, Object>> getTotalPenaltyMember();
+
+	public List<Map<String, Object>> getTotalMember();
+
+	public List<Map<String, Object>> getCategoryMember();
+
+	public List<Map<String, Object>> getJoinMemberMonth();
+
 }

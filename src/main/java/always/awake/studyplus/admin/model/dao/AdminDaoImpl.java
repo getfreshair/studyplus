@@ -348,6 +348,7 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
+
 	public Map<String, Object> selectImgAndLink(SqlSessionTemplate sqlSession, int member_Code) throws AdminException {
 		try {
 			return sqlSession.selectOne("Admin.selectImgAndLink", member_Code);
@@ -382,5 +383,48 @@ public class AdminDaoImpl implements AdminDao {
 		}catch(Exception e) {
 			throw new AdminException("광고 이력 조회 실패요");
 		}
+
+	public List<Map<String, Object>> getGroupRewardList(SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectList("Admin.getGroupRewardList");
+	}
+
+	@Override
+	public int updateGroupReward(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+
+		return sqlSession.insert("Admin.updateGroupReward", map);
+	}
+
+	@Override
+	public List<Map<String, Object>> searchGroupRewardHistory(SqlSessionTemplate sqlSession,
+			HashMap<String, Object> map) {
+		
+		return sqlSession.selectList("Admin.searchGroupRewardHistory", map);
+	}
+
+	@Override
+	public List<Map<String, Object>> getTodayJoinMember(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.getTodayJoinMember");
+	}
+
+	@Override
+	public List<Map<String, Object>> getTotalPenaltyMember(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.getTotalPenaltyMember");
+	}
+
+	@Override
+	public List<Map<String, Object>> getTotalMember(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.getTotalMember");
+	}
+
+	@Override
+	public List<Map<String, Object>> getCategoryMember(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.getCategoryMember");
+	}
+
+	@Override
+	public List<Map<String, Object>> getJoinMemberMonth(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.getJoinMemberMonth");
+
 	}
 }

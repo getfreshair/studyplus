@@ -229,6 +229,7 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
+
 	public Map<String, Object> selectImgAndLink(int member_Code) throws AdminException {
 		return ad.selectImgAndLink(sqlSession, member_Code);
 	}
@@ -244,6 +245,47 @@ public class AdminServiceImpl implements AdminService{
 		}
 		
 		return result;
+
+	public List<Map<String, Object>> getGroupRewardList() {
+		
+		return ad.getGroupRewardList(sqlSession);
+	}
+
+	@Override
+	public int updateGroupReward(HashMap<String, Object> map) {
+
+		return ad.updateGroupReward(sqlSession, map);
+	}
+
+	@Override
+	public List<Map<String, Object>> searchGroupRewardHistory(HashMap<String, Object> map) {
+		return ad.searchGroupRewardHistory(sqlSession, map);
+	}
+
+	@Override
+	public List<Map<String, Object>> getTodayJoinMember() {
+		return ad.getTodayJoinMember(sqlSession);
+	}
+
+	@Override
+	public List<Map<String, Object>> getTotalPenaltyMember() {
+		return ad.getTotalPenaltyMember(sqlSession);
+	}
+
+	@Override
+	public List<Map<String, Object>> getTotalMember() {
+		return ad.getTotalMember(sqlSession);
+	}
+
+	@Override
+	public List<Map<String, Object>> getCategoryMember() {
+		return ad.getCategoryMember(sqlSession);
+	}
+
+	@Override
+	public List<Map<String, Object>> getJoinMemberMonth() {
+		return ad.getJoinMemberMonth(sqlSession);
+
 	}
 
 

@@ -119,6 +119,7 @@ public interface AdminDao {
 	List<Map<String, Object>> searchSingleRewardHistory(SqlSessionTemplate sqlSession, Map<String, Object> map);
 
 
+
 	Map<String, Object> selectImgAndLink(SqlSessionTemplate sqlSession, int member_Code) throws AdminException;
 
 
@@ -126,5 +127,29 @@ public interface AdminDao {
 
 
 	void insertPRCount(SqlSessionTemplate sqlSession, int pr_Code, int member_Code) throws AdminException;
+
+	List<Map<String, Object>> getGroupRewardList(SqlSessionTemplate sqlSession);
+
+
+	int updateGroupReward(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
+
+	List<Map<String, Object>> searchGroupRewardHistory(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
+
+	List<Map<String, Object>> getTodayJoinMember(SqlSessionTemplate sqlSession);
+
+
+	List<Map<String, Object>> getTotalPenaltyMember(SqlSessionTemplate sqlSession);
+
+
+	List<Map<String, Object>> getTotalMember(SqlSessionTemplate sqlSession);
+
+
+	List<Map<String, Object>> getCategoryMember(SqlSessionTemplate sqlSession);
+
+
+	List<Map<String, Object>> getJoinMemberMonth(SqlSessionTemplate sqlSession);
+
 
 }
