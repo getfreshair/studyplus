@@ -1,10 +1,12 @@
 package always.awake.studyplus.studyPlanner.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import always.awake.studyplus.studyPlanner.model.exception.plannerException;
+import always.awake.studyplus.studyPlanner.model.vo.PersonalRank;
 
 public interface StudyPlannerService {
 
@@ -43,6 +45,10 @@ public interface StudyPlannerService {
 
 	//주간 목표 업데이트(페이지 단위)
 	int updateWeeklyBookGoal(Map<String, Object> hmap);
+
+	ArrayList<PersonalRank> selectMemberWeeklyRank(int member_Code, String[] chartDate4);
+
+	ArrayList<PersonalRank> selectMemberWeeklyRank2(int member_Code, String[] chartDate4);
 
 
 

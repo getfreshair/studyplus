@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import always.awake.studyplus.studyPlanner.model.dao.StudyPlannerDao;
 import always.awake.studyplus.studyPlanner.model.exception.plannerException;
+import always.awake.studyplus.studyPlanner.model.vo.PersonalRank;
 
 @Service
 public class StudyPlannerServiceImpl implements StudyPlannerService{
@@ -125,6 +126,22 @@ public class StudyPlannerServiceImpl implements StudyPlannerService{
 		int result = spd.updateWeeklyBookGoal(hmap);
 		
 		return 0;
+	}
+
+	@Override
+	public ArrayList<PersonalRank> selectMemberWeeklyRank(int member_Code, String[] chartDate4) {
+	
+		ArrayList<PersonalRank> rankList = spd.selectMemberWeeklyRank(member_Code, chartDate4);
+		
+		return rankList;
+	}
+
+	@Override
+	public ArrayList<PersonalRank> selectMemberWeeklyRank2(int member_Code, String[] chartDate4) {
+
+		ArrayList<PersonalRank> rankList = spd.selectMemberWeeklyRank2(member_Code, chartDate4);
+		
+		return rankList;
 	}
 
 

@@ -27,6 +27,11 @@
 		<result property="goalDivision" column="GOAL_DIVISION"/>
 	</resultMap>
 	
+	<resultMap type="PersonalRank" id="PersonalRankResultSet">
+		<result property="rank" column="TIMERANK"/>
+		<result property="rank_date" column="STUDYTIME_DATE"/>
+	</resultMap>
+	
 	<!-- 일간 공부량 차트 -->
 	<select id="selectTodayChart" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		SELECT * 
@@ -126,6 +131,44 @@
 		AND GOAL_TYPE = 0
 	</update>
 	
+	<!--  개인 분야 주간 랭크(기완쓰) -->
+	<select id="selectMemberWeeklyRank" parameterType="hashmap" resultMap="PersonalRankResultSet">
+		<![CDATA[ 
+		SELECT DATEZONE_DATEZONE, TIMERANK, MEMBER_CODE, STUDYTIME_DATE, SUMTIME
+		FROM( SELECT TO_DATE(#{start_Date}, 'YY/MM/DD') + (ROWNUM - 1) AS DATEZONE_DATEZONE
+		      FROM dual
+		      CONNECT BY LEVEL <= 7) TZ
+		LEFT JOIN( SELECT *
+		           FROM (SELECT MEMBER_CODE, MEMBER_JOB, SUMTIME, RANK() OVER (PARTITION BY STUDYTIME_DATE ORDER BY SUMTIME DESC) AS "TIMERANK", STUDYTIME_DATE
+		           FROM ( SELECT MEMBER_CODE, MEMBER_JOB, SUM(STUDYTIME_STUDYTIME) AS "SUMTIME", TRUNC(STUDYTIME_DATE) AS "STUDYTIME_DATE"
+		                   FROM STUDYTIME
+		                   JOIN MEMBER USING(MEMBER_CODE)
+		                   WHERE STUDYTIME_DIVISION = 0
+		                   AND TRUNC(STUDYTIME_DATE) >= TO_DATE(#{start_Date}, 'YY/MM/DD') AND TRUNC(STUDYTIME_DATE)  <= TO_DATE(#{end_Date}, 'YY/MM/DD')
+		                   AND MEMBER_JOB = (SELECT MEMBER_JOB FROM MEMBER WHERE MEMBER_CODE = #{member_Code})
+		                   GROUP BY MEMBER_CODE, MEMBER_JOB, TRUNC(STUDYTIME_DATE) )) WHERE MEMBER_CODE = #{member_Code}) ST
+		ON(TZ.DATEZONE_DATEZONE = ST.STUDYTIME_DATE) ORDER BY DATEZONE_DATEZONE ASC
+		]]>
+	</select>
 	
+	<!--  개인 지역 주간 랭크(기완쓰) -->
+	<select id="selectMemberWeeklyRank2" parameterType="hashmap" resultMap="PersonalRankResultSet">
+		<![CDATA[ 
+		SELECT DATEZONE_DATEZONE, TIMERANK, MEMBER_CODE, STUDYTIME_DATE, SUMTIME
+		FROM( SELECT TO_DATE(#{start_Date}, 'YY/MM/DD') + (ROWNUM - 1) AS DATEZONE_DATEZONE
+		      FROM dual
+		      CONNECT BY LEVEL <= 7) TZ
+		LEFT JOIN( SELECT *
+		           FROM (SELECT MEMBER_CODE, LOCATION_CODE, SUMTIME, RANK() OVER (PARTITION BY STUDYTIME_DATE ORDER BY SUMTIME DESC) AS "TIMERANK", STUDYTIME_DATE
+		           FROM ( SELECT MEMBER_CODE, LOCATION_CODE, SUM(STUDYTIME_STUDYTIME) AS "SUMTIME", TRUNC(STUDYTIME_DATE) AS "STUDYTIME_DATE"
+		                   FROM STUDYTIME
+		                   JOIN MEMBER USING(MEMBER_CODE)
+		                   WHERE STUDYTIME_DIVISION = 0
+		                   AND TRUNC(STUDYTIME_DATE) >= TO_DATE(#{start_Date}, 'YY/MM/DD') AND TRUNC(STUDYTIME_DATE)  <= TO_DATE(#{end_Date}, 'YY/MM/DD')
+		                   AND LOCATION_CODE = (SELECT LOCATION_CODE FROM MEMBER WHERE MEMBER_CODE = #{member_Code})
+		                   GROUP BY MEMBER_CODE, LOCATION_CODE, TRUNC(STUDYTIME_DATE) )) WHERE MEMBER_CODE = #{member_Code}) ST
+		ON(TZ.DATEZONE_DATEZONE = ST.STUDYTIME_DATE) ORDER BY DATEZONE_DATEZONE ASC
+		]]>
+	</select>
 	
 </mapper>
