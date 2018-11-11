@@ -117,4 +117,28 @@ public interface AdminDao {
 
 	List<Map<String, Object>> searchSingleRewardHistory(SqlSessionTemplate sqlSession, Map<String, Object> map);
 
+
+	List<Map<String, Object>> getGroupRewardList(SqlSessionTemplate sqlSession);
+
+
+	int updateGroupReward(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
+
+	List<Map<String, Object>> searchGroupRewardHistory(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
+
+	List<Map<String, Object>> getTodayJoinMember(SqlSessionTemplate sqlSession);
+
+
+	List<Map<String, Object>> getTotalPenaltyMember(SqlSessionTemplate sqlSession);
+
+
+	List<Map<String, Object>> getTotalMember(SqlSessionTemplate sqlSession);
+
+
+	List<Map<String, Object>> getCategoryMember(SqlSessionTemplate sqlSession);
+
+
+	List<Map<String, Object>> getJoinMemberMonth(SqlSessionTemplate sqlSession);
+
 }

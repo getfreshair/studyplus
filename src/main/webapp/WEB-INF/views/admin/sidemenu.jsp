@@ -181,7 +181,7 @@ display:none;
 			<h3>지급관리<i class='fas fa-angle-down' style='font-size:24px; margin-left:45px;'></i></h3>
 			<ul>
 				<li><a href='getSingleRewardList.do'>개인지급관리</a></li>
-				<li><a onclick="goPage('admin/rewardManage/groupReward')">그룹지급관리</a></li>
+				<li><a href='getGroupRewardList.do'>그룹지급관리</a></li>
 			</ul>
 		</li>
 		<li <%-- <% if ( activeCheck.equals("smsManage")){ %>
@@ -203,7 +203,7 @@ display:none;
 			<i class='far fa-chart-bar' style='font-size:24px; float:left; margin-left:5px ;margin-top:10px;'></i>
 			<h3> 통계<i class='fas fa-angle-down' style='font-size:24px; margin-left:96px;'></i></h3>
 			<ul>
-				<li><a onclick="goPage('admin/statisticsManage/memberStat')">회원통계</a></li>
+				<li><a href="getMemberStatic.do">회원통계</a></li>
 				<li><a onclick="goPage('admin/statisticsManage/contactStat')">접속자통계</a></li>
 				<li><a onclick="goPage('admin/statisticsManage/studygroupStat')">스터디그룹통계</a></li>
 				<li><a onclick="goPage('admin/statisticsManage/bannerStat')">광고매출통계</a></li>

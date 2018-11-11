@@ -77,4 +77,20 @@ public interface AdminService {
 	public int searchSingleRewardHistoryCount(Map<String, Object> map);
 
 	public List<Map<String, Object>> searchSingleRewardHistory(Map<String, Object> map);
+
+	public List<Map<String, Object>> getGroupRewardList();
+
+	public int updateGroupReward(HashMap<String, Object> map);
+
+	public List<Map<String, Object>> searchGroupRewardHistory(HashMap<String, Object> map);
+
+	public List<Map<String, Object>> getTodayJoinMember();
+
+	public List<Map<String, Object>> getTotalPenaltyMember();
+
+	public List<Map<String, Object>> getTotalMember();
+
+	public List<Map<String, Object>> getCategoryMember();
+
+	public List<Map<String, Object>> getJoinMemberMonth();
 }
