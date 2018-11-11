@@ -71,8 +71,8 @@
 		FROM ( SELECT STUDYGROUP_CODE, SUM(STUDYTIME_STUDYTIME) AS "GR_WEEK_TOTAL"
 		       FROM STUDYTIME 
 		       WHERE STUDYTIME_DIVISION = 1
-		       AND STUDYTIME_DATE BETWEEN TRUNC(SYSDATE, 'IW')
-		                          AND TRUNC(SYSDATE, 'IW') + 6.99999
+		       AND STUDYTIME_DATE BETWEEN TRUNC(SYSDATE, 'DY')
+		                          AND TRUNC(SYSDATE, 'DY') + 6.99999
 		       GROUP BY STUDYGROUP_CODE )
 		JOIN ( SELECT STUDYGROUP_CODE, SUM(STUDYTIME_STUDYTIME) AS "GR_DAY_TOTAL"
 		       FROM STUDYTIME
@@ -91,8 +91,8 @@
 		                                   SUM(STUDYTIME_STUDYTIME) AS "MEM_WEEKDAY_TOTAL"
 		                            FROM STUDYTIME
 		                            WHERE STUDYTIME_DIVISION = 1
-		                            AND STUDYTIME_DATE BETWEEN TRUNC(SYSDATE, 'IW')
-		                                               AND TRUNC(SYSDATE, 'IW') + 6.99999
+		                            AND STUDYTIME_DATE BETWEEN TRUNC(SYSDATE, 'DY')
+		                                               AND TRUNC(SYSDATE, 'DY') + 6.99999
 		                            GROUP BY TRUNC(STUDYTIME_DATE), STUDYGROUP_CODE, MEMBER_CODE ) ST
 		                     JOIN STUDYGROUP GR ON(ST.STUDYGROUP_CODE = GR.STUDYGROUP_CODE) ),
 		                   ( SELECT COUNT(*) AS "GR_MEM_CNT"
@@ -103,8 +103,8 @@
 		       GROUP BY STUDYGROUP_CODE, GR_MEM_CNT ) USING(STUDYGROUP_CODE)
 		JOIN STUDYGROUP USING(STUDYGROUP_CODE)
 		JOIN CATEGORY USING(CATEGORY_CODE),
-		   ( SELECT TRUNC(SYSDATE, 'IW') "WEEK_ST",
-		            TRUNC(SYSDATE, 'IW') + 6.99999 "WEEK_END"
+		   ( SELECT TRUNC(SYSDATE, 'DY') "WEEK_ST",
+		            TRUNC(SYSDATE, 'DY') + 6.99999 "WEEK_END"
 		     FROM DUAL )
 		WHERE STUDYGROUP_CODE = #{ grCode }
 	</select>
@@ -117,8 +117,8 @@
 		              FROM ( SELECT STUDYGROUP_CODE, MEMBER_CODE, SUM(STUDYTIME_STUDYTIME) AS "MY_WEEK_TOTAL"
 		                     FROM STUDYTIME
 		                     WHERE STUDYTIME_DIVISION = 1
-		                     AND STUDYTIME_DATE BETWEEN TRUNC(SYSDATE, 'IW')
-		                     					AND TRUNC(SYSDATE, 'IW') + 6.99999
+		                     AND STUDYTIME_DATE BETWEEN TRUNC(SYSDATE, 'DY')
+		                     					AND TRUNC(SYSDATE, 'DY') + 6.99999
 		                     GROUP BY STUDYGROUP_CODE, MEMBER_CODE )
 		              WHERE STUDYGROUP_CODE = #{ grCode } )
 		       WHERE MEMBER_CODE = #{ memCode } )

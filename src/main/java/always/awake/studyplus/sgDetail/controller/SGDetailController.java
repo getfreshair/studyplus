@@ -31,7 +31,7 @@ public class SGDetailController {
 		int memCode = ((Member)(request.getSession().getAttribute("loginUser"))).getMember_Code();
 		
 		//		test 지우기
-		memCode = 1;	
+		memCode = 5;	
 		
 		try {
 			int joinStatus = gs.selectJoinStatus(grCode, memCode);
@@ -149,6 +149,12 @@ public class SGDetailController {
 	}
 	
 	
+	@RequestMapping("selectGrMemRank.sgd")
+	public ModelAndView selectGrMemRank(int grCode, ModelAndView mv) {
+		
+		mv.setViewName("studyGroupDetail/leftGroupStudyTimeRank");
+		return mv;
+	}
 	
 /*		@RequestMapping(value="/selectOneGroup.sgd", method=RequestMethod.POST)
 		public String selectOneGroupDetail(@RequestParam("userId")String userId, @RequestParam(value="userPwd", defaultValue="1234", required=false)String userPwd) {
