@@ -127,5 +127,14 @@ public class StudyPlannerServiceImpl implements StudyPlannerService{
 		return 0;
 	}
 
+	//주간 목표 리스트
+	@Override
+	public List<Map<String, Object>> selectWeeklyGoals(Map<String, Object> hmap) throws plannerException {
+		
+		List<Map<String, Object>> weeklyGoals = spd.selectWeeklyGoals(sqlSession, hmap);
+		
+		return weeklyGoals;
+	}
+
 
 }

@@ -760,7 +760,9 @@ function todayGoalsList(){
 	
 
 	var $todayPoint = $(".today_point span");
+	var $weekday = $(".sel_wrap input");
 	
+	//노가다 눈물난다..
 	switch(now.getDay()){
 		case 0 : //일요일
 			$todayPoint.eq(0).text($today).addClass('on').attr("value",$todayVal);
@@ -770,6 +772,15 @@ function todayGoalsList(){
 			$todayPoint.eq(4).text($next4).attr("value",$nextVal4);
 			$todayPoint.eq(5).text($next5).attr("value",$nextVal5);
 			$todayPoint.eq(6).text($next6).attr("value",$nextVal6);
+			
+			//모달 요일 선택에도 날짜 넣어줌
+			$weekday.eq(0).attr("value",$todayVal);
+			$weekday.eq(1).attr("value",$nextVal1);
+			$weekday.eq(2).attr("value",$nextVal2);
+			$weekday.eq(3).attr("value",$nextVal3);
+			$weekday.eq(4).attr("value",$nextVal4);
+			$weekday.eq(5).attr("value",$nextVal5);
+			$weekday.eq(6).attr("value",$nextVal6);
 			break;
 		case 1 : //월요일
 			$todayPoint.eq(0).text($prev1).attr("value",$prevVal1).addClass('la');
@@ -779,6 +790,14 @@ function todayGoalsList(){
 			$todayPoint.eq(4).text($next3).attr("value",$nextVal3);
 			$todayPoint.eq(5).text($next4).attr("value",$nextVal4);
 			$todayPoint.eq(6).text($next5).attr("value",$nextVal5);
+			
+			$weekday.eq(0).attr("value",$prevVal1);
+			$weekday.eq(1).attr("value",$todayVal);
+			$weekday.eq(2).attr("value",$nextVal1);
+			$weekday.eq(3).attr("value",$nextVal2);
+			$weekday.eq(4).attr("value",$nextVal3);
+			$weekday.eq(5).attr("value",$nextVal4);
+			$weekday.eq(6).attr("value",$nextVal5);
 			break;
 		case 2 : //화요일
 			$todayPoint.eq(0).text($prev2).attr("value",$prevVal2).addClass('la');
@@ -788,6 +807,14 @@ function todayGoalsList(){
 			$todayPoint.eq(4).text($next2).attr("value",$nextVal2);
 			$todayPoint.eq(5).text($next3).attr("value",$nextVal3);
 			$todayPoint.eq(6).text($next4).attr("value",$nextVal4);
+			
+			$weekday.eq(0).attr("value",$prevVal2);
+			$weekday.eq(1).attr("value",$prevVal1);
+			$weekday.eq(2).attr("value",$todayVal);
+			$weekday.eq(3).attr("value",$nextVal1);
+			$weekday.eq(4).attr("value",$nextVal2);
+			$weekday.eq(5).attr("value",$nextVal3);
+			$weekday.eq(6).attr("value",$nextVal4);
 			break;
 		case 3 : //수요일
 			$todayPoint.eq(0).text($prev3).attr("value",$prevVal3).addClass('la');
@@ -797,6 +824,14 @@ function todayGoalsList(){
 			$todayPoint.eq(4).text($next1).attr("value",$nextVal1);
 			$todayPoint.eq(5).text($next2).attr("value",$nextVal2);
 			$todayPoint.eq(6).text($next3).attr("value",$nextVal3);
+			
+			$weekday.eq(0).attr("value",$prevVal3);
+			$weekday.eq(1).attr("value",$prevVal2);
+			$weekday.eq(2).attr("value",$prevVal1);
+			$weekday.eq(3).attr("value",$todayVal);
+			$weekday.eq(4).attr("value",$nextVal1);
+			$weekday.eq(5).attr("value",$nextVal2);
+			$weekday.eq(6).attr("value",$nextVal3);
 			break;
 		case 4 : //목요일
 			$todayPoint.eq(0).text($prev4).attr("value",$prevVal4).addClass('la');
@@ -806,6 +841,14 @@ function todayGoalsList(){
 			$todayPoint.eq(4).text($today).addClass('on').attr("value",$todayVal);
 			$todayPoint.eq(5).text($next1).attr("value",$nextVal1);
 			$todayPoint.eq(6).text($next2).attr("value",$nextVal2);
+			
+			$weekday.eq(0).attr("value",$prevVal4);
+			$weekday.eq(1).attr("value",$prevVal3);
+			$weekday.eq(2).attr("value",$prevVal2);
+			$weekday.eq(3).attr("value",$prevVal1);
+			$weekday.eq(4).attr("value",$todayVal);
+			$weekday.eq(5).attr("value",$nextVal1);
+			$weekday.eq(6).attr("value",$nextVal2);
 			break;
 		case 5 : //금요일
 			$todayPoint.eq(0).text($prev5).attr("value",$prevVal5).addClass('la');
@@ -815,6 +858,14 @@ function todayGoalsList(){
 			$todayPoint.eq(4).text($prev1).attr("value",$prevVal1).addClass('la');
 			$todayPoint.eq(5).text($today).addClass('on').attr("value",$todayVal);
 			$todayPoint.eq(6).text($next1).attr("value",$nextVal1);
+			
+			$weekday.eq(0).attr("value",$prevVal5);
+			$weekday.eq(1).attr("value",$prevVal4);
+			$weekday.eq(2).attr("value",$prevVal3);
+			$weekday.eq(3).attr("value",$prevVal2);
+			$weekday.eq(4).attr("value",$prevVal1);
+			$weekday.eq(5).attr("value",$todayVal);
+			$weekday.eq(6).attr("value",$nextVal1);
 			break;
 		case 6 : //토요일
 			$todayPoint.eq(0).text($prev6).attr("value",$prevVal6).addClass('la');
@@ -824,12 +875,22 @@ function todayGoalsList(){
 			$todayPoint.eq(4).text($prev2).attr("value",$prevVal2).addClass('la');
 			$todayPoint.eq(5).text($prev1).attr("value",$prevVal1).addClass('la');
 			$todayPoint.eq(6).text($today).addClass('on').attr("value",$todayVal);
+			
+			$weekday.eq(0).attr("value",$prevVal6);
+			$weekday.eq(1).attr("value",$prevVal5);
+			$weekday.eq(2).attr("value",$prevVal4);
+			$weekday.eq(3).attr("value",$prevVal3);
+			$weekday.eq(4).attr("value",$prevVal2);
+			$weekday.eq(5).attr("value",$prevVal1);
+			$weekday.eq(6).attr("value",$todayVal);
 			break;
 	}
 	
 	
 	//오늘날짜 리스트 default로 출력(아래 함수 호출)
 	todayGoalsList($todayVal);
+	//주간목표 리스트 default로 출력(아래 함수 호출)
+	weeklyGoalsList($todayVal);
 	
 	//날짜 선택시 해당 날짜의 리스트 출력
 	$(".today_point li span").click(function(){
@@ -860,11 +921,13 @@ function todayGoalsList(){
 					
 					var goalCode = data[i].GOAL_CODE; 				//목표코드
 					var content = data[i].GOAL_CONTENT;				//목표명
-					var type = data[i].GOAL_TYPE == 0?"페이지":"시간"; //0일경우 페이지, 1일경우 시간
+					//var type = data[i].GOAL_TYPE == 0?"페이지":"시간"; //0일경우 페이지, 1일경우 시간
+					var type = data[i].GOAL_TYPE;					//0일경우 페이지, 1일경우 시간
 					var achiev = data[i].GOAL_ACHIEVEAMOUNT; 		//달성량
 					var goalAmount = data[i].GOAL_GOALAMOUNT; 		//목표량
 					var achievPer = ((data[i].GOAL_ACHIEVEAMOUNT / data[i].GOAL_GOALAMOUNT) * 100).toFixed(0); //달성률
 					var shortfallPer = 100 - achievPer; 			//미달성률
+					var dataType;
 					
 					//목표 타입이 시간일 경우 시간,분으로 변경
 					if(type != 0){
@@ -872,6 +935,10 @@ function todayGoalsList(){
 						goalAmountMin = ((goalAmount/60)%60);					//목표량 분
 						achievHour = Math.floor(((achiev/60)/60)%24);			//달성량 시간
 						achievMin = ((achiev/60)%60);							//달성량 분
+						
+						dataType = achievHour + "시간 " + achievMin + "분"  + ' / ' + goalAmountHour + "시간 " + goalAmountMin + "분";
+					}else{
+						dataType = achiev  + ' / ' + goalAmount + " 페이지";
 					}
 					
 					$('.today_goals .goals_list').append('<li value="'+ goalCode +'">'
@@ -883,7 +950,7 @@ function todayGoalsList(){
 							 + '</div>'
 							 + '<div class="right_area" value="' + data[i].GOAL_TYPE + '">' 
 							 + '<p class="tit">' + content + '</p>'
-							 + '<p class="per">' + achiev  + ' / ' + goalAmount + " " + type
+							 + '<p class="per">' + dataType
 							 + '</p>'
 							 + '</div>'
 							 + '</li>');
@@ -901,12 +968,100 @@ function todayGoalsList(){
 			}
 		});
 	}
+	
+	
+	//이번주 주간 목표 리스트 default로 출력
+	function weeklyGoalsList($todayVal){
+		console.log($todayVal);
+		$.ajax({
+			url : "weeklyGoalsList.sp",
+			data : {dateVal : $todayVal},
+			type : "post",
+			success : function(data){
+				
+				
+				
+				
+				
+				$(".weekly_goals .goals_list").empty();
+				for(var i = 0; i < data.length; i++){
+				
+					var goalCode = data[i].GOAL_CODE; 				//목표코드
+					var content = data[i].GOAL_CONTENT;				//목표명
+					//var type = data[i].GOAL_TYPE == 0?"페이지":"시간"; //0일경우 페이지, 1일경우 시간
+					var type = data[i].GOAL_TYPE;					//0일경우 페이지, 1일경우 시간
+					var achiev = data[i].GOAL_ACHIEVEAMOUNT; 		//달성량
+					var goalAmount = data[i].GOAL_GOALAMOUNT; 		//목표량
+					var achievPer = ((data[i].GOAL_ACHIEVEAMOUNT / data[i].GOAL_GOALAMOUNT) * 100).toFixed(0); //달성률
+					var shortfallPer = 100 - achievPer; 			//미달성률
+					var dataType;
+					var week = data[i].WEEK;						//목표 요일
+					
+					
+					//목표 타입이 시간일 경우 시간,분으로 변경
+					if(type != 0){
+						goalAmountHour = Math.floor(((goalAmount/60)/60)%24);	//목표량 시간
+						goalAmountMin = ((goalAmount/60)%60);					//목표량 분
+						achievHour = Math.floor(((achiev/60)/60)%24);			//달성량 시간
+						achievMin = ((achiev/60)%60);							//달성량 분
+						
+						dataType = achievHour + "시간 " + achievMin + "분"  + ' / ' + goalAmountHour + "시간 " + goalAmountMin + "분";
+					}else{
+						dataType = achiev  + ' / ' + goalAmount + " 페이지";
+					}
+					
+					$('.weekly_goals .goals_list').append('<li value="'+ goalCode +'">'
+							 + '<div class="left_area">'
+							 + '<div class="donut_area">'
+							 + '<canvas id="weekly_donut'+ i +'" width="70" height="70"></canvas>'
+							 + '<span class="chart_per">' + achievPer + '%' + '</span>'
+							 + '</div>'
+							 + '</div>'
+							 + '<div class="right_area" value="' + data[i].GOAL_TYPE + '">' 
+							 + '<p class="tit">' + content + " (" + week + ')</p>'
+							 + '<p class="per">' + dataType
+							 + '</p>'
+							 + '</div>'
+							 + '</li>');
+					
+					//목표 리스트 노출된 부분 공부량 차트 (아래 함수 호출)
+					//GoalListChart2(achievPer, shortfallPer, i);
+					
+					//목표 리스트 각 목표 클릭시 상세 팝업창 노출(아래 함수 호출)
+					//todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, achievHour, achievMin, achievPer, shortfallPer);
+				
+				}
+				
+			},
+			error : function(){
+				console.log("주간에러발생!");
+			}
+		});
+	}
+	
 }
 
 
-//목표 리스트 노출된 부분 공부량 차트 
+//오늘의 목표 리스트 노출된 부분 공부량 차트 
 function GoalListChart(achievPer, shortfallPer, i){
 	var ctx = document.getElementById("today_donut"+i).getContext('2d');
+	var today_donut = new Chart(ctx, {
+		type: 'doughnut',
+		data: data = {
+				datasets: [{
+					data: [achievPer, shortfallPer],
+					backgroundColor: ['#36a2eb']
+				}],
+		},
+		options: {
+			events: [false],
+		}
+	});	
+}
+
+//주간 목표 리스트 노출된 부분 공부량 차트 
+function GoalListChart2(achievPer, shortfallPer, i){
+	var ctx = document.getElementById("weekly_donut"+i).getContext('2d');
 	var today_donut = new Chart(ctx, {
 		type: 'doughnut',
 		data: data = {
@@ -925,7 +1080,8 @@ function GoalListChart(achievPer, shortfallPer, i){
 //리스트 각 목표 클릭시 상세 팝업창 노출
 function todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, achievHour, achievMin, achievPer, shortfallPer){
 	
-	$(".today_goals li .right_area").click(function(){
+	$(".goals_list li .right_area").click(function(){
+		
 		var liIndex = $(this).parent().val();
 		
 		if($(this).attr("value") == 1){ //타입이 시간일경우
@@ -981,9 +1137,6 @@ function todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, 
 }
 
 
-function weeklyGoalsList(){
-	
-}
 
 
 //목표 등록 모달
