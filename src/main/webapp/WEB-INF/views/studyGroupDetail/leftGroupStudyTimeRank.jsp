@@ -43,11 +43,11 @@
 					<span><strong class="nextBtn"> ></strong></span>
 				</td>
 				<td style="text-align:right;">
-					<span id="daily" class="menuBtn" onclick="daily(1);">일간</span>
+					<span id="selectDay" class="menuBtn" onclick="selectDay();">일간</span>
 					<span style="cursor:auto;">|</span>
-					<span id="weekly" class="menuBtn" onclick="weekly(1);">주간</span>
+					<span id="selectWeek" class="menuBtn" onclick="selectWeek();">주간</span>
 					<span style="cursor:auto;">|</span>
-					<span id="monthly" class="menuBtn" onclick="monthly(1);">월간</span>
+					<span id="selectMonth" class="menuBtn" onclick="selectMonth();">월간</span>
 				</td>
 			</tr></table>
 		</div>
@@ -85,100 +85,129 @@
 </body>
 
 <script>
+/* 	 조건
+		1. 시작일 이전으로는 조회 불가 / 오늘 이후로는 조회 불가
+		2. 년, 월, 주 값이 1미만이라면
+			date 값을 해당 단위의 시작 일자에서 - 1 로 변경 하여 적용하기
+			ex) 1일 일 때 전 월 마지막 일자로 ( 기본적으로 돼 있음)
+				1 주차 일 때 전 월의 마지막 주로 / 
+				1월 일 때 전 년도 12월로 / 
+		3. 값이 없을 때에도 기본값이 닉네임 순으로 정렬되어 00:00:00 띄우기(왕관은 빼고)
+		4. 목표 시간 이상 달성한 회원은 bar 색을 초록으로, 그렇지 않으면 빨강으로
+		( 5. 목표 시간 달성이 안되면 왕관 빼기
+				 (주간 : 목표시간 * 7 / 월간 : 목표시간 * 일 수 미만)
+			 -> 기준이 애매해서 보류) */
+
+
+ 	var selectPeriod = 0;
+	var dayPick = 0;
+	var monthPick = 0;
+	
 	$(function(){
-		var pickDate = 0;
-		var dailyPick = 0;
-		var weeklyPick = 0;
-		var monthlyPick = 0;	
-		
-		dailyPick = function daily(num){
-						weeklyPick = 0;
-						monthlyPick = 0;
-						return num;
-					};
-		weeklyPick =  function weekly(num){
-						dailyPick = 0;
-						monthlyPick = 0;
-						return num;
-					};
-		monthlyPick =  function monthly(num){
-						dailyPick = 0;
-						weeklyPick = 0;
-						return num;
-					};
-				
+		selectDay();
 	});
-	
-/* 	
-	function daily(){
-		$('#daily').css({"font-weight":"bold"});
-		$('#weekly').css({"font-weight":""});
-		$('#monthly').css({"font-weight":""});
 		
-		pickDate = 0;
-		weeklyPick = 0;
-		monthlyPick = 0;
+	function selectRankingDate(selectPeriod, dayPick, monthPick, yearPick){
+		alert("여긴 와?");
+		$.ajax({
+			url:"selectRankingDate.sgd",
+			data : { selectPeriod : selectPeriod, dayPick : dayPick,
+					 monthPick : monthPick },
+			type : "POST",
+			success:function(data) {
+				console.log(data);
+			}
 		
- 		$(".prevBtn").click(function(){
-			pickDate += -1
 		});
- 		$(".nextBtn").click(function(){
-			pickDate += 1
-		});		
+	}
+	
+	$(".prevBtn").click(function(){
+		selectPeriod += -1
+		alert(pickDate);
+		console.log("prevBtn selectPeriod = " + selectPeriod);
+		console.log("prevBtn dayPick = " + dayPick);
+		console.log("prevBtn monthPick = " + monthPick);
+		console.log("prevBtn yearPick = " + yearPick);
+		
+		selectRankingDate(selectPeriod, dayPick, monthPick, yearPick);
+		
+/* 		if(montlyPick = 1 && 현재 받아 온 월의 jstl 값이 1이면서 해당 버튼을 눌렀다면 년도 변경하기){
+			
+		}
+*/
+		
+		
+	});
+	$(".nextBtn").click(function(){
+		selectPeriod += 1
+		alert(pickDate);
+		console.log("nextBtn selectPeriod = " + selectPeriod);
+		console.log("nextBtn dayPick = " + dayPick);
+		console.log("nextBtn monthPick = " + monthPick);
+		console.log("nextBtn yearPick = " + yearPick);
+		
+		if(selectPeriod >= 0){
+			$('.nextBtn').prop("disabled", true);
+			alert("선택불가");
+			pickDate = 0;
+		}
+		
+		selectRankingDate(selectPeriod, dayPick, monthPick, yearPick);
+	});
+		
+	function selectDay(){
+		$('#selectDay').css({"font-weight":"bold"});
+		$('#selectWeek').css({"font-weight":""});
+		$('#selectMonth').css({"font-weight":""});
 
-		alert("d" + pickDate);
-
-		dailyPick = 1 * pickDate;
- 		
- 		alert("dailyPick = " + dailyPick);
+		selectPeriod = 0;
+		dayPick = 1;
+		monthPick = 0;
+		yearPick = 0;
+		
+		console.log("Daily selectPeriod = " + selectPeriod);
+		console.log("Daily dayPick = " + dayPick);
+		console.log("Daily monthPick = " + monthPick);
+		console.log("Daily yearPick = " + yearPick);
+		
+		selectRankingDate(selectPeriod, dayPick, monthPick, yearPick);
 	};
-	
- 	function weekly(){
-		$('#daily').css({"font-weight":""});
-		$('#weekly').css({"font-weight":"bold"});
-		$('#monthly').css({"font-weight":""});
- 		
-		pickDate = 0;
- 		dailyPick = 0;
-		monthlyPick = 0;
-		
- 		$(".prevBtn").click(function(){
-			pickDate += -1
-		});
 
- 		$(".nextBtn").click(function(){
-			pickDate += 1
-		});		
- 	
-		alert("w" + pickDate);
- 		weeklyPick = 1 * pickDate;
- 		
- 		alert("weeklyPick = " + weeklyPick);
- 	};
- 	
- 	function monthly(){
-		$('#daily').css({"font-weight":""});
-		$('#weekly').css({"font-weight":""});
-		$('#monthly').css({"font-weight":"bold"});
- 		
- 		pickDate = 0;
- 		dailyPick = 0;
-		weeklyPick = 0;
+	function selectWeek(){
+		$('#selectDay').css({"font-weight":""});
+		$('#selectWeek').css({"font-weight":"bold"});
+		$('#selectMonth').css({"font-weight":""});			
 		
- 		$(".prevBtn").click(function(){
-			pickDate += -1
-			alert("m" + pickDate);
-		});
- 		$(".nextBtn").click(function(){
-			pickDate += 1
-			alert("m" + pickDate);
-		});		
+		selectPeriod = 0;
+		dayPick = 7;
+		monthPick = 0;
+		yearPick = 0;
+		
+		console.log("Weekly selectPeriod = " + selectPeriod);
+		console.log("Weekly dayPick = " + dayPick);
+		console.log("Weekly monthPick = " + monthPick);
+		console.log("Weekly yearPick = " + yearPick);
+		
+		selectRankingDate(selectPeriod, dayPick, monthPick, yearPick);
+	};
+				
+	function selectMonth(){
+		$('#selectDay').css({"font-weight":""});
+		$('#selectWeek').css({"font-weight":""});
+		$('#selectMonth').css({"font-weight":"bold"});
 
- 		monthlyPick = 1 * pickDate;
- 		
- 		alert("monthlyPick = " + monthlyPick);
- 	};
-	 */
+		selectPeriod = 0;
+		dayPick = 0;
+		monthPick = 1;
+		yearPick = 0;
+		
+		console.log("Monthly selectPeriod = " + selectPeriod);
+		console.log("Monthly dayPick = " + dayPick);
+		console.log("Monthly monthPick = " + monthPick);
+		console.log("Monthly yearPick = " + yearPick);
+		
+		selectRankingDate(selectPeriod, dayPick, monthPick, yearPick);
+	};
 </script>
 
 

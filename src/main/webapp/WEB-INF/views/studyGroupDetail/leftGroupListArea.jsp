@@ -101,12 +101,7 @@
 	</div>
 </body>
 
-<script>
-	$(function(){
-		
-		
-	});
-	
+<script>	
 	function hideChangeLeader(){
 		$('.hideChangeLeader').css({"display":"none"});
 		$('.showChangeLeader').css({"display":"table-cell"});		
@@ -129,8 +124,8 @@
 				type : "POST",
 				success:function(data) {
 					console.log(data);
-					$('#leftIncludeArea').empty();
-					$('#leftIncludeArea').append(data);	
+					/* $('#leftIncludeArea').empty();
+					$('#leftIncludeArea').append(data);	 */
 					
 					selectGrMemList(grCode, loginUserCode);
 				},
@@ -155,8 +150,8 @@
 					type : "POST",
 					success:function(data) {
 						console.log(data);
-						$('#leftIncludeArea').empty();
-						$('#leftIncludeArea').append(data);
+						/* $('#leftIncludeArea').empty();
+						$('#leftIncludeArea').append(data); */
 						
 						selectGrMemList(grCode, loginUserCode);
 						

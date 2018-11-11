@@ -173,6 +173,15 @@
 		AND JOINGROUP_STATUS = 0
 		AND JOINGROUP_DELETEDATE IS NULL
 	</update>
+	
+	<select id="selectRankingDate" parameterType="_int" resultType="hashmap">
+		SELECT SELECT_DATE,
+			   TO_CHAR(SELECT_DATE, 'W') AS "WEEK_NUM",
+			   TO_CHAR(SELECT_DATE, 'MM') AS "MONTH",
+			   TO_CHAR(LAST_DAY(SELECT_DATE), 'DD') + 1 AS "MONTH_LASTDAY"
+		FROM ( SELECT SYSDATE - #{ minusDate } AS "SELECT_DATE" FROM DUAL);  
+	</select>
+	
 </mapper>
 	
 	
