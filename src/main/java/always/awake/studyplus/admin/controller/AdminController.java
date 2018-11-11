@@ -32,6 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import always.awake.studyplus.admin.common.CommonUtils;
 import always.awake.studyplus.admin.common.Pagination;
+import always.awake.studyplus.admin.model.exception.AdminException;
 import always.awake.studyplus.admin.model.service.AdminService;
 import always.awake.studyplus.admin.model.vo.Banner;
 import always.awake.studyplus.admin.model.vo.DispauseBoard;
@@ -62,8 +63,94 @@ public class AdminController {
 		
 		return page;
 	}
+	//////////////////////////////////////////////////통계///////////////////////////////////////////////////////////
+	@RequestMapping("getMemberStatic.do")
+	public ModelAndView getMemberStatic(ModelAndView mv, HttpServletRequest request) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		List<Map<String, Object>> todayJoinMemberList = as.getTodayJoinMember();
+		List<Map<String, Object>> totalPenaltyMemberList = as.getTotalPenaltyMember();
+		List<Map<String, Object>> totalMemberList = as.getTotalMember();
+		List<Map<String, Object>> categoryMemberList = as.getCategoryMember();
+		List<Map<String, Object>> joinMemberMonth = as.getJoinMemberMonth();
+		
+		System.out.println(todayJoinMemberList);
+		System.out.println(totalPenaltyMemberList);
+		System.out.println(totalMemberList);
+		System.out.println(categoryMemberList);
+		System.out.println(joinMemberMonth);
+		
+		map.put("todayJoinMemberList", todayJoinMemberList);
+		map.put("totalPenaltyMemberList", totalPenaltyMemberList);
+		map.put("totalMemberList", totalMemberList);
+		map.put("categoryMemberList", categoryMemberList);
+		map.put("joinMemberMonth", joinMemberMonth);
+		
+		
+		mv.addObject("data", map);
+		
+		mv.setViewName("admin/statisticsManage/memberStat");
+		
+		return mv;
+	}
+	
+	
+	//////////////////////////////////////////////////통계 끝/////////////////////////////////////////////////////////
 	
 	/////////////////////////////////////////////지급 관리/////////////////////////////////////////////////////////////
+	@RequestMapping("searchGroupRewardHistory.do")
+	public @ResponseBody List<Map<String, Object>> searchGroupRewardHistory(@RequestParam String option, @RequestParam String keyword, HttpServletResponse response){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		System.out.println(keyword);
+		System.out.println(option);
+		
+		
+		map.put("keyword", keyword);
+		map.put("option", option);
+		
+		List<Map<String, Object>> list = as.searchGroupRewardHistory(map);
+		
+		System.out.println(list);
+		
+		return list;
+	}
+	
+	@RequestMapping("updateGroupReward.do")
+	public @ResponseBody int updateGroupReward(@RequestParam String groupRewardCode, HttpSession session, HttpServletResponse response){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		String[] nCode = groupRewardCode.split(",");
+		System.out.println(groupRewardCode);
+		System.out.println(nCode);
+		
+		int result = 0;
+		
+		for(int i = 0 ; i < nCode.length; i++) {
+			int code = Integer.parseInt(nCode[i].trim());
+			map.put("code",code);
+			result += as.updateGroupReward(map);
+		}
+		return result;
+	}
+	
+	@RequestMapping("getGroupRewardList.do")
+	public ModelAndView getGroupRewardList(ModelAndView mv, HttpServletRequest request) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		List<Map<String, Object>> list = as.getGroupRewardList();
+		
+		System.out.println(list);
+		map.put("list", list);
+		
+		mv.addObject("data", map);
+		mv.setViewName("admin/rewardManage/groupReward");
+		
+		return mv;
+	}
+	
+	
+	
 	@RequestMapping("searchSingleRewardHistory.do")
 	public @ResponseBody List<Map<String, Object>> searchSingleRewardHistory(@RequestParam String option, @RequestParam String keyword, HttpServletResponse response){
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -836,4 +923,29 @@ public class AdminController {
 	}
 	
 	/////////////////////////////////////////회원관리 회원리스트 끝///////////////////////////////////////
+	@RequestMapping(value="selectImgAndLink.do")
+	public @ResponseBody Map<String, Object> selectImgAndLink(@RequestParam(value="member_Code")int member_Code){
+		Map<String, Object> pr = null;
+		
+		try {
+			pr = as.selectImgAndLink(member_Code);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return pr;
+	}
+	
+	@RequestMapping(value="insertPRCount.do")
+	public @ResponseBody int insertPRCount(@RequestParam(value="pr_Code")int pr_Code, @RequestParam(value="member_Code")int member_Code) {
+		int result = -9;
+		
+		try {
+			result = as.insertPRCount(pr_Code, member_Code);
+		} catch (AdminException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 }

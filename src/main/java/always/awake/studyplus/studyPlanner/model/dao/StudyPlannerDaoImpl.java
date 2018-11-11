@@ -107,7 +107,7 @@ public class StudyPlannerDaoImpl implements StudyPlannerDao{
 	@Override
 	public int insertWeeklyTimeGoal(Map<String, Object> hmap) {
 		
-		return sqlSession.update("StudyPlanner.updateWeeklyTimeGoal", hmap);
+		return sqlSession.update("StudyPlanner.insertWeeklyTimeGoal", hmap);
 	}
 
 	//주간 목표 업데이트(시간 단위)
@@ -117,11 +117,11 @@ public class StudyPlannerDaoImpl implements StudyPlannerDao{
 		return sqlSession.update("StudyPlanner.updateWeeklyTimeGoal", hmap);
 	}
 
-	//주간 목표 업데이트(페이지 단위)
+	//주간 목표 등록(페이지 단위)
 	@Override
 	public int insertWeeklyBookGoal(Map<String, Object> hmap) {
 		
-		return sqlSession.update("StudyPlanner.updateWeeklyBookGoal", hmap);
+		return sqlSession.update("StudyPlanner.insertWeeklyBookGoal", hmap);
 	}
 
 	//주간 목표 업데이트(페이지 단위)
@@ -129,6 +129,20 @@ public class StudyPlannerDaoImpl implements StudyPlannerDao{
 	public int updateWeeklyBookGoal(Map<String, Object> hmap) {
 		
 		return sqlSession.update("StudyPlanner.updateWeeklyBookGoal", hmap);
+	}
+	
+	//주간 목표 리스트
+	@Override
+	public List<Map<String, Object>> selectWeeklyGoals(SqlSessionTemplate sqlSession, Map<String, Object> hmap) throws plannerException {
+
+		List<Map<String, Object>> weeklyGoals = sqlSession.selectList("StudyPlanner.selectWeeklyGoals", hmap);
+		
+		if(weeklyGoals == null) {
+
+			throw new plannerException("목표 데이터가 없습니다.");
+		}
+		
+		return weeklyGoals;
 	}
 
 	@Override

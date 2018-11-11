@@ -52,5 +52,9 @@ public interface StudyPlannerDao {
 
 	ArrayList<PersonalRank> selectMemberWeeklyRank2(int member_Code, String[] chartDate4);
 
+	//주간 목표 리스트
+	List<Map<String, Object>> selectWeeklyGoals(SqlSessionTemplate sqlSession, Map<String, Object> hmap) throws plannerException;
+
+
 
 }

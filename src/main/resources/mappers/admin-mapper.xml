@@ -114,6 +114,10 @@
 		VALUES(SEQ_FILES_FILES_CODE.NEXTVAL, 3, #{originFileName}, #{changeName}, SYSDATE, 0, NULL, SEQ_PR_PR_CODE.CURRVAL)
 	</insert>
 	
+	<insert id="updateGroupReward" parameterType="map">
+		INSERT INTO REWARD (REWARD_CODE, REWARD_TYPE, REWARD_STATUS, REWARD_ISSUEDATE, STUDYGROUP_CODE) VALUES(SEQ_REWARD_REWARD_CODE.NEXTVAL,1,1,SYSDATE,#{code})
+	</insert>
+	
 	<update id="penaltyMemberUpdate">
 		UPDATE MEMBER SET MEMBER_STATUS = 3 WHERE MEMBER_CODE = #{code}
 	</update>
@@ -173,6 +177,8 @@
 		UPDATE PR SET PR_STATUS = 2
 		WHERE PR_CODE = #{code} 
 	</update>
+	
+	
 	
 	<select id="getPenaltyList" parameterType="map" resultType="hashmap">
 		SELECT M.MEMBER_CODE, M.MEMBER_ID, M.MEMBER_STATUS, B.BLOCK_CODE,
@@ -476,4 +482,131 @@
 		</if>
 	</select>
 	
+
+	
+	<select id="selectImgAndLink" parameterType="_int" resultType="map">
+		SELECT pr.PR_CODE, pr.PR_LINK, pr.CATEGORY_CODE, pr.PR_STATUS, f.FILES_NAME
+		FROM PR pr
+		LEFT JOIN FILES f ON(pr.PR_CODE = f.PR_CODE)
+		WHERE CATEGORY_CODE IN(SELECT CATEGORY_CODE
+		                       FROM INTERESTCATEGORY
+		                       WHERE MEMBER_CODE = (SELECT MEMBER_CODE
+		                                       FROM MEMBER
+		                                       WHERE MEMBER_CODE = #{member_Code}))
+		AND pr.PR_STATUS = 0
+		AND pr.PR_TYPE = 1
+		<![CDATA[
+			AND ROWNUM <= 2
+		]]>
+		AND f.FILES_STATUS = 0
+		AND f.FILES_ORDER = 0
+	</select>
+	
+	<select id="selectPRCount" parameterType="map" resultType="_int">
+		SELECT COUNT(PRCOUNT_CODE)
+		FROM PRCOUNT
+		WHERE PR_CODE = #{pr_Code}
+		AND MEMBER_CODE = #{member_Code}
+	</select>
+	
+	<insert id="insertPRCount" parameterType="map">
+		INSERT INTO PRCOUNT(PRCOUNT_CODE,PRCOUNT_DATE,MEMBER_CODE,PR_CODE)
+		VALUES(SEQ_PRCOUNT_PRCOUNT_CODE.NEXTVAL,SYSDATE,#{member_Code},#{pr_Code})
+	</insert>
+
+	<select id="getGroupRewardList" resultType="map" parameterType="map">
+	    <![CDATA[
+	 SELECT  MONTH_ST, MONTH_END, STUDYGROUP_CODE, CATEGORY_NAME, GR_MONTH_TOTAL, RK, STUDYGROUP_NAME,STUDYGROUP_STDATE, STUDYGROUP_GOALTIME,REWARD_STATUS
+     FROM (
+     SELECT MONTH_ST, MONTH_END, STUDYGROUP_CODE, CATEGORY_NAME, GR_MONTH_TOTAL, RANK() OVER (PARTITION BY CATEGORY_NAME ORDER BY GR_MONTH_TOTAL DESC) AS "RK",STUDYGROUP_NAME,STUDYGROUP_STDATE,STUDYGROUP_GOALTIME,NVL(REWARD_STATUS, 0
+     ) REWARD_STATUS
+     FROM ( SELECT STUDYGROUP_CODE, CATEGORY_NAME, SUM(STUDYTIME_STUDYTIME) AS "GR_MONTH_TOTAL" ,STUDYGROUP_NAME ,STUDYGROUP_STDATE,STUDYGROUP_GOALTIME ,  REWARD_STATUS 
+       FROM STUDYTIME 
+       JOIN STUDYGROUP USING(STUDYGROUP_CODE)
+       LEFT JOIN REWARD USING(STUDYGROUP_CODE)
+       JOIN CATEGORY USING(CATEGORY_CODE)
+       WHERE STUDYTIME_DIVISION = 1
+       AND STUDYTIME_DATE BETWEEN TO_CHAR(ADD_MONTHS(TRUNC(SYSDATE, 'MM'),-1), 'YYYYMMDD') AND TO_CHAR(ADD_MONTHS(LAST_DAY(SYSDATE),-1), 'YYYYMMDD')
+       GROUP BY STUDYGROUP_CODE, CATEGORY_NAME,STUDYGROUP_NAME,STUDYGROUP_STDATE,STUDYGROUP_GOALTIME,REWARD_STATUS),
+     ( SELECT TO_CHAR(ADD_MONTHS(TRUNC(SYSDATE, 'MM'),-1), 'YYYYMMDD') "MONTH_ST",
+             TO_CHAR(ADD_MONTHS(LAST_DAY(SYSDATE),-1), 'YYYYMMDD') "MONTH_END"
+       FROM DUAL ))
+       WHERE RK <=3
+       ]]>
+	</select>
+	
+	<select id="searchGroupRewardHistory" resultType="map" parameterType="map">
+		SELECT STUDYGROUP_CODE, TO_CHAR(REWARD_ISSUEDATE,'yyyy-mm-dd')as REWARD_ISSUEDATE, STUDYGROUP_NAME, TO_CHAR(STUDYGROUP_STDATE,'yyyy-mm-dd')as STUDYGROUP_STDATE, STUDYGROUP_GOALTIME, CATEGORY_NAME, MEMBER_NICKNAME
+		FROM STUDYGROUP
+		JOIN MEMBER USING(MEMBER_CODE)
+		JOIN REWARD USING(STUDYGROUP_CODE)
+		JOIN CATEGORY USING(CATEGORY_CODE)
+		WHERE 1=1
+		<if test='option eq "전체"'>
+		
+		</if>
+		<if test='option eq "groupCode"'>
+			AND STUDYGROUP_CODE LIKE '%' ||#{keyword}|| '%'
+		</if>
+		<if test='option eq "groupName"'>
+			AND STUDYGROUP_NAME LIKE '%' ||#{keyword}|| '%'
+		</if>
+	
+	</select>
+	
+	
+	<select id="getTodayJoinMember" parameterType="map" resultType="map">
+		SELECT COUNT(*) AS COUNT
+		FROM(
+		SELECT MEMBER_ID
+		FROM MEMBER
+		WHERE MEMBER_ENROLLDATE > SYSDATE-1)
+	</select>
+	
+	<select id="getTotalPenaltyMember" parameterType="map" resultType="map">
+		SELECT COUNT(*) AS COUNT
+		FROM(
+		SELECT MEMBER_CODE
+		FROM MEMBER
+		WHERE MEMBER_STATUS = 3)
+	</select>
+	
+	<select id="getTotalMember" parameterType="map" resultType="map">
+		SELECT COUNT(*) AS COUNT
+		FROM(
+		SELECT MEMBER_CODE
+		FROM MEMBER)
+	</select>
+	
+	<select id="getCategoryMember" parameterType="map" resultType="map">
+		SELECT NVL(sum(countM ),0) AS COUNT ,CATEGORY_NAME from (
+		SELECT NVL(COUNT(MEMBER_CODE ),0) as countM , C.CATEGORY_NAME 
+		FROM INTERESTCATEGORY I
+		JOIN CATEGORY C USING ( CATEGORY_CODE )
+		GROUP BY C.CATEGORY_NAME
+		UNION
+		SELECT 0,CATEGORY_NAME FROM CATEGORY) group by CATEGORY_NAME 
+	</select>
+	
+	<select id="getJoinMemberMonth" parameterType="map" resultType="map">
+		<![CDATA[
+		SELECT COUNT(DECODE(TO_CHAR(MEMBER_ENROLLDATE, 'MM'), '01', 1)) jan,
+			  COUNT(DECODE(TO_CHAR(MEMBER_ENROLLDATE, 'MM'), '02', 1)) feb,
+			  COUNT(DECODE(TO_CHAR(MEMBER_ENROLLDATE, 'MM'), '03', 1)) mar,
+			  COUNT(DECODE(TO_CHAR(MEMBER_ENROLLDATE, 'MM'), '04', 1)) apr,
+			  COUNT(DECODE(TO_CHAR(MEMBER_ENROLLDATE, 'MM'), '05', 1)) may,
+			  COUNT(DECODE(TO_CHAR(MEMBER_ENROLLDATE, 'MM'), '06', 1)) june,
+              COUNT(DECODE(TO_CHAR(MEMBER_ENROLLDATE, 'MM'), '07', 1)) jul,
+			  COUNT(DECODE(TO_CHAR(MEMBER_ENROLLDATE, 'MM'), '08', 1)) aug,
+			  COUNT(DECODE(TO_CHAR(MEMBER_ENROLLDATE, 'MM'), '09', 1)) sep,
+			  COUNT(DECODE(TO_CHAR(MEMBER_ENROLLDATE, 'MM'), '10', 1)) oct,
+			  COUNT(DECODE(TO_CHAR(MEMBER_ENROLLDATE, 'MM'), '11', 1)) nov,
+			  COUNT(DECODE(TO_CHAR(MEMBER_ENROLLDATE, 'MM'), '12', 1)) dec,
+			  COUNT(*) "전체"
+		 FROM MEMBER
+		 WHERE TO_CHAR(MEMBER_ENROLLDATE, 'MM') >= '01' AND TO_CHAR(MEMBER_ENROLLDATE, 'MM') <='12'
+		 ]]>
+	</select>
+
+
 </mapper>

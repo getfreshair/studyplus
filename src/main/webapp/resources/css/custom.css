@@ -132,10 +132,10 @@ table .board-tit a:hover{color:#1a609c;}
 
 .today_goals{overflow: hidden; position:relative; background:#fff;}
 .today_goals .box_tit{padding:5px 10px; color:#fff; background:#5eafe4;}
-.today_goals .box_tit:before{width:24px; height:24px; vertical-align:middle; background:url("/studyplus/resources/images/planner/ico_today_goal.png") 0 50% no-repeat; background-size:100%;}
+.today_goals .box_tit:before{content:''; display:inline-block; width:24px; height:24px; vertical-align:middle; background:url("/studyplus/resources/images/planner/ico_today_goal.png") 0 50% no-repeat; background-size:100%;}
 .weekly_goals{overflow: hidden; position:relative; background:#fff;}
 .weekly_goals .box_tit{padding:5px 14px; color:#fff; background:#59d3a5;}
-.weekly_goals .box_tit:before{width:24px; height:24px; vertical-align:middle; background:url("/studyplus/resources/images/planner/ico_weekly_goal.png") 0 50% no-repeat; background-size:100%;}
+.weekly_goals .box_tit:before{content:''; display:inline-block; width:24px; height:24px; vertical-align:middle; background:url("/studyplus/resources/images/planner/ico_weekly_goal.png") 0 50% no-repeat; background-size:100%;}
 .weekly_goals .box_tit{margin-bottom:5px;}
 
 .today_point{overflow:hidden; padding:6px 0; border-bottom:1px solid #f3f3f3;}

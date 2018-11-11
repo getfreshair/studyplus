@@ -46,9 +46,14 @@ public interface StudyPlannerService {
 	//주간 목표 업데이트(페이지 단위)
 	int updateWeeklyBookGoal(Map<String, Object> hmap);
 
+
 	ArrayList<PersonalRank> selectMemberWeeklyRank(int member_Code, String[] chartDate4);
 
 	ArrayList<PersonalRank> selectMemberWeeklyRank2(int member_Code, String[] chartDate4);
+
+	//주간 목표 리스트
+	List<Map<String, Object>> selectWeeklyGoals(Map<String, Object> hmap) throws plannerException;
+
 
 
 

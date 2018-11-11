@@ -66,9 +66,10 @@
 		SELECT GOAL_CODE,MEMBER_CODE,TO_CHAR(GOAL_ENROLLDATE, 'YYYY/MM/DD')AS GOAL_ENROLLDATE,
 		GOAL_CONTENT,GOAL_TYPE,GOAL_GOALAMOUNT,NVL(GOAL_ACHIEVEAMOUNT,0) GOAL_ACHIEVEAMOUNT,GOAL_ISBN,GOAL_DIVISION
 		FROM GOAL
-		WHERE GOAL_DIVISION = 0
-		AND MEMBER_CODE = #{loginUserCode}
+		WHERE MEMBER_CODE = #{loginUserCode}
 		AND GOAL_ENROLLDATE LIKE TO_DATE(#{checkDay})
+		ORDER BY GOAL_ENROLLDATE
+		<!-- GOAL_DIVISION = 0 -->
 	</select>
 	
 	<!-- 오늘의 목표 등록(시간 단위) -->
@@ -101,11 +102,31 @@
 		AND GOAL_TYPE = 0
 	</update>
 	
+	<!-- 주간 목표 리스트 -->
+	<select id="selectWeeklyGoals" parameterType="map" resultType="map">
+		SELECT GOAL_CODE,MEMBER_CODE, TRUNC(GOAL_ENROLLDATE) AS "GOAL_ENROLLDATE", TO_CHAR(GOAL_ENROLLDATE, 'dy') AS WEEK,
+		GOAL_CONTENT,GOAL_TYPE,GOAL_GOALAMOUNT,NVL(GOAL_ACHIEVEAMOUNT,0) GOAL_ACHIEVEAMOUNT,GOAL_ISBN,GOAL_DIVISION
+		FROM GOAL
+		WHERE GOAL_DIVISION = 1
+		AND MEMBER_CODE = #{loginUserCode}
+        AND GOAL_ENROLLDATE BETWEEN TRUNC(TO_DATE(SYSDATE), 'DY')
+        AND TRUNC(TO_DATE(SYSDATE), 'DY') + 6.99999
+        ORDER BY GOAL_ENROLLDATE
+	</select>
+	<!-- //주간 목표 리스트 -->
+	
 	<!-- 주간 목표 등록(시간 단위) -->
-	<insert id="insertWeeklyTimeGoal" >
+	<insert id="insertWeeklyTimeGoal">
 		INSERT INTO GOAL(GOAL_CODE, MEMBER_CODE, GOAL_ENROLLDATE, GOAL_CONTENT, 
 		GOAL_TYPE, GOAL_GOALAMOUNT, GOAL_ISBN, GOAL_DIVISION)
-		VALUES(SEQ_GOAL_GOAL_CODE.NEXTVAL, #{loginUserCode}, SYSDATE, #{goalName}, 1, #{goalTotaltime}, NULL, 1)
+		<choose>
+			<when test="insertNum eq 0">
+				VALUES(SEQ_GOAL_GOAL_CODE.NEXTVAL, #{loginUserCode}, #{insertDay}, #{goalName}, 1, #{goalTotaltime}, NULL, 1)
+			</when>
+			<when test="insertNum eq 1">
+				VALUES(SEQ_GOAL_GOAL_CODE.CURRVAL, #{loginUserCode}, #{insertDay}, #{goalName}, 1, #{goalTotaltime}, NULL, 1)
+			</when>
+		</choose>
 	</insert>
 	
 	<!-- 주간 목표 업데이트(시간 단위) -->

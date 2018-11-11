@@ -12,65 +12,174 @@
 <title>Insert title here</title>
 
 <style>
-	  .memberOneWrapArea { width:263px; /* border:1px dashed red; display:inline-block; */ }
+	.priodTabMenuArea {/*  width:100%; */ margin-right:15px; padding:0px 10px 10px 10px; /* border-bottom:1px solid gray; */ text-align:right; }
+	  .priodTabMenuArea span { cursor:pointer; font-size:14px; /* font-weight:bold; */ }
+	  	.prevBtn:hover, .nextBtn:hover { color:#ed876a; font-weight:bold; }
+	  
+ 	  .memberOneWrapArea { width:263px; /* border:1px dashed red; display:inline-block; */ }
 		.memberInfo { margin:10px 0px; }
-		  .memberInfo td { padding-left:12px; text-align:left; display:table-cell; vertical-align:middle; }
-		  .profImg { width:50px; height:50px; overflow-y:hidden; border-radius:20%; }
+		  .memberInfo td { position:relative; padding-left:12px; text-align:left; display:table-cell; vertical-align:middle; }
+		   .rankImg { position:absolute; width:15px; margin-top:-8px; }
+		    .rankImg img{ margin-left:37px; }
+		   .profImg { width:50px; height:50px; overflow-y:hidden; border-radius:20%; }
 		  	.profImg img { width:100%; }
-		  .nickName	{ width:105px; height:20%; font-size:12.5px; font-weight:bold; line-height:1.2; word-break:break-all; }
+		  .nickName	{ width:105px; height:50%; font-size:12.5px; font-weight:bold; line-height:1.2; word-break:break-all; }
 		    .nickName strong { vertical-align:super; }
-		  .enrollDate { font-weight:normal; font-size:11px; }	
-		  .listBtn { cursor:pointer; border-radius:15px;  display:table-cell; vertical-align:middle;
-		  			 font-size:11px; font-weight:bold; height:25px; padding: 5px 3px; }
-			.addFriendBtn{ background:lightgray; text-align:center; width:57px; }
- 			/* 그룹장 속성 */			
-/*			.changeLeaderBtn { width:80px;  padding:0px 8px; background:skyblue; text-align:center; }
-			.cancelChangeBtn {  width:80px; background:#f74545; text-align:center; color:white; }
-			.showChangeLeader { display:none; }
-			.deleteGroupMemberBtn { cursor:pointer; color:gray; font-weight:normal; }
-			.deleteGroupMemberBtn:hover { color:black; font-weight:bold; } */
-					
+		  .timeStickAera { width:100%; position:relative; }
+ 		    .timeStickWrap { width:100%; height:20px; background:lightgray; border-radius:15px; border:2px solid; } 
+ 		    .timeStickBack { width:100%; height:100%; position:relative; }
+ 			.timeStick{ width:50%; height:100%; background:lawngreen; border-radius:15px; border:2px outset; }
+			.memberTime{ z-index:999; width:100%; position:absolute; text-align:center; font-size:10px; font-weight:bold; }	
 </style>
 
 </head>
 <body>
 	<div class="rankPageWrap">
-		<div class="memberListArea">		
-
-		<!-- 그룹장 바꾸기 버튼 누르면 hideChangeLeader 가진 요소 숨김 toggleChangeLeaderBtn보이게 -->
-		  <c:forEach var="i" begin="0" end="${fn:length(grMemList) - 1}" step="1" >
-			<div class="leaderMember memberOneWrapArea">
+		<div class="priodTabMenuArea">
+			<table width="100%"><tr>
+				<td style="text-align:left;">
+					<span><strong class="prevBtn">< </strong></span>
+					<span style="cursor:auto;"> 18. 10. 1주차 </span>
+					<span><strong class="nextBtn"> ></strong></span>
+				</td>
+				<td style="text-align:right;">
+					<span id="daily" class="menuBtn" onclick="daily(1);">일간</span>
+					<span style="cursor:auto;">|</span>
+					<span id="weekly" class="menuBtn" onclick="weekly(1);">주간</span>
+					<span style="cursor:auto;">|</span>
+					<span id="monthly" class="menuBtn" onclick="monthly(1);">월간</span>
+				</td>
+			</tr></table>
+		</div>
+		
+<!-- 	반복영역 -->
+		<div class="memberListArea">
+			<div class="memberOneWrapArea">
 				<table class="memberInfo" border="1">
 					<tr>							
-						<td rowspan="2"><div class="profImg">
-							<input type="hidden" id="memCode" value="${grMemList[i].MEMBER_CODE}"/>
-							<img src="${ contextPath }/resources/upload/member/thumbnail/${grMemList[i].FILES_NAME}" />
-						</div></td>
-						<td class="nickName"><strong>${grMemList[i].MEMBER_NICKNAME}</strong></td>
+						<td rowspan="2">
+							<div class="rankImg">
+								<img width="100%" src="${ contextPath }/resources/upload/studygroup/thumbnail/medal.png" />
+							</div>
+							<div class="profImg">
+								<input type="hidden" id="memCode" value=""/>
+								<img src="${ contextPath }/resources/upload/member/thumbnail/163428ba12e94f148ba8cc438e88d3a1" />
+							</div>
+						</td>
+						<td class="nickName"><strong>닉네임자리</strong></td>
 					</tr>
 					<tr><td class="timeStickAera">
 						<div class="timeStickWrap">
 							<div class="timeStickBack">
-							//1등 시간 - > 영역 100%		
-							</div>
-							<div class="timeStick">
-							//그 외 등수	
+								<div class="memberTime">00:00:00</div>
+								<div class="timeStick"></div>
 							</div>
 						</div>
 					</td></tr>
 				</table>
-			</div>
-		  </c:forEach>
-			
+			</div>				
 		</div>
+		
+
 	</div>
 </body>
 
 <script>
 	$(function(){
+		var pickDate = 0;
+		var dailyPick = 0;
+		var weeklyPick = 0;
+		var monthlyPick = 0;	
 		
-		
+		dailyPick = function daily(num){
+						weeklyPick = 0;
+						monthlyPick = 0;
+						return num;
+					};
+		weeklyPick =  function weekly(num){
+						dailyPick = 0;
+						monthlyPick = 0;
+						return num;
+					};
+		monthlyPick =  function monthly(num){
+						dailyPick = 0;
+						weeklyPick = 0;
+						return num;
+					};
+				
 	});
 	
+/* 	
+	function daily(){
+		$('#daily').css({"font-weight":"bold"});
+		$('#weekly').css({"font-weight":""});
+		$('#monthly').css({"font-weight":""});
+		
+		pickDate = 0;
+		weeklyPick = 0;
+		monthlyPick = 0;
+		
+ 		$(".prevBtn").click(function(){
+			pickDate += -1
+		});
+ 		$(".nextBtn").click(function(){
+			pickDate += 1
+		});		
+
+		alert("d" + pickDate);
+
+		dailyPick = 1 * pickDate;
+ 		
+ 		alert("dailyPick = " + dailyPick);
+	};
+	
+ 	function weekly(){
+		$('#daily').css({"font-weight":""});
+		$('#weekly').css({"font-weight":"bold"});
+		$('#monthly').css({"font-weight":""});
+ 		
+		pickDate = 0;
+ 		dailyPick = 0;
+		monthlyPick = 0;
+		
+ 		$(".prevBtn").click(function(){
+			pickDate += -1
+		});
+
+ 		$(".nextBtn").click(function(){
+			pickDate += 1
+		});		
+ 	
+		alert("w" + pickDate);
+ 		weeklyPick = 1 * pickDate;
+ 		
+ 		alert("weeklyPick = " + weeklyPick);
+ 	};
+ 	
+ 	function monthly(){
+		$('#daily').css({"font-weight":""});
+		$('#weekly').css({"font-weight":""});
+		$('#monthly').css({"font-weight":"bold"});
+ 		
+ 		pickDate = 0;
+ 		dailyPick = 0;
+		weeklyPick = 0;
+		
+ 		$(".prevBtn").click(function(){
+			pickDate += -1
+			alert("m" + pickDate);
+		});
+ 		$(".nextBtn").click(function(){
+			pickDate += 1
+			alert("m" + pickDate);
+		});		
+
+ 		monthlyPick = 1 * pickDate;
+ 		
+ 		alert("monthlyPick = " + monthlyPick);
+ 	};
+	 */
 </script>
+
+
 </html>
