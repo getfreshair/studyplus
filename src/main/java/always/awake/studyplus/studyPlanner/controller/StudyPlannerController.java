@@ -271,13 +271,6 @@ public class StudyPlannerController {
 		chartDate4[1] = lastDateResult.substring(2, 10);
 
 		ArrayList<PersonalRank> rankList = sps.selectMemberWeeklyRank(member_Code, chartDate4);
-
-		//System.out.println(chartDate4[0]);
-		//HashMap
-		HashMap<String, Object> hmap = new HashMap<String, Object>();
-		hmap.put("loginUserCode", loginUserCode);
-		hmap.put("chartDateYear", chartDate4);
-
 		
 		return rankList;
 	} 
@@ -324,7 +317,7 @@ public class StudyPlannerController {
 		
 		return rankList;
 	} 
-
+	
 	//오늘의 목표 리스트
 	@RequestMapping(value="todayGoalsList.sp")
 	public @ResponseBody List<Map<String, Object>> todayGoalsList(HttpSession session, @RequestParam String dateVal,  HttpServletResponse response) throws plannerException {
