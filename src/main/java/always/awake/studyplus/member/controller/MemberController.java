@@ -85,5 +85,10 @@ public class MemberController {
 			
 			return "common/errorPage"; 
 		}
-	}	
+	}
+	
+	@RequestMapping(value="questionPage.me")
+	public String questionPage() {
+		return "common/question";
+	}
 }

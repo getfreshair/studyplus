@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
+import always.awake.studyplus.admin.model.exception.AdminException;
 import always.awake.studyplus.admin.model.vo.Banner;
 import always.awake.studyplus.admin.model.vo.DispauseBoard;
 import always.awake.studyplus.admin.model.vo.Member;
@@ -118,6 +119,15 @@ public interface AdminDao {
 	List<Map<String, Object>> searchSingleRewardHistory(SqlSessionTemplate sqlSession, Map<String, Object> map);
 
 
+
+	Map<String, Object> selectImgAndLink(SqlSessionTemplate sqlSession, int member_Code) throws AdminException;
+
+
+	int selectPRCount(SqlSessionTemplate sqlSession, int pr_Code, int member_Code) throws AdminException;
+
+
+	void insertPRCount(SqlSessionTemplate sqlSession, int pr_Code, int member_Code) throws AdminException;
+
 	List<Map<String, Object>> getGroupRewardList(SqlSessionTemplate sqlSession);
 
 
@@ -140,5 +150,6 @@ public interface AdminDao {
 
 
 	List<Map<String, Object>> getJoinMemberMonth(SqlSessionTemplate sqlSession);
+
 
 }

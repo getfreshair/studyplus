@@ -9,10 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import always.awake.studyplus.admin.model.dao.AdminDao;
+import always.awake.studyplus.admin.model.exception.AdminException;
 import always.awake.studyplus.admin.model.vo.Banner;
 import always.awake.studyplus.admin.model.vo.DispauseBoard;
-import always.awake.studyplus.admin.model.vo.Member;
-import always.awake.studyplus.admin.model.vo.PageInfo;
 
 @Service
 public class AdminServiceImpl implements AdminService{
@@ -230,6 +229,23 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
+
+	public Map<String, Object> selectImgAndLink(int member_Code) throws AdminException {
+		return ad.selectImgAndLink(sqlSession, member_Code);
+	}
+
+	@Override
+	public int insertPRCount(int pr_Code, int member_Code) throws AdminException {
+		int result = -1;
+		
+		result = ad.selectPRCount(sqlSession, pr_Code, member_Code);
+		
+		if(!(result > 0)) {
+			ad.insertPRCount(sqlSession, pr_Code, member_Code);
+		}
+		
+		return result;
+
 	public List<Map<String, Object>> getGroupRewardList() {
 		
 		return ad.getGroupRewardList(sqlSession);
@@ -269,6 +285,7 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public List<Map<String, Object>> getJoinMemberMonth() {
 		return ad.getJoinMemberMonth(sqlSession);
+
 	}
 
 

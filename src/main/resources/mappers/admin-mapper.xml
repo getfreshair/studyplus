@@ -482,6 +482,38 @@
 		</if>
 	</select>
 	
+
+	
+	<select id="selectImgAndLink" parameterType="_int" resultType="map">
+		SELECT pr.PR_CODE, pr.PR_LINK, pr.CATEGORY_CODE, pr.PR_STATUS, f.FILES_NAME
+		FROM PR pr
+		LEFT JOIN FILES f ON(pr.PR_CODE = f.PR_CODE)
+		WHERE CATEGORY_CODE IN(SELECT CATEGORY_CODE
+		                       FROM INTERESTCATEGORY
+		                       WHERE MEMBER_CODE = (SELECT MEMBER_CODE
+		                                       FROM MEMBER
+		                                       WHERE MEMBER_CODE = #{member_Code}))
+		AND pr.PR_STATUS = 0
+		AND pr.PR_TYPE = 1
+		<![CDATA[
+			AND ROWNUM <= 2
+		]]>
+		AND f.FILES_STATUS = 0
+		AND f.FILES_ORDER = 0
+	</select>
+	
+	<select id="selectPRCount" parameterType="map" resultType="_int">
+		SELECT COUNT(PRCOUNT_CODE)
+		FROM PRCOUNT
+		WHERE PR_CODE = #{pr_Code}
+		AND MEMBER_CODE = #{member_Code}
+	</select>
+	
+	<insert id="insertPRCount" parameterType="map">
+		INSERT INTO PRCOUNT(PRCOUNT_CODE,PRCOUNT_DATE,MEMBER_CODE,PR_CODE)
+		VALUES(SEQ_PRCOUNT_PRCOUNT_CODE.NEXTVAL,SYSDATE,#{member_Code},#{pr_Code})
+	</insert>
+
 	<select id="getGroupRewardList" resultType="map" parameterType="map">
 	    <![CDATA[
 	 SELECT  MONTH_ST, MONTH_END, STUDYGROUP_CODE, CATEGORY_NAME, GR_MONTH_TOTAL, RK, STUDYGROUP_NAME,STUDYGROUP_STDATE, STUDYGROUP_GOALTIME,REWARD_STATUS

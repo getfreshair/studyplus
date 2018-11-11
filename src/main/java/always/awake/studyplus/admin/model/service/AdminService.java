@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import always.awake.studyplus.admin.model.exception.AdminException;
 import always.awake.studyplus.admin.model.vo.Banner;
 import always.awake.studyplus.admin.model.vo.DispauseBoard;
 import always.awake.studyplus.admin.model.vo.Member;
@@ -78,6 +79,11 @@ public interface AdminService {
 
 	public List<Map<String, Object>> searchSingleRewardHistory(Map<String, Object> map);
 
+
+	public Map<String, Object> selectImgAndLink(int member_Code) throws AdminException;
+
+	public int insertPRCount(int pr_Code, int member_Code) throws AdminException;
+
 	public List<Map<String, Object>> getGroupRewardList();
 
 	public int updateGroupReward(HashMap<String, Object> map);
@@ -93,4 +99,5 @@ public interface AdminService {
 	public List<Map<String, Object>> getCategoryMember();
 
 	public List<Map<String, Object>> getJoinMemberMonth();
+
 }
