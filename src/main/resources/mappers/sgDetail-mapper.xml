@@ -163,6 +163,7 @@
 		SET MEMBER_CODE = #{ afterLeaderCode }
 		WHERE STUDYGROUP_CODE = #{ grCode }
 		AND MEMBER_CODE = #{ nowLeaderCode }
+		
 	</update>
 	
 	<update id="updateDeleteJoinMemberStatus" parameterType="hashmap">
