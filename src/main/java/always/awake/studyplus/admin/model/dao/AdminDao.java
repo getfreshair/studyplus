@@ -152,4 +152,25 @@ public interface AdminDao {
 	List<Map<String, Object>> getJoinMemberMonth(SqlSessionTemplate sqlSession);
 
 
+	List<Map<String, Object>> todayCreateGroupList(SqlSessionTemplate sqlSession);
+
+
+	List<Map<String, Object>> todayCloseGroupList(SqlSessionTemplate sqlSession);
+
+
+	List<Map<String, Object>> categoryGroupList(SqlSessionTemplate sqlSession);
+
+
+	List<Map<String, Object>> weekGroupBoardList(SqlSessionTemplate sqlSession);
+
+
+	List<Map<String, Object>> femaleGroupList(SqlSessionTemplate sqlSession);
+
+
+	List<Map<String, Object>> maleGroupLIst(SqlSessionTemplate sqlSession);
+
+
+	List<Map<String, Object>> totalGroupList(SqlSessionTemplate sqlSession);
+
+
 }

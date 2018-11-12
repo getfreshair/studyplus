@@ -288,5 +288,41 @@ public class AdminServiceImpl implements AdminService{
 
 	}
 
+	@Override
+	public List<Map<String, Object>> todayCreateGroupList() {
+		return ad.todayCreateGroupList(sqlSession);
+	}
+
+	@Override
+	public List<Map<String, Object>> todayCloseGroupList() {
+
+		return ad.todayCloseGroupList(sqlSession);
+	}
+
+	@Override
+	public List<Map<String, Object>> categoryGroupList() {
+		return ad.categoryGroupList(sqlSession);
+	}
+
+	@Override
+	public List<Map<String, Object>> weekGroupBoardList() {
+		return ad.weekGroupBoardList(sqlSession);
+	}
+
+	@Override
+	public List<Map<String, Object>> femaleGroupList() {
+		return ad.femaleGroupList(sqlSession);
+	}
+
+	@Override
+	public List<Map<String, Object>> maleGroupLIst() {
+		return ad.maleGroupLIst(sqlSession);
+	}
+
+	@Override
+	public List<Map<String, Object>> totalGroupList() {
+		return ad.totalGroupList(sqlSession);
+	}
+
 
 }

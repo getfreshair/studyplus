@@ -100,4 +100,18 @@ public interface AdminService {
 
 	public List<Map<String, Object>> getJoinMemberMonth();
 
+	public List<Map<String, Object>> todayCreateGroupList();
+
+	public List<Map<String, Object>> todayCloseGroupList();
+
+	public List<Map<String, Object>> categoryGroupList();
+
+	public List<Map<String, Object>> weekGroupBoardList();
+
+	public List<Map<String, Object>> femaleGroupList();
+
+	public List<Map<String, Object>> maleGroupLIst();
+
+	public List<Map<String, Object>> totalGroupList();
+
 }

@@ -383,7 +383,7 @@ public class AdminDaoImpl implements AdminDao {
 		}catch(Exception e) {
 			throw new AdminException("광고 이력 조회 실패요");
 		}
-
+	}
 	public List<Map<String, Object>> getGroupRewardList(SqlSessionTemplate sqlSession) {
 		
 		return sqlSession.selectList("Admin.getGroupRewardList");
@@ -426,5 +426,40 @@ public class AdminDaoImpl implements AdminDao {
 	public List<Map<String, Object>> getJoinMemberMonth(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectList("Admin.getJoinMemberMonth");
 
+	}
+
+	@Override
+	public List<Map<String, Object>> todayCreateGroupList(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.todayCreateGroupList");
+	}
+
+	@Override
+	public List<Map<String, Object>> todayCloseGroupList(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.todayCloseGroupList");
+	}
+
+	@Override
+	public List<Map<String, Object>> categoryGroupList(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.categoryGroupList");
+	}
+
+	@Override
+	public List<Map<String, Object>> weekGroupBoardList(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.weekGroupBoardList");
+	}
+
+	@Override
+	public List<Map<String, Object>> femaleGroupList(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.femaleGroupList");
+	}
+
+	@Override
+	public List<Map<String, Object>> maleGroupLIst(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.maleGroupLIst");
+	}
+
+	@Override
+	public List<Map<String, Object>> totalGroupList(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.totalGroupList");
 	}
 }
