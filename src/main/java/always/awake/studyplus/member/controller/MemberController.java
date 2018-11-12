@@ -1,6 +1,7 @@
 package always.awake.studyplus.member.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -71,7 +72,11 @@ public class MemberController {
 	@RequestMapping(value="login.me", method=RequestMethod.POST)
 	public String login(@ModelAttribute Member m, Model model) {
 		try {
-			Member loginUser = ms.login(m);
+			Member loginUser = ms.login(m);			
+			HashMap<String,Object> map = new HashMap<String,Object>();
+			map.put("loginUser", loginUser);
+			
+			int result = ms.insertMemberHistory(map);
 			
 			model.addAttribute("loginUser", loginUser);
 			

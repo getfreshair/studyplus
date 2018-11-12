@@ -114,4 +114,14 @@ public interface AdminService {
 
 	public List<Map<String, Object>> totalGroupList();
 
+	public List<Map<String, Object>> thisMonthBanner();
+
+	public List<Map<String, Object>> postBanner();
+
+	public List<Map<String, Object>> totalProfit();
+
+	public List<Map<String, Object>> categoryProfit();
+
+	public List<Map<String, Object>> CPCandCPPprofit();
+
 }

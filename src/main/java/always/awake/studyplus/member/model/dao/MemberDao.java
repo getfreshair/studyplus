@@ -1,5 +1,6 @@
 package always.awake.studyplus.member.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,10 @@ public interface MemberDao {
 
 	void insertMemberNeed(SqlSessionTemplate sqlSession, int member_Code);
 
+
 	void insertGift(SqlSessionTemplate sqlSession, int member_Code);
+
+	int insertMemberHistory(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
 	
 }
