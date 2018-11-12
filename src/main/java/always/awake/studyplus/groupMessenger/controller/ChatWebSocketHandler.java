@@ -1,4 +1,4 @@
-package always.awake.studyplus.messenger.controller;
+package always.awake.studyplus.groupMessenger.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -29,7 +29,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 
-		System.out.println(session.getId() + " 연결됨");
+		System.out.println("그룹 채팅방" + session.getId() + " 연결됨");
 		Member loginUser;
 		Map<String, Object> map;
 		map = session.getAttributes();

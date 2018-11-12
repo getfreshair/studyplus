@@ -55,6 +55,10 @@ public interface StudyPlannerDao {
 	//주간 목표 리스트
 	List<Map<String, Object>> selectWeeklyGoals(SqlSessionTemplate sqlSession, Map<String, Object> hmap) throws plannerException;
 
+	Double selectJobWeeklyRankPercent(SqlSessionTemplate sqlSession, int member_Code, String[] chartDate4);
+
+	Double selectLocationWeeklyRankPercent(SqlSessionTemplate sqlSession, int member_Code, String[] chartDate4);
+
 
 
 }

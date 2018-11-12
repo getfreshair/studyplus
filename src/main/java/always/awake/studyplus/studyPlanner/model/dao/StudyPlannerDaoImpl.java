@@ -173,5 +173,31 @@ public class StudyPlannerDaoImpl implements StudyPlannerDao{
 		return (ArrayList<PersonalRank>) rankList;
 	}
 
+	@Override
+	public Double selectJobWeeklyRankPercent(SqlSessionTemplate sqlSession, int member_Code, String[] chartDate4) {
+		
+		Map<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("member_Code", member_Code);
+		hmap.put("start_Date", chartDate4[0]);
+		hmap.put("end_Date", chartDate4[1]);
+		
+		Double rankPercent = sqlSession.selectOne("StudyPlanner.selectJobWeeklyRankPercent", hmap);
+		
+		return rankPercent;
+	}
+
+	@Override
+	public Double selectLocationWeeklyRankPercent(SqlSessionTemplate sqlSession, int member_Code, String[] chartDate4) {
+
+		Map<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("member_Code", member_Code);
+		hmap.put("start_Date", chartDate4[0]);
+		hmap.put("end_Date", chartDate4[1]);
+		
+		Double rankPercent = sqlSession.selectOne("StudyPlanner.selectLocationWeeklyRankPercent", hmap);
+	
+		return rankPercent;
+	}
+
 
 }

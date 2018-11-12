@@ -204,4 +204,48 @@
 		]]>
 	</select>
 	
+	<select id="selectJobWeeklyRankPercent" parameterType="hashmap" resultType="_double">
+		<![CDATA[
+		SELECT TIMERANK / CASE WHEN TOTAL < 1000 THEN 1000 ELSE TOTAL END * 100 AS PERCENT
+		FROM ( SELECT *
+		       FROM (SELECT MEMBER_CODE, MEMBER_JOB, SUMTIME, RANK() OVER (ORDER BY SUMTIME DESC) AS "TIMERANK"
+		             FROM (  SELECT MEMBER_CODE, MEMBER_JOB, SUM(STUDYTIME_STUDYTIME) AS "SUMTIME"
+		                   FROM STUDYTIME
+		                   JOIN MEMBER USING(MEMBER_CODE)
+		                   WHERE STUDYTIME_DIVISION = 0
+		                   AND TRUNC(STUDYTIME_DATE) >= TO_DATE(#{start_Date}, 'YY/MM/DD') AND TRUNC(STUDYTIME_DATE)  <= TO_DATE(#{end_Date}, 'YY/MM/DD')
+		                   AND MEMBER_JOB = (SELECT MEMBER_JOB FROM MEMBER WHERE MEMBER_CODE = 1)
+		                   GROUP BY MEMBER_CODE, MEMBER_JOB) )),
+		      (SELECT COUNT(DISTINCT MEMBER_CODE) AS TOTAL
+		       FROM STUDYTIME
+		       JOIN MEMBER USING(MEMBER_CODE)
+		       WHERE STUDYTIME_DIVISION = 0
+		       AND TRUNC(STUDYTIME_DATE) >= TO_DATE(#{start_Date}, 'YY/MM/DD') AND TRUNC(STUDYTIME_DATE)  <= TO_DATE(#{end_Date}, 'YY/MM/DD')
+		       AND MEMBER_JOB = (SELECT MEMBER_JOB FROM MEMBER WHERE MEMBER_CODE = #{member_Code}))
+		WHERE MEMBER_CODE = #{member_Code}
+		]]>
+	</select>
+	
+	<select id="selectLocationWeeklyRankPercent" parameterType="hashmap" resultType="_double">
+		<![CDATA[
+		SELECT TIMERANK / CASE WHEN TOTAL < 1000 THEN 1000 ELSE TOTAL END * 100 AS PERCENT
+		FROM ( SELECT *
+		       FROM (SELECT MEMBER_CODE, LOCATION_CODE, SUMTIME, RANK() OVER (ORDER BY SUMTIME DESC) AS "TIMERANK"
+		             FROM (  SELECT MEMBER_CODE, LOCATION_CODE, SUM(STUDYTIME_STUDYTIME) AS "SUMTIME"
+		                   FROM STUDYTIME
+		                   JOIN MEMBER USING(MEMBER_CODE)
+		                   WHERE STUDYTIME_DIVISION = 0
+		                   AND TRUNC(STUDYTIME_DATE) >= TO_DATE(#{start_Date}, 'YY/MM/DD') AND TRUNC(STUDYTIME_DATE)  <= TO_DATE(#{end_Date}, 'YY/MM/DD')
+		                   AND LOCATION_CODE = (SELECT LOCATION_CODE FROM MEMBER WHERE MEMBER_CODE = #{member_Code})
+		                   GROUP BY MEMBER_CODE, LOCATION_CODE) )),
+		      (SELECT COUNT(DISTINCT MEMBER_CODE) AS TOTAL
+		       FROM STUDYTIME
+		       JOIN MEMBER USING(MEMBER_CODE)
+		       WHERE STUDYTIME_DIVISION = 0
+		       AND TRUNC(STUDYTIME_DATE) >= TO_DATE(#{start_Date}, 'YY/MM/DD') AND TRUNC(STUDYTIME_DATE)  <= TO_DATE(#{end_Date}, 'YY/MM/DD')
+		       AND LOCATION_CODE = (SELECT LOCATION_CODE FROM MEMBER WHERE MEMBER_CODE = #{member_Code}))
+		WHERE MEMBER_CODE = #{member_Code}
+		]]>
+	</select>
+		
 </mapper>

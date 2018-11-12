@@ -75,6 +75,18 @@
 					}
 				});
 				
+// 				$.ajax({
+// 					url : "${contextPath}/web/groupChat.groupSocket",
+// 					type : "GET",
+// 					success : function(data){
+			
+// 						$(".today_goals").empty();
+// 						$(".today_goals").append(data);
+// 					}
+// 				});
+				
+				
+				
 				$.ajax({
 					url : "selectUnreadMessage.ms",
 					type : "POST",
@@ -109,7 +121,7 @@
 								<p class="name">${ loginUser.member_Nickname }님 환영합니다.</p>
 							</div>
 							<span class="rank_link" onclick="rankLink()" title="나의 랭킹보기">
-								<p class="rank">지역랭킹 : 상위 1% &nbsp;&nbsp; 분야 랭킹 : 상위 73%</p>
+								<p class="rank">지역랭킹 : 상위  &nbsp;&nbsp; 분야 랭킹 : 상위 </p>
 								<p class="need">식물 Lv. </p>
 							</span>
 						</div>

@@ -19,21 +19,6 @@
 	
 	});
 	
-		
-	$(document).ready(function(){
-	    $('.progress-value > span').each(function(){
-	        $(this).prop('Counter',0).animate({
-	            Counter: $(this).text()
-	        },{
-	            duration: 1500,
-	            easing: 'swing',
-	            step: function (now){
-	                $(this).text(Math.ceil(now));
-	            }
-	        });
-	    });
-	});
-	
 	function todayRankdateWeekly(){
 		var now = new Date();
 		var week = now.getDay();
@@ -137,6 +122,7 @@
 		}
 		var dateVal = $(".weeklyRankDateCk").text(); //컨트롤러에 보낼 날짜
 		weeklyRankChart(dateVal); //주간 공부량 차트
+		weeklyRankPercent(dateVal); // 주간 상위 랭크 bar
 	}
 	
 	function weeklyRankChartChangeDate(){
@@ -362,6 +348,7 @@
 					
 				var dateVal = $(".weeklyRankDateCk").text(); //컨트롤러에 보낼 날짜
 				weeklyRankChart(dateVal); //주간 공부량 차트
+				weeklyRankPercent(dateVal); // 주간 상위 랭크 bar
 			});
 		});
 	}
@@ -423,7 +410,6 @@
 								}
 							}
 						}
-						console.log(rank);
 						
 						$('#weeklyRankChart').empty();
 						var options = {
@@ -453,6 +439,82 @@
 		});	
 	}
 	
+	// 주간 종합 상위 랭크 % 
+	function weeklyRankPercent(dateVal){
+		
+		var locationPer = 0;
+		var jobPer = 0;
+		
+		$.ajax({
+			url : "selectJobWeeklyRankPercent.sp",
+			data : {
+				dateVal : dateVal
+			},
+			type : "POST",
+			async: false,
+			success : function(data){
+				
+				jobPer = data;
+				var barpercent = 100 - data;
+				if(data == ''){
+					
+					data = 100;
+					barpercent = 7;
+				}
+				
+				$("#locationBarDiv").empty();
+				$("#locationBarDiv").append(
+					'<div class="progress-bar" style="width:' + barpercent + '%; background:#1f75c4;">'
+	                + '<span class="progress-icon fa fa-globe"></span>'
+	                + '<div class="progress-value"><span>' + data + '</span>%</div></div>');
+			}
+		});
+		
+		$.ajax({
+			url : "selectLocationWeeklyRankPercent.sp",
+			data : {
+				dateVal : dateVal
+			},
+			type : "POST",
+			async: false,
+			success : function(data){
+				
+				locationPer = data;
+				var barpercent = 100 - data;
+				if(data == ''){
+					
+					data = 100;
+					barpercent = 7;
+				}
+				
+				$("#jobBarDiv").empty();
+				$("#jobBarDiv").append(
+					'<div class="progress-bar" style="width:' + barpercent + '%; background:#f7810e;">'
+	                + '<span class="progress-icon fa fa-rocket"></span>'
+	                + '<div class="progress-value"><span>' + data + '</span>%</div></div>');
+			}
+		});
+		
+		if(locationPer == '' && jobPer == ''){
+			
+			$('p.rank').html("주간 공부 데이터가 없습니다. <br> 프로그램을 차단하고 공부시간을 측정하세요.");
+		}else{
+			
+			$('p.rank').html("지역랭킹 : 상위 " + locationPer + "% &nbsp;&nbsp; 분야 랭킹 : 상위 " + jobPer +  "%");
+		}
+		
+		$('.progress-value > span').each(function(){
+	        $(this).prop('Counter',0).animate({
+	            Counter: $(this).text()
+	        },{
+	            duration: 1500,
+	            easing: 'swing',
+	            step: function (now){
+	                $(this).text(Math.ceil(now));
+	            }
+	        });
+	    });
+	}
 	
  	// 물지급
 	function giveWater(){
@@ -843,18 +905,12 @@
 				</div>
 				<div class="rank_graph">
 					<h3 class="progress-title">지역</h3>
-		            <div class="progress">
-		                <div class="progress-bar" style="width:99%; background:#1f75c4;">
-		                    <span class="progress-icon fa fa-globe"></span>
-		                    <div class="progress-value"><span>1</span>%</div>
-		                </div>
+		            <div id="locationBarDiv" class="progress">
+		               
 		            </div>
 		            <h3 class="progress-title">분야</h3>
-		            <div class="progress orange">
-		                <div class="progress-bar" style="width:90%; background:#f7810e;">
-		                    <span class="progress-icon fa fa-rocket"></span>
-		                    <div class="progress-value"><span>10</span>%</div>
-		                </div>
+		            <div id="jobBarDiv" class="progress orange">
+		        
 		            </div>
 				</div>
 			</div>
@@ -867,7 +923,7 @@
 						class="titleImg"> <span class="titleTxt"> 새싹 키우기 </span>
 				</div>
 				<div id="LvUpBack" style="position:absolute; background : black; width : 100%; height : 480px; z-index : 800; display : none; overflow:hidden;">			
-					<img src="/studyplus/resources/images/need/effect.gif" style = "width : 600px; height : 800px; z-index : 999; margin-left : 0%; margin-top: -20%;">
+					<img src="/studyplus/resources/images/need/effect3.gif" style = "width : 500px; height : 580px; z-index : 999; margin-left : 10%; margin-top: -5%;">
 				</div>
 				<div style="background-image : url('/studyplus/resources/images/planner/needBackSky.gif'); background-size : cover; width: 901px; height: 36%;"> 
 				</div>
