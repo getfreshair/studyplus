@@ -51,6 +51,13 @@ public class MemberDaoImpl implements MemberDao{
 
 
 	@Override
+	public void insertGift(SqlSessionTemplate sqlSession, int member_Code) {
+		
+		sqlSession.insert("Member.insertGift", member_Code);
+	}
+
+
+	@Override
 	public int insertMemberHistory(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
 		return sqlSession.insert("Member.insertMemberHistory", map);
 	}

@@ -18,5 +18,9 @@ public interface MemberService {
 
 	public void checkSentence(String sentence);
 
+
+	public void insertGift(int member_Code);
+
 	public int insertMemberHistory(HashMap<String, Object> map);
+
 }

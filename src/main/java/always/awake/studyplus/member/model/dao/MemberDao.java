@@ -25,6 +25,10 @@ public interface MemberDao {
 
 	void insertMemberNeed(SqlSessionTemplate sqlSession, int member_Code);
 
+
+	void insertGift(SqlSessionTemplate sqlSession, int member_Code);
+
 	int insertMemberHistory(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
 	
 }

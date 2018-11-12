@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,6 +23,7 @@ import always.awake.studyplus.member.model.exception.LoginException;
 import always.awake.studyplus.member.model.service.MemberService;
 import always.awake.studyplus.member.model.vo.Files;
 import always.awake.studyplus.member.model.vo.Member;
+import always.awake.studyplus.need.model.vo.Need;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -105,4 +109,13 @@ public class MemberController {
 		
 		return mv;
 	}
+	
+	@RequestMapping(value="insertGift.me")
+	public @ResponseBody void insertGift(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int member_Code = loginUser.getMember_Code();
+		
+		ms.insertGift(member_Code);
+	} 
 }
