@@ -979,10 +979,77 @@ function todayGoalsList(){
 			type : "post",
 			success : function(data){
 				
-				$(".weekly_goals .goals_list").empty();
-				for(var i = 0; i < data.length; i++){
 				
-					var goalCode = data[i].GOAL_CODE; 				//목표코드
+				
+				
+				/*var codes = new Array();
+				for(var i = 0; i < data.length; i++){
+					codes[i] = data[i].GOAL_CODE;
+				}
+				
+				var uniq = codes.reduce(function(a,b){
+					if(a.indexOf(b) < 0) a.push(b);
+					
+					return a;
+				},[]);*/
+				
+				//console.log("이거??" + uniq);
+				//console.log("이거??" + uniq, codes);
+
+				
+				for(var key in data[0]){
+					//console.log(key);
+					//console.log(data[0][key])
+					for(var i = 0; i < data[0][key].length; i++){
+						
+						var goalCode = data[0][key][i].goalCode;		//목표코드
+						var content = data[0][key][i].goalContent;		//목표명
+						var type = data[0][key][i].goalType;
+						var achiev = data[0][key][i].goalAchieveAmount;
+						var goalAmount = data[0][key][i].goalGoalAmount;
+						//var achievPer = data[0][key][i].GOAL_ACHIEVEAMOUNT
+						//var shortfallPer = data[0][key][i].GOAL_TYPE
+						//var dataType = data[0][key][i].GOAL_TYPE
+						//var week = data[0][key][i].WEEK;
+						var todayOrWeek = data[0][key][i].goalDivision;
+						
+						
+						console.log(goalCode);
+						console.log(content);
+						console.log(type);
+						console.log(achiev);
+						console.log(goalAmount);
+						console.log(week);
+						console.log(todayOrWeek);
+
+						//var goalCode = data[i].GOAL_CODE; 				//목표코드
+						//var content = data[i].GOAL_CONTENT;				//목표명
+						//var type = data[i].GOAL_TYPE;					//0일경우 페이지, 1일경우 시간
+						//var achiev = data[i].GOAL_ACHIEVEAMOUNT; 		//달성량
+						//var goalAmount = data[i].GOAL_GOALAMOUNT; 		//목표량
+						//var achievPer = ((data[i].GOAL_ACHIEVEAMOUNT / data[i].GOAL_GOALAMOUNT) * 100).toFixed(0); //달성률
+						//var shortfallPer = 100 - achievPer; 			//미달성률
+						//var dataType;
+						//var week = data[i].WEEK;						//목표 요일
+						//var todayOrWeek = data[i].GOAL_DIVISION			//0일경우 오늘목표, 1일경우 주간목표
+						
+						
+					}
+				}
+/*				var keys = Object.keys(data[0]);
+				var keysLength = Object.keys(data[0]).length;
+				console.log("키 종류 : " + keys);
+				console.log("객체의 크기 : " + keysLength);*/
+				
+				//$(".weekly_goals .goals_list").empty();
+				//for(var i = 0; i < keysLength; i++){
+					
+				/*	var test = Object.keys(data[0].GOAL_CODE);
+					console.log(test);*/
+						
+					
+					
+					/*var goalCode = data[i].GOAL_CODE; 				//목표코드
 					var content = data[i].GOAL_CONTENT;				//목표명
 					//var type = data[i].GOAL_TYPE == 0?"페이지":"시간"; //0일경우 페이지, 1일경우 시간
 					var type = data[i].GOAL_TYPE;					//0일경우 페이지, 1일경우 시간
@@ -991,7 +1058,7 @@ function todayGoalsList(){
 					var achievPer = ((data[i].GOAL_ACHIEVEAMOUNT / data[i].GOAL_GOALAMOUNT) * 100).toFixed(0); //달성률
 					var shortfallPer = 100 - achievPer; 			//미달성률
 					var dataType;
-					//var week = data[i].WEEK;						//목표 요일
+					var week = data[i].WEEK;						//목표 요일
 					var todayOrWeek = data[i].GOAL_DIVISION			//0일경우 오늘목표, 1일경우 주간목표
 					
 					//목표 타입이 시간일 경우 시간,분으로 변경
@@ -1006,6 +1073,7 @@ function todayGoalsList(){
 						dataType = achiev  + ' / ' + goalAmount + " 페이지";
 					}
 					
+					
 					$('.weekly_goals .goals_list').append('<li value="'+ goalCode +'">'
 							 + '<div class="left_area">'
 							 + '<div class="donut_area">'
@@ -1014,20 +1082,22 @@ function todayGoalsList(){
 							 + '</div>'
 							 + '</div>'
 							 + '<div class="right_area" value="' + data[i].GOAL_TYPE + '">' 
-							 + '<p class="tit">' + content + '</p>'
-							 //+ '<p class="tit">' + content + " (" + week + ')</p>'
+							 //+ '<p class="tit">' + content + '</p>'
+							 + '<p class="tit">' + content + " (" + week + ')</p>'
 							 + '<p class="per">' + dataType
 							 + '</p>'
 							 + '</div>'
-							 + '</li>');
+							 + '</li>');*/
+					
+					/*var liValue = $(".weekly_goals .goals_list li").prev().val();
+					console.log("앞의 요소 테스트 "+ liValue)*/
 					
 					//목표 리스트 노출된 부분 공부량 차트 (아래 함수 호출)
-					GoalListChart2(achievPer, shortfallPer, i);
+					//GoalListChart2(achievPer, shortfallPer, i);
 					
 					//목표 리스트 각 목표 클릭시 상세 팝업창 노출(아래 함수 호출)
-					todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, achievHour, achievMin, achievPer, shortfallPer);
-				
-				}
+					//todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, achievHour, achievMin, achievPer, shortfallPer);
+				//}
 				
 			},
 			error : function(){

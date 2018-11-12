@@ -7,7 +7,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +26,7 @@ import always.awake.studyplus.block.controller.blockController;
 import always.awake.studyplus.member.model.vo.Member;
 import always.awake.studyplus.studyPlanner.model.exception.plannerException;
 import always.awake.studyplus.studyPlanner.model.service.StudyPlannerService;
+import always.awake.studyplus.studyPlanner.model.vo.Goal;
 import always.awake.studyplus.studyPlanner.model.vo.PersonalRank;
 
 @SessionAttributes("loginUser")
@@ -348,7 +348,7 @@ public class StudyPlannerController {
 	
 	//주간 목표 리스트
 	@RequestMapping(value="weeklyGoalsList.sp")
-	public @ResponseBody List<Map<String, Object>> weeklyGoalsList(HttpSession session, @RequestParam String dateVal, HttpServletResponse response) throws plannerException{
+	public @ResponseBody List<HashMap<String, ArrayList<Goal>>> weeklyGoalsList(HttpSession session, @RequestParam String dateVal, HttpServletResponse response) throws plannerException{
 		//System.out.println("들어는 오니??");
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int loginUserCode = loginUser.getMember_Code();
@@ -361,7 +361,32 @@ public class StudyPlannerController {
 		
 		list = sps.selectWeeklyGoals(hmap);
 		
-		return list;
+		HashMap<String, ArrayList<Goal>> weekMap = new HashMap<String, ArrayList<Goal>>();
+		
+		for(int i = 0; i < list.size(); i++) {
+			String content = list.get(i).get("GOAL_CONTENT").toString();
+			Goal temp = new Goal();
+			temp.setGoalContent(content);
+			temp.setGoalCode(Integer.parseInt(list.get(i).get("GOAL_CODE").toString()));
+			temp.setDateString(list.get(i).get("GOAL_ENROLLDATE").toString());
+			temp.setGoalGoalAmount(Integer.parseInt(list.get(i).get("GOAL_GOALAMOUNT").toString()));
+			temp.setGoalAchieveAmount(Integer.parseInt(list.get(i).get("GOAL_ACHIEVEAMOUNT").toString()));
+			
+			if(weekMap.get(content) != null) {
+				weekMap.get(content).add(temp);
+			}else {
+				ArrayList<Goal> addList = new ArrayList<Goal>();
+				addList.add(temp);
+				weekMap.put(content, addList);
+			}
+		}
+		
+		System.out.println(weekMap);
+		
+		List<HashMap<String, ArrayList<Goal>>> returnList = new ArrayList<HashMap<String, ArrayList<Goal>>>();
+		returnList.add(weekMap);
+		
+		return returnList;
 	}
 	
 	//오늘의 목표 등록(시간 단위)

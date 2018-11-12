@@ -8,6 +8,7 @@ public class Goal implements Serializable {
 	private int memberCode;			// 회원 코드
 	private String memberNickName;	// 회원 닉네임
 	private Date goalEnrollDate;	// 목표 일
+	private String dateString; 		//
 	private String goalContent;		// 목표
 	private int goalType;			// 목표 종류
 	private int goalGoalAmount;		// 목표량
@@ -17,13 +18,15 @@ public class Goal implements Serializable {
 	
 	public Goal() { }
 
-	public Goal(int goalCode, int memberCode, String memberNickName, Date goalEnrollDate, String goalContent,
-			int goalType, int goalGoalAmount, int goalAchieveAmount, String gaolISBN, int goalDivision) {
+	public Goal(int goalCode, int memberCode, String memberNickName, Date goalEnrollDate, String dateString,
+			String goalContent, int goalType, int goalGoalAmount, int goalAchieveAmount, String gaolISBN,
+			int goalDivision) {
 		super();
 		this.goalCode = goalCode;
 		this.memberCode = memberCode;
 		this.memberNickName = memberNickName;
 		this.goalEnrollDate = goalEnrollDate;
+		this.dateString = dateString;
 		this.goalContent = goalContent;
 		this.goalType = goalType;
 		this.goalGoalAmount = goalGoalAmount;
@@ -62,6 +65,14 @@ public class Goal implements Serializable {
 
 	public void setGoalEnrollDate(Date goalEnrollDate) {
 		this.goalEnrollDate = goalEnrollDate;
+	}
+
+	public String getDateString() {
+		return dateString;
+	}
+
+	public void setDateString(String dateString) {
+		this.dateString = dateString;
 	}
 
 	public String getGoalContent() {
@@ -115,10 +126,10 @@ public class Goal implements Serializable {
 	@Override
 	public String toString() {
 		return "Goal [goalCode=" + goalCode + ", memberCode=" + memberCode + ", memberNickName=" + memberNickName
-				+ ", goalEnrollDate=" + goalEnrollDate + ", goalContent=" + goalContent + ", goalType=" + goalType
-				+ ", goalGoalAmount=" + goalGoalAmount + ", goalAchieveAmount=" + goalAchieveAmount + ", gaolISBN="
-				+ gaolISBN + ", goalDivision=" + goalDivision + "]";
+				+ ", goalEnrollDate=" + goalEnrollDate + ", dateString=" + dateString + ", goalContent=" + goalContent
+				+ ", goalType=" + goalType + ", goalGoalAmount=" + goalGoalAmount + ", goalAchieveAmount="
+				+ goalAchieveAmount + ", gaolISBN=" + gaolISBN + ", goalDivision=" + goalDivision + "]";
 	}
-	
-	
+
+
 }

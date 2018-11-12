@@ -368,10 +368,16 @@
 		$(radioCk).click(function(){
 			console.log($(this).val());
 			
-			$("#surveyList input[value^=a]").addClass('on');
+			//$("#surveyList input[value^=a]").addClass('on');
+			var surveyListVal = $("#surveyList input").val();
+			var checklistVal = $("#checklist input").val();
 			
-			/* if(){
-				
+			if($(this).val() == checklistVal){
+				checklistVal.addClass('on')
+			}
+			/* if(surveyListVal.val() == checklistVal.val()){
+				consol.log("test");
+				$(this).checked == true
 			} */
 		});
 		
