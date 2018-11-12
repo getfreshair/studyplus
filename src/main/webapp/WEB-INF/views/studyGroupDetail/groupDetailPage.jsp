@@ -335,7 +335,7 @@
 		var loginUserCode = '${loginUser}';
 		
 //  		selectGrMemList(grCode, loginUserCode);
-		selectGrMemRank(grCode);
+		selectGrMemRankPage(grCode);
  		
 	});
 </script>
@@ -361,25 +361,21 @@
 </script>
 
 <script>
-	function selectGrMemRank(grCode){
+	function selectGrMemRankPage(grCode){
 		$('#showMemList').css({"font-weight":""});
 		$('#showMemRank').css({"font-weight":"bold"});
 		
-// 		var dayP = 
-		
- 		$.ajax({
-			url:"selectGrMemRank.sgd",
-			data : { grCode : grCode },		/* 로그인유저 코드 바꾸기 변경하기 수정하기 */
+		$.ajax({
+			url:"selectGrMemRankPage.sgd",
+			data : { grCode : grCode },
 			type : "POST",
 			success:function(data) {
 				console.log(data);
  				$('#leftIncludeArea').empty();
 				$('#leftIncludeArea').append(data);
 			}
-		
 		});
-		
-	};	
+	};
 </script>		
 
 			

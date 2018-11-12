@@ -96,14 +96,20 @@ public class SGDetailController {
 	public ModelAndView selectGroupMemberList(int grCode, int loginUserCode, ModelAndView mv) {
 		System.out.println("1. " + grCode);
 		System.out.println("1. " + loginUserCode);
-		List<HashMap<String, Object>> memberList = gs.selectGroupMemberList(grCode);
 		
-		System.out.println("쿼리 실행 결과-컨트롤러 : < " +  memberList + " >");
-		mv.addObject("grMemList", memberList);
-		mv.addObject("loginUserCode", loginUserCode);
-		
-		mv.setViewName("studyGroupDetail/leftGroupListArea");
-		System.out.println("MV : < " + mv + " >");
+		try {
+			List<HashMap<String, Object>> memberList = gs.selectGroupMemberList(grCode);
+			
+			System.out.println("쿼리 실행 결과-컨트롤러 : < " +  memberList + " >");
+			mv.addObject("grMemList", memberList);
+			mv.addObject("loginUserCode", loginUserCode);
+			
+			mv.setViewName("studyGroupDetail/leftGroupListArea");
+			System.out.println("MV : < " + mv + " >");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return mv;		
 	}
 
@@ -148,9 +154,42 @@ public class SGDetailController {
 		return mv;
 	}
 	
+	@RequestMapping("selectGrMemRankPage.sgd")
+	public ModelAndView selectGrMemRankPage(@RequestParam int grCode, ModelAndView mv) {
+		try {
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		mv.setViewName("studyGroupDetail/leftGroupStudyTimeRank");
+		return mv;
+	}
 	
-	@RequestMapping("selectGrMemRank.sgd")
-	public ModelAndView selectGrMemRank(int grCode, ModelAndView mv) {
+	@RequestMapping("selectRankingDate.sgd")
+	public ModelAndView selectGrMemRank(@RequestParam int selectPeriod, @RequestParam int dayPick,
+											@RequestParam int monthPick, ModelAndView mv) {
+		int minusDate = 0;
+		
+		try {
+			
+			/*dayPick *= selectPeriod;
+			monthPick *= selectPeriod;*/
+			
+			System.out.println("selectPeriod : " + selectPeriod);
+			System.out.println("dayPick : " + dayPick);
+			System.out.println("monthPick : " + monthPick);
+			
+//			HashMap<String, Object> selectDate = gs.selectDateInfo();
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		
 		
 		mv.setViewName("studyGroupDetail/leftGroupStudyTimeRank");
 		return mv;
