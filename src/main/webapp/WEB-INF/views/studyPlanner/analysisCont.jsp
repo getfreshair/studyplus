@@ -48,6 +48,8 @@
 			</div>
 			<div class="chart">
 				<div id="studyTendencyChart"></div>
+				<!-- <button type="button" class="btn btn-primary btn-block">공부성향 분석하기</button> -->
+				<a href="studyStyleView.sp" class="btn btn-primary btn-block">공부성향 분석하기</a>
 			</div>
 		</div>
 		<!-- // 공부성향 -->

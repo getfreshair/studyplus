@@ -271,6 +271,14 @@ public class StudyPlannerController {
 		chartDate4[1] = lastDateResult.substring(2, 10);
 
 		ArrayList<PersonalRank> rankList = sps.selectMemberWeeklyRank(member_Code, chartDate4);
+
+
+		//System.out.println(chartDate4[0]);
+		//HashMap
+		HashMap<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("loginUserCode", loginUser);
+		hmap.put("chartDateYear", chartDate4);
+
 		
 		return rankList;
 	} 
@@ -617,4 +625,8 @@ public class StudyPlannerController {
 		return "redirect:studyPlannerMainPage.sp";
 	}
 	
+	@RequestMapping(value="studyStyleView.sp")
+	public String studyStyleView() {
+		return "studyPlanner/studyStyle";
+	}
 }
