@@ -462,4 +462,29 @@ public class AdminDaoImpl implements AdminDao {
 	public List<Map<String, Object>> totalGroupList(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectList("Admin.totalGroupList");
 	}
+
+	@Override
+	public List<Map<String, Object>> thisMonthBanner(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.thisMonthBanner");
+	}
+
+	@Override
+	public List<Map<String, Object>> postBanner(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.postBanner");
+	}
+
+	@Override
+	public List<Map<String, Object>> totalProfit(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.totalProfit");
+	}
+
+	@Override
+	public List<Map<String, Object>> categoryProfit(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.categoryProfit");
+	}
+
+	@Override
+	public List<Map<String, Object>> CPCandCPPprofit(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.CPCandCPPprofit");
+	}
 }

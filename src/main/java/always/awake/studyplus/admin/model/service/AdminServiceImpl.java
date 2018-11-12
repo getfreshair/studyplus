@@ -324,5 +324,30 @@ public class AdminServiceImpl implements AdminService{
 		return ad.totalGroupList(sqlSession);
 	}
 
+	@Override
+	public List<Map<String, Object>> thisMonthBanner() {
+		return ad.thisMonthBanner(sqlSession);
+	}
+
+	@Override
+	public List<Map<String, Object>> postBanner() {
+		return ad.postBanner(sqlSession);
+	}
+
+	@Override
+	public List<Map<String, Object>> totalProfit() {
+		return ad.totalProfit(sqlSession);
+	}
+
+	@Override
+	public List<Map<String, Object>> categoryProfit() {
+		return ad.categoryProfit(sqlSession);
+	}
+
+	@Override
+	public List<Map<String, Object>> CPCandCPPprofit() {
+		return ad.CPCandCPPprofit(sqlSession);
+	}
+
 
 }

@@ -64,6 +64,40 @@ public class AdminController {
 		return page;
 	}
 	//////////////////////////////////////////////////통계///////////////////////////////////////////////////////////
+	@RequestMapping("getBannerStatic.do")
+	public ModelAndView getBannerStatic(ModelAndView mv, HttpServletRequest request) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		List<Map<String, Object>> thisMonthBanner = as.thisMonthBanner();
+		List<Map<String, Object>> postBanner = as.postBanner();
+		List<Map<String, Object>> totalProfit = as.totalProfit();
+		List<Map<String, Object>> categoryProfit = as.categoryProfit();
+		List<Map<String, Object>> CPCandCPPprofit = as.CPCandCPPprofit();
+		
+		System.out.println(thisMonthBanner);
+		System.out.println(postBanner);
+		System.out.println(totalProfit);
+		System.out.println(categoryProfit);
+		System.out.println(CPCandCPPprofit);
+		
+		map.put("thisMonthBanner", thisMonthBanner);
+		map.put("postBanner", postBanner);
+		map.put("totalProfit", totalProfit);
+		map.put("categoryProfit", categoryProfit);
+		map.put("CPCandCPPprofit", CPCandCPPprofit);
+		
+		
+		mv.addObject("data", map);
+		
+		mv.setViewName("admin/statisticsManage/bannerStat");
+		
+		return mv;
+	}
+	
+	
+	
+	
+	
 	@RequestMapping("getStudygroupStatic.do")
 	public ModelAndView getStudygroupStatic(ModelAndView mv, HttpServletRequest request) {
 		HashMap<String, Object> map = new HashMap<String, Object>();

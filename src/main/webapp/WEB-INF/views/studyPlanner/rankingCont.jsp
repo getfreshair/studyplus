@@ -3,6 +3,7 @@
 <script>
 
 	var needLv = 1;
+	var needBefLv = 0;
 	
 	$(function(){
 	
@@ -453,24 +454,34 @@
 	}
 	
 	
+ 	// 물지급
 	function giveWater(){
+	
+		var water = $("span.water").text();
+		var exp = $("span.exp").text();
 		
-		// 물 지급 처리와 동시에 레벨 증가 감지!
+		if(exp >= 400){
+			
+			alert("새싹이 모두 자랐습니다. 문화상품권을 신청하시면 새싹은 초기화됩니다.");
+		}else if(water <= 0){
+			
+			alert("공부를 시작하고 물을 채워주세요!");
+		}else{
 		
-		
-		// 레벨 증가라고 감지했다 치고 
-		$('#LvUpBack').fadeIn('slow');
-		setTimeout(function() {
-			$('#LvUpBack').fadeOut('slow');
-			$('#need' + needLv).fadeOut( "slow", function() {
-				$('#need' + (needLv+1)).fadeIn( "slow", function() {
-					alert("축하합니다! 새싹 Lv" + needLv + " 달성하셨습니다!");
-				  });
-				needLv++;
-			  });
-			}, 2000);
+			needBefLv = needLv;
+			$.ajax({
+				url : "insertWater.nd",
+				data : {water : water},
+				type : "post",
+				success : function(data) {
+					selectNeedData();
+					alert("물 지급이 완료되었습니다.");
+				}
+			});
+		}
 	}
 	
+ 	// 새싹 데이터 조회
 	function selectNeedData(){
 		
 		$.ajax({
@@ -479,21 +490,81 @@
 			data : {},
 			success : function(data){
 				
-				var waters = 0;
-				needLv = data.lv;
+				var needAftLv = data.lv;
+		
+				if(needBefLv != 0 && needBefLv != needAftLv){
+
+					lvUp(data);
+				}else{
+					
+					var waters = 0;
+					needLv = data.lv;
+					
+					if(data.exp > 400) data.exp = 400;
+					
+					if(data.water - data.minusWater > 100) waters = 100;
+					else waters = data.water - data.minusWater;
+					
+					$('#need5').fadeOut( "slow");
+						
+					$('p.need').text("식물 Lv . " + data.lv);
+					$('span.exp').text(data.exp);
+					$('span.water').text(waters);
+					$('#greenbar').css("width", data.exp/4 + "%");
+					$('#bluebar').css("width", waters +"%");
+					$('#need' + data.lv).fadeIn('slow');
+					
+				}
+			}
+		});
+	}
+	
+	function lvUp(data){
+		
+		needLv = data.lv;
+		
+		$('#LvUpBack').fadeIn('slow');
+		setTimeout(function() {
+			$('#LvUpBack').fadeOut('slow');
+			$('#need' + (needLv-1)).fadeOut( "slow", function() {
+				$('#need' + needLv).fadeIn( "slow", function() {
+					alert("축하합니다! 새싹 Lv" + needLv + " 달성하셨습니다!");
+					var waters = 0;
+					needLv = data.lv;
+					
+					if(data.exp > 400) data.exp = 400;
+					
+					if(data.water - data.minusWater > 100) waters = 100;
+					else waters = data.water - data.minusWater;
+					
+					$('p.need').text("식물 Lv . " + data.lv);
+					$('span.exp').text(data.exp);
+					$('span.water').text(waters);
+					$('#greenbar').css("width", data.exp/4 + "%");
+					$('#bluebar').css("width", waters +"%");
+					$('#need' + data.lv).fadeIn('slow'); 
+				});
+			  });
+			}, 2000);
+	}
+	
+	function insertGift(){
+		
+		$.ajax({
+			url : "initNeed.nd",
+			type : "post",
+			success : function(data){
 				
-				if(data.exp == 0) data.exp = 100;
-				else if(data.exp > 500) data.exp = 500;
-				
-				if(data.water - data.minusWater > 100) waters = 100;
-				else waters = data.water - data.minusWater;
-				
-				$('p.need').text("식물 Lv . " + data.lv);
-				$('span.exp').text(data.exp);
-				$('span.water').text(waters);
-				$('#greenbar').css("width", data.exp/5 + "%");
-				$('#bluebar').css("width", waters +"%");
-				$('#need' + data.lv).fadeIn('slow');
+				alert("문화상품권 신청이 완료되었습니다. 지급은 매주 금요일 문자로 일괄 지급됩니다.");
+				$.ajax({
+					url : "insertGift.me",
+					type : "post",
+					success : function(data){
+						
+						needBefLv = 1;
+						selectNeedData();
+					}
+				});
 			}
 		});
 	}
@@ -742,6 +813,11 @@
  #giveWater:hover {
  	cursor : pointer;
  }
+ 
+ #insertGift:hover {
+ 	cursor : pointer;
+ }
+ 
 </style>
 <div class="col-sm-9 col-xs-12 center_area" style="height: 972px;">
 	<div class="row">
@@ -791,34 +867,35 @@
 						class="titleImg"> <span class="titleTxt"> 새싹 키우기 </span>
 				</div>
 				<div id="LvUpBack" style="position:absolute; background : black; width : 100%; height : 480px; z-index : 800; display : none; overflow:hidden;">			
-					<img src="/studyplus/resources/images/need/effect.gif" style = "width : 600px; height : 800px; z-index : 999; margin-left : 0%; margin-top: -26%;">
+					<img src="/studyplus/resources/images/need/effect.gif" style = "width : 600px; height : 800px; z-index : 999; margin-left : 0%; margin-top: -20%;">
 				</div>
 				<div style="background-image : url('/studyplus/resources/images/planner/needBackSky.gif'); background-size : cover; width: 901px; height: 36%;"> 
 				</div>
 				<div style="background-image : url('/studyplus/resources/images/planner/needBackground.png'); background-size: 100% 500px; width: 100%; height: 48%; position: absolute; top: 75px; background-repeat: no-repeat; text-align : center;">
-					<img id="need1" src="/studyplus/resources/images/need/lv1.png" style = "width : 50px; height : 90px; margin-top : 364px; position : relative;  z-index : 900;  display : none;">
-					<img id="need2" src="/studyplus/resources/images/need/lv2.png" style = "width : 14%;  margin-top : 326px; position : relative;  z-index : 900;  display : none;">
-					<img id="need3" src="/studyplus/resources/images/need/lv3.png" style = "width : 14%;  margin-top : 125px; position : relative;  z-index : 900;  display : none;">
-					<img id="need4" src="/studyplus/resources/images/need/lv4.png" style = "width : 30%;  margin-top : 15px; position : relative;  z-index : 900;  display : none;">
-					<img id="need5" src="/studyplus/resources/images/need/lv5.png" style = "width : 67%;  margin-top : -18px; position : relative;  z-index : 900;  display : none;">
+					<img id="need1" src="/studyplus/resources/images/need/lv1.png" style = "width : 26px; bottom : 0; position : absolute;  z-index : 900;  display : none; left : 50%; margin-left : -13px;">
+					<img id="need2" src="/studyplus/resources/images/need/lv2.png" style = "width : 14%;  bottom : 0; position : absolute;   z-index : 900;  display : none;  left : 50%; margin-left : -7%;">
+					<img id="need3" src="/studyplus/resources/images/need/lv3.png" style = "width : 14%;  bottom : 0; position : absolute;   z-index : 900;  display : none;  left : 50%; margin-left : -7%;">
+					<img id="need4" src="/studyplus/resources/images/need/lv4.png" style = "width : 30%;  bottom : 0; position : absolute;   z-index : 900;  display : none;  left : 50%; margin-left : -15%;">
+					<img id="need5" src="/studyplus/resources/images/need/lv5.png" style = "width : 67%;  bottom : 0; position : absolute;   z-index : 900;  display : none;  left : 50%; margin-left : -33%;">
 				</div>
 				<div style="width : 100%; height : 50%; margin-top : 145px;">	
 					<div class="rankSubTitle">
 						<img src="/studyplus/resources/images/studyGroup/point.png" style="width:20px; height:20px;">
-						<span style="font-weight : bold;">경험치 ( </span><span class="exp" style="font-weight : bold;">0</span><span style="font-weight : bold;"> / 500 )</span><span>:: 물 주기를 통해 경험치를 올려보세요.</span>
+						<span style="font-weight : bold;">경험치 ( </span><span class="exp" style="font-weight : bold;">0</span><span style="font-weight : bold;"> / 400 )</span><span> :: 물 주기를 통해 경험치를 올려보세요.</span>
 					</div>			
 					<div class="progress-bar1 green stripes" style="margin-top : 10px;">
 					    <span id="greenbar" style="width: 100%"></span>
 					</div>
 					<div class="rankSubTitle">
 						<img src="/studyplus/resources/images/studyGroup/point.png" style="width:20px; height:20px;">
-						<span style="font-weight : bold;">물 ( </span><span class="water" style="font-weight : bold;">0</span><span style="font-weight : bold;"> / 100 )</span><span>:: 물은 주간 공부시간에 비례합니다.</span>
+						<span style="font-weight : bold;">물 ( </span><span class="water" style="font-weight : bold;">0</span><span style="font-weight : bold;"> / 100 )</span><span> :: 물은 주간 공부시간에 비례합니다.</span>
 					</div>
 					<div class="progress-bar1 blue stripes" style="margin-top : 10px;">
 					    <span id="bluebar" style="width: 40%"></span>
 					</div>
-					<div style="width: 100%; height: 40%; background-image : url('/studyplus/resources/images/need/needInforBack.png'); background-size: contain; background-repeat: no-repeat; margin-top: 36px; position : relative;">
-						<div id="giveWater" title="클릭하고 새싹에게 물을 주세요!" onclick="giveWater();" style="width : 70px; height : 70px; margin-top : 49px; margin-left : 60px; position : absolute;"></div>
+					<div style="width: 100%; height: 45%; background-image : url('/studyplus/resources/images/need/needInforBtn.png'); background-size: contain; background-repeat: no-repeat; margin-top: 34px; position : relative;">
+						<div id="giveWater" title="클릭하고 새싹에게 물을 주세요!" onclick="giveWater();" style="width : 90px; height : 90px; margin-top : 49px; margin-left : 60px; position : absolute;"></div>
+						<div id="insertGift" title="새싹 레벨 5 달성 시 문화상품권 신청을 하실 수  있습니다." onclick="insertGift();" style="width : 200px; height : 60px; margin-top : 100px; margin-left : 329px; position : absolute;"></div>
 					</div>
 				</div>
 			</div>

@@ -32,4 +32,30 @@
 		    GROUP BY MEMBER_CODE) USING(MEMBER_CODE)
 		WHERE MEMBER_CODE = #{member_Code}
 	</select>
+	
+	<insert id="insertWater" parameterType="hashmap">
+		INSERT 
+		INTO GIVELOVE (NEED_CODE, GIVELOVE_DATE, GIVELOVE_AMOUNT) 
+		VALUES ((SELECT NEED_CODE FROM NEED WHERE MEMBER_CODE = #{member_Code}), SYSDATE, #{water})
+	</insert>
+	
+	<update id="updateLv" parameterType="hashmap">
+		UPDATE NEED
+		SET NEEDLEVEL_CODE = #{need_Level}
+		WHERE MEMBER_CODE = #{member_Code}
+	</update>
+	
+	<delete id="initGiveLove" parameterType="_int">
+		DELETE 
+		FROM GIVELOVE
+	 	WHERE NEED_CODE = (SELECT NEED_CODE
+                   			FROM NEED
+                   			WHERE MEMBER_CODE = #{member_Code})
+	</delete>
+	
+	<update id="initNeed" parameterType="_int">
+		UPDATE NEED
+		SET NEEDLEVEL_CODE = 1
+		WHERE MEMBER_CODE = #{member_Code}
+	</update>
 </mapper>

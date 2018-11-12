@@ -1,5 +1,6 @@
 package always.awake.studyplus.member.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,4 +48,19 @@ public class MemberDaoImpl implements MemberDao{
 	public void insertMemberNeed(SqlSessionTemplate sqlSession, int member_Code) {
 		sqlSession.insert("Member.insertMemberNeed", member_Code);
 	}
+
+
+	@Override
+	public void insertGift(SqlSessionTemplate sqlSession, int member_Code) {
+		
+		sqlSession.insert("Member.insertGift", member_Code);
+	}
+
+
+	@Override
+	public int insertMemberHistory(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return sqlSession.insert("Member.insertMemberHistory", map);
+	}
+
+	
 }
