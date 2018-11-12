@@ -607,6 +607,67 @@
 		 WHERE TO_CHAR(MEMBER_ENROLLDATE, 'MM') >= '01' AND TO_CHAR(MEMBER_ENROLLDATE, 'MM') <='12'
 		 ]]>
 	</select>
-
-
+	
+	<select id="todayCreateGroupList" parameterType="map" resultType="map">
+		SELECT COUNT(*) as COUNT
+		FROM(
+		SELECT STUDYGROUP_CODE
+		FROM STUDYGROUP
+		WHERE STUDYGROUP_STDATE > SYSDATE-1)
+	</select>
+	<select id="todayCloseGroupList" parameterType="map" resultType="map">
+		SELECT COUNT(*) as COUNT
+		FROM(
+		SELECT STUDYGROUP_CODE
+		FROM STUDYGROUP
+		WHERE STUDYGROUP_EDDATE > SYSDATE-1)
+	</select>
+	<select id="totalGroupList" parameterType="map" resultType="map">
+		SELECT COUNT(*) as COUNT
+		FROM(
+		SELECT STUDYGROUP_CODE
+		FROM STUDYGROUP WHERE (STUDYGROUP_EDDATE IS NULL))
+	</select>
+	<select id="categoryGroupList" parameterType="map" resultType="map">
+		SELECT MAX(NVL(COUNT(DECODE(CATEGORY_CODE, 1, '고입')),0))AS GOIP,
+		MAX(NVL(COUNT(DECODE(CATEGORY_CODE, 2, '대입')),0))AS DAEIP,
+		MAX(NVL(COUNT(DECODE(CATEGORY_CODE, 3, '고시')),0))AS GOSI,
+		MAX(NVL(COUNT(DECODE(CATEGORY_CODE, 4, '공시')),0))AS GONGSI,
+		MAX(NVL(COUNT(DECODE(CATEGORY_CODE, 5, '외국어')),0))AS FOREIGN,
+		MAX(NVL(COUNT(DECODE(CATEGORY_CODE, 6, '취준')),0))AS CHIJUN,
+		MAX(NVL(COUNT(DECODE(CATEGORY_CODE, 7, '자격증')),0))AS JAGUK,
+		MAX(NVL(COUNT(DECODE(CATEGORY_CODE, 8, '기타')),0))AS GUITAR
+		FROM STUDYGROUP
+		GROUP BY CATEGORY_CODE
+	</select>
+	
+	<select id="weekGroupBoardList" parameterType="map" resultType="map">
+		SELECT COUNT(*) as board
+		FROM GROUPBOARD
+		WHERE (GROUPBOARD_POSTDATE BETWEEN SYSDATE-7 AND SYSDATE)
+		UNION
+		SELECT COUNT(*) as reply
+		FROM REPLY
+		WHERE REPLY_DATE BETWEEN SYSDATE-7 AND SYSDATE
+	</select>
+	<select id="femaleGroupList" parameterType="map" resultType="map">
+		SELECT COUNT(*) AS group_female
+		FROM JOINGROUP
+		JOIN MEMBER USING(MEMBER_CODE)
+		WHERE MEMBER_GENDER LIKE 'F'
+		UNION
+		SELECT COUNT(*) as total_female
+		FROM MEMBER
+		WHERE MEMBER_GENDER LIKE 'F'
+	</select>
+	<select id="maleGroupLIst" parameterType="map" resultType="map">
+		SELECT COUNT(*) AS group_male
+		FROM JOINGROUP
+		JOIN MEMBER USING(MEMBER_CODE)
+		WHERE MEMBER_GENDER LIKE 'M'
+		UNION
+		SELECT COUNT(*) as total_male
+		FROM MEMBER
+		WHERE MEMBER_GENDER LIKE 'M'
+	</select>
 </mapper>

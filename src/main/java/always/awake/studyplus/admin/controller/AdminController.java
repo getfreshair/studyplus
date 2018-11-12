@@ -64,6 +64,42 @@ public class AdminController {
 		return page;
 	}
 	//////////////////////////////////////////////////통계///////////////////////////////////////////////////////////
+	@RequestMapping("getStudygroupStatic.do")
+	public ModelAndView getStudygroupStatic(ModelAndView mv, HttpServletRequest request) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		List<Map<String, Object>> todayCreateGroupList = as.todayCreateGroupList();
+		List<Map<String, Object>> todayCloseGroupList = as.todayCloseGroupList();
+		List<Map<String, Object>> totalGroupList = as.totalGroupList();
+		List<Map<String, Object>> categoryGroupList = as.categoryGroupList();
+		List<Map<String, Object>> weekGroupBoardList = as.weekGroupBoardList();
+		List<Map<String, Object>> femaleGroupList = as.femaleGroupList();
+		List<Map<String, Object>> maleGroupLIst = as.maleGroupLIst();
+		
+		System.out.println(todayCreateGroupList);
+		System.out.println(todayCloseGroupList);
+		System.out.println(totalGroupList);
+		System.out.println(categoryGroupList);
+		System.out.println(weekGroupBoardList);
+		System.out.println(femaleGroupList);
+		System.out.println(maleGroupLIst);
+		
+		map.put("todayCreateGroupList", todayCreateGroupList);
+		map.put("todayCloseGroupList", todayCloseGroupList);
+		map.put("totalGroupList", totalGroupList);
+		map.put("categoryGroupList", categoryGroupList);
+		map.put("weekGroupBoardList", weekGroupBoardList);
+		map.put("femaleGroupList", femaleGroupList);
+		map.put("maleGroupLIst", maleGroupLIst);
+		
+		
+		mv.addObject("data", map);
+		
+		mv.setViewName("admin/statisticsManage/studygroupStat");
+		
+		return mv;
+	}
+	
 	@RequestMapping("getMemberStatic.do")
 	public ModelAndView getMemberStatic(ModelAndView mv, HttpServletRequest request) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
