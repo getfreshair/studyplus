@@ -1,7 +1,7 @@
 package always.awake.studyplus.member.controller;
 
 import java.util.ArrayList;
-import javax.security.auth.message.callback.PrivateKeyCallback.Request;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,21 +13,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 import always.awake.studyplus.member.model.exception.LoginException;
 import always.awake.studyplus.member.model.service.MemberService;
 import always.awake.studyplus.member.model.vo.Files;
 import always.awake.studyplus.member.model.vo.Member;
-import always.awake.studyplus.messenger.model.Service.MessengerService;
 
 @SessionAttributes("loginUser")
 @Controller
 public class MemberController {
 	@Autowired
 	private MemberService ms;
-	
-	@Autowired
-	private MessengerService mss;
 	
 	@RequestMapping(value="studyPlannerMain.me")
 	public String goMain() {
@@ -90,5 +87,17 @@ public class MemberController {
 	@RequestMapping(value="questionPage.me")
 	public String questionPage() {
 		return "common/question";
+	}
+	
+	@RequestMapping(value="questionAnalysis.me")
+	public ModelAndView questionAnalysis(@RequestParam(value="sentence")String sentence){
+		ModelAndView mv = new ModelAndView();
+	    
+	    ms.checkSentence(sentence);
+	    
+		/*mv.addObject("reSentence", reSentence);*/
+		mv.setViewName("jsonView");
+		
+		return mv;
 	}
 }

@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <script>
 
+	var needLv = 1;
+	
 	$(function(){
 	
 		$('#weeklyRankDatePicker').datepicker({
@@ -10,6 +12,7 @@
 		    autoClose: true
 		});
 		
+		selectNeedData();
 		todayRankdateWeekly();
 		weeklyRankChartChangeDate();
 	
@@ -452,14 +455,47 @@
 	
 	function giveWater(){
 		
-		// 물 지급 처리
+		// 물 지급 처리와 동시에 레벨 증가 감지!
+		
+		
+		// 레벨 증가라고 감지했다 치고 
 		$('#LvUpBack').fadeIn('slow');
 		setTimeout(function() {
 			$('#LvUpBack').fadeOut('slow');
-			$('#need4').fadeOut( "slow", function() {
-				$('#need5').fadeIn('slow');
+			$('#need' + needLv).fadeOut( "slow", function() {
+				$('#need' + (needLv+1)).fadeIn( "slow", function() {
+					alert("축하합니다! 새싹 Lv" + needLv + " 달성하셨습니다!");
+				  });
+				needLv++;
 			  });
 			}, 2000);
+	}
+	
+	function selectNeedData(){
+		
+		$.ajax({
+			url : "selectNeedData.nd",
+			type : "post",
+			data : {},
+			success : function(data){
+				
+				var waters = 0;
+				needLv = data.lv;
+				
+				if(data.exp == 0) data.exp = 100;
+				else if(data.exp > 500) data.exp = 500;
+				
+				if(data.water - data.minusWater > 100) waters = 100;
+				else waters = data.water - data.minusWater;
+				
+				$('p.need').text("식물 Lv . " + data.lv);
+				$('span.exp').text(data.exp);
+				$('span.water').text(waters);
+				$('#greenbar').css("width", data.exp/5 + "%");
+				$('#bluebar').css("width", waters +"%");
+				$('#need' + data.lv).fadeIn('slow');
+			}
+		});
 	}
 </script>
 <style>
@@ -761,25 +797,25 @@
 				</div>
 				<div style="background-image : url('/studyplus/resources/images/planner/needBackground.png'); background-size: 100% 500px; width: 100%; height: 48%; position: absolute; top: 75px; background-repeat: no-repeat; text-align : center;">
 					<img id="need1" src="/studyplus/resources/images/need/lv1.png" style = "width : 50px; height : 90px; margin-top : 364px; position : relative;  z-index : 900;  display : none;">
-					<img id="need1" src="/studyplus/resources/images/need/lv2.png" style = "width : 14%;  margin-top : 326px; position : relative;  z-index : 900;  display : none;">
-					<img id="need2" src="/studyplus/resources/images/need/lv3.png" style = "width : 14%;  margin-top : 125px; position : relative;  z-index : 900;  display : none;">
-					<img id="need3" src="/studyplus/resources/images/need/lv4.png" style = "width : 30%;  margin-top : 15px; position : relative;  z-index : 900;  display : '';">
-					<img id="need4" src="/studyplus/resources/images/need/lv5.png" style = "width : 67%;  margin-top : -18px; position : relative;  z-index : 900;  display : none;">
+					<img id="need2" src="/studyplus/resources/images/need/lv2.png" style = "width : 14%;  margin-top : 326px; position : relative;  z-index : 900;  display : none;">
+					<img id="need3" src="/studyplus/resources/images/need/lv3.png" style = "width : 14%;  margin-top : 125px; position : relative;  z-index : 900;  display : none;">
+					<img id="need4" src="/studyplus/resources/images/need/lv4.png" style = "width : 30%;  margin-top : 15px; position : relative;  z-index : 900;  display : none;">
+					<img id="need5" src="/studyplus/resources/images/need/lv5.png" style = "width : 67%;  margin-top : -18px; position : relative;  z-index : 900;  display : none;">
 				</div>
 				<div style="width : 100%; height : 50%; margin-top : 145px;">	
 					<div class="rankSubTitle">
 						<img src="/studyplus/resources/images/studyGroup/point.png" style="width:20px; height:20px;">
-						<h4 style="display: inline-block; vertical-align: middle; margin-bottom: 10px;"> 경험치 ( 500 / 500 ) :: 물 주기를 통해 경험치를 올려보세요.</h4>
+						<span style="font-weight : bold;">경험치 ( </span><span class="exp" style="font-weight : bold;">0</span><span style="font-weight : bold;"> / 500 )</span><span>:: 물 주기를 통해 경험치를 올려보세요.</span>
 					</div>			
-					<div class="progress-bar1 green stripes">
-					    <span style="width: 100%"></span>
+					<div class="progress-bar1 green stripes" style="margin-top : 10px;">
+					    <span id="greenbar" style="width: 100%"></span>
 					</div>
 					<div class="rankSubTitle">
 						<img src="/studyplus/resources/images/studyGroup/point.png" style="width:20px; height:20px;">
-						<h4 style="display: inline-block; vertical-align: middle; margin-bottom: 10px;"> 물 ( 40 / 100 ) :: 주간 공부 시간에 비례합니다. </h4>
+						<span style="font-weight : bold;">물 ( </span><span class="water" style="font-weight : bold;">0</span><span style="font-weight : bold;"> / 100 )</span><span>:: 물은 주간 공부시간에 비례합니다.</span>
 					</div>
-					<div class="progress-bar1 blue stripes">
-					    <span style="width: 40%"></span>
+					<div class="progress-bar1 blue stripes" style="margin-top : 10px;">
+					    <span id="bluebar" style="width: 40%"></span>
 					</div>
 					<div style="width: 100%; height: 40%; background-image : url('/studyplus/resources/images/need/needInforBack.png'); background-size: contain; background-repeat: no-repeat; margin-top: 36px; position : relative;">
 						<div id="giveWater" title="클릭하고 새싹에게 물을 주세요!" onclick="giveWater();" style="width : 70px; height : 70px; margin-top : 49px; margin-left : 60px; position : absolute;"></div>

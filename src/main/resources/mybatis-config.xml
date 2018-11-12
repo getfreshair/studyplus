@@ -23,6 +23,7 @@
 		<typeAlias type="always.awake.studyplus.admin.model.vo.DispauseBoard" alias="adminDispaue"/>
 		<typeAlias type="always.awake.studyplus.admin.model.vo.Banner" alias="adminBanner"/>
 		<typeAlias type="always.awake.studyplus.messenger.model.vo.Message" alias="Message"/>
+		<typeAlias type="always.awake.studyplus.need.model.vo.Need" alias="Need"/>
 	</typeAliases>
 
 	<mappers>
@@ -33,5 +34,6 @@
 		<mapper resource="mappers/admin-mapper.xml" />
 		<mapper resource="mappers/block-mapper.xml" />
 		<mapper resource="mappers/messenger-mapper.xml" />
+		<mapper resource="mappers/need-mapper.xml" />
 	</mappers>
 </configuration>

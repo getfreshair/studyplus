@@ -9,6 +9,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.mybatis.spring.SqlSessionTemplate;
+import org.openkoreantext.processor.KoreanTokenJava;
+import org.openkoreantext.processor.OpenKoreanTextProcessorJava;
+import org.openkoreantext.processor.phrase_extractor.KoreanPhraseExtractor;
+import org.openkoreantext.processor.tokenizer.KoreanTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +23,7 @@ import always.awake.studyplus.member.model.exception.LoginException;
 import always.awake.studyplus.member.model.vo.Files;
 import always.awake.studyplus.member.model.vo.InterestCategory;
 import always.awake.studyplus.member.model.vo.Member;
+import scala.collection.Seq;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -90,5 +95,16 @@ public class MemberServiceImpl implements MemberService{
 			
 			return 0;
 		}
+	}
+
+	@Override
+	public void checkSentence(String sentence) {
+		Map<String, Object> reWords = new HashMap<String, Object>();
+	    Seq<KoreanTokenizer.KoreanToken> tokens = OpenKoreanTextProcessorJava.tokenize(sentence);
+	    List<String> wordList = OpenKoreanTextProcessorJava.tokensToJavaStringList(tokens);
+	    
+	    for(int i = 0; i < wordList.size(); i++){
+	    	System.out.println(wordList.get(i));
+	    }
 	}
 }
