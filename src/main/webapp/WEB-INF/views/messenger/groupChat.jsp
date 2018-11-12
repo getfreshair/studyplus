@@ -11,6 +11,7 @@
 <script type="text/javascript">
 	var groupWSocket;
 
+	
 	connect();
 	function connect() {
 		// ws://192.168.10.69:8001/studyplus/chat-ws.socket
