@@ -206,7 +206,7 @@ display:none;
 				<li><a href="getMemberStatic.do">회원통계</a></li>
 				<li><a onclick="goPage('admin/statisticsManage/contactStat')">접속자통계</a></li>
 				<li><a href="getStudygroupStatic.do">스터디그룹통계</a></li>
-				<li><a onclick="goPage('admin/statisticsManage/bannerStat')">광고매출통계</a></li>
+				<li><a href="getBannerStatic.do">광고매출통계</a></li>
 			</ul>
 		</li>
 	</ul>
