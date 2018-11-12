@@ -14,4 +14,6 @@ public interface MemberService {
 	public Member login(Member m) throws LoginException;
 
 	public int insertMember(Member m, Files files, ArrayList<String> category_Code, HttpServletRequest request);
+
+	public void checkSentence(String sentence);
 }

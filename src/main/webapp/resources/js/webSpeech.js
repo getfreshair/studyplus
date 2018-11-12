@@ -3,8 +3,8 @@ var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
 var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
 
 var phrasePara = document.querySelector('.phrase');
-
 var testBtn = document.querySelector('.chatBotMicImg');
+
 var seq = 1;
 function testSpeech() {
   testBtn.disabled = true;
@@ -24,24 +24,34 @@ function testSpeech() {
   var recognition = new SpeechRecognition();
   var speechRecognitionList = new SpeechGrammarList();
   recognition.grammars = speechRecognitionList;
-  recognition.lang = 'en-US';
+  recognition.lang = 'ko-KR';
   recognition.interimResults = false;
   recognition.maxAlternatives = 1;
   
   recognition.start();
   
-  recognition.onresult = function(event) { 
-    var speechResult = event.results[0][0].transcript;
-    $('.output'+seq).empty();
-    $('.output'+seq).html(speechResult);
-    seq++;
+  recognition.onresult = function(event) {
+	  $.ajax({
+			url : 'questionAnalysis.me',
+			data : {
+				sentence : event.results[0][0].transcript
+			},
+			success : function(data){
+				console.log(data);
+				/*for(var key in data){
+					$('.output'+seq).empty();
+				    $('.output'+seq).html(data[key].words.text);
+				    seq++;
+				}*/
+			}
+	  });
   }
 
   recognition.onspeechend = function() {
-    recognition.stop();
-    testBtn.disabled = false;
-    $('.chatBotMicImg').attr('src','/studyplus/resources/images/common/microphoneOn.png');
-  }
+	    recognition.stop();
+	    testBtn.disabled = false;
+	    $('.chatBotMicImg').attr('src','/studyplus/resources/images/common/microphoneOn.png');
+	}
 
   /*recognition.onerror = function(event) {
     testBtn.disabled = false;
