@@ -107,4 +107,9 @@ public class MemberServiceImpl implements MemberService{
 	    	System.out.println(wordList.get(i));
 	    }
 	}
+
+	@Override
+	public int insertMemberHistory(HashMap<String, Object> map) {
+		return md.insertMemberHistory(sqlSession,map);
+	}
 }

@@ -173,4 +173,19 @@ public interface AdminDao {
 	List<Map<String, Object>> totalGroupList(SqlSessionTemplate sqlSession);
 
 
+	List<Map<String, Object>> thisMonthBanner(SqlSessionTemplate sqlSession);
+
+
+	List<Map<String, Object>> postBanner(SqlSessionTemplate sqlSession);
+
+
+	List<Map<String, Object>> totalProfit(SqlSessionTemplate sqlSession);
+
+
+	List<Map<String, Object>> categoryProfit(SqlSessionTemplate sqlSession);
+
+
+	List<Map<String, Object>> CPCandCPPprofit(SqlSessionTemplate sqlSession);
+
+
 }
