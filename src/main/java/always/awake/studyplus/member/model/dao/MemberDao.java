@@ -23,5 +23,7 @@ public interface MemberDao {
 	void insertMemberInterestCategory(SqlSessionTemplate sqlSession, Map<String, List<InterestCategory>> categoryList);
 
 	void insertMemberNeed(SqlSessionTemplate sqlSession, int member_Code);
+
+	void insertGift(SqlSessionTemplate sqlSession, int member_Code);
 	
 }

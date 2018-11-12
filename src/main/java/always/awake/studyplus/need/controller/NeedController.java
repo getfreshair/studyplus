@@ -30,4 +30,31 @@ public class NeedController {
 		
 		return need;
 	} 
+
+	@RequestMapping(value="insertWater.nd")
+	public @ResponseBody void insertWater(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int member_Code = loginUser.getMember_Code();
+		String water = request.getParameter("water");
+		
+		ns.insertWater(member_Code, water);
+		
+		Need need = ns.selectNeedData(member_Code);
+		
+		if((need.getLv())*100 <= need.getExp()) {
+			
+			ns.updateLv(member_Code, need.getLv()+1);
+		}
+	} 
+	
+	@RequestMapping(value="initNeed")
+	public @ResponseBody void initNeed(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int member_Code = loginUser.getMember_Code();
+		
+		ns.initNeed(member_Code);
+		ns.initGiveLove(member_Code);
+	} 
 }

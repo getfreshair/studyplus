@@ -16,4 +16,6 @@ public interface MemberService {
 	public int insertMember(Member m, Files files, ArrayList<String> category_Code, HttpServletRequest request);
 
 	public void checkSentence(String sentence);
+
+	public void insertGift(int member_Code);
 }

@@ -90,4 +90,10 @@
 				VALUES(#{item.member_Code}, #{item.category_Code})
 			</foreach>
 	</insert>
+	
+	<insert id="insertGift" parameterType="_int">
+		INSERT INTO REWARD 
+		(REWARD_CODE, REWARD_TYPE, REWARD_STATUS, MEMBER_CODE, REWARD_APPDATE) 
+		VALUES (SEQ_REWARD_REWARD_CODE.NEXTVAL, 0, 0, #{member_Code}, SYSDATE)
+	</insert>
 </mapper>

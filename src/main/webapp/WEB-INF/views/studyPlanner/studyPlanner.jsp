@@ -110,7 +110,7 @@
 							</div>
 							<span class="rank_link" onclick="rankLink()" title="나의 랭킹보기">
 								<p class="rank">지역랭킹 : 상위 1% &nbsp;&nbsp; 분야 랭킹 : 상위 73%</p>
-								<p class="need">식물 Lv. 3</p>
+								<p class="need">식물 Lv. </p>
 							</span>
 						</div>
 						<!-- 오늘의목표 -->

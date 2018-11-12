@@ -47,4 +47,10 @@ public class MemberDaoImpl implements MemberDao{
 	public void insertMemberNeed(SqlSessionTemplate sqlSession, int member_Code) {
 		sqlSession.insert("Member.insertMemberNeed", member_Code);
 	}
+
+	@Override
+	public void insertGift(SqlSessionTemplate sqlSession, int member_Code) {
+		
+		sqlSession.insert("Member.insertGift", member_Code);
+	}
 }

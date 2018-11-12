@@ -24,4 +24,28 @@ public class NeedServiceImpl implements NeedService{
 		return need;
 	}
 
+	@Override
+	public void insertWater(int member_Code, String water) {
+		
+		nd.insertWater(sqlSession, member_Code, water);	
+	}
+
+	@Override
+	public void updateLv(int member_Code, int i) {
+		
+		nd.updateLv(sqlSession, member_Code, i);	
+	}
+
+	@Override
+	public void initGiveLove(int member_Code) {
+		
+		nd.initGiveLove(sqlSession, member_Code);
+	}
+
+	@Override
+	public void initNeed(int member_Code) {
+		
+		nd.initNeed(sqlSession, member_Code);
+	}
+
 }

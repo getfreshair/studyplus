@@ -107,4 +107,10 @@ public class MemberServiceImpl implements MemberService{
 	    	System.out.println(wordList.get(i));
 	    }
 	}
+
+	@Override
+	public void insertGift(int member_Code) {
+		
+		md.insertGift(sqlSession, member_Code);
+	}
 }
