@@ -275,7 +275,7 @@ public class StudyPlannerController {
 		//System.out.println(chartDate4[0]);
 		//HashMap
 		HashMap<String, Object> hmap = new HashMap<String, Object>();
-		hmap.put("loginUserCode", loginUserCode);
+		hmap.put("loginUserCode", loginUser);
 		hmap.put("chartDateYear", chartDate4);
 
 		
@@ -624,4 +624,8 @@ public class StudyPlannerController {
 		return "redirect:studyPlannerMainPage.sp";
 	}
 	
+	@RequestMapping(value="studyStyleView.sp")
+	public String studyStyleView() {
+		return "studyPlanner/studyStyle";
+	}
 }

@@ -979,10 +979,6 @@ function todayGoalsList(){
 			type : "post",
 			success : function(data){
 				
-				
-				
-				
-				
 				$(".weekly_goals .goals_list").empty();
 				for(var i = 0; i < data.length; i++){
 				
@@ -995,8 +991,8 @@ function todayGoalsList(){
 					var achievPer = ((data[i].GOAL_ACHIEVEAMOUNT / data[i].GOAL_GOALAMOUNT) * 100).toFixed(0); //달성률
 					var shortfallPer = 100 - achievPer; 			//미달성률
 					var dataType;
-					var week = data[i].WEEK;						//목표 요일
-					
+					//var week = data[i].WEEK;						//목표 요일
+					var todayOrWeek = data[i].GOAL_DIVISION			//0일경우 오늘목표, 1일경우 주간목표
 					
 					//목표 타입이 시간일 경우 시간,분으로 변경
 					if(type != 0){
@@ -1018,17 +1014,18 @@ function todayGoalsList(){
 							 + '</div>'
 							 + '</div>'
 							 + '<div class="right_area" value="' + data[i].GOAL_TYPE + '">' 
-							 + '<p class="tit">' + content + " (" + week + ')</p>'
+							 + '<p class="tit">' + content + '</p>'
+							 //+ '<p class="tit">' + content + " (" + week + ')</p>'
 							 + '<p class="per">' + dataType
 							 + '</p>'
 							 + '</div>'
 							 + '</li>');
 					
 					//목표 리스트 노출된 부분 공부량 차트 (아래 함수 호출)
-					//GoalListChart2(achievPer, shortfallPer, i);
+					GoalListChart2(achievPer, shortfallPer, i);
 					
 					//목표 리스트 각 목표 클릭시 상세 팝업창 노출(아래 함수 호출)
-					//todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, achievHour, achievMin, achievPer, shortfallPer);
+					todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, achievHour, achievMin, achievPer, shortfallPer);
 				
 				}
 				
@@ -1132,6 +1129,10 @@ function todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, 
 				$("#detailViewModal .book_form").parent().attr("action","TodayBookGoalUpdateModal.sp?liIndex=" + liIndex);
 			}
 		}
+		
+		/*$("#saveBtn").click(function(){
+			alert("저장시 주간목표로 등록 한 데이터는 전부 변경됩니다.")
+		});*/
 		
 	});
 }
