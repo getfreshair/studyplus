@@ -16,6 +16,7 @@ public class Member implements java.io.Serializable{
 	private String member_Job;
 	private String member_Gender;
 	private int location_Code;
+	private String location_Name;
 	private String member_Phone;
 	private String member_SMSConfirmation;
 	private Files member_Files;
@@ -25,8 +26,8 @@ public class Member implements java.io.Serializable{
 
 	public Member(int member_Code, String member_Id, String member_Pwd, String member_Nickname, Date member_EnrollDate,
 			int member_Status, int member_Class, String member_Introduction, int member_Age, String member_Job,
-			String member_Gender, int location_Code, String member_Phone, String member_SMSConfirmation,
-			Files member_Files, ArrayList<InterestCategory> category_Name) {
+			String member_Gender, int location_Code, String location_Name, String member_Phone,
+			String member_SMSConfirmation, Files member_Files, ArrayList<InterestCategory> category_Name) {
 		super();
 		this.member_Code = member_Code;
 		this.member_Id = member_Id;
@@ -40,6 +41,7 @@ public class Member implements java.io.Serializable{
 		this.member_Job = member_Job;
 		this.member_Gender = member_Gender;
 		this.location_Code = location_Code;
+		this.location_Name = location_Name;
 		this.member_Phone = member_Phone;
 		this.member_SMSConfirmation = member_SMSConfirmation;
 		this.member_Files = member_Files;
@@ -142,6 +144,14 @@ public class Member implements java.io.Serializable{
 		this.location_Code = location_Code;
 	}
 
+	public String getLocation_Name() {
+		return location_Name;
+	}
+
+	public void setLocation_Name(String location_Name) {
+		this.location_Name = location_Name;
+	}
+
 	public String getMember_Phone() {
 		return member_Phone;
 	}
@@ -158,11 +168,11 @@ public class Member implements java.io.Serializable{
 		this.member_SMSConfirmation = member_SMSConfirmation;
 	}
 
-	public Files getmember_Files() {
+	public Files getMember_Files() {
 		return member_Files;
 	}
 
-	public void setmember_Files(Files member_Files) {
+	public void setMember_Files(Files member_Files) {
 		this.member_Files = member_Files;
 	}
 
@@ -180,9 +190,11 @@ public class Member implements java.io.Serializable{
 				+ ", member_Nickname=" + member_Nickname + ", member_EnrollDate=" + member_EnrollDate
 				+ ", member_Status=" + member_Status + ", member_Class=" + member_Class + ", member_Introduction="
 				+ member_Introduction + ", member_Age=" + member_Age + ", member_Job=" + member_Job + ", member_Gender="
-				+ member_Gender + ", location_Code=" + location_Code + ", member_Phone=" + member_Phone
-				+ ", member_SMSConfirmation=" + member_SMSConfirmation + ", member_Files=" + member_Files
-				+ ", category_Name=" + category_Name + "]";
+				+ member_Gender + ", location_Code=" + location_Code + ", location_Name=" + location_Name
+				+ ", member_Phone=" + member_Phone + ", member_SMSConfirmation=" + member_SMSConfirmation
+				+ ", member_Files=" + member_Files + ", category_Name=" + category_Name + "]";
 	}
+
+	
 	
 }
