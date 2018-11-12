@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE mapper
@@ -18,6 +19,7 @@
 		<result property="member_Job" column="member_Job"/>
 		<result property="member_Gender" column="member_Gender"/>
 		<result property="location_Code" column="location_Code"/>
+		<result property="location_Name" column="LOCATION_NAME"/>
 		<result property="member_Phone" column="member_Phone"/>
 		<result property="member_SMSConfirmation" column="member_SMSConfirmation"/>
 		<collection property="member_Files" javaType="MemberFiles" resultMap="filesSet"/>
@@ -100,4 +102,5 @@
 	<insert id="insertMemberHistory" parameterType="Member">
 		INSERT INTO LOGINRECORD VALUES (SEQ_LOGINRECORD_LOGRECORD_CODE.NEXTVAL , #{loginUser.member_Code}, SYSDATE)
 	</insert>
+
 </mapper>

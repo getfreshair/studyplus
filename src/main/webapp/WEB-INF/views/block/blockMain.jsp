@@ -36,6 +36,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="resources/css/style.css">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
@@ -65,7 +66,7 @@
 
 .hovereffect h2 {
   text-transform: uppercase;
-  color: black;
+  color: white;
   text-align: center;
   font-size: 17px;
   padding: 10px;
@@ -94,10 +95,10 @@
 }
 
 .hovereffect hr {
-  width: 20%;
+  width: 12%;
   opacity: 0;
   filter: alpha(opacity=0);
-  border: 1px solid black;
+  border: 1px solid white;
 }
 
 .hovereffect  hr:nth-child(3) {
@@ -156,7 +157,7 @@
 }
 
 .hovereffect p a {
-  color: black;
+  color: white;
 }
 
 .hovereffect p a:hover,
@@ -216,8 +217,20 @@
 }
 
 
-	.mainDiv {
+	
+	.mainDiv{
 		
+		position: absolute;
+		top:0;
+		left:0;
+		background:url("resources/images/block/background.jpg") 50% no-repeat; 
+		/* background-image :url(resources/images/block/background.jpg); */
+		background-repeat:repeat;
+		background-size:cover;
+		background-attachment:fixed;
+		width:100%;
+		height:1200px;
+		z-index:-20;
 	}
 	
 	.mainDiv:after {
@@ -225,28 +238,162 @@
 		position: absolute;
 		top:0;
 		left:0;
-		background :url("resources/images/block/test.jpg") 50% no-repeat;
+		background-size:cover;
 		width:100%;
-		height:750px;
-		opacity: 0.2;
-		z-index: -1;
-	}
-	
+		height:1200px;
+		background-color:black;
+		opacity: 0.5;
+		z-index:-10;
+	} 
 	 .contentDiv{
 		height:800px;
 	} 
 	
+	
+	@font-face {
+    font-family: 'BebasNeueRegular';
+    src: url('BebasNeue-webfont.eot');
+    src: url('BebasNeue-webfont.eot?#iefix') format('embedded-opentype'),
+         url('BebasNeue-webfont.woff') format('woff'),
+         url('BebasNeue-webfont.ttf') format('truetype'),
+         url('BebasNeue-webfont.svg#BebasNeueRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.container {
+    width: 960px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.clock {
+	margin-top:100px;
+    width:500px;
+    color: #fff;
+    margin-left:auto;
+}
+
+#Date {
+    font-family: 'BebasNeueRegular', Arial, Helvetica, sans-serif;
+    font-size: 25px;
+    text-align: center;
+    text-shadow: 0 0 5px #00c6ff;
+    display:inline-block;
+}
+
+ul {
+    width: 120px;
+    margin: 0 auto;
+    padding: 0px;
+    list-style: none;
+    text-align: center;
+    display:inline-block;
+}
+
+ul li {
+    display: inline;
+    font-size: 1.8em;
+    text-align: center;
+    font-family: 'BebasNeueRegular', Arial, Helvetica, sans-serif;
+    text-shadow: 0 0 5px #00c6ff;
+}
+
+#point {
+    position: relative;
+    -moz-animation: mymove 1s ease infinite;
+    -webkit-animation: mymove 1s ease infinite;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* Simple Animation */
+@-webkit-keyframes mymove {
+    0% {opacity: 1.0;
+    text-shadow: 0 0 20px #00c6ff;
+}
+
+50% {
+    opacity: 0;
+    text-shadow: none;
+}
+
+100% {
+    opacity: 1.0;
+    text-shadow: 0 0 20px #00c6ff;
+}	
+}
+
+@-moz-keyframes mymove {
+    0% {
+        opacity: 1.0;
+        text-shadow: 0 0 20px #00c6ff;
+    }
+
+    50% {
+        opacity: 0;
+        text-shadow: none;
+    }
+
+    100% {
+        opacity: 1.0;
+        text-shadow: 0 0 20px #00c6ff;
+    };
+}
 </style>
+<script type="text/javascript">
+$(document).ready(function() {
+// Create two variable with the names of the months and days in an array
+var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]; 
+var dayNames= ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+
+// Create a newDate() object
+var newDate = new Date();
+// Extract the current date from Date object
+newDate.setDate(newDate.getDate());
+// Output the day, date, month and year   
+$('#Date').html(dayNames[newDate.getDay()] + " " + newDate.getDate() + ' ' + monthNames[newDate.getMonth()] + ' ' + newDate.getFullYear());
+
+setInterval( function() {
+	// Create a newDate() object and extract the seconds of the current time on the visitor's
+	var seconds = new Date().getSeconds();
+	// Add a leading zero to seconds value
+	$("#sec").html(( seconds < 10 ? "0" : "" ) + seconds);
+	},1000);
+	
+setInterval( function() {
+	// Create a newDate() object and extract the minutes of the current time on the visitor's
+	var minutes = new Date().getMinutes();
+	// Add a leading zero to the minutes value
+	$("#min").html(( minutes < 10 ? "0" : "" ) + minutes);
+    },1000);
+	
+setInterval( function() {
+	// Create a newDate() object and extract the hours of the current time on the visitor's
+	var hours = new Date().getHours();
+	// Add a leading zero to the hours value
+	$("#hours").html(( hours < 10 ? "0" : "" ) + hours);
+    }, 1000);	
+});
+</script>
 </head>
 <body>	
 	<div class="mainDiv">
-		<div align="center" class="topDiv col-xs-12 col-md-12" style="background:black; color:white; height:100px; font-size:3em">
-			top view
+	<!-- <div id="clock" class="dark" style="background-color:transparent !important">
+		<div class="display">
+			<div class="weekdays"></div>
+			<div class="ampm"></div>
+			<div class="alarm"></div>
+			<div class="digits"></div>
 		</div>
-		<div class="contentDiv col-xs-12 col-md-4">
-			<div class="profileDiv" style="width:90%; height:150px; margin-top:50px ; margin-left:50px ">
+	</div> -->
+		
+	
+		<div class="contentDiv col-xs-12 col-md-8" style="height:800px">
+		
+			<!-- <div class="profileDiv" style="width:90%; height:150px; margin-top:50px ; margin-left:50px ">
 				<img src="resources/images/block/profile.jpg" style="border-radius:70px">
-				<span style="font-size:2em; font-weight: bold; margin:20px; color:orangered ">오늘의 적은 어제의 나 </span>
+				<span style="font-size:2em; font-weight: bold; margin:20px; color:orangered ">오늘의 적은 어제의 나 </span> -->
 				<script>
 					// 메인타이머 초기화
 					var mainTimmerTime = <%=todayStudyTime%>*10;  				// 메인컨트롤 타이머용 시간
@@ -444,7 +591,7 @@
 						 			mainSecs = "0" + mainSecs;
 						 		}
 						 								 		
-						 		document.getElementById('output').innerHTML =  mainHour + " : " + mainMins + " : " + mainSecs + " : " + "0" + mainTenths;
+						 		document.getElementById('output').innerHTML =  mainHour + " : " + mainMins + " : " + mainSecs;
 						 		startMainTimmer();
 						 		}, 100);
 						 	}
@@ -470,7 +617,7 @@
 						 			groupSecs = "0" + groupSecs;
 						 		}
 						 		var groupOutputName = 'outputGroup' + num;	
-						 		document.getElementById(groupOutputName).innerHTML =  groupHour + " : " + groupMins + " : " + groupSecs + " : " + "0" + groupTenths;
+						 		document.getElementById(groupOutputName).innerHTML =  groupHour + " : " + groupMins + " : " + groupSecs ;
 						 		startGroupTimmer(num);
 						 		}, 100);
 						 	}
@@ -496,20 +643,29 @@
 						 			goalSecs = "0" + goalSecs;
 						 		}
 						 		var goalOutputName = 'outputGoal' + num;	
-						 		document.getElementById(goalOutputName).innerHTML =  goalHour + " : " + goalMins + " : " + goalSecs + " : " + "0" + goalTenths;
+						 		document.getElementById(goalOutputName).innerHTML =  goalHour + " : " + goalMins + " : " + goalSecs ;
 						 		startGoalTimmer(num);
 						 		}, 100);
 						 	}
 					}
 				</script>
-				</div>
+				<!-- </div> -->
 				
 						 		
-						 		
-						 		
-				<div class="stopWatchArea" align="center">
-
-					<span id="output" style="width:100px; height:50px; margin-top:50px; font-size:3em;">
+				<div>
+					<div class="clock">
+				  	<ul>
+					      <li id="hours"></li>
+					      <li id="point">:</li>
+					      <li id="min"></li>
+				  	</ul>
+					<div id="Date"></div>
+					</div>
+				<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+				<script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.0.0/moment.min.js"></script>
+				<script src="resources/js/script.js"></script>		
+				<div style="margin-left:auto;" class="stopWatchArea" align="right">
+					<span id="output" style="margin-left:auto; width:100px; height:50px; font-size:7em;text-shadow: 0 0 5px #00c6ff; color:white">
 					<% 
 						int mHour = (int)Math.floor((((todayStudyTime)/60)/60)%24);
 					   	int mMin = (int)Math.floor((todayStudyTime/60)%60);
@@ -541,40 +697,23 @@
 					<% 
 				   		if(mSec < 10){ 
 					%>
-							0<%=mSec%> : 
+							0<%=mSec%>
 					<%    		
 						} else {
 					%>
-						   <%=mSec%> : 
+						   <%=mSec%>
 					<%    		
 						}
 					%>
-					 00</span>
+					 </span>
+					</div>
+				
 					 
-					 	<div class="container">
-						  <div class="modal fade" id="myModal" role="dialog">
-						    	<div class="modal-dialog modal-sm">
-						      		<div class="modal-content">
-						        		<div class="modal-header">
-						          			<button type="button" class="close" data-dismiss="modal">&times;</button>
-						          			<h4 class="modal-title">Modal Header</h4>
-						        		</div>
-							        	<div class="modal-body">
-							          		<p>This is a small modal.</p>
-							        	</div>
-							        	<div class="modal-footer">
-							          		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-							        	</div>
-						      		</div>
-						    	</div>
-						 	</div>
-						</div>
-					 
-					 
-					<div id="controls" style="display:inline-block; margin-left:30px ;">
+					<!-- <div id="controls" style="margin-left:30px ;">
+					
   						<button id="startPause" class="btn btn-primary" onclick="startPause('main')">공부시작</button>
   						<form action="saveStudyTime.bl" method="post" id="frm">
-  							<button type="button" id="exitStopWatch" class="btn btn-danger" data-toggle="modal" data-target="#myModal" onclick="doSubmit()">종료</button>
+  							<button type="button" id="exitStopWatch" class="btn btn-danger" onclick="doSubmit()">종료</button>
   						</form>
   						<script type="text/javascript">
   							function doSubmit() {
@@ -591,11 +730,11 @@
   							}
   							
   						</script>
-  					</div>
+  					</div> -->
   				</div>
   				<br>
-  				<br>
-  				<div class="gameArea" style="border:2px solid black;background:black; height:400px; width:100%; position:relative ;overflow: hidden; border-radius:10px">
+  				<div style="position:relative;margin-top:120px" >
+  				<div class="gameArea" style="margin-left:70px;border:2px solid black;background:black; height:400px; width:400px; position:relative ;overflow: hidden; border-radius:300px; display:inline-block; border:5px solid">
   					<% Random random = new Random();
   						ArrayList<Member> mlist = new ArrayList<Member>();
 						for(int i = 0 ; i < 100 ; i ++ ){
@@ -632,11 +771,95 @@
 						<%	}
 						}
   					%>
-  				
+  				<img alt="" src="resources/images/block/ship.gif" style="z-index:10000;position:absolute;width:50%;margin-top:310px;margin-left:100px;">
   				</div>
+  				<c:choose>
+						<c:when test="${sessionScope.loginUser.member_Job eq '01' }">
+							<c:set var="jobName" value="무직"></c:set>
+						</c:when>
+						<c:when test="${sessionScope.loginUser.member_Job eq '02' }">
+							<c:set var="jobName" value="학생"></c:set>
+						</c:when>
+						<c:when test="${sessionScope.loginUser.member_Job eq '03' }">
+							<c:set var="jobName" value="언론"></c:set>
+						</c:when>
+						<c:when test="${sessionScope.loginUser.member_Job eq '04' }">
+							<c:set var="jobName" value="공무원"></c:set>
+						</c:when>
+						<c:when test="${sessionScope.loginUser.member_Job eq '05' }">
+							<c:set var="jobName" value="군인"></c:set>
+						</c:when>
+						<c:when test="${sessionScope.loginUser.member_Job eq '06' }">
+							<c:set var="jobName" value="서비스업"></c:set>
+						</c:when>
+						<c:when test="${sessionScope.loginUser.member_Job eq '07' }">
+							<c:set var="jobName" value="교육"></c:set>
+						</c:when>
+						<c:when test="${sessionScope.loginUser.member_Job eq '08' }">
+							<c:set var="jobName" value="금융/증권/보험업"></c:set>
+						</c:when>
+						<c:when test="${sessionScope.loginUser.member_Job eq '09' }">
+							<c:set var="jobName" value="유통업"></c:set>
+						</c:when>
+						<c:when test="${sessionScope.loginUser.member_Job eq '10' }">
+							<c:set var="jobName" value="예술"></c:set>
+						</c:when>
+						<c:when test="${sessionScope.loginUser.member_Job eq '11' }">
+							<c:set var="jobName" value="의료"></c:set>
+						</c:when>
+						<c:when test="${sessionScope.loginUser.member_Job eq '12' }">
+							<c:set var="jobName" value="법률"></c:set>
+						</c:when>
+						<c:when test="${sessionScope.loginUser.member_Job eq '13' }">
+							<c:set var="jobName" value="건설업"></c:set>
+						</c:when>
+						<c:when test="${sessionScope.loginUser.member_Job eq '14' }">
+							<c:set var="jobName" value="제조업"></c:set>
+						</c:when>
+						<c:when test="${sessionScope.loginUser.member_Job eq '15' }">
+							<c:set var="jobName" value="부동산업"></c:set>
+						</c:when>
+						<c:when test="${sessionScope.loginUser.member_Job eq '16' }">
+							<c:set var="jobName" value="운송업"></c:set>
+						</c:when>
+						<c:when test="${sessionScope.loginUser.member_Job eq '17' }">
+							<c:set var="jobName" value="농/수/임/광산업"></c:set>
+						</c:when>
+						<c:when test="${sessionScope.loginUser.member_Job eq '18' }">
+							<c:set var="jobName" value="가사"></c:set>
+						</c:when>
+						<c:otherwise>
+							<c:set var="jobName" value="기타"></c:set>
+						</c:otherwise>
+					</c:choose>
+						<span style="color:white;position:absolute;top:30px; left:430px;" >현재 ${jobName} 공부 유저  :  <span style="color:#f27553 ; font-size:1.5em">00 </span>명</span><br>
+						<span style="color:white;position:absolute; top:80px; left:480px;">현재 ${sessionScope.loginUser.location_Name }지역 공부 유저  :  <span style="color:#f27553; font-size:1.5em">00 </span>명</span>
+						<div class="hovereffect" style="display:inline-block;height:200px;  position:absolute;left:200px; top:150px">
+	            <div class="overlay">
+	                <h2 >Block Settings</h2>
+	                <p class="set1">
+	                    <a href="showProgram.bl">
+	                        <i class="fa fa-desktop" style="margin-right:10px"></i>
+	                    </a>
+	                    <a href="showWeb.bl">
+	                        <i class="fa fa-tasks" style="margin-left:10px"></i>
+	                    </a>
+	                </p>
+	                <hr>
+	                <hr>
+	                <p class="set2">
+	                    <a href="showSchedule.bl">
+	                        <i class="fa fa-calendar" style="margin-right:10px"></i>
+	                    </a>
+	                    <a href="showLocation.bl">
+	                        <i class="fa fa-road" style="margin-left:10px"></i>
+	                    </a>
+	                </p>
+	            </div>
+	    	</div>
 			</div>
-		</div>
-		<div class="contentDiv col-xs-12 col-md-4" style="margin-top : 50px;">
+			</div>
+		<div class="contentDiv col-xs-12 col-md-4">
 		<div style="height:250px; widht:100%">
 			
 			<c:if test="${groupSize eq 0}">
@@ -686,37 +909,14 @@
 			</c:if>
 		</div>
 
-			<div class="hovereffect" style="height:200px; widht:100%">
-	            <div class="overlay">
-	                <h2 >Block Settings</h2>
-	                <p class="set1">
-	                    <a href="showProgram.bl">
-	                        <i class="fa fa-desktop" style="margin-right:10px"></i>
-	                    </a>
-	                    <a href="showWeb.bl">
-	                        <i class="fa fa-tasks" style="margin-left:10px"></i>
-	                    </a>
-	                </p>
-	                <hr>
-	                <hr>
-	                <p class="set2">
-	                    <a href="showSchedule.bl">
-	                        <i class="fa fa-calendar" style="margin-right:10px"></i>
-	                    </a>
-	                    <a href="showLocation.bl">
-	                        <i class="fa fa-road" style="margin-left:10px"></i>
-	                    </a>
-	                </p>
-	            </div>
-	    	</div>
+			
 	    	
 	    	<div style="height:200px; widht:100%">
 	    		<a>
 	    			<img src="resources/images/block/Advertising.jpg" style="height:100%; width:100%">
 	    		</a>
 	    	</div>
-	    </div>
-		<div class="contentDiv col-xs-12 col-md-4" " >
+	   
 			<div align="right">
 			<img src="resources/images/block/goal.png" style="width:80% ; height:750px" >
 			</div>
@@ -760,6 +960,26 @@
 	  			</c:forEach>
 	  		</ul>
 		</div>
-	</div>
+		
+		<div class="col-xs-12 col-md-12" style="height:80px; ">
+			<form action="saveStudyTime.bl" method="post" style="position:relative;"id="frm" >
+  				<button type="button" id="exitStopWatch" style="position:absolute;left:50%;margin-left:-350px;height:40px;margin-top:25px;border:1px solid #f1bc3c;border-radius:40px 40px 0 0;background:#f1bc3c;width:700px; color:white"class="btn btn-danger" onclick="doSubmit()">차단을 해제하고, 공부 휴식 취하기</button>
+  			</form>
+  			<script type="text/javascript">
+  				function doSubmit() {
+  					startPause('main');
+  					/* var t = 5;
+  					alert("Data를 저장중입니다.. " + t);
+  					setTimeout(function(){
+  					t = t -1 ;
+  					alert("Data를 저장중입니다.. " + t);
+  					},1000) */
+  					setTimeout(function(){
+  						document.getElementById("frm").submit();
+  					},3000);
+  				}
+  							
+  			</script>
+  		</div></div>
 </body>
 </html>
