@@ -349,5 +349,35 @@ public class AdminServiceImpl implements AdminService{
 		return ad.CPCandCPPprofit(sqlSession);
 	}
 
+	@Override
+	public List<Map<String, Object>> yesterdayContact() {
+		return ad.yesterdayContact(sqlSession);
+
+	}
+
+	@Override
+	public List<Map<String, Object>> todayContact() {
+		return ad.todayContact(sqlSession);
+
+	}
+
+	@Override
+	public List<Map<String, Object>> totalContact() {
+		return ad.totalContact(sqlSession);
+
+	}
+
+	@Override
+	public List<Map<String, Object>> contactByTime() {
+		return ad.contactByTime(sqlSession);
+
+	}
+
+	@Override
+	public List<Map<String, Object>> contactByDay() {
+		return ad.contactByDay(sqlSession);
+
+	}
+
 
 }

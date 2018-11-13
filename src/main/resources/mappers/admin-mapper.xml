@@ -670,7 +670,6 @@
 		FROM MEMBER
 		WHERE MEMBER_GENDER LIKE 'M'
 	</select>
-	
 	<select id="thisMonthBanner" parameterType="map" resultType="map">
 		SELECT SUM(PR_CONTRACTMONEY) as thismonth
 		FROM PR
@@ -731,5 +730,59 @@
 		FROM PR
 		JOIN FILES USING(PR_CODE)
 		WHERE PR_TYPE=1 AND FILES_ENROLLDATE BETWEEN TRUNC(sysdate,'YY') AND SYSDATE
+	</select>
+	
+	<select id="yesterdayContact" resultType="map" parameterType="map">
+		SELECT COUNT(*) AS COUNT
+		FROM LOGINRECORD
+		WHERE SYSDATE-1 LIKE LOGINRECORD_DATE
+	</select>
+	<select id="todayContact" resultType="map" parameterType="map">
+		SELECT COUNT(*) AS COUNT
+		FROM LOGINRECORD
+		WHERE SYSDATE LIKE LOGINRECORD_DATE
+	</select>
+	<select id="totalContact" resultType="map" parameterType="map">
+		SELECT COUNT(*) AS COUNT
+		FROM LOGINRECORD
+	</select>
+	<select id="contactByTime" resultType="map" parameterType="map">
+		SELECT COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'01',1)) as one,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'02',1)) as two,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'03',1)) as three,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'04',1)) as four,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'05',1)) as five,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'06',1)) as six,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'07',1)) as seven,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'08',1)) as eight,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'09',1)) as nine,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'10',1)) as ten,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'11',1)) as eleven,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'12',1)) as twelve,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'13',1)) as thirteen,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'14',1)) as fourteen,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'15',1)) as fifteen,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'16',1)) as sixteen,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'17',1)) as seventeen,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'18',1)) as eighteen,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'18',1)) as nineteen,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'20',1)) as twenty,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'21',1)) as twentyone,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'22',1)) as twentytwo,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'23',1)) as twentythree,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'HH24'),'00',1)) as twentyfour
+		FROM LOGINRECORD
+		WHERE LOGINRECORD_DATE BETWEEN SYSDATE-7 AND SYSDATE
+	</select>
+	<select id="contactByDay" resultType="map" parameterType="map">
+		SELECT COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'DY'), '월', 1)) as mon,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'DY'), '화', 1)) as tue,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'DY'), '수', 1)) as wed,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'DY'), '목', 1)) as thur,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'DY'), '금', 1)) as fri,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'DY'), '토', 1)) as sat,
+		       COUNT(DECODE(TO_CHAR(LOGINRECORD_DATE, 'DY'), '일', 1)) as sun
+		FROM LOGINRECORD
+ 		WHERE LOGINRECORD_DATE BETWEEN SYSDATE-7 AND SYSDATE
 	</select>
 </mapper>

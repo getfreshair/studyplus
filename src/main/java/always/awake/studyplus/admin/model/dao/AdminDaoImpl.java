@@ -487,4 +487,29 @@ public class AdminDaoImpl implements AdminDao {
 	public List<Map<String, Object>> CPCandCPPprofit(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectList("Admin.CPCandCPPprofit");
 	}
+
+	@Override
+	public List<Map<String, Object>> yesterdayContact(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.yesterdayContact");
+	}
+
+	@Override
+	public List<Map<String, Object>> todayContact(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.todayContact");
+	}
+
+	@Override
+	public List<Map<String, Object>> totalContact(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.totalContact");
+	}
+
+	@Override
+	public List<Map<String, Object>> contactByTime(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.contactByTime");
+	}
+
+	@Override
+	public List<Map<String, Object>> contactByDay(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.contactByDay");
+	}
 }

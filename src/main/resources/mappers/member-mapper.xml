@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE mapper
@@ -100,7 +99,7 @@
   </insert>
   
 	<insert id="insertMemberHistory" parameterType="Member">
-		INSERT INTO LOGINRECORD VALUES (SEQ_LOGINRECORD_LOGRECORD_CODE.NEXTVAL , #{loginUser.member_Code}, SYSDATE)
+		INSERT INTO LOGINRECORD VALUES (SEQ_LOGINRECORD_LOGRECORD_CODE.NEXTVAL+20 , #{loginUser.member_Code}, SYSDATE)
 	</insert>
 
 </mapper>

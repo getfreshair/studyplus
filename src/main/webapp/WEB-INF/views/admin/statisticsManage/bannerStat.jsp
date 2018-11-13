@@ -52,7 +52,7 @@ hr{
 					<div class="first-row">
 						<div class="first" style="float:left; width:33%; height: 140px; text-align:center; border-right-style: groove">
 						이번달 광고매출액<br>
-						<span style="font-size:50px;margin-top:50px"><c:out value="${data.thisMonthBanner[0].THISMONTH}"></c:out></span>원
+						<span style="font-size:50px; display:inline-block; margin-top:40px"><c:out value="${data.thisMonthBanner[0].THISMONTH}"></c:out></span>원
 						</div>
 						<div class="second" style="float:left; width:33%; height: 140px; text-align:center; border-right-style: groove">
 						등록된 광고 수<br>
@@ -60,11 +60,11 @@ hr{
 						</div>
 						<div class="third" style="float:left; width:33%; height: 140px; text-align:center;">
 						총 누적 매출액<br>
-						<span style="font-size:50px;margin-top:50px"><c:out value="${data.totalProfit[0].TOTAL}"></c:out></span>원
+						<span style="font-size:50px; display:inline-block; margin-top:40px"><c:out value="${data.totalProfit[0].TOTAL}"></c:out></span>원
 						</div>
 					</div>
 					<hr class="bottom" style="width:1330px;float:left;">
-					<div class="second-row" style="width:1330px;float:left;">
+					<div class="second-row" style="width:1330px;float:left;margin-top:100px">
 						<div class="second-first" style="width:400px; height:400px; margin-left:100px; float:left;">
 						<canvas id="category">
 						</canvas>
@@ -111,8 +111,8 @@ hr{
 							});
 						</script>
 						</div>
-						<div class="second-second"style="width:500px; height:500px; margin-left:100px; margin-top:100px; float:left;">
-							<canvas id="CPPCPC">
+						<div class="second-second"style="width:500px; height:500px; margin-left:100px;  float:left;">
+							<canvas id="CPPCPC" height="260px">
 							</canvas>
 						<script type="text/javascript">
 							$(function(){
