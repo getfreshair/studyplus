@@ -72,8 +72,16 @@ public class SGDetailServiceImpl implements SGDetailService{
 		return updateDelResult;
 	}
 
-	
-	
-	
+	@Override
+	public HashMap<String, Object> selectChangeDatesInfo(int changeDates) {
+		HashMap<String, Object> selectChangeDates =  gd.selectChangeDatesInfo(sqlSession, changeDates);
+		return selectChangeDates;
+	}
+
+	@Override
+	public HashMap<String, Object> selectChangeMonthsInfo(int changeMonths) {
+		HashMap<String, Object> selectChangeDates =  gd.selectChangeMonthsInfo(sqlSession, changeMonths);
+		return selectChangeDates;
+	}
 
 }

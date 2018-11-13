@@ -83,15 +83,6 @@ public class SGDetailController {
 		return result;
 	}
 	
-	/*@RequestMapping(value="selectGroupMemberList.sgd", method=RequestMethod.POST)
-	public ModelAndView selectGroupMemberList(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
-		
-		
-		
-		return mv;
-	}
-	*/
-	
 	@RequestMapping("selectGroupMemberList.sgd")
 	public ModelAndView selectGroupMemberList(int grCode, int loginUserCode, ModelAndView mv) {
 		System.out.println("1. " + grCode);
@@ -155,9 +146,11 @@ public class SGDetailController {
 	}
 	
 	@RequestMapping("selectGrMemRankPage.sgd")
-	public ModelAndView selectGrMemRankPage(@RequestParam int grCode, ModelAndView mv) {
+	public ModelAndView selectGrMemRankPage(@RequestParam int grCode, @RequestParam String thisDay,
+												@RequestParam int dayPick, @RequestParam int monthPick, ModelAndView mv) {
 		try {
-			
+			System.out.println("페이지 여는 컨트롤러 왔어");
+			System.out.println(grCode + " / " + thisDay + " / " + dayPick + " / " + monthPick);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -168,43 +161,34 @@ public class SGDetailController {
 		return mv;
 	}
 	
-	@RequestMapping("selectRankingDate.sgd")
-	public ModelAndView selectGrMemRank(@RequestParam int selectPeriod, @RequestParam int dayPick,
-											@RequestParam int monthPick, ModelAndView mv) {
-		int minusDate = 0;
+	@RequestMapping(value="selectDateByPeriod.sgd")
+	public ModelAndView selectDateByPeriod(@RequestParam int dayPick, @RequestParam int monthPick,
+													@RequestParam int changeDates, @RequestParam int changeMonths, ModelAndView mv){
+		
+		System.out.println("changeDates : " + dayPick + " / " + changeDates);
+		System.out.println("changeMonths : " + monthPick + " / " + changeMonths);
+		
+		HashMap<String, Object> selectChangeDates = null;
 		
 		try {
+			if(dayPick >= 1 && monthPick == 0) {
+				selectChangeDates = gs.selectChangeDatesInfo(changeDates);
+			}else if(monthPick >= 1 && dayPick == 0) {
+				selectChangeDates = gs.selectChangeMonthsInfo(changeMonths);
+			}
 			
-			/*dayPick *= selectPeriod;
-			monthPick *= selectPeriod;*/
-			
-			System.out.println("selectPeriod : " + selectPeriod);
-			System.out.println("dayPick : " + dayPick);
-			System.out.println("monthPick : " + monthPick);
-			
-//			HashMap<String, Object> selectDate = gs.selectDateInfo();
-			
-			
+			System.out.println(selectChangeDates);
+					
+			mv.addObject("selectDate", selectChangeDates);
+			mv.setViewName("jsonView");
+//			mv.setViewName("studyGroupDetail/leftGroupStudyTimeRank");
+		
 		} catch (Exception e) {
 			e.printStackTrace();
-			
 		}
+		System.out.println("mv : " + mv);
 		
-		
-		mv.setViewName("studyGroupDetail/leftGroupStudyTimeRank");
 		return mv;
 	}
 	
-/*		@RequestMapping(value="/selectOneGroup.sgd", method=RequestMethod.POST)
-		public String selectOneGroupDetail(@RequestParam("userId")String userId, @RequestParam(value="userPwd", defaultValue="1234", required=false)String userPwd) {
-			<- 변수 이름 변경 가능(파라미터로 받아오기때문에) -> 3번 방식과의 차이점
-			
-			
-			
-			
-			System.out.println("userId : " + userId);
-			System.out.println("userPwd : " + userPwd);
-			
-			return "studyGroupDetail/groupDetailPage";
-	}*/
 }
