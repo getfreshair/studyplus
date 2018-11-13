@@ -13,6 +13,9 @@
 		width:860px;
 		height:150px;
 	}
+	.adArea > img:hover {
+		cursor:pointer;
+	}
 	.inSGArea {
 		box-shadow: 0px 5px 5px 0px #D8D8D8;
 		margin-bottom:7px;

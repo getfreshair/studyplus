@@ -28,7 +28,12 @@ public class SGDetailController {
 		
 		int grCode = Integer.parseInt(request.getParameter("group_No"));
 			
+
+		//		test 지우기
+		/*memCode = 5;*/	
+
 		int memCode = ((Member)(request.getSession().getAttribute("loginUser"))).getMember_Code();	
+
 		
 		try {
 			int joinStatus = gs.selectJoinStatus(grCode, memCode);

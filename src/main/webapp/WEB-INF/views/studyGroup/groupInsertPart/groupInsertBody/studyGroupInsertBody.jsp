@@ -137,7 +137,6 @@
 		width:100%;
 		height:300px;
 		display:none;
-		
 	}
 	.SGInsertRightArea div{
 		width:600px;
@@ -283,7 +282,7 @@
 		
 		//그룹제목
 		if (document.getElementsByClassName('studygroup_Name')[0].value.length < 1 || document.getElementsByClassName('studygroup_Name')[0].value.length > 13) {
-            alert("아이디를 1~13자까지 입력해주세요.")
+            alert("스터디 그룹 제목을 1~13자까지 입력해주세요.")
             $('.studygroup_Name').focus();
             $('.studygroup_Name').select();
             return false;
