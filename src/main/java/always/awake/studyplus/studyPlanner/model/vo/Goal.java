@@ -8,7 +8,8 @@ public class Goal implements Serializable {
 	private int memberCode;			// 회원 코드
 	private String memberNickName;	// 회원 닉네임
 	private Date goalEnrollDate;	// 목표 일
-	private String dateString; 		//
+	private String dateString; 		// 목표일String
+	private String week;			// 목표 요일 
 	private String goalContent;		// 목표
 	private int goalType;			// 목표 종류
 	private int goalGoalAmount;		// 목표량
@@ -19,7 +20,7 @@ public class Goal implements Serializable {
 	public Goal() { }
 
 	public Goal(int goalCode, int memberCode, String memberNickName, Date goalEnrollDate, String dateString,
-			String goalContent, int goalType, int goalGoalAmount, int goalAchieveAmount, String gaolISBN,
+			String week, String goalContent, int goalType, int goalGoalAmount, int goalAchieveAmount, String gaolISBN,
 			int goalDivision) {
 		super();
 		this.goalCode = goalCode;
@@ -27,6 +28,7 @@ public class Goal implements Serializable {
 		this.memberNickName = memberNickName;
 		this.goalEnrollDate = goalEnrollDate;
 		this.dateString = dateString;
+		this.week = week;
 		this.goalContent = goalContent;
 		this.goalType = goalType;
 		this.goalGoalAmount = goalGoalAmount;
@@ -73,6 +75,14 @@ public class Goal implements Serializable {
 
 	public void setDateString(String dateString) {
 		this.dateString = dateString;
+	}
+
+	public String getWeek() {
+		return week;
+	}
+
+	public void setWeek(String week) {
+		this.week = week;
 	}
 
 	public String getGoalContent() {
@@ -126,10 +136,10 @@ public class Goal implements Serializable {
 	@Override
 	public String toString() {
 		return "Goal [goalCode=" + goalCode + ", memberCode=" + memberCode + ", memberNickName=" + memberNickName
-				+ ", goalEnrollDate=" + goalEnrollDate + ", dateString=" + dateString + ", goalContent=" + goalContent
-				+ ", goalType=" + goalType + ", goalGoalAmount=" + goalGoalAmount + ", goalAchieveAmount="
-				+ goalAchieveAmount + ", gaolISBN=" + gaolISBN + ", goalDivision=" + goalDivision + "]";
+				+ ", goalEnrollDate=" + goalEnrollDate + ", dateString=" + dateString + ", week=" + week
+				+ ", goalContent=" + goalContent + ", goalType=" + goalType + ", goalGoalAmount=" + goalGoalAmount
+				+ ", goalAchieveAmount=" + goalAchieveAmount + ", gaolISBN=" + gaolISBN + ", goalDivision="
+				+ goalDivision + "]";
 	}
-
 
 }

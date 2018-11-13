@@ -363,22 +363,50 @@
 
 <script>
 	$(function(){
-		var radioCk = $("#surveyList input");
-		
-		$(radioCk).click(function(){
-			console.log($(this).val());
+		/* var $surveyArr = [];
+		var $checklArr = [];
+		for(var i = 1; i < 45; i++){
+			eval('$surveyIpt' + i + '= $("#surveyList input[value=a' + i +']")');
+			eval('$checklIpt' + i + '= $("#checklist input[value=a' + i +']")');
 			
-			//$("#surveyList input[value^=a]").addClass('on');
-			var surveyListVal = $("#surveyList input").val();
-			var checklistVal = $("#checklist input").val();
-			
-			if($(this).val() == checklistVal){
-				checklistVal.addClass('on')
+			$surveyArr[i] = eval('$surveyIpt' + i);
+			$checklArr[i] = eval('$checklIpt' + i);
+		} */
+		//설문지 체크시 검사표에 체크됨
+		$("#surveyList input").click(function(){
+			if($(this).attr("checked", true)){
+				var checkedVal = $(this).val();				
+				console.log(checkedVal);
+				$("#checklist input[value=" + checkedVal +"]").attr("checked", true);
 			}
-			/* if(surveyListVal.val() == checklistVal.val()){
-				consol.log("test");
-				$(this).checked == true
+		});
+		
+		$(".resultBtn").click(function(){
+			
+			/* if($("#surveyList input").checked != true){
+				console.log("모두 체크하세요")
 			} */
+				
+			
+			var line1 = $("#checklist tr:nth-child(2) input:checked").length;
+			var line2 = $("#checklist tr:nth-child(3) input:checked").length;
+			var line3 = $("#checklist tr:nth-child(5) input:checked").length;
+			var line4 = $("#checklist tr:nth-child(6) input:checked").length;
+			var line5 = $("#checklist tr:nth-child(8) input:checked").length;
+			var line6 = $("#checklist tr:nth-child(9) input:checked").length;
+			var line7 = $("#checklist tr:nth-child(11) input:checked").length;
+			var line8 = $("#checklist tr:nth-child(12) input:checked").length;
+			
+			$("#sum1").text(line1);	
+			$("#sum2").text(line2);	
+			$("#sum3").text(line3);	
+			$("#sum4").text(line4);	
+			$("#sum5").text(line5);	
+			$("#sum6").text(line6);	
+			$("#sum7").text(line7);	
+			$("#sum8").text(line8);	
+
+			
 		});
 		
 	});
@@ -434,8 +462,8 @@
 			<td><input type="radio" value="a33" name="ck33_in"></td>
 			<td><input type="radio" value="a37" name="ck37_in"></td>
 			<td><input type="radio" value="a41" name="ck41_in"></td>
-			<td></td>
-			<td></td>
+			<td id="sum1"></td>
+			<td id="score1"></td>
 		</tr>
 		<tr>
 			<td>b(숙고형)</td>
@@ -450,8 +478,8 @@
 			<td><input type="radio" value="b33" name="ck33_in"></td>
 			<td><input type="radio" value="b37" name="ck37_in"></td>
 			<td><input type="radio" value="b41" name="ck41_in"></td>
-			<td></td>
-			<td></td>
+			<td id="sum2"></td>
+			<td id="score2"></td>
 		</tr>
 		<tr>
 			<th>감각형-직관형</th>
@@ -482,8 +510,8 @@
 			<td><input type="radio" value="a34" name="ck34_in"></td>
 			<td><input type="radio" value="a38" name="ck38_in"></td>
 			<td><input type="radio" value="a42" name="ck42_in"></td>
-			<td></td>
-			<td></td>
+			<td id="sum3"></td>
+			<td id="score3"></td>
 		</tr>
 		<tr>
 			<td>b(직관형)</td>
@@ -498,8 +526,8 @@
 			<td><input type="radio" value="b34" name="ck34_in"></td>
 			<td><input type="radio" value="b38" name="ck38_in"></td>
 			<td><input type="radio" value="b42" name="ck42_in"></td>
-			<td></td>
-			<td></td>
+			<td id="sum4"></td>
+			<td id="score4"></td>
 		</tr>
 		<tr>
 			<th>사각형-언어형</th>
@@ -530,8 +558,8 @@
 			<td><input type="radio" value="a35" name="ck35_in"></td>
 			<td><input type="radio" value="a39" name="ck39_in"></td>
 			<td><input type="radio" value="a43" name="ck43_in"></td>
-			<td></td>
-			<td></td>
+			<td id="sum5"></td>
+			<td id="score5"></td>
 		</tr>
 		<tr>
 			<td>b(언어형)</td>
@@ -546,8 +574,8 @@
 			<td><input type="radio" value="b35" name="ck35_in"></td>
 			<td><input type="radio" value="b39" name="ck39_in"></td>
 			<td><input type="radio" value="b43" name="ck43_in"></td>
-			<td></td>
-			<td></td>
+			<td id="sum6"></td>
+			<td id="score6"></td>
 		</tr>
 		<tr>
 			<th>순차형-총체형</th>
@@ -578,8 +606,8 @@
 			<td><input type="radio" value="a36" name="ck36_in"></td>
 			<td><input type="radio" value="a40" name="ck40_in"></td>
 			<td><input type="radio" value="a44" name="ck44_in"></td>
-			<td></td>
-			<td></td>
+			<td id="sum7"></td>
+			<td id="score7"></td>
 		</tr>
 		<tr>
 			<td>b(총체형)</td>
@@ -594,13 +622,13 @@
 			<td><input type="radio" value="b36" name="ck36_in"></td>
 			<td><input type="radio" value="b40" name="ck40_in"></td>
 			<td><input type="radio" value="b44" name="ck44_in"></td>
-			<td></td>
-			<td></td>
+			<td id="sum8"></td>
+			<td id="score8"></td>
 		</tr>
 	</tbody>
 </table>
 <br>
-<button type="button" class="btn btn-primary btn-block">결과 확인하기</button>
+<button type="button" class="btn btn-primary resultBtn">결과 확인하기</button>
 
 
 

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.type.IntegerTypeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -454,9 +455,12 @@ public class StudyPlannerController {
 			Goal temp = new Goal();
 			temp.setGoalContent(content);
 			temp.setGoalCode(Integer.parseInt(list.get(i).get("GOAL_CODE").toString()));
+			temp.setGoalType(Integer.parseInt(list.get(i).get("GOAL_TYPE").toString()));
 			temp.setDateString(list.get(i).get("GOAL_ENROLLDATE").toString());
-			temp.setGoalGoalAmount(Integer.parseInt(list.get(i).get("GOAL_GOALAMOUNT").toString()));
 			temp.setGoalAchieveAmount(Integer.parseInt(list.get(i).get("GOAL_ACHIEVEAMOUNT").toString()));
+			temp.setGoalGoalAmount(Integer.parseInt(list.get(i).get("GOAL_GOALAMOUNT").toString()));
+			temp.setWeek(list.get(i).get("WEEK").toString());
+			temp.setGoalDivision(Integer.parseInt(list.get(i).get("GOAL_DIVISION").toString()));
 			
 			if(weekMap.get(content) != null) {
 				weekMap.get(content).add(temp);
@@ -630,11 +634,11 @@ public class StudyPlannerController {
 
 			//주간등록일경우 1또는 0 으로 타입 나눠서 넥스트발을 커런트발로 등록하도록함, 
 			//주간 목표 등록시 동일한 목표 코드를 가지도록함
-			if(i == 0) {
+			/*if(i == 0) {
 				hmap.put("insertNum", 0); //첫번째로 등록시 넥스트발 하기위함
 			}else {
 				hmap.put("insertNum", 1); //첫번째 이후 등록시 커런트발 하기위함
-			}
+			}*/
 			
 			result = sps.insertWeeklyTimeGoal(hmap);
 		}
