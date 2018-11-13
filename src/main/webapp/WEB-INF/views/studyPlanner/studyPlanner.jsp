@@ -73,19 +73,7 @@
 						$(".chating").append(data);
 						snsSlideChat();
 					}
-				});
-				
-// 				$.ajax({
-// 					url : "${contextPath}/web/groupChat.groupSocket",
-// 					type : "GET",
-// 					success : function(data){
-			
-// 						$(".today_goals").empty();
-// 						$(".today_goals").append(data);
-// 					}
-// 				});
-				
-				
+				});	
 				
 				$.ajax({
 					url : "selectUnreadMessage.ms",
@@ -236,6 +224,25 @@
 																	+ '<span id="status'+  eachFriendMemberNickname  +'"class="status"></span>');
 														}
 														
+													});
+													
+													$.ajax({
+														url : "friendStatus.ms",
+														type : "POST",
+														data : {
+															eachFriendMemberCode : eachFriendMemberCode
+														},
+														async : false,
+														success : function(data){
+															
+															if(data == 0){
+																
+																$li.append('<span id="status'+  eachFriendMemberNickname  +'"class="status"></span>');
+															}else{
+																
+																$li.append('<span id="status'+  eachFriendMemberNickname  +'"class="status on"></span>');
+															}
+														}
 													});
 													
 													$('#friendsList').append($li);
