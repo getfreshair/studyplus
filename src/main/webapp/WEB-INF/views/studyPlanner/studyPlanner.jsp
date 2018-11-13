@@ -122,7 +122,7 @@
 							</div>
 							<span class="rank_link" onclick="rankLink()" title="나의 랭킹보기">
 								<p class="rank">지역랭킹 : 상위  &nbsp;&nbsp; 분야 랭킹 : 상위 </p>
-								<p class="need">식물 Lv. </p>
+								<p class="need">식물 Lv. </p>ㅋ
 							</span>
 						</div>
 						<!-- 오늘의목표 -->

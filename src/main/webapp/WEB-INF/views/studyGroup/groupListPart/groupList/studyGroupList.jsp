@@ -130,6 +130,10 @@
 	    margin-left: 2px;
     	margin-right: 2px;
 	}
+	.SGPageBtn:hover {
+		cursor:pointer;
+		background:yellow;
+	}
 </style>
 <script>
 	$(function(){
@@ -156,7 +160,6 @@
 				$('.SGListInfoArea').empty();
 				$('.SGPIArea').empty();
 				
-				console.log(data);
 				for(var key in data){
 					if(key <= (data.length - 2)){
 						$SGInfoArea = $('<div class="SGInfoArea">');
@@ -240,10 +243,30 @@
 	function SGdetailPage(group_No){
 		location.href='selectOneGroup.sgd?group_No=' + group_No;
 	}
+	
+	$(function(){
+		var member_Code = ${sessionScope.loginUser.member_Code};
+		
+		$.ajax({
+			url : 'selectImgAndLink.do',
+			data : {
+				member_Code : member_Code
+			},
+			success : function(data){
+				if(data != ''){
+					$('.SGListPRImg').attr('src', '/studyplus/resources/upload/admin/thumbnail/' + data.FILES_NAME);
+					$('.SGListPRImg').attr('onclick', 'addPRCount(' + data.PR_CODE + ', ' + member_Code + ', "' + data.PR_LINK + '")');
+				}else{
+					$('.SGListPRImg').attr('src', '/studyplus/resources/images/ad/ad.png');
+				}
+				
+			}
+		});
+	});
 </script>
 </head>
 <body>
-	<div class="SGListAdArea"><img src="/studyplus/resources/images/ad/ad2.jpg"></div>
+	<div class="SGListAdArea"><img class="SGListPRImg"/></div>
 	<div class="SGListInfoArea"></div>
 	<div class="SGPIArea"></div> 
 </body>
