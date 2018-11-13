@@ -78,6 +78,14 @@ public class SGDetailDaoImpl implements SGDetailDao{
 		return sqlSession.update("SGDetail.updateDeleteJoinMemberStatus", hm);
 	}
 
-	
+	@Override
+	public HashMap<String, Object> selectChangeDatesInfo(SqlSessionTemplate sqlSession, int changeDates) {
+		return sqlSession.selectOne("SGDetail.selectChangeDatesInfo", changeDates);
+	}
+
+	@Override
+	public HashMap<String, Object> selectChangeMonthsInfo(SqlSessionTemplate sqlSession, int changeMonths) {
+		return sqlSession.selectOne("SGDetail.selectChangeMonthsInfo", changeMonths);
+	}
 	
 }

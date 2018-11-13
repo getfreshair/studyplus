@@ -27,6 +27,10 @@ public interface SGDetailDao {
 
 	int updateDeleteMember(SqlSessionTemplate sqlSession, int grCode, int delMemCode);
 
+	HashMap<String, Object> selectChangeDatesInfo(SqlSessionTemplate sqlSession, int changeDates);
+
+	HashMap<String, Object> selectChangeMonthsInfo(SqlSessionTemplate sqlSession, int changeMonths);
+
 
 
 	

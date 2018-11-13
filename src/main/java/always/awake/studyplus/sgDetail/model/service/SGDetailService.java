@@ -25,6 +25,10 @@ public interface SGDetailService {
 
 	public int updateDeleteGroupMember(int grCode, int delMemCode);
 
+	public HashMap<String, Object> selectChangeDatesInfo(int changeDates);
+
+	public HashMap<String, Object> selectChangeMonthsInfo(int changeMonths);
+
 
 	
 	
