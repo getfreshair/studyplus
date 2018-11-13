@@ -153,5 +153,19 @@ public class StudyPlannerServiceImpl implements StudyPlannerService{
 
 	}
 
+	@Override
+	public Double selectJobWeeklyRankPercent(int member_Code, String[] chartDate4) {
+		
+		Double rankPercent = spd.selectJobWeeklyRankPercent(sqlSession, member_Code, chartDate4);
+		return rankPercent;
+	}
+
+	@Override
+	public Double selectLocationWeeklyRankPercent(int member_Code, String[] chartDate4) {
+		
+		Double rankPercent = spd.selectLocationWeeklyRankPercent(sqlSession, member_Code, chartDate4);
+		return rankPercent;
+	}
+
 
 }

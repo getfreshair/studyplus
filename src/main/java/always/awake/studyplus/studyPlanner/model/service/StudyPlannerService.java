@@ -54,6 +54,10 @@ public interface StudyPlannerService {
 	//주간 목표 리스트
 	List<Map<String, Object>> selectWeeklyGoals(Map<String, Object> hmap) throws plannerException;
 
+	Double selectJobWeeklyRankPercent(int member_Code, String[] chartDate4);
+
+	Double selectLocationWeeklyRankPercent(int member_Code, String[] chartDate4);
+
 
 
 

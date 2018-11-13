@@ -117,6 +117,7 @@ table .board-tit a:hover{color:#1a609c;}
 .analysis_box.st02 .box_tit{background:#b0ce86;}
 .analysis_box.st03 .box_tit{background:#65cdd8;}
 .analysis_box.st04 .box_tit{background:#5eafe4;}
+.analysis_box.st01 .box_tit:before{background:url("/studyplus/resources/images/planner/ico_timetable.png") 0 50% no-repeat; background-size:100%;}
 .analysis_box.st02 .box_tit:before{background:url("/studyplus/resources/images/planner/ico_raidar.png") 0 50% no-repeat; background-size:100%;}
 .analysis_box.st03 .box_tit:after, .analysis_box.st04 .box_tit:after{content:'>'; display:inline-block; width:10px; height:20px; color:#fff; position:absolute; right:18px;}
 
