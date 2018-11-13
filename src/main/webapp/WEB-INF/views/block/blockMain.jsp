@@ -32,6 +32,7 @@
 		}
 	}
 </script>
+<link rel="stylesheet" href="/studyplus/resources/css/custom.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -389,7 +390,7 @@ setInterval( function() {
 	</div> -->
 		
 	
-		<div class="contentDiv col-xs-12 col-md-8" style="height:800px">
+		<div class="contentDiv col-xs-12 col-md-9" style="height:800px">
 		
 			<!-- <div class="profileDiv" style="width:90%; height:150px; margin-top:50px ; margin-left:50px ">
 				<img src="resources/images/block/profile.jpg" style="border-radius:70px">
@@ -859,8 +860,65 @@ setInterval( function() {
 	    	</div>
 			</div>
 			</div>
-		<div class="contentDiv col-xs-12 col-md-4">
-		<div style="height:250px; widht:100%">
+		<div class="contentDiv col-xs-12 col-md-3 side_area">
+		<div class="user_info">
+							<div class="img_area">
+								<img src="/studyplus/resources/upload/member/thumbnail/${ loginUser.member_Files.files_Name }" alt="study plus logo" style="width:100%;">
+							</div>
+							<div class="right_area">
+								<p>안녕하세요,</p>
+								<p class="name">${ loginUser.member_Nickname }님 환영합니다.</p>
+							</div>
+							<span class="rank_link" onclick="rankLink()" title="나의 랭킹보기">
+								<p class="rank">지역랭킹 : 상위 1% &nbsp;&nbsp; 분야 랭킹 : 상위 73%</p>
+								<p class="need">식물 Lv. </p>
+							</span>
+						</div>
+						<!-- 오늘의목표 -->
+						<div class="today_goals">
+							<div class="box_tit">
+								<span class="txt">오늘의 목표</span>
+								<span class="sub">Today's Goals</span>
+							</div>
+							<ul class="today_point">
+								<li><span></span></li>
+								<li><span></span></li>
+								<li><span></span></li>
+								<li><span></span></li>
+								<li><span></span></li>
+								<li><span></span></li>
+								<li><span></span></li>
+							</ul>
+							<div class="scroll_wrap">
+								<div class="scroll_area">
+									<ul class="goals_list">
+										<!-- 페이지 진입시 todayGoalsList() 호출 -->
+									</ul>
+									<div class="add_btn">
+										<a href="#" data-toggle="modal" data-target="#insertTodayModal"></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- // 오늘의목표 -->
+
+						<!-- 이번주목표 -->
+						<div class="weekly_goals">
+							<div class="box_tit">
+								<span class="txt">주간 목표</span>
+								<span class="sub">WeeklyGoals</span>
+							</div>
+							<div class="scroll_area">
+								<ul class="goals_list">
+									<!-- 페이지 진입시 weeklyGoalsList() 호출 -->
+								</ul>
+								<div class="add_btn">
+									<a href="#" data-toggle="modal" data-target="#insertWeeklyModal"></a>
+								</div>
+							</div>
+						</div>
+						<!-- // 이번주목표 -->
+	<%-- 	<div style="height:250px; widht:100%">
 			
 			<c:if test="${groupSize eq 0}">
 				가입된 그룹이 없습니다.
@@ -958,7 +1016,7 @@ setInterval( function() {
 	  					</div>
 	  				</li>
 	  			</c:forEach>
-	  		</ul>
+	  		</ul> --%>
 		</div>
 		
 		<div class="col-xs-12 col-md-12" style="height:80px; ">
