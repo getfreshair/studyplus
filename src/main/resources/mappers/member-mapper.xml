@@ -113,4 +113,50 @@
 		FROM MEMBER
 		WHERE MEMBER_NICKNAME = #{member_Nickname}
 	</select>
+	
+	<select id="addFriendSearch" parameterType="java.util.HashMap" resultType="map">
+		SELECT M.MEMBER_CODE, M.MEMBER_NICKNAME, F.FILES_NAME
+		FROM MEMBER M
+		JOIN FILES F ON(M.MEMBER_CODE = F.MEMBER_CODE)
+		WHERE MEMBER_NICKNAME LIKE '%' || #{member_Nickname} || '%'
+		AND M.MEMBER_CODE != #{member_Code}
+		AND M.MEMBER_CODE NOT IN(SELECT MEMBER_CODE2
+                         		 FROM FRIEND
+                         		 WHERE MEMBER_CODE1 = #{member_Code})
+	</select>
+	
+	<insert id="addFriendWant" parameterType="java.util.HashMap">
+		INSERT INTO FRIEND(FRIEND_CODE,MEMBER_CODE1,MEMBER_CODE2,FRIEND_STATUS)
+		VALUES(SEQ_FRIEND_FRIEND_CODE.NEXTVAL,#{member_Code1},#{member_Code2},0)
+	</insert>
+	
+	<select id="addFriendToMe" parameterType="_int" resultType="map">
+		SELECT FR.FRIEND_CODE, FR.MEMBER_CODE1, M.MEMBER_NICKNAME, F.FILES_NAME, FR.FRIEND_STATUS
+		FROM FRIEND FR
+		JOIN MEMBER M ON(FR.MEMBER_CODE1 = M.MEMBER_CODE)
+		JOIN FILES F ON(M.MEMBER_CODE = F.MEMBER_CODE)
+		WHERE FR.MEMBER_CODE2 = #{member_Code}
+		AND FRIEND_STATUS = 0
+	</select>
+	
+	<select id="addFriendFromMe" parameterType="_int" resultType="map">
+		SELECT FR.FRIEND_CODE, FR.MEMBER_CODE2, M.MEMBER_NICKNAME, F.FILES_NAME, FR.FRIEND_STATUS
+		FROM FRIEND FR
+		JOIN MEMBER M ON(FR.MEMBER_CODE2 = M.MEMBER_CODE)
+		JOIN FILES F ON(M.MEMBER_CODE = F.MEMBER_CODE)
+		WHERE FR.MEMBER_CODE1 = #{member_Code}
+		AND FRIEND_STATUS = 0
+	</select>
+	
+	<update id="addFriendOk" parameterType="_int">
+		UPDATE FRIEND
+		SET FRIEND_STATUS = 1
+		WHERE FRIEND_CODE = #{friend_Code}
+	</update>
+	
+	<delete id="addFriendDelete" parameterType="_int">
+		DELETE
+		FROM FRIEND
+		WHERE FRIEND_CODE = #{friend_Code}
+	</delete>
 </mapper>

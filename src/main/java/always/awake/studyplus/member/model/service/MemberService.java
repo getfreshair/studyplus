@@ -26,4 +26,16 @@ public interface MemberService {
 	public int insertMemberHistory(HashMap<String, Object> map);
 
 	public Map<String, Integer> selectUserIdAndNick(String member_Id, String member_Nickname) throws MemberException;
+
+	public List<Map<String, Object>> addFriendSearch(String member_Nickname, int member_Code) throws MemberException;
+
+	public void addFriendWant(int member_Code1, int member_Code2) throws MemberException;
+
+	public List<Map<String, Object>> addFriendToMe(int member_Code) throws MemberException;
+
+	public List<Map<String, Object>> addFriendFromMe(int member_Code) throws MemberException;
+
+	public void addFriendOk(int friend_Code) throws MemberException;
+
+	public void addFriendDelete(int friend_Code) throws MemberException;
 }

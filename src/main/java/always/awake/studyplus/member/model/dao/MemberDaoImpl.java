@@ -81,5 +81,70 @@ public class MemberDaoImpl implements MemberDao{
 		}
 	}
 
+	@Override
+	public List<Map<String, Object>> addFriendSearch(SqlSessionTemplate sqlSession, String member_Nickname, int member_Code) throws MemberException {
+		HashMap<String, Object> memberInfo = new HashMap<String, Object>();
+		
+		memberInfo.put("member_Nickname", member_Nickname);
+		memberInfo.put("member_Code", member_Code);
+		
+		try {
+			return sqlSession.selectList("Member.addFriendSearch", memberInfo);
+		}catch(Exception e) {
+			throw new MemberException(e.getMessage());
+		}
+	}
+
+	@Override
+	public void addFriendWant(SqlSessionTemplate sqlSession, int member_Code1, int member_Code2) throws MemberException {
+		HashMap<String, Object> memberInfo = new HashMap<String, Object>();
+		
+		memberInfo.put("member_Code1", member_Code1);
+		memberInfo.put("member_Code2", member_Code2);
+		
+		try {
+			sqlSession.insert("Member.addFriendWant", memberInfo);
+		}catch(Exception e){
+			throw new MemberException(e.getMessage());
+		}
+		
+	}
+
+	@Override
+	public List<Map<String, Object>> addFriendToMe(SqlSessionTemplate sqlSession, int member_Code) throws MemberException {
+		try {
+			return sqlSession.selectList("Member.addFriendToMe", member_Code);
+		}catch(Exception e) {
+			throw new MemberException(e.getMessage());
+		}
+	}
+
+	@Override
+	public List<Map<String, Object>> addFriendFromMe(SqlSessionTemplate sqlSession, int member_Code) throws MemberException {
+		try {
+			return sqlSession.selectList("Member.addFriendFromMe", member_Code);
+		}catch(Exception e) {
+			throw new MemberException(e.getMessage());
+		}
+		
+	}
+
+	@Override
+	public void addFriendOk(SqlSessionTemplate sqlSession, int friend_Code) throws MemberException {
+		try {
+			sqlSession.update("Member.addFriendOk", friend_Code);
+		}catch(Exception e){
+			throw new MemberException(e.getMessage());
+		}
+	}
+
+	@Override
+	public void addFriendDelete(SqlSessionTemplate sqlSession, int friend_Code) throws MemberException {
+		try {
+			sqlSession.delete("Member.addFriendDelete", friend_Code);
+		}catch(Exception e){
+			throw new MemberException(e.getMessage());
+		}
+	}
 	
 }

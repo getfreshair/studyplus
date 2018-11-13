@@ -178,3 +178,9 @@ table .board-tit a:hover{color:#1a609c;}
 
 .sns_wrap .chating{position:absolute; top:0; left:100%; width:100%; height:100%; background:#ffff;}
 /*.sns_wrap .chating.on{display:block;}*/
+
+
+/* 친구 신청 목록 */
+.need{display:inline-block; width:270px;}
+.addFriendIcon{width:30px; float:right; padding-top:5px;}
+.addFriendIcon:hover{cursor:pointer;}
