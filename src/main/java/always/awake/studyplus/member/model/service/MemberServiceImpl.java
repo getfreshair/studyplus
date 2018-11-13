@@ -20,9 +20,11 @@ import org.springframework.stereotype.Service;
 import always.awake.studyplus.common.CommonUitls;
 import always.awake.studyplus.member.model.dao.MemberDao;
 import always.awake.studyplus.member.model.exception.LoginException;
+import always.awake.studyplus.member.model.exception.MemberException;
 import always.awake.studyplus.member.model.vo.Files;
 import always.awake.studyplus.member.model.vo.InterestCategory;
 import always.awake.studyplus.member.model.vo.Member;
+import always.awake.studyplus.member.model.vo.Sentence;
 import scala.collection.Seq;
 
 @Service
@@ -53,6 +55,10 @@ public class MemberServiceImpl implements MemberService{
 		String filePath = root + "\\upload\\member\\thumbnail";
 		
 		m.setMember_Pwd(passwordEncoder.encode(m.getMember_Pwd()));
+		
+		if(m.getMember_SMSConfirmation() == null) {
+			m.setMember_SMSConfirmation("1");
+		}
 		
 		md.insertMember(sqlSession, m);
 		
@@ -98,21 +104,63 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public void checkSentence(String sentence) {
-		Map<String, Object> reWords = new HashMap<String, Object>();
+	public String checkSentence(String sentence) {
 	    Seq<KoreanTokenizer.KoreanToken> tokens = OpenKoreanTextProcessorJava.tokenize(sentence);
 	    List<String> wordList = OpenKoreanTextProcessorJava.tokensToJavaStringList(tokens);
+	    Sentence newSentence = new Sentence(); 
 	    
 	    for(int i = 0; i < wordList.size(); i++){
-	    	System.out.println(wordList.get(i));
+	    	if(wordList.get(i).equals("자주묻는질문")) {
+	    		
+	    		return "main/main";
+	    	}else if(wordList.get(i).equals("약관") || wordList.get(i).equals("정책")) {
+	    		
+	    		return "main/main";
+	    	}else if(wordList.get(i).equals("회원가입")) {
+	    		
+	    		return "main/main";
+	    	}
+
+	    	if(wordList.get(i).equals("검색") || wordList.get(i).equals("조회") || wordList.get(i).equals("이동")) {
+	    		newSentence.setVerb(wordList.get(i));
+	    	}else if(wordList.get(i).equals("스터디그룹") || wordList.get(i).equals("친구") || wordList.get(i).equals("페이지") || wordList.get(i).equals("회원가입")){
+	    		newSentence.setNoun(wordList.get(i));
+	    	}else {
+	    		newSentence.setDirectObject(wordList.get(i));
+	    	}
 	    }
+	    
+		if(newSentence.getVerb() != null) {
+	    	if(newSentence.getNoun().equals("스터디 그룹")) {
+	    		
+		    }else if(newSentence.getNoun().equals("친구")) {
+		    	
+		    }else if(newSentence.getNoun().equals("페이지")) {
+		    	
+		    }
+		}
+	    
+	    System.out.println(newSentence.toString());
+	    
+	    return "sadf";
 	}
 
 	@Override
 	public void insertGift(int member_Code) {
 		md.insertGift(sqlSession, member_Code);
-  }
+	}
+	
 	public int insertMemberHistory(HashMap<String, Object> map) {
 		return md.insertMemberHistory(sqlSession,map);
+	}
+
+	@Override
+	public Map<String, Integer> selectUserIdAndNick(String member_Id, String member_Nickname) throws MemberException {
+		Map<String, Integer> checkVal = new HashMap<String, Integer>();
+		
+		checkVal.put("member_Id", md.selectUserId(sqlSession, member_Id));
+		checkVal.put("member_Nickname", md.selectNickname(sqlSession, member_Nickname));
+		
+		return checkVal;
 	}
 }

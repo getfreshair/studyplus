@@ -2,6 +2,7 @@ package always.awake.studyplus.member.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import always.awake.studyplus.member.model.exception.LoginException;
+import always.awake.studyplus.member.model.exception.MemberException;
 import always.awake.studyplus.member.model.service.MemberService;
 import always.awake.studyplus.member.model.vo.Files;
 import always.awake.studyplus.member.model.vo.Member;
@@ -117,5 +119,23 @@ public class MemberController {
 		int member_Code = loginUser.getMember_Code();
 		
 		ms.insertGift(member_Code);
-	} 
+	}
+	
+	@RequestMapping(value="selectUserIdAndNick.me")
+	public ModelAndView selectUserIdAndNick(@RequestParam(value="member_Id")String member_Id, @RequestParam(value="member_Nickname")String member_Nickname){
+		ModelAndView mv = new ModelAndView();
+		
+		Map<String, Integer> checkVal = null;
+		
+		try {
+			checkVal = ms.selectUserIdAndNick(member_Id, member_Nickname);
+		} catch (MemberException e) {
+			e.printStackTrace();
+		}
+		
+		mv.addObject("checkVal", checkVal);
+		mv.setViewName("jsonView");
+		
+		return mv;
+	}
 }

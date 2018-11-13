@@ -436,14 +436,21 @@
 	});
 	
 	$(function(){
+		var member_Code = ${sessionScope.loginUser.member_Code};
+		
 		$.ajax({
 			url : 'selectImgAndLink.do',
 			data : {
-				member_Code : '${sessionScope.loginUser.member_Code}'
+				member_Code : member_Code
 			},
 			success : function(data){
-				$('.SGMainPRImg').attr('src', '/studyplus/resources/upload/admin/thumbnail/' + data.FILES_NAME);
-				$('.SGMainPRImg').attr('onclick', 'addPRCount(' + data.PR_CODE + ', ' + ${sessionScope.loginUser.member_Code} + ', "' + data.PR_LINK + '")');
+				if(data != ''){
+					$('.SGMainPRImg').attr('src', '/studyplus/resources/upload/admin/thumbnail/' + data.FILES_NAME);
+					$('.SGMainPRImg').attr('onclick', 'addPRCount(' + data.PR_CODE + ', ' + member_Code + ', "' + data.PR_LINK + '")');
+				}else{
+					$('.SGMainPRImg').attr('src', '/studyplus/resources/images/ad/ad.png');
+				}
+				
 			}
 		});
 	});
@@ -473,7 +480,8 @@
 <body>
 	<div class="SGMainBodyLeftArea">
 		<div class="adArea">
-			<img class="SGMainPRImg"/>0
+			<div onclick="StatisticsPage(1100)">스터디 그룹 1100번 임시 통계</div>
+			<img class="SGMainPRImg"/>
 			<a href="selectOneGroup.sgd?group_No=1">스터디 그룹 디테일</a>
 		</div>
 		<div class="SGListChangeBtnArea">

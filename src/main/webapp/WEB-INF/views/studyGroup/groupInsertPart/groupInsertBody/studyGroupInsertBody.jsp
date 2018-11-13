@@ -272,6 +272,43 @@
 			reader.readAsDataURL(file);
 		}
 	}
+	
+	function studygroupInfoCheck(){
+		//프로필 사진
+		if($('.SGThumbnailImg').val() == ''){
+			alert('스터디 그룹 썸네일 사진을 등록해주세요');
+			$('.SGThumbnailImg').click();
+			return false;
+		}
+		
+		//그룹제목
+		if (document.getElementsByClassName('studygroup_Name')[0].value.length < 1 || document.getElementsByClassName('studygroup_Name')[0].value.length > 13) {
+            alert("아이디를 1~13자까지 입력해주세요.")
+            $('.studygroup_Name').focus();
+            $('.studygroup_Name').select();
+            return false;
+        }
+		
+		//비공개
+		if (document.getElementsByClassName('studygroup_Openstatus')[0].checked) {
+			if(document.getElementsByClassName('SGPassword')[0].value == ''){
+				alert("비밀번호를 입력해주세요.")
+	            $('.SGPassword').focus();
+	            $('.SGPassword').select();
+	            return false;
+			}
+        }
+		
+		//그룹소개
+       	if(document.getElementsByClassName('studygroup_Intro')[0].value == ''){
+       		alert("간단한 스터디 그룹 소개 작성해주세요.");
+		    $('.studygroup_Intro').focus();
+		    $('.studygroup_Intro').select();
+			return false; 
+       	}
+		
+		document.getElementById('insertStudyGroup').submit();
+	}
 </script>
 </head>
 <body>
@@ -280,7 +317,7 @@
 			<img src="/studyplus/resources/images/studyGroup/point.png">
 			<h4>스터디 그룹 생성</h4> | 스터디 그룹을 생성합니다.
 		</div>
-		<form action="insertStudyGroup.sg" method="post" encType="multipart/form-data">
+		<form id="insertStudyGroup" action="insertStudyGroup.sg" method="post" encType="multipart/form-data">
 			<div class="SGInsertArea">
 				<div class="SGInsertLeftArea">
 					<div class="SGInsertThumbnailImgArea">
@@ -298,7 +335,7 @@
 					<div>
 						<label>
 							<i>그룹명</i>
-							<input type="text" name="studygroup_Name"/>
+							<input type="text" class="studygroup_Name" name="studygroup_Name"/>
 						</label>
 					</div>
 					<div>
@@ -386,7 +423,7 @@
 							공개
 						</label>
 						<label class="SGCloseCheck">
-							<input type="radio" name="studygroup_Openstatus" value="1" onclick=""/>
+							<input type="radio" class="studygroup_Openstatus" name="studygroup_Openstatus" value="1" onclick=""/>
 							비공개
 						</label>
 						<input type="text" name="studygroup_Pwd" class="SGPassword" placeholder="Password Setting"/>
@@ -395,14 +432,14 @@
 				<div class="SGInsertBottomArea">
 					<div class="SGInsertSGIntroArea">
 						소개글
-						<textarea placeholder="소개 100자 이내" name="studygroup_Intro">새워 아이들의 보고, 묻힌 계십니다. 별 별 나의 별에도 불러 가난한 패, 벌써 프랑시스 거외다. 오는 묻힌 피어나듯이 위에 프랑시스 있습니다. 하나에 겨울이 무성할 까닭입니다.</textarea>
+						<textarea placeholder="소개 100자 이내" class="studygroup_Intro" name="studygroup_Intro">The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English</textarea>
 					</div>
 				</div>
 			</div>
 			<input type="hidden" name="member_Code" value="${ sessionScope.loginUser.member_Code }"/>
 			<div class="SGInsertBtnArea">
 				<button type="button">취소</button>
-				<button type="submit">그룹 생성</button>
+				<button type="button" onclick="studygroupInfoCheck()">그룹 생성</button>
 			</div>
 		</form>
 	</div>
