@@ -1249,6 +1249,21 @@ function goalAddMdal(){
 			}
 		});	
 	});
+	
+	/*$('#insertTodayModal').on('shown.bs.modal',function(){
+		//모달 내 차트(default)
+		var ctx = document.getElementById("insert_Modal_donut").getContext('2d');
+		var default_donut = new Chart(ctx, {
+			type: 'doughnut',
+			data: data = {
+					datasets: [{
+						data: [0, 0],
+						backgroundColor: ['#36a2eb']
+					}],
+					labels: ['달성%','미달성%']
+			}
+		});	
+	});*/
 
 	$(".book_form").hide();
 	$(".modal .tab button:first-child").click(function(){

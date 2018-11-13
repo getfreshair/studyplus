@@ -406,7 +406,11 @@
 			$("#sum7").text(line7);	
 			$("#sum8").text(line8);	
 
-			
+			if(){
+				
+			}
+			var re = Math.abs($("#checklist #sum1").text() - $("#checklist #sum2").text()); 
+			console.log(re)
 		});
 		
 	});
