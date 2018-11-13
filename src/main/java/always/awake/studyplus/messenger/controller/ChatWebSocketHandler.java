@@ -68,56 +68,59 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 
 		String msg = message.getPayload();
-		msg = msg.substring(4, msg.length());
+		
+		if(msg.substring(0, 4).equals("msg:")) { // 개인 메시지일 때 
+			msg = msg.substring(4, msg.length());
 
-		Member loginUser;
-		Map<String, Object> map;
-		map = session.getAttributes();
-		loginUser = (Member)map.get("loginUser");
+			Member loginUser;
+			Map<String, Object> map;
+			map = session.getAttributes();
+			loginUser = (Member)map.get("loginUser");
 
-		if(msg.substring(msg.indexOf(":")+1, msg.length()).equals("입장")) { // 로그인시 친구에게 알리기 위해
+			if(msg.substring(msg.indexOf(":")+1, msg.length()).equals("입장")) { // 로그인시 친구에게 알리기 위해
 
-			List<Member> loginUserFriends = ms.selectFriendList(loginUser.getMember_Code());
+				List<Member> loginUserFriends = ms.selectFriendList(loginUser.getMember_Code());
 
-			for(Member m : loginUserFriends) {
+				for(Member m : loginUserFriends) {
 
-				if(users.get(m.getMember_Code() + "") != null) {
+					if(users.get(m.getMember_Code() + "") != null) {
 
-					users.get(m.getMember_Code() + "").sendMessage(message);
+						users.get(m.getMember_Code() + "").sendMessage(message);
+					}
 				}
-			}
-		}else if(msg.substring(msg.indexOf(":")+1, msg.length()).equals("초기")){ // 로그인시 자신의 접속 친구 / 친구 출력 위해
+			}else if(msg.substring(msg.indexOf(":")+1, msg.length()).equals("초기")){ // 로그인시 자신의 접속 친구 / 친구 출력 위해
 
-			users.get(loginUser.getMember_Code() + "").sendMessage(message);
-		}else if(msg.substring(msg.indexOf(":")+1, msg.length()).equals("퇴장")){ // 로그아웃시 친구에게 알리기 위해
+				users.get(loginUser.getMember_Code() + "").sendMessage(message);
+			}else if(msg.substring(msg.indexOf(":")+1, msg.length()).equals("퇴장")){ // 로그아웃시 친구에게 알리기 위해
 
-			List<Member> logoutUserFriends = ms.selectFriendList(loginUser.getMember_Code());
+				List<Member> logoutUserFriends = ms.selectFriendList(loginUser.getMember_Code());
 
-			for(Member m : logoutUserFriends) {
+				for(Member m : logoutUserFriends) {
 
-				if(users.get(m.getMember_Code() + "") != null) {
+					if(users.get(m.getMember_Code() + "") != null) {
 
-					users.get(m.getMember_Code() + "").sendMessage(message);
+						users.get(m.getMember_Code() + "").sendMessage(message);
+					}
 				}
+			}else { // 기타 메시지
+
+				String sendNickname = msg.substring(0, msg.indexOf(":"));
+				String msg_content = msg.substring(msg.indexOf(":")+1, msg.lastIndexOf(":"));
+				String receiverNickname = msg.substring(msg.lastIndexOf(":")+1, msg.length());
+
+				int receiverMemberCode = 0;
+				receiverMemberCode = ms.selectReceiverMemberCode(receiverNickname);
+				Member sender = ms.selectSenderMember(loginUser.getMember_Code());
+
+				if(users.get(receiverMemberCode+"") != null) {
+					users.get(receiverMemberCode+"").sendMessage(message); // 보내면 jsp에서 메시지 db 저장 처리
+					//				ms.insertMessage(msg_content, loginUser.getMember_Code(), receiverMemberCode, 1, 0); // 내용, 보내는사람, 받는사람, 상태, 구분
+				}else {
+
+					ms.insertMessage(msg_content, loginUser.getMember_Nickname(), receiverMemberCode, 0, 0); // 내용, 보내는사람, 받는사람, 상태, 구분
+				}
+				users.get(loginUser.getMember_Code()+"").sendMessage(message);
 			}
-		}else { // 기타 메시지
-
-			String sendNickname = msg.substring(0, msg.indexOf(":"));
-			String msg_content = msg.substring(msg.indexOf(":")+1, msg.lastIndexOf(":"));
-			String receiverNickname = msg.substring(msg.lastIndexOf(":")+1, msg.length());
-
-			int receiverMemberCode = 0;
-			receiverMemberCode = ms.selectReceiverMemberCode(receiverNickname);
-			Member sender = ms.selectSenderMember(loginUser.getMember_Code());
-
-			if(users.get(receiverMemberCode+"") != null) {
-				users.get(receiverMemberCode+"").sendMessage(message); // 보내면 jsp에서 메시지 db 저장 처리
-//				ms.insertMessage(msg_content, loginUser.getMember_Code(), receiverMemberCode, 1, 0); // 내용, 보내는사람, 받는사람, 상태, 구분
-			}else {
-				
-				ms.insertMessage(msg_content, loginUser.getMember_Nickname(), receiverMemberCode, 0, 0); // 내용, 보내는사람, 받는사람, 상태, 구분
-			}
-			users.get(loginUser.getMember_Code()+"").sendMessage(message);
 		}
 	}
 
@@ -134,7 +137,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 		map = session.getAttributes();
 		loginUser = (Member)map.get("loginUser");
 		sendMsgLogout(loginUser);
-		
+
 		ms.updateMemberStatusOut(loginUser.getMember_Code()); // STATUS = 0 비접속(일반회원등급) 8 접속 
 		users.remove(loginUser.getMember_Code() + "");
 	}

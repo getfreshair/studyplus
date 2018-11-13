@@ -2,6 +2,7 @@ package always.awake.studyplus.member.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,5 +26,4 @@ public interface MemberService {
 	public int insertMemberHistory(HashMap<String, Object> map);
 
 	public Map<String, Integer> selectUserIdAndNick(String member_Id, String member_Nickname) throws MemberException;
-
 }
