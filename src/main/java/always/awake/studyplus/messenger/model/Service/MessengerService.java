@@ -29,4 +29,5 @@ public interface MessengerService{
 	void updateMemberStatusOut(int member_Code);
 
 	int friendStatus(int eachFriendMemberCode);
+
 }
