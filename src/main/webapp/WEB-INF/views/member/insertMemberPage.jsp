@@ -136,6 +136,9 @@
 	.insertMemberRightArea hr:nth-of-type(5) {
 		width:550px;
 	}
+	.insertMemberRightArea hr:nth-of-type(6) {
+		width:420px;
+	}
 	.insertMemberBtnArea {
 		display:inline-block;
 		width:100%;
@@ -179,6 +182,9 @@
 		outline:none;
    		border:2px solid #126978;
 	}
+	.phoneArea {
+		display:inline-block;	
+	}
 </style>
 <script>
 	$(function(){
@@ -215,30 +221,181 @@
 			reader.readAsDataURL(file);
 		}
 	};
+	
+	function memberInfoCheck(){
+		//아이디
+		for (i = 0; i < document.getElementsByClassName('member_Id')[0].value.length; i++) {
+            var ch = document.getElementsByClassName('member_Id')[0].value.charAt(i);
+            
+            if(ch == ' '){
+            	alert("아이디에 공백을 사용할 수 없습니다.");
+            	$('.member_Id').focus();
+                $('.member_Id').select();
+                return false;
+            }else if (!(ch >= '0' && ch <= '9') && !(ch >= 'a' && ch <= 'z')&&!(ch >= 'A' && ch <= 'Z')) {
+                alert("아이디는 대소문자, 숫자만 입력가능합니다.");
+                $('.member_Id').focus();
+                $('.member_Id').select();
+                return false;
+            }
+        }
+        
+        if (document.getElementsByClassName('member_Id')[0].value.length < 1 || document.getElementsByClassName('member_Id')[0].value.length > 12) {
+            alert("아이디를 1~12자까지 입력해주세요.")
+            $('.member_Id').focus();
+            $('.member_Id').select();
+            return false;
+        }
+        
+        //닉네임
+        for (i = 0; i < document.getElementsByClassName('member_Nickname')[0].value.length; i++) {
+            var ch = document.getElementsByClassName('member_Nickname')[0].value.charAt(i);
+            
+            if(ch == ' '){
+            	alert("닉네임에 공백을 사용할 수 없습니다.");
+            	$('.member_Nickname').focus();
+                $('.member_Nickname').select();
+                return false;
+            }else if (!(ch >= '0' && ch <= '9') && !(ch >= 'a' && ch <= 'z')&&!(ch >= 'A' && ch <= 'Z')) {
+                alert("닉네임은 대소문자, 숫자만 입력가능합니다.");
+                $('.member_Nickname').focus();
+                $('.member_Nickname').select();
+                return false;
+            }
+        }
+        
+        if (document.getElementsByClassName('member_Nickname')[0].value.length < 2 || document.getElementsByClassName('member_Nickname')[0].value.length > 12) {
+            alert("닉네임을 2~12자까지 입력해주세요.")
+            $('.member_Nickname').focus();
+            $('.member_Nickname').select();
+            return false;
+        }
+        
+       	//비멀번호
+       	if (document.getElementsByClassName('member_Pwd')[0].value.length < 6 || document.getElementsByClassName('member_Pwd')[0].value.length > 18) {
+            alert("비밀번호를 6~18자까지 입력해주세요.")
+            $('.member_Pwd').focus();
+            $('.member_Pwd').select();
+            return false;
+        }
+       	
+      	//프로필 사진
+		if($('.userThumbnailImg').val() == ''){
+			alert('프로필 사진을 등록해주세요');
+			$('.userThumbnailImg').click();
+			return false;
+		}
+       	
+       	//나이
+		if(document.getElementsByClassName('member_Age')[0].value.length > 2){
+			if (document.getElementsByClassName('member_Age')[0].value.substr(0, 1) > "1"){
+				alert("1살부터 120살까지 입력이 가능합니다.");
+				$('.member_Age').focus();
+				$('.member_Age').select();
+				return false;  
+			}
+			
+			if (document.getElementsByClassName('member_Age')[0].value.substr(1, 1) > "2"){
+				alert("1살부터 120살까지 입력이 가능합니다.");
+				$('.member_Age').focus();
+				$('.member_Age').select();
+				return false;
+			}
+			
+			if(document.getElementsByClassName('member_Age')[0].value.substr(1, 1) == "2"){
+				if (document.getElementsByClassName('member_Age')[0].value.substr(2, 1) > "0"){
+					alert("1살부터 120살까지 입력이 가능합니다.");
+					$('.member_Age').focus();
+					$('.member_Age').select();
+					return false;
+				}
+			}
+		}
+		
+		if(document.getElementsByClassName('member_Age')[0].value.length == 0){
+			alert("나이를 입력해주세요.");
+			$('.member_Age').focus();
+			$('.member_Age').select();
+			return false;
+		}
+	        
+       	for (var i = 0; i < document.getElementsByClassName('member_Age')[0].value.length; i++) {	
+            ch = document.getElementsByClassName('member_Age')[0].value.substr(i, 1);
+            
+			if (ch < "0" || ch > "9"){
+				alert("나이는 숫자만 입력이 가능합니다.");
+			    $('.member_Age').focus();
+			    $('.member_Age').select();
+				return false;  
+			}
+        }
+       	
+       	//자기소개
+       	if(document.getElementsByClassName('member_Introduction')[0].value == ""){
+       		alert("간단한 자기소개 작성해주세요.");
+		    $('.member_Introduction').focus();
+		    $('.member_Introduction').select();
+			return false; 
+       	}
+	
+       	//휴대폰
+		var regExp = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
+		
+		if( !regExp.test(document.getElementsByClassName('member_Phone')[0].value) ) {
+			alert("휴대폰 번호 형태가 잘 못 됐습니다.");
+		    $('.member_Phone').focus();
+		    $('.member_Phone').select();
+			return false;
+		}
+		
+		$.ajax({
+			url : 'selectUserIdAndNick.me',
+			data : {
+				member_Id : document.getElementsByClassName('member_Id')[0].value,
+				member_Nickname : document.getElementsByClassName('member_Nickname')[0].value
+			},
+			success : function(data){
+				for(var key in data){
+					if(data[key].member_Id > 0){
+						alert('아이디가 중복됩니다.');
+						
+						return false;
+					}
+					if(data[key].member_Nickname > 0){
+						alert('닉네임이 중복됩니다.');
+						
+						return false;
+					}
+				}
+				
+				document.getElementById('insertMember').submit();
+			}
+		});
+	}
 </script>
 </head>
 <body>
 	<div class="insertMemberForm">
-		<form action="insertMember.me" method="post" encType="multipart/form-data">
+		<form action="insertMember.me" id="insertMember" method="post" encType="multipart/form-data">
 			<div class="insertMemberArea">
 				<div class="insertMemberLeftArea">
 					<span class="insertMemberInfoSapn">* 표시는 필수 입력 항목입니다.</span>
 					<hr>
 					<div class="inputMemberInfo">
-						<input type="text" name="member_Id" placeholder=" * 아이디"/>
+						<input type="text" name="member_Id" class="member_Id" placeholder=" * 아이디(영어, 숫자 조합 1 ~ 20자 이내)"/>
 					</div>
 					<hr>
 					<div class="inputMemberInfo">
-						<input type="text" name="member_Nickname" placeholder=" * 닉네임"/>
+						<input type="text" name="member_Nickname" class="member_Nickname" placeholder=" * 닉네임(영어, 숫자 조합 1 ~ 20자 이내)"/>
 					</div>
 					<hr>
 					<div class="inputMemberInfo">
-						<input type="text" name="member_Pwd" placeholder=" * 비밀번호"/>
+						<input type="text" name="member_Pwd" class="member_Pwd" placeholder=" * 비밀번호(6 ~ 18자 이내)"/>
 					</div>
 					<hr>
 					<div class="inputMemberInfo">
 						<label>
-							<img class="drawThumbnailImg" id="drawThumbnailImg" src="${contextPath}/resources/images/member/userImg.png"/>
+							<img class="drawThumbnailImg" id="drawThumbnailImg" src="/studyplus/resources/images/member/userImg.png"/>
 							<br>프로필 이미지
 							<input type="file" onchange="previewFile()" class="userThumbnailImg" id="userThumbnailImg" name="userThumbnailImg"/>
 						</label>
@@ -246,7 +403,7 @@
 					<hr>
 					<div class="inputMemberInfo">
 						<div>
-							<input type="text" name="member_Age" placeholder=" * 나이"/>
+							<input type="text" name="member_Age" class="member_Age" placeholder=" * 나이(1살부터 120살)"/>
 						</div>
 					</div>
 					<hr>
@@ -255,15 +412,13 @@
 					<hr>
 					<div class="inputMemberInfo selectMemberInfo">
 						<div>
-							<select name="member_Gender"> 
-								<option> * 성별</option>
+							<select name="member_Gender">
 								<option value="M" selected>남자</option>
 								<option value="F">여자</option>
 							</select>
 						</div>
 						<div>
 							<select name="member_Job">
-								<option> * 직업</option>
 								<option value="01" selected>무직</option>     
 								<option value="02">학생</option> 
 								<option value="03">언론</option>     
@@ -313,20 +468,20 @@
 					</div>
 					<hr>
 					<div class="inputMemberInfo commentTextarea">
-						<textarea placeholder="소개 100자 이내" name="member_Introduction">소개 합니다~</textarea>
+						<textarea placeholder="소개 100자 이내" class="member_Introduction" name="member_Introduction"></textarea>
 					</div>
 					<hr>
-					<div class="inputMemberInfo">
-						<input type="text" name="member_Phone" placeholder=" * 휴대폰"/>
+					<div class="inputMemberInfo phoneArea">
+						<input type="text" name="member_Phone" class="member_Phone" placeholder=" * 휴대폰"/>
 					</div>
-					<div class="inputMemberInfo">
+					<div class="inputMemberInfo phoneArea">
 						<label><input type="checkbox" name="member_SMSConfirmation" value="0">문자 발송 동의</label>
 					</div>
 					<hr>
 				</div>
 				<div class="insertMemberBottomArea">
 					<div class="insertMemberBtnArea">
-						<button type="submit">가입하기</button>
+						<button type="button" onclick="memberInfoCheck()">가입하기</button>
 						<button type="reset">취소</button>
 					</div>
 				</div>

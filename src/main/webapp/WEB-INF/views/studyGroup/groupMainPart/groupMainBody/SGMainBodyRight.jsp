@@ -85,6 +85,9 @@
 		height:162px;
 		overflow: hidden;
 	}
+	.SGMyBoardListArea{
+		display:none;
+	}
 	.SGLastBoardArea, .SGMyBoardArea {
 		border-bottom:1px solid #f0f0f0;
     	display: table;
@@ -197,16 +200,18 @@
 				$('.SGLastBoardArea').append($img);
 			},
 			success : function(data){
-				for(var key in data){
-					$SGLastBoardArea = $('<div class="SGLastBoardArea">');
-					$SGTitleArea = $('<div class="SGTitleArea">').append(data[key].GROUPBOARD_TITLE);
-					$SGLastBoardArea.append($SGTitleArea);
-					$SGBoardReadCheckArea = $('<div class="SGBoardReadCheckArea">').append($('<img>').attr('src', '/studyplus/resources/images/studyGroup/checked.png'));
-					$SGLastBoardArea.append($SGBoardReadCheckArea);
-					$SGBoardTitleArea = $('<div class="SGBoardTitleArea">').append(data[key].GROUPBOARD_CONTENT);
-					$SGLastBoardArea.append($SGBoardTitleArea);
-					
-					$('.SGBoardListArea').append($SGLastBoardArea);
+				if(data != ','){
+					for(var key in data){
+						$SGLastBoardArea = $('<div class="SGLastBoardArea">');
+						$SGTitleArea = $('<div class="SGTitleArea">').append(data[key].GROUPBOARD_TITLE);
+						$SGLastBoardArea.append($SGTitleArea);
+						$SGBoardReadCheckArea = $('<div class="SGBoardReadCheckArea">').append($('<img>').attr('src', '/studyplus/resources/images/studyGroup/checked.png'));
+						$SGLastBoardArea.append($SGBoardReadCheckArea);
+						$SGBoardTitleArea = $('<div class="SGBoardTitleArea">').append(data[key].GROUPBOARD_CONTENT);
+						$SGLastBoardArea.append($SGBoardTitleArea);
+						
+						$('.SGBoardListArea').append($SGLastBoardArea);
+					}
 				}
 			}
 		});
@@ -269,7 +274,7 @@
 				$('.SGContentArea').css('display', 'none');
 				
 				$img = $('<img>');
-				$img.attr('src', path + '/resources/images/studyGroup/groupListLoading.gif');
+				$img.attr('src', '/studyplus/resources/images/studyGroup/groupListLoading.gif');
 				$img.css({
 					'width': '50px',
 					'height': '50px',

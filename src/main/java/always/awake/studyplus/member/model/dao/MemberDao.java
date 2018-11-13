@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
+import always.awake.studyplus.member.model.exception.MemberException;
 import always.awake.studyplus.member.model.vo.Files;
 import always.awake.studyplus.member.model.vo.InterestCategory;
 import always.awake.studyplus.member.model.vo.Member;
@@ -29,6 +30,10 @@ public interface MemberDao {
 	void insertGift(SqlSessionTemplate sqlSession, int member_Code);
 
 	int insertMemberHistory(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
+	Integer selectUserId(SqlSessionTemplate sqlSession, String member_Id) throws MemberException;
+
+	Integer selectNickname(SqlSessionTemplate sqlSession, String member_Nickname) throws MemberException;
 
 	
 }

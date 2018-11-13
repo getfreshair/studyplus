@@ -215,17 +215,17 @@
 	<div class="timeAmountChartArea">
 		<h4>접속 스터디 그룹 통계</h4>
 		<div class="timeAmountChartPart">
-			<div class="timeAmountChartInfo categoryChartTodayInfo"></div>
+			<div class="timeAmountChartInfo timeAmountChartTodayInfo"></div>
 			<div class="timeAmountChartDiv timeAmountToday_div" id="timeAmountToday_div"></div>
 			<div class="chartDay">오늘</div>
 		</div>
 		<div class="timeAmountChartPart">
-			<div class="timeAmountChartInfo categoryChartWeekInfo"></div>
+			<div class="timeAmountChartInfo timeAmountChartWeekInfo"></div>
 			<div class="timeAmountChartDiv timeAmountWeek_div" id="timeAmountWeek_div"></div>
 			<div class="chartDay">이번 주</div>
 		</div>
 		<div class="timeAmountChartPart">
-			<div class="timeAmountChartInfo categoryChartMonthInfo"></div>
+			<div class="timeAmountChartInfo timeAmountChartMonthInfo"></div>
 			<div class="timeAmountChartDiv timeAmountMonth_div" id="timeAmountMonth_div"></div>
 			<div class="chartDay">이번 달</div>
 		</div>

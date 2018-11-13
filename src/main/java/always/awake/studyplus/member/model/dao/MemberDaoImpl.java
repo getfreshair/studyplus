@@ -7,6 +7,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import always.awake.studyplus.member.model.exception.MemberException;
 import always.awake.studyplus.member.model.vo.Files;
 import always.awake.studyplus.member.model.vo.InterestCategory;
 import always.awake.studyplus.member.model.vo.Member;
@@ -60,6 +61,24 @@ public class MemberDaoImpl implements MemberDao{
 	@Override
 	public int insertMemberHistory(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
 		return sqlSession.insert("Member.insertMemberHistory", map);
+	}
+
+	@Override
+	public Integer selectUserId(SqlSessionTemplate sqlSession, String member_Id) throws MemberException {
+		try {
+			return sqlSession.selectOne("Member.selectUserId", member_Id);
+		}catch(Exception e) {
+			throw new MemberException(e.getMessage());
+		}
+	}
+	
+	@Override
+	public Integer selectNickname(SqlSessionTemplate sqlSession, String member_Nickname) throws MemberException {
+		try {
+			return sqlSession.selectOne("Member.selectNickname", member_Nickname);
+		}catch(Exception e) {
+			throw new MemberException(e.getMessage());
+		}
 	}
 
 	
