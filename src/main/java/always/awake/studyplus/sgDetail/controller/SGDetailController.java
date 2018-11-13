@@ -182,10 +182,12 @@ public class SGDetailController {
 			mv.addObject("selectDate", selectChangeDates);
 			mv.setViewName("jsonView");
 //			mv.setViewName("studyGroupDetail/leftGroupStudyTimeRank");
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		System.out.println("mv : " + mv);
+		
 		return mv;
 	}
 	
