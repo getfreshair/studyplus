@@ -18,10 +18,6 @@
 %>
 <!DOCTYPE html>
 <html>
-<!-- Core stylesheet -->
-<link rel="stylesheet" href="modal-loading.css">
-<!-- CSS3 animations -->
-<link rel="stylesheet" href="modal-loading-animate.css">
 
 <head>
 <script>
@@ -38,6 +34,13 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="resources/css/style.css">
+<script src="/studyplus/resources/js/Nwagon.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<!-- #### datepicker #### -->
+<link rel="stylesheet" href="/studyplus/resources/css/datepicker.min.css">
+<script src="/studyplus/resources/js/datepicker.min.js"></script>
+<script src="/studyplus/resources/js/datepicker.ko.js"></script>
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
@@ -283,7 +286,7 @@
     display:inline-block;
 }
 
-ul {
+.dateUl {
     width: 120px;
     margin: 0 auto;
     padding: 0px;
@@ -292,7 +295,7 @@ ul {
     display:inline-block;
 }
 
-ul li {
+.dateUl li {
     display: inline;
     font-size: 1.8em;
     text-align: center;
@@ -342,7 +345,13 @@ ul li {
     };
 }
 </style>
+
 <script type="text/javascript">
+$(function(){
+	
+var f11 = jQuery.Event("keydown",{keyCode : 122});
+$(this).trigger(f11);
+})
 $(document).ready(function() {
 // Create two variable with the names of the months and days in an array
 var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]; 
@@ -378,6 +387,98 @@ setInterval( function() {
 });
 </script>
 </head>
+<!-- <script>
+//일간 공부량 날짜 변경시
+function todayChartChangeDate(){
+	/*$("#todayDatePicker").change(function(){
+		console.log("체인지가 안먹힌다?")
+		var dateVal = $("#todayDatePicker").val(); //컨트롤러에 보낼 날짜
+		console.log("선택한날짜 : " + dateVal);
+		todayChart(dateVal);
+	});*/
+	
+	$("#todayDatePicker").click(function(){
+		$(".datepicker:nth-child(1) .datepicker--cell-day").click(function(){
+			var dateVal = $(this).attr("data-year") + "-" + (($(this).attr("data-month")*1) +1) + "-" + $(this).attr("data-date");
+			//console.log("선택한날짜 : " + dateVal);
+			$('#todayDatePicker').attr("value",dateVal);
+			todayChart(dateVal);
+		});
+	});
+}
+
+//일간 공부량 차트
+function todayChart(dateVal){
+	var ctx = document.getElementById("todayChart").getContext('2d');
+	//console.log("input의 값은 들어오나?" + dateVal)
+	$.ajax({
+		url : "studyPlannerTodayChart.sp",
+		data : {dateVal : dateVal},
+		type : "post",
+		success : function(data) {
+			//console.log("일간공부량 데이터" + data);
+			var arr;
+			arr = data.split(",");
+			
+			for(var i = 0; i < arr.length; i++){
+				arr[i] = arr[i]/60;
+			}
+			
+			var todayChart = new Chart(ctx, {
+				type: 'bar',
+				data: {
+					labels: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", 
+						"13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"],
+						datasets: [{
+							//label: '# of Votes',
+							data: [arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], arr[7], arr[8], arr[9], arr[10], arr[11], arr[12],
+								arr[13], arr[14], arr[15], arr[16], arr[17], arr[18], arr[19], arr[20], arr[21], arr[22], arr[23]],
+								backgroundColor: [
+									'rgba(255, 99, 132, 0.2)',
+									'rgba(54, 162, 235, 0.2)',
+									'rgba(255, 206, 86, 0.2)',
+									'rgba(75, 192, 192, 0.2)',
+									'rgba(153, 102, 255, 0.2)',
+									'rgba(255, 159, 64, 0.2)',
+									'rgba(255, 99, 132, 0.2)',
+									'rgba(54, 162, 235, 0.2)',
+									'rgba(255, 206, 86, 0.2)',
+									'rgba(75, 192, 192, 0.2)',
+									'rgba(153, 102, 255, 0.2)',
+									'rgba(255, 99, 132, 0.2)',
+									'rgba(54, 162, 235, 0.2)',
+									'rgba(255, 206, 86, 0.2)',
+									'rgba(75, 192, 192, 0.2)',
+									'rgba(153, 102, 255, 0.2)',
+									'rgba(255, 159, 64, 0.2)',
+									'rgba(255, 99, 132, 0.2)',
+									'rgba(54, 162, 235, 0.2)',
+									'rgba(255, 206, 86, 0.2)',
+									'rgba(75, 192, 192, 0.2)',
+									]
+						}]
+				},
+				options: {
+					legend: {display: false,},
+					events: [false],
+					scales: {
+						yAxes: [{
+							ticks: {
+								beginAtZero:true
+							}
+						}]
+					}
+				}
+			});
+
+		},
+		error : function() {
+			console.log("에러발생!");
+		}
+	});
+
+}
+</script> -->
 <body>	
 	<div class="mainDiv">
 	<!-- <div id="clock" class="dark" style="background-color:transparent !important">
@@ -486,7 +587,7 @@ setInterval( function() {
 							if(mainTimmerStatus == 0) {
 								mainTimmerStatus = 1;
 								startMainTimmer();
-								document.getElementById("startPause").innerHTML ="일시정지";
+								//document.getElementById("startPause").innerHTML ="일시정지";
 							} else {
 								mainTimmerStatus = 0;
 								var check1 = -99;
@@ -511,7 +612,8 @@ setInterval( function() {
 							var groupTimmerButtonName = "groupStartPause"+num
 							// 기존의 실행중인 타이머인지 구분 아닐 경우 기존 실행 타이머 상태 변경
 							if(executeGroupTimmerName != '' && groupTimmerButtonName != executeGroupTimmerName){
-								document.getElementById(executeGroupTimmerName).innerHTML ="공부시작";
+								/* document.getElementById(executeGroupTimmerName).innerHTML ="공부시작"; */
+								$(executeGroupTimmerName).attr("src","resources/block/pause.png");
 								groupTimmerStatus[originGroupTimmerIndex] = 0;
 								TempSaveTimeDates(originGroupTimmerIndex, -99);
 							}
@@ -531,10 +633,12 @@ setInterval( function() {
 							if(groupTimmerStatus[num] == 0 ){
 								groupTimmerStatus[num] = 1;
 								startGroupTimmer(num);
-								document.getElementById(groupTimmerButtonName).innerHTML ="일시정지";
+								/* document.getElementById(groupTimmerButtonName).innerHTML ="일시정지";  */
+								document.getElementById(groupTimmerButtonName).src ="resources/block/pause.png";
 							} else {
 								groupTimmerStatus[num] = 0;
-								document.getElementById(groupTimmerButtonName).innerHTML ="공부시작";
+								/* document.getElementById(groupTimmerButtonName).innerHTML ="공부시작"; */
+								document.getElementById(groupTimmerButtonName).src ="resources/block/play.png";
 								TempSaveTimeDates(num, -99);
 							}
 						}else if ( division =='goal'){
@@ -654,8 +758,8 @@ setInterval( function() {
 				
 						 		
 				<div>
-					<div class="clock">
-				  	<ul>
+					<div class="clock" style="margin-right:200px">
+				  	<ul class="dateUl">
 					      <li id="hours"></li>
 					      <li id="point">:</li>
 					      <li id="min"></li>
@@ -665,7 +769,7 @@ setInterval( function() {
 				<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 				<script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.0.0/moment.min.js"></script>
 				<script src="resources/js/script.js"></script>		
-				<div style="margin-left:auto;" class="stopWatchArea" align="right">
+				<div style="margin-left:auto; margin-right:200px" class="stopWatchArea" align="right">
 					<span id="output" style="margin-left:auto; width:100px; height:50px; font-size:7em;text-shadow: 0 0 5px #00c6ff; color:white">
 					<% 
 						int mHour = (int)Math.floor((((todayStudyTime)/60)/60)%24);
@@ -861,7 +965,7 @@ setInterval( function() {
 			</div>
 			</div>
 		<div class="contentDiv col-xs-12 col-md-3 side_area">
-		<div class="user_info">
+		<div class="user_info" style="margin-top:20px">
 							<div class="img_area">
 								<img src="/studyplus/resources/upload/member/thumbnail/${ loginUser.member_Files.files_Name }" alt="study plus logo" style="width:100%;">
 							</div>
@@ -875,56 +979,141 @@ setInterval( function() {
 							</span>
 						</div>
 						<!-- 오늘의목표 -->
-						<div class="today_goals">
+						<div class="today_goals" style="height:42%">
 							<div class="box_tit">
 								<span class="txt">오늘의 목표</span>
 								<span class="sub">Today's Goals</span>
 							</div>
-							<ul class="today_point">
-								<li><span></span></li>
-								<li><span></span></li>
-								<li><span></span></li>
-								<li><span></span></li>
-								<li><span></span></li>
-								<li><span></span></li>
-								<li><span></span></li>
-							</ul>
 							<div class="scroll_wrap">
 								<div class="scroll_area">
-									<ul class="goals_list">
-										<!-- 페이지 진입시 todayGoalsList() 호출 -->
+							
+										<ul class="goals_list" style="width:100%">
+				<c:forEach var="goal" items="<%=goalList %>" varStatus="index">
+	  				<li ><p style="	margin-bottom: 5px;
+    								font-weight: bold;
+    								width: 90%;
+								    display: inline-block;
+								    color:black;
+								    white-space: nowrap;
+								    overflow: hidden;
+								    text-overflow: ellipsis;">${goal.goalContent }</p>
+	  				<br>
+	  					<span id="outputGoal${index.index }" style="width:100px; height:50px; margin-top:50px; font-size: 13px;
+    color: #6d6d6d;
+    font-weight: bold;">
+	  					
+	  								<fmt:parseNumber var="gHour" integerOnly="true" value="${Math.floor(((goal.goalAchieveAmount/60)/60)%24)}"/>
+	  								<fmt:parseNumber var="gMin" integerOnly="true" value="${Math.floor((goal.goalAchieveAmount/60)%60)}"/>
+	  								<fmt:parseNumber var="gSec" integerOnly="true" value="${Math.floor(goal.goalAchieveAmount%60)}"/>
+	  								
+	  								<c:if test="${gHour lt 10}">
+	  									0<c:out value="${gHour }"/> :
+	  								</c:if>
+	  								<c:if test="${gHour ge 10}">
+	  									<c:out value="${gHour }"/> :
+	  								</c:if>
+	  								
+	  								<c:if test="${gMin lt 10}">
+	  									0<c:out value="${gMin }"/> :
+	  								</c:if>
+	  								<c:if test="${gMin ge 10}">
+	  									 <c:out value="${gMin }"/> :
+	  								</c:if>
+	  								
+	  								<c:if test="${gSec lt 10}">
+	  									0<c:out value="${gSec}"/> 
+	  								</c:if>
+	  								<c:if test="${gSec ge 10}">
+	  									<c:out value="${gSec }"/> 
+	  								</c:if>
+	  							
+	  								</span>
+						<div id="controls" style="display:inline-block; margin-left:30px ;">
+	  						<button id="goalStartPause${index.index }" style="border:none; background:white ; position:absolute; top:20%; right:2%" onclick="startPause('goal',${index.index })"><img src="resources/images/block/play.png" style="width:40px; height:40px"></button>
+	  					</div>
+	  				</li>
+	  			</c:forEach>
+	  		</ul>
 									</ul>
-									<div class="add_btn">
+<!-- 									<div class="add_btn">
 										<a href="#" data-toggle="modal" data-target="#insertTodayModal"></a>
-									</div>
+									</div> -->
 								</div>
 							</div>
 						</div>
 						<!-- // 오늘의목표 -->
-
 						<!-- 이번주목표 -->
-						<div class="weekly_goals">
+						<div class="weekly_goals"  style="height:42%; margin-top:5px">
 							<div class="box_tit">
-								<span class="txt">주간 목표</span>
-								<span class="sub">WeeklyGoals</span>
+								<span class="txt">그룹 목표</span>
+								<span class="sub">GroupGoals</span>
 							</div>
 							<div class="scroll_area">
-								<ul class="goals_list">
-									<!-- 페이지 진입시 weeklyGoalsList() 호출 -->
+					
+			<c:if test="${groupSize ne 0}">
+				
+				<ul class="goals_list">
+	  					<c:forEach var="group" items="<%=groupList %>" varStatus="index">
+	  						<li><p style="	margin-bottom: 5px;
+    								font-weight: bold;
+    								width: 90%;
+								    display: inline-block;
+								    color:black;
+								    white-space: nowrap;
+								    overflow: hidden;
+								    text-overflow: ellipsis;">${group.studyGroup_Name }</p>
+	  						<br>
+	  							<span id="outputGroup${index.index }" style="width:100px; height:50px; margin-top:50px; font-size: 13px;
+    color: #6d6d6d;
+    font-weight: bold;">
+	  								<fmt:parseNumber var="gHour" integerOnly="true" value="${Math.floor(((group.groupTotalStudyTime/60)/60)%24)}"/>
+	  								<fmt:parseNumber var="gMin" integerOnly="true" value="${Math.floor((group.groupTotalStudyTime/60)%60)}"/>
+	  								<fmt:parseNumber var="gSec" integerOnly="true" value="${Math.floor(group.groupTotalStudyTime%60)}"/>
+	  								
+	  								<c:if test="${gHour lt 10}">
+	  									0<c:out value="${gHour }"/> :
+	  								</c:if>
+	  								<c:if test="${gHour ge 10}">
+	  									<c:out value="${gHour }"/> :
+	  								</c:if>
+	  								
+	  								<c:if test="${gMin lt 10}">
+	  									0<c:out value="${gMin }"/> :
+	  								</c:if>
+	  								<c:if test="${gMin ge 10}">
+	  									 <c:out value="${gMin }"/> :
+	  								</c:if>
+	  								
+	  								<c:if test="${gSec lt 10}">
+	  									0<c:out value="${gSec}"/> 
+	  								</c:if>
+	  								<c:if test="${gSec ge 10}">
+	  									<c:out value="${gSec }"/> 
+	  								</c:if>
+	  								
+	  							</span>
+								<div id="controls" style="display:inline-block; margin-left:30px;">
+	  								<button id="groupStartPause${index.index }" style="border:none; background:white ; position:absolute; top:20%; right:2%" onclick="startPause('group',${index.index })"><img src="resources/images/block/play.png" style="width:40px; height:40px"></button>
+	  							</div>
+	  						</li>
+	  					</c:forEach>
+				</ul>
+			</c:if>
+									
 								</ul>
-								<div class="add_btn">
+<!-- 								<div class="add_btn">
 									<a href="#" data-toggle="modal" data-target="#insertWeeklyModal"></a>
-								</div>
+								</div> -->
 							</div>
 						</div>
 						<!-- // 이번주목표 -->
 	<%-- 	<div style="height:250px; widht:100%">
-			
 			<c:if test="${groupSize eq 0}">
-				가입된 그룹이 없습니다.
-			</c:if>
+										가입된 그룹이 없습니다.
+									</c:if>
+			
 			<c:if test="${groupSize ne 0}">
-				그룹 리스트
+				
 				<ul>
 	  					<c:forEach var="group" items="<%=groupList %>" varStatus="index">
 	  						<li>${group.studyGroup_Name }
@@ -1021,7 +1210,7 @@ setInterval( function() {
 		
 		<div class="col-xs-12 col-md-12" style="height:80px; ">
 			<form action="saveStudyTime.bl" method="post" style="position:relative;"id="frm" >
-  				<button type="button" id="exitStopWatch" style="position:absolute;left:50%;margin-left:-350px;height:40px;margin-top:25px;border:1px solid #f1bc3c;border-radius:40px 40px 0 0;background:#f1bc3c;width:700px; color:white"class="btn btn-danger" onclick="doSubmit()">차단을 해제하고, 공부 휴식 취하기</button>
+  				<button type="button" id="exitStopWatch" style="position:absolute;left:50%;margin-left:-250px;height:40px;margin-top:25px;border:1px solid #f1bc3c;border-radius:40px 40px 0 0;background:#f1bc3c;width:500px; color:white"class="btn btn-danger" onclick="doSubmit()">차단을 해제하고, 공부 휴식 취하기</button>
   			</form>
   			<script type="text/javascript">
   				function doSubmit() {

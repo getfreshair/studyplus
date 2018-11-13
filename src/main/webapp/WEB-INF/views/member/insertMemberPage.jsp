@@ -372,6 +372,10 @@
 			}
 		});
 	}
+	
+	function histroyBackGo(){
+		location.href='logoutMain.me';
+	}
 </script>
 </head>
 <body>
@@ -482,7 +486,7 @@
 				<div class="insertMemberBottomArea">
 					<div class="insertMemberBtnArea">
 						<button type="button" onclick="memberInfoCheck()">가입하기</button>
-						<button type="reset">취소</button>
+						<button type="button" onclick="histroyBackGo()">취소</button>
 					</div>
 				</div>
 			</div>

@@ -10,13 +10,13 @@
 	src="/studyplus/resources/js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript">
 	var groupWSocket;
-
+	var userCount = 0;
 	
 	connect();
 	function connect() {
 		// ws://192.168.10.69:8001/studyplus/chat-ws.socket
 		//192.168.43.188:8001/studyplus ws://localhost:8001/studyplus/chat-ws.socket
-		groupWSocket = new WebSocket("ws://localhost:8001/studyplus/groupChat-ws.groupSocket");
+		groupWSocket = new WebSocket("ws://192.168.10.69:8001/studyplus/groupChat-ws.groupSocket");
 		groupWSocket.onopen = onOpen;
 		//서버로부터 메시지를 받으면 호출되는 함수 지정
 		groupWSocket.onmessage = onMessage;
@@ -31,14 +31,12 @@
 
 	function onOpen(evt) {
 		
-		var msg = 'msg:' + '${loginUser.member_Nickname}' + ":입장"; // 입장 시 친구에게 알리기 위해 메시지 송출
-		groupWSocket.send(msg);
 	}
 
 	function onMessage(evt) {
 		var data = evt.data;
-		if (data.substring(0, 4) == 'msg:') {
-			appendMessage(data.substring(4));
+		if (data.substring(0, 9) == 'groupMsg:') {
+			appendMessage(data.substring(9));
 		}
 	}
 
@@ -51,18 +49,44 @@
 	function send() {
 		var nickname = $('#nickname').val();
 		var msg = $('#message').val();
-		groupWSocket.send("msg:" + nickname + ':' + msg + ':' + receiverNickName);
+		var groupCode = $('#grCode').val();
+		
+		groupWSocket.send("groupMsg:" + nickname + ':' + msg + ':' + groupCode);
 		$('#message').val('');
 	}
 
 	function appendMessage(msg) {
-				
-		var d = new Date();
-		$('#chatMessageArea').append(
+		
+		var groupCode = $('#grCode').val();
+		
+		if(msg.substr(msg.lastIndexOf(":")+1, msg.length) == groupCode){
+			
+			var d = new Date();
+			var userNickname = '${sessionScope.loginUser.member_Nickname}';
+		
+			if (userNickname  == msg.substr(0,
+					msg.indexOf(":"))) { // 내가 보냈을 때 채팅창에 출력
+
+				$('#chatMessageArea').append(
+								'<div style="width:98%; display: inline-block;">' + 
+								'<table style="margin-top : 10px; float:right;">'
+										+ '<tr><td>'
+										+ '<div class="dateArea">'
+										+ d.getHours() + '시' + d.getMinutes()
+										+ '분</div>' 
+										+ '<div class="msgArea" style="background : #fde09a;">'
+										+ msg.substr(msg.indexOf(":") + 1, msg
+												.lastIndexOf(":")
+												- (msg.indexOf(":") + 1))
+										+ '</div>' 
+										+  '</td></tr></div>');
+			} else { // 내가받았을 때
+
+				$('#chatMessageArea').append(
 						'<table style="margin-top : 10px;">'
 								+ '<tr><td rowspan="2" style="vertical-align: text-top; display: table-cell;">'
 								+ '<div class="msgImgArea">'
-								+ '<img class="chatProfile" src="/studyplus/resources/images/studyGroup/img_plus.png" style="width : 30px; border-radius : 50%; width:100%;">'
+								+ '<img class="chatProfile ' + 'user' + userCount + '" src="/studyplus/resources/images/studyGroup/img_plus.png" style="width : 30px; border-radius : 50%; width:100%;">'
 								+ '</div></td>'
 								+ '<td><div class="nicknameArea">'
 								+ msg.substr(0, msg.indexOf(":"))
@@ -83,23 +107,26 @@
 								+ d.getMinutes() + '분</div>'
 								+ '</td></tr>');
 		
-		$.ajax({
-			url : "selcectMemberProfile.ms",
-			type : "POST",
-			data : {
-				
-				member_Nickname : msg.substr(0, msg.indexOf(":"))
-			},
-			async: false,
-			success : function(data){
-				
-				$('.chatProfile').attr("src", "/studyplus/resources/upload/member/thumbnail/" + data);
+				$.ajax({
+					url : "selcectMemberProfile.ms",
+					type : "POST",
+					data : {
+						
+						member_Nickname : msg.substr(0, msg.indexOf(":"))
+					},
+					async: false,
+					success : function(data){
+						
+						$('.user' + userCount).attr("src", "/studyplus/resources/upload/member/thumbnail/" + data);
+						userCount = userCount + 1;
+					}
+				});
 			}
-		});
-			
-		var chatAreaHeight = $('#chatArea').height();
-		var maxScroll = $('#chatMessageArea').height() - chatAreaHeight;
-		$('#chatArea').scrollTop(maxScroll);
+				
+			var chatAreaHeight = $('#chatArea').height();
+			var maxScroll = $('#chatMessageArea').height() - chatAreaHeight;
+			$('#chatArea').scrollTop(maxScroll);
+		}
 	}
 
 	$(document).ready(function() {
@@ -126,7 +153,7 @@
 <style type="text/css">
 #chatArea {
 	width: 100%;
-	height: 86%;
+	height: 89%;
 	overflow-y: auto;
 	padding-bottom: 5%;
 }
@@ -137,7 +164,7 @@
 }
 
 #message {
-	width: 73%;
+	width: 78%;
 	vertical-align: middle;
 }
 
@@ -163,6 +190,7 @@
 
 .nicknameArea {
 	margin-left: 5px;
+	text-align : left;
 }
 
 .msgArea {
@@ -193,7 +221,6 @@
 	</div>
 	<br>
 	<div id="sendArea">
-		<input type="button" id="exitBtn" value="<" class="chat_close">
 		<input type="text" id="message">
 		<div id="sendBtn">전송</div>
 	</div>

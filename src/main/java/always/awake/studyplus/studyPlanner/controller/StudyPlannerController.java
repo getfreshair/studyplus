@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import always.awake.studyplus.block.controller.blockController;
 import always.awake.studyplus.member.model.vo.Member;
@@ -414,6 +415,7 @@ public class StudyPlannerController {
 		return rankPercent;
 	} 
 	
+	//오늘 목표 리스트
 	@RequestMapping(value="todayGoalsList.sp")
 	public @ResponseBody List<Map<String, Object>> todayGoalsList(HttpSession session, @RequestParam String dateVal,  HttpServletResponse response) throws plannerException {
 		//System.out.println("들어오니??" + dateVal);
@@ -565,6 +567,12 @@ public class StudyPlannerController {
 		return "redirect:studyPlannerMainPage.sp";
 	}
 	
+	//isbn 책 검색
+	@RequestMapping(value="bookIsbn.sp", produces="text/plain;charset=utf-8")
+	public @ResponseBody String bookIsbn(@RequestParam("searchTit")String searchTit, HttpServletRequest request, HttpServletResponse response) {
+		
+		return ISBNSearchBook.bookIsbn(searchTit);
+	}
 	
 	//오늘의 목표 업데이트(페이지 단위)
 	@RequestMapping(value="TodayBookGoalUpdateModal.sp", method=RequestMethod.POST)

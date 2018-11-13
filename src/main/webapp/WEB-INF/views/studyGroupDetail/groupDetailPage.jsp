@@ -93,7 +93,7 @@
 	.centerContent { width:48.7%; margin-right:0.3%; border-right:1px solid gray; }
 	
 	/* 실시간 채팅 영역 */	
-	.rightContent { width:24%; }
+	.rightContent { width:24%; height : 500px; padding : 20px 5px 0px 5px !important;}
 </style>
 	
 <!-- /*	공통 요소 속성 */ -->
@@ -363,6 +363,15 @@
 //  		selectGrMemList(grCode, loginUserCode);
 		selectGrMemRankList(grCode);
  		
+			$.ajax({
+			url : "${contextPath}/web/groupChat.groupSocket",
+			type : "GET",
+			success : function(data){
+
+				$(".rightContent").empty();
+				$(".rightContent").append(data);
+			}
+		});
 	});
 </script>
 
