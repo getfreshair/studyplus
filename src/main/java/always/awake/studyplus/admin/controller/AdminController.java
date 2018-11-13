@@ -64,6 +64,35 @@ public class AdminController {
 		return page;
 	}
 	//////////////////////////////////////////////////통계///////////////////////////////////////////////////////////
+	@RequestMapping("getContactStatic.do")
+	public ModelAndView getContactStatic(ModelAndView mv, HttpServletRequest request) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		List<Map<String, Object>> yesterdayContact = as.yesterdayContact();
+		List<Map<String, Object>> todayContact = as.todayContact();
+		List<Map<String, Object>> totalContact = as.totalContact();
+		List<Map<String, Object>> contactByTime = as.contactByTime();
+		List<Map<String, Object>> contactByDay = as.contactByDay();
+		
+		System.out.println(yesterdayContact);
+		System.out.println(todayContact);
+		System.out.println(totalContact);
+		System.out.println(contactByTime);
+		System.out.println(contactByDay);
+		
+		map.put("yesterdayContact", yesterdayContact);
+		map.put("todayContact", todayContact);
+		map.put("totalContact", totalContact);
+		map.put("contactByTime", contactByTime);
+		map.put("contactByDay", contactByDay);
+		
+		
+		mv.addObject("data", map);
+		
+		mv.setViewName("admin/statisticsManage/contactStat");
+		
+		return mv;
+	}
 	@RequestMapping("getBannerStatic.do")
 	public ModelAndView getBannerStatic(ModelAndView mv, HttpServletRequest request) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -93,10 +122,6 @@ public class AdminController {
 		
 		return mv;
 	}
-	
-	
-	
-	
 	
 	@RequestMapping("getStudygroupStatic.do")
 	public ModelAndView getStudygroupStatic(ModelAndView mv, HttpServletRequest request) {

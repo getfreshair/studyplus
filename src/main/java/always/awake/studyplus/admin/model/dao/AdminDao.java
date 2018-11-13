@@ -188,4 +188,19 @@ public interface AdminDao {
 	List<Map<String, Object>> CPCandCPPprofit(SqlSessionTemplate sqlSession);
 
 
+	List<Map<String, Object>> yesterdayContact(SqlSessionTemplate sqlSession);
+
+
+	List<Map<String, Object>> todayContact(SqlSessionTemplate sqlSession);
+
+
+	List<Map<String, Object>> totalContact(SqlSessionTemplate sqlSession);
+
+
+	List<Map<String, Object>> contactByTime(SqlSessionTemplate sqlSession);
+
+
+	List<Map<String, Object>> contactByDay(SqlSessionTemplate sqlSession);
+
+
 }

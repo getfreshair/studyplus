@@ -124,4 +124,14 @@ public interface AdminService {
 
 	public List<Map<String, Object>> CPCandCPPprofit();
 
+	public List<Map<String, Object>> yesterdayContact();
+
+	public List<Map<String, Object>> todayContact();
+
+	public List<Map<String, Object>> totalContact();
+
+	public List<Map<String, Object>> contactByTime();
+
+	public List<Map<String, Object>> contactByDay();
+
 }
