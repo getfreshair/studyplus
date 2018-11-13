@@ -28,12 +28,10 @@ public class SGDetailController {
 		
 		int grCode = Integer.parseInt(request.getParameter("group_No"));
 			
-
+		int memCode = ((Member)(request.getSession().getAttribute("loginUser"))).getMember_Code();
+		
 		//		test 지우기
-		/*memCode = 5;*/	
-
-		int memCode = ((Member)(request.getSession().getAttribute("loginUser"))).getMember_Code();	
-
+		memCode = 5;	
 		
 		try {
 			int joinStatus = gs.selectJoinStatus(grCode, memCode);
@@ -118,6 +116,7 @@ public class SGDetailController {
 			if(result >= 1) {
 				List<HashMap<String, Object>> memberList = gs.selectGroupMemberList(grCode);
 				mv.addObject("grMemList", memberList);
+				mv.addObject("loginUserCode", nowLeaderCode);
 			}			
 			mv.addObject("result", result);
 			mv.setViewName("studyGroupDetail/leftGroupListArea");
@@ -128,7 +127,7 @@ public class SGDetailController {
 	}
 	
 	@RequestMapping(value="updateDeleteGroupMember.sgd")
-	public ModelAndView updateDeleteGroupMember(@RequestParam int grCode, @RequestParam int delMemCode, HttpServletResponse response){
+	public ModelAndView updateDeleteGroupMember(@RequestParam int grCode, @RequestParam int delMemCode, @RequestParam int loginUserCode, HttpServletResponse response){
 		ModelAndView mv = new ModelAndView();
 		int result = -1;
 		
@@ -138,28 +137,13 @@ public class SGDetailController {
 			if(result >= 1) {
 				List<HashMap<String, Object>> memberList = gs.selectGroupMemberList(grCode);
 				mv.addObject("grMemList", memberList);
+				mv.addObject("loginUserCode", loginUserCode);
 			}			
 			mv.addObject("result", result);
 			mv.setViewName("studyGroupDetail/leftGroupListArea");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return mv;
-	}
-	
-	@RequestMapping("selectGrMemRankPage.sgd")
-	public ModelAndView selectGrMemRankPage(@RequestParam int grCode, @RequestParam String thisDay,
-												@RequestParam int dayPick, @RequestParam int monthPick, ModelAndView mv) {
-		try {
-			System.out.println("페이지 여는 컨트롤러 왔어");
-			System.out.println(grCode + " / " + thisDay + " / " + dayPick + " / " + monthPick);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
-		mv.setViewName("studyGroupDetail/leftGroupStudyTimeRank");
 		return mv;
 	}
 	
@@ -183,7 +167,7 @@ public class SGDetailController {
 					
 			mv.addObject("selectDate", selectChangeDates);
 			mv.setViewName("jsonView");
-//			mv.setViewName("studyGroupDetail/leftGroupStudyTimeRank");
+//			mv.setViewName("studyGroupDetail/groupDetailPage");
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -192,5 +176,22 @@ public class SGDetailController {
 		
 		return mv;
 	}
+	
+	/*	@RequestMapping("selectGrMemRankPage.sgd")
+	public ModelAndView selectGrMemRankPage(@RequestParam int grCode, @RequestParam String thisDay,
+												@RequestParam int dayPick, @RequestParam int monthPick, ModelAndView mv) {
+		try {
+			System.out.println("페이지 여는 컨트롤러 왔어");
+			System.out.println(grCode + " / " + thisDay + " / " + dayPick + " / " + monthPick);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		mv.setViewName("studyGroupDetail/leftGroupStudyTimeRank");
+		return mv;
+	}*/
+	
 	
 }

@@ -124,10 +124,10 @@
 				type : "POST",
 				success:function(data) {
 					console.log(data);
-					/* $('#leftIncludeArea').empty();
-					$('#leftIncludeArea').append(data);	 */
 					
-					selectGrMemList(grCode, loginUserCode);
+					$('#leftIncludeArea').empty();
+					$('#leftIncludeArea').append(data);
+
 				},
 				error : function(){
 					alert("그룹장 변경에 실패하였습니다.");
@@ -146,14 +146,13 @@
 			if(kickOutChk){
 				$.ajax({
 					url:"updateDeleteGroupMember.sgd",
-					data : { grCode : grCode, delMemCode : delMemCode },
+					data : { grCode : grCode, delMemCode : delMemCode, loginUserCode : loginUserCode },
 					type : "POST",
 					success:function(data) {
 						console.log(data);
-						/* $('#leftIncludeArea').empty();
-						$('#leftIncludeArea').append(data); */
 						
-						selectGrMemList(grCode, loginUserCode);
+						$('#leftIncludeArea').empty();
+						$('#leftIncludeArea').append(data);
 						
 					}
 				});
