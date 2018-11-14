@@ -49,7 +49,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public int insertMember(Member m, Files files, ArrayList<String> category_Code,
+	public int insertMember(Member m, Files files, String[] category_Code,
 			HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String filePath = root + "\\upload\\member\\thumbnail";
@@ -70,10 +70,10 @@ public class MemberServiceImpl implements MemberService{
 			List<InterestCategory> interestCategory = new ArrayList<InterestCategory>();
 			InterestCategory ic = null;
 			
-			for(int i = 0; i < category_Code.size(); i++) {
+			for(int i = 0; i < category_Code.length; i++) {
 				ic = new InterestCategory();
 				
-				ic.setCategory_Code(Integer.parseInt(category_Code.get(i)));
+				ic.setCategory_Code(Integer.parseInt(category_Code[i]));
 				ic.setMember_Code(member_Code);
 				
 				interestCategory.add(ic);

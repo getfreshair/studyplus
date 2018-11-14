@@ -55,7 +55,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="insertMember.me")
-	public String insertMember(Model model, Member m, Files files, @RequestParam(value="category_Code", required=false)ArrayList<String> category_Code, HttpServletRequest request) {
+	public String insertMember(Model model, Member m, Files files, @RequestParam(value="category_Code", required=false)String[] category_Code, HttpServletRequest request) {
 		if(ms.insertMember(m, files, category_Code, request) > 0) {
 			return "redirect:logoutMain.me";
 		}else {
