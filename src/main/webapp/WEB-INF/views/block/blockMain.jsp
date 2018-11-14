@@ -21,12 +21,56 @@
 
 <head>
 <script>
-	var ing = false;
+/* 	var ing = false;
 	window.onbeforeunload = function(){
 		if(!ing){
 			alert("bye!!");
 		}
+	} */
+	
+	var wsocket;
+
+	connect();
+	function connect() { // 접속
+		// ws://192.168.10.69:8001/studyplus/chat-ws.socket
+		//192.168.43.188:8001/studyplus ws://localhost:8001/studyplus/chat-ws.socket
+		//wsocket = new WebSocket("ws://192.168.10.53:8001/studyplus/gameChat-ws.gameSocket");
+		wsocket = new WebSocket("ws://localhost:8001/studyplus/gameChat-ws.gameSocket");
+		wsocket.onopen = onOpen;
+		//서버로부터 메시지를 받으면 호출되는 함수 지정
+		wsocket.onmessage = onMessage;
+		wsocket.onclose = onClose;
 	}
+
+	function disconnect() {
+		
+	}
+
+	function onOpen(evt) { // 입장 알림
+		var msg = 'gameMsg:' + '${loginUser.member_Code}' + ":입장"; 
+		wsocket.send(msg);
+	}
+
+	function onMessage(evt) { // 메세지 받을 경우 
+		var data = evt.data;
+		if (data.substring(0, 8) == 'gameMsg:') {
+			appendMessage(data.substring(8));
+		}
+	}
+
+	function onClose(evt) {
+		
+		$('#nickname').val("");
+		$('#message').attr('disabled', true);
+	}
+
+
+
+	function appendMessage(msg) { // 처리
+		
+		
+	}
+
 </script>
 <link rel="stylesheet" href="/studyplus/resources/css/custom.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
