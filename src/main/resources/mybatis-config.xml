@@ -24,6 +24,7 @@
 		<typeAlias type="always.awake.studyplus.admin.model.vo.Banner" alias="adminBanner"/>
 		<typeAlias type="always.awake.studyplus.messenger.model.vo.Message" alias="Message"/>
 		<typeAlias type="always.awake.studyplus.need.model.vo.Need" alias="Need"/>
+		<typeAlias type="always.awake.studyplus.game.model.vo.PlayGameUsers" alias="PlayGameUsers"/>
 	</typeAliases>
 
 	<mappers>
@@ -36,5 +37,6 @@
 		<mapper resource="mappers/messenger-mapper.xml" />
 		<mapper resource="mappers/groupMessenger-mapper.xml" />
 		<mapper resource="mappers/need-mapper.xml" />
+		<mapper resource="mappers/game-mapper.xml" />
 	</mappers>
 </configuration>
