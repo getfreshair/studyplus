@@ -12,6 +12,8 @@
 <script type="text/javascript" src='/studyplus/resources/js/sweetalert.min.js?ver=1'></script>
 <link rel="stylesheet" type="text/css"
     href='/studyplus/resources/css/sweetalert.css?ver=1.2'>
+    
+<script src="/studyplus/resources/js/googleCalendar.js"></script>
 <script type="text/javascript" src="/studyplus/resources/js/stringBuffer.js"></script>
 <script type="text/javascript" src="/studyplus/resources/js/calendarList.js"></script>
 </head>

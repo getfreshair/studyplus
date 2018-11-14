@@ -52,6 +52,5 @@
 			</beans:list>
 		</beans:property>
 	</beans:bean>
-	
 	<annotation-driven />
 </beans:beans>

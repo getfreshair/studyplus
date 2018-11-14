@@ -18,8 +18,8 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
-//import com.google.api.services.calendar.model.CalendarList;
-//import com.google.api.services.calendar.model.CalendarListEntry;
+import com.google.api.services.calendar.model.CalendarList;
+import com.google.api.services.calendar.model.CalendarListEntry;
  
 public class GoogleCalendarService {
  
@@ -72,7 +72,7 @@ public class GoogleCalendarService {
                 .setApplicationName(APPLICATION_NAME).build();
     }
     
-/*    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
       com.google.api.services.calendar.Calendar service = getCalendarService();
       // 캘린더 조회
    String pageToken = null;
@@ -85,5 +85,5 @@ public class GoogleCalendarService {
           System.out.println(calendarListEntry.getId());       }
         pageToken = calendarList.getNextPageToken();
       } while (pageToken != null);
-  }*/
+  }
 }
