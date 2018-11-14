@@ -63,7 +63,39 @@ public class AdminController {
 		
 		return page;
 	}
+/*	@RequestMapping("send.do")
+	public ModelAndView sendSms(@RequestParam("rphone") String rPhone,@RequestParam("sphone1") String sphone1,@RequestParam("sphone2") String sphone2,@RequestParam("sphone3") String sphone3,@RequestParam("msg")String msg){
+		
+		
+		
+		return "redirect:admin/smsManage/smsSend2";
+	}*/
+	
 	//////////////////////////////////////////////////통계///////////////////////////////////////////////////////////
+	
+	@RequestMapping("mainStatic.do")
+	public ModelAndView mainStatic(ModelAndView mv, HttpServletRequest request) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		List<Map<String, Object>> categoryMemberList = as.getCategoryMember();
+		List<Map<String, Object>> femaleGroupList = as.femaleGroupList();
+		List<Map<String, Object>> maleGroupLIst = as.maleGroupLIst();
+		List<Map<String, Object>> CPCandCPPprofit = as.CPCandCPPprofit();
+		List<Map<String, Object>> contactByDay = as.contactByDay();
+
+		map.put("categoryMemberList", categoryMemberList);
+		map.put("femaleGroupList", femaleGroupList);
+		map.put("maleGroupLIst", maleGroupLIst);
+		map.put("CPCandCPPprofit", CPCandCPPprofit);
+		map.put("contactByDay", contactByDay);
+
+		mv.addObject("data", map);
+		
+		mv.setViewName("admin/content");
+		
+		return mv;
+	}
+	
 	@RequestMapping("getContactStatic.do")
 	public ModelAndView getContactStatic(ModelAndView mv, HttpServletRequest request) {
 		HashMap<String, Object> map = new HashMap<String, Object>();

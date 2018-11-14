@@ -125,7 +125,7 @@ display:none;
 		
 		<li>
 			<i class='fas fa-home' style='font-size:24px; float:left; margin-left:5px ;margin-top:10px;'></i>
-			<h3 onclick="goPage('admin/coding')">홈</h3>
+			<h3 onclick="goPage('admin/home')">홈</h3>
 		</li>
 		
 		<li <%-- <% if ( activeCheck.equals("memberManage")){ %>

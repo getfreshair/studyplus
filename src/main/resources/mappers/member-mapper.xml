@@ -99,7 +99,7 @@
   	</insert>
   
 	<insert id="insertMemberHistory" parameterType="Member">
-		INSERT INTO LOGINRECORD VALUES (SEQ_LOGINRECORD_LOGRECORD_CODE.NEXTVAL+20 , #{loginUser.member_Code}, SYSDATE)
+		INSERT INTO LOGINRECORD VALUES (SEQ_LOGINRECORD_LOGRECORD_CODE.NEXTVAL+30 , #{loginUser.member_Code}, SYSDATE)
 	</insert>
 	
 	<select id="selectUserId" parameterType="java.lang.String" resultType="_int">
