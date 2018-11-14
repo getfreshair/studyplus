@@ -248,5 +248,13 @@
 		WHERE MEMBER_CODE = #{member_Code}
 		]]>
 	</select>
+	
+	<!-- 학습스타일 결과 등록 -->
+	<insert id="insertStudyStyle" parameterType="map">
+		INSERT INTO STUDYSTYLE
+		VALUES(SEQ_STUDYSTYLE_STUDYSTYLE_CODE.NEXTVAL, #{loginUserCode}, SYSDATE,
+		#{activity}, #{deliberate}, #{sensibility}, #{intuitive},
+		#{perspective}, #{language}, #{sequential}, #{whole})
+	</insert>
 		
 </mapper>

@@ -111,7 +111,7 @@
 							<span class="rank_link">
 								<p class="rank">지역랭킹 : 상위  &nbsp;&nbsp; 분야 랭킹 : 상위 </p>
 								<p class="need" onclick="rankLink()" title="나의 랭킹보기">식물 Lv. </p>
-								<img class="addFriendIcon" src="/studyplus/resources/images/member/addUserIcon.png" data-toggle="modal" data-target="#addFriendModal">
+								<!-- <img class="addFriendIcon" src="/studyplus/resources/images/member/addUserIcon.png" data-toggle="modal" data-target="#addFriendModal"> -->
 							</span>
 						</div>
 						<!-- 오늘의목표 -->
@@ -179,6 +179,7 @@
 
 					<!-- 메신저 기능 -->
 					<div class="sns_wrap">
+						<img class="addFriendIcon" src="/studyplus/resources/images/member/addUserIcon.png" data-toggle="modal" data-target="#addFriendModal">
 						<div class="click_area">
 							친구 <span class="loginFriends"> </span>명 접속중 <span>(<span class="loginFriends"> </span> / <span class="allFriends"> </span>)</span>
 							<div class="undreadMsg" style="display:inline-block; background : red; color : white; width : 30px; height : 21px; border-radius : 30px; margin-left : 5%;"></div>

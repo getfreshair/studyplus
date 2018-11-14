@@ -74,14 +74,14 @@
 												//var object = { ... };
  
 												//console.log(Object.keys(data))
-												for( var key in data ) {
+												/* for( var key in data ) {
 												  console.log( key + '=>' + data[key] );
-												}
-
-
+												} */
+												var title = data.substr(data.indexOf("title"),data.indexOf("\"link\""));
+												console.log(title);
 												//console.log(data[key].items)
 												//$(".book_info").text(data);
-	
+												
 											},
 											error : function() {
 												console.log("에러발생!");

@@ -383,6 +383,7 @@
 								$("#typelist").hide();
 								$(".resultBtn").click(function(){
 									
+									
 									/* if($("#surveyList input").checked != true){
 										console.log("모두 체크하세요")
 									} */
@@ -547,6 +548,22 @@
 										};
 										Nwagon.chart(options);
 									}
+									
+									var sumArr = $sum1 + ","+ $sum2 + ","+ $sum3 + ","+ $sum4 + ","+ 
+												$sum5 + ","+ $sum6 + ","+ $sum7 + ","+ $sum8;
+									//합계 데이터 저장
+									$.ajax({
+										url : "studyStyleResult.sp",
+										data : {sumArr : sumArr},
+										type : "get",
+										success : function(data) {
+											console.log("등록 성공!");
+										},
+										error : function() {
+											console.log("에러발생!");
+										}
+									});
+									
 								
 								});
 							});

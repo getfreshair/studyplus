@@ -167,5 +167,23 @@ public class StudyPlannerServiceImpl implements StudyPlannerService{
 		return rankPercent;
 	}
 
+	//학습스타일 결과 등록
+	@Override
+	public int insertStudyStyle(Map<String, Object> hmap) {
+		
+		int result = spd.insertStudyStyle(hmap);
+		
+		return result;
+	}
+
+	//학습스타일 결과 선택
+	@Override
+	public String selectStudyStyle(int loginUserCode) {
+		
+		String result = spd.selectStudyStyle(loginUserCode);
+		
+		return result;
+	}
+
 
 }

@@ -1,7 +1,7 @@
 package always.awake.studyplus.studyPlanner.controller;
 
 import java.io.IOException;
-import java.sql.Date;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.type.IntegerTypeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 import always.awake.studyplus.block.controller.blockController;
 import always.awake.studyplus.member.model.vo.Member;
@@ -570,7 +568,7 @@ public class StudyPlannerController {
 	//isbn 책 검색
 	@RequestMapping(value="bookIsbn.sp", produces="text/plain;charset=utf-8")
 	public @ResponseBody String bookIsbn(@RequestParam("searchTit")String searchTit, HttpServletRequest request, HttpServletResponse response) {
-		
+
 		return ISBNSearchBook.bookIsbn(searchTit);
 	}
 	
@@ -748,8 +746,57 @@ public class StudyPlannerController {
 		return "redirect:studyPlannerMainPage.sp";
 	}
 	
+	//학습스타일 페이지 이동
 	@RequestMapping(value="studyStyleView.sp")
 	public String studyStyleView() {
 		return "studyPlanner/studyStyle";
 	}
+	
+	//학습스타일 결과 등록
+	@RequestMapping(value="studyStyleResult.sp")
+	public String insertStudyStyleResult(HttpSession session, @RequestParam("sumArr")String sumResult) {
+		//System.out.println("학습스타일 들어옴?");
+		//System.out.println(sumResult);
+		
+		String[] sumArr = sumResult.split(",");
+
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int loginUserCode = loginUser.getMember_Code();
+		
+		Map<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("loginUserCode", loginUserCode);
+		hmap.put("activity", sumArr[0]);
+		hmap.put("deliberate", sumArr[1]);
+		hmap.put("sensibility", sumArr[2]);
+		hmap.put("intuitive", sumArr[3]);
+		hmap.put("perspective", sumArr[4]);
+		hmap.put("language", sumArr[5]);
+		hmap.put("sequential", sumArr[6]);
+		hmap.put("whole", sumArr[7]);
+		
+		int result = sps.insertStudyStyle(hmap);
+		
+		if(result > 0) {
+			System.out.println("학습스타일 등록 성공!!");
+			
+		}else {
+			System.out.println("학습스타일 등록 실패!");
+		}
+		
+		return "studyPlanner/studyStyle";
+	}
+	
+	//학습스타일 결과 선택
+	/*@RequestMapping(value="selectStudyStyle.sp")
+	public String selectStudyStyle(HttpSession session) {
+		System.out.println("학습스타일 들어옴?");
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int loginUserCode = loginUser.getMember_Code();
+		
+		String result = sps.selectStudyStyle(loginUserCode);
+		
+		return result;
+	}*/
+	
 }

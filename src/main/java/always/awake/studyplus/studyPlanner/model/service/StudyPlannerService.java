@@ -1,5 +1,6 @@
 package always.awake.studyplus.studyPlanner.model.service;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,6 +58,12 @@ public interface StudyPlannerService {
 	Double selectJobWeeklyRankPercent(int member_Code, String[] chartDate4);
 
 	Double selectLocationWeeklyRankPercent(int member_Code, String[] chartDate4);
+	
+	//학습스타일 결과 등록
+	int insertStudyStyle(Map<String, Object> hmap);
+
+	//학습스타일 결과 선택
+	String selectStudyStyle(int loginUserCode);
 
 
 

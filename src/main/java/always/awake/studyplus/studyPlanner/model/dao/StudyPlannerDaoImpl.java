@@ -199,5 +199,18 @@ public class StudyPlannerDaoImpl implements StudyPlannerDao{
 		return rankPercent;
 	}
 
+	//학습스타일 결과 등록
+	@Override
+	public int insertStudyStyle(Map<String, Object> hmap) {
+		
+		return sqlSession.insert("StudyPlanner.insertStudyStyle", hmap);
+	}
+
+	@Override
+	public String selectStudyStyle(int loginUserCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

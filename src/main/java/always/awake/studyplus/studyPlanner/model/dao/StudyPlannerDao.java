@@ -59,6 +59,12 @@ public interface StudyPlannerDao {
 
 	Double selectLocationWeeklyRankPercent(SqlSessionTemplate sqlSession, int member_Code, String[] chartDate4);
 
+	//학습스타일 결과 등록
+	int insertStudyStyle(Map<String, Object> hmap);
+	
+	//학습스타일 결과 선택
+	String selectStudyStyle(int loginUserCode);
+
 
 
 }

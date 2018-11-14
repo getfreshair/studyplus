@@ -128,7 +128,7 @@ table .board-tit a:hover{color:#1a609c;}
 .side_area .user_info .right_area{padding-left:80px; margin-top:7px;}
 .side_area .user_info .name{font-size:18px; width:100%; display:inline-block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight: bold;}
 .side_area .user_info .rank{clear:both; font-size:14px; padding-top:10px; text-align:center;}
-.side_area .user_info .need{font-size:14px; padding-top:5px; text-align:center;}
+.side_area .user_info .need{width:100%; font-size:14px; padding-top:5px; text-align:center;}
 .side_area .user_info .need:before{content:''; display:inline-block; width:26px; height:24px; background:url("/studyplus/resources/images/planner/ico_need.png") 50% no-repeat; vertical-align:text-bottom; margin-right:5px;}
 
 .today_goals{overflow: hidden; position:relative; background:#fff;}
@@ -182,5 +182,7 @@ table .board-tit a:hover{color:#1a609c;}
 
 /* 친구 신청 목록 */
 .need{display:inline-block; width:270px;}
-.addFriendIcon{width:30px; float:right; padding-top:5px;}
+.addFriendIcon{width:25px; position:absolute; right:20px; bottom:6px;}
+/* .addFriendIcon{width:30px; position:absolute; right:15px; bottom:10px;} */
+/* .addFriendIcon{width:30px; float:right; padding-top:5px;} */
 .addFriendIcon:hover{cursor:pointer;}
