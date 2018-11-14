@@ -56,46 +56,41 @@
 					<div class="book_form">
 						<input type="hidden" value="0" name="goalType">
 						<div class="col-sm-5 col-xs-12 img_area">
-							
-							<input type="text" id="bookIpt">
+							<input type="text" class="bookIpt" name="bookIsbn">
 							<button type="button" id="bookBtn">책검색</button>
-							<script>
-								$(function(){
-									//$("#bookBtn").click(function(){
-										var searchTit = $("#bookIpt").val();
-										console.log(searchTit);
-										$.ajax({
-											url : "bookIsbn.sp",
-											data : {searchTit : 9791196119584},
-											type : "get",
-											success : function(data) {
-												console.log(data)
-												
-												//var object = { ... };
- 
-												//console.log(Object.keys(data))
-												/* for( var key in data ) {
-												  console.log( key + '=>' + data[key] );
-												} */
-												var title = data.substr(data.indexOf("title"),data.indexOf("\"link\""));
-												console.log(title);
-												//console.log(data[key].items)
-												//$(".book_info").text(data);
-												
-											},
-											error : function() {
-												console.log("에러발생!");
-											}
-										});
-									//});
-								});
-							</script>
-							<!-- <div class="book_img">
-								img area
-							</div>
-							<p class="book_info">자바의 정석</p> -->
+							<div class="book_img"></div>
 							<p class="book_info"></p>
 						</div>
+						<script>
+						$(function(){
+							$("#bookBtn").click(function(){
+								var searchBook = $(".bookIpt").val();
+								console.log(searchBook);
+								$.ajax({
+									url : "bookIsbn.sp",
+									data : {searchBook : searchBook},
+									type : "get",
+									success : function(data) {
+										console.log("검색한 데이터 : " + data)
+										
+										var object = JSON.parse(data);
+										console.log(object);
+										
+										console.log(object.items[0].title);
+										console.log(object.items[0].image);
+										console.log(object.items[0].isbn);
+										
+										$(".bookIpt").attr("value", object.items[0].isbn);
+										$(".book_img").append().html('<img src="' + object.items[0].image + '">');
+										$(".book_info").append().html(object.items[0].title);
+									},
+									error : function() {
+										console.log("에러발생!");
+									}
+								});
+							});
+						});
+						</script>
 						<div class="col-sm-7 col-xs-12 ipt_area">
 							<dl>
 								<dt>목표명</dt>
@@ -184,10 +179,10 @@
 					<div class="book_form">
 						<input type="hidden" value="0" name="goalType">
 						<div class="col-sm-5 col-xs-12 img_area">
-							<div class="book_img">
-								img area
-							</div>
-							<p class="book_info">자바의 정석</p>
+							<input type="text" class="bookIpt" name="bookIsbn">
+							<button type="button" id="bookBtn">책검색</button>
+							<div class="book_img"></div>
+							<p class="book_info"></p>
 						</div>
 						<div class="col-sm-7 col-xs-12 ipt_area">
 							<dl>
@@ -296,10 +291,10 @@
 					<div class="book_form">
 						<input type="hidden" value="0" name="goalType">
 						<div class="col-sm-5 col-xs-12 img_area">
-							<div class="book_img">
-								img area
-							</div>
-							<p class="book_info">자바의 정석</p>
+							<input type="text" class="bookIpt" name="bookIsbn">
+							<button type="button" id="bookBtn">책검색</button>
+							<div class="book_img"></div>
+							<p class="book_info"></p>
 						</div>
 						<div class="col-sm-7 col-xs-12 ipt_area">
 							<dl>
@@ -427,10 +422,10 @@
 					<div class="book_form">
 						<input type="hidden" value="0" name="goalType">
 						<div class="col-sm-5 col-xs-12 img_area">
-							<div class="book_img">
-								img area
-							</div>
-							<p class="book_info">자바의 정석</p>
+							<input type="text" class="bookIpt" name="bookIsbn">
+							<button type="button" id="bookBtn">책검색</button>
+							<div class="book_img"></div>
+							<p class="book_info"></p>
 						</div>
 						<div class="col-sm-7 col-xs-12 ipt_area">
 							<dl>

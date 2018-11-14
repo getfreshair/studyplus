@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import always.awake.studyplus.studyPlanner.model.dao.StudyPlannerDao;
 import always.awake.studyplus.studyPlanner.model.exception.plannerException;
 import always.awake.studyplus.studyPlanner.model.vo.PersonalRank;
+import always.awake.studyplus.studyPlanner.model.vo.StudyStyle;
 
 @Service
 public class StudyPlannerServiceImpl implements StudyPlannerService{
@@ -178,11 +179,11 @@ public class StudyPlannerServiceImpl implements StudyPlannerService{
 
 	//학습스타일 결과 선택
 	@Override
-	public String selectStudyStyle(int loginUserCode) {
+	public List<Object> selectStudyStyle(int loginUserCode) {
 		
-		String result = spd.selectStudyStyle(loginUserCode);
+		List<Object> list = spd.selectStudyStyle(loginUserCode);
 		
-		return result;
+		return list;
 	}
 
 

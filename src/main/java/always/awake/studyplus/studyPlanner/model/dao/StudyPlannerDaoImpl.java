@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import always.awake.studyplus.studyPlanner.model.exception.plannerException;
 import always.awake.studyplus.studyPlanner.model.vo.PersonalRank;
+import always.awake.studyplus.studyPlanner.model.vo.StudyStyle;
 
 @Repository
 public class StudyPlannerDaoImpl implements StudyPlannerDao{
@@ -206,10 +207,13 @@ public class StudyPlannerDaoImpl implements StudyPlannerDao{
 		return sqlSession.insert("StudyPlanner.insertStudyStyle", hmap);
 	}
 
+	//학습스타일 결과 선택
 	@Override
-	public String selectStudyStyle(int loginUserCode) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Object> selectStudyStyle(int loginUserCode) {
+		
+		List<Object> list = sqlSession.selectList("StudyPlanner.selectStudyStyle", loginUserCode);
+		
+		return list;
 	}
 
 

@@ -51,12 +51,36 @@
 				<script>
 					$(function(){
 						//공부성향 불러옴
-						/* $.ajax(
-							url : "selectStudyStyle.sp",
-							//data : {sumArr : sumArr},
+						$("#studyTendencyChart").empty();
+						$.ajax({
+							url : "studyStyleChart.sp",
 							type : "post",
 							success : function(data) {
-								console.log(data);
+								
+								if(data.length != 0){
+									//console.log("데이터 값이 있을떄")
+									var date = data[0].STUDYSTYLE_ENROLLDATE;
+									var type1 = data[0].STUDYSTYLE_ACTIVITY;	//활동형
+									var type2 = data[0].STUDYSTYLE_DELIBERATE;	//숙고형
+									var type3 = data[0].STUDYSTYLE_SENSIBILITY;	//감각형
+									var type4 = data[0].STUDYSTYLE_INTUITIVE;	//직관형
+									var type5 = data[0].STUDYSTYLE_PERSPECTIVE;	//시각형
+									var type6 = data[0].STUDYSTYLE_LANGUAGE;	//언어형
+									var type7 = data[0].STUDYSTYLE_SEQUENTIAL;	//순차형
+									var type8 = data[0].STUDYSTYLE_WHOLE;		//총체형
+									
+									for(var i = 1; i < 9; i++){
+										//result1 = Math.floor((type1 / 11) * 100);
+										eval('var result' + i + '= Math.floor((type' + i +'/ 11) * 100)');
+										//console.log(eval('result' + i))
+									}
+	
+								}else{
+									//console.log("데이터가 값이 없을떄")
+									for(var i = 1; i < 9; i++){
+										eval('var result' + i + '= 0');
+									}
+								}
 								
 								//공부성향 차트
 								var options = {
@@ -66,22 +90,23 @@
 										},
 										'dataset': {
 											title: '학습스타일 결과',
-											values: [[60, 40, 20, 40,
-												60, 40, 20, 40]],
+											values: [[result6, result4, result2, result7,
+													result5, result3, result1, result8]],
 											bgColor: '#f9f9f9',
 											fgColor: '#30a1ce',
 										},
 										'chartDiv': 'studyTendencyChart',
 										'chartType': 'radar',
-										'chartSize': { width: 500, height: 300 }
+										'chartSize': { width: 100, height: 320 }
 								};
 								Nwagon.chart(options);
+								
 								
 							},
 							error : function() {
 								console.log("에러발생!");
 							}
-						}); */
+						});
 						
 						
 						

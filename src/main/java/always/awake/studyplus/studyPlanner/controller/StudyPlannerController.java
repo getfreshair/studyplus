@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +29,7 @@ import always.awake.studyplus.studyPlanner.model.exception.plannerException;
 import always.awake.studyplus.studyPlanner.model.service.StudyPlannerService;
 import always.awake.studyplus.studyPlanner.model.vo.Goal;
 import always.awake.studyplus.studyPlanner.model.vo.PersonalRank;
+import always.awake.studyplus.studyPlanner.model.vo.StudyStyle;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -542,7 +544,7 @@ public class StudyPlannerController {
 	//오늘의 목표 등록(페이지 단위)
 	@RequestMapping(value="TodayBookGoalAddModal.sp", method=RequestMethod.POST)
 	public String insertTodayBookGoal(HttpSession session, @RequestParam("goalType")int goalType, @RequestParam("goalName")String goalName,
-			@RequestParam("goalPage")int goalPage) {
+			@RequestParam("goalPage")int goalPage, @RequestParam("bookIsbn")String bookIsbn) {
 		
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int loginUserCode = loginUser.getMember_Code();
@@ -552,6 +554,7 @@ public class StudyPlannerController {
 		hmap.put("goalType", goalType);
 		hmap.put("goalName", goalName);
 		hmap.put("goalPage", goalPage);
+		hmap.put("bookIsbn", bookIsbn);
 		
 		int result = sps.insertTodayBookGoal(hmap);
 		
@@ -567,9 +570,9 @@ public class StudyPlannerController {
 	
 	//isbn 책 검색
 	@RequestMapping(value="bookIsbn.sp", produces="text/plain;charset=utf-8")
-	public @ResponseBody String bookIsbn(@RequestParam("searchTit")String searchTit, HttpServletRequest request, HttpServletResponse response) {
+	public @ResponseBody String bookIsbn(@RequestParam("searchBook")String searchBook) {
 
-		return ISBNSearchBook.bookIsbn(searchTit);
+		return ISBNSearchBook.bookIsbn(searchBook);
 	}
 	
 	//오늘의 목표 업데이트(페이지 단위)
@@ -787,16 +790,20 @@ public class StudyPlannerController {
 	}
 	
 	//학습스타일 결과 선택
-	/*@RequestMapping(value="selectStudyStyle.sp")
-	public String selectStudyStyle(HttpSession session) {
-		System.out.println("학습스타일 들어옴?");
+	@RequestMapping(value="studyStyleChart.sp")
+	public @ResponseBody List<Object> selectStudyStyle(HttpSession session, HttpServletResponse response) {
 		
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int loginUserCode = loginUser.getMember_Code();
 		
-		String result = sps.selectStudyStyle(loginUserCode);
+		List<Object> list = sps.selectStudyStyle(loginUserCode);
 		
-		return result;
-	}*/
+		if(list.size() == 0 || list.isEmpty()) {
+			//System.out.println("학습스타일 데이터 없음");
+			return Collections.EMPTY_LIST;
+		}
+		
+		return list;
+	}
 	
 }
