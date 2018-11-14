@@ -85,7 +85,7 @@
 		VALUES(SEQ_FILES_FILES_CODE.NEXTVAL, 0, #{files_OriginName}, #{files_Name}, SYSDATE, 0, null, #{member_Code}, null, null, null, 0)
 	</insert>
 	
-	<insert id="insertMemberInterestCategory" parameterType="java.util.HashMap">
+	<insert id="insertMemberInterestCategory" parameterType="java.util.Map">
 			<foreach collection="interestCategory" item="item" open="INSERT ALL " close=" SELECT * FROM DUAL">
 				INTO INTERESTCATEGORY
 				VALUES(#{item.member_Code}, #{item.category_Code})

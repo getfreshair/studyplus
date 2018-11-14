@@ -95,14 +95,15 @@
 			}
 		});
 	}
+	
 </script>
 
 <div class="modal fade" id="addFriendModal">
 	<div class="modal-dialog addFriendArea">
 		<div class="modal-content">
 			<div class="addFriend-menu">
-			    <h2 onclick="addFriendToMe()">to me</h2>
-			    <h2 onclick="addFriendFromMe()">from me</h2>
+			    <h2 onclick="addFriendToMe()">나를</h2>
+			    <h2 onclick="addFriendFromMe()">너를</h2>
 			</div>
 			<div class="addFriend-search">
 				<input type="text" name="member_Nickname" class="form-control addFriend-search-btn" id="InputId" placeholder="닉네임">
