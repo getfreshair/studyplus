@@ -695,26 +695,8 @@ function dateTabBtn(){
 function studyTendencyChart(){
 	var options = {
 			'legend':{
-				names: [
-					'Perceivable',
-					'Information Loss',
-					'Understandable',
-					'Enough Time',
-					'Epilepsy Prevent',
-					'Operable',
-					'Navigation',
-					'Error Prevent'
-					],
-					hrefs: [
-						'http://nuli.navercorp.com//sharing/a11y#k1',
-						'http://nuli.navercorp.com//sharing/a11y#k2',
-						'http://nuli.navercorp.com//sharing/a11y#k3',
-						'http://nuli.navercorp.com//sharing/a11y#k4',
-						'http://nuli.navercorp.com//sharing/a11y#k5',
-						'http://nuli.navercorp.com//sharing/a11y#k6',
-						'http://nuli.navercorp.com//sharing/a11y#k7',
-						'http://nuli.navercorp.com//sharing/a11y#k8'
-						]
+				names: ['언어형', '직관형',	'숙고형', '순차형',
+					'시각형',	'감각형',	'활동형',	'총체형']
 			},
 			'dataset': {
 				title: 'Web accessibility status',
