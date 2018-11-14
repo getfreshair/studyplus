@@ -25,11 +25,17 @@ function snsScrollUp(){
 		if($(this).hasClass("on") != true){
 			getFriendList();
 			$(this).addClass("on");
+			$(".addFriendIcon").animate({
+				"bottom":"423px"
+			}, 400);
 			$(".sns_wrap").animate({
 				"height":"460px"
 			}, 400);
 		}else{
 			$(this).removeClass("on");
+			$(".addFriendIcon").animate({
+				"bottom":"6px"
+			}, 400);
 			$(".sns_wrap").animate({
 				"height":"43px"
 			}, 400);

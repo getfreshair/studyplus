@@ -48,6 +48,45 @@
 			</div>
 			<div class="chart">
 				<div id="studyTendencyChart"></div>
+				<script>
+					$(function(){
+						//공부성향 불러옴
+						/* $.ajax(
+							url : "selectStudyStyle.sp",
+							//data : {sumArr : sumArr},
+							type : "post",
+							success : function(data) {
+								console.log(data);
+								
+								//공부성향 차트
+								var options = {
+										'legend':{
+											names: ['언어형', '직관형',	'숙고형', '순차형',
+													'시각형',	'감각형',	'활동형',	'총체형']
+										},
+										'dataset': {
+											title: '학습스타일 결과',
+											values: [[60, 40, 20, 40,
+												60, 40, 20, 40]],
+											bgColor: '#f9f9f9',
+											fgColor: '#30a1ce',
+										},
+										'chartDiv': 'studyTendencyChart',
+										'chartType': 'radar',
+										'chartSize': { width: 500, height: 300 }
+								};
+								Nwagon.chart(options);
+								
+							},
+							error : function() {
+								console.log("에러발생!");
+							}
+						}); */
+						
+						
+						
+					});
+				</script>
 				<!-- <button type="button" class="btn btn-primary btn-block">공부성향 분석하기</button> -->
 				<a href="studyStyleView.sp" class="btn btn-primary btn-block">공부성향 분석하기</a>
 			</div>
