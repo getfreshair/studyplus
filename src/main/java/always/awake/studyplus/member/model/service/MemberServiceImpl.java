@@ -163,4 +163,35 @@ public class MemberServiceImpl implements MemberService{
 		
 		return checkVal;
 	}
+
+	@Override
+	public List<Map<String, Object>> addFriendSearch(String member_Nickname, int member_Code) throws MemberException {
+		return md.addFriendSearch(sqlSession, member_Nickname, member_Code);
+	}
+
+	@Override
+	public void addFriendWant(int member_Code1, int member_Code2) throws MemberException{
+		md.addFriendWant(sqlSession, member_Code1, member_Code2) ;
+		
+	}
+
+	@Override
+	public List<Map<String, Object>> addFriendToMe(int member_Code) throws MemberException {
+		return md.addFriendToMe(sqlSession, member_Code);
+	}
+
+	@Override
+	public List<Map<String, Object>> addFriendFromMe(int member_Code) throws MemberException {
+		return md.addFriendFromMe(sqlSession, member_Code);
+	}
+
+	@Override
+	public void addFriendOk(int friend_Code) throws MemberException {
+		md.addFriendOk(sqlSession, friend_Code);
+	}
+
+	@Override
+	public void addFriendDelete(int friend_Code) throws MemberException {
+		md.addFriendDelete(sqlSession, friend_Code);
+	}
 }

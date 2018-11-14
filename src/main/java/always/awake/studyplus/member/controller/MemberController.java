@@ -2,6 +2,7 @@ package always.awake.studyplus.member.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -137,5 +138,85 @@ public class MemberController {
 		mv.setViewName("jsonView");
 		
 		return mv;
+	}
+	
+	@RequestMapping(value="addFriendSearch.me")
+	public ModelAndView addFriendSearch(@RequestParam(value="member_Nickname")String member_Nickname, @RequestParam(value="member_Code")int member_Code){
+		List<Map<String, Object>> userList = null;
+		try {
+			userList = ms.addFriendSearch(member_Nickname, member_Code);
+		} catch (MemberException e) {
+			e.printStackTrace();
+		}
+		
+		ModelAndView mv = new ModelAndView("member/friendPart/addFriendSearch");
+		mv.addObject("userList", userList);
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="addFriendWant.me")
+	public @ResponseBody int addFriendWant(@RequestParam(value="member_Code1")int member_Code1, @RequestParam(value="member_Code2")int member_Code2) {
+		try {
+			ms.addFriendWant(member_Code1, member_Code2);
+		} catch (MemberException e) {
+			e.printStackTrace();
+		}
+		
+		return 1;
+	}
+	
+	@RequestMapping(value="addFriendToMe.me")
+	public ModelAndView addFriendToMe(@RequestParam(value="member_Code")int member_Code){
+		List<Map<String, Object>> userList = null;
+		
+		try {
+			userList = ms.addFriendToMe(member_Code);
+		} catch (MemberException e) {
+			e.printStackTrace();
+		}
+		
+		ModelAndView mv = new ModelAndView("member/friendPart/addFriendToMe");
+		mv.addObject("userList", userList);
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="addFriendFromMe.me")
+	public ModelAndView addFriendFromMe(@RequestParam(value="member_Code")int member_Code){
+		List<Map<String, Object>> userList = null;
+		
+		try {
+			userList = ms.addFriendFromMe(member_Code);
+		} catch (MemberException e) {
+			e.printStackTrace();
+		}
+		
+		ModelAndView mv = new ModelAndView("member/friendPart/addFriendFromMe");
+		mv.addObject("userList", userList);
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="addFriendOk.me")
+	public @ResponseBody int addFriendOk(@RequestParam(value="friend_Code")int friend_Code) {
+		try {
+			ms.addFriendOk(friend_Code);
+		} catch (MemberException e) {
+			e.printStackTrace();
+		}
+		
+		return 1;
+	}
+	
+	@RequestMapping(value="addFriendDelete.me")
+	public @ResponseBody int addFriendDelete(@RequestParam(value="friend_Code")int friend_Code) {
+		try {
+			ms.addFriendDelete(friend_Code);
+		} catch (MemberException e) {
+			e.printStackTrace();
+		}
+		
+		return 1;
 	}
 }

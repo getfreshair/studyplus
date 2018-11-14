@@ -108,9 +108,10 @@
 								<p>안녕하세요,</p>
 								<p class="name">${ loginUser.member_Nickname }님 환영합니다.</p>
 							</div>
-							<span class="rank_link" onclick="rankLink()" title="나의 랭킹보기">
+							<span class="rank_link">
 								<p class="rank">지역랭킹 : 상위  &nbsp;&nbsp; 분야 랭킹 : 상위 </p>
-								<p class="need">식물 Lv. </p>ㅋ
+								<p class="need" onclick="rankLink()" title="나의 랭킹보기">식물 Lv. </p>
+								<img class="addFriendIcon" src="/studyplus/resources/images/member/addUserIcon.png" data-toggle="modal" data-target="#addFriendModal">
 							</span>
 						</div>
 						<!-- 오늘의목표 -->
@@ -360,6 +361,10 @@
 		
 		<!--  Modal -->
 		<jsp:include page="goalsModal.jsp"/>
+		<!-- // Modal -->
+		
+		<!--  Modal -->
+		<jsp:include page="../member/friendPart/addFriend.jsp"/>
 		<!-- // Modal -->
 
 		<!-- Footer -->
