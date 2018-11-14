@@ -61,15 +61,24 @@
 							<button type="button" id="bookBtn">책검색</button>
 							<script>
 								$(function(){
-									$("#bookBtn").click(function(){
+									//$("#bookBtn").click(function(){
 										var searchTit = $("#bookIpt").val();
 										console.log(searchTit);
 										$.ajax({
 											url : "bookIsbn.sp",
-											data : {searchTit : searchTit},
+											data : {searchTit : 9791196119584},
 											type : "get",
 											success : function(data) {
 												console.log(data)
+												
+												//var object = { ... };
+ 
+												//console.log(Object.keys(data))
+												for( var key in data ) {
+												  console.log( key + '=>' + data[key] );
+												}
+
+
 												//console.log(data[key].items)
 												//$(".book_info").text(data);
 	
@@ -78,7 +87,7 @@
 												console.log("에러발생!");
 											}
 										});
-									});
+									//});
 								});
 							</script>
 							<!-- <div class="book_img">
