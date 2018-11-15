@@ -51,6 +51,43 @@ public class AdminController {
 		return "admin/home";
 	}
 	
+	@RequestMapping("notice.do")
+	public ModelAndView NoticeList(ModelAndView mv, HttpServletRequest request) {
+			int currentPage = 1;
+			
+			if(request.getParameter("currentPage") != null) {
+				currentPage = Integer.parseInt(request.getParameter("currentPage"));
+			}
+			String option = request.getParameter("option");
+			String keyword = request.getParameter("keyword");
+			
+			Map<String, Object> map = new HashMap<String, Object>();	
+			
+			map.put("option", option);
+			map.put("keyword", keyword);
+			
+			System.out.println(option);
+			System.out.println(keyword);
+			
+			int listCount = as.getNoticeListCount(map);
+			
+			System.out.println("listCount : " + listCount);
+			
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+			
+			map.put("pi", pi);
+					
+			List<Map<String, Object>> list = as.getNoticeList(map);
+			
+			System.out.println(list);
+			map.put("list", list);
+			
+			mv.addObject("data", map);
+			mv.setViewName("common/notice");
+			
+			return mv;
+			
+	}
 	@RequestMapping(value="movePage.me", method=RequestMethod.GET)
 	public String showMemberList(@RequestParam("page") String page) {
 		
