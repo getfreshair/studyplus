@@ -29,7 +29,7 @@
 		  .timeStickAera { width:100%; position:relative; }
  		    .timeStickWrap { width:100%; height:20px; background:lightgray; border-radius:15px; border:2px solid; } 
  		    .timeStickBack { width:100%; height:100%; position:relative; }
- 			.timeStick{ width:50%; height:100%; background:lawngreen; border-radius:15px; border:2px outset; }
+ 			.timeStick{ /* width:50%;  */height:100%; background:lawngreen; border-radius:15px; border:2px outset; }
 			.memberTime{ z-index:999; width:100%; position:absolute; text-align:center; font-size:10px; font-weight:bold; }	
 </style>
 
@@ -38,6 +38,7 @@
 	<div class="rankPageWrap">
 		
 <!-- 	반복영역 -->
+	  <c:forEach var="i" begin="0" end="${fn:length(list) - 1}" step="1" >	
 		<div class="memberListArea">
 			<div class="memberOneWrapArea">
 				<table class="memberInfo" border="1">
@@ -47,24 +48,30 @@
 								<img width="100%" src="${ contextPath }/resources/upload/studygroup/thumbnail/medal.png" />
 							</div>
 							<div class="profImg">
-								<input type="hidden" id="memCode" value=""/>
-								<img src="${ contextPath }/resources/upload/member/thumbnail/163428ba12e94f148ba8cc438e88d3a1" />
+								<img src="${ contextPath }/resources/upload/member/thumbnail/${list[i].FILES_NAME}" />
 							</div>
 						</td>
-						<td class="nickName"><strong>닉네임자리</strong></td>
+						<td class="nickName"><strong>${list[i].MEMBER_NICKNAME}</strong></td>
 					</tr>
 					<tr><td class="timeStickAera">
 						<div class="timeStickWrap">
 							<div class="timeStickBack">
-								<div class="memberTime">00:00:00</div>
-								<div class="timeStick"></div>
+								<div class="memberTime">
+									<c:set var="mem_Time_Hour" value="${(list[i].MEM_PERIOD_TOTAL / 3600)}"/>
+									<c:set var="mem_Time_Min" value="${(list[i].MEM_PERIOD_TOTAL % 3600) / 60}"/>
+									<fmt:formatNumber var="mem_Time_H" value="${mem_Time_Hour - (mem_Time_Hour % 1)}" pattern="#00"/>
+									<fmt:formatNumber var="mem_Time_M" value="${mem_Time_Min - (mem_Time_Min % 1)}" pattern="00"/>
+									<fmt:formatNumber var="mem_Time_Sec" value="${(list[i].MEM_PERIOD_TOTAL % 3600) % 60}" pattern="00"/>
+									${mem_Time_H}:${mem_Time_M}:${mem_Time_Sec}
+								</div>
+								<div class="timeStick" style="width:${list[i].MEM_TOTAL_RATIO}%; <c:if test="${list[i].MEM_TOTAL_RATIO <= 2}">display:none;</c:if>"></div>
 							</div>
 						</div>
 					</td></tr>
 				</table>
 			</div>				
 		</div>
-		
+	  </c:forEach>
 
 	</div>
 </body>

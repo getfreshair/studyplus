@@ -1,6 +1,5 @@
 package always.awake.studyplus.sgDetail.controller;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class SGDetailController {
 			
 		int memCode = ((Member)(request.getSession().getAttribute("loginUser"))).getMember_Code();
 		
-		//		test 지우기
+		//		test 吏?곌린
 		memCode = 5;	
 		
 		try {
@@ -48,7 +47,7 @@ public class SGDetailController {
 			mv.addObject("gr", grLeftTop);
 			mv.addObject("grR", grRightTop);
 
-			System.out.println("컨트롤러");
+			System.out.println("而⑦듃濡ㅻ윭");
 			System.out.println("Model & Veiw : " + mv);
 			
 			if(joinStatus >= 1) {
@@ -60,8 +59,8 @@ public class SGDetailController {
 						
 		}catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("나는조빈 ");
-			//예외처리 클래스 생성하기
+			System.out.println("?섎뒗議곕퉰 ");
+			//?덉쇅泥섎━ ?대옒???앹꽦?섍린
 		}
 		 
 		return mv;
@@ -74,7 +73,7 @@ public class SGDetailController {
 		try {
 			int joinAbleCnt = gs.selectJoinAbleChk(grCode);
 			
-			if(joinAbleCnt >= 1) {	//최대 가능 인원 - 현재 인원이 1보다 크면 가입 가능
+			if(joinAbleCnt >= 1) {	//理쒕? 媛???몄썝 - ?꾩옱 ?몄썝??1蹂대떎 ?щ㈃ 媛??媛??
 				result = gs.insertGroupJoin(grCode, memCode);
 			}
 						
@@ -92,7 +91,7 @@ public class SGDetailController {
 		try {
 			List<HashMap<String, Object>> memberList = gs.selectGroupMemberList(grCode);
 			
-			System.out.println("쿼리 실행 결과-컨트롤러 : < " +  memberList + " >");
+			System.out.println("荑쇰━ ?ㅽ뻾 寃곌낵-而⑦듃濡ㅻ윭 : < " +  memberList + " >");
 			mv.addObject("grMemList", memberList);
 			mv.addObject("loginUserCode", loginUserCode);
 			
@@ -149,18 +148,18 @@ public class SGDetailController {
 	}
 	
 	@RequestMapping(value="selectDateByPeriod.sgd")
-	public ModelAndView selectDateByPeriod(@RequestParam int dayPick, @RequestParam int monthPick,
-													@RequestParam int changeDates, @RequestParam int changeMonths, ModelAndView mv){
+	public ModelAndView selectDateByPeriod(@RequestParam int periodType, @RequestParam int changeDates, @RequestParam int changeMonths, ModelAndView mv){
 		
-		System.out.println("changeDates : " + dayPick + " / " + changeDates);
-		System.out.println("changeMonths : " + monthPick + " / " + changeMonths);
+		System.out.println("changeDates : " + changeDates);
+		System.out.println("changeMonths : " + changeMonths);
+		System.out.println("periodType : " + periodType);
 		
 		HashMap<String, Object> selectChangeDates = null;
 		
 		try {
-			if(dayPick >= 1 && monthPick == 0) {
+			if(periodType <= 2) {
 				selectChangeDates = gs.selectChangeDatesInfo(changeDates);
-			}else if(monthPick >= 1 && dayPick == 0) {
+			}else if(periodType > 2) {
 				selectChangeDates = gs.selectChangeMonthsInfo(changeMonths);
 			}
 			
@@ -180,27 +179,19 @@ public class SGDetailController {
 	
 		@RequestMapping("selectGroupMemberRankList.sgd")
 	public ModelAndView selectGroupMemberRankList(@RequestParam int grCode, @RequestParam String thisDay,
-												@RequestParam int dayPick, @RequestParam int monthPick, ModelAndView mv) {
+												@RequestParam int periodType, ModelAndView mv) {
 		try {
-			int periodType = 0;
 			
-			if(dayPick == 1) { periodType = 1; }
-			else if(dayPick == 7) { periodType = 2; }
-			else if(monthPick == 1) { periodType = 3; }
+			System.out.println("?섏씠吏 ?щ뒗 而⑦듃濡ㅻ윭 ?붿뼱");
+			System.out.println(periodType + " / " + grCode + " / " + thisDay );
 			
-			java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy. MM. dd"); 
-			Date date = dateFormat.parse(thisDay);
+			List<HashMap<String, Object>> list = gs.selectGroupMemberRankList(grCode, thisDay, periodType);
 			
-			System.out.println("페이지 여는 컨트롤러 왔어");
-			System.out.println(periodType + " / " + grCode + " / " + date + " / " + dayPick + " / " + monthPick);
-			
-//			List<HashMap<String, Object>> list = gs.selectGroupMemberRankList(grCode, date, periodType);
-			
-			/*System.out.println("쿼리 실행 결과-컨트롤러 : < " +  list + " >");
-			mv.addObject("list", list);*/
+			System.out.println("荑쇰━ ?ㅽ뻾 寃곌낵-而⑦듃濡ㅻ윭 : < " +  list + " >");
+			mv.addObject("list", list);
 //			mv.addObject("loginUserCode", loginUserCode);
 			
-			mv.setViewName("studyGroupDetail/leftGroupListArea");
+			mv.setViewName("studyGroupDetail/leftGroupStudyTimeRank");
 			System.out.println("MV : < " + mv + " >");
 			
 		} catch (Exception e) {

@@ -20,7 +20,7 @@ public class SGDetailServiceImpl implements SGDetailService{
 	@Override
 	public int selectJoinStatus(int grCode, int memCode) {
 		int joinStatus = gd.selectJoinStatus(sqlSession, grCode, memCode);
-		System.out.println("가입여부 확인 서비스 res -> joinStatus : < " + joinStatus + " >");
+		System.out.println("媛?낆뿬遺 ?뺤씤 ?쒕퉬??res -> joinStatus : < " + joinStatus + " >");
 		return joinStatus;
 	}
 	
@@ -84,10 +84,11 @@ public class SGDetailServiceImpl implements SGDetailService{
 		return selectChangeDates;
 	}
 
-/*	@Override
-	public List<HashMap<String, Object>> selectGroupMemberRankList(int grCode, String date, int periodType) {
-		List<HashMap<String, Object>> list = gd.selectGroupMemberRankList(sqlSession, grCode, date, periodType);
+	@Override
+	public List<HashMap<String, Object>> selectGroupMemberRankList(int grCode, String thisDay, int periodType) {
+		List<HashMap<String, Object>> list = gd.selectGroupMemberRankList(sqlSession, grCode, thisDay, periodType);
+		System.out.println("service : " + list);
 		return list;
-	}*/
+	}
 
 }

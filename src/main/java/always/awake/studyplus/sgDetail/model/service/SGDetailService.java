@@ -1,6 +1,5 @@
 package always.awake.studyplus.sgDetail.model.service;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,7 +29,7 @@ public interface SGDetailService {
 
 	public HashMap<String, Object> selectChangeMonthsInfo(int changeMonths);
 
-//	public List<HashMap<String, Object>> selectGroupMemberRankList(int grCode, Date date, int periodType);
+	public List<HashMap<String, Object>> selectGroupMemberRankList(int grCode, String thisDay, int periodType);
 
 
 	
