@@ -152,6 +152,7 @@ table .board-tit a:hover{color:#1a609c;}
 .goals_list .right_area{cursor:pointer; }
 .goals_list .right_area p{margin-bottom:0;}
 .goals_list .right_area .tit{margin-bottom:5px; font-weight:bold; width:90%; display:inline-block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.goals_list .right_area .tit .week{font-size:12px; color:#333;}
 .goals_list .right_area .per{font-size:13px; color:#6d6d6d; font-weight:bold;}
 
 .today_goals .add_btn a{background: #fff url("/studyplus/resources/images/planner/btn_today_plus.png") no-repeat; background-size:40px 40px;}

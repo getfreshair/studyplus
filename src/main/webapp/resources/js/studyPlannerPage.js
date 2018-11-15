@@ -731,7 +731,7 @@ function todayGoalsList(){
 	
 
 	//$today 오늘날짜 2018-11-6
-	var $todayVal= new Date(Date.parse(now) + 0 * 1000 * 60 * 60 * 24).getFullYear() + "-" + (new Date(Date.parse(now) + 0 * 1000 * 60 * 60 * 24).getMonth() +1) + "-" + new Date(Date.parse(now) + 0 * 1000 * 60 * 60 * 24).getDate();
+	var $todayVal= new Date(Date.parse(now) + 0 * 1000 * 60 * 60 * 24).getFullYear() + "/" + (new Date(Date.parse(now) + 0 * 1000 * 60 * 60 * 24).getMonth() +1) + "/" + new Date(Date.parse(now) + 0 * 1000 * 60 * 60 * 24).getDate();
 	//$today 오늘
 	var $today = (new Date(Date.parse(now) + 0 * 1000 * 60 * 60 * 24).getDate()); 
 	
@@ -996,8 +996,9 @@ function todayGoalsList(){
 			type : "post",
 			success : function(data){
 				
-				var weekgoalCode = new Array();
-				var weekArr = new Array();
+				//사용할 배열 변수 선언
+				var weekGoalCode = new Array();
+				var weekWeek = new Array();
 				var weekDay = new Array();
 				var weekAchieveAmount = new Array();
 				var weekGoalAmount = new Array();
@@ -1007,41 +1008,40 @@ function todayGoalsList(){
 						var goalCode = data[0][key][i].goalCode;			//목표코드
 						var content = data[0][key][i].goalContent;			//목표명
 						var type = data[0][key][i].goalType;				//0일경우 페이지, 1일경우 시간
-						//var achiev = data[0][key][i].goalAchieveAmount;		//달성량
-						//var goalAmount = data[0][key][i].goalGoalAmount;	//목표량
+						var achiev = data[0][key][i].goalAchieveAmount;		//달성량
+						var goalAmount = data[0][key][i].goalGoalAmount;	//목표량
 						var achievPer = ((data[0][key][i].goalAchieveAmount / data[0][key][i].goalGoalAmount) * 100).toFixed(0); //달성률
 						var shortfallPer = 100 - achievPer;					//미달성률
 						var week = data[0][key][i].week;					//목표 요일
 						var todayOrWeek = data[0][key][i].goalDivision;		//0일경우 오늘목표, 1일경우 주간목표
 						var enrolldate = data[0][key][i].dateString;		//목표날짜
 
-
-						weekgoalCode[i] = data[0][key][i].goalCode;						//이번주 중 등록한 목표코드
-						weekArr[i] = data[0][key][i].week;								//이번주 중 선택한 요일
-						weekDay[i] = data[0][key][i].dateString;						//이번주 중 선택한 날짜
-						weekAchieveAmount[i] = data[0][key][i].goalAchieveAmount;		//이번주 중 달성량
-						weekGoalAmount[i] = data[0][key][i].goalGoalAmount;				//이번주 중 목표량
+						
+						weekGoalCode[i] = data[0][key][i].goalCode;						//이번주 중 등록한 목표코드들
+						weekWeek[i] = data[0][key][i].week;								//이번주 중 선택한 요일들
+						weekDay[i] = ((data[0][key][i].dateString).substr(0, 10)).replace(/-/g,'/');	//이번주 중 선택한 날짜들
+						weekAchieveAmount[i] = data[0][key][i].goalAchieveAmount;		//이번주 중 달성량들
+						weekGoalAmount[i] = data[0][key][i].goalGoalAmount;				//이번주 중 목표량들
 					}
-					//날짜, 목표량, 달성량 전부가져와야됨...
-					/*console.log(weekArr);
-					console.log(weekDay);
-					console.log(weekAchieveAmount);
-					console.log(weekGoalAmount);*/
 					
-					var totalAchieveAmount;
-					for(var i = 0; i < weekgoalCode.length; i++){
-						totalAchieveAmount += weekAchieveAmount[i];
+					var totalWeekWeek = "";
+					var totalAchieveAmount = 0;
+					var totalWeekGoalAmount = 0;
+					for(var i = 0; i < weekGoalCode.length; i++){
+						totalWeekWeek += weekWeek[i] + ", ";				//이번주 선택한 요일들(월,화,)
+						totalAchieveAmount += weekAchieveAmount[i];			//이번주 총 달성량
+						totalWeekGoalAmount += weekGoalAmount[i];			//이번주 총 목표량
 					}
-					/*console.log(typeof(totalAchieveAmount));
-					console.log(totalAchieveAmount);*/
+					totalWeekWeek = totalWeekWeek.substring(0, totalWeekWeek.length -2); //이번주 선택한 요일들(월,화)
+					
 					
 					//목표 타입이 시간일 경우 시간,분으로 변경
 					var dataType;
 					if(type != 0){
-						goalAmountHour = Math.floor(((goalAmount/60)/60)%24);	//목표량 시간
-						goalAmountMin = ((goalAmount/60)%60);					//목표량 분
-						achievHour = Math.floor(((achiev/60)/60)%24);			//달성량 시간
-						achievMin = ((achiev/60)%60);							//달성량 분
+						achievHour = Math.floor(((totalAchieveAmount/60)/60)%24);			//총 달성량 시간
+						achievMin = ((totalAchieveAmount/60)%60);							//총 달성량 분
+						goalAmountHour = Math.floor(((totalWeekGoalAmount/60)/60)%24);		//총 목표량 시간
+						goalAmountMin = ((totalWeekGoalAmount/60)%60);						//총 목표량 분
 						
 						dataType = achievHour + "시간 " + achievMin + "분"  + ' / ' + goalAmountHour + "시간 " + goalAmountMin + "분";
 					}else{
@@ -1057,7 +1057,7 @@ function todayGoalsList(){
 							+ '</div>'
 							+ '</div>'
 							+ '<div class="right_area" value="' + type + '">' 
-							+ '<p class="tit">' + content + " (" + week + ')</p>'
+							+ '<p class="tit">' + content + ' <span class="week">(' + totalWeekWeek + ')</span></p>'
 							+ '<p class="per">' + dataType
 							+ '</p>'
 							+ '</div>'
@@ -1068,8 +1068,8 @@ function todayGoalsList(){
 					GoalListChart2(achievPer, shortfallPer, i);
 					
 					//목표 리스트 각 목표 클릭시 상세 팝업창 노출(아래 함수 호출)
-					weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, achievHour, achievMin, achievPer, shortfallPer, enrolldate);
-				
+					weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, 
+							achievHour, achievMin, achievPer, shortfallPer, enrolldate, weekDay);
 				
 				}
 			},
@@ -1217,11 +1217,11 @@ function todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, 
 }
 
 //주간 목표 리스트, 각 목표 클릭시 상세 팝업창 노출
-function weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, achievHour, achievMin, achievPer, shortfallPer, enrolldate){
+function weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, 
+		achievHour, achievMin, achievPer, shortfallPer, enrolldate, weekDay){
 	
 	$(".weekly_goals li .right_area").click(function(){
 		
-		console.log(enrolldate);
 		var liIndex = $(this).parent().val();
 		
 		if($(this).attr("value") == 1){ //타입이 시간일경우
@@ -1240,6 +1240,17 @@ function weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour,
 				$("#weeklyDetailViewModal .time_form #goalAmount").text(goalAmountHour + "시간 " + goalAmountMin + "분");
 				$("#weeklyDetailViewModal .time_form .chart_per").text(achievPer + "%");
 				
+				//등록시 선택한 요일 체크
+				var weekIpt = $("#weeklyDetailViewModal .up_sel_wrap input");
+				for(var i = 0; i < weekDay.length; i++){
+					for(var j = 0; j < 8; j++){
+						if(weekIpt.eq(j).val() == weekDay[i]){
+							weekIpt.eq(j).attr("checked", true);
+						}
+					}
+				}
+				
+				//submit버튼 클릭시 업데이트하는 맵핑주소로 변경
 				$("#weeklyDetailViewModal .time_form").parent().attr("action","TodayTimeGoalUpdateModal.sp?liIndex=" + liIndex);
 
 				//모달 내 차트
