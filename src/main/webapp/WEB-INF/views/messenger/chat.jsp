@@ -58,7 +58,7 @@
 		var d = new Date();
 
 		if (msg.substr(msg.indexOf(":")+1, msg.length) == '입장') { // 친구 입장 시 접속 친구 증가
-
+	
 			loginFriends = loginFriends + 1; 
 			$('.loginFriends').text(loginFriends);
 			$('#status' + msg.substr(0, msg.indexOf(":"))).addClass('on');

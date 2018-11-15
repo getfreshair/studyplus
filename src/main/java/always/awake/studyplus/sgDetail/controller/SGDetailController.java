@@ -30,7 +30,7 @@ public class SGDetailController {
 			
 		int memCode = ((Member)(request.getSession().getAttribute("loginUser"))).getMember_Code();
 		
-		//		test 吏?곌린
+		//		test 지우기
 		memCode = 5;	
 		
 		try {
@@ -47,7 +47,7 @@ public class SGDetailController {
 			mv.addObject("gr", grLeftTop);
 			mv.addObject("grR", grRightTop);
 
-			System.out.println("而⑦듃濡ㅻ윭");
+			System.out.println("컨트롤러");
 			System.out.println("Model & Veiw : " + mv);
 			
 			if(joinStatus >= 1) {
@@ -59,8 +59,8 @@ public class SGDetailController {
 						
 		}catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("?섎뒗議곕퉰 ");
-			//?덉쇅泥섎━ ?대옒???앹꽦?섍린
+			System.out.println("나는조빈 ");
+			//예외처리 클래스 생성하기
 		}
 		 
 		return mv;
@@ -73,7 +73,7 @@ public class SGDetailController {
 		try {
 			int joinAbleCnt = gs.selectJoinAbleChk(grCode);
 			
-			if(joinAbleCnt >= 1) {	//理쒕? 媛???몄썝 - ?꾩옱 ?몄썝??1蹂대떎 ?щ㈃ 媛??媛??
+			if(joinAbleCnt >= 1) {	//최대 가능 인원 - 현재 인원이 1보다 크면 가입 가능
 				result = gs.insertGroupJoin(grCode, memCode);
 			}
 						
@@ -91,7 +91,7 @@ public class SGDetailController {
 		try {
 			List<HashMap<String, Object>> memberList = gs.selectGroupMemberList(grCode);
 			
-			System.out.println("荑쇰━ ?ㅽ뻾 寃곌낵-而⑦듃濡ㅻ윭 : < " +  memberList + " >");
+			System.out.println("쿼리 실행 결과-컨트롤러 : < " +  memberList + " >");
 			mv.addObject("grMemList", memberList);
 			mv.addObject("loginUserCode", loginUserCode);
 			
@@ -182,12 +182,12 @@ public class SGDetailController {
 												@RequestParam int periodType, ModelAndView mv) {
 		try {
 			
-			System.out.println("?섏씠吏 ?щ뒗 而⑦듃濡ㅻ윭 ?붿뼱");
+			System.out.println("페이지 여는 컨트롤러 왔어");
 			System.out.println(periodType + " / " + grCode + " / " + thisDay );
 			
 			List<HashMap<String, Object>> list = gs.selectGroupMemberRankList(grCode, thisDay, periodType);
 			
-			System.out.println("荑쇰━ ?ㅽ뻾 寃곌낵-而⑦듃濡ㅻ윭 : < " +  list + " >");
+			System.out.println("쿼리 실행 결과-컨트롤러 : < " +  list + " >");
 			mv.addObject("list", list);
 //			mv.addObject("loginUserCode", loginUserCode);
 			

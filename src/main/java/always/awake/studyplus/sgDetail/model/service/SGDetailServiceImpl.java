@@ -20,7 +20,7 @@ public class SGDetailServiceImpl implements SGDetailService{
 	@Override
 	public int selectJoinStatus(int grCode, int memCode) {
 		int joinStatus = gd.selectJoinStatus(sqlSession, grCode, memCode);
-		System.out.println("媛?낆뿬遺 ?뺤씤 ?쒕퉬??res -> joinStatus : < " + joinStatus + " >");
+		System.out.println("가입여부 확인 서비스 res -> joinStatus : < " + joinStatus + " >");
 		return joinStatus;
 	}
 	
