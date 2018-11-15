@@ -282,7 +282,8 @@
 <script>	
 	function joinGroup(){
 		var grCode = $('#grCode').val();
-		var memCode = '${loginUser}';
+		var memCode = '${sessionScope.loginUser.member_Code}';
+		
 // 		var grCode = '${gr.studyGroup_Code}';
 // 		var memCode = '${ sessionScope.loginUser.member_Code }';
 		
@@ -364,6 +365,15 @@
  		selectGrMemList(grCode, loginUserCode);
 // 		selectGrMemRank(grCode, periodType);
  		
+ 		$.ajax({
+			url : "${contextPath}/web/groupChat.groupSocket",
+			type : "GET",
+			success : function(data){
+
+				$(".rightContent").empty();
+				$(".rightContent").append(data);
+			}
+		});
 	});
 </script>
 

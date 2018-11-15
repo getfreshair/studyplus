@@ -222,8 +222,7 @@
 
 															$li.append( 
 																	'<span class="friendList' + eachFriendMemberNickname + ' eachUndreadMsg" style="display:inline-block; background : red; color : white; width : 30px; height : 21px; border-radius : 30px; margin-left : 5%; position : absolute; right : 30px; top : 8px; text-align : center;">' +
-																	+ data + '</span>'
-																	+ '<span id="status'+  eachFriendMemberNickname  +'"class="status"></span>');
+																	+ data + '</span>');
 														}
 														
 													});
