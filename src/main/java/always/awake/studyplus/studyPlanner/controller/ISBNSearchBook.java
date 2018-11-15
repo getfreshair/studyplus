@@ -9,13 +9,13 @@ import java.net.URLEncoder;
 
 public class ISBNSearchBook {
 	
-public static String bookIsbn(String searchTit) {
+public static String bookIsbn(String searchBook) {
     StringBuffer response = new StringBuffer();
 
 	String clientId = "jbnrMpjhUYr0t3MsTWPX";//애플리케이션 클라이언트 아이디값";
     String clientSecret = "bN5p0u6Hps";//애플리케이션 클라이언트 시크릿값";
     try {
-        String text = URLEncoder.encode(searchTit, "UTF-8");
+        String text = URLEncoder.encode(searchBook, "UTF-8");
         String apiURL = "https://openapi.naver.com/v1/search/book.json?query="+ text; // json 결과
         URL url = new URL(apiURL);
         HttpURLConnection con = (HttpURLConnection)url.openConnection();

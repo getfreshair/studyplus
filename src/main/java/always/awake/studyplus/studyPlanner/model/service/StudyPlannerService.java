@@ -8,6 +8,7 @@ import java.util.Map;
 
 import always.awake.studyplus.studyPlanner.model.exception.plannerException;
 import always.awake.studyplus.studyPlanner.model.vo.PersonalRank;
+import always.awake.studyplus.studyPlanner.model.vo.StudyStyle;
 
 public interface StudyPlannerService {
 
@@ -63,7 +64,7 @@ public interface StudyPlannerService {
 	int insertStudyStyle(Map<String, Object> hmap);
 
 	//학습스타일 결과 선택
-	String selectStudyStyle(int loginUserCode);
+	List<Object> selectStudyStyle(int loginUserCode);
 
 
 

@@ -15,6 +15,7 @@ $(function(){
 	//-------------- 오늘의 목표 --------------
 	todayGoalsList();		//오늘의 목표 리스트
 	goalAddMdal();			//목표 등록 모달
+	//bookIsbn();				//isbn 책검색
 
 });
 
@@ -939,7 +940,8 @@ function todayGoalsList(){
 					var achievPer = ((data[i].GOAL_ACHIEVEAMOUNT / data[i].GOAL_GOALAMOUNT) * 100).toFixed(0); //달성률
 					var shortfallPer = 100 - achievPer; 			//미달성률
 					var division = data[i].GOAL_DIVISION;			//0일경우 일간묙표, 1일경우 주간목표
-					var enrolldate = data[i].GOAL_ENROLLDATE		//목표날짜 
+					var enrolldate = data[i].GOAL_ENROLLDATE;		//목표날짜 
+					var goalISBN = data[i].GOAL_ISBN;				//isbn code
 					
 					//목표 타입이 시간일 경우 시간,분으로 변경
 					var dataType;
@@ -975,7 +977,7 @@ function todayGoalsList(){
 
 					
 					//목표 리스트 각 목표 클릭시 상세 팝업창 노출(아래 함수 호출)
-					todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, achievHour, achievMin, achievPer, shortfallPer);
+					todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, achievHour, achievMin, achievPer, shortfallPer, goalISBN);
 					
 				}
 			},
@@ -994,23 +996,45 @@ function todayGoalsList(){
 			type : "post",
 			success : function(data){
 				
+				var weekgoalCode = new Array();
+				var weekArr = new Array();
+				var weekDay = new Array();
+				var weekAchieveAmount = new Array();
+				var weekGoalAmount = new Array();
 				for(var key in data[0]){
 					for(var i = 0; i < data[0][key].length; i++){
 						
 						var goalCode = data[0][key][i].goalCode;			//목표코드
 						var content = data[0][key][i].goalContent;			//목표명
 						var type = data[0][key][i].goalType;				//0일경우 페이지, 1일경우 시간
-						var achiev = data[0][key][i].goalAchieveAmount;		//달성량
-						var goalAmount = data[0][key][i].goalGoalAmount;	//목표량
+						//var achiev = data[0][key][i].goalAchieveAmount;		//달성량
+						//var goalAmount = data[0][key][i].goalGoalAmount;	//목표량
 						var achievPer = ((data[0][key][i].goalAchieveAmount / data[0][key][i].goalGoalAmount) * 100).toFixed(0); //달성률
 						var shortfallPer = 100 - achievPer;					//미달성률
 						var week = data[0][key][i].week;					//목표 요일
 						var todayOrWeek = data[0][key][i].goalDivision;		//0일경우 오늘목표, 1일경우 주간목표
 						var enrolldate = data[0][key][i].dateString;		//목표날짜
+
+
+						weekgoalCode[i] = data[0][key][i].goalCode;						//이번주 중 등록한 목표코드
+						weekArr[i] = data[0][key][i].week;								//이번주 중 선택한 요일
+						weekDay[i] = data[0][key][i].dateString;						//이번주 중 선택한 날짜
+						weekAchieveAmount[i] = data[0][key][i].goalAchieveAmount;		//이번주 중 달성량
+						weekGoalAmount[i] = data[0][key][i].goalGoalAmount;				//이번주 중 목표량
 					}
 					//날짜, 목표량, 달성량 전부가져와야됨...
+					/*console.log(weekArr);
+					console.log(weekDay);
+					console.log(weekAchieveAmount);
+					console.log(weekGoalAmount);*/
 					
-					console.log(enrolldate)
+					var totalAchieveAmount;
+					for(var i = 0; i < weekgoalCode.length; i++){
+						totalAchieveAmount += weekAchieveAmount[i];
+					}
+					/*console.log(typeof(totalAchieveAmount));
+					console.log(totalAchieveAmount);*/
+					
 					//목표 타입이 시간일 경우 시간,분으로 변경
 					var dataType;
 					if(type != 0){
@@ -1094,8 +1118,8 @@ function GoalListChart2(achievPer, shortfallPer, i){
 
 
 //오늘의 목표 리스트, 각 목표 클릭시 상세 팝업창 노출
-function todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, achievHour, achievMin, achievPer, shortfallPer){
-	
+function todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, achievHour, achievMin, achievPer, shortfallPer, goalISBN){
+	console.log("isbn들어오는타입? : " + typeof(goalISBN)) //책 등록이 아닌것이 null로 들어와서 문제발생..!
 	$(".today_goals li .right_area").click(function(){
 		
 		var liIndex = $(this).parent().val();
@@ -1144,9 +1168,45 @@ function todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, 
 				$("#detailViewModal .book_form #goalName").attr("value",content);
 				$("#detailViewModal .book_form #goalPage").attr("value",goalAmount);
 				$("#detailViewModal .book_form #goalAchiev").attr("value",achiev);
+				$("#detailViewModal .book_form .bookIpt").attr("value",goalISBN);
 				
 				$("#detailViewModal .book_form").parent().attr("action","TodayBookGoalUpdateModal.sp?liIndex=" + liIndex);
+				
+				/*if(goalISBN != null){
+					testBoook();
+					function testBoook(){
+						var searchBook = $(".bookIpt").val();
+						console.log(searchBook);
+						$.ajax({
+							url : "bookIsbn.sp",
+							data : {searchBook : searchBook},
+							type : "get",
+							success : function(data) {
+								console.log("검색한 데이터 : " + data)
+								
+								var object = JSON.parse(data);
+								console.log(object);
+							
+							console.log(object.items[0].title);
+							console.log(object.items[0].image);
+							console.log(object.items[0].isbn);
+								
+								$(".bookIpt").attr("value", object.items[0].isbn);
+								$(".book_img").append().html('<img src="' + object.items[0].image + '">');
+								$(".book_info").append().html(object.items[0].title);
+							},
+							error : function() {
+								console.log("에러발생!");
+							}
+						});
+					}
+				}*/
+				
 			}
+			
+			
+			
+			
 		}
 		
 		/*$("#saveBtn").click(function(){
@@ -1267,4 +1327,35 @@ function goalAddMdal(){
 		$(".book_form").show();
 	});
 }
+
+
+//isbn 책검색
+/*function bookIsbn(){
+	//$("#bookBtn").click(function(){
+		var searchBook = $("#bookIpt").val();
+		console.log(searchBook);
+		$.ajax({
+			url : "bookIsbn.sp",
+			data : {searchBook : searchBook},
+			type : "get",
+			success : function(data) {
+				console.log("검색한 데이터 : " + data)
+				
+				var object = JSON.parse(data);
+				console.log(object);
+				
+				console.log(object.items[0].title);
+				console.log(object.items[0].image);
+				console.log(object.items[0].isbn);
+				
+				$("#bookIpt").attr("value", object.items[0].isbn);
+				$(".book_img").append().html('<img src="' + object.items[0].image + '">');
+				$(".book_info").append().html(object.items[0].title);
+			},
+			error : function() {
+				console.log("에러발생!");
+			}
+		});
+	//});
+}*/
 

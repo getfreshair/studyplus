@@ -14,13 +14,13 @@ public class Goal implements Serializable {
 	private int goalType;			// 목표 종류
 	private int goalGoalAmount;		// 목표량
 	private int goalAchieveAmount;	// 달성량
-	private String gaolISBN;		// ISBN
+	private String goalISBN;		// ISBN
 	private int goalDivision;		// 분류
 	
 	public Goal() { }
 
 	public Goal(int goalCode, int memberCode, String memberNickName, Date goalEnrollDate, String dateString,
-			String week, String goalContent, int goalType, int goalGoalAmount, int goalAchieveAmount, String gaolISBN,
+			String week, String goalContent, int goalType, int goalGoalAmount, int goalAchieveAmount, String goalISBN,
 			int goalDivision) {
 		super();
 		this.goalCode = goalCode;
@@ -33,7 +33,7 @@ public class Goal implements Serializable {
 		this.goalType = goalType;
 		this.goalGoalAmount = goalGoalAmount;
 		this.goalAchieveAmount = goalAchieveAmount;
-		this.gaolISBN = gaolISBN;
+		this.goalISBN = goalISBN;
 		this.goalDivision = goalDivision;
 	}
 
@@ -117,12 +117,12 @@ public class Goal implements Serializable {
 		this.goalAchieveAmount = goalAchieveAmount;
 	}
 
-	public String getGaolISBN() {
-		return gaolISBN;
+	public String getGoalISBN() {
+		return goalISBN;
 	}
 
-	public void setGaolISBN(String gaolISBN) {
-		this.gaolISBN = gaolISBN;
+	public void setGoalISBN(String goalISBN) {
+		this.goalISBN = goalISBN;
 	}
 
 	public int getGoalDivision() {
@@ -138,7 +138,7 @@ public class Goal implements Serializable {
 		return "Goal [goalCode=" + goalCode + ", memberCode=" + memberCode + ", memberNickName=" + memberNickName
 				+ ", goalEnrollDate=" + goalEnrollDate + ", dateString=" + dateString + ", week=" + week
 				+ ", goalContent=" + goalContent + ", goalType=" + goalType + ", goalGoalAmount=" + goalGoalAmount
-				+ ", goalAchieveAmount=" + goalAchieveAmount + ", gaolISBN=" + gaolISBN + ", goalDivision="
+				+ ", goalAchieveAmount=" + goalAchieveAmount + ", goalISBN=" + goalISBN + ", goalDivision="
 				+ goalDivision + "]";
 	}
 

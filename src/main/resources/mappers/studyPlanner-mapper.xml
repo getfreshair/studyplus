@@ -90,13 +90,14 @@
 	<!-- 오늘의 목표 등록(페이지 단위) -->
 	<insert id="insertTodayBookGoal" >
 		INSERT INTO GOAL(GOAL_CODE, MEMBER_CODE, GOAL_ENROLLDATE, GOAL_CONTENT, 
-		GOAL_TYPE, GOAL_GOALAMOUNT, GOAL_ISBN, GOAL_DIVISION)
-		VALUES(SEQ_GOAL_GOAL_CODE.NEXTVAL, #{loginUserCode}, SYSDATE, #{goalName}, 0, #{goalPage}, NULL, 0)
+						GOAL_TYPE, GOAL_GOALAMOUNT, GOAL_ISBN, GOAL_DIVISION)
+		VALUES(SEQ_GOAL_GOAL_CODE.NEXTVAL, #{loginUserCode}, SYSDATE, #{goalName}, 0, #{goalPage}, #{bookIsbn}, 0)
 	</insert>
 	
 	<!-- 오늘의 목표 업데이트(페이지 단위) -->
 	<update id="updateTodayBookGoal">
-		UPDATE GOAL SET GOAL_CONTENT = #{goalName}, GOAL_GOALAMOUNT = #{goalPage}, GOAL_ACHIEVEAMOUNT = #{goalAchiev}
+		UPDATE GOAL SET GOAL_CONTENT = #{goalName}, GOAL_GOALAMOUNT = #{goalPage}, 
+				GOAL_ACHIEVEAMOUNT = #{goalAchiev}, GOAL_ISBN = #{bookIsbn}
 		WHERE GOAL_CODE = #{liIndex}
 		AND MEMBER_CODE = #{loginUserCode}
 		AND GOAL_TYPE = 0
@@ -256,5 +257,18 @@
 		#{activity}, #{deliberate}, #{sensibility}, #{intuitive},
 		#{perspective}, #{language}, #{sequential}, #{whole})
 	</insert>
+	
+	<!-- 학습스타일 결과 선택 -->
+	<select id="selectStudyStyle" resultType="map" parameterType="_int">
+		SELECT MEMBER_CODE, STUDYSTYEL_ENROLLDATE, STUDYSTYLE_ACTIVITY, STUDYSTYLE_DELIBERATE, STUDYSTYLE_SENSIBILITY, 
+	    STUDYSTYLE_INTUITIVE, STUDYSTYLE_PERSPECTIVE, STUDYSTYLE_LANGUAGE, STUDYSTYLE_SEQUENTIAL, STUDYSTYLE_WHOLE 
+		FROM (
+		    SELECT MEMBER_CODE, STUDYSTYEL_ENROLLDATE, STUDYSTYLE_ACTIVITY, STUDYSTYLE_DELIBERATE, STUDYSTYLE_SENSIBILITY, 
+		    STUDYSTYLE_INTUITIVE, STUDYSTYLE_PERSPECTIVE, STUDYSTYLE_LANGUAGE, STUDYSTYLE_SEQUENTIAL, STUDYSTYLE_WHOLE 
+		    FROM STUDYSTYLE
+		    WHERE MEMBER_CODE = #{loginUserCode}
+		    ORDER BY STUDYSTYEL_ENROLLDATE DESC)
+		WHERE ROWNUM = 1
+	</select>
 		
 </mapper>
