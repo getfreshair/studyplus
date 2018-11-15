@@ -1004,14 +1004,16 @@ function todayGoalsList(){
 				var weekGoalAmount = new Array();
 				for(var key in data[0]){
 					for(var i = 0; i < data[0][key].length; i++){
-						
+
 						var goalCode = data[0][key][i].goalCode;			//목표코드
 						var content = data[0][key][i].goalContent;			//목표명
 						var type = data[0][key][i].goalType;				//0일경우 페이지, 1일경우 시간
 						var achiev = data[0][key][i].goalAchieveAmount;		//달성량
 						var goalAmount = data[0][key][i].goalGoalAmount;	//목표량
+						
 						var achievPer = ((data[0][key][i].goalAchieveAmount / data[0][key][i].goalGoalAmount) * 100).toFixed(0); //달성률
 						var shortfallPer = 100 - achievPer;					//미달성률
+						
 						var week = data[0][key][i].week;					//목표 요일
 						var todayOrWeek = data[0][key][i].goalDivision;		//0일경우 오늘목표, 1일경우 주간목표
 						var enrolldate = data[0][key][i].dateString;		//목표날짜
@@ -1022,6 +1024,7 @@ function todayGoalsList(){
 						weekDay[i] = ((data[0][key][i].dateString).substr(0, 10)).replace(/-/g,'/');	//이번주 중 선택한 날짜들
 						weekAchieveAmount[i] = data[0][key][i].goalAchieveAmount;		//이번주 중 달성량들
 						weekGoalAmount[i] = data[0][key][i].goalGoalAmount;				//이번주 중 목표량들
+						
 					}
 					
 					var totalWeekWeek = "";
@@ -1032,7 +1035,7 @@ function todayGoalsList(){
 						totalAchieveAmount += weekAchieveAmount[i];			//이번주 총 달성량
 						totalWeekGoalAmount += weekGoalAmount[i];			//이번주 총 목표량
 					}
-					totalWeekWeek = totalWeekWeek.substring(0, totalWeekWeek.length -2); //이번주 선택한 요일들(월,화)
+					totalWeekWeek = totalWeekWeek.substring(0, totalWeekWeek.length -2); 	//이번주 선택한 요일들(월,화)
 					
 					
 					//목표 타입이 시간일 경우 시간,분으로 변경
@@ -1063,10 +1066,13 @@ function todayGoalsList(){
 							+ '</div>'
 							+ '</li>');
 				
-				
-					//목표 리스트 노출된 부분 공부량 차트 (아래 함수 호출)
-					GoalListChart2(achievPer, shortfallPer, i);
+
 					
+					//for(var i = 0; i < data[0][key].length; i++){
+						//목표 리스트 노출된 부분 공부량 차트 (아래 함수 호출)
+						GoalListChart2(achievPer, shortfallPer, i);
+						//console.log(i)
+					//}
 					//목표 리스트 각 목표 클릭시 상세 팝업창 노출(아래 함수 호출)
 					weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, 
 							achievHour, achievMin, achievPer, shortfallPer, enrolldate, weekDay);
