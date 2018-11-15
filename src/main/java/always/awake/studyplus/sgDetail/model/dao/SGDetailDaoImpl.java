@@ -2,7 +2,6 @@ package always.awake.studyplus.sgDetail.model.dao;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -88,15 +87,17 @@ public class SGDetailDaoImpl implements SGDetailDao{
 		return sqlSession.selectOne("SGDetail.selectChangeMonthsInfo", changeMonths);
 	}
 
-/*	@Override
+	@Override
 	public List<HashMap<String, Object>> selectGroupMemberRankList(SqlSessionTemplate sqlSession, int grCode,
-																				String date, int periodType) {
+																				String thisDay, int periodType) {
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		
 		hm.put("grCode", grCode);
-		hm.put("thisDay", date);
+		hm.put("thisDay", thisDay);
 		hm.put("periodType", periodType);
+		
+		System.out.println("dao : " + hm);
 		return sqlSession.selectList("SGDetail.selectGroupMemberRankList", hm);
-	}*/
+	}
 	
 }
