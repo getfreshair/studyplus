@@ -1,6 +1,6 @@
 package always.awake.studyplus.member.controller;
 
-import java.util.ArrayList;
+import java.net.StandardSocketOptions;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +26,6 @@ import always.awake.studyplus.member.model.exception.MemberException;
 import always.awake.studyplus.member.model.service.MemberService;
 import always.awake.studyplus.member.model.vo.Files;
 import always.awake.studyplus.member.model.vo.Member;
-import always.awake.studyplus.need.model.vo.Need;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -101,13 +100,14 @@ public class MemberController {
 		return "common/question";
 	}
 	
-	@RequestMapping(value="questionAnalysis.me")
+	@RequestMapping(value="questionAnalysis.me", produces = "application/json; charset=utf-8")
 	public ModelAndView questionAnalysis(@RequestParam(value="sentence")String sentence){
+		System.out.println("in");
 		ModelAndView mv = new ModelAndView();
 	    
-	    ms.checkSentence(sentence);
+		HashMap<String, Object> questionInfo = ms.checkSentence(sentence);
 	    
-		/*mv.addObject("reSentence", reSentence);*/
+		mv.addObject("questionInfo", questionInfo);
 		mv.setViewName("jsonView");
 		
 		return mv;
