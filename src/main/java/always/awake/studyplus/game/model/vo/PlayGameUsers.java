@@ -5,19 +5,19 @@ import java.util.Date;
 public class PlayGameUsers {
 	private int user_Code;
 	private String startgame_Time;
-	private String division; 
-	private String div_Value;
+	private String location_Name; 
+	private String member_Job;
 	
 	
 	public PlayGameUsers() { }
 
 
-	public PlayGameUsers(int user_Code, String startgame_Time, String division, String div_Value) {
+	public PlayGameUsers(int user_Code, String startgame_Time, String location_Name, String member_Job) {
 		super();
 		this.user_Code = user_Code;
 		this.startgame_Time = startgame_Time;
-		this.division = division;
-		this.div_Value = div_Value;
+		this.location_Name = location_Name;
+		this.member_Job = member_Job;
 	}
 
 
@@ -41,31 +41,32 @@ public class PlayGameUsers {
 	}
 
 
-	public String getDivision() {
-		return division;
+	public String getLocation_Name() {
+		return location_Name;
 	}
 
 
-	public void setDivision(String division) {
-		this.division = division;
+	public void setLocation_Name(String location_Name) {
+		this.location_Name = location_Name;
 	}
 
 
-	public String getDiv_Value() {
-		return div_Value;
+	public String getMember_Job() {
+		return member_Job;
 	}
 
 
-	public void setDiv_Value(String div_Value) {
-		this.div_Value = div_Value;
+	public void setMember_Job(String member_Job) {
+		this.member_Job = member_Job;
 	}
 
 
 	@Override
 	public String toString() {
-		return "PlayGameUsers [user_Code=" + user_Code + ", startgame_Time=" + startgame_Time + ", division=" + division
-				+ ", div_Value=" + div_Value + "]";
+		return "PlayGameUsers [user_Code=" + user_Code + ", startgame_Time=" + startgame_Time + ", location_Name="
+				+ location_Name + ", member_Job=" + member_Job + "]";
 	}
-	
+
+
 	
 }

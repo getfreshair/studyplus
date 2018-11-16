@@ -20,6 +20,8 @@
 <html>
 
 <head>
+<script type="text/javascript"
+	src="/studyplus/resources/js/jquery-1.11.1.min.js"></script>
 <script>
 /* 	var ing = false;
 	window.onbeforeunload = function(){
@@ -27,7 +29,6 @@
 			alert("bye!!");
 		}
 	} */
-	
 	var wsocket;
 
 	connect();
@@ -35,7 +36,7 @@
 		// ws://192.168.10.69:8001/studyplus/chat-ws.socket
 		//192.168.43.188:8001/studyplus ws://localhost:8001/studyplus/chat-ws.socket
 		//wsocket = new WebSocket("ws://192.168.10.53:8001/studyplus/gameChat-ws.gameSocket");
-		wsocket = new WebSocket("ws://localhost:8001/studyplus/gameChat-ws.gameSocket");
+		wsocket = new WebSocket("ws://192.168.10.53:8001/studyplus/gameChat-ws.gameSocket");
 		wsocket.onopen = onOpen;
 		//서버로부터 메시지를 받으면 호출되는 함수 지정
 		wsocket.onmessage = onMessage;
@@ -47,8 +48,9 @@
 	}
 
 	function onOpen(evt) { // 입장 알림
-		var msg = 'gameMsg:' + '${loginUser.member_Code}' + ":입장"; 
+		var msg = 'gameMsg:' + '${loginUser.member_Code}' + ":입장"
 		wsocket.send(msg);
+		
 	}
 
 	function onMessage(evt) { // 메세지 받을 경우 
@@ -67,7 +69,7 @@
 
 
 	function appendMessage(msg) { // 처리
-		
+		console.log(msg)
 		
 	}
 
@@ -883,8 +885,8 @@ function todayChart(dateVal){
   				</div>
   				<br>
   				<div style="position:relative;margin-top:120px" >
-  				<div class="gameArea" style="margin-left:70px;border:2px solid black;background:black; height:400px; width:400px; position:relative ;overflow: hidden; border-radius:300px; display:inline-block; border:5px solid">
-  					<% Random random = new Random();
+  				<div class="gameArea" id="gameArea" style="margin-left:70px;border:2px solid black;background:black; height:400px; width:400px; position:relative ;overflow: hidden; border-radius:300px; display:inline-block; border:5px solid">
+  					<%-- <% Random random = new Random();
   						ArrayList<Member> mlist = new ArrayList<Member>();
 						for(int i = 0 ; i < 100 ; i ++ ){
 							Member tempMember = new Member();
@@ -919,7 +921,7 @@ function todayChart(dateVal){
   							<img src="resources/images/block/star.jpg" style="top:<%=x%>%; left:<%=y%>%; position:absolute; width:<%=size%>px;height:<%=size%> px">
 						<%	}
 						}
-  					%>
+  					%> --%>
   				<img alt="" src="resources/images/block/ship.gif" style="z-index:10000;position:absolute;width:50%;margin-top:310px;margin-left:100px;">
   				</div>
   				<c:choose>
@@ -981,8 +983,8 @@ function todayChart(dateVal){
 							<c:set var="jobName" value="기타"></c:set>
 						</c:otherwise>
 					</c:choose>
-						<span style="color:white;position:absolute;top:30px; left:430px;" >현재 ${jobName} 공부 유저  :  <span style="color:#f27553 ; font-size:1.5em">00 </span>명</span><br>
-						<span style="color:white;position:absolute; top:80px; left:480px;">현재 ${sessionScope.loginUser.location_Name }지역 공부 유저  :  <span style="color:#f27553; font-size:1.5em">00 </span>명</span>
+						<span style="color:white;position:absolute;top:30px; left:430px;" >현재 ${jobName} 공부 유저  :  <span id="job_span" style="color:#E67E22; font-size:1.5em">00 </span>명</span><br>
+						<span style="color:white;position:absolute; top:80px; left:480px;">현재 ${sessionScope.loginUser.location_Name }지역 공부 유저  :  <span id="location_span" style="color:#4797B1; font-size:1.5em">00 </span>명</span>
 						<div class="hovereffect" style="display:inline-block;height:200px;  position:absolute;left:200px; top:150px">
 	            <div class="overlay">
 	                <h2 >Block Settings</h2>
@@ -1257,19 +1259,91 @@ function todayChart(dateVal){
   				<button type="button" id="exitStopWatch" style="position:absolute;left:50%;margin-left:-250px;height:40px;margin-top:25px;border:1px solid #f1bc3c;border-radius:40px 40px 0 0;background:#f1bc3c;width:500px; color:white"class="btn btn-danger" onclick="doSubmit()">차단을 해제하고, 공부 휴식 취하기</button>
   			</form>
   			<script type="text/javascript">
-  				function doSubmit() {
-  					startPause('main');
-  					/* var t = 5;
-  					alert("Data를 저장중입니다.. " + t);
-  					setTimeout(function(){
-  					t = t -1 ;
-  					alert("Data를 저장중입니다.. " + t);
-  					},1000) */
-  					setTimeout(function(){
-  						document.getElementById("frm").submit();
-  					},3000);
-  				}
+  			$(function(){
+  				
+  			var jobCnt = 0;
+  			var locationCnt = 0;
+  			$.ajax({
+  				url : "selectUserList.bl",
+  				type : "get",
+  				success : function(data){
+  					var rank = new Array();	
+  					// 등수 계산
+  					console.log(data)
+  					for (var i = 0; i < data.length; i++) {
+  						rank[i] = 1;
+  						for (var j = 0; j < data.length; j++) {
+  							var dateInfo = data[i].startgame_Time.split(' ');
+  							var day = dateInfo[0].split('-');
+  							var time = dateInfo[1].split(':');
+  							var date = new Date(day[0],day[1],day[2],time[0],time[1],time[2]);
   							
+  							var dateInfo2 = data[j].startgame_Time.split(' ');
+  							var day2 = dateInfo2[0].split('-');
+  							var time2 = dateInfo2[1].split(':');
+  							var date2 = new Date(day2[0],day2[1],day2[2],time2[0],time2[1],time2[2]);
+  							
+  							if(date.getTime() < date2.getTime()){
+  								rank[i]++;
+  							}
+  						}
+  					}
+  					console.log(rank);
+  					// 화면에 출력
+  					for (var i = 0; i < data.length; i++) {
+  						var size = 0;
+  						if(data.length == 1){
+  							size = 20;
+  						} else {
+  					 		size = (20*((100 -((rank[i]/(data.length)*100)))*0.01))+20;
+  					 		
+  						}
+  						console.log(Math.round(size) + " / 사이즈")
+  						var x = Math.floor(Math.random() * 100) + 1
+  						var y = Math.floor(Math.random() * 100) + 1;
+  						
+  						console.log('x : ' + x +  " / y : " + y );
+  						if(data[i].user_Code == ${loginUser.member_Code}){
+  							console.log("나")
+  							$('.gameArea').append("<img id='"+data[i].user_Code+"' src='resources/images/block/userStar.png' style='top:49%; left:49%; position:absolute; width:"+size+"px;height:"+size+"px'>");
+  						} else {
+  							console.log(data[i].member_Job*1);
+  							console.log(${loginUser.member_Job});
+  							console.log(data[i].location_Name);
+  							console.log('${sessionScope.loginUser.location_Name}');
+  					
+  							 if(((data[i].member_Job*1) == ${loginUser.member_Job}) && (data[i].location_Name == '${loginUser.location_Name}')){
+  								locationCnt++;
+  								jobCnt++;
+  								$('.gameArea').append("<img id='"+data[i].user_Code+"' src='resources/images/block/bothStar.png' style='top:"+x+"%; left:"+y+"%; position:absolute; width:"+size+"px;height:"+size+"px'>");
+  							} else if ((data[i].member_Job*1) == ${loginUser.member_Job}){
+  								jobCnt++;
+  								$('.gameArea').append("<img id='"+data[i].user_Code+"' src='resources/images/block/jobStar.png' style='top:"+x+"%; left:"+y+"%; position:absolute; width:"+size+"px;height:"+size+"px'>");
+  							} else {
+  								locationCnt++;
+  								$('.gameArea').append("<img id='"+data[i].user_Code+"' src='resources/images/block/locationStar.png' style='top:"+x+"%; left:"+y+"%; position:absolute; width:"+size+"px;height:"+size+"px'>");
+  							} 
+  						}
+  						console.log("------------")
+  					}
+  				<%-- 	for( int i =0 ; i < mlist.size(); i++){
+  						int size = (int)(20*((100 -(((double)rank[i]/(double)mlist.size())*100))*0.01));
+  						int x = random.nextInt(100);
+  						int y = random.nextInt(100);
+  						
+  						if(mlist.get(i).getMember_Id().equals("user1")){
+  				
+  						<img src="resources/images/block/star2.jpg" style="top:49%; left:49%; position:absolute; width:<%=size%>px;height:<%=size%> px">
+  				 
+  						} else {
+  				
+  							<img src="resources/images/block/star.jpg" style="top:<%=x%>%; left:<%=y%>%; position:absolute; width:<%=size%>px;height:<%=size%> px">
+  						}
+  					}
+  	 --%>			
+  				}	
+  			}) 
+  		});
   			</script>
   		</div></div>
 </body>
