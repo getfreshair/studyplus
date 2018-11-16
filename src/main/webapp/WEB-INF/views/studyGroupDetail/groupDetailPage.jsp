@@ -285,7 +285,7 @@
 		var memCode = '${sessionScope.loginUser.member_Code}';
 		
 // 		var grCode = '${gr.studyGroup_Code}';
-// 		var memCode = '${ sessionScope.loginUser.member_Code }';
+// 		var memCode = '${loginUser}';
 		
 		$.ajax({
 			url : "insertGroupJoin.sgd",
@@ -311,28 +311,28 @@
 				<div class="leftContent bottomContentArea">
 					<div class="leftContentWrap">
 						<div class="leftContentTabMenu">
+							<input type="hidden" id="menuTypeValue" value="0"/>
 							<div>
 								<span id="showMemList" class="menuBtn" onclick="selectGrMemList('${gr.studyGroup_Code}', '${loginUser}');">그룹원 보기</span>
 							</div>
 							<div>
-								<span id="showMemRank" class="menuBtn" onclick="selectGrMemRank('${gr.studyGroup_Code}');">그룹원 순위</span>
+								<span id="showMemRank" class="menuBtn" onclick="selectGrMemRankPeriod('${gr.studyGroup_Code}');">그룹원 순위</span>
 								<span style="cursor:auto;">|</span>
-								<span id="showMemStudyStatus" class="menuBtn" onclick="selectGrMemTime('${gr.studyGroup_Code}');">수행 현황</span>
+								<span id="showMemTime" class="menuBtn" onclick="selectGrMemTimePeriod('${gr.studyGroup_Code}');">수행 현황</span>
 							</div>
 						</div>
 						<div class="leftIncludeArea">
-<!-- 							<div class="priodTabMenuArea hideMemList"> -->
+
 							<div class="priodTabMenuArea">
-								
 								<table width="100%"><tr>
-									<td style="text-align:left;">
+									<td class="textAlignStyle">
 										<span><strong class="prevBtn">< &nbsp;</strong></span>
 											<span class="selectDay"><label id="thisDayLbl"></label></span>
-											<span class="selectWeek"><label id="thisWeek"></label> <label id="weekNum"></label>주차 </span>
+											<span class="selectWeek"><label id="thisWeek"></label><label>&nbsp;<label id="weekNum"></label>주차</label></span>
 											<span class="selectMonth"><label id="thisMonth"></label></span>
 										<span><strong class="nextBtn">&nbsp; ></strong></span>
 									</td>
-									<td style="text-align:right;" class="hideMemStudyStatus">
+									<td style="text-align:right;" class="hideMemTime">
 										<span id="selectDay" class="menuBtn">일간</span>
 										<span style="cursor:auto;">|</span>
 										<span id="selectWeek" class="menuBtn">주간</span>
@@ -341,9 +341,10 @@
 									</td>
 								</tr></table>
 							</div>
+
 							<div id="leftIncludeArea"></div>
 							
-							<jsp:include page="leftGroupStudyTimeTotal.jsp"/>
+<%-- 							<jsp:include page="leftGroupStudyTimeTotal.jsp"/> --%>
 							
 						</div>
 					</div>
@@ -363,14 +364,12 @@
 		var grCode = $('#grCode').val();
 		var loginUserCode = '${loginUser}';
 		
-//  		selectGrMemList(grCode, loginUserCode);
-// 		selectGrMemRank(grCode, periodType);
+ 		selectGrMemList(grCode, loginUserCode);
  		
  		$.ajax({
 			url : "${contextPath}/web/groupChat.groupSocket",
 			type : "GET",
 			success : function(data){
-
 				$(".rightContent").empty();
 				$(".rightContent").append(data);
 			}
@@ -383,6 +382,7 @@
 	function selectGrMemList(grCode, loginUserCode){
 		$('#showMemList').css({"font-weight":"bold"});
 		$('#showMemRank').css({"font-weight":""});
+		$('#showMemTime').css({"font-weight":""});
 		$('.priodTabMenuArea').css({"display":"none"});
 		
 		$.ajax({
@@ -398,24 +398,32 @@
 	};
 </script>
 
+<!-- 그룹원 순위 보기 메뉴 -->
 <script>
-	function selectGrMemRank(grCode){
+	function selectGrMemRankPeriod(grCode){
 		var periodType = 1;
 		var dayPick = 0;
 		var monthPick = 0;
 		var changeCnt = 0;
 		var grStDate = '${gr.studyGroup_StDate}';
-	
+		
+		var menuType = 2;
+		
+		
 		$('#showMemList').css({"font-weight":""});
 		$('#showMemRank').css({"font-weight":"bold"});
+		$('#showMemTime').css({"font-weight":""});
+			
 		$('.priodTabMenuArea').css({"display":""});
+		$('.hideMemTime').css({"display":""});
+		$('.textAlignStyle').css({"text-align":"left"});
 		
 		console.log("grCode : " + grCode);
-		console.log("changeCnt : " + changeCnt);
+		console.log("changeCnt : " + changeCnt + " / menuType : " + menuType);
 		console.log("periodType : " + periodType + " / dayPick : " + dayPick + " / monthPick : " + monthPick);
 	
 		//메뉴 열리면 초기 설정
-		selectPeriodMenu(periodType);
+		selectPeriodMenu(periodType, menuType);
 		
 		//호출 함수로 변수를 객체property로 받아오기
 /* 		var selectPeriodUnit = selectPeriodMenu(periodType);
@@ -426,19 +434,20 @@
 		
 		$("#selectDay").click(function(){
 			periodType = 1;
-			selectPeriodMenu(periodType);
+			selectPeriodMenu(periodType, menuType);
 		});
 		$("#selectWeek").click(function(){
 			periodType = 2;
-			selectPeriodMenu(periodType);
+			selectPeriodMenu(periodType, menuType);
 		});
 		$("#selectMonth").click(function(){
 			periodType = 3;
-			selectPeriodMenu(periodType);
+			selectPeriodMenu(periodType, menuType);
 		});
 
-		function selectPeriodMenu(periodType){
-			alert(periodType);
+		function selectPeriodMenu(periodType, menuType){
+			alert("기간 타입 : " + periodType);
+			alert("2번 메뉴 : " + menuType);
 			
 			if(periodType == 1){
 				if(dayPick != 1){
@@ -492,113 +501,29 @@
 			}
 			
 			console.log("기간 메뉴 클릭시 변수 값 =>");
-			console.log("changeCnt : " + changeCnt);
+			console.log("changeCnt : " + changeCnt + " / menuType : " + menuType);
 			console.log("periodType : " + periodType + " / dayPick : " + dayPick + " / monthPick : " + monthPick);
 			
-			selectDateByPeriod(periodType, changeCnt, dayPick, monthPick, grCode);
+			selectDateByPeriod(periodType, changeCnt, dayPick, monthPick, grCode, menuType);
 		};
 		
-		$(".prevBtn").click(function(){	//그래프, 세번째 메뉴에도 적용 할 수 있는 방법 찾기
-			changeCnt = clickPrevBtn(changeCnt, thisDay, grStDate);
-			selectDateByPeriod(periodType, changeCnt, dayPick, monthPick, grCode)
+		$(".prevBtn").click(function(){
+			changeCnt = clickPrevBtn(changeCnt, thisDay2, grStDate);
+			selectDateByPeriod(periodType, changeCnt, dayPick, monthPick, grCode, menuType);
 		});
 		
 		$(".nextBtn").click(function(){
 			changeCnt = clickNextBtn(changeCnt);
-			selectDateByPeriod(periodType, changeCnt, dayPick, monthPick, grCode)
+			selectDateByPeriod(periodType, changeCnt, dayPick, monthPick, grCode, menuType);
 		});
 		
 		alert("바뀌었나 ? : " + periodType);
 		console.log("바뀌었나 ? : " + periodType);
 	};
-</script>
-
-<script>
- function selectGrMemTime(grCode){
-		var periodType = 2;
-		var dayPick = 7;
-		var monthPick = 0;
-		var changeCnt = 0;
-		var grStDate = '${gr.studyGroup_StDate}';
 	
-		$('#showMemList').css({"font-weight":""});
-		$('#showMemRank').css({"font-weight":"bold"});
-		$('.priodTabMenuArea').css({"display":""});
-		
-		console.log("grCode : " + grCode);
-		console.log("changeCnt : " + changeCnt);
-		console.log("periodType : " + periodType + " / dayPick : " + dayPick + " / monthPick : " + monthPick);
-		
-		if(changeCnt == 0){
-			
-		}
-		selectDateByPeriod(periodType, changeCnt, dayPick, monthPick, grCode);
-		
- }
-</script>
-
-<script>
-	function clickPrevBtn(changeCnt, thisDay, grStDate){
-		if(thisDay > grStDate){
-			changeCnt -= 1;
-			if(thisDay < grStDate){
-				changeCnt += 1;
-			}
-		}
-		return changeCnt;
-	}
-	
-	function clickNextBtn(changeCnt){			
-		if(changeCnt < 0){
-			changeCnt += 1;
-		}
-		return changeCnt;
-	}
-	
-	function selectDateByPeriod(periodType, changeCnt, dayPick, monthPick, grCode){
-		var changeDates = 0;
-		var changeMonths = 0;
-		thisDay = 0;
-		
-		if(periodType <= 2){
-			changeDates = changeCnt * dayPick;
-		}else if(periodType > 2){
-			changeMonths = changeCnt * monthPick;
-		}
-
-		console.log("기간별 날짜 정보 가져오는 함수에서 ajax로 전달 할 변수 값 => ");
-		console.log("changeCnt : " + changeCnt + " / changeDates : " + changeDates + " / changeMonths : " + changeMonths);
-		console.log("periodType : " + periodType + " / dayPick : " + dayPick + " / monthPick : " + monthPick);
-
-		$.ajax({
-			url:"selectDateByPeriod.sgd",
-			data : { periodType : periodType, 
-					 changeDates : changeDates, changeMonths : changeMonths },
-			type : "POST",
-			async : false,
-			success:function(data) {
-				thisDay = "" + data.selectDate.THIS_DAY;
-				
-				$('#thisDayLbl').text(data.selectDate.THIS_DAY);
-				$('#thisWeek').text(data.selectDate.THIS_WEEK);
-				$('#thisMonth').text(data.selectDate.THIS_MONTH);
-				$('#weekNum').text(data.selectDate.WEEK_NUM);
-				
-				console.log("에이작스 결과 =>");
-				console.log("변경 된 thisDay : " + thisDay);
-				console.log("changeCnt : " + changeCnt + " / changeDates : " + changeDates + " / changeMonths : " + changeMonths);
-				console.log("periodType : " + periodType + " / dayPick : " + dayPick + " / monthPick : " + monthPick);		
-
-				console.log(data);
-				
-				selelctGrMemRankListPage(grCode, thisDay, periodType);
-				
-			}
-		});
-	}
-	
-	function selelctGrMemRankListPage(grCode, thisDay, periodType){
-		console.log("thisDay : " + thisDay);
+	function selectGrMemRankListPage(grCode, thisDay, periodType){
+		console.log("2번 메뉴 페이지 부르기 => ");
+		console.log("thisDay : " + thisDay + " / thisDay2 : " + thisDay2 + " / thisDay3 : " + thisDay3);
 		
  		$.ajax({
 			url:"selectGroupMemberRankList.sgd",
@@ -617,6 +542,148 @@
 	};	
 </script>
 
+<!-- 그룹원 현황 보기 메뉴 -->
+<script>
+	function selectGrMemTimePeriod(grCode){
+		var periodType = 2;
+		var dayPick = 7;
+		var monthPick = 0;
+		var changeCnt = 0;
+		var grStDate = '${gr.studyGroup_StDate}';
+		
+		var menuType = 3;
+		
+		$('#showMemList').css({"font-weight":""});
+		$('#showMemRank').css({"font-weight":""});
+		$('#showMemTime').css({"font-weight":"bold"});
+			
+		$('.selectDay').css({"display":"none"});
+		$('.selectWeek').css({"display":""},{"cursor":"auto"});
+		$('.selectMonth').css({"display":"none"});
+		
+		$('.priodTabMenuArea').css({"display":""});
+		$('.hideMemTime').css({"display":"none"});
+		$('.textAlignStyle').css({"text-align":"center"});
+		
+		console.log("3번메뉴 호출시 변수 값 확인1 =>");
+		console.log("grCode : " + grCode);
+		console.log("changeCnt : " + changeCnt + " / menuType : " + menuType);
+		console.log("periodType : " + periodType + " / dayPick : " + dayPick + " / monthPick : " + monthPick);
+		
+		if(changeCnt == 0){
+			selectDateByPeriod(periodType, changeCnt, dayPick, monthPick, grCode, menuType);
+			console.log("3번메뉴 호출시 변수 값 확인2 =>");
+			console.log("changeCnt : " + changeCnt + " / menuType : " + menuType);
+			console.log("periodType : " + periodType + " / dayPick : " + dayPick + " / monthPick : " + monthPick);
+		}
+		
+		
+// 		$('#showMemList:hover').css({"pointer":"auto"});
+		$(".prevBtn").click(function(){
+			changeCnt = clickPrevBtn(changeCnt, thisDay3, grStDate);
+			selectDateByPeriod(periodType, changeCnt, dayPick, monthPick, grCode, menuType);
+		});
+		
+		$(".nextBtn").click(function(){
+			changeCnt = clickNextBtn(changeCnt);
+			selectDateByPeriod(periodType, changeCnt, dayPick, monthPick, grCode, menuType);
+		});
+	};
+	
+	function selectGrMemTimeListPage(grCode, thisDay){
+		console.log("3번 메뉴 페이지 부르기 => ");
+		console.log("thisDay : " + thisDay + " / thisDay2 : " + thisDay2 + " / thisDay3 : " + thisDay3);
+		
+ 		$.ajax({
+			url:"selectGroupMemberTimeList.sgd",
+			data : { grCode : grCode, thisDay : thisDay },
+			type : "POST",
+			success:function(data) {
+				console.log("들어오니?");
+				console.log(data);
+				console.log("thisDay : " + thisDay);
+				
+				$('#leftIncludeArea').empty();
+				$('#leftIncludeArea').append(data);
+			}
+		});
+	};	
+</script>
+
+<!-- 출력 날짜에 해당하는 기간 선택 함수(공통사용) -->
+<script>
+	function clickPrevBtn(changeCnt, thisDay, grStDate){
+		alert(thisDay);
+		if(thisDay > grStDate){
+			changeCnt -= 1;
+			if(thisDay < grStDate){
+				changeCnt += 1;
+			}
+		}
+		return changeCnt;
+	}
+	
+	function clickNextBtn(changeCnt){			
+		if(changeCnt < 0){
+			changeCnt += 1;
+		}
+		return changeCnt;
+	}
+	
+	function selectDateByPeriod(periodType, changeCnt, dayPick, monthPick, grCode, menuType){
+		var changeDates = 0;
+		var changeMonths = 0;
+		thisDay2 = 0;
+		thisDay3 = 0;
+		
+		if(periodType <= 2){
+			changeDates = changeCnt * dayPick;
+		}else if(periodType > 2){
+			changeMonths = changeCnt * monthPick;
+		}
+
+		console.log("기간별 날짜 정보 가져오는 함수에서 ajax로 전달 할 변수 값 => " + " / menuType : " + menuType);
+		console.log("changeCnt : " + changeCnt + " / changeDates : " + changeDates + " / changeMonths : " + changeMonths);
+		console.log("periodType : " + periodType + " / dayPick : " + dayPick + " / monthPick : " + monthPick);
+
+		$.ajax({
+			url:"selectDateByPeriod.sgd",
+			data : { periodType : periodType, 
+					 changeDates : changeDates, changeMonths : changeMonths },
+			type : "POST",
+			async : false,
+			success:function(data) {
+				if(menuType == 2){
+					thisDay2 = "" + data.selectDate.THIS_DAY;
+				}else if(menuType == 3){
+					thisDay3 = "" + data.selectDate.THIS_DAY;
+				}
+					
+					$('#thisDayLbl').text(data.selectDate.THIS_DAY);
+					console.log("라벨에 날짜 제대로 떠?" + $('#thisDayLbl').text());
+					
+					$('#thisWeek').text(data.selectDate.THIS_WEEK);
+					$('#thisMonth').text(data.selectDate.THIS_MONTH);
+					$('#weekNum').text(data.selectDate.WEEK_NUM);
+				
+				console.log("에이작스 결과 => " + " / menuType : " + menuType);
+				console.log("변경 된 thisDay2 : " + thisDay2);
+				console.log("변경 된 thisDay3 : " + thisDay3);
+				console.log("changeCnt : " + changeCnt + " / changeDates : " + changeDates + " / changeMonths : " + changeMonths);
+				console.log("periodType : " + periodType + " / dayPick : " + dayPick + " / monthPick : " + monthPick);		
+
+				console.log(data);
+				
+				if(menuType == 2){
+					selectGrMemRankListPage(grCode, thisDay2, periodType);
+
+				}else if(menuType == 3){
+					selectGrMemTimeListPage(grCode, thisDay3);
+				}
+			}
+		});
+	}
+</script>
 			
 		</div>
 	</div>

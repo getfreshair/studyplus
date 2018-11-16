@@ -32,9 +32,9 @@
 <body>
 	<div class="rankPageWrap">
 		
-<!-- 	반복영역 -->
 		<div class="memberListArea">
 			<div class="memberOneWrapArea">
+<!-- 	반복영역 -->
 	  		  <c:forEach var="i" begin="0" end="${fn:length(list) - 1}" step="1" >	
 				<table class="memberInfo">
 					<tr>							

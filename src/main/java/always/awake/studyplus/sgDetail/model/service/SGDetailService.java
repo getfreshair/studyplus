@@ -31,6 +31,8 @@ public interface SGDetailService {
 
 	public List<HashMap<String, Object>> selectGroupMemberRankList(int grCode, String thisDay, int periodType);
 
+	public List<HashMap<String, Object>> selectGroupMemberTimeList(int grCode, String thisDay);
+
 
 	
 	

@@ -33,7 +33,6 @@
 	<div class="timeTotalPageWrap">
 		<div>
 		</div>
-<!-- 	반복영역 -->
 		<div class="memberListArea">
 			<div class="memberOneWrapArea">
 				<table class="memberInfo3">
@@ -48,13 +47,13 @@
 						<td class="dayMenu"><strong>SAT</strong></td>
 					</tr>
 				</table>
-<%-- 	  <c:forEach var="i" begin="0" end="${fn:length(list) - 1}" step="1" >	 --%>
+<!-- 	반복영역 -->
+	  		  <c:forEach var="i" begin="0" end="${fn:length(list) - 1}" step="1" >	
 				<table class="memberInfo3">
 					<tr>							
 						<td rowspan="2">
 							<div class="profImg">
-<%-- 							<img src="${ contextPath }/resources/upload/member/thumbnail/${list[i].FILES_NAME}" /> --%>
-								<img src="${ contextPath }/resources/upload/member/thumbnail/068ad354aefe4789b2c77406a5503812" />
+							<img src="${ contextPath }/resources/upload/member/thumbnail/${list[i].FILES_NAME}" />
 							</div>
 						</td>
 						<td class="nickName"><strong>닉네임자리</strong></td>
@@ -87,8 +86,8 @@
 						</table>
 					</td></tr>
 				</table>
+		  	  </c:forEach>
 			</div>				
-<%-- 	  </c:forEach> --%>
 		</div>
 
 	</div>

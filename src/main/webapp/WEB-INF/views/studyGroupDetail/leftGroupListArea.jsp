@@ -125,7 +125,6 @@
 					
 					$('#leftIncludeArea').empty();
 					$('#leftIncludeArea').append(data);
-
 				},
 				error : function(){
 					alert("그룹장 변경에 실패하였습니다.");
@@ -151,7 +150,6 @@
 						
 						$('#leftIncludeArea').empty();
 						$('#leftIncludeArea').append(data);
-						
 					}
 				});
 			}
