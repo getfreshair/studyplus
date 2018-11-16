@@ -157,7 +157,7 @@ public class SGDetailController {
 		HashMap<String, Object> selectChangeDates = null;
 		
 		try {
-			if(periodType <= 2) {
+			if(periodType <= 2) {	//**중요 periodType 매개 변수로 넘겨서 타입별(기간단위 별) 동적 쿼리로 변경하기
 				selectChangeDates = gs.selectChangeDatesInfo(changeDates);
 			}else if(periodType > 2) {
 				selectChangeDates = gs.selectChangeMonthsInfo(changeMonths);
@@ -182,14 +182,13 @@ public class SGDetailController {
 																@RequestParam int periodType, ModelAndView mv) {
 		try {
 			
-			System.out.println("페이지 여는 컨트롤러 왔어");
+			System.out.println("2번 메뉴 페이지 여는 컨트롤러 왔어");
 			System.out.println(periodType + " / " + grCode + " / " + thisDay );
 			
 			List<HashMap<String, Object>> list = gs.selectGroupMemberRankList(grCode, thisDay, periodType);
 			
-			System.out.println("쿼리 실행 결과-컨트롤러 : < " +  list + " >");
+			System.out.println("2번 페이지 쿼리 실행 결과 : \n< " +  list + " >");
 			mv.addObject("list", list);
-//			mv.addObject("loginUserCode", loginUserCode);
 			
 			mv.setViewName("studyGroupDetail/leftGroupStudyTimeRank");
 			System.out.println("MV : < " + mv + " >");
@@ -202,20 +201,17 @@ public class SGDetailController {
 	}
 	
 	@RequestMapping("selectGroupMemberTimeList.sgd")
-	public ModelAndView selectGroupMemberTimeList(@RequestParam int grCode, @RequestParam String thisDay,
-			@RequestParam int periodType, ModelAndView mv) {
+	public ModelAndView selectGroupMemberTimeList(@RequestParam int grCode, @RequestParam String thisDay, ModelAndView mv) {
 		try {
 			
-			System.out.println("페이지 여는 컨트롤러 왔어");
-			System.out.println(periodType + " / " + grCode + " / " + thisDay );
+			System.out.println("3번 메뉴 페이지 여는 컨트롤러 왔어");
 			
-			List<HashMap<String, Object>> list = gs.selectGroupMemberRankList(grCode, thisDay, periodType);
+			List<HashMap<String, Object>> list = gs.selectGroupMemberTimeList(grCode, thisDay);
 			
-			System.out.println("쿼리 실행 결과-컨트롤러 : < " +  list + " >");
+			System.out.println("3번 페이지 쿼리 실행 결과 : \n< " +  list + " >");
 			mv.addObject("list", list);
-//			mv.addObject("loginUserCode", loginUserCode);
 			
-			mv.setViewName("studyGroupDetail/leftGroupStudyTimeRank");
+			mv.setViewName("studyGroupDetail/leftGroupStudyTimeTotal");
 			System.out.println("MV : < " + mv + " >");
 			
 		} catch (Exception e) {

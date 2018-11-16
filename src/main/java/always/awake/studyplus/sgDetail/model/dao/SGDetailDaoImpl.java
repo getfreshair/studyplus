@@ -99,5 +99,16 @@ public class SGDetailDaoImpl implements SGDetailDao{
 		System.out.println("dao : " + hm);
 		return sqlSession.selectList("SGDetail.selectGroupMemberRankList", hm);
 	}
+
+	@Override
+	public List<HashMap<String, Object>> selectGroupMemberTimeList(SqlSessionTemplate sqlSession, int grCode, String thisDay) {
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		
+		hm.put("grCode", grCode);
+		hm.put("thisDay", thisDay);
+		
+		System.out.println("dao : " + hm);
+		return sqlSession.selectList("SGDetail.selectGroupMemberTimeList", hm);
+	}
 	
 }

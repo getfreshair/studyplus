@@ -300,6 +300,7 @@
 			PIVOT ( MAX(MEM_DAY_TOTAL) FOR CURR_DAY IN('일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일') ) )
 			WHERE MEMBER_CODE IS NOT NULL
 			ORDER BY SEQ ASC
+			
 		]]>		
 	</select>
 	

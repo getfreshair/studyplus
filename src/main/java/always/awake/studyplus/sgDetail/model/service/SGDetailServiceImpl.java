@@ -57,6 +57,7 @@ public class SGDetailServiceImpl implements SGDetailService{
 	@Override
 	public List<HashMap<String, Object>> selectGroupMemberList(int grCode) {
 		List<HashMap<String, Object>> memberList = gd.selectGroupMemberList(sqlSession, grCode);
+		System.out.println("1번 메뉴 service result : \n" + memberList);
 		return memberList;
 	}
 
@@ -87,7 +88,14 @@ public class SGDetailServiceImpl implements SGDetailService{
 	@Override
 	public List<HashMap<String, Object>> selectGroupMemberRankList(int grCode, String thisDay, int periodType) {
 		List<HashMap<String, Object>> list = gd.selectGroupMemberRankList(sqlSession, grCode, thisDay, periodType);
-		System.out.println("service : " + list);
+		System.out.println("2번 메뉴 service result : \n" + list);
+		return list;
+	}
+
+	@Override
+	public List<HashMap<String, Object>> selectGroupMemberTimeList(int grCode, String thisDay) {
+		List<HashMap<String, Object>> list = gd.selectGroupMemberTimeList(sqlSession, grCode, thisDay);
+		System.out.println("3번 메뉴 service result : \n" + list);
 		return list;
 	}
 
