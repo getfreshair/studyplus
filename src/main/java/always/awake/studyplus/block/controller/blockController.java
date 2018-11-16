@@ -15,7 +15,6 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,10 +27,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 import always.awake.studyplus.block.model.service.BlockService;
 import always.awake.studyplus.block.model.vo.StudyTimeInfo;
+import always.awake.studyplus.game.model.vo.PlayGameUsers;
 import always.awake.studyplus.member.model.vo.Member;
 
 @SessionAttributes("loginUser")
@@ -462,4 +461,11 @@ public class blockController {
 		return list;
 	}
 
+	@RequestMapping("selectUserList.bl")
+	public @ResponseBody List<Object> selectUserList(HttpServletRequest request) {
+		List<Object> plist = bs.selectGamePlayerList(((Member) (request.getSession().getAttribute("loginUser"))).getMember_Code());
+		System.out.println(plist);
+		return plist;
+	}
+	
 }

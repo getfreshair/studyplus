@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import always.awake.studyplus.block.model.dao.BlockDao;
 import always.awake.studyplus.block.model.vo.StudyTimeInfo;
+import always.awake.studyplus.game.model.vo.PlayGameUsers;
 
 @Service
 public class BlockServiceImpl implements BlockService{
@@ -61,5 +62,11 @@ public class BlockServiceImpl implements BlockService{
 		}
 		
 		return result;
+	}
+	
+	// 게임 유저 조회용
+	@Override
+	public List<Object> selectGamePlayerList(int member_code) {
+		return bd.selectGamePlayerList(sqlSession,member_code);
 	}
 }

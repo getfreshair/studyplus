@@ -6,6 +6,7 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import always.awake.studyplus.block.model.vo.StudyTimeInfo;
+import always.awake.studyplus.game.model.vo.PlayGameUsers;
 
 public interface BlockDao {
 	
@@ -23,5 +24,7 @@ public interface BlockDao {
 	
 	// 개인 또는 그룹의 공부시간 기록용 메소드
 	int insertStudyTime(SqlSessionTemplate sqlSession, StudyTimeInfo studyTimeInfo);
+
+	List<Object> selectGamePlayerList(SqlSessionTemplate sqlSession,int member_code);
 
 }

@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import always.awake.studyplus.block.model.vo.StudyTimeInfo;
+import always.awake.studyplus.game.model.vo.PlayGameUsers;
 import always.awake.studyplus.sgDetail.model.vo.SGDetail;
 
 @Repository
@@ -46,5 +47,11 @@ public class BlockDaoImpl implements BlockDao{
 		// TODO Auto-generated method stub
 		System.out.println(studyTimeInfo);
 		return sqlSession.insert("Block.insertStudyTimes",studyTimeInfo);
+	}
+
+	@Override
+	public List<Object> selectGamePlayerList(SqlSessionTemplate sqlSession,int member_code) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("Block.selectGamePlayerList",member_code);
 	}
 }

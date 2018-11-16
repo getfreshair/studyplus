@@ -18,6 +18,13 @@
   	</resultMap>
 
 
+	<resultMap type="PlayGameUsers" id="playGameUsersResultSet">
+		<id property="user_Code" column="MEMBER_CODE"/>
+		<result property="startgame_Time" column="STARTGAME_TIME"/>
+		<result property="location_Name" column="LOCATION_NAME" />
+		<result property="member_Job" column="MEMBER_JOB"/>
+	</resultMap>
+
 	<resultMap type="SGDetail" id="studyGroupResultSet">
 		<id property="studyGroup_Code" column="STUDYGROUP_CODE"/>
 		<result property="member_Code" column="MEMBER_CODE"/>
@@ -114,4 +121,20 @@
 	            		#{loginUserCode})
 		</foreach>
 	</insert>
+	
+	
+	<select id="selectGamePlayerList" resultMap="playGameUsersResultSet" parameterType="_int">
+		SELECT SG.MEMBER_CODE , SG.STARTGAME_TIME ,
+		L.LOCATION_NAME , M.MEMBER_JOB
+		FROM STUDYGAME SG
+		JOIN MEMBER M ON ( SG.MEMBER_CODE = M.MEMBER_CODE )
+		JOIN LOCATION L ON ( M.LOCATION_CODE = L.LOCATION_CODE )
+        
+		WHERE M.LOCATION_CODE = ( SELECT LOCATION_CODE 
+								  FROM MEMBER 
+								  WHERE MEMBER_CODE = #{member_code})
+        OR M.MEMBER_JOB = ( SELECT MEMBER_JOB 
+							   FROM MEMBER 
+							   WHERE MEMBER_CODE = #{member_code})
+	</select>
 </mapper>

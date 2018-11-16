@@ -61,7 +61,16 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 			// 입장일 경우 처리할 부분 
 			if(msg.substring(msg.lastIndexOf(":") + 1 , msg.length()).equals("입장")) {
 				//List<Object> ulist = gs.selectGamePlayer(loginUser.getMember_Code());
-				List<Integer> playUserCodeList = gs.selectGamePlayerList();
+				List<Object> playUsers = gs.selectGamePlayer(loginUser.getMember_Code());
+				if(playUsers.size() != 0) {
+					for (int i = 0; i < playUsers.size(); i++) {
+						if(playUsers.get(i) instanceof PlayGameUsers) {
+							if(users.get(((PlayGameUsers)playUsers.get(i)).getUser_Code() + "" ) != null) {
+								users.get(((PlayGameUsers)playUsers.get(i)).getUser_Code() + "" ).sendMessage(message);
+							}
+						}
+					}
+				}
 			}
 			// 퇴장 처리
 			else if (msg.substring(msg.lastIndexOf(":") + 1 , msg.length()).equals("퇴장")) {
@@ -100,7 +109,9 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 		Map<String, Object> map;
 		map = session.getAttributes();
 		loginUser = (Member)map.get("loginUser");
-		int result = gs.deleteGameUserInfo(loginUser.getMember_Code());
+		System.out.println(loginUser.getMember_Code());
+		int test = gs.deleteGameUserInfo(loginUser.getMember_Code());
+		System.out.println(test);
 		sendMsgLogout(loginUser);
 		users.remove(loginUser.getMember_Code() + "");
 	}

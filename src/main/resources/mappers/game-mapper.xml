@@ -8,19 +8,19 @@
 	<resultMap type="PlayGameUsers" id="playGameUsersResultSet">
 		<id property="user_Code" column="MEMBER_CODE"/>
 		<result property="startgame_Time" column="STARTGAME_TIME"/>
-		<result property="division" column="DIVISION" />
-		<result property="div_Value" column="DIV_VALUE"/>
+		<result property="location_Name" column="LOCATION_NAME" />
+		<result property="member_Job" column="MEMBER_JOB"/>
 	</resultMap>
 
 
 	<insert id="inusertGameUserInfo" parameterType="_int">
 		INSERT INTO
 		STUDYGAME
-		VALUES ( #{member_code}, SYSDATE)
+		VALUES (#{member_code}, SYSDATE)
 	</insert>
 
 
-	<delete id="deleteGameuserInfo" parameterType="_int">
+	<delete id="deleteGameUserInfo" parameterType="_int">
 		DELETE FROM
 		STUDYGAME
 		WHERE MEMBER_CODE = #{member_code}
@@ -29,27 +29,21 @@
 
 	<select id="selectGamePlayer" parameterType="_int" resultMap="playGameUsersResultSet" >
 		SELECT SG.MEMBER_CODE , SG.STARTGAME_TIME ,
-		'LOCATION' AS DIVISION,L.LOCATION_NAME AS DIV_VALUE
+		L.LOCATION_NAME , M.MEMBER_JOB
 		FROM STUDYGAME SG
 		JOIN MEMBER M ON ( SG.MEMBER_CODE = M.MEMBER_CODE )
 		JOIN LOCATION L ON ( M.LOCATION_CODE = L.LOCATION_CODE )
-		WHERE M.LOCATION_CODE = ( SELECT LOCATION_CODE 
+        
+		WHERE (M.LOCATION_CODE = ( SELECT LOCATION_CODE 
 								  FROM MEMBER 
 								  WHERE MEMBER_CODE = #{member_code})
-
-		UNION
-
-		SELECT SG.MEMBER_CODE , SG.STARTGAME_TIME ,'JOB' AS DIVISION, M.MEMBER_JOB
-		AS DIV_VALUE
-		FROM STUDYGAME SG
-		JOIN MEMBER M ON ( SG.MEMBER_CODE = M.MEMBER_CODE )
-		JOIN LOCATION L ON ( M.LOCATION_CODE = L.LOCATION_CODE )
-		WHERE M.MEMBER_JOB = ( SELECT MEMBER_JOB 
+        OR M.MEMBER_JOB = ( SELECT MEMBER_JOB 
 							   FROM MEMBER 
-							   WHERE MEMBER_CODE = #{member_code})
+							   WHERE MEMBER_CODE = #{member_code}))
+		AND M.MEMBER_CODE != #{member_code}
 	</select>
 	
 	<select id="selectGamePlayerList" resultType="_int">
-		
+	
 	</select>
 </mapper>
