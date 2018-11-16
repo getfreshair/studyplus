@@ -15,7 +15,7 @@ $(function(){
 	//-------------- 오늘의 목표 --------------
 	todayGoalsList();		//오늘의 목표 리스트
 	goalAddMdal();			//목표 등록 모달
-	bookIsbn();				//isbn 책검색
+	//bookIsbn();				//isbn 책검색
 
 });
 
@@ -1018,7 +1018,8 @@ function todayGoalsList(){
 						var week = data[0][key][i].week;					//목표 요일
 						var todayOrWeek = data[0][key][i].goalDivision;		//0일경우 오늘목표, 1일경우 주간목표
 						var enrolldate = data[0][key][i].dateString;		//목표날짜
-
+						var goalISBN = data[0][key][i].GOAL_ISBN;			//isbn code
+						console.log(data[0][key][i].GOAL_ISBN)
 						
 						weekGoalCode[i] = data[0][key][i].goalCode;						//이번주 중 등록한 목표코드들
 						weekWeek[i] = data[0][key][i].week;								//이번주 중 선택한 요일들
@@ -1076,7 +1077,7 @@ function todayGoalsList(){
 					//}
 					//목표 리스트 각 목표 클릭시 상세 팝업창 노출(아래 함수 호출)
 					weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, 
-							achievHour, achievMin, achievPer, shortfallPer, enrolldate, weekDay);
+							achievHour, achievMin, achievPer, shortfallPer, enrolldate, weekDay, goalISBN);
 				
 				}
 			},
@@ -1176,74 +1177,22 @@ function todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, 
 				$("#detailViewModal .book_form #goalName").attr("value",content);
 				$("#detailViewModal .book_form #goalPage").attr("value",goalAmount);
 				$("#detailViewModal .book_form #goalAchiev").attr("value",achiev);
-				$("#detailViewModal .book_form .bookIpt").attr("value",goalISBN);
+				//$("#detailViewModal .book_form #bookIpt").attr("value",goalISBN);
 				
 				$("#detailViewModal .book_form").parent().attr("action","TodayBookGoalUpdateModal.sp?liIndex=" + liIndex);
 				
+				//페이지 목표 상세보기시 isbn이 있을경우 책검색 함수 호출
 				if($("#detailViewModal .book_form .bookIpt").val() != null){
-					$.ajax({
-						url : "bookIsbn.sp",
-						data : {searchBook : goalISBN},
-						type : "get",
-						success : function(data) {
-							
-							var object = JSON.parse(data);
-							//console.log(object);
-							
-							//$(".bookIpt").attr("value", object.items[0].isbn);
-							$(".book_img").append().html('<img src="' + object.items[0].image + '">');
-							$(".book_info").append().html(object.items[0].title);
-							
-							
-							$("#bookBtn").click(function(){
-								var searchBook = ($(".bookIpt").val()).replace(/ /g,"");
-								console.log(searchBook);
-								$.ajax({
-									url : "bookIsbn.sp",
-									data : {searchBook : searchBook},
-									type : "get",
-									success : function(data) {
-										console.log("검색한 데이터 : " + data)
-										
-										var object = JSON.parse(data);
-										console.log(object);
-										
-										console.log(object.items[0].title);
-										console.log(object.items[0].image);
-										console.log(object.items[0].isbn);
-										
-										//$(".bookIpt").attr("value", object.items[0].isbn);
-										$(".book_img").append().html('<img src="' + object.items[0].image + '">');
-										$(".book_info").append().html(object.items[0].title);
-									},
-									error : function() {
-										console.log("에러발생!");
-									}
-								});
-							});
-							
-							
-							
-						},
-						error : function() {
-							console.log("에러발생!");
-						}
-					});
+					bookIsbn(goalISBN.replace(/ /g,""));
 				}
-				
 			}
 		}
-		
-		/*$("#saveBtn").click(function(){
-			alert("저장시 주간목표로 등록 한 데이터는 전부 변경됩니다.")
-		});*/
-		
 	});
 }
 
 //주간 목표 리스트, 각 목표 클릭시 상세 팝업창 노출
 function weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, 
-		achievHour, achievMin, achievPer, shortfallPer, enrolldate, weekDay){
+		achievHour, achievMin, achievPer, shortfallPer, enrolldate, weekDay, goalISBN){
 	
 	$(".weekly_goals li .right_area").click(function(){
 		
@@ -1306,6 +1255,12 @@ function weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour,
 				$("#weeklyDetailViewModal .book_form #goalAchiev").attr("value",achiev);
 				
 				$("#weeklyDetailViewModal .book_form").parent().attr("action","TodayBookGoalUpdateModal.sp?liIndex=" + liIndex);
+				
+				//페이지 목표 상세보기시 isbn이 있을경우 책검색 함수 호출
+				if($("#detailViewModal .book_form .bookIpt").val() != null){
+					bookIsbn(goalISBN.replace(/ /g,""));
+				}
+				
 			}
 		}
 		
@@ -1322,7 +1277,8 @@ function goalAddMdal(){
 	$('#insertTodayModal').on('show.bs.modal',function(){
 
 		//등록 모달 클릭시 데이터 초기화
-		$("#insertTodayModal .bookIpt").attr("value","");
+		$("#insertTodayModal .bookIpt").empty();
+		//$("#insertTodayModal .bookIpt").attr("value","");
 		$("#insertTodayModal .book_img").empty();
 		$("#insertTodayModal .book_info").text("");
 		
@@ -1382,31 +1338,54 @@ function goalAddMdal(){
 }
 
 //isbn 책검색
-function bookIsbn(){
-	$("#bookBtn").click(function(){
-		var searchBook = ($(".bookIpt").val()).replace(/ /g,"");
-		console.log(searchBook);
-		$.ajax({
-			url : "bookIsbn.sp",
-			data : {searchBook : searchBook},
-			type : "get",
-			success : function(data) {
-				console.log("검색한 데이터 : " + data)
-				
-				var object = JSON.parse(data);
-				console.log(object);
-				
-				console.log(object.items[0].title);
-				console.log(object.items[0].image);
-				console.log(object.items[0].isbn);
-				
-				//$(".bookIpt").attr("value", object.items[0].isbn);
-				$(".book_img").append().html('<img src="' + object.items[0].image + '">');
-				$(".book_info").append().html(object.items[0].title);
-			},
-			error : function() {
-				console.log("에러발생!");
-			}
-		});
+function bookIsbn(searchBook){
+	$.ajax({
+		url : "bookIsbn.sp",
+		data : {searchBook : searchBook},
+		type : "get",
+		success : function(data) {
+			//console.log("검색한 데이터 : " + data)
+			
+			var object = JSON.parse(data);
+			//console.log(object);
+			
+			console.log(object.items[0].title);
+			//console.log(object.items[0].image);
+			//console.log(object.items[0].isbn);
+			
+			//$(".bookIpt").attr("value", object.items[0].isbn);
+			$(".book_img").append().html('<img src="' + object.items[0].image + '">');
+			$(".book_info").append().html(object.items[0].title);
+		},
+		error : function() {
+			console.log("에러발생!");
+		}
 	});
 }
+
+$(function(){
+	//오늘목표 등록용 책검색
+	$(document).on("click","#bookBtn1",function(){
+		var searchBook = ($("#searchIpt1").val()).replace(/ /g,"");
+		console.log(searchBook);
+		bookIsbn(searchBook);
+	});
+	//오늘목표 수정용 책검색
+	$(document).on("click","#bookBtn2",function(){
+		var searchBook = ($("#searchIpt2").val()).replace(/ /g,"");
+		console.log(searchBook);
+		bookIsbn(searchBook);
+	});
+	//주간목표 등록용 책검색
+	$(document).on("click","#bookBtn3",function(){
+		var searchBook = ($("#searchIpt3").val()).replace(/ /g,"");
+		console.log(searchBook);
+		bookIsbn(searchBook);
+	});
+	//주간목표 수정용 책검색
+	$(document).on("click","#bookBtn4",function(){
+		var searchBook = ($("#searchIpt4").val()).replace(/ /g,"");
+		console.log(searchBook);
+		bookIsbn(searchBook);
+	});
+});

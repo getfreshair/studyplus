@@ -106,7 +106,7 @@
 	<!-- 주간 목표 리스트 -->
 	<select id="selectWeeklyGoals" parameterType="map" resultType="map">
 		SELECT GOAL_CODE,MEMBER_CODE, TRUNC(GOAL_ENROLLDATE) AS GOAL_ENROLLDATE, TO_CHAR(GOAL_ENROLLDATE, 'dy') AS WEEK,
-		GOAL_CONTENT,GOAL_TYPE,GOAL_GOALAMOUNT,NVL(GOAL_ACHIEVEAMOUNT,0) GOAL_ACHIEVEAMOUNT,GOAL_ISBN,GOAL_DIVISION
+		GOAL_CONTENT,GOAL_TYPE,GOAL_GOALAMOUNT,NVL(GOAL_ACHIEVEAMOUNT,0) GOAL_ACHIEVEAMOUNT,NVL(GOAL_ISBN,0) AS GOAL_ISBN,GOAL_DIVISION
 		FROM GOAL
 		WHERE GOAL_DIVISION = 1
 		AND MEMBER_CODE = #{loginUserCode}
@@ -154,13 +154,14 @@
 	<!-- 주간 목표 등록(페이지 단위) -->
 	<insert id="insertWeeklyBookGoal" >
 		INSERT INTO GOAL(GOAL_CODE, MEMBER_CODE, GOAL_ENROLLDATE, GOAL_CONTENT, 
-		GOAL_TYPE, GOAL_GOALAMOUNT, GOAL_ISBN, GOAL_DIVISION)
-		VALUES(SEQ_GOAL_GOAL_CODE.NEXTVAL, #{loginUserCode}, SYSDATE, #{goalName}, 0, #{goalPage}, NULL, 1)
+						GOAL_TYPE, GOAL_GOALAMOUNT, GOAL_ISBN, GOAL_DIVISION)
+		VALUES(SEQ_GOAL_GOAL_CODE.NEXTVAL, #{loginUserCode}, #{insertDay}, #{goalName}, 0, #{goalPage}, #{bookIsbn}, 1)
 	</insert>
 	
 	<!-- 주간 목표 업데이트(페이지 단위) -->
 	<update id="updateWeeklyBookGoal">
-		UPDATE GOAL SET GOAL_CONTENT = #{goalName}, GOAL_GOALAMOUNT = #{goalPage}, GOAL_ACHIEVEAMOUNT = #{goalAchiev}
+		UPDATE GOAL SET GOAL_CONTENT = #{goalName}, GOAL_GOALAMOUNT = #{goalPage}, 
+						GOAL_ACHIEVEAMOUNT = #{goalAchiev}, GOAL_ISBN = #{bookIsbn}
 		WHERE GOAL_CODE = #{liIndex}
 		AND MEMBER_CODE = #{loginUserCode}
 		AND GOAL_TYPE = 0

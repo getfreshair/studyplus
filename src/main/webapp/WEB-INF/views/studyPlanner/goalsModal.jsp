@@ -56,16 +56,11 @@
 					<div class="book_form">
 						<input type="hidden" value="0" name="goalType">
 						<div class="col-sm-5 col-xs-12 img_area">
-							<input type="text" class="bookIpt" name="bookIsbn">
-							<button type="button" id="bookBtn">책검색</button>
+							<input type="text" class="bookIpt" id="searchIpt1" name="bookIsbn">
+							<button type="button" id="bookBtn1">책검색</button>
 							<div class="book_img"></div>
 							<p class="book_info"></p>
 						</div>
-						<!-- <script>
-						$(function(){
-							bookIsbn();
-						});
-						</script> -->
 						<div class="col-sm-7 col-xs-12 ipt_area">
 							<dl>
 								<dt>목표명</dt>
@@ -154,8 +149,8 @@
 					<div class="book_form">
 						<input type="hidden" value="0" name="goalType">
 						<div class="col-sm-5 col-xs-12 img_area">
-							<input type="text" class="bookIpt" name="bookIsbn">
-							<button type="button" id="bookBtn">책검색</button>
+							<input type="text" class="bookIpt" id="searchIpt2" name="bookIsbn">
+							<button type="button" id="bookBtn2">책검색</button>
 							<div class="book_img"></div>
 							<p class="book_info"></p>
 						</div>
@@ -266,8 +261,8 @@
 					<div class="book_form">
 						<input type="hidden" value="0" name="goalType">
 						<div class="col-sm-5 col-xs-12 img_area">
-							<input type="text" class="bookIpt" name="bookIsbn">
-							<button type="button" id="bookBtn">책검색</button>
+							<input type="text" class="bookIpt" id="searchIpt3" name="bookIsbn">
+							<button type="button" id="bookBtn3">책검색</button>
 							<div class="book_img"></div>
 							<p class="book_info"></p>
 						</div>
@@ -397,8 +392,8 @@
 					<div class="book_form">
 						<input type="hidden" value="0" name="goalType">
 						<div class="col-sm-5 col-xs-12 img_area">
-							<input type="text" class="bookIpt" name="bookIsbn">
-							<button type="button" id="bookBtn">책검색</button>
+							<input type="text" class="bookIpt" id="searchIpt4" name="bookIsbn">
+							<button type="button" id="bookBtn4">책검색</button>
 							<div class="book_img"></div>
 							<p class="book_info"></p>
 						</div>

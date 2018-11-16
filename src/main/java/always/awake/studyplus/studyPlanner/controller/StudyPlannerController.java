@@ -438,7 +438,7 @@ public class StudyPlannerController {
 	//주간 목표 리스트
 	@RequestMapping(value="weeklyGoalsList.sp")
 	public @ResponseBody List<HashMap<String, ArrayList<Goal>>> weeklyGoalsList(HttpSession session, @RequestParam String dateVal, HttpServletResponse response) throws plannerException{
-		//System.out.println("들어는 오니??");
+		System.out.println("들어는 오니??");
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int loginUserCode = loginUser.getMember_Code();
 		
@@ -463,6 +463,7 @@ public class StudyPlannerController {
 			temp.setGoalGoalAmount(Integer.parseInt(list.get(i).get("GOAL_GOALAMOUNT").toString()));
 			temp.setWeek(list.get(i).get("WEEK").toString());
 			temp.setGoalDivision(Integer.parseInt(list.get(i).get("GOAL_DIVISION").toString()));
+			temp.setGoalISBN(list.get(i).get("GOAL_ISBN").toString());
 			
 			if(weekMap.get(content) != null) {
 				weekMap.get(content).add(temp);
@@ -473,10 +474,10 @@ public class StudyPlannerController {
 			}
 		}
 		
-		System.out.println(weekMap);
 		
 		List<HashMap<String, ArrayList<Goal>>> returnList = new ArrayList<HashMap<String, ArrayList<Goal>>>();
 		returnList.add(weekMap);
+		System.out.println("컨트롤러에서 보낼 데이터 : " + weekMap);
 		
 		return returnList;
 	}
@@ -578,7 +579,8 @@ public class StudyPlannerController {
 	//오늘의 목표 업데이트(페이지 단위)
 	@RequestMapping(value="TodayBookGoalUpdateModal.sp", method=RequestMethod.POST)
 	public String TodayBookGoalUpdate(HttpSession session, @RequestParam("goalType")int goalType, @RequestParam("goalName")String goalName,
-			@RequestParam("goalPage")int goalPage, @RequestParam("goalAchiev")int goalAchiev, @RequestParam("liIndex")int liIndex) {
+			@RequestParam("goalPage")int goalPage, @RequestParam("goalAchiev")int goalAchiev, @RequestParam("liIndex")int liIndex, 
+			@RequestParam("bookIsbn")String bookIsbn) {
 		
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int loginUserCode = loginUser.getMember_Code();
@@ -590,6 +592,7 @@ public class StudyPlannerController {
 		hmap.put("goalPage", goalPage);
 		hmap.put("goalAchiev", goalAchiev);
 		hmap.put("liIndex", liIndex);
+		hmap.put("bookIsbn", bookIsbn);
 		
 		int result = sps.updateTodayBookGoal(hmap);
 		
@@ -697,18 +700,29 @@ public class StudyPlannerController {
 	//주간 목표 등록(페이지 단위)
 	@RequestMapping(value="WeeklyBookGoalAddModal.sp", method=RequestMethod.POST)
 	public String insertWeeklyBookGoal(HttpSession session, @RequestParam("goalType")int goalType, @RequestParam("goalName")String goalName,
-			@RequestParam("goalPage")int goalPage) {
+			@RequestParam("goalPage")int goalPage, @RequestParam("checkWeek")String checkWeek, @RequestParam("bookIsbn")String bookIsbn) {
 		
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int loginUserCode = loginUser.getMember_Code();
 		
-		Map<String, Object> hmap = new HashMap<String, Object>();
-		hmap.put("loginUserCode", loginUserCode);
-		hmap.put("goalType", goalType);
-		hmap.put("goalName", goalName);
-		hmap.put("goalPage", goalPage);
+		String[] arr = checkWeek.split(",");
+		String insertDay = "";
+		int result = 0;
 		
-		int result = sps.insertWeeklyBookGoal(hmap);
+		for(int i = 0; i < arr.length; i++) {
+			System.out.println(arr[i]);
+			insertDay = arr[i];
+			
+			Map<String, Object> hmap = new HashMap<String, Object>();
+			hmap.put("loginUserCode", loginUserCode);
+			hmap.put("goalType", goalType);
+			hmap.put("goalName", goalName);
+			hmap.put("goalPage", goalPage);
+			hmap.put("insertDay", insertDay);
+			hmap.put("bookIsbn", bookIsbn);
+			
+			result = sps.insertWeeklyBookGoal(hmap);
+		}
 		
 		if(result > 0) {
 			System.out.println("목표 등록 성공!!");
@@ -724,7 +738,8 @@ public class StudyPlannerController {
 	//주간 목표 업데이트(페이지 단위)
 	@RequestMapping(value="WeeklyBookGoalUpdateModal.sp", method=RequestMethod.POST)
 	public String WeeklyBookGoalUpdate(HttpSession session, @RequestParam("goalType")int goalType, @RequestParam("goalName")String goalName,
-			@RequestParam("goalPage")int goalPage, @RequestParam("goalAchiev")int goalAchiev, @RequestParam("liIndex")int liIndex) {
+			@RequestParam("goalPage")int goalPage, @RequestParam("goalAchiev")int goalAchiev, @RequestParam("liIndex")int liIndex,
+			 @RequestParam("bookIsbn")String bookIsbn) {
 		
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int loginUserCode = loginUser.getMember_Code();
@@ -736,6 +751,7 @@ public class StudyPlannerController {
 		hmap.put("goalPage", goalPage);
 		hmap.put("goalAchiev", goalAchiev);
 		hmap.put("liIndex", liIndex);
+		hmap.put("bookIsbn", bookIsbn);
 		
 		int result = sps.updateWeeklyBookGoal(hmap);
 		
