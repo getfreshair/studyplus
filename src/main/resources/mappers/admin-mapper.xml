@@ -797,4 +797,10 @@
 		FROM NOTICE
 		WHERE NOTICE_CODE= #{noticeCode}
 	</select>
+	
+	<select id="getUserCodeByPhone" resultType="map" parameterType="map">
+		SELECT MEMBER_CODE
+		FROM MEMBER
+		WHERE PHONE = #{rphone}
+	</select>
 </mapper>
