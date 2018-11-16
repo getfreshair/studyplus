@@ -66,7 +66,7 @@ public class StudyPlannerDaoImpl implements StudyPlannerDao{
 	public List<Map<String, Object>> selectTodayGoals(SqlSessionTemplate sqlSession, Map<String, Object> hmap) throws plannerException {
 
 		List<Map<String, Object>> todayGoals = sqlSession.selectList("StudyPlanner.selectTodayGoals", hmap);
-		
+		System.out.println("dao select : " + todayGoals);
 		if(todayGoals == null) {
 			throw new plannerException("목표 데이터가 없습니다.");
 		}

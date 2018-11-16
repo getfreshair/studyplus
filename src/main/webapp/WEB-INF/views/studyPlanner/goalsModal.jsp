@@ -20,7 +20,7 @@
 						<input type="hidden" value="1" name="goalType">
 						<div class="col-sm-5 col-xs-12 chart_area">
 							<canvas id="insert_Modal_donut" width="200" height="200"></canvas>
-							<span class="chart_per"></span>
+							<span class="chart_per">0%</span>
 						</div>
 						<div class="col-sm-7 col-xs-12 ipt_area">
 							<dl>
@@ -61,36 +61,11 @@
 							<div class="book_img"></div>
 							<p class="book_info"></p>
 						</div>
-						<script>
+						<!-- <script>
 						$(function(){
-							$("#bookBtn").click(function(){
-								var searchBook = $(".bookIpt").val();
-								console.log(searchBook);
-								$.ajax({
-									url : "bookIsbn.sp",
-									data : {searchBook : searchBook},
-									type : "get",
-									success : function(data) {
-										console.log("검색한 데이터 : " + data)
-										
-										var object = JSON.parse(data);
-										console.log(object);
-										
-										console.log(object.items[0].title);
-										console.log(object.items[0].image);
-										console.log(object.items[0].isbn);
-										
-										$(".bookIpt").attr("value", object.items[0].isbn);
-										$(".book_img").append().html('<img src="' + object.items[0].image + '">');
-										$(".book_info").append().html(object.items[0].title);
-									},
-									error : function() {
-										console.log("에러발생!");
-									}
-								});
-							});
+							bookIsbn();
 						});
-						</script>
+						</script> -->
 						<div class="col-sm-7 col-xs-12 ipt_area">
 							<dl>
 								<dt>목표명</dt>
@@ -236,7 +211,7 @@
 						<input type="hidden" value="1" name="goalType">
 						<div class="col-sm-5 col-xs-12 chart_area">
 							<canvas id="insert_Modal_donut2" width="200" height="200"></canvas>
-							<span class="chart_per"></span>
+							<span class="chart_per">0%</span>
 						</div>
 						<div class="col-sm-7 col-xs-12 ipt_area">
 							<dl>
@@ -478,3 +453,36 @@
 	</div>
 </div>
 <!-- // weeklyDetailViewModal -->
+
+
+<script>
+/* //isbn 책검색
+function bookIsbn(){
+	$("#bookBtn").click(function(){
+		var searchBook = ($(".bookIpt").val()).replace(/ /g,"");
+		console.log(searchBook);
+		$.ajax({
+			url : "bookIsbn.sp",
+			data : {searchBook : searchBook},
+			type : "get",
+			success : function(data) {
+				console.log("검색한 데이터 : " + data)
+				
+				var object = JSON.parse(data);
+				console.log(object);
+				
+				console.log(object.items[0].title);
+				console.log(object.items[0].image);
+				console.log(object.items[0].isbn);
+				
+				$(".bookIpt").attr("value", object.items[0].isbn);
+				$(".book_img").append().html('<img src="' + object.items[0].image + '">');
+				$(".book_info").append().html(object.items[0].title);
+			},
+			error : function() {
+				console.log("에러발생!");
+			}
+		});
+	});
+} */
+</script>

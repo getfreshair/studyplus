@@ -15,7 +15,7 @@ $(function(){
 	//-------------- 오늘의 목표 --------------
 	todayGoalsList();		//오늘의 목표 리스트
 	goalAddMdal();			//목표 등록 모달
-	//bookIsbn();				//isbn 책검색
+	bookIsbn();				//isbn 책검색
 
 });
 
@@ -942,14 +942,14 @@ function todayGoalsList(){
 					var division = data[i].GOAL_DIVISION;			//0일경우 일간묙표, 1일경우 주간목표
 					var enrolldate = data[i].GOAL_ENROLLDATE;		//목표날짜 
 					var goalISBN = data[i].GOAL_ISBN;				//isbn code
-					
+
 					//목표 타입이 시간일 경우 시간,분으로 변경
 					var dataType;
 					if(type != 0){
-						goalAmountHour = Math.floor(((goalAmount/60)/60)%24);	//목표량 시간
-						goalAmountMin = ((goalAmount/60)%60);					//목표량 분
-						achievHour = Math.floor(((achiev/60)/60)%24);			//달성량 시간
-						achievMin = ((achiev/60)%60);							//달성량 분
+						var goalAmountHour = Math.floor(((goalAmount/60)/60)%24);	//목표량 시간
+						var goalAmountMin = ((goalAmount/60)%60);					//목표량 분
+						var achievHour = Math.floor(((achiev/60)/60)%24);			//달성량 시간
+						var achievMin = ((achiev/60)%60);							//달성량 분
 						
 						dataType = achievHour + "시간 " + achievMin + "분"  + ' / ' + goalAmountHour + "시간 " + goalAmountMin + "분";
 					}else{
@@ -977,7 +977,8 @@ function todayGoalsList(){
 
 					
 					//목표 리스트 각 목표 클릭시 상세 팝업창 노출(아래 함수 호출)
-					todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, achievHour, achievMin, achievPer, shortfallPer, goalISBN);
+					todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, achievHour, 
+							achievMin, achievPer, shortfallPer, goalISBN);
 					
 				}
 			},
@@ -1041,10 +1042,10 @@ function todayGoalsList(){
 					//목표 타입이 시간일 경우 시간,분으로 변경
 					var dataType;
 					if(type != 0){
-						achievHour = Math.floor(((totalAchieveAmount/60)/60)%24);			//총 달성량 시간
-						achievMin = ((totalAchieveAmount/60)%60);							//총 달성량 분
-						goalAmountHour = Math.floor(((totalWeekGoalAmount/60)/60)%24);		//총 목표량 시간
-						goalAmountMin = ((totalWeekGoalAmount/60)%60);						//총 목표량 분
+						var achievHour = Math.floor(((totalAchieveAmount/60)/60)%24);			//총 달성량 시간
+						var achievMin = ((totalAchieveAmount/60)%60);							//총 달성량 분
+						var goalAmountHour = Math.floor(((totalWeekGoalAmount/60)/60)%24);		//총 목표량 시간
+						var goalAmountMin = ((totalWeekGoalAmount/60)%60);						//총 목표량 분
 						
 						dataType = achievHour + "시간 " + achievMin + "분"  + ' / ' + goalAmountHour + "시간 " + goalAmountMin + "분";
 					}else{
@@ -1124,8 +1125,9 @@ function GoalListChart2(achievPer, shortfallPer, i){
 
 
 //오늘의 목표 리스트, 각 목표 클릭시 상세 팝업창 노출
-function todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, achievHour, achievMin, achievPer, shortfallPer, goalISBN){
-	console.log("isbn들어오는타입? : " + typeof(goalISBN)) //책 등록이 아닌것이 null로 들어와서 문제발생..!
+function todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, achievHour, 
+						achievMin, achievPer, shortfallPer, goalISBN){
+	
 	$(".today_goals li .right_area").click(function(){
 		
 		var liIndex = $(this).parent().val();
@@ -1178,41 +1180,58 @@ function todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, 
 				
 				$("#detailViewModal .book_form").parent().attr("action","TodayBookGoalUpdateModal.sp?liIndex=" + liIndex);
 				
-				/*if(goalISBN != null){
-					testBoook();
-					function testBoook(){
-						var searchBook = $(".bookIpt").val();
-						console.log(searchBook);
-						$.ajax({
-							url : "bookIsbn.sp",
-							data : {searchBook : searchBook},
-							type : "get",
-							success : function(data) {
-								console.log("검색한 데이터 : " + data)
-								
-								var object = JSON.parse(data);
-								console.log(object);
+				if($("#detailViewModal .book_form .bookIpt").val() != null){
+					$.ajax({
+						url : "bookIsbn.sp",
+						data : {searchBook : goalISBN},
+						type : "get",
+						success : function(data) {
 							
-							console.log(object.items[0].title);
-							console.log(object.items[0].image);
-							console.log(object.items[0].isbn);
-								
-								$(".bookIpt").attr("value", object.items[0].isbn);
-								$(".book_img").append().html('<img src="' + object.items[0].image + '">');
-								$(".book_info").append().html(object.items[0].title);
-							},
-							error : function() {
-								console.log("에러발생!");
-							}
-						});
-					}
-				}*/
+							var object = JSON.parse(data);
+							//console.log(object);
+							
+							//$(".bookIpt").attr("value", object.items[0].isbn);
+							$(".book_img").append().html('<img src="' + object.items[0].image + '">');
+							$(".book_info").append().html(object.items[0].title);
+							
+							
+							$("#bookBtn").click(function(){
+								var searchBook = ($(".bookIpt").val()).replace(/ /g,"");
+								console.log(searchBook);
+								$.ajax({
+									url : "bookIsbn.sp",
+									data : {searchBook : searchBook},
+									type : "get",
+									success : function(data) {
+										console.log("검색한 데이터 : " + data)
+										
+										var object = JSON.parse(data);
+										console.log(object);
+										
+										console.log(object.items[0].title);
+										console.log(object.items[0].image);
+										console.log(object.items[0].isbn);
+										
+										//$(".bookIpt").attr("value", object.items[0].isbn);
+										$(".book_img").append().html('<img src="' + object.items[0].image + '">');
+										$(".book_info").append().html(object.items[0].title);
+									},
+									error : function() {
+										console.log("에러발생!");
+									}
+								});
+							});
+							
+							
+							
+						},
+						error : function() {
+							console.log("에러발생!");
+						}
+					});
+				}
 				
 			}
-			
-			
-			
-			
 		}
 		
 		/*$("#saveBtn").click(function(){
@@ -1299,15 +1318,22 @@ function weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour,
 
 //목표 등록 모달
 function goalAddMdal(){
-	//모달 오픈
-	$('#insertTodayModal').on('shown.bs.modal',function(){
+	//오늘의 목표 모달 오픈
+	$('#insertTodayModal').on('show.bs.modal',function(){
+
+		//등록 모달 클릭시 데이터 초기화
+		$("#insertTodayModal .bookIpt").attr("value","");
+		$("#insertTodayModal .book_img").empty();
+		$("#insertTodayModal .book_info").text("");
+		
 		//모달 내 차트(default)
+		var why = 0;
 		var ctx = document.getElementById("insert_Modal_donut").getContext('2d');
 		var default_donut = new Chart(ctx, {
 			type: 'doughnut',
 			data: data = {
 					datasets: [{
-						data: [0, 0],
+						data: [why, why],
 						backgroundColor: ['#36a2eb']
 					}],
 					labels: ['달성%','미달성%']
@@ -1315,21 +1341,29 @@ function goalAddMdal(){
 		});	
 	});
 	
-	/*$('#insertTodayModal').on('shown.bs.modal',function(){
+	//주간 목표 모달 오픈
+	$('#insertWeeklyModal').on('show.bs.modal',function(){
+
+		//등록 모달 클릭시 데이터 초기화
+		$("#insertWeeklyModal .bookIpt").attr("value","");
+		$("#insertWeeklyModal .book_img").empty();
+		$("#insertWeeklyModal .book_info").text("");
+		
 		//모달 내 차트(default)
-		var ctx = document.getElementById("insert_Modal_donut").getContext('2d');
+		var ctx = document.getElementById("insert_Modal_donut2").getContext('2d');
 		var default_donut = new Chart(ctx, {
 			type: 'doughnut',
 			data: data = {
+					labels: ['달성%','미달성%'],
 					datasets: [{
 						data: [0, 0],
 						backgroundColor: ['#36a2eb']
-					}],
-					labels: ['달성%','미달성%']
+					}]
 			}
 		});	
-	});*/
+	});
 
+	
 	$(".book_form").hide();
 	$(".modal .tab button:first-child").click(function(){
 		$(".tab button").removeClass('on');
@@ -1342,14 +1376,15 @@ function goalAddMdal(){
 		$(this).addClass('on');
 		$(".time_form").hide();
 		$(".book_form").show();
+		
 	});
+	
 }
 
-
 //isbn 책검색
-/*function bookIsbn(){
-	//$("#bookBtn").click(function(){
-		var searchBook = $("#bookIpt").val();
+function bookIsbn(){
+	$("#bookBtn").click(function(){
+		var searchBook = ($(".bookIpt").val()).replace(/ /g,"");
 		console.log(searchBook);
 		$.ajax({
 			url : "bookIsbn.sp",
@@ -1365,7 +1400,7 @@ function goalAddMdal(){
 				console.log(object.items[0].image);
 				console.log(object.items[0].isbn);
 				
-				$("#bookIpt").attr("value", object.items[0].isbn);
+				//$(".bookIpt").attr("value", object.items[0].isbn);
 				$(".book_img").append().html('<img src="' + object.items[0].image + '">');
 				$(".book_info").append().html(object.items[0].title);
 			},
@@ -1373,6 +1408,5 @@ function goalAddMdal(){
 				console.log("에러발생!");
 			}
 		});
-	//});
-}*/
-
+	});
+}
