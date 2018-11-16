@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.mybatis.spring.SqlSessionTemplate;
-import org.openkoreantext.processor.KoreanTokenJava;
 import org.openkoreantext.processor.OpenKoreanTextProcessorJava;
 import org.openkoreantext.processor.phrase_extractor.KoreanPhraseExtractor;
 import org.openkoreantext.processor.tokenizer.KoreanTokenizer;
@@ -104,45 +103,70 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public String checkSentence(String sentence) {
+	public HashMap<String, Object> checkSentence(String sentence) {
 	    Seq<KoreanTokenizer.KoreanToken> tokens = OpenKoreanTextProcessorJava.tokenize(sentence);
 	    List<String> wordList = OpenKoreanTextProcessorJava.tokensToJavaStringList(tokens);
-	    Sentence newSentence = new Sentence(); 
+	    List<KoreanPhraseExtractor.KoreanPhrase> phrases = OpenKoreanTextProcessorJava.extractPhrases(tokens, true, true);
+	    HashMap<String, Object> questionInfo = new HashMap<String, Object>();
+	    Sentence newSentence = new Sentence();
+	    String word = "";
 	    
-	    for(int i = 0; i < wordList.size(); i++){
-	    	if(wordList.get(i).equals("자주묻는질문")) {
+	    for(int i = 0; i < phrases.size(); i++) {
+	    	word = String.valueOf(phrases.get(i)).split("\\(")[0];
+	    	if(word.equals("유로") || word.equals("돈") || word.equals("금액")) {
+	    		questionInfo.put("infoMessage", "모든 서비스는 무료로 이용이 가능합니다.");
 	    		
-	    		return "main/main";
-	    	}else if(wordList.get(i).equals("약관") || wordList.get(i).equals("정책")) {
+	    		return questionInfo;
+	    	}else if(word.equals("이용약관")) {
+	    		questionInfo.put("pageUrl", "main/main");
 	    		
-	    		return "main/main";
-	    	}else if(wordList.get(i).equals("회원가입")) {
+	    		return questionInfo;
+	    	}else if(word.equals("개인정보")) {
+	    		questionInfo.put("pageUrl", "main/main");
 	    		
-	    		return "main/main";
-	    	}
-
-	    	if(wordList.get(i).equals("검색") || wordList.get(i).equals("조회") || wordList.get(i).equals("이동")) {
-	    		newSentence.setVerb(wordList.get(i));
-	    	}else if(wordList.get(i).equals("스터디그룹") || wordList.get(i).equals("친구") || wordList.get(i).equals("페이지") || wordList.get(i).equals("회원가입")){
-	    		newSentence.setNoun(wordList.get(i));
-	    	}else {
-	    		newSentence.setDirectObject(wordList.get(i));
+	    		return questionInfo;
+	    	}else if(word.equals("스터디플래너")) {
+	    		questionInfo.put("pageUrl", "main/main");
+	    		
+	    		return questionInfo;
 	    	}
 	    }
 	    
-		if(newSentence.getVerb() != null) {
-	    	if(newSentence.getNoun().equals("스터디 그룹")) {
-	    		
-		    }else if(newSentence.getNoun().equals("친구")) {
-		    	
-		    }else if(newSentence.getNoun().equals("페이지")) {
-		    	
-		    }
-		}
+	    for(int i = 0; i < wordList.size(); i++) {
+	    	word = wordList.get(i);
+	    	System.out.println("1 : " + word);
+	    	if(word.equals("줘") || word.equals("할래") || word.equals("싶어") || word.equals("해줘")) {
+	    		newSentence.setVerb(word);
+	    	}
+	    }
+	    
+	    for(int i = 0; i < phrases.size(); i++) {
+	    	word = String.valueOf(phrases.get(i)).split("\\(")[0];
+	    	System.out.println("2 : " + word);
+	    	if(word.equals("스터디 플래너") || word.equals("스터디 그룹") || word.equals("스터디그룹") || word.equals("회원 가입") || word.equals("프로그램")) {
+	    		newSentence.setNoun(word);
+	    	}
+	    }
+	    
+	    
+	    for(int i = 0; i < phrases.size(); i++) {
+	    	word = String.valueOf(phrases.get(i)).split("\\(")[0];
+	    	System.out.println("3 : " + word);
+	    	if(word.equals("차단") || word.equals("가입 방법") || word.equals("검색 방법") || word.equals("생성") || word.equals("탈퇴 방법") || word.equals("방식") || word.equals("하고") || word.equals("방법")) {
+	    		newSentence.setDirectObject(word);;
+	    	}
+	    }
+	    
+	    /*for(int i = 0; i < phrases.size(); i++) {
+	    	word = String.valueOf(phrases.get(i));
+	    	if(word.equals("가입방법") || word.equals("검색방법") || word.equals("생성") || word.equals("탈퇴방법") || word.equals("방식") || word.equals("하고") || word.equals("방법")) {
+	    		newSentence.setDirectObject(word);;
+	    	}
+	    }*/
 	    
 	    System.out.println(newSentence.toString());
 	    
-	    return "sadf";
+	    return questionInfo;
 	}
 
 	@Override
