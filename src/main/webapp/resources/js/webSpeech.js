@@ -32,18 +32,29 @@ function testSpeech() {
   
   recognition.onresult = function(event) {
 	  $.ajax({
-			url : 'questionAnalysis.me',
-			data : {
-				sentence : event.results[0][0].transcript
-			},
-			success : function(data){
-				console.log(data);
-				/*for(var key in data){
-					$('.output'+seq).empty();
-				    $('.output'+seq).html(data[key].words.text);
-				    seq++;
-				}*/
-			}
+		  url : 'questionAnalysis.me',
+		  data : {
+			  sentence : event.results[0][0].transcript
+		  },
+		  contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+		  success : function(data){
+			  console.log(data);
+			  console.log(data.questionInfo.infoMessage);
+			  
+			  $('.output'+seq).empty();
+			  $('.output'+seq).html(event.results[0][0].transcript);
+			  
+			  $serverContent = $('<div class="serverContent">');
+			  $serverImg = $('<img class="serverImg" scr="/studyplus/resources/images/common/operator.png">');
+			  $phrase = $('<div class="phrase">').append(event.results[0][0].transcript);
+			  
+			  $serverContent.append($serverImg);
+			  $serverContent.append($phrase);
+			  
+			  $('.chatBotArea').append($serverContent);
+			  
+			  seq++;
+		  }
 	  });
   }
 

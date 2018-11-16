@@ -100,13 +100,13 @@ public class MemberController {
 		return "common/question";
 	}
 	
-	@RequestMapping(value="questionAnalysis.me", produces = "application/json; charset=utf-8")
+	@RequestMapping(value="questionAnalysis.me")
 	public ModelAndView questionAnalysis(@RequestParam(value="sentence")String sentence){
 		System.out.println("in");
 		ModelAndView mv = new ModelAndView();
 	    
 		HashMap<String, Object> questionInfo = ms.checkSentence(sentence);
-	    
+		
 		mv.addObject("questionInfo", questionInfo);
 		mv.setViewName("jsonView");
 		
