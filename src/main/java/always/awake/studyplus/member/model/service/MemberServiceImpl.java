@@ -121,11 +121,15 @@ public class MemberServiceImpl implements MemberService{
 	    		questionInfo.put("pageUrl", "main/main");
 	    		
 	    		return questionInfo;
-	    	}else if(word.equals("개인정보")) {
+	    	}else if(word.equals("개인 정보")) {
 	    		questionInfo.put("pageUrl", "main/main");
 	    		
 	    		return questionInfo;
-	    	}else if(word.equals("스터디플래너")) {
+	    	}else if(word.equals("개인정보취급방침")) {
+	    		questionInfo.put("pageUrl", "main/main");
+	    		
+	    		return questionInfo;
+	    	}else if(word.equals("개인 스터디")) {
 	    		questionInfo.put("pageUrl", "main/main");
 	    		
 	    		return questionInfo;
@@ -143,7 +147,7 @@ public class MemberServiceImpl implements MemberService{
 	    for(int i = 0; i < phrases.size(); i++) {
 	    	word = String.valueOf(phrases.get(i)).split("\\(")[0];
 	    	System.out.println("2 : " + word);
-	    	if(word.equals("스터디 플래너") || word.equals("스터디 그룹") || word.equals("스터디그룹") || word.equals("회원 가입") || word.equals("프로그램")) {
+	    	if(word.equals("일대일 채팅") ||word.equals("스터디 그룹") || word.equals("스터디그룹") || word.equals("회원 가입") || word.equals("프로그램")) {
 	    		newSentence.setNoun(word);
 	    	}
 	    }
@@ -152,8 +156,13 @@ public class MemberServiceImpl implements MemberService{
 	    for(int i = 0; i < phrases.size(); i++) {
 	    	word = String.valueOf(phrases.get(i)).split("\\(")[0];
 	    	System.out.println("3 : " + word);
-	    	if(word.equals("차단") || word.equals("가입 방법") || word.equals("검색 방법") || word.equals("생성") || word.equals("탈퇴 방법") || word.equals("방식") || word.equals("하고") || word.equals("방법")) {
-	    		newSentence.setDirectObject(word);;
+	    	if(word.equals("차단") || word.equals("가입 방법") || word.equals("검색 방법") || word.equals("생성") || word.equals("방식") || word.equals("하고") || word.equals("방법")) {
+	    		newSentence.setDirectObject(word);
+	    	}
+	    	
+	    	if(word.equals("탈퇴")) {
+	    		newSentence.setDirectObject(word);
+	    		break;
 	    	}
 	    }
 	    
