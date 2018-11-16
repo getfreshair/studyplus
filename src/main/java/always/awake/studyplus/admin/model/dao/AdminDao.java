@@ -208,4 +208,10 @@ public interface AdminDao {
 
 	List<Map<String, Object>> selectNotice(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
 
+
+	List<Map<String, Object>> getUserCodeByPhone(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
+
+	int sendSms(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
 }

@@ -138,4 +138,8 @@ public interface AdminService {
 
 	public List<Map<String, Object>> selectNotice(HashMap<String, Object> map);
 
+	public List<Map<String, Object>> getUserCodeByPhone(HashMap<String, Object> map);
+
+	public int sendSms(HashMap<String, Object> map);
+
 }

@@ -124,6 +124,14 @@ public class AdminController {
 	}
 	@RequestMapping("smssend.do")
 	public ModelAndView sendSms(ModelAndView mv ,@RequestParam("rphone") String rphone,@RequestParam("sphone1") String sphone1,@RequestParam("sphone2") String sphone2,@RequestParam("sphone3") String sphone3,@RequestParam("msg")String msg){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("rphone", rphone);
+		map.put("msg", msg);
+		
+		List<Map<String,Object>> list = as.getUserCodeByPhone(map);
+		
+		int result = as.sendSms(map);
 		
 		System.out.println(rphone);
 		String action = "go";

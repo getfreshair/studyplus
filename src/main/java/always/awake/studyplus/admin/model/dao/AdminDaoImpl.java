@@ -524,4 +524,15 @@ public class AdminDaoImpl implements AdminDao {
 	
 		return sqlSession.selectList("Admin.selectNotice", map);
 	}
+
+	@Override
+	public List<Map<String, Object>> getUserCodeByPhone(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+
+		return sqlSession.selectList("Admin.getUserCodeByPhone", map);
+	}
+
+	@Override
+	public int sendSms(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return sqlSession.insert("Admin.sendSms", map);
+	}
 }

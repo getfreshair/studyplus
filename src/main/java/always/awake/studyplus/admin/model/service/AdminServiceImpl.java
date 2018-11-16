@@ -391,5 +391,17 @@ public class AdminServiceImpl implements AdminService{
 		return ad.selectNotice(sqlSession, map);
 	}
 
+	@Override
+	public List<Map<String, Object>> getUserCodeByPhone(HashMap<String, Object> map) {
+
+		return ad.getUserCodeByPhone(sqlSession, map);
+	}
+
+	@Override
+	public int sendSms(HashMap<String, Object> map) {
+
+		return ad.sendSms(sqlSession, map);
+	}
+
 
 }
