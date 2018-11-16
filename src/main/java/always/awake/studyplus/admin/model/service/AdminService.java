@@ -134,4 +134,8 @@ public interface AdminService {
 
 	public List<Map<String, Object>> contactByDay();
 
+	public int updateNoticeCount(HashMap<String, Object> map);
+
+	public List<Map<String, Object>> selectNotice(HashMap<String, Object> map);
+
 }

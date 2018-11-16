@@ -379,5 +379,17 @@ public class AdminServiceImpl implements AdminService{
 
 	}
 
+	@Override
+	public int updateNoticeCount(HashMap<String, Object> map) {
+		
+		return ad.updateNoticeCount(sqlSession, map);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectNotice(HashMap<String, Object> map) {
+		
+		return ad.selectNotice(sqlSession, map);
+	}
+
 
 }

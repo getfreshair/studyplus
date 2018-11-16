@@ -203,4 +203,9 @@ public interface AdminDao {
 	List<Map<String, Object>> contactByDay(SqlSessionTemplate sqlSession);
 
 
+	int updateNoticeCount(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
+
+	List<Map<String, Object>> selectNotice(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
 }

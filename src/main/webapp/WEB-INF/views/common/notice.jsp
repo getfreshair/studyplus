@@ -24,7 +24,7 @@
 	<div class="notice">
 		<h2>공지사항</h2>
 		<hr>
-		<table class="tbl-type02">
+		<table class="tbl-type02" id="noticeTable">
 			<thead>
 				<tr class="head">
 					<th width="8%">게시물번호</th>
@@ -38,7 +38,7 @@
 		    <tbody>
 			<c:forEach items="${data.list}"  var="noticeList" >
 				<c:if test="${noticeList.NOTICE_STATUS eq 0}">
-				<tr>
+				<tr	data-toggle="modal" data-target="#myModal3">
 					<td>${noticeList.NOTICE_CODE}</td>
 					<td>${noticeList.NOTICE_TITLE}</td>
 					<td>관리자</td>
@@ -50,12 +50,15 @@
 				</c:forEach>
 			</tbody>
 		</table>
+		<div class="modal fade" id="myModal3" role="dialog">
+			
+		</div>
 			<div id="pagingArea" align="center">
 			<c:if test="${data.pi.currentPage <= 1}">
 				[이전] &nbsp;
 			</c:if>
 			<c:if test="${data.pi.currentPage > 1}">
-				<c:url var="blistBack" value="/getNoticeList.do">
+				<c:url var="blistBack" value="/notice.do">
 					<c:param name="currentPage" value="${data.pi.currentPage - 1}"/>
 					<c:param name="option" value="${data.option }"/>
 					<c:param name="keyword" value="${data.keyword }"/>
@@ -69,7 +72,7 @@
 					<font color ="red" size="4"><b>[${p}]</b></font>
 				</c:if>
 				<c:if test="${p ne data.pi.currentPage }">
-					<c:url var="blistCheck" value="getNoticeList.do">
+					<c:url var="blistCheck" value="notice.do">
 						<c:param name="currentPage" value="${p}"/>
 						<c:param name="option" value="${data.option }"/>
 						<c:param name="keyword" value="${data.keyword }"/>
@@ -82,7 +85,7 @@
 				&nbsp; [다음]
 			</c:if>
 			<c:if test="${data.pi.currentPage < data.pi.maxPage}">
-				<c:url var="blistEnd" value="getNoticeList.do">
+				<c:url var="blistEnd" value="notice.do">
 					<c:param name="currentPage" value="${data.pi.currentPage + 1}"/>
 					<c:param name="option" value="${data.option }"/>
 					<c:param name="keyword" value="${data.keyword }"/>
@@ -92,5 +95,30 @@
 			</c:if>
 		</div>
 	</div>
+	<script>
+	$(function(){
+		$("#noticeTable").find("td").mouseenter(function(){
+			$(this).parents("tr").css({"background":"lightgray","cursor":"pointer"});
+		}).mouseout(function(){
+			$(this).parents("tr").css({"background":"white"});
+		}).click(function(){
+		    var noticeCode= $(this).parents().children("td").eq(0).text();
+				console.log(noticeCode);
+			 	$.ajax({
+					url:"selectNotice.do",
+							type:"post",
+							data:{noticeCode:noticeCode},
+							success:function(data){
+								console.log(data);
+								$(".modal-content").empty();
+								$("#myModal3").append(data);
+							},
+							error:function(){
+									console.log("에러 발생!");
+							}
+						}) 
+		})
+	})
+	</script>
 </body>
 </html>
