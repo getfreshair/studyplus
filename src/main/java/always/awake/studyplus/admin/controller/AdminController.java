@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.mortbay.jetty.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,7 +51,22 @@ public class AdminController {
 	public String showAdminView() {
 		return "admin/home";
 	}
-	
+	@RequestMapping("selectNotice.do")
+	public ModelAndView selectNotice(ModelAndView mv, String noticeCode){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("noticeCode", noticeCode);
+		
+		int result = as.updateNoticeCount(map);
+		
+		List<Map<String,Object>> list = as.selectNotice(map);
+		
+		mv.addObject("data", list);
+		mv.setViewName("common/noticeModal");
+		
+		return mv;
+	}
+	//사용자 공지사항페이지
 	@RequestMapping("notice.do")
 	public ModelAndView NoticeList(ModelAndView mv, HttpServletRequest request) {
 			int currentPage = 1;
@@ -86,8 +102,8 @@ public class AdminController {
 			mv.setViewName("common/notice");
 			
 			return mv;
-			
 	}
+	
 	@RequestMapping(value="movePage.me", method=RequestMethod.GET)
 	public String showMemberList(@RequestParam("page") String page) {
 		
@@ -100,13 +116,26 @@ public class AdminController {
 		
 		return page;
 	}
-/*	@RequestMapping("send.do")
-	public ModelAndView sendSms(@RequestParam("rphone") String rPhone,@RequestParam("sphone1") String sphone1,@RequestParam("sphone2") String sphone2,@RequestParam("sphone3") String sphone3,@RequestParam("msg")String msg){
+	@RequestMapping("smsSuccess.do")
+	public ModelAndView smsSuccess(ModelAndView mv) {
+		mv.setViewName("admin/smsManage/smsSend");
 		
+		return mv;
+	}
+	@RequestMapping("smssend.do")
+	public ModelAndView sendSms(ModelAndView mv ,@RequestParam("rphone") String rphone,@RequestParam("sphone1") String sphone1,@RequestParam("sphone2") String sphone2,@RequestParam("sphone3") String sphone3,@RequestParam("msg")String msg){
 		
-		
-		return "redirect:admin/smsManage/smsSend2";
-	}*/
+		System.out.println(rphone);
+		String action = "go";
+		mv.addObject("rphone", rphone);
+		mv.addObject("sphone1", sphone1);
+		mv.addObject("sphone2", sphone2);
+		mv.addObject("sphone3", sphone3);
+		mv.addObject("msg", msg);
+		mv.addObject("action", action);
+		mv.setViewName("admin/smsManage/smsSend2");
+		return mv;
+	}
 	
 	//////////////////////////////////////////////////통계///////////////////////////////////////////////////////////
 	

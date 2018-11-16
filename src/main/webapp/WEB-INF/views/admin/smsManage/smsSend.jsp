@@ -47,6 +47,7 @@ hr{
 					<br>
 					<br>
 					<hr>
+					<form action="smssend.do" method="get">
 					<div class="first-div" style="display:inline-block">
 						<p class="receiveNum" style="margin-top:5px; margin-left:350px;display:inline-block;">수신 번호</p>
 						<input class="form-control" type="text" name="rphone" value="011-111-1111" id="receiveNum"
@@ -63,12 +64,12 @@ hr{
 						<input type="hidden" name="sphone1" id="phone1" value="010">
      				    <input type="hidden" name="sphone2" id="phone2"value="6551">
         			   <input type="hidden" name="sphone3" id="phone3"value="5979">
-					<button type="button" onclick="send();" class="btn btn-primary" id="searchBtn"
+					<button type="submit" class="btn btn-primary" id="searchBtn"
 								 style="font-size:14px; padding-down:30px; margin-left:550px;margin-bottom:8px; display:inline-block;height:35px;">보내기</button>
 					<button class="btn btn-primary" id="cancel"
 								name="cancel1" style="font-size:14px; padding-down:30px; margin-left:20px; margin-bottom:8px; display:inline-block;height:35px;">취소</button>
-					
-					<script>
+					</form>
+				<!-- 	<script>
 					function send(){
 						var rphone = $("#receiveNum").val();
 						var msg = $("#comment").val();
@@ -76,9 +77,9 @@ hr{
 						var sphone2 = $("#phone2").val();
 						var sphone3 = $("#phone3").val();
 						
-						location.href = 
+						location.href = "smssend.do?rphone="+rphone + "msg=" +msg +"sphone1="+sphone1+"sphone2="+sphone2+"sphone3="+sphone3; 
 					}
-					</script>
+					</script> -->
 				</div>
 			</div>
 		</div>

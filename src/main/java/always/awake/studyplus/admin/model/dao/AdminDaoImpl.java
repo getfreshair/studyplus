@@ -512,4 +512,16 @@ public class AdminDaoImpl implements AdminDao {
 	public List<Map<String, Object>> contactByDay(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectList("Admin.contactByDay");
 	}
+
+	@Override
+	public int updateNoticeCount(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+
+		return sqlSession.update("Admin.updateNoticeCount", map);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectNotice(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+	
+		return sqlSession.selectList("Admin.selectNotice", map);
+	}
 }

@@ -1,4 +1,15 @@
    <%@ page language="java" import="java.util.*, java.security.*, java.io.*, java.net.*" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <p class="test"> <c:out value="${rphone}"></c:out></p>
+    <script>
+    $(function(){
+    	console.log(typeof(".test"))
+    })
+    </script>
+   
     <%!
     /**==============================================================
       Description        :  사용 함수 선언
@@ -8,7 +19,6 @@
      * @param str, Defaultvalue
      * @return
      */
-
      public static String nullcheck(String str,  String Defaultvalue ) throws Exception
      {
           String ReturnDefault = "" ;
@@ -66,18 +76,20 @@
 
     request.setCharacterEncoding(charsetType);
     response.setCharacterEncoding(charsetType);
-    String  action     = nullcheck(request.getParameter("action"), "");
+    String  action     = nullcheck((String)request.getAttribute("action"), "");
+   
     if(action.equals("go")) {
-
+		System.out.println("iiiinnnn");
         String sms_url = "";
         sms_url = "https://sslsms.cafe24.com/sms_sender.php"; // SMS 전송요청 URL
         String user_id = base64Encode("sji1123"); // SMS아이디
         String secure = base64Encode("80c6568cc9a64575abb1839fda78aa6b");//인증키
-        String msg = base64Encode(nullcheck(request.getParameter("msg"), ""));
-        String rphone = base64Encode(nullcheck(request.getParameter("rphone"), ""));
-        String sphone1 = base64Encode(nullcheck(request.getParameter("sphone1"), ""));
-        String sphone2 = base64Encode(nullcheck(request.getParameter("sphone2"), ""));
-        String sphone3 = base64Encode(nullcheck(request.getParameter("sphone3"), ""));
+        String msg = base64Encode(nullcheck((String)request.getAttribute("msg"), ""));
+        String rphone = base64Encode(nullcheck((String)request.getAttribute("rphone"), ""));
+        System.out.println("안녕"+rphone);
+        String sphone1 = base64Encode(nullcheck((String)request.getAttribute("sphone1"), ""));
+        String sphone2 = base64Encode(nullcheck((String)request.getAttribute("sphone2"), ""));
+        String sphone3 = base64Encode(nullcheck((String)request.getAttribute("sphone3"), ""));
         String rdate = base64Encode(nullcheck(request.getParameter("rdate"), ""));
         String rtime = base64Encode(nullcheck(request.getParameter("rtime"), ""));
         String mode = base64Encode("1");
@@ -89,7 +101,7 @@
         String destination = base64Encode(nullcheck(request.getParameter("destination"), ""));
         String repeatFlag = base64Encode(nullcheck(request.getParameter("repeatFlag"), ""));
         String repeatNum = base64Encode(nullcheck(request.getParameter("repeatNum"), ""));
-        String repeatTime = base64Encode(nullcheck(request.getParameter("repeatTime"), ""));
+        String repeatTime = base64Encode("0");
         String returnurl = nullcheck(request.getParameter("returnurl"), "");
         String nointeractive = nullcheck(request.getParameter("nointeractive"), "");
         String smsType = base64Encode(nullcheck(request.getParameter("smsType"), ""));
@@ -150,7 +162,7 @@
         }
 
         //out.println(data);
-
+    
         InetAddress addr = InetAddress.getByName(host);
         Socket socket = new Socket(host, port);
         // 헤더 전송
@@ -185,6 +197,7 @@
         if(Result.equals("success")) {
             alert = "성공적으로 발송하였습니다.";
             alert += " 잔여건수는 "+ Count+"건 입니다.";
+         	response.sendRedirect("smsSuccess.do");
         }
         else if(Result.equals("reserved")) {
             alert = "성공적으로 예약되었습니다";
@@ -208,7 +221,7 @@
 
 
         out.println("<script>location.href='"+returnurl+"';</script>");
-    }
+        }
     %>
                 
             
