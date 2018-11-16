@@ -12,8 +12,6 @@
 <title>Insert title here</title>
 
 <style>
-/* 	  .rankImg { position:absolute; width:15px; margin-top:-3px; } */
-/* 	    .rankImg img{ margin-bottom:47.52px; margin-left:50px; } */
 	  .memberOneWrapArea { width:263px; /* border:1px dashed red; display:inline-block; */ }
 		.memberInfo { margin:10px 0px; }
 		  .memberInfo td { position:relative; padding-left:12px; text-align:left; display:table-cell; vertical-align:middle; }
@@ -22,7 +20,7 @@
 		  .profImg { width:50px; height:50px; overflow-y:hidden; border-radius:20%; }
 		  	.profImg img { width:100%; }
 		  .nickName	{ width:105px; height:80%; font-size:12.5px; font-weight:bold; line-height:1.2; word-break:break-all; }
-		    .nickName strong { vertical-align:super; }
+/* 		    .nickName strong { vertical-align:super; } */
 		  .enrollDate { font-weight:normal; font-size:11px; }	
 		  .listBtn { cursor:pointer; border-radius:15px;  display:table-cell; vertical-align:middle;
 		  			 font-size:11px; font-weight:bold; height:25px; padding: 5px 3px; }
@@ -43,9 +41,9 @@
 		<div class="memberListArea">		
 
 		<!-- 그룹장 바꾸기 버튼 누르면 hideChangeLeader 가진 요소 숨김 toggleChangeLeaderBtn보이게 -->
-		  <c:forEach var="i" begin="0" end="${fn:length(grMemList) - 1}" step="1" >
 			<div class="memberOneWrapArea">
-				<table class="memberInfo" border="1">
+		  	  <c:forEach var="i" begin="0" end="${fn:length(grMemList) - 1}" step="1" >
+				<table class="memberInfo">
 					<tr>							
 						<td rowspan="2">
 						  <c:if test="${grMemList[i].LEADER_CODE == grMemList[i].MEMBER_CODE}">
@@ -94,8 +92,8 @@
 						<fmt:formatDate value="${grMemList[i].JOINGROUP_ENROLLDATE}" pattern="yyyy. MM. dd."/>
 					</td></tr>
 				</table>
+			  </c:forEach>
 			</div>
-		  </c:forEach>
 			
 		</div>
 	</div>
@@ -161,7 +159,5 @@
 			alert("강퇴 권한이 없습니다.");
 		}
 	}
-	
-	
 </script>
 </html>

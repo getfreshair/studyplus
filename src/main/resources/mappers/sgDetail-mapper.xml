@@ -240,33 +240,67 @@
 			JOIN ( SELECT MEMBER_CODE, MEMBER_NICKNAME, FILES_NAME
 			       FROM MEMBER
 			       JOIN FILES USING(MEMBER_CODE) ) USING(MEMBER_CODE)
-			ORDER BY MEM_PERIOD_TOTAL DESC, MEMBER_NICKNAME ASC			
-			
-			
-			
+			ORDER BY MEM_PERIOD_TOTAL DESC, MEMBER_NICKNAME ASC
 		]]>
 	</select>
 	
+	<select id="selectGroupMemberTimeList" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[	
+			SELECT * FROM (
+			WITH ENROLL_MEMBER_LIST AS ( 
+			                       SELECT RANK()OVER(PARTITION BY STUDYGROUP_CODE
+			                                         ORDER BY DIV_MEM_ROLE DESC, JOINGROUP_ENROLLDATE ASC) AS "SEQ",
+			                              STUDYGROUP_CODE, MEMBER_CODE, JOINGROUP_ENROLLDATE, DIV_MEM_ROLE,
+			                              MEMBER_NICKNAME, FILES_NAME, STUDYGROUP_GOALTIME
+			                       FROM (
+			                              SELECT STUDYGROUP_CODE, JG.MEMBER_CODE AS "MEMBER_CODE", STUDYGROUP_GOALTIME,
+			                                     JOINGROUP_ENROLLDATE, MEMBER_NICKNAME, FILES_NAME,
+			                                     DECODE(JG.MEMBER_CODE, GR.MEMBER_CODE, 1, 0) AS "DIV_MEM_ROLE"
+			                              FROM JOINGROUP JG
+			                              JOIN STUDYGROUP GR USING(STUDYGROUP_CODE)
+			                              JOIN ( SELECT MEMBER_CODE, MEMBER_NICKNAME, FILES_NAME
+			                                     FROM MEMBER
+			                                     JOIN FILES USING(MEMBER_CODE) ) M ON(JG.MEMBER_CODE = M.MEMBER_CODE)
+			                              WHERE ( ( TRUNC(JOINGROUP_ENROLLDATE) <= TRUNC(TO_DATE(#{ thisDay }), 'DY') + 6.99999
+			                                          AND TRUNC(JOINGROUP_DELETEDATE) >= TRUNC(TO_DATE(#{ thisDay }), 'DY') )
+			                                     OR
+			                                      ( TRUNC(JOINGROUP_ENROLLDATE) <= TRUNC(TO_DATE(#{ thisDay }), 'DY') + 6.99999
+			                                           AND JOINGROUP_STATUS = 0 ) ) ) ),
+			     PIVOT_TBL AS (
+			            SELECT SEQ, NVL(MEM_DAY_TOTAL, 0) AS "MEM_DAY_TOTAL", MEMBER_CODE, MEMBER_NICKNAME, FILES_NAME, CURR_DAY, STUDYGROUP_GOALTIME 
+			            FROM ( SELECT SEQ, STUDYGROUP_CODE, MEMBER_CODE,
+			                          JOINGROUP_ENROLLDATE
+			                        , STUDYTIME_DATE, NVL(MEM_DAY_TOTAL, 0) AS "MEM_DAY_TOTAL", STUDYGROUP_GOALTIME,
+			                          DECODE(SIGN(MEM_DAY_TOTAL - STUDYGROUP_GOALTIME), 1, 1, 0, 1, -1, 0) AS "MEM_FULFILL_STATUS"
+			                        , MEMBER_NICKNAME, DIV_MEM_ROLE, FILES_NAME
+			                   FROM ( SELECT SEQ, STUDYGROUP_CODE, MEMBER_CODE,
+			                                 JOINGROUP_ENROLLDATE, DIV_MEM_ROLE,
+			                                 MEMBER_NICKNAME, FILES_NAME, STUDYGROUP_GOALTIME
+			                          FROM ENROLL_MEMBER_LIST
+			                          WHERE ( SEQ, STUDYGROUP_CODE, MEMBER_CODE )
+			                             IN ( SELECT MAX(SEQ) AS "SEQ", STUDYGROUP_CODE, MEMBER_CODE
+			                                  FROM ENROLL_MEMBER_LIST
+			                                  GROUP BY STUDYGROUP_CODE, MEMBER_CODE )
+			                          ORDER BY STUDYGROUP_CODE ASC, SEQ ASC )
+			                   LEFT JOIN
+			                        ( SELECT TRUNC(STUDYTIME_DATE) AS "STUDYTIME_DATE", STUDYGROUP_CODE, MEMBER_CODE,
+			                                 SUM(STUDYTIME_STUDYTIME) AS "MEM_DAY_TOTAL"
+			                          FROM STUDYTIME
+			                          WHERE STUDYTIME_DIVISION = 1
+			                          AND STUDYTIME_DATE BETWEEN TRUNC(TO_DATE(#{ thisDay }), 'DY')
+			                                             AND TRUNC(TO_DATE(#{ thisDay }), 'DY') + 6.99999
+			                          GROUP BY TRUNC(STUDYTIME_DATE), STUDYGROUP_CODE, MEMBER_CODE ) USING(STUDYGROUP_CODE, MEMBER_CODE)
+			                   WHERE STUDYGROUP_CODE = #{ grCode } )
+			            FULL OUTER JOIN ( SELECT TO_CHAR(TRUNC(TO_DATE(#{ thisDay }), 'DY') + LEVEL - 1, 'DAY') AS "CURR_DAY",
+			                                    (TRUNC(TO_DATE(#{ thisDay }), 'DY') + LEVEL - 1) AS "CURR_DATE"
+			                              FROM DUAL CONNECT BY LEVEL <= 7 ) ON(STUDYTIME_DATE = CURR_DATE)
+			            ORDER BY SEQ ASC
+			                  )
+			SELECT * FROM PIVOT_TBL
+			PIVOT ( MAX(MEM_DAY_TOTAL) FOR CURR_DAY IN('일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일') ) )
+			WHERE MEMBER_CODE IS NOT NULL
+			ORDER BY SEQ ASC
+		]]>		
+	</select>
+	
 </mapper>
-	
-	
-<!-- 	STUDYTIME_DATE
-STUDYGROUP_CODE
-GR_DAY_TOTAL
-MY_DAY_TOTAL
-GR_FULFILL_MEM_CNT
-LOCATION_NAME
-CATEGORY_NAME
-STUDYGROUP_NAME
-STUDYGROUP_INTRO
-STUDYGROUP_GOALTIME
-GR_MEM_CNT
-STUDYGROUP_MAXNUM
-STUDYGROUP_STDATE
-GR_DATES -->
-	
-
-	
-	
-	
-	

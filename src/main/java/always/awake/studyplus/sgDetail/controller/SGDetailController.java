@@ -177,9 +177,9 @@ public class SGDetailController {
 		return mv;
 	}
 	
-		@RequestMapping("selectGroupMemberRankList.sgd")
+	@RequestMapping("selectGroupMemberRankList.sgd")
 	public ModelAndView selectGroupMemberRankList(@RequestParam int grCode, @RequestParam String thisDay,
-												@RequestParam int periodType, ModelAndView mv) {
+																@RequestParam int periodType, ModelAndView mv) {
 		try {
 			
 			System.out.println("페이지 여는 컨트롤러 왔어");
@@ -201,5 +201,28 @@ public class SGDetailController {
 		return mv;
 	}
 	
+	@RequestMapping("selectGroupMemberTimeList.sgd")
+	public ModelAndView selectGroupMemberTimeList(@RequestParam int grCode, @RequestParam String thisDay,
+			@RequestParam int periodType, ModelAndView mv) {
+		try {
+			
+			System.out.println("페이지 여는 컨트롤러 왔어");
+			System.out.println(periodType + " / " + grCode + " / " + thisDay );
+			
+			List<HashMap<String, Object>> list = gs.selectGroupMemberRankList(grCode, thisDay, periodType);
+			
+			System.out.println("쿼리 실행 결과-컨트롤러 : < " +  list + " >");
+			mv.addObject("list", list);
+//			mv.addObject("loginUserCode", loginUserCode);
+			
+			mv.setViewName("studyGroupDetail/leftGroupStudyTimeRank");
+			System.out.println("MV : < " + mv + " >");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return mv;
+	}
 	
 }

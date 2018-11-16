@@ -317,7 +317,7 @@
 							<div>
 								<span id="showMemRank" class="menuBtn" onclick="selectGrMemRank('${gr.studyGroup_Code}');">그룹원 순위</span>
 								<span style="cursor:auto;">|</span>
-								<span id="showMemStudyStatus" class="menuBtn" onclick="showMemStudyStatus();">수행 현황</span>
+								<span id="showMemStudyStatus" class="menuBtn" onclick="selectGrMemTime('${gr.studyGroup_Code}');">수행 현황</span>
 							</div>
 						</div>
 						<div class="leftIncludeArea">
@@ -343,7 +343,8 @@
 							</div>
 							<div id="leftIncludeArea"></div>
 							
-<%-- 							<jsp:include page="leftGroupStudyTimeRank.jsp"/> --%>
+							<jsp:include page="leftGroupStudyTimeTotal.jsp"/>
+							
 						</div>
 					</div>
 				</div>
@@ -362,7 +363,7 @@
 		var grCode = $('#grCode').val();
 		var loginUserCode = '${loginUser}';
 		
- 		selectGrMemList(grCode, loginUserCode);
+//  		selectGrMemList(grCode, loginUserCode);
 // 		selectGrMemRank(grCode, periodType);
  		
  		$.ajax({
@@ -509,8 +510,31 @@
 		
 		alert("바뀌었나 ? : " + periodType);
 		console.log("바뀌었나 ? : " + periodType);
-		
 	};
+</script>
+
+<script>
+ function selectGrMemTime(grCode){
+		var periodType = 2;
+		var dayPick = 7;
+		var monthPick = 0;
+		var changeCnt = 0;
+		var grStDate = '${gr.studyGroup_StDate}';
+	
+		$('#showMemList').css({"font-weight":""});
+		$('#showMemRank').css({"font-weight":"bold"});
+		$('.priodTabMenuArea').css({"display":""});
+		
+		console.log("grCode : " + grCode);
+		console.log("changeCnt : " + changeCnt);
+		console.log("periodType : " + periodType + " / dayPick : " + dayPick + " / monthPick : " + monthPick);
+		
+		if(changeCnt == 0){
+			
+		}
+		selectDateByPeriod(periodType, changeCnt, dayPick, monthPick, grCode);
+		
+ }
 </script>
 
 <script>
