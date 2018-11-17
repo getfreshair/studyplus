@@ -4,35 +4,41 @@
 
 <style>
 	.addFriendSearchArea {
-		width: 315px;
-   		height: 337px;
+		width: 318px;
+   		height: 437px;
    		overflow: scroll;
+   		padding-top: 10px;
 	}
 	.addFriend {
-		width:298px;
+		width:302px;
 		padding-left: 5px;
-		padding-top:3px; 
+		padding-top:3px;
+		margin-top:2px;
+		margin-bottom:3px;
 	}
 	.addFriend-userImg {
-		width:50px;
-		height:50px;
+		width:40px;
+		height:40px;
 		border-radius:50%;
 	}
 	.addFriend-userNickname {
 		display:inline-block;
 		margin:0px;
 		font-size: 12px;
-		width:130px;
+		width:197px;
+		font-weight:bold;
 	}
 	.addFriend-btn {
-		float:right;
-		margin-top: 10px;
-		margin-right: 5px;
+		background:#F8AC58;
+		border-radius: 20px;
 		border-style:none;
+		float:right;
+		margin-top: 6px;
+		margin-right: 10px;
 	}
 	.addFriend-cancelbtn {
 		background:#F6F6F6;
-		color:#787878;
+		color:#B0B0B0;
 	}
 </style>
 

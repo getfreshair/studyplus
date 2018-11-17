@@ -1,6 +1,5 @@
 package always.awake.studyplus.member.controller;
 
-import java.net.StandardSocketOptions;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,7 +104,13 @@ public class MemberController {
 		System.out.println("in");
 		ModelAndView mv = new ModelAndView();
 	    
-		HashMap<String, Object> questionInfo = ms.checkSentence(sentence);
+		HashMap<String, Object> questionInfo = null;
+		
+		try {
+			questionInfo = ms.checkSentence(sentence);
+		} catch (MemberException e) {
+			e.printStackTrace();
+		}
 		
 		mv.addObject("questionInfo", questionInfo);
 		mv.setViewName("jsonView");
@@ -138,6 +143,11 @@ public class MemberController {
 		mv.setViewName("jsonView");
 		
 		return mv;
+	}
+	
+	@RequestMapping(value="addFriendSearchPage.me")
+	public ModelAndView addFriendSearchPage() {
+		return new ModelAndView("member/friendPart/addFriendSearch");
 	}
 	
 	@RequestMapping(value="addFriendSearch.me")

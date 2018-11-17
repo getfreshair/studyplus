@@ -159,4 +159,10 @@
 		FROM FRIEND
 		WHERE FRIEND_CODE = #{friend_Code}
 	</delete>
+	
+	<select id="selectCheckSentenceImg" parameterType="java.lang.String" resultType="map">
+		SELECT FILES_NAME
+		FROM FILES
+		WHERE FILES_ORIGINNAME LIKE #{indexStr}
+	</select>
 </mapper>

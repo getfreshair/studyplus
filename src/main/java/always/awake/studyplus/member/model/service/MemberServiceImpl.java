@@ -103,17 +103,19 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public HashMap<String, Object> checkSentence(String sentence) {
+	public HashMap<String, Object> checkSentence(String sentence) throws MemberException {
+		System.out.println("sentence : " + sentence);
 	    Seq<KoreanTokenizer.KoreanToken> tokens = OpenKoreanTextProcessorJava.tokenize(sentence);
 	    List<String> wordList = OpenKoreanTextProcessorJava.tokensToJavaStringList(tokens);
 	    List<KoreanPhraseExtractor.KoreanPhrase> phrases = OpenKoreanTextProcessorJava.extractPhrases(tokens, true, true);
 	    HashMap<String, Object> questionInfo = new HashMap<String, Object>();
 	    Sentence newSentence = new Sentence();
+	    List<Map<String, Object>> infoImgNames = null;
 	    String word = "";
 	    
 	    for(int i = 0; i < phrases.size(); i++) {
 	    	word = String.valueOf(phrases.get(i)).split("\\(")[0];
-	    	if(word.equals("유로") || word.equals("돈") || word.equals("금액")) {
+	    	if(word.equals("유료") || word.equals("돈") || word.equals("금액")) {
 	    		questionInfo.put("infoMessage", "모든 서비스는 무료로 이용이 가능합니다.");
 	    		
 	    		return questionInfo;
@@ -138,7 +140,7 @@ public class MemberServiceImpl implements MemberService{
 	    
 	    for(int i = 0; i < wordList.size(); i++) {
 	    	word = wordList.get(i);
-	    	System.out.println("1 : " + word);
+	    	System.out.println("동사 : " + word);
 	    	if(word.equals("줘") || word.equals("할래") || word.equals("싶어") || word.equals("해줘")) {
 	    		newSentence.setVerb(word);
 	    	}
@@ -146,18 +148,25 @@ public class MemberServiceImpl implements MemberService{
 	    
 	    for(int i = 0; i < phrases.size(); i++) {
 	    	word = String.valueOf(phrases.get(i)).split("\\(")[0];
-	    	System.out.println("2 : " + word);
+	    	System.out.println("명사 : " + word);
 	    	if(word.equals("일대일 채팅") ||word.equals("스터디 그룹") || word.equals("스터디그룹") || word.equals("회원 가입") || word.equals("프로그램")) {
 	    		newSentence.setNoun(word);
 	    	}
 	    }
 	    
-	    
 	    for(int i = 0; i < phrases.size(); i++) {
 	    	word = String.valueOf(phrases.get(i)).split("\\(")[0];
-	    	System.out.println("3 : " + word);
-	    	if(word.equals("차단") || word.equals("가입 방법") || word.equals("검색 방법") || word.equals("생성") || word.equals("방식") || word.equals("하고") || word.equals("방법")) {
+	    	System.out.println("직접 목적어 : " + word);
+	    	if(word.equals("방법")) {
 	    		newSentence.setDirectObject(word);
+	    		
+	    		break;
+	    	}
+	    	
+	    	if(word.equals("가입") || word.equals("검색") || word.equals("생성") || word.equals("방식") || word.equals("하고") || word.equals("차단")) {
+	    		newSentence.setDirectObject(word);
+	    		
+	    		break;
 	    	}
 	    	
 	    	if(word.equals("탈퇴")) {
@@ -166,14 +175,95 @@ public class MemberServiceImpl implements MemberService{
 	    	}
 	    }
 	    
-	    /*for(int i = 0; i < phrases.size(); i++) {
-	    	word = String.valueOf(phrases.get(i));
-	    	if(word.equals("가입방법") || word.equals("검색방법") || word.equals("생성") || word.equals("탈퇴방법") || word.equals("방식") || word.equals("하고") || word.equals("방법")) {
-	    		newSentence.setDirectObject(word);;
-	    	}
-	    }*/
+	    if(newSentence.getVerb() == null) {
+	    	questionInfo.put("infoMessage", "죄송해요 이해를 못 했어요. 다시 한 번 더 말씀해 주세요.");
+    		
+    		return questionInfo;
+	    }else if(newSentence.getNoun() == null) {
+	    	questionInfo.put("infoMessage", "죄송해요 이해를 못 했어요. 다시 한 번 더 말씀해 주세요.");
+    		
+    		return questionInfo;
+	    }
 	    
 	    System.out.println(newSentence.toString());
+	    
+	    if(newSentence.getNoun().equals("일대일 채팅")) {
+	    	if(newSentence.getDirectObject().equals("방법")) {
+	    		if(newSentence.getVerb().equals("줘")) {
+	    			infoImgNames = md.selectCheckSentenceImg(sqlSession, newSentence.getNoun() + " " + newSentence.getDirectObject());
+	    			
+	    			questionInfo.put("infoImgNames", infoImgNames);
+	    			
+	    			return questionInfo; 
+	    		}
+	    	}
+	    }else if(newSentence.getNoun().equals("스터디 그룹") || newSentence.getNoun().equals("스터디그룹")) {
+	    	if(newSentence.getDirectObject() == null) {
+	    		questionInfo.put("infoMessage", "죄송해요 이해를 못 했어요. 다시 한 번 더 말씀해 주세요.");
+	    		
+	    		return questionInfo;
+	    	}
+	    	
+	    	if(newSentence.getDirectObject().equals("가입")) {
+	    		if(newSentence.getVerb().equals("줘")) {
+	    			questionInfo.put("infoMessage", "스터디 그룹 가입은 로그인 후 상단에 스터디 그룹 > 스터디 그룹 메인 페이지에서 우측 (+) 아이콘을 클릭하시면 됩니다.");
+		    		
+		    		return questionInfo;
+	    		}
+	    	}else if(newSentence.getDirectObject().equals("검색")) {
+	    		if(newSentence.getVerb().equals("줘")) {
+	    			questionInfo.put("infoMessage", "스터디 그룹 검색은 로그인 후 상단에 스터디 그룹 > 스터디 그룹 메인 페이지 상단에서 검색을 하시면 됩니다.");
+		    		
+		    		return questionInfo;
+	    		}
+	    	}else if(newSentence.getDirectObject().equals("생성")) {
+	    		if(newSentence.getVerb().equals("할래") || newSentence.getVerb().equals("싶어")) {
+	    			questionInfo.put("pageUrl", "studyGroupMainPage.sg");
+		    		
+		    		return questionInfo;
+	    		}
+	    	}else if(newSentence.getDirectObject().equals("탈퇴")) {
+	    		if(newSentence.getVerb().equals("줘")) {
+	    			questionInfo.put("infoMessage", "스터디 그룹 탈퇴 방법은 탈퇴할 스터디 그룹에 접속하신 후 우측 상단에 설정 버튼을 누르시면 탈퇴 설정 버튼이 있습니다. 해당 버튼을 클릭하신 후 탈퇴를 진행하시면 됩니다.");
+		    		
+		    		return questionInfo;
+	    		}
+	    	}
+	    }else if(newSentence.getNoun().equals("회원 가입")) {
+	    	if(newSentence.getDirectObject().equals("방법")) {
+	    		if(newSentence.getVerb().equals("줘")) {
+	    			questionInfo.put("infoMessage", "우측에 로그인 버튼을 클릭하신 후 아이디 / 비밀번호 입력 부분 아래 '회원가입'버튼을 클릭하신 후 진행하시면 됩니다.");
+	    			
+		    		return questionInfo;
+	    		}
+	    	}else{
+	    		if(newSentence.getVerb().equals("줘") || newSentence.getVerb().equals("싶어") || newSentence.getVerb().equals("할래")) {
+	    			questionInfo.put("pageUrl", "insertMemberPage.me");
+		    		
+		    		return questionInfo;
+	    		}
+	    	}
+	    }else if(newSentence.getNoun().equals("프로그램")) {
+	    	if(newSentence.getDirectObject() == null) {
+	    		questionInfo.put("infoMessage", "죄송해요 이해를 못 했어요. 다시 한 번 더 말씀해 주세요.");
+	    		
+	    		return questionInfo;
+	    	}
+	    	
+	    	if(newSentence.getDirectObject().equals("방식")) {
+	    		if(newSentence.getVerb().equals("줘")) {
+	    			questionInfo.put("infoMessage", "주혁이 한테 물어봥 > <");
+	    			
+		    		return questionInfo;
+	    		}
+	    	}else if(newSentence.getDirectObject().equals("차단")) {
+	    		if(newSentence.getVerb().equals("싶어")) {
+	    			questionInfo.put("infoUrl", "main/main");
+	    			
+		    		return questionInfo;
+	    		}
+	    	}
+	    }
 	    
 	    return questionInfo;
 	}

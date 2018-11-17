@@ -232,7 +232,7 @@
     
     //무엇이든 물어보세요
     function questionPage(){
-    	window.open('questionPage.me', '_blank', 'width=400, height=430, left=450, top=50, resizable=no, titlebar=no, status=no');
+    	window.open('questionPage.me', '_blank', 'width=450, height=500, left=450, top=50, resizable=no, titlebar=no, status=no');
     }
     
 	//모달 오픈

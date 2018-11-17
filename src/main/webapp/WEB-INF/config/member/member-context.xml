@@ -52,4 +52,5 @@
 	</beans:bean>
 	
 	<annotation-driven />
+	
 </beans:beans>
