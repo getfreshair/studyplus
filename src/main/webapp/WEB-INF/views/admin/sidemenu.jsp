@@ -193,7 +193,7 @@ display:none;
 			<ul>
 				<li><a onclick="goPage('admin/smsManage/smsSend')">SMS발송</a></li>
 				<li><a onclick="goPage('admin/smsManage/smsHistory')">SMS발송내역</a></li>
-				<li><a onclick="goPage('admin/smsManage/smsSetting')">SMS환경설정</a></li>
+				<!-- <li><a onclick="goPage('admin/smsManage/smsSetting')">SMS환경설정</a></li> -->
 			</ul>
 		</li>
 		<li<%--  <% if ( activeCheck.equals("statisticsManage")){ %>

@@ -442,13 +442,13 @@
 		var member_Code = ${sessionScope.loginUser.member_Code};
 		
 		$.ajax({
-			url : 'selectImgAndLink.do',
+			url : 'selectCPPImgAndLink.do',
 			data : {
 				member_Code : member_Code
 			},
 			success : function(data){
 				if(data != ''){
-					$('.SGMainPRImg').attr('src', '/studyplus/resources/upload/admin/thumbnail/' + data.FILES_NAME);
+					$('.SGMainPRImg').attr('src', '/studyplus/resources/upload/admin/thumbnail/' + data.FILES_NAME+'.png');
 					$('.SGMainPRImg').attr('onclick', 'addPRCount(' + data.PR_CODE + ', ' + member_Code + ', "' + data.PR_LINK + '")');
 				}else{
 					$('.SGMainPRImg').attr('src', '/studyplus/resources/images/ad/ad.png');
@@ -477,14 +477,14 @@
 				window.open(pr_Link, '_blank');
 			}
 		})
-	}
+	}`
 </script>
 </head>
 <body>
 	<div class="SGMainBodyLeftArea">
 		<div class="adArea">
 			<div onclick="StatisticsPage(1100)">스터디 그룹 1100번 임시 통계</div>
-			<img class="SGMainPRImg"/>
+			<img class="SGMainPRImg" onclick="addPRCount()"/>
 			<a href="selectOneGroup.sgd?group_No=1">스터디 그룹 디테일</a>
 		</div>
 		<div class="SGListChangeBtnArea">

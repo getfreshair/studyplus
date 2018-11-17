@@ -69,17 +69,7 @@ hr{
 					<button class="btn btn-primary" id="cancel"
 								name="cancel1" style="font-size:14px; padding-down:30px; margin-left:20px; margin-bottom:8px; display:inline-block;height:35px;">취소</button>
 					</form>
-				<!-- 	<script>
-					function send(){
-						var rphone = $("#receiveNum").val();
-						var msg = $("#comment").val();
-						var sphone1 = $("#phone1").val();
-						var sphone2 = $("#phone2").val();
-						var sphone3 = $("#phone3").val();
-						
-						location.href = "smssend.do?rphone="+rphone + "msg=" +msg +"sphone1="+sphone1+"sphone2="+sphone2+"sphone3="+sphone3; 
-					}
-					</script> -->
+					
 				</div>
 			</div>
 		</div>

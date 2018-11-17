@@ -142,4 +142,12 @@ public interface AdminService {
 
 	public int sendSms(HashMap<String, Object> map);
 
+	public List<Map<String, Object>> searchSmsHistory(HashMap<String, Object> map);
+
+	public List<Map<String, Object>> checkPRCount(HashMap<String, Object> map);
+
+	public List<Map<String, Object>> getAllGroupBoardList();
+
+	public int countCPC(int member_Code);
+
 }

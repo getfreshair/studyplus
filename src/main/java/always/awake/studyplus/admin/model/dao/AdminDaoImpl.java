@@ -535,4 +535,24 @@ public class AdminDaoImpl implements AdminDao {
 	public int sendSms(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
 		return sqlSession.insert("Admin.sendSms", map);
 	}
+
+	@Override
+	public List<Map<String, Object>> searchSmsHistory(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return sqlSession.selectList("Admin.searchSmsHistory", map);
+	}
+
+	@Override
+	public List<Map<String, Object>> checkPRCount(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return sqlSession.selectList("Admin.checkPRCount", map);
+	}
+
+	@Override
+	public List<Map<String, Object>> getAllGroupBoardList(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("Admin.getAllGroupBoardList");
+	}
+
+	@Override
+	public int countCPC(SqlSessionTemplate sqlSession, int member_Code) {
+		return sqlSession.selectOne("Admin.countCPC", member_Code);
+	}
 }

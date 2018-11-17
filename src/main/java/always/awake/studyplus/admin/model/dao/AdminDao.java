@@ -214,4 +214,16 @@ public interface AdminDao {
 
 	int sendSms(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
 
+
+	List<Map<String, Object>> searchSmsHistory(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
+
+	List<Map<String, Object>> checkPRCount(SqlSessionTemplate sqlSession, HashMap<String, Object> map);
+
+
+	List<Map<String, Object>> getAllGroupBoardList(SqlSessionTemplate sqlSession);
+
+
+	int countCPC(SqlSessionTemplate sqlSession, int member_Code);
+
 }

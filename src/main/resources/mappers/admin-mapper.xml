@@ -85,6 +85,10 @@
 	</if>
 	</select>																	
 	
+	<insert id="sendSms">
+		INSERT INTO SMS VALUES (SEQ_SMS_SMS_CODE.NEXTVAL, #{replacePhone}, #{msg}, SYSDATE, #{memberCode})
+	</insert>
+	
 	<insert id="penaltyMemberInsert">
 		insert into BLOCK(BLOCK_CODE,BLOCK_REASON,BLOCK_TYPE,BLOCK_STARTDATE,BLOCK_ENDDATE,BLOCK_STATUS,MEMBER_CODE) VALUES(SEQ_BLOCK_BLOCK_CODE.NEXTVAL, #{textArea}, 0, SYSDATE, #{lockDate}, 0, #{code})
 	</insert>
@@ -94,9 +98,9 @@
 	</insert>
 
 	<insert id="insertCPP" parameterType="hashmap" >
-		INSERT INTO PR 
+		INSERT INTO PR  
 		VALUES(SEQ_PR_PR_CODE.NEXTVAL, #{b.pr_Company}, #{b.pr_Title}, #{b.pr_Link}, 1,
-		0, #{b.pr_Contractmoney}, #{b.category_Code}, #{b.pr_StartDate}, #{b.pr_EndDate}, 0)
+		0, #{b.pr_Contractmoney}, #{b.category_Code}, #{b.pr_StartDate}, #{b.pr_EndDate}, 0, 0)
 	</insert>
 	<insert id="insertFilesCPP" parameterType="hashmap" >
 		INSERT INTO FILES(FILES_CODE, FILES_BOARDTYPE, FILES_ORIGINNAME, FILES_NAME, FILES_ENROLLDATE, FILES_STATUS, FILES_DELETEDATE, PR_CODE) 
@@ -104,9 +108,9 @@
 	</insert>
 	
 	<insert id="insertCPC" parameterType="hashmap" >
-		INSERT INTO PR (PR_CODE, PR_COMPANY, PR_TITLE, PR_LINK, PR_ORDER, PR_TYPE, PR_CONTRACTMONEY, CATEGORY_CODE, PR_STATUS)
-		VALUES(SEQ_PR_PR_CODE.NEXTVAL, #{b.pr_Company}, #{b.pr_Title}, #{b.pr_Link}, 0,
-		1, #{b.pr_Contractmoney}, #{b.category_Code},0)
+		INSERT INTO PR (PR_CODE, PR_COMPANY, PR_TITLE, PR_LINK, PR_ORDER, PR_TYPE, PR_CONTRACTMONEY, CATEGORY_CODE, PR_STATUS, PR_CLICKMONEY)
+		VALUES(SEQ_PR_PR_CODE.NEXTVAL, #{b.pr_Company}, #{b.pr_Title}, #{b.pr_Link}, #{b.pr_Order},
+		1, #{b.pr_Contractmoney}, #{b.category_Code},0 , #{b.pr_ClickMoney})
 	</insert>
 	<insert id="insertFilesCPC" parameterType="hashmap" >
 		INSERT INTO FILES(FILES_CODE, FILES_BOARDTYPE, FILES_ORIGINNAME, FILES_NAME, FILES_ENROLLDATE, FILES_STATUS, FILES_DELETEDATE, PR_CODE) 
@@ -376,8 +380,23 @@
 		
 	</select>
 	
+	<select id="getAllGroupBoardList" resultType="map">
+			SELECT code, member, content, post, type , boardCode, nick ,groupName , status, board
+			from
+			(SELECT G.GROUPBOARD_CODE as code,G.MEMBER_CODE as member, G.GROUPBOARD_CONTENT as content, TO_CHAR(G.GROUPBOARD_POSTDATE,'yyyymmdd') as post, '그룹' as type , G.STUDYGROUP_CODE as boardCode, M.MEMBER_NICKNAME as nick, SG.STUDYGROUP_NAME as groupName, g.groupboard_status as status ,g.groupboard_type as board
+			FROM GROUPBOARD G
+			JOIN MEMBER M ON (M.MEMBER_CODE = G.MEMBER_CODE)
+			JOIN STUDYGROUP SG ON (SG.STUDYGROUP_CODE = G.STUDYGROUP_CODE))
+			UNION ALL
+			SELECT R.REPLY_CODE as code,R.MEMBER_CODE as member, R.REPLY_CONTENT as content, TO_CHAR(R.REPLY_DATE,'yyyymmdd') as post, '리플' as type, R.GROUPBOARD_CODE as boardCode, M.MEMBER_NICKNAME as nick, SG.STUDYGROUP_NAME as groupName, g.groupboard_status as status ,g.groupboard_type as board
+			FROM REPLY R
+			JOIN MEMBER M ON (M.MEMBER_CODE = R.MEMBER_CODE)
+			JOIN GROUPBOARD G ON (R.GROUPBOARD_CODE = G.GROUPBOARD_CODE)
+			JOIN STUDYGROUP SG ON (SG.STUDYGROUP_CODE = g.studygroup_code)
+	</select>
+	
 	<select id="getPRList" parameterType="map" resultType="map">
-		SELECT PR_CODE,PR_COMPANY,PR_TITLE,PR_LINK,PR_ORDER,PR_TYPE,
+		SELECT PR_CODE,PR_COMPANY,PR_TITLE,PR_LINK,PR_ORDER,PR_TYPE,PR_CLICKMONEY,
 				PR_CONTRACTMONEY,CATEGORY_CODE, PR_STATUS, TO_CHAR(PR_STARTDATE,'yyyymmdd') as PR_STARTDATE, TO_CHAR(PR_ENDDATE,'yyyymmdd') as PR_ENDDATE,
 				FILES_CODE,FILES_BOARDTYPE,FILES_ORIGINNAME,FILES_NAME,
 				FILES_ENROLLDATE,FILES_STATUS,FILES_DELETEDATE
@@ -499,12 +518,8 @@
 		                                       FROM MEMBER
 		                                       WHERE MEMBER_CODE = #{member_Code}))
 		AND pr.PR_STATUS = 0
-		AND pr.PR_TYPE = 1
-		<![CDATA[
-			AND ROWNUM <= 2
-		]]>
+		AND pr.PR_TYPE = 0
 		AND f.FILES_STATUS = 0
-		AND f.FILES_ORDER = 0
 	</select>
 	
 	<select id="selectPRCount" parameterType="map" resultType="_int">
@@ -801,6 +816,39 @@
 	<select id="getUserCodeByPhone" resultType="map" parameterType="map">
 		SELECT MEMBER_CODE
 		FROM MEMBER
-		WHERE PHONE = #{rphone}
+		WHERE MEMBER_PHONE LIKE '%'||#{replacePhone}||'%'
+	</select>
+	
+	<select id="searchSmsHistory" resultType="map" parameterType="map">
+		SELECT SMS_CODE,SMS_RECEIVERPHONE,SMS_CONTENT,TO_CHAR(SMS_SENDDATE,'yyyymmdd') as SMS_SENDDATE,MEMBER_CODE
+		FROM SMS
+		WHERE 1=1
+		<if test='searchOption neq ""'>
+			AND SMS_RECEIVERPHONE LIKE '%' || #{searchOption} || '%' 
+		</if>
+		<if test='searchDate1 neq ""'>
+			AND SMS_SENDDATE BETWEEN #{searchDate1} AND #{searchDate2}
+		</if>
+	</select>
+	
+	<select id = "checkPRCount" resultType="map" parameterType="map">
+		SELECT COUNT(PRCOUNT_CODE) AS COUNT
+		FROM PRCOUNT
+		WHERE PR_CODE=#{pr_Code} AND MEMBER_CODE=#{member_Code} AND 
+        PRCOUNT_DATE LIKE SYSDATE
+	</select>
+	
+	<select id="countCPC" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM PR pr
+		LEFT JOIN FILES f ON(pr.PR_CODE = f.PR_CODE)
+		WHERE CATEGORY_CODE IN(SELECT CATEGORY_CODE
+		                       FROM INTERESTCATEGORY
+		                       WHERE MEMBER_CODE = (SELECT MEMBER_CODE
+		                                       FROM MEMBER
+		                                       WHERE MEMBER_CODE = #{member_Code}))
+		AND pr.PR_STATUS = 0
+		AND pr.PR_TYPE = 1
+		AND f.FILES_STATUS = 0
 	</select>
 </mapper>

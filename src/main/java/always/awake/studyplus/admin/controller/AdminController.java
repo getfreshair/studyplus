@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.mortbay.jetty.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,8 +30,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.cloud.language.v1.Sentiment;
 
 import always.awake.studyplus.admin.common.CommonUtils;
+import always.awake.studyplus.admin.common.NLPfiltering;
 import always.awake.studyplus.admin.common.Pagination;
 import always.awake.studyplus.admin.model.exception.AdminException;
 import always.awake.studyplus.admin.model.service.AdminService;
@@ -49,6 +51,7 @@ public class AdminController {
 	
 	@RequestMapping("adminView.me")
 	public String showAdminView() {
+		
 		return "admin/home";
 	}
 	@RequestMapping("selectNotice.do")
@@ -66,6 +69,54 @@ public class AdminController {
 		
 		return mv;
 	}
+	//자연어 api 불량게시물 탐색
+	@RequestMapping("searchBlack.do")
+	public @ResponseBody List<Map<String, Object>> searchBlack(HttpServletResponse response){
+	
+		Map<String, Object> map = new HashMap<String, Object>();	
+	
+		System.out.println("들어오니?1");
+		List<Map<String, Object>> list = as.getAllGroupBoardList();
+		System.out.println("list불러오니"+list);
+		ArrayList<Map<String,Object>> snlist = new ArrayList<Map<String,Object>>();
+		for(int i = 0 ; i < list.size(); i++) {
+			System.out.println("들어오니?22");
+			Sentiment sn = NLPfiltering.get_sentiment((String)list.get(i).get("CONTENT"));      
+			if(sn.getScore() <= -0.1) {
+				System.out.print(list.get(i));
+				System.out.print( " / 부정적 게시글 \n");
+				snlist.add(list.get(i));
+			}
+		}
+/*		for(int j=0; j < snlist.size(); j++) {
+		map.put("option",option);
+		map.put("keyword", snlist[j]);
+		list = as.getGroupBoardList(map);
+		map.put("list", list);
+		}*/
+		
+		System.out.println(snlist);
+	
+		return snlist;
+	}
+	
+	//sms히스토리 검색
+	@RequestMapping("adminSearchSmsHistory.do")
+	public @ResponseBody List<Map<String, Object>> adminSearchSmsHistory(@RequestParam String searchDate1, @RequestParam String searchDate2, @RequestParam String searchOption,HttpServletResponse response){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("searchDate1", searchDate1);
+		map.put("searchDate2", searchDate2);
+		map.put("searchOption", searchOption);
+		
+		List<Map<String, Object>> list = as.searchSmsHistory(map);
+		
+		System.out.println(list);
+		
+		return list;
+	}
+	
+	
 	//사용자 공지사항페이지
 	@RequestMapping("notice.do")
 	public ModelAndView NoticeList(ModelAndView mv, HttpServletRequest request) {
@@ -126,10 +177,16 @@ public class AdminController {
 	public ModelAndView sendSms(ModelAndView mv ,@RequestParam("rphone") String rphone,@RequestParam("sphone1") String sphone1,@RequestParam("sphone2") String sphone2,@RequestParam("sphone3") String sphone3,@RequestParam("msg")String msg){
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
-		map.put("rphone", rphone);
+		String replacePhone = rphone.replace("-", "");
+		System.out.println(replacePhone);
+		
+		map.put("replacePhone", replacePhone);
 		map.put("msg", msg);
 		
 		List<Map<String,Object>> list = as.getUserCodeByPhone(map);
+		
+		System.out.println("오니?"+list.get(0).get("MEMBER_CODE"));
+		map.put("memberCode",list.get(0).get("MEMBER_CODE"));
 		
 		int result = as.sendSms(map);
 		
@@ -634,6 +691,8 @@ public class AdminController {
 			String prUrl = request.getParameter("prUrl");
 			String prCost = request.getParameter("prCost");
 			int prCategory = Integer.parseInt(request.getParameter("category"));
+			int prOrder = Integer.parseInt(request.getParameter("prOrder"));
+			String prClick = request.getParameter("prClick");
 			//사진 저장할 경로 지정12152
 			String root = request.getSession().getServletContext().getRealPath("resources");
 			
@@ -652,6 +711,8 @@ public class AdminController {
 			b.setPr_Link(prUrl);
 			b.setPr_Contractmoney(prCost);
 			b.setCategory_Code(prCategory);
+			b.setPr_Order(prOrder);
+			b.setPr_ClickMoney(prClick);
 			//업로드된 파일을 지정한 경로에 저장
 			try {
 				System.out.println("여기는 오니?");
@@ -771,9 +832,16 @@ public class AdminController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		
 		map.put("pi", pi);
-				
 		List<Map<String, Object>> list = as.getGroupBoardList(map);
-		
+		/*String[] snlist = new String[list.size()]; 
+		for(int i = 0 ; i < list.size(); i++) {
+			System.out.println("들어오니?22");
+			Sentiment sn = NLPfiltering.get_sentiment((String)list.get(i).get("CONTENT"));      
+			if(sn.getScore() <= -0.1) {
+				snlist[i] = (String)list.get(i).get("CONTENT");
+				System.out.println("들어오니??33"+snlist[i]);
+			}
+		}*/
 		System.out.println(list);
 		map.put("list", list);
 		
@@ -1089,7 +1157,7 @@ public class AdminController {
 	@RequestMapping("adminSearchMember.do")
 	public void AdminSearchMember(@RequestParam("searchAll")String searchAll,@RequestParam("searchDate1")String searchDate1,
 	@RequestParam("searchDate2")String searchDate2,@RequestParam("searchOption")String searchOption, HttpServletResponse response) {
-		
+
 		ObjectMapper mapper = new ObjectMapper();
 
 		System.out.println(searchAll);
@@ -1124,7 +1192,7 @@ public class AdminController {
 	}
 	
 	/////////////////////////////////////////회원관리 회원리스트 끝///////////////////////////////////////
-	@RequestMapping(value="selectImgAndLink.do")
+	@RequestMapping(value="selectCPPImgAndLink.do")
 	public @ResponseBody Map<String, Object> selectImgAndLink(@RequestParam(value="member_Code")int member_Code){
 		Map<String, Object> pr = null;
 		
@@ -1136,17 +1204,39 @@ public class AdminController {
 		
 		return pr;
 	}
+	@RequestMapping("selectCPCImgAndLink.do")
+	public @ResponseBody Map<String, Object> selectCPCImgAndLink(@RequestParam(value="member_Code")int member_Code){
+		Map<String, Object> pr = null;
+		
+		int counting = as.countCPC(member_Code);
+		
+		int prOrder = (int)(Math.random()*counting)+1;
+		pr.put("member_Code", member_Code);
+		pr.put("prOrder", prOrder);
+		//pr = as.selectImgAndLink(pr);
+		
+		return pr;
+	}
+	
+	
 	
 	@RequestMapping(value="insertPRCount.do")
 	public @ResponseBody int insertPRCount(@RequestParam(value="pr_Code")int pr_Code, @RequestParam(value="member_Code")int member_Code) {
 		int result = -9;
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("pr_Code", pr_Code);
+		map.put("member_Code",member_Code);
+		List<Map<String, Object>> list = as.checkPRCount(map);
 		
-		try {
-			result = as.insertPRCount(pr_Code, member_Code);
-		} catch (AdminException e) {
-			e.printStackTrace();
-		}
+		System.out.println(list.get(0).get("COUNT"));
 		
+		if(list.get(0).get("COUNT").equals("0")) {
+			try {
+				result = as.insertPRCount(pr_Code, member_Code);
+			} catch (AdminException e) {
+				e.printStackTrace();
+			}
+		}	
 		return result;
 	}
 }

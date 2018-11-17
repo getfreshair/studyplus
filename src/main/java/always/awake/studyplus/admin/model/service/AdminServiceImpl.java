@@ -403,5 +403,26 @@ public class AdminServiceImpl implements AdminService{
 		return ad.sendSms(sqlSession, map);
 	}
 
+	@Override
+	public List<Map<String, Object>> searchSmsHistory(HashMap<String, Object> map) {
+
+		return ad.searchSmsHistory(sqlSession, map);
+	}
+
+	@Override
+	public List<Map<String, Object>> checkPRCount(HashMap<String, Object> map) {
+		return ad.checkPRCount(sqlSession, map);
+	}
+
+	@Override
+	public List<Map<String, Object>> getAllGroupBoardList() {
+		return ad.getAllGroupBoardList(sqlSession);
+	}
+
+	@Override
+	public int countCPC(int member_Code) {
+		return ad.countCPC(sqlSession, member_Code);
+	}
+
 
 }

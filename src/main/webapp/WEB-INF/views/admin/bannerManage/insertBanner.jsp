@@ -121,9 +121,9 @@ th{
 						<div class="second-div" style="margin-left:400px">	
 						
 					<button type="button" id="cppInsertBtn" class="btn btn-primary" data-toggle="modal" data-target="#myModal"
-								style="font-size:14px; margin-bottom:6px; display:inline-block;height:35px;">광고등록</button>
-					<button type="button" id="cppUpdateBtn" class="btn btn-primary" data-toggle="modal" data-target="#myModal3"
-								style="font-size:14px; margin-bottom:6px; display:inline-block;height:35px;margin-left:50px">수정하기</button>
+								style="font-size:14px; margin-bottom:6px; margin-left:100px; display:inline-block;height:35px;">광고등록</button>
+<!-- 					<button type="button" id="cppUpdateBtn" class="btn btn-primary" data-toggle="modal" data-target="#myModal3"
+								style="font-size:14px; margin-bottom:6px; display:inline-block;height:35px;margin-left:50px">수정하기</button> -->
 					<button class="btn btn-warning" id="cppDeleteBtn" onclick ="deleteCPP();"name="cppDeleteBtn1" style="margin-bottom:6px; margin-left:50px; 
 								font-size:14px; display:inline-block;">삭제하기</button>
 					</div>
@@ -268,6 +268,8 @@ th{
 									<th width="15%">카테고리</th>
 									<th width="15%">예치금</th>
 									<th width="10%">상태</th>
+									<th width="5%">광고순서</th>
+									<th width="10%">클릭당금액</th>
 								</tr>
 							<c:forEach items="${data}"  var="prList" >
 							  <c:if test="${prList.PR_TYPE eq 1 and (prList.PR_STATUS eq 0 or prList.PR_STATUS eq 1)}">
@@ -314,6 +316,8 @@ th{
 										<td>종료</td>
 										</c:when>
 									</c:choose>
+									<td>${prList.PR_ORDER}</td>
+									<td>${prList.PR_CLICKMONEY}</td>
 								</tr>
 							 </c:if>
 							</c:forEach>
@@ -322,9 +326,9 @@ th{
 					</div>
 					<div class="forth-div" style="margin-left:400px">
 					<button type="button" id="cpcInsertBtn" class="btn btn-primary" data-toggle="modal" data-target="#myModal2"
-								style="font-size:14px; margin-bottom:6px; display:inline-block;height:35px;">광고등록</button>
-					<button type="button" id="cpcUpdateBtn" class="btn btn-primary" data-toggle="modal" data-target="#myModal4"
-								 style="font-size:14px; margin-bottom:6px; display:inline-block;height:35px;margin-left:50px">수정하기</button>
+								style="font-size:14px; margin-bottom:6px;  margin-left:100px; display:inline-block;height:35px;">광고등록</button>
+<!-- 					<button type="button" id="cpcUpdateBtn" class="btn btn-primary" data-toggle="modal" data-target="#myModal4"
+								 style="font-size:14px; margin-bottom:6px; display:inline-block;height:35px;margin-left:50px">수정하기</button> -->
 					<button class="btn btn-warning" id="cppDeleteBtn" onclick="deleteCPC();"name="cppDeleteBtn1" style="margin-bottom:6px; margin-left:50px; 
 								font-size:14px; display:inline-block;">삭제하기</button>
 					<script>
@@ -430,6 +434,8 @@ th{
 										<label>광고금액</label> <input type="text"
 											class="form-control modalContent modalContent7" name="prCost"
 											placeholder="금액을 입력하세요">
+										<label>광고순서</label> <input type="number" class="form-control modalContent modalContent8" name="prOrder">
+										<label>클릭당금액설정</label><input type="text" class="form-control modalContent modalContent9" name="prClick">
 									</div>
 									<div class="modal-footer">
 										<button type="submit" class="btn btn-success">추가하기</button>
