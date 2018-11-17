@@ -186,5 +186,12 @@ public class StudyPlannerServiceImpl implements StudyPlannerService{
 		return list;
 	}
 
+	//주간 목표 업데이트 시 기존 목표 삭제
+	@Override
+	public int deleteWeeklyGoal(String string) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 }

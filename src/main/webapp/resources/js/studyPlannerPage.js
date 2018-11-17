@@ -996,16 +996,25 @@ function todayGoalsList(){
 			data : {dateVal : $todayVal},
 			type : "post",
 			success : function(data){
+				console.log(data)
 				
-				//사용할 배열 변수 선언
-				var weekGoalCode = new Array();
-				var weekWeek = new Array();
-				var weekDay = new Array();
-				var weekAchieveAmount = new Array();
-				var weekGoalAmount = new Array();
 				for(var key in data[0]){
+					//여기는 주간 목표의 리스트 갯수 만큼
+					//ex) 자바공부(월,화) / 오라클 공부(월,화,수) ---> 2출력
+					
+					//사용할 배열 변수 선언
+					var weekGoalCode = new Array();
+					var weekWeek = new Array();
+					var weekDay = new Array();
+					var weekAchieveAmount = new Array();
+					var weekGoalAmount = new Array();
+					
+					
+					
 					for(var i = 0; i < data[0][key].length; i++){
-
+						//여기는 각 주간 목표의 선택한 날짜만큼 데이터 뽑음
+						//ex) 자바공부(월,화) / 오라클공부(월,화,수) ---> 2,3 출력
+						
 						var goalCode = data[0][key][i].goalCode;			//목표코드
 						var content = data[0][key][i].goalContent;			//목표명
 						var type = data[0][key][i].goalType;				//0일경우 페이지, 1일경우 시간
@@ -1018,8 +1027,7 @@ function todayGoalsList(){
 						var week = data[0][key][i].week;					//목표 요일
 						var todayOrWeek = data[0][key][i].goalDivision;		//0일경우 오늘목표, 1일경우 주간목표
 						var enrolldate = data[0][key][i].dateString;		//목표날짜
-						var goalISBN = data[0][key][i].GOAL_ISBN;			//isbn code
-						console.log(data[0][key][i].GOAL_ISBN)
+						var goalISBN = data[0][key][i].goalISBN;			//isbn code
 						
 						weekGoalCode[i] = data[0][key][i].goalCode;						//이번주 중 등록한 목표코드들
 						weekWeek[i] = data[0][key][i].week;								//이번주 중 선택한 요일들
@@ -1053,11 +1061,13 @@ function todayGoalsList(){
 						dataType = achiev  + ' / ' + goalAmount + " 페이지";
 					}
 					
+					var count = $(".weekly_goals .goals_list li").length; //주간 리스트 갯수만큼 차트 생성
+					//console.log("카운트 : " + count);
 					
-					$('.weekly_goals .goals_list').append('<li value="'+ goalCode +'">'
+					$('.weekly_goals .goals_list').append('<li value="'+ weekGoalCode +'">'
 							+ '<div class="left_area">'
 							+ '<div class="donut_area">'
-							+ '<canvas id="weekly_donut'+ i +'" width="70" height="70"></canvas>'
+							+ '<canvas id="weekly_donut'+ count +'" width="70" height="70"></canvas>'
 							+ '<span class="chart_per">' + achievPer + '%' + '</span>'
 							+ '</div>'
 							+ '</div>'
@@ -1067,19 +1077,17 @@ function todayGoalsList(){
 							+ '</p>'
 							+ '</div>'
 							+ '</li>');
-				
-
 					
-					//for(var i = 0; i < data[0][key].length; i++){
-						//목표 리스트 노출된 부분 공부량 차트 (아래 함수 호출)
-						GoalListChart2(achievPer, shortfallPer, i);
-						//console.log(i)
-					//}
+					
+					//목표 리스트 노출된 부분 공부량 차트 (아래 함수 호출)
+					GoalListChart2(achievPer, shortfallPer, count);
+					
 					//목표 리스트 각 목표 클릭시 상세 팝업창 노출(아래 함수 호출)
 					weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, 
 							achievHour, achievMin, achievPer, shortfallPer, enrolldate, weekDay, goalISBN);
-				
+					
 				}
+				
 			},
 			error : function(){
 				console.log("주간에러발생!");
@@ -1108,8 +1116,8 @@ function GoalListChart(achievPer, shortfallPer, i){
 }
 
 //주간 목표 리스트 노출된 부분 공부량 차트 
-function GoalListChart2(achievPer, shortfallPer, i){
-	var ctx = document.getElementById("weekly_donut"+i).getContext('2d');
+function GoalListChart2(achievPer, shortfallPer, count){
+	var ctx = document.getElementById("weekly_donut"+count).getContext('2d');
 	var today_donut = new Chart(ctx, {
 		type: 'doughnut',
 		data: data = {
@@ -1183,7 +1191,8 @@ function todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, 
 				
 				//페이지 목표 상세보기시 isbn이 있을경우 책검색 함수 호출
 				if($("#detailViewModal .book_form .bookIpt").val() != null){
-					bookIsbn(goalISBN.replace(/ /g,""));
+					goalISBN = goalISBN.replace(/ /g,"")
+					bookIsbn(goalISBN);
 				}
 			}
 		}
@@ -1196,7 +1205,10 @@ function weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour,
 	
 	$(".weekly_goals li .right_area").click(function(){
 		
-		var liIndex = $(this).parent().val();
+		var liVal = $(this).parent().attr("value"); //목표 고유 코드
+		liIndexArr = liVal.split(",");
+		liLenght = liIndexArr.length;
+		liIndex = liIndexArr[liLenght -1];
 		
 		if($(this).attr("value") == 1){ //타입이 시간일경우
 			
@@ -1208,14 +1220,14 @@ function weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour,
 			if(liIndex == goalCode){
 				$(this).attr({"data-toggle":"modal", "data-target":"#weeklyDetailViewModal"});
 				$("#weeklyDetailViewModal .time_form #goalName").attr("value",content);
-				$("#weeklyDetailViewModal .time_form #goalTime").attr("value",goalAmountHour);
+				$("#weeklyDetailViewModal .time_form #goalTime").attr("value",goalAmountHour);////
 				$("#weeklyDetailViewModal .time_form #goalMin").attr("value",goalAmountMin);
 				$("#weeklyDetailViewModal .time_form #achiev").text(achievHour + "시간 " + achievMin + "분");
 				$("#weeklyDetailViewModal .time_form #goalAmount").text(goalAmountHour + "시간 " + goalAmountMin + "분");
 				$("#weeklyDetailViewModal .time_form .chart_per").text(achievPer + "%");
 				
 				//등록시 선택한 요일 체크
-				var weekIpt = $("#weeklyDetailViewModal .up_sel_wrap input");
+				var weekIpt = $("#weeklyDetailViewModal .time_form .up_sel_wrap input");
 				for(var i = 0; i < weekDay.length; i++){
 					for(var j = 0; j < 8; j++){
 						if(weekIpt.eq(j).val() == weekDay[i]){
@@ -1225,7 +1237,7 @@ function weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour,
 				}
 				
 				//submit버튼 클릭시 업데이트하는 맵핑주소로 변경
-				$("#weeklyDetailViewModal .time_form").parent().attr("action","TodayTimeGoalUpdateModal.sp?liIndex=" + liIndex);
+				$("#weeklyDetailViewModal .time_form").parent().attr("action","WeeklyTimeGoalUpdateModal.sp?liIndex=" + liVal);
 
 				//모달 내 차트
 				var ctx = document.getElementById("weekly_Modal_donut").getContext('2d');
@@ -1254,11 +1266,22 @@ function weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour,
 				$("#weeklyDetailViewModal .book_form #goalPage").attr("value",goalAmount);
 				$("#weeklyDetailViewModal .book_form #goalAchiev").attr("value",achiev);
 				
-				$("#weeklyDetailViewModal .book_form").parent().attr("action","TodayBookGoalUpdateModal.sp?liIndex=" + liIndex);
+				//등록시 선택한 요일 체크
+				var weekIpt = $("#weeklyDetailViewModal .book_form .up_sel_wrap input");
+				for(var i = 0; i < weekDay.length; i++){
+					for(var j = 0; j < 8; j++){
+						if(weekIpt.eq(j).val() == weekDay[i]){
+							weekIpt.eq(j).attr("checked", true);
+						}
+					}
+				}
+				
+				$("#weeklyDetailViewModal .book_form").parent().attr("action","WeeklyBookGoalUpdateModal.sp?liIndex=" + liIndex);
 				
 				//페이지 목표 상세보기시 isbn이 있을경우 책검색 함수 호출
 				if($("#detailViewModal .book_form .bookIpt").val() != null){
-					bookIsbn(goalISBN.replace(/ /g,""));
+					goalISBN = goalISBN.replace(/ /g,"")
+					bookIsbn(goalISBN);
 				}
 				
 			}
@@ -1353,7 +1376,7 @@ function bookIsbn(searchBook){
 			//console.log(object.items[0].image);
 			//console.log(object.items[0].isbn);
 			
-			//$(".bookIpt").attr("value", object.items[0].isbn);
+			$(".bookIpt").attr("value", object.items[0].isbn);
 			$(".book_img").append().html('<img src="' + object.items[0].image + '">');
 			$(".book_info").append().html(object.items[0].title);
 		},

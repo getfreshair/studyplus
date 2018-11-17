@@ -438,7 +438,7 @@ public class StudyPlannerController {
 	//주간 목표 리스트
 	@RequestMapping(value="weeklyGoalsList.sp")
 	public @ResponseBody List<HashMap<String, ArrayList<Goal>>> weeklyGoalsList(HttpSession session, @RequestParam String dateVal, HttpServletResponse response) throws plannerException{
-		System.out.println("들어는 오니??");
+		
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int loginUserCode = loginUser.getMember_Code();
 		
@@ -474,10 +474,9 @@ public class StudyPlannerController {
 			}
 		}
 		
-		
 		List<HashMap<String, ArrayList<Goal>>> returnList = new ArrayList<HashMap<String, ArrayList<Goal>>>();
 		returnList.add(weekMap);
-		System.out.println("컨트롤러에서 보낼 데이터 : " + weekMap);
+		System.out.println("컨트롤러 주간 목표 리스트 : " + weekMap);
 		
 		return returnList;
 	}
@@ -614,17 +613,6 @@ public class StudyPlannerController {
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int loginUserCode = loginUser.getMember_Code();
 		
-		/*Calendar cal = new GregorianCalendar();
-	    String today = cal.get(Calendar.YEAR) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.DAY_OF_MONTH);
-	    System.out.println("오늘날짜 : " + today);
-	    System.out.println("오늘요일 : " + (cal.get(Calendar.DAY_OF_WEEK)));
-	    
-	    cal.add(Calendar.DATE, -1); //어제날짜
-	    String yesterday = cal.get(Calendar.YEAR) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.DAY_OF_MONTH);
-	    System.out.println("어제날짜: " + yesterday);
-	    System.out.println("어제요일 : " + (cal.get(Calendar.DAY_OF_WEEK)));*/
-	    
-		
 		String[] arr = checkWeek.split(",");
 		String insertDay = "";
 		int goalTotaltime = 0;
@@ -644,14 +632,6 @@ public class StudyPlannerController {
 			hmap.put("goalTotaltime", goalTotaltime);
 			hmap.put("insertDay", insertDay);
 
-			//주간등록일경우 1또는 0 으로 타입 나눠서 넥스트발을 커런트발로 등록하도록함, 
-			//주간 목표 등록시 동일한 목표 코드를 가지도록함
-			/*if(i == 0) {
-				hmap.put("insertNum", 0); //첫번째로 등록시 넥스트발 하기위함
-			}else {
-				hmap.put("insertNum", 1); //첫번째 이후 등록시 커런트발 하기위함
-			}*/
-			
 			result = sps.insertWeeklyTimeGoal(hmap);
 		}
 		
@@ -668,10 +648,28 @@ public class StudyPlannerController {
 	
 	//주간 목표 업데이트(시간 단위)
 	@RequestMapping(value="WeeklyTimeGoalUpdateModal.sp", method=RequestMethod.POST)
-	public String WeeklyTimeGoalUpdate(HttpSession session, @RequestParam("goalType")int goalType, @RequestParam("goalName")String goalName,
-			@RequestParam("goalTime")int goalTime, @RequestParam("goalMin")int goalMin, @RequestParam("liIndex")int liIndex) {
+	public String WeeklyTimeGoalUpdate(HttpSession session, @RequestParam("dateVal") String dateVal, @RequestParam("goalType")int goalType, 
+			@RequestParam("goalName")String goalName, @RequestParam("goalTime")int goalTime, @RequestParam("goalMin")int goalMin, 
+			@RequestParam("liIndex")String liIndex) {
 		
-		Member loginUser = (Member) session.getAttribute("loginUser");
+		//HttpSession session, @RequestParam("goalType")int goalType, @RequestParam("goalName")String goalName,
+		//@RequestParam("goalTime")int goalTime, @RequestParam("goalMin")int goalMin, @RequestParam("checkWeek")String checkWeek
+		
+		System.out.println("컨트롤러 넘어오는 li의 코드 : " + liIndex);
+		String[] liIndexArr = liIndex.split(",");
+		
+		for(int i = 0; i < liIndexArr.length; i++) {
+			System.out.println("목표코드? : " + liIndexArr[i]);
+			
+			//int delResult = sps.deleteWeeklyGoal(liIndexArr[i]);
+			//goalCode = Integer.parseInt(liIndexArr[i]);
+			//기존 날짜와 넘어온 날짜가 일치할경우 update
+			//새로운 날짜가 넘어왔을 경우, 일치하는 날짜 외 delete하고 insert
+			//다 지우고 다시 insert
+
+		}
+		
+		/*Member loginUser = (Member) session.getAttribute("loginUser");
 		int loginUserCode = loginUser.getMember_Code();
 		
 		//시간 등록시 초단위로 변경
@@ -691,11 +689,10 @@ public class StudyPlannerController {
 			
 		}else {
 			System.out.println("목표 업데이트 실패!");
-		}
+		}*/
 		
 		return "redirect:studyPlannerMainPage.sp";
-	}
-	
+	}	
 	
 	//주간 목표 등록(페이지 단위)
 	@RequestMapping(value="WeeklyBookGoalAddModal.sp", method=RequestMethod.POST)
