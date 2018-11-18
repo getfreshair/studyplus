@@ -95,7 +95,7 @@ public class SGDetailController {
 			mv.addObject("grMemList", memberList);
 			mv.addObject("loginUserCode", loginUserCode);
 			
-			mv.setViewName("studyGroupDetail/leftGroupListArea");
+		mv.setViewName("studyGroupDetail/bottomLeftInclude/grMemberList");
 			System.out.println("MV : < " + mv + " >");
 			
 		} catch (Exception e) {
@@ -119,7 +119,7 @@ public class SGDetailController {
 				mv.addObject("loginUserCode", nowLeaderCode);
 			}			
 			mv.addObject("result", result);
-			mv.setViewName("studyGroupDetail/leftGroupListArea");
+			mv.setViewName("studyGroupDetail/bottomLeftInclude/grMemberList");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -133,14 +133,17 @@ public class SGDetailController {
 		
 		try {			
 			result = gs.updateDeleteGroupMember(grCode, delMemCode);
-			
 			if(result >= 1) {
 				List<HashMap<String, Object>> memberList = gs.selectGroupMemberList(grCode);
 				mv.addObject("grMemList", memberList);
 				mv.addObject("loginUserCode", loginUserCode);
 			}			
 			mv.addObject("result", result);
-			mv.setViewName("studyGroupDetail/leftGroupListArea");
+			if(delMemCode != loginUserCode) {
+				mv.setViewName("studyGroupDetail/bottomLeftInclude/grMemberList");
+			} else if(delMemCode == loginUserCode) {
+				mv.setViewName("studyGroupDetail/bottomLeftInclude/grMemberList");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -167,7 +170,6 @@ public class SGDetailController {
 					
 			mv.addObject("selectDate", selectChangeDates);
 			mv.setViewName("jsonView");
-//			mv.setViewName("studyGroupDetail/groupDetailPage");
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -190,7 +192,7 @@ public class SGDetailController {
 			System.out.println("2번 페이지 쿼리 실행 결과 : \n< " +  list + " >");
 			mv.addObject("list", list);
 			
-			mv.setViewName("studyGroupDetail/leftGroupStudyTimeRank");
+			mv.setViewName("studyGroupDetail/bottomLeftInclude/rankOfStudyTime");
 			System.out.println("MV : < " + mv + " >");
 			
 		} catch (Exception e) {
@@ -211,7 +213,29 @@ public class SGDetailController {
 			System.out.println("3번 페이지 쿼리 실행 결과 : \n< " +  list + " >");
 			mv.addObject("list", list);
 			
-			mv.setViewName("studyGroupDetail/leftGroupStudyTimeTotal");
+			mv.setViewName("studyGroupDetail/bottomLeftInclude/weeklyStudyTimeTotal");
+			System.out.println("MV : < " + mv + " >");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return mv;
+	}
+	
+	@RequestMapping("selectOneBoardDetailShow.sgd")
+	public ModelAndView selectOneBoardDetailShow(@RequestParam int grCode, @RequestParam int boardCode, ModelAndView mv) {
+		
+		try {
+			
+			System.out.println("모달 페이지 여는 컨트롤러 왔어");
+			
+//			List<HashMap<String, Object>> list = gs.selectGroupMemberTimeList(grCode, thisDay);
+			
+//			System.out.println("3번 페이지 쿼리 실행 결과 : \n< " +  list + " >");
+//			mv.addObject("list", list);
+			
+			mv.setViewName("studyGroupDetail/bottomCenterInclude/oneBoardDetail");
 			System.out.println("MV : < " + mv + " >");
 			
 		} catch (Exception e) {
