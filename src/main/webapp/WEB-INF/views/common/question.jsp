@@ -58,7 +58,7 @@
 		padding:8px;
 		padding-right:15px;
 		padding-left:15px;
-		max-width:385px;
+		max-width:345px;
 		vertical-align: top;
 		background:#EFEFF5;
 	}
@@ -75,6 +75,7 @@
 		width: 30px;
 	    height: 30px;
 	    border-radius: 50%;
+	    margin-right: 10px;
 	}
 	.chatBotTop {
 		padding-top: 8px;

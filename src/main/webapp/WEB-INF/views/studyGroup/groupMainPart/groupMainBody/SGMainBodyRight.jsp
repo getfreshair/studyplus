@@ -15,8 +15,12 @@
 		border-radius:10px;
 		width:100%;
 	    height:100px;
-	    background:#FCCE00;
-	    text-align:center;
+	    background-image: url("/studyplus/resources/images/studyGroup/insertGroup.png");
+	    background-size:100% 100%;
+	    text-align: left;
+		padding-left: 10px;
+		padding-top: 5px;
+		font-weight: bold;
 	}
 	.insertSGImgArea img{
 		margin-top:32px;
@@ -149,6 +153,11 @@
 	.SGBoardChooseBtnUl li img {
 		width:20px;
 		height:20px;
+	}
+	.insertSGImgAreaInfo {
+		text-align:left;
+		font-weight: 600;
+    	margin-top: 15px;
 	}
 </style>
 <script>
@@ -297,7 +306,8 @@
 <body>
 	<div class="SGMainBodyRightArea">
 		<div class="insertSGImgArea" onclick="studyGroupInsertPage()">
-			<img src="/studyplus/resources/images/studyGroup/insertGroup.png">
+			Create study group
+			<p class="insertSGImgAreaInfo"><u>스터디 그룹 생성하고,<br>최고의 그룹을 이끌어 가세요 </u>&nbsp; > </p>
 		</div>
 		<div class="SGBoardArea">
 			<div class="SGBoardChooseBtnArea">

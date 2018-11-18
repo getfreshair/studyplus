@@ -256,8 +256,8 @@
             	$('.member_Nickname').focus();
                 $('.member_Nickname').select();
                 return false;
-            }else if (!(ch >= '0' && ch <= '9') && !(ch >= 'a' && ch <= 'z')&&!(ch >= 'A' && ch <= 'Z')) {
-                alert("닉네임은 대소문자, 숫자만 입력가능합니다.");
+            }else if (!(ch >= '0' && ch <= '9') && !(ch >= 'a' && ch <= 'z') && !(ch >= 'A' && ch <= 'Z') && !(ch >= '가' && ch <= '힣')) {
+                alert("닉네임은 한글, 대소문자, 숫자만 입력가능합니다.");
                 $('.member_Nickname').focus();
                 $('.member_Nickname').select();
                 return false;
@@ -386,11 +386,11 @@
 					<span class="insertMemberInfoSapn">* 표시는 필수 입력 항목입니다.</span>
 					<hr>
 					<div class="inputMemberInfo">
-						<input type="text" name="member_Id" class="member_Id" placeholder=" * 아이디(영어, 숫자 조합 1 ~ 20자 이내)"/>
+						<input type="text" name="member_Id" class="member_Id" placeholder=" * 아이디(영어, 숫자 조합 4 ~ 20자 이내)"/>
 					</div>
 					<hr>
 					<div class="inputMemberInfo">
-						<input type="text" name="member_Nickname" class="member_Nickname" placeholder=" * 닉네임(영어, 숫자 조합 1 ~ 20자 이내)"/>
+						<input type="text" name="member_Nickname" class="member_Nickname" placeholder=" * 닉네임(영어, 숫자 조합 4 ~ 20자 이내)"/>
 					</div>
 					<hr>
 					<div class="inputMemberInfo">

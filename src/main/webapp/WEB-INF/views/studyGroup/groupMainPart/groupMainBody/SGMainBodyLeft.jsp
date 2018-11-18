@@ -477,7 +477,7 @@
 				window.open(pr_Link, '_blank');
 			}
 		})
-	}`
+	}
 </script>
 </head>
 <body>

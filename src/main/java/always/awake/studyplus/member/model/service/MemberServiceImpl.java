@@ -120,19 +120,19 @@ public class MemberServiceImpl implements MemberService{
 	    		
 	    		return questionInfo;
 	    	}else if(word.equals("이용약관")) {
-	    		questionInfo.put("pageUrl", "main/main");
+	    		questionInfo.put("pageUrl", "provision.do");
 	    		
 	    		return questionInfo;
 	    	}else if(word.equals("개인 정보")) {
-	    		questionInfo.put("pageUrl", "main/main");
+	    		questionInfo.put("pageUrl", "provision.do");
 	    		
 	    		return questionInfo;
 	    	}else if(word.equals("개인정보취급방침")) {
-	    		questionInfo.put("pageUrl", "main/main");
+	    		questionInfo.put("pageUrl", "provision.do");
 	    		
 	    		return questionInfo;
 	    	}else if(word.equals("개인 스터디")) {
-	    		questionInfo.put("pageUrl", "main/main");
+	    		questionInfo.put("pageUrl", "studyPlannerMainPage.sp");
 	    		
 	    		return questionInfo;
 	    	}
@@ -250,16 +250,21 @@ public class MemberServiceImpl implements MemberService{
 	    		return questionInfo;
 	    	}
 	    	
-	    	if(newSentence.getDirectObject().equals("방식")) {
-	    		if(newSentence.getVerb().equals("줘")) {
-	    			questionInfo.put("infoMessage", "주혁이 한테 물어봥 > <");
+	    	if(newSentence.getDirectObject().equals("차단")) {
+	    		if(newSentence.getVerb().equals("싶어")) {
+	    			questionInfo.put("infoUrl", "showBlockMain.bl");
 	    			
 		    		return questionInfo;
-	    		}
-	    	}else if(newSentence.getDirectObject().equals("차단")) {
-	    		if(newSentence.getVerb().equals("싶어")) {
-	    			questionInfo.put("infoUrl", "main/main");
+	    		}else if(newSentence.getVerb().equals("줘")) {
+	    			questionInfo.put("infoMessage", "- 사용자가 설정한 프로그램과 웹 사이트 접근을 막아주며 실행을 차단하게 하며, 차단을 정지할 경우 다시 실행이 가능하도록 설정\n<br><br>" + 
+	    					"- 지역 차단의 경우 사용자 IP기반으로 사용자 위치를 추출해서 사용자가 홈페이지에서 설정한 차단 지역과 \n<br><br>" + 
+	    					"  범위 300미터 이내일 경우 프로그램을 자동으로 시켜주는 기능\n<br><br>" + 
+	    					"- 스케줄은 설정한 시간이 되면 프로그램이 자동으로 실행, 설정한 시간이 아닐 경우 자동으로 종료");
 	    			
+		    		return questionInfo;
+	    		}else {
+	    			questionInfo.put("infoMessage", "죄송해요 이해를 못 했어요. 다시 한 번 더 말씀해 주세요.");
+		    		
 		    		return questionInfo;
 	    		}
 	    	}

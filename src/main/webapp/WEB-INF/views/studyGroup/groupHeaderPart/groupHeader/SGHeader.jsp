@@ -59,7 +59,7 @@
 		width:80px;
 		height:80px;
 		border:none;
-		background-color: rgba( 250, 124, 124, 0.8 );
+		background-color: rgba( 250, 124, 124, 0.9 );
 		padding-top:29px;
 		text-align:center;
 		font-weight: unset;
@@ -69,6 +69,7 @@
 		color:white;
 		cursor:pointer;
 		border-radius:7px;
+		box-shadow: 0px 3px 5px 1px #565656;
 	}
 	.SGMainFiledListArea input[type='radio'] {
 		display:none;

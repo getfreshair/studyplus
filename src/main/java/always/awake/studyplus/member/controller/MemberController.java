@@ -115,6 +115,7 @@ public class MemberController {
 		mv.addObject("questionInfo", questionInfo);
 		mv.setViewName("jsonView");
 		
+		System.out.println("return questionInfo : " + questionInfo);
 		return mv;
 	}
 	
