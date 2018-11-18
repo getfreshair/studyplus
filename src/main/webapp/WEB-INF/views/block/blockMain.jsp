@@ -74,7 +74,7 @@
 	
 		if(div =="입장"){
 		$.ajax({
-			     url:"renewalPlayer.bl",
+			     url:"showProgram.bl",
 			     type:"get",
 			     data:{msg:msg
 			          },
@@ -141,6 +141,7 @@
 
 html, body{
     min-height:100%;
+    overflow: auto;
 
 }
 .hovereffect {
@@ -492,7 +493,7 @@ setInterval( function() {
 
 <body>	
 	<div class="mainDiv">
-		<div class="contentDiv col-xs-12 col-md-9" style="height:800px">
+		<div class="contentDiv col-xs-12 col-md-9" style="height:100%" >
 				<script>
 				$(function(){					
 					startPause("main");
@@ -611,8 +612,13 @@ setInterval( function() {
 						} else if ( division =='group'){
 							var groupTimmerButtonName = "groupStartPause"+num
 							// 기존의 실행중인 타이머인지 구분 아닐 경우 기존 실행 타이머 상태 변경
+							
+							
 							if(executeGroupTimmerName != '' && groupTimmerButtonName != executeGroupTimmerName){
 								/* document.getElementById(executeGroupTimmerName).innerHTML ="공부시작"; */
+								var orNum = executeGroupTimmerName.substr(executeGroupTimmerName.lastIndexOf('e')+1,executeGroupTimmerName.length) ;
+								$(".selectli1"+orNum).css("display","inline-block");
+								$(".selectli2"+orNum).css("display","none");
 								$("#"+executeGroupTimmerName).children().attr("src","resources/images/block/play.png");
 								groupTimmerStatus[originGroupTimmerIndex] = 0;
 								TempSaveTimeDates(originGroupTimmerIndex, -99);
@@ -635,20 +641,29 @@ setInterval( function() {
 								groupTimmerStatus[num] = 1;
 								startGroupTimmer(num);
 								/* document.getElementById(groupTimmerButtonName).innerHTML ="일시정지";  */
-								$("#"+groupTimmerButtonName).children().attr("src","resources/images/block/pause.png");
+								$(".selectli1"+num).css("display","none");
+								$(".selectli2"+num).css("display","inline-block");
+								//$("#"+groupTimmerButtonName).children().attr("src","resources/images/block/pause.png");
 								
 							} else {
 								groupTimmerStatus[num] = 0;
+								$(".selectli2"+num).css("display","none");
+								$(".selectli1"+num).css("display","inline-block");
+								
 								/* document.getElementById(groupTimmerButtonName).innerHTML ="공부시작"; */
-								$("#"+groupTimmerButtonName).children().attr("src","resources/images/block/play.png");
+								//$("#"+groupTimmerButtonName).children().attr("src","resources/images/block/play.png");
 								TempSaveTimeDates(num, -99);
 							}
 						}else if ( division =='goal'){
 							var goalTimmerButtonName = "goalStartPause"+num
 							// 기존의 실행중인 타이머인지 구분 아닐 경우 기존 실행 타이머 상태 변경
+							console.log($(".selectliGoal2"+num));
 							if(executeGoalTimmerName != '' && goalTimmerButtonName != executeGoalTimmerName){
 								/* document.getElementById(executeGoalTimmerName).innerHTML ="공부시작"; */
-								$("#"+executeGoalTimmerName).children().attr("src","resources/images/block/play.png");
+								var orNum = executeGoalTimmerName.substr(executeGoalTimmerName.lastIndexOf('e')+1,executeGoalTimmerName.length) ;
+								$(".selectliGoal1"+orNum).css("display","inline-block");
+								$(".selectliGoal2"+orNum).css("display","none");
+								
 								goalTimmerStatus[originGoalTimmerIndex] = 0;
 								TempSaveTimeDates(-99, originGoalTimmerIndex);
 							}
@@ -669,11 +684,15 @@ setInterval( function() {
 								goalTimmerStatus[num] = 1;
 								startGoalTimmer(num);
 								/* document.getElementById(goalTimmerButtonName).innerHTML ="일시정지"; */
-								$("#"+goalTimmerButtonName).children().attr("src","resources/images/block/pause.png");
+								//$("#"+goalTimmerButtonName).children().attr("src","resources/images/block/pause.png");
+								$(".selectliGoal2"+num).css("display","inline-block");
+								$(".selectliGoal1"+num).css("display","none");
 							} else {
 								goalTimmerStatus[num] = 0;
 								/* document.getElementById(goalTimmerButtonName).innerHTML ="공부시작"; */
-								$("#"+goalTimmerButtonName).children().attr("src","resources/images/block/play.png");
+								//$("#"+goalTimmerButtonName).children().attr("src","resources/images/block/play.png");
+								$(".selectliGoal1"+num).css("display","inline-block");
+								$(".selectliGoal2"+num).css("display","none");
 								TempSaveTimeDates(-99, num);
 							}
 						}
@@ -728,6 +747,7 @@ setInterval( function() {
 						 		}
 						 		var groupOutputName = 'outputGroup' + num;	
 						 		document.getElementById(groupOutputName).innerHTML =  groupHour + " : " + groupMins + " : " + groupSecs ;
+						 		document.getElementById('outputGroup2' + num).innerHTML =  groupHour + " : " + groupMins + " : " + groupSecs ;
 						 		startGroupTimmer(num);
 						 		}, 100);
 						 	}
@@ -754,6 +774,7 @@ setInterval( function() {
 						 		}
 						 		var goalOutputName = 'outputGoal' + num;	
 						 		document.getElementById(goalOutputName).innerHTML =  goalHour + " : " + goalMins + " : " + goalSecs ;
+						 		document.getElementById("outputGoal2"+num).innerHTML =  goalHour + " : " + goalMins + " : " + goalSecs ;
 						 		startGoalTimmer(num);
 						 		}, 100);
 						 	}
@@ -763,18 +784,18 @@ setInterval( function() {
 				
 						 		
 				<div>
-					<div class="clock" style="margin-right:200px">
+					<div class="clock" style="margin-right:200px; height:20%">
 				  	<ul class="dateUl">
 					      <li id="hours"></li>
 					      <li id="point">:</li>
 					      <li id="min"></li>
 				  	</ul>
 					<div id="Date"></div>
-					</div>
+				</div>
 				<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 				<script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.0.0/moment.min.js"></script>
 				<script src="resources/js/script.js"></script>		
-				<div style="margin-left:auto; margin-right:200px" class="stopWatchArea" align="right">
+				<div style="margin-left:auto; margin-right:200px;height:20%" class="stopWatchArea" align="right">
 					<span id="output" style="margin-left:auto; width:100px; height:50px; font-size:7em;text-shadow: 0 0 5px #00c6ff; color:white">
 					<% 
 						int mHour = (int)Math.floor((((todayStudyTime)/60)/60)%24);
@@ -829,8 +850,8 @@ setInterval( function() {
   					</div> -->
   				</div>
   				<br>
-  				<div style="position:relative; height:100%" >
-  				<div class="gameArea" id="gameArea" style="margin-left:3%;bottom:30%;border:2px solid black;background:black; height:400px; width:400px; position:absolute ;overflow: hidden; border-radius:300px; display:inline-block; border:5px solid">
+  				<div style="position:relative; height:60%" >
+  				<div class="gameArea" id="gameArea" style="margin-left:3%;bottom:0;border:2px solid black;background:black; height:400px; width:400px; position:absolute ;overflow: hidden; border-radius:300px; display:inline-block; border:5px solid">
   					<%-- <% Random random = new Random();
   						ArrayList<Member> mlist = new ArrayList<Member>();
 						for(int i = 0 ; i < 100 ; i ++ ){
@@ -928,10 +949,10 @@ setInterval( function() {
 							<c:set var="jobName" value="기타"></c:set>
 						</c:otherwise>
 					</c:choose>
-						<span style="color:white;position:absolute;top:28%; left:36%;" >현재 ${jobName} 공부 유저  :  <span id="job_span" style="color:#E67E22; font-size:1.5em">0 </span>명</span><br>
+						<span style="color:white;position:absolute;top:26%; left:38%;" >현재 ${jobName} 공부 유저  :  <span id="job_span" style="color:#E67E22; font-size:1.5em">0 </span>명</span><br>
 						<span style="color:white;position:absolute; top:34%; left:40%;">현재 ${sessionScope.loginUser.location_Name }지역 공부 유저  :  <span id="location_span" style="color:#4797B1; font-size:1.5em">0 </span>명</span>
 						<div class="hovereffect" style="display:inline-block;height:200px;  position:absolute;left:200px; top:150px">
-	           <div class="overlay">
+	         <!--   <div class="overlay">
 	                <h2 >Block Settings</h2>
 	                <p class="set1">
 	                    <a href="showSettingMain.bl">
@@ -951,12 +972,12 @@ setInterval( function() {
 	                        <i class="fa fa-road" style="margin-left:10px"></i>
 	                    </a>
 	                </p>
-	            </div> 
+	            </div>  -->
 	    	</div>
 			</div>
 			</div>
-		<div class="contentDiv col-xs-12 col-md-3 side_area">
-		<div class="user_info" style="margin-top:20px">
+		<div class="contentDiv col-xs-12 col-md-3 side_area" style="height:98%; margin-top:1%">
+		<div class="user_info" >
 							<div class="img_area">
 								<img src="/studyplus/resources/upload/member/thumbnail/${ loginUser.member_Files.files_Name }" alt="study plus logo" style="width:100%;">
 							</div>
@@ -970,7 +991,7 @@ setInterval( function() {
 							</span>
 						</div>
 						<!-- 오늘의목표 -->
-						<div class="today_goals" style="height:38%; margin-top:10px">
+						<div class="today_goals" style="height:36%; margin-top:10px;background:rgba(255,255,255,0.2);">
 							<div class="box_tit">
 								<span class="txt">오늘의 목표</span>
 								<span class="sub">Today's Goals</span>
@@ -980,7 +1001,8 @@ setInterval( function() {
 							
 										<ul class="goals_list" style="width:100%">
 				<c:forEach var="goal" items="<%=goalList %>" varStatus="index">
-	  				<li ><p style="	margin-bottom: 5px;
+	  				<li class="selectliGoal1${index.index }" style="height:70px; width:100%">
+	  				<p style="	margin-bottom: 5px;
     								font-weight: bold;
     								width: 90%;
 								    display: inline-block;
@@ -988,10 +1010,8 @@ setInterval( function() {
 								    white-space: nowrap;
 								    overflow: hidden;
 								    text-overflow: ellipsis;">${goal.goalContent }</p>
-	  				<br>
-	  					<span id="outputGoal${index.index }" style="width:100px; height:50px; margin-top:50px; font-size: 13px;
-    color: #6d6d6d;
-    font-weight: bold;">
+	  						<br>
+	  					<span id="outputGoal${index.index }" style="width:100px; height:50px; margin-top:50px; font-size: 13px;color: #6d6d6d;font-weight: bold;">
 	  					
 	  								<fmt:parseNumber var="gHour" integerOnly="true" value="${Math.floor(((goal.goalAchieveAmount/60)/60)%24)}"/>
 	  								<fmt:parseNumber var="gMin" integerOnly="true" value="${Math.floor((goal.goalAchieveAmount/60)%60)}"/>
@@ -1023,6 +1043,71 @@ setInterval( function() {
 	  						<button id="goalStartPause${index.index }" style="border:none; background:white ; position:absolute; top:20%; right:2%" onclick="startPause('goal',${index.index })"><img src="resources/images/block/play.png" style="width:40px; height:40px"></button>
 	  					</div>
 	  				</li>
+	  				
+	  					<li style="position:relative;background:rgba(10,10,10,0.5);display:none; height:70px;width:100%" class="selectliGoal2${index.index }">
+	  							<p style="	margin-bottom: 5px;
+    								font-weight: bold;
+    								width: 90%;
+								    display: inline-block;
+								    color:black;
+								    white-space: nowrap;
+								    overflow: hidden;
+								    text-overflow: ellipsis;">${goal.goalContent }</p>
+	  						<br>
+	  					<span id="outputGoal${index.index }" style="width:100px; height:50px; margin-top:50px; font-size: 13px;color: #6d6d6d;font-weight: bold;">
+	  					
+	  								<fmt:parseNumber var="gHour" integerOnly="true" value="${Math.floor(((goal.goalAchieveAmount/60)/60)%24)}"/>
+	  								<fmt:parseNumber var="gMin" integerOnly="true" value="${Math.floor((goal.goalAchieveAmount/60)%60)}"/>
+	  								<fmt:parseNumber var="gSec" integerOnly="true" value="${Math.floor(goal.goalAchieveAmount%60)}"/>
+	  								
+	  								<c:if test="${gHour lt 10}">
+	  									0<c:out value="${gHour }"/> :
+	  								</c:if>
+	  								<c:if test="${gHour ge 10}">
+	  									<c:out value="${gHour }"/> :
+	  								</c:if>
+	  								
+	  								<c:if test="${gMin lt 10}">
+	  									0<c:out value="${gMin }"/> :
+	  								</c:if>
+	  								<c:if test="${gMin ge 10}">
+	  									 <c:out value="${gMin }"/> :
+	  								</c:if>
+	  								
+	  								<c:if test="${gSec lt 10}">
+	  									0<c:out value="${gSec}"/> 
+	  								</c:if>
+	  								<c:if test="${gSec ge 10}">
+	  									<c:out value="${gSec }"/> 
+	  								</c:if>
+	  							
+	  								</span>
+
+	  							<span id="outputGoal2${index.index}" style="z-index:10000; position: absolute; top:18%;left:25%;color:white; font-size:2.5em"><c:if test="${gHour lt 10}">
+	  									0<c:out value="${gHour }"/> :
+	  								</c:if>
+	  								<c:if test="${gHour ge 10}">
+	  									<c:out value="${gHour }"/> :
+	  								</c:if>
+	  								
+	  								<c:if test="${gMin lt 10}">
+	  									0<c:out value="${gMin }"/> :
+	  								</c:if>
+	  								<c:if test="${gMin ge 10}">
+	  									 <c:out value="${gMin }"/> :
+	  								</c:if>
+	  								
+	  								<c:if test="${gSec lt 10}">
+	  									0<c:out value="${gSec}"/> 
+	  								</c:if>
+	  								<c:if test="${gSec ge 10}">
+	  									<c:out value="${gSec }"/> 
+	  								</c:if></span>
+								<div id="controls" style="display:inline-block; margin-left:30px;">
+								
+	  								<button id="goalStartPause${index.index }" style="border:none; background:rgba(10,10,10,0.0); position:absolute; top:20%; right:2%" onclick="startPause('goal',${index.index })"><img src="resources/images/block/pause.png" style="width:40px; height:40px"></button>
+	  							</div>
+	  						</li>
 	  			</c:forEach>
 	  		</ul>
 									</ul>
@@ -1034,7 +1119,8 @@ setInterval( function() {
 						</div>
 						<!-- // 오늘의목표 -->
 						<!-- 이번주목표 -->
-						<div class="weekly_goals"  style="height:38%; margin-top:10px">
+						
+						<div class="weekly_goals"  style="height:36%; margin-top:10px; background:rgba(255,255,255,0.2);">
 							<div class="box_tit">
 								<span class="txt">그룹 목표</span>
 								<span class="sub">GroupGoals</span>
@@ -1045,7 +1131,8 @@ setInterval( function() {
 				
 				<ul class="goals_list">
 	  					<c:forEach var="group" items="<%=groupList %>" varStatus="index">
-	  						<li><p style="	margin-bottom: 5px;
+	  						<li class="selectli1${index.index }" style="height:70px; width:100%">
+	  						<p style="margin-bottom: 5px;
     								font-weight: bold;
     								width: 90%;
 								    display: inline-block;
@@ -1054,9 +1141,7 @@ setInterval( function() {
 								    overflow: hidden;
 								    text-overflow: ellipsis;">${group.studyGroup_Name }</p>
 	  						<br>
-	  							<span id="outputGroup${index.index }" style="width:100px; height:50px; margin-top:50px; font-size: 13px;
-    color: #6d6d6d;
-    font-weight: bold;">
+	  							<span id="outputGroup${index.index }" style="width:100px; height:50px; margin-top:50px; font-size: 13px; color: #6d6d6d; font-weight: bold;">
 	  								<fmt:parseNumber var="gHour" integerOnly="true" value="${Math.floor(((group.groupTotalStudyTime/60)/60)%24)}"/>
 	  								<fmt:parseNumber var="gMin" integerOnly="true" value="${Math.floor((group.groupTotalStudyTime/60)%60)}"/>
 	  								<fmt:parseNumber var="gSec" integerOnly="true" value="${Math.floor(group.groupTotalStudyTime%60)}"/>
@@ -1084,9 +1169,75 @@ setInterval( function() {
 	  								
 	  							</span>
 								<div id="controls" style="display:inline-block; margin-left:30px;">
+	  								
 	  								<button id="groupStartPause${index.index }" style="border:none; background:white ; position:absolute; top:20%; right:2%" onclick="startPause('group',${index.index })"><img src="resources/images/block/play.png" style="width:40px; height:40px"></button>
 	  							</div>
 	  						</li>
+	  						
+	  						
+	  						<li style="position:relative;background:rgba(10,10,10,0.5);display:none; height:70px;width:100%" class="selectli2${index.index }">
+	  							<p style="margin-bottom: 5px;
+    								font-weight: bold;
+    								width: 90%;
+								    display: inline-block;
+								    color:black;
+								    white-space: nowrap;
+								    overflow: hidden;
+								    text-overflow: ellipsis;">${group.studyGroup_Name }</p>
+	  						<br>
+	  							<span id="outputGroup${index.index}" style="width:100px; height:50px; margin-top:50px; font-size: 13px; color: #6d6d6d; font-weight: bold;">
+	  								<fmt:parseNumber var="gHour" integerOnly="true" value="${Math.floor(((group.groupTotalStudyTime/60)/60)%24)}"/>
+	  								<fmt:parseNumber var="gMin" integerOnly="true" value="${Math.floor((group.groupTotalStudyTime/60)%60)}"/>
+	  								<fmt:parseNumber var="gSec" integerOnly="true" value="${Math.floor(group.groupTotalStudyTime%60)}"/>
+	  								
+	  								<c:if test="${gHour lt 10}">
+	  									0<c:out value="${gHour }"/> :
+	  								</c:if>
+	  								<c:if test="${gHour ge 10}">
+	  									<c:out value="${gHour }"/> :
+	  								</c:if>
+	  								
+	  								<c:if test="${gMin lt 10}">
+	  									0<c:out value="${gMin }"/> :
+	  								</c:if>
+	  								<c:if test="${gMin ge 10}">
+	  									 <c:out value="${gMin }"/> :
+	  								</c:if>
+	  								
+	  								<c:if test="${gSec lt 10}">
+	  									0<c:out value="${gSec}"/> 
+	  								</c:if>
+	  								<c:if test="${gSec ge 10}">
+	  									<c:out value="${gSec }"/> 
+	  								</c:if>
+	  								
+	  							</span>
+	  							<span id="outputGroup2${index.index}" style="z-index:10000; position: absolute; top:18%;left:25%;color:white; font-size:2.5em"><c:if test="${gHour lt 10}">
+	  									0<c:out value="${gHour }"/> :
+	  								</c:if>
+	  								<c:if test="${gHour ge 10}">
+	  									<c:out value="${gHour }"/> :
+	  								</c:if>
+	  								
+	  								<c:if test="${gMin lt 10}">
+	  									0<c:out value="${gMin }"/> :
+	  								</c:if>
+	  								<c:if test="${gMin ge 10}">
+	  									 <c:out value="${gMin }"/> :
+	  								</c:if>
+	  								
+	  								<c:if test="${gSec lt 10}">
+	  									0<c:out value="${gSec}"/> 
+	  								</c:if>
+	  								<c:if test="${gSec ge 10}">
+	  									<c:out value="${gSec }"/> 
+	  								</c:if></span>
+								<div id="controls" style="display:inline-block; margin-left:30px;">
+								
+	  								<button id="groupStartPause${index.index }" style="border:none; background:rgba(10,10,10,0.0); position:absolute; top:20%; right:2%" onclick="startPause('group',${index.index })"><img src="resources/images/block/pause.png" style="width:40px; height:40px"></button>
+	  							</div>
+	  						</li>
+	  						
 	  					</c:forEach>
 				</ul>
 			</c:if>
@@ -1099,24 +1250,7 @@ setInterval( function() {
 						</div>
 						<!-- // 이번주목표 -->
 
-			<form action="saveStudyTime.bl" method="post" style="position:relative;"id="frm" >
-  				<button type="button" id="exitStopWatch" style="position:absolute;bottom:0;margin-left:-180%;height:40px;border:1px solid #f1bc3c;border-radius:40px 40px 0 0;background:#f1bc3c;width:500px; color:white"class="btn btn-danger" onclick="doSubmit()">차단을 해제하고, 공부 휴식 취하기</button>
-  			</form>
-  			<script type="text/javascript">
-  							function doSubmit() {
-  								startPause('main');
-  								/* var t = 5;
-  								alert("Data를 저장중입니다.. " + t);
-  								setTimeout(function(){
-  									t = t -1 ;
-  									alert("Data를 저장중입니다.. " + t);
-  								},1000) */
-  								setTimeout(function(){
-  									document.getElementById("frm").submit();
-  								},1000);
-  							}
-  							
-  						</script>
+			
 		</div>
   			<script type="text/javascript">
   			$(function(){
@@ -1204,5 +1338,23 @@ setInterval( function() {
   		});
   			</script>
   		</div></div>
+  		<form action="saveStudyTime.bl" method="post" style="position:absolute; bottom:0;left:50%; margin-left:-250px; width:100%" id="frm" >
+  				<button type="button" id="exitStopWatch" style="height:40px;border:1px solid #f1bc3c;border-radius:40px 40px 0 0;background:#f1bc3c;width:500px; color:white"class="btn btn-danger" onclick="doSubmit()">차단을 해제하고, 공부 휴식 취하기</button>
+  			</form>
+  			<script type="text/javascript">
+  							function doSubmit() {
+  								startPause('main');
+  								/* var t = 5;
+  								alert("Data를 저장중입니다.. " + t);
+  								setTimeout(function(){
+  									t = t -1 ;
+  									alert("Data를 저장중입니다.. " + t);
+  								},1000) */
+  								setTimeout(function(){
+  									document.getElementById("frm").submit();
+  								},1000);
+  							}
+  							
+  						</script>
 </body>
 </html>
