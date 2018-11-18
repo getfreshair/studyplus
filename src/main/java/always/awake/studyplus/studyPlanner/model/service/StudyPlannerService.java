@@ -66,6 +66,9 @@ public interface StudyPlannerService {
 	//학습스타일 결과 선택
 	List<Object> selectStudyStyle(int loginUserCode);
 
+	//주간 목표 업데이트 시 기존 목표 삭제
+	int deleteWeeklyGoal(String string);
+
 
 
 
