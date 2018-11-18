@@ -52,7 +52,7 @@
 	<!-- select 그룹  detail 쿼리 -->
 	<select id="selectOneGrDetailLeftTop" resultMap="SGDetailResultSet" parameterType="_int">
 		SELECT LOCATION_NAME, CATEGORY_NAME, STUDYGROUP_CODE,
-		       STUDYGROUP_NAME, STUDYGROUP_INTRO,
+		       STUDYGROUP_NAME, STUDYGROUP_INTRO, MEMBER_CODE AS "LEADER_CODE",
 		       (STUDYGROUP_GOALTIME / 3600) AS "STUDYGROUP_GOALTIME",
 		       GR_MEM_CNT, STUDYGROUP_MAXNUM, STUDYGROUP_STDATE,
 		       TRUNC((SYSDATE - STUDYGROUP_STDATE) + 1) AS "GR_DATES"
@@ -297,7 +297,7 @@
 			            ORDER BY SEQ ASC
 			                  )
 			SELECT * FROM PIVOT_TBL
-			PIVOT ( MAX(MEM_DAY_TOTAL) FOR CURR_DAY IN('일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일') ) )
+			PIVOT ( MAX(MEM_DAY_TOTAL) FOR CURR_DAY IN('일요일' AS "SUN", '월요일' AS "MON", '화요일' AS "TUE", '수요일' AS "WED", '목요일' AS "THU", '금요일' AS "FRI", '토요일' AS "SAT") ) )
 			WHERE MEMBER_CODE IS NOT NULL
 			ORDER BY SEQ ASC
 			

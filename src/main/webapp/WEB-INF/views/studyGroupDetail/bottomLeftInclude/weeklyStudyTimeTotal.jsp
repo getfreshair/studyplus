@@ -17,8 +17,8 @@
 		  .memberInfo3 td { padding-left:7px; text-align:left; }
 		   .emptyZone { width:50px; }
 		   .emptyZone div { width:100%; }
-		   .dayMenu	{ width:30px; font-size:9px; line-height:1.2; word-break:break-all; padding-left:2px !important; text-align:center !important; }
-		   .profImg { width:50px; height:50px; overflow-y:hidden; border-radius:20%; }
+		   .dayMenu	{ width:30px; font-size:9px; line-height:1.2; word-break:break-all; padding-left:2px !important; text-align:center !important; cursor:default; }
+		   .profImg { width:50px; height:50px; overflow-y:hidden; border-radius:50%; }
 		  	.profImg img { width:100%; }
 		   .nickName	{ width:105px; height:50%; font-size:12.5px; line-height:1.2; word-break:break-all; }
 /* 		    .nickName strong { vertical-align:super; } */
@@ -48,15 +48,15 @@
 					</tr>
 				</table>
 <!-- 	반복영역 -->
-	  		  <c:forEach var="i" begin="0" end="${fn:length(list) - 1}" step="1" >	
+	  		  <c:forEach var="i" items="${list}">	
 				<table class="memberInfo3">
 					<tr>							
 						<td rowspan="2">
 							<div class="profImg">
-							<img src="${ contextPath }/resources/upload/member/thumbnail/${list[i].FILES_NAME}" />
+							<img src="${ contextPath }/resources/upload/member/thumbnail/${i.FILES_NAME}" />
 							</div>
 						</td>
-						<td class="nickName"><strong>닉네임자리</strong></td>
+						<td class="nickName"><strong>${i.MEMBER_NICKNAME}</strong></td>
 					</tr>
 					<tr class="timeStickTbl"><td style="width:100%; padding-left:0px;">
 						<table>

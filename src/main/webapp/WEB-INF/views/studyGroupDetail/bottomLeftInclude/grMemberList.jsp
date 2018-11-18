@@ -12,25 +12,18 @@
 <title>Insert title here</title>
 
 <style>
-	  .memberOneWrapArea { width:263px; /* border:1px dashed red; display:inline-block; */ }
-		.memberInfo { margin:10px 0px; }
-		  .memberInfo td { position:relative; padding-left:12px; text-align:left; display:table-cell; vertical-align:middle; }
-		  .rankImg { position:absolute; width:15px; margin-top:-8px; }
-		    .rankImg img{ margin-left:37px; }
-		  .profImg { width:50px; height:50px; overflow-y:hidden; border-radius:20%; }
-		  	.profImg img { width:100%; }
-		  .nickName	{ width:105px; height:80%; font-size:12.5px; font-weight:bold; line-height:1.2; word-break:break-all; }
-/* 		    .nickName strong { vertical-align:super; } */
-		  .enrollDate { font-weight:normal; font-size:11px; }	
-		  .listBtn { cursor:pointer; border-radius:15px;  display:table-cell; vertical-align:middle;
-		  			 font-size:11px; font-weight:bold; height:25px; padding: 5px 3px; }
-			.addFriendBtn{ background:lightgray; text-align:center; width:57px; }
-			/* 그룹장 속성 */			
-			.changeLeaderBtn { width:80px;  padding:0px 8px; background:skyblue; text-align:center; }
-			.cancelChangeBtn {  width:80px; background:#f74545; text-align:center; color:white; }
-			.showChangeLeader { display:none; }
-			.deleteGroupMemberBtn { cursor:pointer; color:gray; font-weight:normal; }
-			.deleteGroupMemberBtn:hover { color:black; font-weight:bold; }
+  /*	그룹원 리스트 - 회원 표시 영역 -> 메인에 작성 */	
+  
+  .enrollDate { font-weight:normal; font-size:11px; }	
+  .listBtn { cursor:pointer; border-radius:15px;  display:table-cell; vertical-align:middle;
+  			 font-size:11px; font-weight:bold; height:25px; padding: 5px 3px; }
+	.addFriendBtn{ background:lightgray; text-align:center; width:57px; }
+	/* 그룹장 속성 */			
+	.changeLeaderBtn { width:80px;  padding:0px 8px; background:skyblue; text-align:center; }
+	.cancelChangeBtn {  width:80px; background:#f74545; text-align:center; color:white; }
+	.showChangeLeader { display:none; }
+	.deleteGroupMemberBtn { cursor:pointer; color:gray; font-weight:normal; }
+	.deleteGroupMemberBtn:hover { color:black; font-weight:bold; }
 					
 </style>
 
@@ -42,24 +35,26 @@
 
 		<!-- 그룹장 바꾸기 버튼 누르면 hideChangeLeader 가진 요소 숨김 toggleChangeLeaderBtn보이게 -->
 			<div class="memberOneWrapArea">
-		  	  <c:forEach var="i" begin="0" end="${fn:length(grMemList) - 1}" step="1" >
+			  <c:forEach var="i" items="${grMemList}">
+<%-- 		  	  <c:forEach var="i" begin="0" end="${fn:length(grMemList) - 1}" step="1" > --%>
 				<table class="memberInfo">
 					<tr>							
 						<td rowspan="2">
-						  <c:if test="${grMemList[i].LEADER_CODE == grMemList[i].MEMBER_CODE}">
+						  <c:if test="${i.LEADER_CODE == i.MEMBER_CODE}">
+<%-- 						  <c:if test="${grMemList[i].LEADER_CODE == grMemList[i].MEMBER_CODE}"> --%>
 							<div class="rankImg">
 								<img width="100%" src="${ contextPath }/resources/upload/studygroup/thumbnail/medal.png" />
 							</div>
 						  </c:if>							
 							<div class="profImg">
-								<input type="hidden" id="memCode" value="${grMemList[i].MEMBER_CODE}"/>
-								<img src="${ contextPath }/resources/upload/member/thumbnail/${grMemList[i].FILES_NAME}" />
+<%-- 								<input type="hidden" id="memCode" value="${i.MEMBER_CODE}"/> --%>
+								<img src="${ contextPath }/resources/upload/member/thumbnail/${i.FILES_NAME}" />
 							</div></td>
-						<td class="nickName"><strong>${grMemList[i].MEMBER_NICKNAME}</strong></td>
+						<td class="nickName"><strong>${i.MEMBER_NICKNAME}</strong></td>
 						
 					  <!-- 로그인유저가 그룹장 일 때 해당 버튼 보이기 -->
-					  <c:if test="${grMemList[i].LEADER_CODE == loginUserCode}">
-					   <c:if test="${grMemList[i].LEADER_CODE == grMemList[i].MEMBER_CODE}">
+					  <c:if test="${i.LEADER_CODE == loginUserCode}">
+					   <c:if test="${i.LEADER_CODE == i.MEMBER_CODE}">
 						<td rowspan="2" colspan="2">
 							<!-- 요소 클릭시 hideCh~속성 디스플레이 논, 캔슬버튼 쇼 , 취소 클릭시 디스플레이 논 반대 풀기 -->
 							<div onclick="hideChangeLeader();" class="listBtn changeLeaderBtn hideChangeLeader">그룹장 변경</div>
@@ -70,26 +65,26 @@
 					  <!-- 로그인유저가 그룹장 일 때 해당 버튼 보이기 끝 -->
 					  
 					  <!-- 로그인유저가 그룹장이 아닐 때 해당 버튼  보이기 -->
-					  <c:if test="${grMemList[i].MEMBER_CODE != loginUserCode}">
+					  <c:if test="${i.MEMBER_CODE != loginUserCode}">
 						<td rowspan="2">
-							<div class="listBtn addFriendBtn <c:if test="${grMemList[i].LEADER_CODE == loginUserCode}">hideChangeLeader</c:if>">친구신청</div>
-						  <c:if test="${grMemList[i].LEADER_CODE == loginUserCode}">
-							<div onclick="changeGrLeader('${grMemList[i].MEMBER_CODE}', '${loginUserCode}');" class="listBtn changeLeaderBtn showChangeLeader">그룹장 위임</div>
+							<div class="listBtn addFriendBtn <c:if test="${i.LEADER_CODE == loginUserCode}">hideChangeLeader</c:if>">친구신청</div>
+						  <c:if test="${i.LEADER_CODE == loginUserCode}">
+							<div onclick="changeGrLeader('${i.MEMBER_CODE}', '${loginUserCode}');" class="listBtn changeLeaderBtn showChangeLeader">그룹장 위임</div>
 						  </c:if>
 						</td>
 					  </c:if>
 					  <!-- 로그인유저가 그룹장이 아닐 때 해당 버튼 보이기 끝 -->
 					  
-					  <c:if test="${grMemList[i].LEADER_CODE == loginUserCode}">
-					   <c:if test="${grMemList[i].LEADER_CODE != grMemList[i].MEMBER_CODE}">
+					  <c:if test="${i.LEADER_CODE == loginUserCode}">
+					   <c:if test="${i.LEADER_CODE != i.MEMBER_CODE}">
 						<td rowspan="2" class="hideChangeLeader">
-							<div onclick="kickOutGrMember('${grMemList[i].MEMBER_CODE}', '${grMemList[i].MEMBER_NICKNAME}', '${loginUserCode}', '${grMemList[i].LEADER_CODE}');" class="deleteGroupMemberBtn" title="강퇴하기">×</div>
+							<div onclick="kickOutGrMember('${i.MEMBER_CODE}', '${i.MEMBER_NICKNAME}', '${loginUserCode}', '${i.LEADER_CODE}');" class="deleteGroupMemberBtn" title="강퇴하기">×</div>
 						</td>
 					   </c:if>
 					  </c:if>
 					</tr>
 					<tr><td class="enrollDate">
-						<fmt:formatDate value="${grMemList[i].JOINGROUP_ENROLLDATE}" pattern="yyyy. MM. dd."/>
+						<fmt:formatDate value="${i.JOINGROUP_ENROLLDATE}" pattern="yyyy. MM. dd."/>
 					</td></tr>
 				</table>
 			  </c:forEach>

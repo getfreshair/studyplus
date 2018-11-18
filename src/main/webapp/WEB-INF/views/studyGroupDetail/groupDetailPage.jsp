@@ -3,6 +3,7 @@
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 
@@ -15,6 +16,8 @@
 	<link rel="stylesheet" href="/studyplus/resources/css/bootstrap.css">
 	<link rel="stylesheet" href="/studyplus/resources/css/custom.css">
 	
+	<link rel="stylesheet" href="/studyplus/resources/css/w3.css">
+	
 	<!-- #### JAVASCRIPT FILES ### -->
 	<script src="/studyplus/resources/js/jquery-1.11.1.min.js"></script>
 	<script src="/studyplus/resources/js/bootstrap.min.js"></script>
@@ -22,7 +25,8 @@
 	
 <!-- /* 전체영역 */ -->
 <style>
-	.pageAll * { font-family:맑은고딕 !important;}
+	html { overflow-x:auto; } 
+	.pageAll * { font-family:맑은고딕 !important; cursor:default; }
 	.pageWrap { width:1200px; margin:0px auto; }
 	.pageContentArea { width:98%; margin:0px auto; }
 </style>
@@ -36,62 +40,73 @@
 	    .topInfoAllWrapTbl { width:100%; height:100%; margin:0px auto; /* vertical-align:middle; */ }
         .topInfoContWrapTbl { width:100%; height:100%; margin:0px auto; vertical-align:middle; }
 	
-	.groupInfoArea { width:61%; margin-right:0.8%; display:flex; }
-	  .groupInfoLeft { width:45%; padding:0px 20px; border-right:1px solid gray; }
-		.category { background:lightgray; float:left; }
+	.groupInfoArea { width:55%; margin-right:0.8%; display:flex; }
+	  .groupInfoLeft { width:45%; padding:0px 10px 0px 15px; border-right:1px solid gray; }
+		.category { background:lightgray; }
 		.groupTitleTblWrap { margin-left:5px; }
 		  .groupTitleTbl { width:100%; margin-bottom:0px;/* margin: 0px 0px 5px; */ }
-		  .groupTitleTbl h2 { font-weight:bold; line-height:1.7; font-size:27px; margin:0px; }
+		  .groupTitleTbl h2 { font-weight:bold; line-height:1.7; font-size:27px; margin:10px 0px 0px; }
  		  .groupTitleTbl .groupIntro { height:55px; padding:15px 15px 15px 5px; font-size:15px; table-layout:fixed; word-break:keep-all; }
 		  .groupOptDetailTbl { width:225px; display:inline-table; font-size:14px; }
  		  .groupOptDetailTbl td { padding:7px 5px 1px 5px; border-bottom:1px solid gray; }
 		  .groupOptDetailTbl strong { float:left; }
 		  .groupOptDetailTbl span { float:right; }
-	  .groupInfoRight { width:55%; padding:0px 20px; }
+	  .groupInfoRight { width:55%; padding:0px 15px; }
 	    .radiBtn { background:gray; float:right; cursor:pointer; color:white; border-radius:10px; }
  	      .groupStatBoxLeft { float:left; background:rgb(211, 0, 0, 0.4); }
  		  .groupStatBoxRight { float:right; background:rgb(52, 152, 219, 0.4); }
-	 	  .statBox { width:167px; height:220px; border-radius:15px; padding:3px 7px; display:table; }
+	 	  .statBox { width:160px; height:220px; border-radius:15px; padding:3px 7px; display:table; }
   		    .statBoxContTbl { display:table-cell; vertical-align:middle; margin:0px; }
   		    .statBoxContTbl tbody { width:160px; height:190px; display:inline-table; vertical-align:middle; }
-		    .statBoxContTbl h3 { font-size:23px; font-weight:bold; line-height:1.2; margin:0px 0px 5px; }
+		    .statBoxContTbl h3 { font-size:17px; font-weight:bold; line-height:1.2; margin:0px 0px 15px; }
   		    .statBoxContTbl tr:first-child td { /* width:140px; */ padding-bottom:12px; font-size:21px; }
    		    .statBoxContTbl tr:nth-child(2n) td > div { width:85%; height:92px; border-top:1px dashed; margin:0px auto; display:inline-table; text-align:center; }
-   		    .statBoxContTbl tr:nth-child(2n) td div div { padding-top:8px; /* font-size:13px; */ display:inline-block; text-align:right;  }
+   		    .statBoxContTbl tr:nth-child(2n) td div div { padding-top:8px; font-size:13px; display:inline-block; text-align:right;  }
    		    .statBoxContTbl tr:nth-child(2n) td div div strong { float:right;  }
-			.goalRatio { font-weight:bold; font-size:18px; padding-top:0px !important; display:table-cell !important; vertical-align:middle; text-align:center !important; }
+			.goalRatio { font-weight:bold; font-size:18px !important; padding-top:0px !important; display:table-cell !important; vertical-align:middle; text-align:center !important; }
 
-	.myInfoArea { width:38.2%; padding:25px 20px; }
+	.myInfoArea { width:43.2%; padding:25px 15px; }
 	  .joinGroupBtn { font-weight:bold; font-size:25px; }
  	  .myStatBox { float:left; background:rgb(211, 0, 0, 0.4); }
-	  .lineGraph { background:white; opacity:0.8; width:100%; height:220px; float:right; padding:3px 7px; display:inline-block; }
+	  .lineGraph { background:white; width:100%; height:220px; float:right; padding:3px 7px; display:inline-block; }
 </style>	
 	
 <!-- /*	하단 컨텐츠 작성 */ -->
 <style>
-	.contentArea { width:100%; /* height:600px; */ margin-bottom:10px; display:flex; }
+	.contentArea { width:100%; max-height:720px; margin-bottom:10px; display:flex; }
 	.bottomContentArea { background:rgb(235, 235, 235, 0.4); /* height:100%; */ padding:20px 15px; display:inline-block; text-align:center; }
 	
 	
 	/*	그룹원 리스트 영역 */
-	.leftContent { width:26.7%; padding-right:0px; margin-right:0.3%; border-right:1px solid gray; }
-	  .leftContentWrap { width:100%; /* height:100%; */ display:inline-block; }
+	.leftContent { width:26.7%; padding-right:1px; margin-right:0.3%; border-right:1px solid gray; }
+	  .leftContentWrap { width:100%; height:100%; display:inline-block; }
 		.leftContentTabMenu {/*  width:100%; */ margin-right:15px; padding-bottom:10px; border-bottom:1px solid gray; margin-bottom:10px; text-align:right; }
 		.leftContentTabMenu div { display:inline-table; }
 		.leftContentTabMenu div:first-child { float:left; }
 		.leftContentTabMenu span { padding:0px 5px; font-size:15px; /* font-weight:bold; */ }
 		
-		.leftIncludeArea { width:100%; overflow:auto; /* background:yellow; */ }
+		.leftIncludeArea { width:100%; overflow-y:auto; height:100% }
 		
-		
-	.priodTabMenuArea {/*  width:100%; */ margin-right:15px; padding:0px 10px 10px 10px; /* border-bottom:1px solid gray; */ text-align:right; }
+	.priodTabMenuArea {/*  width:100%; */ margin-right:15px; padding:0px 10px 0px 10px; /* border-bottom:1px solid gray; */ text-align:right; }
 	 .priodTabMenuArea tbody { vertical-align:baseline; }
-	  .priodTabMenuArea span { cursor:pointer; font-size:14px; /* font-weight:bold; */ }
- 		.prevBtn:hover, .nextBtn:hover { color:#ed876a; font-weight:bold; }
+	  .priodTabMenuArea span { font-size:14px;}
+ 		.prevBtn:hover, .nextBtn:hover { cursor:pointer; color:#ed876a; font-weight:bold; }
+ 		
+ 	/*	그룹원 리스트 - 회원 표시 공통 영역 */	
+ 	  .memberOneWrapArea { width:263px; /* border:1px dashed red; display:inline-block; */ }
+		.memberInfo { margin:10px 0px; }
+		  .memberInfo td { position:relative; padding-left:12px; text-align:left; display:table-cell; vertical-align:middle; }
+		   .rankImg { position:absolute; width:15px; margin-top:-8px; }
+		    .rankImg img{ margin-left:37px; }
+		   .profImg { width:50px; height:50px; overflow-y:hidden; border-radius:50%; }
+		  	.profImg img { width:100%; }
+		  .nickName	{ width:105px; height:50%; font-size:12.5px; line-height:1.2; word-break:break-all; }
+/* 		    .nickName strong { vertical-align:super; } */ 		
 		
 	/* 게시물 영역 */		
-	.centerContent { width:48.7%; margin-right:0.3%; border-right:1px solid gray; }
-	
+	.centerContent { width:48.7%; padding-right:1px; margin-right:0.3%; border-right:1px solid gray; }
+	  .centerContentWrap { width:100%; height:100%; display:inline-block; }
+	  .centerIncludeArea { width:100%; overflow:auto; /* background:yellow; */ }
 	/* 실시간 채팅 영역 */	
 	.rightContent { width:24%; }
 </style>
@@ -99,8 +114,9 @@
 <!-- /*	공통 요소 속성 */ -->
 <style>
 	.radiusSmallWrapTd { height:10px; vertical-align:top; max-height:10px;}
-	.radiusBoxSmall { border-radius:15px; margin-bottom:13px; padding:3px 12px; font-size:12px; font-weight:bold; display:inline; }
-	.menuBtn:hover { font-weight:bold; color:darkgray; cursor:pointer;  }
+	.radiusBoxSmall { border-radius:15px; margin-bottom:13px; padding:3px 12px; font-size:12px; font-weight:bold; display:table-cell; }
+	.menuBtn { cursor:pointer;  }
+	.menuBtn:hover { font-weight:bold; color:darkgray; }
 </style>
 </head>
 
@@ -115,6 +131,7 @@
 			<div class="titleArea">
 			<!-- *가입여부 체크 (가입-1 / 미가입-0 ,(**DB상으로는 가입-0, 미가입-1)) -->
 				<input type="hidden" id="grCode" value="${gr.studyGroup_Code}"/>
+<%-- 				<input type="hidden" id="grLeaderCode" value="${gr.leaderMem_Code}"/> --%>
 				
 				<div class="groupInfoArea topInfoArea">
 					<div class="groupInfoLeft">
@@ -166,7 +183,7 @@
 									<td width="50%"><div class="statBox groupStatBoxLeft">
 										<table class="statBoxContTbl">
 											<tr><td>
-												<h3>주간<br>그룹 순위</h3>
+												<h3>주간 그룹 순위</h3>
 												<strong><c:out value="${grR.gr_Rank}" default="-"/> 위</strong>
 											</td></tr>
 											<tr><td><div>
@@ -198,7 +215,7 @@
 									<td><div class="statBox groupStatBoxRight">
 										<table class="statBoxContTbl">
 											<tr><td>
-												<h3>주간<br>목표 완수율</h3>
+												<h3>주간 목표 완수율</h3>
 												<strong><c:out value="${grR.gr_Week_Fulfill_Ratio}" default="-"/> %</strong>
 											</td></tr>
 											<tr><td>
@@ -212,7 +229,7 @@
 					</div>
 				</div>
 				
-				<div class="myInfoArea topInfoArea">
+				<div class="myInfoArea topInfoArea" style="background:">
 					<table class="topInfoAllWrapTbl">
 					<!-- 그룹 미가입시 -->
 					  <c:if test="${joinStatus < 1}">
@@ -220,6 +237,11 @@
 							<div><a onclick="joinGroup();"href="" class="joinGroupBtn">그룹 가입하기</a></div>
 						</td></tr>
 					  </c:if>
+<%--					<c:if test="${joinStatus < 1}"> 		 설정버튼 클릭 하면 그룹 탈퇴 버튼 뜨거나 그룹 설정 버튼 띄우기 --%>
+<!-- 						<tr><td> -->
+<!-- 							<div><a onclick="breakAwayGroup();" href="" class="breakAwayGroupBtn">그룹 가입하기</a></div> -->
+<!-- 						</td></tr> -->
+<%-- 					</c:if> --%>
 					  
 					<!-- 그룹 가입시 -->
 					  <c:if test="${joinStatus >= 1}">
@@ -231,7 +253,7 @@
 								<td><div class="statBox groupStatBoxLeft">
 									<table class="statBoxContTbl">
 										<tr><td>
-											<h3>나의<br>주간 순위</h3>
+											<h3>나의 주간 순위</h3>
 											<strong>
 										<%-- 	<c:if test="${join eq null}">0 위</c:if>
  											 	<c:if test="${join ne null}">${join.my_Rank} 위</c:if> --%>
@@ -267,7 +289,7 @@
 								<td><div class="statBox lineGraph" style="float:right;">
 									<table class="statBoxContTbl">
 										<tr><td width="56%">
-											<div>dfsf</div>
+											<div><jsp:include page="topRightGraphArea.jsp"/></div>
 										</td></tr>
 									</table>
 								</div></td>
@@ -302,7 +324,33 @@
 				alert("에러냐?");
 			}
 		});
-	};
+	}
+	
+	function breakAwayGroup(){
+		var grCode= $('#grCode').val();
+		var loginUserCode = '${loginUser}';
+		
+		var breakAwayChk = confirm("그룹에서 탈퇴  하시겠습니까?");
+			
+		if(breakAwayChk){
+
+			$.ajax({
+				url:"updateDeleteGroupMember.sgd",
+				data : { grCode : grCode, delMemCode : loginUserCode, loginUserCode : loginUserCode },
+				type : "POST",
+				success:function(data) {
+					console.log(data);
+					if(data >= 1){
+						location.href="selectOneGroup.sgd?group_No=" + grCode;
+					}else{
+						alert("탈퇴 할 수 없습니다.");
+					}
+				}
+			});
+		}else{
+			alert("강퇴 권한이 없습니다.");
+		}
+	}	
 </script>			
 						
 <!-- 만약 로그인유저가 그룹 멤버라면 보이도록 -->
@@ -317,7 +365,7 @@
 							</div>
 							<div>
 								<span id="showMemRank" class="menuBtn" onclick="selectGrMemRankPeriod('${gr.studyGroup_Code}');">그룹원 순위</span>
-								<span style="cursor:auto;">|</span>
+								<span style="cursor:default;">|</span>
 								<span id="showMemTime" class="menuBtn" onclick="selectGrMemTimePeriod('${gr.studyGroup_Code}');">수행 현황</span>
 							</div>
 						</div>
@@ -326,32 +374,39 @@
 							<div class="priodTabMenuArea">
 								<table width="100%"><tr>
 									<td class="textAlignStyle">
-										<span><strong class="prevBtn">< &nbsp;</strong></span>
+										<span><strong class="prevBtn">&laquo; &nbsp;</strong></span>
 											<span class="selectDay"><label id="thisDayLbl"></label></span>
-											<span class="selectWeek"><label id="thisWeek"></label><label>&nbsp;<label id="weekNum"></label>주차</label></span>
+											<span class="selectWeek"><label id="thisWeek"></label><label>주차</label></span>
 											<span class="selectMonth"><label id="thisMonth"></label></span>
-										<span><strong class="nextBtn">&nbsp; ></strong></span>
+										<span><strong class="nextBtn">&nbsp; &raquo;</strong></span>
 									</td>
 									<td style="text-align:right;" class="hideMemTime">
 										<span id="selectDay" class="menuBtn">일간</span>
-										<span style="cursor:auto;">|</span>
+										<span>|</span>
 										<span id="selectWeek" class="menuBtn">주간</span>
-										<span style="cursor:auto;">|</span>
+										<span>|</span>
 										<span id="selectMonth" class="menuBtn">월간</span>
 									</td>
 								</tr></table>
 							</div>
 
-							<div id="leftIncludeArea"></div>
-							
+							<div id="leftIncludeArea">
 <%-- 							<jsp:include page="leftGroupStudyTimeTotal.jsp"/> --%>
-							
+							</div>
+
 						</div>
 					</div>
 				</div>
+				
 				<div class="centerContent bottomContentArea">
-					
+					<div class="centerContentWrap">
+						<div class="centerIncludeArea">		
+<%-- 							<jsp:include page="bottomCenterInclude/boardWrite.jsp"/> --%>
+							<jsp:include page="bottomCenterInclude/grBoardList.jsp"/>
+						</div>
+					</div>
 				</div>
+				
 				<div class="rightContent bottomContentArea">
 					
 				</div>
@@ -360,6 +415,7 @@
 
 <!-- 페이지 호출시 -->
 <script>
+// 	var grLeaderCode = $('#grLeaderCode').val();
 	$(function(){
 		var grCode = $('#grCode').val();
 		var loginUserCode = '${loginUser}';
@@ -446,8 +502,8 @@
 		});
 
 		function selectPeriodMenu(periodType, menuType){
-			alert("기간 타입 : " + periodType);
-			alert("2번 메뉴 : " + menuType);
+// 			alert("기간 타입 : " + periodType);
+// 			alert("2번 메뉴 : " + menuType);
 			
 			if(periodType == 1){
 				if(dayPick != 1){
@@ -517,7 +573,6 @@
 			selectDateByPeriod(periodType, changeCnt, dayPick, monthPick, grCode, menuType);
 		});
 		
-		alert("바뀌었나 ? : " + periodType);
 		console.log("바뀌었나 ? : " + periodType);
 	};
 	
@@ -613,7 +668,7 @@
 <!-- 출력 날짜에 해당하는 기간 선택 함수(공통사용) -->
 <script>
 	function clickPrevBtn(changeCnt, thisDay, grStDate){
-		alert(thisDay);
+// 		alert(thisDay);
 		if(thisDay > grStDate){
 			changeCnt -= 1;
 			if(thisDay < grStDate){
@@ -662,9 +717,9 @@
 					$('#thisDayLbl').text(data.selectDate.THIS_DAY);
 					console.log("라벨에 날짜 제대로 떠?" + $('#thisDayLbl').text());
 					
-					$('#thisWeek').text(data.selectDate.THIS_WEEK);
+					$('#thisWeek').text(data.selectDate.THIS_WEEK + " " + data.selectDate.WEEK_NUM);
 					$('#thisMonth').text(data.selectDate.THIS_MONTH);
-					$('#weekNum').text(data.selectDate.WEEK_NUM);
+// 					$('#weekNum').text(data.selectDate.WEEK_NUM);
 				
 				console.log("에이작스 결과 => " + " / menuType : " + menuType);
 				console.log("변경 된 thisDay2 : " + thisDay2);
