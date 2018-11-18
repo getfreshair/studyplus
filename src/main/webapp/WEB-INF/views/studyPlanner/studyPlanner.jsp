@@ -41,7 +41,7 @@
 	
 	/* 모달 */
 	.modal-body .tab{text-align:center;}
-	.modal-body .tab button{width:48%; border-width:1px 1px 0 1px !important; border-radius:4px 4px 0 0 !important; border:solid #ddd; background:#ddd;}
+	.modal-body .tab button{width:49%; border-width:1px 1px 0 1px !important; border-radius:4px 4px 0 0 !important; border:solid #ddd; background:#ddd;}
 	.modal-body .tab button.on{background:#fff;  border-width:1px 1px 0 1px; border:solid #ccc; color:#333;}
 	.modal-body .tab button:focus{outline:none;}
 	/* .modal-body .img_area .box{border:1px solid #ddd; width:85%;} */
@@ -52,8 +52,11 @@
 	.modal-body .ipt_area dt{margin-bottom:5px;}
 	.modal-body .btn-center{clear:both; padding-top:20px;}
 	.modal-body .ipt_wrap input{width:120px; display:inline-block; margin-right:5px;}
-	.modal-body .book_img{border:1px solid #ddd; width:80%; height:180px; text-align:center; margin: 0 auto;}
-	.modal-body .book_info{text-align:center; width:80%; margin:10px auto 0 auto;}
+	.modal-body .book_img{padding:30px 0; width:95%; text-align:center;}
+	.modal-body .book_img img{border:1px solid #ddd;}
+	.modal-body .book_info{text-align:center; width:95%; margin:0 auto; font-size:15px;}
+	.modal-body .bookIpt{width:65%; display:inline-block;}
+	.modal-body .bookIpt + .btn{background:#efeeee; border:1px solid #ddd;}
 </style>
 </head>
 <body>
