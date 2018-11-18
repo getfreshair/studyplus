@@ -112,11 +112,11 @@ public class StudyPlannerDaoImpl implements StudyPlannerDao{
 	}
 
 	//주간 목표 업데이트(시간 단위)
-	@Override
+	/*@Override
 	public int updateWeeklyTimeGoal(Map<String, Object> hmap) {
 		
-		return sqlSession.update("StudyPlanner.updateWeeklyTimeGoal", hmap);
-	}
+		return sqlSession.update("StudyPlanner.insertWeeklyTimeGoal", hmap);
+	}*/
 
 	//주간 목표 등록(페이지 단위)
 	@Override
@@ -126,10 +126,17 @@ public class StudyPlannerDaoImpl implements StudyPlannerDao{
 	}
 
 	//주간 목표 업데이트(페이지 단위)
-	@Override
+	/*@Override
 	public int updateWeeklyBookGoal(Map<String, Object> hmap) {
 		
-		return sqlSession.update("StudyPlanner.updateWeeklyBookGoal", hmap);
+		return sqlSession.update("StudyPlanner.insertWeeklyBookGoal", hmap);
+	}*/
+	
+	//주간 목표 업데이트 시 기존 목표 삭제
+	@Override
+	public int deleteWeeklyGoal(Map<String, Object> hmap) {
+
+		return sqlSession.delete("StudyPlanner.deleteWeeklyGoal", hmap);
 	}
 	
 	//주간 목표 리스트
@@ -216,5 +223,6 @@ public class StudyPlannerDaoImpl implements StudyPlannerDao{
 		return list;
 	}
 
+	
 
 }

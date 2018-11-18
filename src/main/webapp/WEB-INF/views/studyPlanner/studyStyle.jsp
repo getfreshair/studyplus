@@ -785,9 +785,10 @@
 							</tbody>
 						</table>
 						<br>
-						<button type="button" class="btn btn-primary resultBtn">결과 확인하기</button>
+						<!-- <button type="button" class="btn btn-primary resultBtn">결과 확인하기</button> -->
+						<button type="button" class="btn btn-primary btn-block">결과 확인하기</button>
 						
-						<div id="resultList">
+						<!-- <div id="resultList">
 							<div class="line1">
 								<span>활동형</span>
 								<ul>
@@ -861,17 +862,17 @@
 								<span>총체형</span>
 							</div>
 						</div>
-						
-						<div class="chart">
+						 -->
+						<!-- <div class="chart">
 							<div id="studyTendencyChart"></div>
-						</div>
+						</div> -->
 						
-						<p>학습스타일 결과분석</p>
+						<!-- <p>학습스타일 결과분석</p>
 						<ul>
 							<li>· 점수가 1~3점인 경우, 당신은 두 영역 사이에서 균형잡힌 스타일을 가지고 있다(혹은 아직 스타일이 확고하지 못하다).</li>
 							<li>· 점수가 5~7점인 경우, 당신은 한 영역에 중간 정도로 치우쳐 있다.</li>
 							<li>· 점수가 9~11점인 경우, 당신은 한 영역으로 강하게 치우쳐 있다. 이런 경우, 자신의 스타일과 다른 학습 분위기에서 학습하기 어려울 수 있다.</li>
-						</ul>
+						</ul> -->
 						
 						<div id ="typelist">
 							<p class="tit">학습스타일에 따른 학습전략</p>

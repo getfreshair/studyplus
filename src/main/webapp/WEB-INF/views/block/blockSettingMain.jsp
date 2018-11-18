@@ -26,7 +26,7 @@
 	<div class="tabs tabs-style-linemove">
 		<nav>
 			<ul>
-				<li><a href="#section-linemove-1" ><span><i class="fa fa-desktop"></i>Programe Setting</span></a></li>
+				<li><a href="#section-linemove-1" ><span>Programe Setting</span></a></li>
 				<li><a href="#section-linemove-2" ><span>Web Site Setting</span></a></li>
 				<li><a href="#section-linemove-3" ><span>Schedule Setting</span></a></li>
 				<li><a href="#section-linemove-4" ><span>Location Setting</span></a></li>
@@ -34,11 +34,27 @@
 			</ul>
 		</nav>
 		<div class="content-wrap">
-			<section id="section-linemove-1" ><p>1</p></section>
-			<section id="section-linemove-2"><p>2</p></section>
-			<section id="section-linemove-3"><p>3</p></section>
-			<section id="section-linemove-4"><p>4</p></section>
-			<section id="section-linemove-5"><p>5</p></section>
+			<section id="section-linemove-1" >
+			<div id="programeDiv"></div>
+				<script>
+					$(function(){
+						$.ajax({
+						     url:"showProgram.bl",
+						     type:"get",
+						     success:function(data){	
+						    	$("#programeDiv").html(data);		
+						     },
+						     error:function(request,status,error){
+						          console.log("code:"+request.status + "\n message : " + request.responseText + "\n error : " + error );
+						          }
+						    })
+					})
+				</script>
+			</section>
+			<section id="section-linemove-2"><%-- <jsp:include page="blockWeb.jsp"/> --%></section>
+			<section id="section-linemove-3"></section>
+			<section id="section-linemove-4"><%-- <jsp:include page="blockLocation.jsp"/> --%></section>
+			<section id="section-linemove-5"></section>
 		</div><!-- /content -->
 	</div><!-- /tabs -->
 </section>

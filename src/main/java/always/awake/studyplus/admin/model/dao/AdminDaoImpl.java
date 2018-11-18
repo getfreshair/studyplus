@@ -555,4 +555,15 @@ public class AdminDaoImpl implements AdminDao {
 	public int countCPC(SqlSessionTemplate sqlSession, int member_Code) {
 		return sqlSession.selectOne("Admin.countCPC", member_Code);
 	}
+
+	@Override
+	public Map<String, Object> selectCPCImgAndLink(SqlSessionTemplate sqlSession, int member_Code) {
+		System.out.println("Dao에 들어옴?" + member_Code);
+		return sqlSession.selectOne("Admin.selectCPCImgAndLink", member_Code);
+	}
+
+	@Override
+	public int checkTotalPRCount(SqlSessionTemplate sqlSession,int prCode) {
+		return sqlSession.selectOne("Admin.checkTotalPRCount", prCode);
+	}
 }

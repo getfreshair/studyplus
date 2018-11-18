@@ -426,7 +426,7 @@
 								},
 								'chartDiv' : 'weeklyRankChart',
 								'chartType' : 'line',
-								'chartSize' : {width:680, height:450},
+								'chartSize' : {width:680, height:320},
 								'minValue' : 1000, //max + 100,
 								'maxValue' :  100, // ((max - 100 >=0 ), max - 100, 0),
 								'increment' : -100,
@@ -632,6 +632,7 @@
 	}
 </script>
 <style>
+#weeklyRankChart svg{width:110%;}
 .rankDiv {
 	height: 945px;
 }
@@ -923,7 +924,7 @@
 						class="titleImg"> <span class="titleTxt"> 새싹 키우기 </span>
 				</div>
 				<div id="LvUpBack" style="position:absolute; background : black; width : 100%; height : 480px; z-index : 800; display : none; overflow:hidden;">			
-					<img src="/studyplus/resources/images/need/effect3.gif" style = "width : 500px; height : 580px; z-index : 999; margin-left : 10%; margin-top: -5%;">
+					<img src="/studyplus/resources/images/need/effect3.gif" style = "width : 500px; height : 580px; z-index : 999; position:absolute; left: 50%; margin-left:-260px;  margin-top: -5%;">
 				</div>
 				<div style="background-image : url('/studyplus/resources/images/planner/needBackSky.gif'); background-size : cover; width: 901px; height: 36%;"> 
 				</div>

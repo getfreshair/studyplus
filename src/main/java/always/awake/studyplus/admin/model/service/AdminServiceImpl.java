@@ -424,5 +424,15 @@ public class AdminServiceImpl implements AdminService{
 		return ad.countCPC(sqlSession, member_Code);
 	}
 
+	@Override
+	public Map<String, Object> selectCPCImgAndLink(int member_Code) {
+		return ad.selectCPCImgAndLink(sqlSession, member_Code);
+	}
+
+	@Override
+	public int checkTotalPRCount(int prCode) {
+		return ad.checkTotalPRCount(sqlSession, prCode);
+	}
+
 
 }

@@ -150,4 +150,8 @@ public interface AdminService {
 
 	public int countCPC(int member_Code);
 
+	public Map<String, Object> selectCPCImgAndLink(int member_Code)throws AdminException;
+
+	public int checkTotalPRCount(int prCode)throws AdminException;
+
 }
