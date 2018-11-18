@@ -15,8 +15,6 @@ $(function(){
 	//-------------- 오늘의 목표 --------------
 	todayGoalsList();		//오늘의 목표 리스트
 	goalAddMdal();			//목표 등록 모달
-	//bookIsbn();				//isbn 책검색
-
 });
 
 
@@ -933,7 +931,6 @@ function todayGoalsList(){
 					
 					var goalCode = data[i].GOAL_CODE; 				//목표코드
 					var content = data[i].GOAL_CONTENT;				//목표명
-					//var type = data[i].GOAL_TYPE == 0?"페이지":"시간"; //0일경우 페이지, 1일경우 시간
 					var type = data[i].GOAL_TYPE;					//0일경우 페이지, 1일경우 시간
 					var achiev = data[i].GOAL_ACHIEVEAMOUNT; 		//달성량
 					var goalAmount = data[i].GOAL_GOALAMOUNT; 		//목표량
@@ -947,16 +944,14 @@ function todayGoalsList(){
 					var dataType;
 					if(type != 0){
 						var goalAmountHour = Math.floor(((goalAmount/60)/60)%24);	//목표량 시간
-						var goalAmountMin = ((goalAmount/60)%60);					//목표량 분
+						var goalAmountMin = Math.floor(((goalAmount/60)%60));					//목표량 분
 						var achievHour = Math.floor(((achiev/60)/60)%24);			//달성량 시간
-						var achievMin = ((achiev/60)%60);							//달성량 분
+						var achievMin = Math.floor(((achiev/60)%60));							//달성량 분
 						
 						dataType = achievHour + "시간 " + achievMin + "분"  + ' / ' + goalAmountHour + "시간 " + goalAmountMin + "분";
 					}else{
 						dataType = achiev  + ' / ' + goalAmount + " 페이지";
 					}
-					
-					
 					
 					$('.today_goals .goals_list').append('<li value="'+ goalCode +'">'
 							 + '<div class="left_area">'
@@ -1009,8 +1004,6 @@ function todayGoalsList(){
 					var weekAchieveAmount = new Array();
 					var weekGoalAmount = new Array();
 					
-					
-					
 					for(var i = 0; i < data[0][key].length; i++){
 						//여기는 각 주간 목표의 선택한 날짜만큼 데이터 뽑음
 						//ex) 자바공부(월,화) / 오라클공부(월,화,수) ---> 2,3 출력
@@ -1020,9 +1013,6 @@ function todayGoalsList(){
 						var type = data[0][key][i].goalType;				//0일경우 페이지, 1일경우 시간
 						var achiev = data[0][key][i].goalAchieveAmount;		//달성량
 						var goalAmount = data[0][key][i].goalGoalAmount;	//목표량
-						
-						var achievPer = ((data[0][key][i].goalAchieveAmount / data[0][key][i].goalGoalAmount) * 100).toFixed(0); //달성률
-						var shortfallPer = 100 - achievPer;					//미달성률
 						
 						var week = data[0][key][i].week;					//목표 요일
 						var todayOrWeek = data[0][key][i].goalDivision;		//0일경우 오늘목표, 1일경우 주간목표
@@ -1044,25 +1034,26 @@ function todayGoalsList(){
 						totalWeekWeek += weekWeek[i] + ", ";				//이번주 선택한 요일들(월,화,)
 						totalAchieveAmount += weekAchieveAmount[i];			//이번주 총 달성량
 						totalWeekGoalAmount += weekGoalAmount[i];			//이번주 총 목표량
+						
+						var achievPer = ((totalAchieveAmount / totalWeekGoalAmount) * 100).toFixed(0); //총 달성률
+						var shortfallPer = 100 - achievPer;					//총 미달성률
 					}
 					totalWeekWeek = totalWeekWeek.substring(0, totalWeekWeek.length -2); 	//이번주 선택한 요일들(월,화)
-					
-					
+
 					//목표 타입이 시간일 경우 시간,분으로 변경
 					var dataType;
 					if(type != 0){
 						var achievHour = Math.floor(((totalAchieveAmount/60)/60)%24);			//총 달성량 시간
-						var achievMin = ((totalAchieveAmount/60)%60);							//총 달성량 분
+						var achievMin = Math.floor(((totalAchieveAmount/60)%60));							//총 달성량 분
 						var goalAmountHour = Math.floor(((totalWeekGoalAmount/60)/60)%24);		//총 목표량 시간
-						var goalAmountMin = ((totalWeekGoalAmount/60)%60);						//총 목표량 분
+						var goalAmountMin = Math.floor(((totalWeekGoalAmount/60)%60));						//총 목표량 분
 						
 						dataType = achievHour + "시간 " + achievMin + "분"  + ' / ' + goalAmountHour + "시간 " + goalAmountMin + "분";
 					}else{
-						dataType = achiev  + ' / ' + goalAmount + " 페이지";
+						dataType = totalAchieveAmount  + ' / ' + totalWeekGoalAmount + " 페이지";
 					}
 					
 					var count = $(".weekly_goals .goals_list li").length; //주간 리스트 갯수만큼 차트 생성
-					//console.log("카운트 : " + count);
 					
 					$('.weekly_goals .goals_list').append('<li value="'+ weekGoalCode +'">'
 							+ '<div class="left_area">'
@@ -1084,7 +1075,8 @@ function todayGoalsList(){
 					
 					//목표 리스트 각 목표 클릭시 상세 팝업창 노출(아래 함수 호출)
 					weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, 
-							achievHour, achievMin, achievPer, shortfallPer, enrolldate, weekDay, goalISBN);
+							achievHour, achievMin, achievPer, shortfallPer, enrolldate, weekDay, goalISBN, 
+							totalAchieveAmount, totalWeekGoalAmount);
 					
 				}
 				
@@ -1100,13 +1092,27 @@ function todayGoalsList(){
 
 //오늘의 목표 리스트 노출된 부분 공부량 차트 
 function GoalListChart(achievPer, shortfallPer, i){
+	
+	//달성량 25%단위로 차트 색 변경
+	var bgColor = "";
+	if(0 <= achievPer && achievPer <= 25){
+		bgColor = "#e12e3b"; //빨
+	}else if(26 <= achievPer && achievPer <= 50){
+		bgColor = "#ffb04d"; //노
+	}else if(51 <= achievPer && achievPer <= 75){
+		bgColor = "#29b699"; //초
+	}else if(76 <= achievPer && achievPer <= 100){
+		bgColor = "#389cde"; //파
+	}
+	
+	console.log(achievPer)
 	var ctx = document.getElementById("today_donut"+i).getContext('2d');
 	var today_donut = new Chart(ctx, {
 		type: 'doughnut',
 		data: data = {
 				datasets: [{
 					data: [achievPer, shortfallPer],
-					backgroundColor: ['#36a2eb']
+					backgroundColor: [bgColor]
 				}],
 		},
 		options: {
@@ -1117,13 +1123,26 @@ function GoalListChart(achievPer, shortfallPer, i){
 
 //주간 목표 리스트 노출된 부분 공부량 차트 
 function GoalListChart2(achievPer, shortfallPer, count){
+	
+	//달성량 25%단위로 차트 색 변경
+	var bgColor = "";
+	if(0 <= achievPer && achievPer <= 25){
+		bgColor = "#e12e3b"; //빨
+	}else if(26 <= achievPer && achievPer <= 50){
+		bgColor = "#ffb04d"; //노
+	}else if(51 <= achievPer && achievPer <= 75){
+		bgColor = "#29b699"; //초
+	}else if(76 <= achievPer && achievPer <= 100){
+		bgColor = "#389cde"; //파
+	}
+
 	var ctx = document.getElementById("weekly_donut"+count).getContext('2d');
 	var today_donut = new Chart(ctx, {
 		type: 'doughnut',
 		data: data = {
 				datasets: [{
 					data: [achievPer, shortfallPer],
-					backgroundColor: ['#36a2eb']
+					backgroundColor: [bgColor]
 				}],
 		},
 		options: {
@@ -1159,6 +1178,18 @@ function todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, 
 				
 				$("#detailViewModal .time_form").parent().attr("action","TodayTimeGoalUpdateModal.sp?liIndex=" + liIndex);
 
+				//달성량 25%단위로 차트 색 변경
+				var bgColor = "";
+				if(0 <= achievPer && achievPer <= 25){
+					bgColor = "#e12e3b"; //빨
+				}else if(26 <= achievPer && achievPer <= 50){
+					bgColor = "#ffb04d"; //노
+				}else if(51 <= achievPer && achievPer <= 75){
+					bgColor = "#29b699"; //초
+				}else if(76 <= achievPer && achievPer <= 100){
+					bgColor = "#389cde"; //파
+				}
+				
 				//모달 내 차트
 				var ctx = document.getElementById("today_Modal_donut").getContext('2d');
 				var today_donut = new Chart(ctx, {
@@ -1166,7 +1197,7 @@ function todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, 
 					data: data = {
 							datasets: [{
 								data: [achievPer, shortfallPer],
-								backgroundColor: ['#36a2eb']
+								backgroundColor: [bgColor]
 							}],
 							labels: ['달성%','미달성%']
 					}
@@ -1201,7 +1232,7 @@ function todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, 
 
 //주간 목표 리스트, 각 목표 클릭시 상세 팝업창 노출
 function weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, 
-		achievHour, achievMin, achievPer, shortfallPer, enrolldate, weekDay, goalISBN){
+		achievHour, achievMin, achievPer, shortfallPer, enrolldate, weekDay, goalISBN, totalAchieveAmount, totalWeekGoalAmount){
 	
 	$(".weekly_goals li .right_area").click(function(){
 		
@@ -1220,8 +1251,8 @@ function weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour,
 			if(liIndex == goalCode){
 				$(this).attr({"data-toggle":"modal", "data-target":"#weeklyDetailViewModal"});
 				$("#weeklyDetailViewModal .time_form #goalName").attr("value",content);
-				$("#weeklyDetailViewModal .time_form #goalTime").attr("value",goalAmountHour);////
-				$("#weeklyDetailViewModal .time_form #goalMin").attr("value",goalAmountMin);
+				$("#weeklyDetailViewModal .time_form #goalTime").attr("value",achievHour);
+				$("#weeklyDetailViewModal .time_form #goalMin").attr("value",achievMin);
 				$("#weeklyDetailViewModal .time_form #achiev").text(achievHour + "시간 " + achievMin + "분");
 				$("#weeklyDetailViewModal .time_form #goalAmount").text(goalAmountHour + "시간 " + goalAmountMin + "분");
 				$("#weeklyDetailViewModal .time_form .chart_per").text(achievPer + "%");
@@ -1239,6 +1270,18 @@ function weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour,
 				//submit버튼 클릭시 업데이트하는 맵핑주소로 변경
 				$("#weeklyDetailViewModal .time_form").parent().attr("action","WeeklyTimeGoalUpdateModal.sp?liIndex=" + liVal);
 
+				//달성량 25%단위로 차트 색 변경
+				var bgColor = "";
+				if(0 <= achievPer && achievPer <= 25){
+					bgColor = "#e12e3b"; //빨
+				}else if(26 <= achievPer && achievPer <= 50){
+					bgColor = "#ffb04d"; //노
+				}else if(51 <= achievPer && achievPer <= 75){
+					bgColor = "#29b699"; //초
+				}else if(76 <= achievPer && achievPer <= 100){
+					bgColor = "#389cde"; //파
+				}
+				
 				//모달 내 차트
 				var ctx = document.getElementById("weekly_Modal_donut").getContext('2d');
 				var today_donut = new Chart(ctx, {
@@ -1246,7 +1289,7 @@ function weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour,
 					data: data = {
 							datasets: [{
 								data: [achievPer, shortfallPer],
-								backgroundColor: ['#36a2eb']
+								backgroundColor: [bgColor]
 							}],
 							labels: ['달성%','미달성%']
 					}
@@ -1264,7 +1307,7 @@ function weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour,
 				$(this).attr({"data-toggle":"modal", "data-target":"#weeklyDetailViewModal"});
 				$("#weeklyDetailViewModal .book_form #goalName").attr("value",content);
 				$("#weeklyDetailViewModal .book_form #goalPage").attr("value",goalAmount);
-				$("#weeklyDetailViewModal .book_form #goalAchiev").attr("value",achiev);
+				$("#weeklyDetailViewModal .book_form #goalAchiev").text(totalAchieveAmount +  " / " + totalWeekGoalAmount);
 				
 				//등록시 선택한 요일 체크
 				var weekIpt = $("#weeklyDetailViewModal .book_form .up_sel_wrap input");
@@ -1276,7 +1319,7 @@ function weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour,
 					}
 				}
 				
-				$("#weeklyDetailViewModal .book_form").parent().attr("action","WeeklyBookGoalUpdateModal.sp?liIndex=" + liIndex);
+				$("#weeklyDetailViewModal .book_form").parent().attr("action","WeeklyBookGoalUpdateModal.sp?liIndex=" + liVal);
 				
 				//페이지 목표 상세보기시 isbn이 있을경우 책검색 함수 호출
 				if($("#detailViewModal .book_form .bookIpt").val() != null){

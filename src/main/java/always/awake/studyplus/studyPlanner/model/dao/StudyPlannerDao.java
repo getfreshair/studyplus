@@ -41,13 +41,16 @@ public interface StudyPlannerDao {
 	int insertWeeklyTimeGoal(Map<String, Object> hmap);
 	
 	//주간 목표 업데이트(시간 단위)
-	int updateWeeklyTimeGoal(Map<String, Object> hmap);
+	//int updateWeeklyTimeGoal(Map<String, Object> hmap);
 	
-	//주간 목표 업데이트(페이지 단위)
+	//주간 목표 등록(페이지 단위)
 	int insertWeeklyBookGoal(Map<String, Object> hmap);
 	
 	//주간 목표 업데이트(페이지 단위)
-	int updateWeeklyBookGoal(Map<String, Object> hmap);
+	//int updateWeeklyBookGoal(Map<String, Object> hmap);
+	
+	//주간 목표 업데이트 시 기존 목표 삭제
+	int deleteWeeklyGoal(Map<String, Object> hmap);
 
 	ArrayList<PersonalRank> selectMemberWeeklyRank(int member_Code, String[] chartDate4);
 
@@ -65,6 +68,8 @@ public interface StudyPlannerDao {
 	
 	//학습스타일 결과 선택
 	List<Object> selectStudyStyle(int loginUserCode);
+
+	
 
 
 

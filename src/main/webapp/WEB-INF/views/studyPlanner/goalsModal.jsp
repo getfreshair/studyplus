@@ -56,8 +56,8 @@
 					<div class="book_form">
 						<input type="hidden" value="0" name="goalType">
 						<div class="col-sm-5 col-xs-12 img_area">
-							<input type="text" class="bookIpt" id="searchIpt1" name="bookIsbn">
-							<button type="button" id="bookBtn1">책검색</button>
+							<input type="text" class="form-control bookIpt" id="searchIpt1" name="bookIsbn">
+							<button type="button" class="btn btn-gray" id="bookBtn1">책검색</button>
 							<div class="book_img"></div>
 							<p class="book_info"></p>
 						</div>
@@ -149,8 +149,8 @@
 					<div class="book_form">
 						<input type="hidden" value="0" name="goalType">
 						<div class="col-sm-5 col-xs-12 img_area">
-							<input type="text" class="bookIpt" id="searchIpt2" name="bookIsbn">
-							<button type="button" id="bookBtn2">책검색</button>
+							<input type="text" class="form-control bookIpt" id="searchIpt2" name="bookIsbn">
+							<button type="button" class="btn btn-gray" id="bookBtn2">책검색</button>
 							<div class="book_img"></div>
 							<p class="book_info"></p>
 						</div>
@@ -261,8 +261,8 @@
 					<div class="book_form">
 						<input type="hidden" value="0" name="goalType">
 						<div class="col-sm-5 col-xs-12 img_area">
-							<input type="text" class="bookIpt" id="searchIpt3" name="bookIsbn">
-							<button type="button" id="bookBtn3">책검색</button>
+							<input type="text" class="form-control bookIpt" id="searchIpt3" name="bookIsbn">
+							<button type="button" class="btn btn-gray" id="bookBtn3">책검색</button>
 							<div class="book_img"></div>
 							<p class="book_info"></p>
 						</div>
@@ -392,8 +392,8 @@
 					<div class="book_form">
 						<input type="hidden" value="0" name="goalType">
 						<div class="col-sm-5 col-xs-12 img_area">
-							<input type="text" class="bookIpt" id="searchIpt4" name="bookIsbn">
-							<button type="button" id="bookBtn4">책검색</button>
+							<input type="text" class="form-control bookIpt" id="searchIpt4" name="bookIsbn">
+							<button type="button" class="btn btn-gray" id="bookBtn4">책검색</button>
 							<div class="book_img"></div>
 							<p class="book_info"></p>
 						</div>
@@ -431,8 +431,9 @@
 							<dl>
 								<dt>달성량</dt>
 								<dd class="ipt_wrap">
-									<input type="number" class="form-control" id="goalAchiev" name="goalAchiev" value="0" min="0" disabled>
+									<span id=goalAchiev>0</span>
 									<span>페이지</span>
+									<!-- <input type="number" class="form-control" id="goalAchiev" name="goalAchiev" value="0" min="0"> -->
 								</dd>
 							</dl>
 						</div>
@@ -448,36 +449,3 @@
 	</div>
 </div>
 <!-- // weeklyDetailViewModal -->
-
-
-<script>
-/* //isbn 책검색
-function bookIsbn(){
-	$("#bookBtn").click(function(){
-		var searchBook = ($(".bookIpt").val()).replace(/ /g,"");
-		console.log(searchBook);
-		$.ajax({
-			url : "bookIsbn.sp",
-			data : {searchBook : searchBook},
-			type : "get",
-			success : function(data) {
-				console.log("검색한 데이터 : " + data)
-				
-				var object = JSON.parse(data);
-				console.log(object);
-				
-				console.log(object.items[0].title);
-				console.log(object.items[0].image);
-				console.log(object.items[0].isbn);
-				
-				$(".bookIpt").attr("value", object.items[0].isbn);
-				$(".book_img").append().html('<img src="' + object.items[0].image + '">');
-				$(".book_info").append().html(object.items[0].title);
-			},
-			error : function() {
-				console.log("에러발생!");
-			}
-		});
-	});
-} */
-</script>

@@ -103,15 +103,15 @@ public class StudyPlannerServiceImpl implements StudyPlannerService{
 	}
 
 	//주간 목표 업데이트(시간 단위)
-	@Override
+	/*@Override
 	public int updateWeeklyTimeGoal(Map<String, Object> hmap) {
 		
 		int result = spd.updateWeeklyTimeGoal(hmap);
 		
 		return result;
-	}
+	}*/
 
-	//주간 목표 업데이트(페이지 단위)
+	//주간 목표 등록(페이지 단위)
 	@Override
 	public int insertWeeklyBookGoal(Map<String, Object> hmap) {
 		
@@ -121,12 +121,21 @@ public class StudyPlannerServiceImpl implements StudyPlannerService{
 	}
 
 	//주간 목표 업데이트(페이지 단위)
-	@Override
+	/*@Override
 	public int updateWeeklyBookGoal(Map<String, Object> hmap) {
 		
 		int result = spd.updateWeeklyBookGoal(hmap);
 		
-		return 0;
+		return result;
+	}*/
+	
+	//주간 목표 업데이트 시 기존 목표 삭제
+	@Override
+	public int deleteWeeklyGoal(Map<String, Object> hmap) {
+		
+		int result = spd.deleteWeeklyGoal(hmap);
+		
+		return result;
 	}
 
 	@Override
@@ -186,12 +195,8 @@ public class StudyPlannerServiceImpl implements StudyPlannerService{
 		return list;
 	}
 
-	//주간 목표 업데이트 시 기존 목표 삭제
-	@Override
-	public int deleteWeeklyGoal(String string) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
+
 
 
 }

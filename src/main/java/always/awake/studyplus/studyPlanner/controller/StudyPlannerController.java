@@ -476,7 +476,6 @@ public class StudyPlannerController {
 		
 		List<HashMap<String, ArrayList<Goal>>> returnList = new ArrayList<HashMap<String, ArrayList<Goal>>>();
 		returnList.add(weekMap);
-		System.out.println("컨트롤러 주간 목표 리스트 : " + weekMap);
 		
 		return returnList;
 	}
@@ -648,48 +647,57 @@ public class StudyPlannerController {
 	
 	//주간 목표 업데이트(시간 단위)
 	@RequestMapping(value="WeeklyTimeGoalUpdateModal.sp", method=RequestMethod.POST)
-	public String WeeklyTimeGoalUpdate(HttpSession session, @RequestParam("dateVal") String dateVal, @RequestParam("goalType")int goalType, 
+	public String WeeklyTimeGoalUpdate(HttpSession session, @RequestParam("checkWeek")String checkWeek, @RequestParam("goalType")int goalType, 
 			@RequestParam("goalName")String goalName, @RequestParam("goalTime")int goalTime, @RequestParam("goalMin")int goalMin, 
 			@RequestParam("liIndex")String liIndex) {
 		
-		//HttpSession session, @RequestParam("goalType")int goalType, @RequestParam("goalName")String goalName,
-		//@RequestParam("goalTime")int goalTime, @RequestParam("goalMin")int goalMin, @RequestParam("checkWeek")String checkWeek
-		
-		System.out.println("컨트롤러 넘어오는 li의 코드 : " + liIndex);
-		String[] liIndexArr = liIndex.split(",");
-		
-		for(int i = 0; i < liIndexArr.length; i++) {
-			System.out.println("목표코드? : " + liIndexArr[i]);
-			
-			//int delResult = sps.deleteWeeklyGoal(liIndexArr[i]);
-			//goalCode = Integer.parseInt(liIndexArr[i]);
-			//기존 날짜와 넘어온 날짜가 일치할경우 update
-			//새로운 날짜가 넘어왔을 경우, 일치하는 날짜 외 delete하고 insert
-			//다 지우고 다시 insert
 
-		}
-		
-		/*Member loginUser = (Member) session.getAttribute("loginUser");
+		Member loginUser = (Member) session.getAttribute("loginUser");
 		int loginUserCode = loginUser.getMember_Code();
 		
-		//시간 등록시 초단위로 변경
-		int goalTotaltime = (goalTime * 3600) + (goalMin * 60);
 		
-		Map<String, Object> hmap = new HashMap<String, Object>();
-		hmap.put("loginUserCode", loginUserCode);
-		hmap.put("goalType", goalType);
-		hmap.put("goalName", goalName);
-		hmap.put("goalTotaltime", goalTotaltime);
-		hmap.put("liIndex", liIndex);
+		String[] liIndexArr = liIndex.split(",");
+		int goalCode = 0;
+		int result = 0;
+		//등록되어있는 목표코드 갯수만큼 반복하여, 목표 코드를 기준으로 행 삭제
+		for(int i = 0; i < liIndexArr.length; i++) {
+			goalCode = Integer.parseInt(liIndexArr[i]);
+
+			Map<String, Object> hmap = new HashMap<String, Object>();
+			hmap.put("loginUserCode", loginUserCode);
+			hmap.put("goalCode", goalCode);
+
+			result = sps.deleteWeeklyGoal(hmap);
+		}
+
 		
-		int result = sps.updateWeeklyTimeGoal(hmap);
+		String[] dateArr = checkWeek.split(",");
+		String insertDay = "";
+		int goalTotaltime = 0;
+		//새로 체크한 날짜의 갯수만큼 반복하여, 새로운 주간 목표로 insert
+		for(int i = 0; i < dateArr.length; i++) {
+			//선택한 날짜
+			insertDay = dateArr[i];
+			
+			//시간 등록시 초단위로 변경
+			goalTotaltime = (goalTime * 3600) +  (goalMin * 60);
+			
+			Map<String, Object> hmap = new HashMap<String, Object>();
+			hmap.put("loginUserCode", loginUserCode);
+			hmap.put("goalType", goalType);
+			hmap.put("goalName", goalName);
+			hmap.put("goalTotaltime", goalTotaltime);
+			hmap.put("insertDay", insertDay);
+
+			result = sps.insertWeeklyTimeGoal(hmap);
+		}
 		
 		if(result > 0) {
 			System.out.println("목표 업데이트 성공!!");
 			
 		}else {
 			System.out.println("목표 업데이트 실패!");
-		}*/
+		}
 		
 		return "redirect:studyPlannerMainPage.sp";
 	}	
@@ -707,7 +715,7 @@ public class StudyPlannerController {
 		int result = 0;
 		
 		for(int i = 0; i < arr.length; i++) {
-			System.out.println(arr[i]);
+			
 			insertDay = arr[i];
 			
 			Map<String, Object> hmap = new HashMap<String, Object>();
@@ -731,26 +739,49 @@ public class StudyPlannerController {
 		return "redirect:studyPlannerMainPage.sp";
 	}
 	
-	
+
 	//주간 목표 업데이트(페이지 단위)
 	@RequestMapping(value="WeeklyBookGoalUpdateModal.sp", method=RequestMethod.POST)
 	public String WeeklyBookGoalUpdate(HttpSession session, @RequestParam("goalType")int goalType, @RequestParam("goalName")String goalName,
-			@RequestParam("goalPage")int goalPage, @RequestParam("goalAchiev")int goalAchiev, @RequestParam("liIndex")int liIndex,
-			 @RequestParam("bookIsbn")String bookIsbn) {
+			@RequestParam("goalPage")int goalPage, @RequestParam("goalAchiev")int goalAchiev, @RequestParam("liIndex")String liIndex,
+			 @RequestParam("bookIsbn")String bookIsbn, @RequestParam("checkWeek")String checkWeek) {
 		
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int loginUserCode = loginUser.getMember_Code();
+
+		String[] liIndexArr = liIndex.split(",");
+		int goalCode = 0;
+		int result = 0;
+		//등록되어있는 목표코드 갯수만큼 반복하여, 목표 코드를 기준으로 행 삭제
+		for(int i = 0; i < liIndexArr.length; i++) {
+			goalCode = Integer.parseInt(liIndexArr[i]);
+
+			Map<String, Object> hmap = new HashMap<String, Object>();
+			hmap.put("loginUserCode", loginUserCode);
+			hmap.put("goalCode", goalCode);
+
+			result = sps.deleteWeeklyGoal(hmap);
+		}
+
 		
-		Map<String, Object> hmap = new HashMap<String, Object>();
-		hmap.put("loginUserCode", loginUserCode);
-		hmap.put("goalType", goalType);
-		hmap.put("goalName", goalName);
-		hmap.put("goalPage", goalPage);
-		hmap.put("goalAchiev", goalAchiev);
-		hmap.put("liIndex", liIndex);
-		hmap.put("bookIsbn", bookIsbn);
-		
-		int result = sps.updateWeeklyBookGoal(hmap);
+		String[] dateArr = checkWeek.split(",");
+		String insertDay = "";
+		//새로 체크한 날짜의 갯수만큼 반복하여, 새로운 주간 목표로 insert
+		for(int i = 0; i < dateArr.length; i++) {
+			//선택한 날짜들
+			insertDay = dateArr[i];
+			
+			Map<String, Object> hmap = new HashMap<String, Object>();
+			hmap.put("loginUserCode", loginUserCode);
+			hmap.put("goalType", goalType);
+			hmap.put("goalName", goalName);
+			hmap.put("goalPage", goalPage);
+			hmap.put("goalAchiev", goalAchiev);
+			hmap.put("bookIsbn", bookIsbn);
+			hmap.put("insertDay", insertDay);
+
+			result = sps.insertWeeklyBookGoal(hmap);
+		}
 		
 		if(result > 0) {
 			System.out.println("목표 업데이트 성공!!");
@@ -810,6 +841,7 @@ public class StudyPlannerController {
 		int loginUserCode = loginUser.getMember_Code();
 		
 		List<Object> list = sps.selectStudyStyle(loginUserCode);
+		//System.out.println(list);
 		
 		if(list.size() == 0 || list.isEmpty()) {
 			//System.out.println("학습스타일 데이터 없음");
