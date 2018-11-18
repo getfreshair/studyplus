@@ -248,7 +248,7 @@
 		var member_Code = ${sessionScope.loginUser.member_Code};
 		
 		$.ajax({
-			url : 'selectImgAndLink.do',
+			url : 'selectCPCImgAndLink.do',
 			data : {
 				member_Code : member_Code
 			},

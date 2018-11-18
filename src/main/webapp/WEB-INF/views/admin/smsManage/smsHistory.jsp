@@ -85,6 +85,9 @@
 hr{
 	border-top: 1px solid gray !important;
 }
+th{
+	text-align:center !important;
+}
 </style>
 </head>
 <body>
@@ -115,10 +118,10 @@ hr{
 								</div>
 								<div class="searchById">
 									<p class="searchAll">수신번호</p>
-									<input class="form-control" type="search" id="searchAll"
+									<input class="form-control" type="search" id="searchOption"
 										style="width:300px; height:50px; font-size:20px">
 								</div>
-								<button class="btn btn-primary" style="height:40px ;margin-top:25px; width:100px">검색</button>
+								<button class="btn btn-primary" onclick="searchMember();" style="height:40px ;margin-top:25px;  width:100px">검색</button>
 							</div>
 					</div>
 					<hr>
@@ -126,12 +129,61 @@ hr{
 						<table id="smsListTable" class="table table-hover"
 							 name="smsListTable" style="font-size: 14px; text-align: center">
 							<tr class="head">
-								<th width="10%">번호</th>
-								<th width="20%">수신번호</th>
-								<th width="20%">발신번호</th>
+								<th width="5%">번호</th>
+								<th width="10%">수신번호</th>
+								<th width="10%">수신멤버코드</th>
+								<th width="10%">발신번호</th>
 								<th width="50%">메세지</th>
 							</tr>
 						</table>
+					<script>
+						function reload(){
+							location.reload();
+						}
+						function searchMember(){
+							var searchDate1 = $("#searchDate1").val();
+							var searchDate2 = $("#searchDate2").val();
+							var searchOption = $("#searchOption").val();
+						
+							$.ajax({
+								url:"adminSearchSmsHistory.do",
+								type:"post",
+								data:{
+									 searchDate1:searchDate1,
+									 searchDate2:searchDate2,
+									 searchOption:searchOption},
+								success:function(data){
+									console.log(data);
+									getSMSHistoryList(data);
+								},
+								error:function(){
+									console.log("에러 발생!");
+								}
+							})
+							return false;
+							
+						}
+							
+						function getSMSHistoryList(data){
+							var table = document.querySelector('#smsListTable');
+							html = '<tr class="head">'+
+							'<th width="5%">번호</th>'+
+							'<th width="10%">수신번호</th>'+
+							'<th width="10%">수신멤버코드</th>'+
+							'<th width="10%">발신일</th>'+
+							'<th width="50%">메세지</th></tr>'
+							console.log(data.length);
+							for(var i = 0; i < data.length; i++){
+								console.log("12");
+								html += '<tr><td>'
+										+data[i].SMS_CODE+ '</td><td>' + data[i].SMS_RECEIVERPHONE + '</td><td>'
+										+data[i].MEMBER_CODE + '</td><td>'
+										+data[i].SMS_SENDDATE + '</td><td>' + data[i].SMS_CONTENT + '</td><td>';
+							}
+							table.innerHTML = html;		
+							
+						}
+				</script>
 					</div>
 				</div>
 		</div>

@@ -15,11 +15,13 @@ public class Banner {
 	private String pr_StartDate;
 	private String pr_EndDate;
 	private Files files;
+	private String pr_ClickMoney;
 	
 	public Banner() {}
 
 	public Banner(int pr_Code, String pr_Company, String pr_Title, String pr_Link, int pr_Order, int pr_Type,
-			String pr_Contractmoney, int category_Code, String pr_StartDate, String pr_EndDate, Files files) {
+			String pr_Contractmoney, int category_Code, String pr_StartDate, String pr_EndDate, Files files,
+			String pr_ClickMoney) {
 		super();
 		this.pr_Code = pr_Code;
 		this.pr_Company = pr_Company;
@@ -32,6 +34,7 @@ public class Banner {
 		this.pr_StartDate = pr_StartDate;
 		this.pr_EndDate = pr_EndDate;
 		this.files = files;
+		this.pr_ClickMoney = pr_ClickMoney;
 	}
 
 	public int getPr_Code() {
@@ -122,18 +125,21 @@ public class Banner {
 		this.files = files;
 	}
 
+	public String getPr_ClickMoney() {
+		return pr_ClickMoney;
+	}
+
+	public void setPr_ClickMoney(String pr_ClickMoney) {
+		this.pr_ClickMoney = pr_ClickMoney;
+	}
+
 	@Override
 	public String toString() {
 		return "Banner [pr_Code=" + pr_Code + ", pr_Company=" + pr_Company + ", pr_Title=" + pr_Title + ", pr_Link="
 				+ pr_Link + ", pr_Order=" + pr_Order + ", pr_Type=" + pr_Type + ", pr_Contractmoney=" + pr_Contractmoney
 				+ ", category_Code=" + category_Code + ", pr_StartDate=" + pr_StartDate + ", pr_EndDate=" + pr_EndDate
-				+ ", files=" + files + "]";
+				+ ", files=" + files + ", pr_ClickMoney=" + pr_ClickMoney + "]";
 	}
-
-
-	
-
-	
 
 	
 }

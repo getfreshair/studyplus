@@ -158,10 +158,107 @@ th{
 									style="width:300px; padding-down:30px; margin-top:14px; height:40px; font-size:14px; display:inline-block;">
 					<button type="button" class="btn btn-primary" id="searchBtn" onclick="searchBoardList();"
 								name="searchBtn1" style="font-size:14px; margin-bottom:6px; display:inline-block;height:35px;">검색하기</button>
-					<button class="btn btn-danger" id="deleteNotice" name="delete" style="margin-bottom:6px; margin-right:150px; 
+					<button class="btn btn-danger" onclick="searchBlack();" id="deleteNotice" name="delete" style="margin-bottom:6px; margin-right:150px; 
 								font-size:14px; display:inline-block;">불량게시물탐지</button>
 					</div>
 					<script>
+						function searchBlack(){
+							$.ajax({
+								url:"searchBlack.do",
+								type:"post",
+								success:function(data){
+									console.log("들어왔어엉");
+									createTable(data);
+									$(function(){
+							  			$('#penaltyBoard').click(function(){
+							  			var checkBoxs = document.getElementsByName("selectBoardCode"); // 체크박스 객체
+										var checkType = document.getElementsByName("selectType");
+										console.log("checkBoxs확인?"+checkBoxs);
+										console.log(checkBoxs);
+										var len = checkBoxs.length;
+										var checkRow = "";
+										var checkCnt = 0;
+										var checkLast = "";
+										var rowid = '';
+										var values = "";
+										var cnt = 0;
+										
+										for(var i = 0; i < len ; i ++){
+											if(checkBoxs[i].checked == true){
+												checkCnt++;
+												checkLast = i;
+											}
+										}
+										for(var i = 0; i < len ; i ++){
+											if(checkBoxs[i].checked == true && checkType[i].value == '그룹'){
+												checkRow = checkBoxs[i].value;
+												console.log(checkRow);
+												if(checkCnt == 1){
+													rowid += checkRow;
+												} else {
+													if(i == checkLast){
+														rowid += checkRow ;
+													} else {
+														rowid += checkRow + ",";
+													}
+												}
+												
+												cnt ++;
+												checkRow = '';
+											}	
+										}
+										if(rowid === ''){
+											alert('제재할 게시물을 선택해 주세요.')
+											return;
+										}
+										$.ajax({
+											url:"updateBoardStatus.do",
+											type:"post",
+											data:{boardCode:rowid},
+											success:function(data){
+												var data = JSON.parse(data);
+												alert(data+"개의 게시물이 삭제 되었습니다.");
+												location.reload();
+											},
+											error:function(){
+												console.log("에러 발생!");
+											}
+										})
+										return false;
+										})
+							  		});
+								},
+								error:function(){
+									console.log("에러 발생!");
+								}
+							})
+						}
+						function createTable(data){
+							var table = document.querySelector('#boardListTable');
+							html = '<tr class="head">'+
+							'<th width="2%"><input type="checkbox" id="masterCheck"></th>'+
+							'<th width="5%">글번호</th>'+
+							'<th width="8%">작성자번호</th>'+
+							'<th width="10%">작성자</th>'+
+							'<th width="20%">스터디그룹이름</th>'+
+							'<th width="10%">글내용</th>'+
+							'<th width="10%">작성일</th>'+
+							'<th width="10%">글종류</th>'+
+							'<th width="10%">상태</th></tr>'
+							console.log("data.length"+data.length);
+							
+							for(var i = 0; i < data.length; i++){
+								console.log("12");
+								html += '<tr><td><input onclick='+'"event.cancelBubble=true"'+ ' type="checkbox"'+ 'name="selectBoardCode" ' + 'class="childCheck"' + 'value="'+data[i].CODE+'"></td><td>'
+										+data[i].CODE+ '</td><td>' + data[i].MEMBER + '</td><td>'
+										+data[i].NICK + '</td><td>' + data[i].GROUPNAME + '</td><td>'
+										+data[i].CONTENT + '</td><td>' + data[i].POST+'</td><td name="selectType" value="'+data[i].TYPE+'">' + 
+										data[i].TYPE + '</td><td>'	+ data[i].STATUS + '</td></tr>';
+							}
+							table.innerHTML = html;
+					
+						}
+						
 						function searchBoardList(){
 							var option = $("#searchOpion").val();
 							var keyword = $("#keyword").val();
