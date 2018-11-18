@@ -1,4 +1,4 @@
-package always.awake.studyplus.admin.controller;
+/*package always.awake.studyplus.admin.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -98,4 +98,4 @@ public class HandcodingController {
        model.addAttribute("title", title);
        return "schdule";
    }    
-}
+}*/

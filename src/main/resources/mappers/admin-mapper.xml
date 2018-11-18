@@ -851,4 +851,31 @@
 		AND pr.PR_TYPE = 1
 		AND f.FILES_STATUS = 0
 	</select>
+	
+	<select id="selectCPCImgAndLink" parameterType="_int" resultType="map">
+		SELECT pr.PR_CODE, pr.PR_LINK, pr.CATEGORY_CODE , pr.PR_STATUS , f.FILES_NAME, pr.PR_CLICKMONEY , pr.PR_ORDER , pr.PR_CONTRACTMONEY
+		FROM PR pr
+		LEFT JOIN FILES f ON(pr.PR_CODE = f.PR_CODE)
+		WHERE CATEGORY_CODE = (SELECT CATEGORY_CODE
+                               FROM(SELECT CATEGORY_CODE
+		                       FROM INTERESTCATEGORY
+		                       WHERE MEMBER_CODE = (SELECT MEMBER_CODE
+		                                       FROM MEMBER
+		                                       WHERE MEMBER_CODE =#{member_Code})
+                                               ORDER BY DBMS_RANDOM.RANDOM
+                                               )<![CDATA[WHERE ROWNUM <2)
+		AND pr.PR_STATUS = 0
+		AND pr.PR_TYPE = 1
+		AND f.FILES_STATUS = 0
+		AND ROWNUM < 2
+		]]>
+	</select>
+	
+	<select id="checkTotalPRCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM PRCOUNT
+		WHERE PR_CODE=#{prCode}
+	</select>
+	
+	
 </mapper>

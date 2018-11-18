@@ -254,7 +254,7 @@
 			},
 			success : function(data){
 				if(data != ''){
-					$('.SGListPRImg').attr('src', '/studyplus/resources/upload/admin/thumbnail/' + data.FILES_NAME);
+					$('.SGListPRImg').attr('src', '/studyplus/resources/upload/admin/thumbnail/' + data.FILES_NAME+'.png');
 					$('.SGListPRImg').attr('onclick', 'addPRCount(' + data.PR_CODE + ', ' + member_Code + ', "' + data.PR_LINK + '")');
 				}else{
 					$('.SGListPRImg').attr('src', '/studyplus/resources/images/ad/ad.png');

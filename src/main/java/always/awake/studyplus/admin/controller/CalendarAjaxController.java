@@ -1,4 +1,4 @@
-package always.awake.studyplus.admin.controller;
+/*package always.awake.studyplus.admin.controller;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -111,3 +111,4 @@ public class CalendarAjaxController {
         return map;
     }
 }
+*/

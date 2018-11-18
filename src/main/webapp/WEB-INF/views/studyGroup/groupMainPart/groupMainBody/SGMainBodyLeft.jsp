@@ -474,10 +474,12 @@
 				member_Code : member_Code
 			},
 			success : function(){
-				window.open(pr_Link, '_blank');
-			}
+				window.open('http://'+pr_Link, '_blank'); 
+			        
+			}	
 		})
-	}`
+	}
+	
 </script>
 </head>
 <body>
