@@ -45,6 +45,7 @@ public class BlockServiceImpl implements BlockService{
 		int result2 = -99;
 		
 		if(list.get("goalTimeList") != null) {
+			System.out.println(list.get("goalTimeList"));
 			result1 = bd.updateGoalStudyTime(sqlSession,list.get("goalTimeList"));
 		}
 		if(list.get("studyTimeList") != null) {
@@ -64,9 +65,16 @@ public class BlockServiceImpl implements BlockService{
 		return result;
 	}
 	
-	// 게임 유저 조회용
+	// 게임 유저 리스트 조회용
 	@Override
 	public List<Object> selectGamePlayerList(int member_code) {
 		return bd.selectGamePlayerList(sqlSession,member_code);
+	}
+
+	// 게임 유저 조회용
+	@Override
+	public PlayGameUsers selectPlayer(int member_code) {
+		// TODO Auto-generated method stub
+		return bd.selectPlayer(sqlSession,member_code);
 	}
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import always.awake.studyplus.game.model.dao.GameDao;
+import always.awake.studyplus.game.model.vo.PlayGameUsers;
 
 @Service
 public class GameServiceImpl implements GameService {
@@ -36,4 +37,5 @@ public class GameServiceImpl implements GameService {
 		// TODO Auto-generated method stub
 		return gd.selectGamePlayerList(sqlSession);
 	}
+
 }

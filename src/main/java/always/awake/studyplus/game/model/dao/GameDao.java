@@ -15,4 +15,5 @@ public interface GameDao {
 	public List<Object> selectGamePlayer(SqlSessionTemplate sqlSession, int member_code);
 
 	public List<Integer> selectGamePlayerList(SqlSessionTemplate sqlSession);
+
 }

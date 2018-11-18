@@ -85,7 +85,7 @@
 		<foreach collection="list" item="list"  index="index" 
 				 separator=";" open="DECLARE BEGIN" close="; END;" >	
 			UPDATE GOAL
-			SET GOAL_ACHIEVEAMOUNT = TRUNC((GOAL_ACHIEVEAMOUNT + #{list.totalTime}))
+			SET GOAL_ACHIEVEAMOUNT = TRUNC((NVL(GOAL_ACHIEVEAMOUNT,0) + #{list.totalTime}))
 			WHERE GOAL_CODE = #{list.code}
 		</foreach>
 	</update>
@@ -137,4 +137,14 @@
 							   FROM MEMBER 
 							   WHERE MEMBER_CODE = #{member_code})
 	</select>
+	
+	<select id="selectPlayer" resultMap="playGameUsersResultSet">
+		SELECT SG.MEMBER_CODE , SG.STARTGAME_TIME ,
+		L.LOCATION_NAME , M.MEMBER_JOB
+		FROM STUDYGAME SG
+		JOIN MEMBER M ON ( SG.MEMBER_CODE = M.MEMBER_CODE )
+		JOIN LOCATION L ON ( M.LOCATION_CODE = L.LOCATION_CODE )
+		WHERE SG.MEMBER_CODE = #{member_code}
+	</select>
+	
 </mapper>

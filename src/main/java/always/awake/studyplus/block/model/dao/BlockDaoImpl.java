@@ -45,7 +45,7 @@ public class BlockDaoImpl implements BlockDao{
 	@Override
 	public int insertStudyTime(SqlSessionTemplate sqlSession, StudyTimeInfo studyTimeInfo) {
 		// TODO Auto-generated method stub
-		System.out.println(studyTimeInfo);
+		System.out.println("너가왜 ? : "+studyTimeInfo);
 		return sqlSession.insert("Block.insertStudyTimes",studyTimeInfo);
 	}
 
@@ -53,5 +53,11 @@ public class BlockDaoImpl implements BlockDao{
 	public List<Object> selectGamePlayerList(SqlSessionTemplate sqlSession,int member_code) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("Block.selectGamePlayerList",member_code);
+	}
+
+	@Override
+	public PlayGameUsers selectPlayer(SqlSessionTemplate sqlSession, int member_code) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Block.selectPlayer",member_code);
 	}
 }
