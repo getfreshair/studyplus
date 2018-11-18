@@ -147,6 +147,11 @@ public class AdminController {
 			return mv;
 	}
 	
+	@RequestMapping("provision.do")
+	public ModelAndView Provision() {
+		return new ModelAndView("common/provision");
+	}
+	
 	@RequestMapping(value="movePage.me", method=RequestMethod.GET)
 	public String showMemberList(@RequestParam("page") String page) {
 		

@@ -90,7 +90,7 @@
                                             <li><a href="notice.do">공지사항</a></li>
                                             <li><a href="#">자주 묻는 질문</a></li>
                                             <li><a href="#">1:1문의</a></li>
-                                            <li><a href="#">약관 및 정책</a></li>
+                                            <li><a href="provision.do">약관 및 정책</a></li>
                                         </ul>
                                     </div>
                                 </li>

@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<script src="/studyplus/resources/js/jquery-1.11.1.min.js"></script>
 <style>
 	.modal-content-addFriend {
 		border:0px;
@@ -140,7 +139,7 @@
 			<div class="addFriend-menu">
 				<h2 class="addFriendSearchPage" onclick="addFriendSearchPage()">검색</h2>
 			    <h2 class="addFriendToMe" onclick="addFriendToMe()">받은 요청</h2>
-			    <h2 class="addFriendFromMe" onclick="addFriendFromMe()">건낸 요청</h2>
+			    <h2 class="addFriendFromMe" onclick="addFriendFromMe()">보낸 요청</h2>
 			</div>
 			<div class="addFriend-content"></div>
 		</div>
