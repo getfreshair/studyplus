@@ -51,6 +51,7 @@
 		JOIN MEMBER M ON ( G.MEMBER_CODE = M.MEMBER_CODE)
 		WHERE G.MEMBER_CODE = #{member_Code}
 		AND TO_CHAR(GOAL_ENROLLDATE,'YYYY/MM/DD') = TO_CHAR(SYSDATE,'YYYY/MM/DD')
+		AND G.GOAL_TYPE = 1
 	</select>
 	
 	<!-- 내가 가입한 그룹 리스트와, 그룹별 오늘 공부 총량 -->

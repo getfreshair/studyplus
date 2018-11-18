@@ -362,6 +362,12 @@
 		</section>
 		<!-- // section -->
 		
+		<button type="button"style="left:50%; margin-left:-250px;height:40px; position:fixed; bottom:0 ;border:1px solid #f1bc3c;border-radius:40px 40px 0 0;background:#f1bc3c;width:500px; color:white"class="btn btn-danger" onclick="showBlockMain()">차단을 시작하고, 공부 시간 측정하기</button>
+		<script>
+			function showBlockMain(){
+				location.href ="showBlockMain.bl";
+			}
+		</script>
 		<!--  Modal -->
 		<jsp:include page="goalsModal.jsp"/>
 		<!-- // Modal -->
@@ -369,10 +375,11 @@
 		<!--  Modal -->
 		<jsp:include page="../member/friendPart/addFriend.jsp"/>
 		<!-- // Modal -->
-
+		
 		<!-- Footer -->
 		<jsp:include page="../common/footer.jsp"/>
 		<!-- // Footer -->
 	</div>
+	
 </body>
 </html>

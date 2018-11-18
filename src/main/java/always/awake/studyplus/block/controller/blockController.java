@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import always.awake.studyplus.block.model.service.BlockService;
 import always.awake.studyplus.block.model.vo.StudyTimeInfo;
@@ -68,8 +70,9 @@ public class blockController {
 
 	// 웹 차단 설정 화면 전환용 메소드
 	@RequestMapping("showProgram.bl")
-	public String showProgram(HttpServletRequest requeest, Model model) {
-		return "block/blockProgram";
+	public ModelAndView showProgram(ModelAndView mv) {
+		mv.setViewName("block/blockProgram");
+		return mv;
 	}
 
 	// 웹 차단 설정 메인 컨트롤 화면 전환용 메소드 
@@ -482,5 +485,49 @@ public class blockController {
 		PlayGameUsers pgu = bs.selectPlayer(member_code);
 		
 		return pgu;
+	}
+	
+	@RequestMapping("selectBlockProgramList.bl")
+	public @ResponseBody ArrayList<String> selectBlockProgramList() {
+		ArrayList<String> bplist = new ArrayList<String>();
+		File file = new File("C:\\studyPlanner\\programData\\settingDatas\\blockProgramList");
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			String temp = "";
+			while((temp = br.readLine()) != null) {
+				bplist.add(temp);
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return bplist;
+	}
+	
+	@RequestMapping("saveBlockProgram")
+	public void saveBlockProgram(MultipartFile file, HttpServletResponse response){
+		String fileName = file.getOriginalFilename();
+		File saveFile = new File("C:\\studyPlanner\\programData\\settingDatas\\blockProgramList");
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(saveFile,true));
+			bw.write(fileName);
+			bw.newLine();
+			bw.flush();
+			bw.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			response.getWriter().println("차단 프로그램 정보 저장 성공!");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
