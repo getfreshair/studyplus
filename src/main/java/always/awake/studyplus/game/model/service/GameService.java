@@ -13,4 +13,5 @@ public interface GameService {
 	public List<Object> selectGamePlayer(int member_code);
 
 	public List<Integer> selectGamePlayerList();
+
 }

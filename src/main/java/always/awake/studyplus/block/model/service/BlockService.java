@@ -15,7 +15,10 @@ public interface BlockService {
 	// 공부시간 저장용 메소드
 	int insertStudyTimes(HashMap<String, ArrayList<StudyTimeInfo>> list, int member_Code);
 
-	// 게임 유저 조회용
+	// 게임 유저 리스트 조회용
 	List<Object> selectGamePlayerList(int member_code);
+
+	// 게임 유저 조회용
+	PlayGameUsers selectPlayer(int member_code);
 
 }

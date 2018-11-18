@@ -25,6 +25,10 @@ public interface BlockDao {
 	// 개인 또는 그룹의 공부시간 기록용 메소드
 	int insertStudyTime(SqlSessionTemplate sqlSession, StudyTimeInfo studyTimeInfo);
 
+	// 게임 플레이어 리스트 조회용
 	List<Object> selectGamePlayerList(SqlSessionTemplate sqlSession,int member_code);
+
+	// 게임 플레이어 조회용
+	PlayGameUsers selectPlayer(SqlSessionTemplate sqlSession, int member_code);
 
 }

@@ -72,6 +72,11 @@ public class blockController {
 		return "block/blockProgram";
 	}
 
+	// 웹 차단 설정 메인 컨트롤 화면 전환용 메소드 
+	@RequestMapping("showSettingMain.bl")
+	public String showSettingMain(HttpServletRequest request, Model model) {
+		return "block/blockSettingMain";
+	}
 	// 스케쥴 정보 받아오는 메소드
 	public StringBuilder getScheduleData() {
 		File dir1 = new File("C:\\studyPlanner");
@@ -461,6 +466,7 @@ public class blockController {
 		return list;
 	}
 
+	// 게임중인 유저 리스트 조회용 메소드
 	@RequestMapping("selectUserList.bl")
 	public @ResponseBody List<Object> selectUserList(HttpServletRequest request) {
 		List<Object> plist = bs.selectGamePlayerList(((Member) (request.getSession().getAttribute("loginUser"))).getMember_Code());
@@ -468,4 +474,13 @@ public class blockController {
 		return plist;
 	}
 	
+	// 게임중인 유저 정보 죄회용 메소드
+	@RequestMapping("renewalPlayer.bl")
+	public @ResponseBody PlayGameUsers renewalPlayer(String msg) {
+		int member_code = Integer.parseInt(msg.substring(0, msg.indexOf(":")));
+		
+		PlayGameUsers pgu = bs.selectPlayer(member_code);
+		
+		return pgu;
+	}
 }

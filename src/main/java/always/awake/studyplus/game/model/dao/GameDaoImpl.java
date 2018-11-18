@@ -33,4 +33,5 @@ public class GameDaoImpl implements GameDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("Game.selectGamePlayerList");
 	}
+
 }

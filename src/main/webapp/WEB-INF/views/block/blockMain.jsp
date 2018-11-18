@@ -34,9 +34,8 @@
 	connect();
 	function connect() { // 접속
 		// ws://192.168.10.69:8001/studyplus/chat-ws.socket
-		//192.168.43.188:8001/studyplus ws://localhost:8001/studyplus/chat-ws.socket
 		//wsocket = new WebSocket("ws://192.168.10.53:8001/studyplus/gameChat-ws.gameSocket");
-		wsocket = new WebSocket("ws://192.168.10.53:8001/studyplus/gameChat-ws.gameSocket");
+		wsocket = new WebSocket("ws://localhost:8001/studyplus/gameChat-ws.gameSocket");
 		wsocket.onopen = onOpen;
 		//서버로부터 메시지를 받으면 호출되는 함수 지정
 		wsocket.onmessage = onMessage;
@@ -69,8 +68,57 @@
 
 
 	function appendMessage(msg) { // 처리
-		console.log(msg)
+		console.log("메세지 : " + msg)
 		
+		var div = msg.substr(msg.lastIndexOf(":")+1,msg.length);
+	
+		if(div =="입장"){
+		$.ajax({
+			     url:"renewalPlayer.bl",
+			     type:"get",
+			     data:{msg:msg
+			          },
+			     success:function(data){
+
+			    	   userArr[userArr.length] = data;
+			    	   rank[rank.length] = rank.length+1;
+			    	   for (var i = 0; i < userArr.length; i++) {
+	  					 	var	size = (20*((100 -((rank[i]/(userArr.length)*100)))*0.01))+20;
+
+	  						
+	  						if(i == userArr.length-1){
+		  						var x = Math.floor(Math.random() * 100) + 1
+		  						var y = Math.floor(Math.random() * 100) + 1;
+
+		  						 if(((userArr[i].member_Job*1) == ${loginUser.member_Job}) && (userArr[i].location_Name == '${loginUser.location_Name}')){
+		  							locationCnt++;
+		  							jobCnt++;
+		  							$('.gameArea').append("<img id='"+userArr[i].user_Code+"' src='resources/images/block/bothStar.png' style='top:"+x+"%; left:"+y+"%; position:absolute; width:"+size+"px;height:"+size+"px'>");
+		  						} else if ((userArr[i].member_Job*1) == ${loginUser.member_Job}){
+		  							jobCnt++;
+		  							$('.gameArea').append("<img id='"+userArr[i].user_Code+"' src='resources/images/block/jobStar.png' style='top:"+x+"%; left:"+y+"%; position:absolute; width:"+size+"px;height:"+size+"px'>");
+		  						} else {
+		  							locationCnt++;
+		  							$('.gameArea').append("<img id='"+userArr[i].user_Code+"' src='resources/images/block/locationStar.png' style='top:"+x+"%; left:"+y+"%; position:absolute; width:"+size+"px;height:"+size+"px'>");	  					
+		  						}
+	  						} else {
+	  							$('#'+userArr[i].user_Code).css({'width':size+"px",'height':size+"px"});
+	  						}
+	  					}
+	  					$("#job_span").text(jobCnt +" ");
+	  					$('#location_span').text(locationCnt+" ");	   
+			          },
+			     error:function(){
+			          console.log("에러 발생!");
+			          }
+			    })
+		} else if(div == "퇴장") {
+			imgId = msg.substr(0,msg.indexOf(":"));
+
+			$('#'+imgId).remove();
+			
+			
+		}
 	}
 
 </script>
@@ -90,6 +138,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+
+html, body{
+    min-height:100%;
+
+}
 .hovereffect {
   width: 100%;
   height: 100%;
@@ -279,10 +332,13 @@
 		background-size:cover;
 		background-attachment:fixed;
 		width:100%;
-		height:1200px;
+		height:100%;
 		z-index:-20;
 	}
 	
+	.scroll_area{
+		height:100%
+	}
 	.mainDiv:after {
 		content:"";
 		position: absolute;
@@ -290,13 +346,13 @@
 		left:0;
 		background-size:cover;
 		width:100%;
-		height:1200px;
+		height:100%;
 		background-color:black;
 		opacity: 0.5;
 		z-index:-10;
 	} 
 	 .contentDiv{
-		height:800px;
+		height:100%;
 	} 
 	
 	
@@ -312,13 +368,13 @@
 }
 
 .container {
-    width: 960px;
+    width: 100%;
     margin: 0 auto;
     overflow: hidden;
 }
 
 .clock {
-	margin-top:100px;
+	margin-top:8%;
     width:500px;
     color: #fff;
     margin-left:auto;
@@ -433,116 +489,14 @@ setInterval( function() {
 });
 </script>
 </head>
-<!-- <script>
-//일간 공부량 날짜 변경시
-function todayChartChangeDate(){
-	/*$("#todayDatePicker").change(function(){
-		console.log("체인지가 안먹힌다?")
-		var dateVal = $("#todayDatePicker").val(); //컨트롤러에 보낼 날짜
-		console.log("선택한날짜 : " + dateVal);
-		todayChart(dateVal);
-	});*/
-	
-	$("#todayDatePicker").click(function(){
-		$(".datepicker:nth-child(1) .datepicker--cell-day").click(function(){
-			var dateVal = $(this).attr("data-year") + "-" + (($(this).attr("data-month")*1) +1) + "-" + $(this).attr("data-date");
-			//console.log("선택한날짜 : " + dateVal);
-			$('#todayDatePicker').attr("value",dateVal);
-			todayChart(dateVal);
-		});
-	});
-}
 
-//일간 공부량 차트
-function todayChart(dateVal){
-	var ctx = document.getElementById("todayChart").getContext('2d');
-	//console.log("input의 값은 들어오나?" + dateVal)
-	$.ajax({
-		url : "studyPlannerTodayChart.sp",
-		data : {dateVal : dateVal},
-		type : "post",
-		success : function(data) {
-			//console.log("일간공부량 데이터" + data);
-			var arr;
-			arr = data.split(",");
-			
-			for(var i = 0; i < arr.length; i++){
-				arr[i] = arr[i]/60;
-			}
-			
-			var todayChart = new Chart(ctx, {
-				type: 'bar',
-				data: {
-					labels: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", 
-						"13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"],
-						datasets: [{
-							//label: '# of Votes',
-							data: [arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], arr[7], arr[8], arr[9], arr[10], arr[11], arr[12],
-								arr[13], arr[14], arr[15], arr[16], arr[17], arr[18], arr[19], arr[20], arr[21], arr[22], arr[23]],
-								backgroundColor: [
-									'rgba(255, 99, 132, 0.2)',
-									'rgba(54, 162, 235, 0.2)',
-									'rgba(255, 206, 86, 0.2)',
-									'rgba(75, 192, 192, 0.2)',
-									'rgba(153, 102, 255, 0.2)',
-									'rgba(255, 159, 64, 0.2)',
-									'rgba(255, 99, 132, 0.2)',
-									'rgba(54, 162, 235, 0.2)',
-									'rgba(255, 206, 86, 0.2)',
-									'rgba(75, 192, 192, 0.2)',
-									'rgba(153, 102, 255, 0.2)',
-									'rgba(255, 99, 132, 0.2)',
-									'rgba(54, 162, 235, 0.2)',
-									'rgba(255, 206, 86, 0.2)',
-									'rgba(75, 192, 192, 0.2)',
-									'rgba(153, 102, 255, 0.2)',
-									'rgba(255, 159, 64, 0.2)',
-									'rgba(255, 99, 132, 0.2)',
-									'rgba(54, 162, 235, 0.2)',
-									'rgba(255, 206, 86, 0.2)',
-									'rgba(75, 192, 192, 0.2)',
-									]
-						}]
-				},
-				options: {
-					legend: {display: false,},
-					events: [false],
-					scales: {
-						yAxes: [{
-							ticks: {
-								beginAtZero:true
-							}
-						}]
-					}
-				}
-			});
-
-		},
-		error : function() {
-			console.log("에러발생!");
-		}
-	});
-
-}
-</script> -->
 <body>	
 	<div class="mainDiv">
-	<!-- <div id="clock" class="dark" style="background-color:transparent !important">
-		<div class="display">
-			<div class="weekdays"></div>
-			<div class="ampm"></div>
-			<div class="alarm"></div>
-			<div class="digits"></div>
-		</div>
-	</div> -->
-		
-	
 		<div class="contentDiv col-xs-12 col-md-9" style="height:800px">
-		
-			<!-- <div class="profileDiv" style="width:90%; height:150px; margin-top:50px ; margin-left:50px ">
-				<img src="resources/images/block/profile.jpg" style="border-radius:70px">
-				<span style="font-size:2em; font-weight: bold; margin:20px; color:orangered ">오늘의 적은 어제의 나 </span> -->
 				<script>
+				$(function(){					
+					startPause("main");
+				});
 					// 메인타이머 초기화
 					var mainTimmerTime = <%=todayStudyTime%>*10;  				// 메인컨트롤 타이머용 시간
 					var mainTimmerStatus = 0;				// 메인컨트롤 타이머 상태 
@@ -651,7 +605,7 @@ function todayChart(dateVal){
 									}
 									goalTimmerStatus[i] = 0;
 								}
-								document.getElementById("startPause").innerHTML ="공부시작";
+/* 								document.getElementById("startPause").innerHTML ="공부시작"; */
 								TempSaveTimeDates(check1, check2);
 							}
 						} else if ( division =='group'){
@@ -659,7 +613,7 @@ function todayChart(dateVal){
 							// 기존의 실행중인 타이머인지 구분 아닐 경우 기존 실행 타이머 상태 변경
 							if(executeGroupTimmerName != '' && groupTimmerButtonName != executeGroupTimmerName){
 								/* document.getElementById(executeGroupTimmerName).innerHTML ="공부시작"; */
-								$(executeGroupTimmerName).attr("src","resources/block/pause.png");
+								$("#"+executeGroupTimmerName).children().attr("src","resources/images/block/play.png");
 								groupTimmerStatus[originGroupTimmerIndex] = 0;
 								TempSaveTimeDates(originGroupTimmerIndex, -99);
 							}
@@ -672,26 +626,29 @@ function todayChart(dateVal){
 							if(mainTimmerStatus == 0) {
 								mainTimmerStatus = 1;
 								startMainTimmer();
-								document.getElementById("startPause").innerHTML ="일시정지";
+								/* document.getElementById("startPause").innerHTML ="일시정지"; */
 							}
 
 							// 그룹 타이머 컨트롤
+							
 							if(groupTimmerStatus[num] == 0 ){
 								groupTimmerStatus[num] = 1;
 								startGroupTimmer(num);
 								/* document.getElementById(groupTimmerButtonName).innerHTML ="일시정지";  */
-								document.getElementById(groupTimmerButtonName).src ="resources/block/pause.png";
+								$("#"+groupTimmerButtonName).children().attr("src","resources/images/block/pause.png");
+								
 							} else {
 								groupTimmerStatus[num] = 0;
 								/* document.getElementById(groupTimmerButtonName).innerHTML ="공부시작"; */
-								document.getElementById(groupTimmerButtonName).src ="resources/block/play.png";
+								$("#"+groupTimmerButtonName).children().attr("src","resources/images/block/play.png");
 								TempSaveTimeDates(num, -99);
 							}
 						}else if ( division =='goal'){
 							var goalTimmerButtonName = "goalStartPause"+num
 							// 기존의 실행중인 타이머인지 구분 아닐 경우 기존 실행 타이머 상태 변경
 							if(executeGoalTimmerName != '' && goalTimmerButtonName != executeGoalTimmerName){
-								document.getElementById(executeGoalTimmerName).innerHTML ="공부시작";
+								/* document.getElementById(executeGoalTimmerName).innerHTML ="공부시작"; */
+								$("#"+executeGoalTimmerName).children().attr("src","resources/images/block/play.png");
 								goalTimmerStatus[originGoalTimmerIndex] = 0;
 								TempSaveTimeDates(-99, originGoalTimmerIndex);
 							}
@@ -704,17 +661,19 @@ function todayChart(dateVal){
 							if(mainTimmerStatus == 0) {
 								mainTimmerStatus = 1;
 								startMainTimmer();
-								document.getElementById("startPause").innerHTML ="일시정지";
+								/* document.getElementById("startPause").innerHTML ="일시정지"; */
 							}
 
 							// 목표 타이머 컨트롤
 							if(goalTimmerStatus[num] == 0 ){
 								goalTimmerStatus[num] = 1;
 								startGoalTimmer(num);
-								document.getElementById(goalTimmerButtonName).innerHTML ="일시정지";
+								/* document.getElementById(goalTimmerButtonName).innerHTML ="일시정지"; */
+								$("#"+goalTimmerButtonName).children().attr("src","resources/images/block/pause.png");
 							} else {
 								goalTimmerStatus[num] = 0;
-								document.getElementById(goalTimmerButtonName).innerHTML ="공부시작";
+								/* document.getElementById(goalTimmerButtonName).innerHTML ="공부시작"; */
+								$("#"+goalTimmerButtonName).children().attr("src","resources/images/block/play.png");
 								TempSaveTimeDates(-99, num);
 							}
 						}
@@ -866,26 +825,12 @@ function todayChart(dateVal){
   						<form action="saveStudyTime.bl" method="post" id="frm">
   							<button type="button" id="exitStopWatch" class="btn btn-danger" onclick="doSubmit()">종료</button>
   						</form>
-  						<script type="text/javascript">
-  							function doSubmit() {
-  								startPause('main');
-  								/* var t = 5;
-  								alert("Data를 저장중입니다.. " + t);
-  								setTimeout(function(){
-  									t = t -1 ;
-  									alert("Data를 저장중입니다.. " + t);
-  								},1000) */
-  								setTimeout(function(){
-  									document.getElementById("frm").submit();
-  								},3000);
-  							}
-  							
-  						</script>
+  						
   					</div> -->
   				</div>
   				<br>
-  				<div style="position:relative;margin-top:120px" >
-  				<div class="gameArea" id="gameArea" style="margin-left:70px;border:2px solid black;background:black; height:400px; width:400px; position:relative ;overflow: hidden; border-radius:300px; display:inline-block; border:5px solid">
+  				<div style="position:relative; height:100%" >
+  				<div class="gameArea" id="gameArea" style="margin-left:3%;bottom:30%;border:2px solid black;background:black; height:400px; width:400px; position:absolute ;overflow: hidden; border-radius:300px; display:inline-block; border:5px solid">
   					<%-- <% Random random = new Random();
   						ArrayList<Member> mlist = new ArrayList<Member>();
 						for(int i = 0 ; i < 100 ; i ++ ){
@@ -983,13 +928,13 @@ function todayChart(dateVal){
 							<c:set var="jobName" value="기타"></c:set>
 						</c:otherwise>
 					</c:choose>
-						<span style="color:white;position:absolute;top:30px; left:430px;" >현재 ${jobName} 공부 유저  :  <span id="job_span" style="color:#E67E22; font-size:1.5em">00 </span>명</span><br>
-						<span style="color:white;position:absolute; top:80px; left:480px;">현재 ${sessionScope.loginUser.location_Name }지역 공부 유저  :  <span id="location_span" style="color:#4797B1; font-size:1.5em">00 </span>명</span>
+						<span style="color:white;position:absolute;top:28%; left:36%;" >현재 ${jobName} 공부 유저  :  <span id="job_span" style="color:#E67E22; font-size:1.5em">0 </span>명</span><br>
+						<span style="color:white;position:absolute; top:34%; left:40%;">현재 ${sessionScope.loginUser.location_Name }지역 공부 유저  :  <span id="location_span" style="color:#4797B1; font-size:1.5em">0 </span>명</span>
 						<div class="hovereffect" style="display:inline-block;height:200px;  position:absolute;left:200px; top:150px">
-	            <div class="overlay">
+	           <div class="overlay">
 	                <h2 >Block Settings</h2>
 	                <p class="set1">
-	                    <a href="showProgram.bl">
+	                    <a href="showSettingMain.bl">
 	                        <i class="fa fa-desktop" style="margin-right:10px"></i>
 	                    </a>
 	                    <a href="showWeb.bl">
@@ -1006,7 +951,7 @@ function todayChart(dateVal){
 	                        <i class="fa fa-road" style="margin-left:10px"></i>
 	                    </a>
 	                </p>
-	            </div>
+	            </div> 
 	    	</div>
 			</div>
 			</div>
@@ -1025,7 +970,7 @@ function todayChart(dateVal){
 							</span>
 						</div>
 						<!-- 오늘의목표 -->
-						<div class="today_goals" style="height:42%">
+						<div class="today_goals" style="height:38%; margin-top:10px">
 							<div class="box_tit">
 								<span class="txt">오늘의 목표</span>
 								<span class="sub">Today's Goals</span>
@@ -1089,7 +1034,7 @@ function todayChart(dateVal){
 						</div>
 						<!-- // 오늘의목표 -->
 						<!-- 이번주목표 -->
-						<div class="weekly_goals"  style="height:42%; margin-top:5px">
+						<div class="weekly_goals"  style="height:38%; margin-top:10px">
 							<div class="box_tit">
 								<span class="txt">그룹 목표</span>
 								<span class="sub">GroupGoals</span>
@@ -1153,123 +1098,42 @@ function todayChart(dateVal){
 							</div>
 						</div>
 						<!-- // 이번주목표 -->
-	<%-- 	<div style="height:250px; widht:100%">
-			<c:if test="${groupSize eq 0}">
-										가입된 그룹이 없습니다.
-									</c:if>
-			
-			<c:if test="${groupSize ne 0}">
-				
-				<ul>
-	  					<c:forEach var="group" items="<%=groupList %>" varStatus="index">
-	  						<li>${group.studyGroup_Name }
-	  						<br>
-	  							<span id="outputGroup${index.index }" style="width:100px; height:50px; margin-top:50px; font-size:2em;">
-	  								<fmt:parseNumber var="gHour" integerOnly="true" value="${Math.floor(((group.groupTotalStudyTime/60)/60)%24)}"/>
-	  								<fmt:parseNumber var="gMin" integerOnly="true" value="${Math.floor((group.groupTotalStudyTime/60)%60)}"/>
-	  								<fmt:parseNumber var="gSec" integerOnly="true" value="${Math.floor(group.groupTotalStudyTime%60)}"/>
-	  								
-	  								<c:if test="${gHour lt 10}">
-	  									0<c:out value="${gHour }"/> :
-	  								</c:if>
-	  								<c:if test="${gHour ge 10}">
-	  									<c:out value="${gHour }"/> :
-	  								</c:if>
-	  								
-	  								<c:if test="${gMin lt 10}">
-	  									0<c:out value="${gMin }"/> :
-	  								</c:if>
-	  								<c:if test="${gMin ge 10}">
-	  									 <c:out value="${gMin }"/> :
-	  								</c:if>
-	  								
-	  								<c:if test="${gSec lt 10}">
-	  									0<c:out value="${gSec}"/> :
-	  								</c:if>
-	  								<c:if test="${gSec ge 10}">
-	  									<c:out value="${gSec }"/> :
-	  								</c:if>
-	  								00
-	  								   
-	  								
-	  							</span>
-								<div id="controls" style="display:inline-block; margin-left:30px;">
-	  								<button id="groupStartPause${index.index }" class="btn btn-primary" onclick="startPause('group',${index.index })">공부시작</button>
-	  							</div>
-	  						</li>
-	  					</c:forEach>
-				</ul>
-			</c:if>
-		</div>
 
-			
-	    	
-	    	<div style="height:200px; widht:100%">
-	    		<a>
-	    			<img src="resources/images/block/Advertising.jpg" style="height:100%; width:100%">
-	    		</a>
-	    	</div>
-	   
-			<div align="right">
-			<img src="resources/images/block/goal.png" style="width:80% ; height:750px" >
-			</div>
-			일정 리스트
-			<ul>
-				<c:forEach var="goal" items="<%=goalList %>" varStatus="index">
-	  				<li>${goal.goalContent }
-	  				<br>
-	  					<span id="outputGoal${index.index }" style="width:100px; height:50px; margin-top:50px; font-size:2em;">
-	  					
-	  								<fmt:parseNumber var="gHour" integerOnly="true" value="${Math.floor(((goal.goalAchieveAmount/60)/60)%24)}"/>
-	  								<fmt:parseNumber var="gMin" integerOnly="true" value="${Math.floor((goal.goalAchieveAmount/60)%60)}"/>
-	  								<fmt:parseNumber var="gSec" integerOnly="true" value="${Math.floor(goal.goalAchieveAmount%60)}"/>
-	  								
-	  								<c:if test="${gHour lt 10}">
-	  									0<c:out value="${gHour }"/> :
-	  								</c:if>
-	  								<c:if test="${gHour ge 10}">
-	  									<c:out value="${gHour }"/> :
-	  								</c:if>
-	  								
-	  								<c:if test="${gMin lt 10}">
-	  									0<c:out value="${gMin }"/> :
-	  								</c:if>
-	  								<c:if test="${gMin ge 10}">
-	  									 <c:out value="${gMin }"/> :
-	  								</c:if>
-	  								
-	  								<c:if test="${gSec lt 10}">
-	  									0<c:out value="${gSec}"/> :
-	  								</c:if>
-	  								<c:if test="${gSec ge 10}">
-	  									<c:out value="${gSec }"/> :
-	  								</c:if>
-	  								00
-	  								</span>
-						<div id="controls" style="display:inline-block; margin-left:30px ;">
-	  						<button id="goalStartPause${index.index }" class="btn btn-primary" onclick="startPause('goal',${index.index })">공부시작</button>
-	  					</div>
-	  				</li>
-	  			</c:forEach>
-	  		</ul> --%>
-		</div>
-		
-		<div class="col-xs-12 col-md-12" style="height:80px; ">
 			<form action="saveStudyTime.bl" method="post" style="position:relative;"id="frm" >
-  				<button type="button" id="exitStopWatch" style="position:absolute;left:50%;margin-left:-250px;height:40px;margin-top:25px;border:1px solid #f1bc3c;border-radius:40px 40px 0 0;background:#f1bc3c;width:500px; color:white"class="btn btn-danger" onclick="doSubmit()">차단을 해제하고, 공부 휴식 취하기</button>
+  				<button type="button" id="exitStopWatch" style="position:absolute;bottom:0;margin-left:-180%;height:40px;border:1px solid #f1bc3c;border-radius:40px 40px 0 0;background:#f1bc3c;width:500px; color:white"class="btn btn-danger" onclick="doSubmit()">차단을 해제하고, 공부 휴식 취하기</button>
   			</form>
+  			<script type="text/javascript">
+  							function doSubmit() {
+  								startPause('main');
+  								/* var t = 5;
+  								alert("Data를 저장중입니다.. " + t);
+  								setTimeout(function(){
+  									t = t -1 ;
+  									alert("Data를 저장중입니다.. " + t);
+  								},1000) */
+  								setTimeout(function(){
+  									document.getElementById("frm").submit();
+  								},1000);
+  							}
+  							
+  						</script>
+		</div>
   			<script type="text/javascript">
   			$(function(){
   				
-  			var jobCnt = 0;
-  			var locationCnt = 0;
+  			jobCnt = 0;
+  			locationCnt = 0;
+  			userArr = new Array();
+  			rank = new Array();
+  			
+  			setTimeout(function() {
   			$.ajax({
   				url : "selectUserList.bl",
   				type : "get",
   				success : function(data){
-  					var rank = new Array();	
   					// 등수 계산
-  					console.log(data)
+  					userArr = data;
+  					console.log(userArr);
   					for (var i = 0; i < data.length; i++) {
   						rank[i] = 1;
   						for (var j = 0; j < data.length; j++) {
@@ -1283,7 +1147,7 @@ function todayChart(dateVal){
   							var time2 = dateInfo2[1].split(':');
   							var date2 = new Date(day2[0],day2[1],day2[2],time2[0],time2[1],time2[2]);
   							
-  							if(date.getTime() < date2.getTime()){
+  							if(date.getTime() > date2.getTime()){
   								rank[i]++;
   							}
   						}
@@ -1293,25 +1157,18 @@ function todayChart(dateVal){
   					for (var i = 0; i < data.length; i++) {
   						var size = 0;
   						if(data.length == 1){
-  							size = 20;
+  							size = 30;
   						} else {
   					 		size = (20*((100 -((rank[i]/(data.length)*100)))*0.01))+20;
   					 		
   						}
-  						console.log(Math.round(size) + " / 사이즈")
+
   						var x = Math.floor(Math.random() * 100) + 1
   						var y = Math.floor(Math.random() * 100) + 1;
-  						
-  						console.log('x : ' + x +  " / y : " + y );
+
   						if(data[i].user_Code == ${loginUser.member_Code}){
-  							console.log("나")
   							$('.gameArea').append("<img id='"+data[i].user_Code+"' src='resources/images/block/userStar.png' style='top:49%; left:49%; position:absolute; width:"+size+"px;height:"+size+"px'>");
   						} else {
-  							console.log(data[i].member_Job*1);
-  							console.log(${loginUser.member_Job});
-  							console.log(data[i].location_Name);
-  							console.log('${sessionScope.loginUser.location_Name}');
-  					
   							 if(((data[i].member_Job*1) == ${loginUser.member_Job}) && (data[i].location_Name == '${loginUser.location_Name}')){
   								locationCnt++;
   								jobCnt++;
@@ -1324,8 +1181,9 @@ function todayChart(dateVal){
   								$('.gameArea').append("<img id='"+data[i].user_Code+"' src='resources/images/block/locationStar.png' style='top:"+x+"%; left:"+y+"%; position:absolute; width:"+size+"px;height:"+size+"px'>");
   							} 
   						}
-  						console.log("------------")
   					}
+  					$("#job_span").text(jobCnt +" ");
+  					$('#location_span').text(locationCnt+" ");
   				<%-- 	for( int i =0 ; i < mlist.size(); i++){
   						int size = (int)(20*((100 -(((double)rank[i]/(double)mlist.size())*100))*0.01));
   						int x = random.nextInt(100);
@@ -1342,7 +1200,7 @@ function todayChart(dateVal){
   					}
   	 --%>			
   				}	
-  			}) 
+  			}) }, 1000)
   		});
   			</script>
   		</div></div>

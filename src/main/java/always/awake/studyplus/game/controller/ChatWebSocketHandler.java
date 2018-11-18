@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -55,11 +57,10 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 		Map<String, Object> map;
 		map = session.getAttributes();
 		loginUser = (Member)map.get("loginUser");
-		
 		// 요청 값이 게임인 경우
 		if(msg.substring(0, 8).equals("gameMsg:")) { 
 			// 입장일 경우 처리할 부분 
-			if(msg.substring(msg.lastIndexOf(":") + 1 , msg.length()).equals("입장")) {
+			if(msg.substring(msg.lastIndexOf(":") + 1 , msg.length()).equals("입장") || msg.substring(msg.lastIndexOf(":") + 1 , msg.length()).equals("퇴장")) {
 				//List<Object> ulist = gs.selectGamePlayer(loginUser.getMember_Code());
 				List<Object> playUsers = gs.selectGamePlayer(loginUser.getMember_Code());
 				if(playUsers.size() != 0) {
@@ -71,10 +72,6 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 						}
 					}
 				}
-			}
-			// 퇴장 처리
-			else if (msg.substring(msg.lastIndexOf(":") + 1 , msg.length()).equals("퇴장")) {
-				System.out.println("퇴장이다");
 			}
 			/*users.get(member.code).sendMessage(message);*/
 		} else {
@@ -109,18 +106,23 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 		Map<String, Object> map;
 		map = session.getAttributes();
 		loginUser = (Member)map.get("loginUser");
-		System.out.println(loginUser.getMember_Code());
-		int test = gs.deleteGameUserInfo(loginUser.getMember_Code());
-		System.out.println(test);
 		sendMsgLogout(loginUser);
+		int test = gs.deleteGameUserInfo(loginUser.getMember_Code());
 		users.remove(loginUser.getMember_Code() + "");
 	}
 	
 	public void sendMsgLogout(Member loginUser) throws Exception {// 로그아웃 시 친구들에게 알림  // // 친구 퇴장 프로세스 1)
 
-		CharSequence msg = "msg:" + loginUser.getMember_Nickname() + ":퇴장";
+		CharSequence msg = "gameMsg:" + loginUser.getMember_Code() + ":퇴장";
 		TextMessage message = new TextMessage(msg);
 
 		handleTextMessage(users.get(loginUser.getMember_Code() + ""), message);
 	}
+	
+	
+	public ChatWebSocketHandler() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	
 }
