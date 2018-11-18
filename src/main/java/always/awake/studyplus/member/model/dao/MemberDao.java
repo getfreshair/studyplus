@@ -1,5 +1,6 @@
 package always.awake.studyplus.member.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +46,8 @@ public interface MemberDao {
 	void addFriendOk(SqlSessionTemplate sqlSession, int friend_Code) throws MemberException;
 
 	void addFriendDelete(SqlSessionTemplate sqlSession, int friend_Code) throws MemberException;
+
+	List<Map<String, Object>> selectCheckSentenceImg(SqlSessionTemplate sqlSession, String indexStr) throws MemberException;
 
 	
 }

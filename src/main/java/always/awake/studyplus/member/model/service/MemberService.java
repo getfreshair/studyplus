@@ -16,7 +16,7 @@ public interface MemberService {
 
 	public int insertMember(Member m, Files files, String[] category_Code, HttpServletRequest request);
 
-	public HashMap<String, Object> checkSentence(String sentence);
+	public HashMap<String, Object> checkSentence(String sentence) throws MemberException;
 
 	public void insertGift(int member_Code);
 

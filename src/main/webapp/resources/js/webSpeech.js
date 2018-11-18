@@ -8,7 +8,7 @@ var testBtn = document.querySelector('.chatBotMicImg');
 var seq = 1;
 function testSpeech() {
   testBtn.disabled = true;
-  $('.chatBotMicImg').attr('src','/studyplus/resources/images/common/microphoneOff.png');
+  $('.voiceMakingGif').attr('src','/studyplus/resources/images/common/voiceMakingGif.gif');
 
   // To ensure case consistency while checking with the returned output text
   $clientContent = $('<div class="clientContent">');
@@ -36,24 +36,74 @@ function testSpeech() {
 		  data : {
 			  sentence : event.results[0][0].transcript
 		  },
-		  contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+		  contentType: 'application/x-www-form-urlencoded; charset=euc-kr',
 		  success : function(data){
 			  console.log(data);
-			  console.log(data.questionInfo.infoMessage);
 			  
 			  $('.output'+seq).empty();
 			  $('.output'+seq).html(event.results[0][0].transcript);
 			  
 			  $serverContent = $('<div class="serverContent">');
-			  $serverImg = $('<img class="serverImg" scr="/studyplus/resources/images/common/operator.png">');
-			  $phrase = $('<div class="phrase">').append(event.results[0][0].transcript);
+			  $serverImg = $('<img class="serverImg" src="/studyplus/resources/images/common/operator.png">');
+			  $phrase = $('<div class="phrase">').append(data.questionInfo.infoMessage);
+			  
+			  if(data.questionInfo.pageUrl != null){
+				  console.log(data.questionInfo.pageUrl);
+				  window.opener.location.href='' + data.questionInfo.pageUrl + '';
+			  }
+			  
+			  if(data.questionInfo.infoMessage != null){
+				  $serverContent = $('<div class="serverContent">');
+				  $serverImg = $('<img class="serverImg" src="/studyplus/resources/images/common/operator.png">');
+				  $phrase = $('<div class="phrase">').append(data.questionInfo.infoMessage);
+				  
+				  $serverContent.append($serverImg);
+				  $serverContent.append($phrase);
+				  
+				  $('.chatBotArea').append($serverContent);
+			  }
+			  
+			  if(data.questionInfo.infoImgNames != null){
+				  $serverContent = $('<div class="serverContent">');
+				  $serverImg = $('<img class="serverImg" src="/studyplus/resources/images/common/operator.png">');
+				  
+				  $serverContent.append($serverImg);
+				  
+				  for(var key in data){
+					  if(infoImgNames = 'infoImgNames'){
+						  for(var imgNames in data[key]){
+							  for(var imgName in data[key][imgNames]){
+								  $serverInfoImg = $('<img class="serverInfoImg" src="/studyplus/resources/images/member/' + data[key][imgNames][imgName].FILES_NAME + '">');
+								  
+								  $serverContent.append($serverInfoImg);
+							  }
+						  }
+					  }  
+				  }
+				  
+				  $('.chatBotArea').append($serverContent);
+			  }
+			  
+			  var chatBotBottomFocus = document.getElementsByClassName("chatBotArea")[0];
+
+			  chatBotBottomFocus.scrollTop = chatBotBottomFocus.scrollHeight - 300;
+			  
+			  seq++;
+		  },
+		  error : function(){
+			  $('.output'+seq).empty();
+			  $('.output'+seq).html(event.results[0][0].transcript);
+			  
+			  seq++;
+			  
+			  $serverContent = $('<div class="serverContent">');
+			  $serverImg = $('<img class="serverImg" src="/studyplus/resources/images/common/operator.png">');
+			  $phrase = $('<div class="phrase">').append('죄송해요 이해를 못 했어요. 다시 한 번 더 말씀해 주세요.(error)');
 			  
 			  $serverContent.append($serverImg);
 			  $serverContent.append($phrase);
 			  
 			  $('.chatBotArea').append($serverContent);
-			  
-			  seq++;
 		  }
 	  });
   }
@@ -61,7 +111,7 @@ function testSpeech() {
   recognition.onspeechend = function() {
 	    recognition.stop();
 	    testBtn.disabled = false;
-	    $('.chatBotMicImg').attr('src','/studyplus/resources/images/common/microphoneOn.png');
+	    $('.voiceMakingGif').attr('src','');
 	}
 
   /*recognition.onerror = function(event) {

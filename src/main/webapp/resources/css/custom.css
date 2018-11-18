@@ -184,6 +184,4 @@ table .board-tit a:hover{color:#1a609c;}
 /* 친구 신청 목록 */
 .need{display:inline-block; width:270px;}
 .addFriendIcon{width:25px; position:absolute; right:20px; bottom:6px;}
-/* .addFriendIcon{width:30px; position:absolute; right:15px; bottom:10px;} */
-/* .addFriendIcon{width:30px; float:right; padding-top:5px;} */
 .addFriendIcon:hover{cursor:pointer;}

@@ -1,14 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<script src="/studyplus/resources/js/jquery-1.11.1.min.js"></script>
 <style>
+	.modal-content-addFriend {
+		border:0px;
+		border-radius:0px;
+	}
 	.addFriendArea {
-		width:300px;
+		width:302px;
 	}
 	.addFriend-content {
 		border-radius:0px;
 		overflow:hidden;
-		height:320px;
+		height:420px;
 	}
 	.addFriend-label {
 		font-size:12px;
@@ -16,15 +20,16 @@
 	.addFriend-menu {
 		height: 40px;
 	    vertical-align: middle;
-	    display: table-cell;
+	    display: inherit;
 	    background: #795548;
 	}
-	.addFriend-menu > h2 {
-		display: inline-block;
+	.addFriend-menu h2 {
+		background:#F8AC58;
+		display: table-cell;
+		vertical-align: inherit;
 	    font-size: 14px;
-	    width: 147px;
-	    margin: 0px;
-	    vertical-align: middle;
+	    height: 40px;
+	    width: 101px;
 	    text-align:center;
 	    color: white;
 	}
@@ -35,10 +40,10 @@
 		height:45px;
 		text-align:center;
 		padding-top:5px;
-		border-bottom: 1px solid lightgray;
+		margin-bottom: 5px;
 	}
 	.addFriend-search-btn {
-		width:90%;
+		width:97%;
 		display:inline-block;
 	}
 </style>
@@ -52,7 +57,31 @@
 				addFriendSearch();
 			}
 		});
+		
+		addFriendSearchPage();
 	})
+	
+	function addFriendSearchPage(){
+		$.ajax({
+			url : 'addFriendSearchPage.me',
+			success : function(data){
+				$('.addFriend-content').empty();
+				$('.addFriend-content').html(data);
+				
+				$('.addFriend-menu h2').css({
+					'background': '#F8AC58',
+					'color': 'white',
+					'font-weight': 'unset'
+				});
+				
+				$('.addFriendSearchPage').css({
+					'background': 'white',
+					'color': 'black',
+					'font-weight': 'bold'
+				});
+			}
+		});
+	}
 	
 	function addFriendToMe(){
 		$.ajax({
@@ -63,6 +92,18 @@
 			success : function(data){
 				$('.addFriend-content').empty();
 				$('.addFriend-content').html(data);
+				
+				$('.addFriend-menu h2').css({
+					'background': '#F8AC58',
+					'color': 'white',
+					'font-weight': 'unset'
+				});
+				
+				$('.addFriendToMe').css({
+					'background': 'white',
+					'color': 'black',
+					'font-weight': 'bold'
+				});
 			}
 		});
 	}
@@ -76,37 +117,30 @@
 			success : function(data){
 				$('.addFriend-content').empty();
 				$('.addFriend-content').html(data);
+				
+				$('.addFriend-menu h2').css({
+					'background': '#F8AC58',
+					'color': 'white',
+					'font-weight': 'unset'
+				});
+				
+				$('.addFriendFromMe').css({
+					'background': 'white',
+					'color': 'black',
+					'font-weight': 'bold'
+				});
 			}
 		});
 	}
-	
-	function addFriendSearch(){
-		var member_Nickname = $('.addFriend-search-btn').val();
-		
-		$.ajax({
-			url : 'addFriendSearch.me',
-			data : {
-				member_Nickname : member_Nickname,
-				member_Code : member_Code
-			},
-			success : function(data){
-				$('.addFriend-content').empty();
-				$('.addFriend-content').html(data);
-			}
-		});
-	}
-	
 </script>
 
 <div class="modal fade" id="addFriendModal">
 	<div class="modal-dialog addFriendArea">
-		<div class="modal-content">
+		<div class="modal-content modal-content-addFriend">
 			<div class="addFriend-menu">
-			    <h2 onclick="addFriendToMe()">나를</h2>
-			    <h2 onclick="addFriendFromMe()">너를</h2>
-			</div>
-			<div class="addFriend-search">
-				<input type="text" name="member_Nickname" class="form-control addFriend-search-btn" id="InputId" placeholder="닉네임">
+				<h2 class="addFriendSearchPage" onclick="addFriendSearchPage()">검색</h2>
+			    <h2 class="addFriendToMe" onclick="addFriendToMe()">받은 요청</h2>
+			    <h2 class="addFriendFromMe" onclick="addFriendFromMe()">건낸 요청</h2>
 			</div>
 			<div class="addFriend-content"></div>
 		</div>

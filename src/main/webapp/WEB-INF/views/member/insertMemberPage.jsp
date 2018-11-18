@@ -264,7 +264,7 @@
             }
         }
         
-        if (document.getElementsByClassName('member_Nickname')[0].value.length < 2 || document.getElementsByClassName('member_Nickname')[0].value.length > 12) {
+        if (document.getElementsByClassName('member_Nickname')[0].value.length < 1 || document.getElementsByClassName('member_Nickname')[0].value.length > 12) {
             alert("닉네임을 2~12자까지 입력해주세요.")
             $('.member_Nickname').focus();
             $('.member_Nickname').select();
@@ -272,7 +272,7 @@
         }
         
        	//비멀번호
-       	if (document.getElementsByClassName('member_Pwd')[0].value.length < 6 || document.getElementsByClassName('member_Pwd')[0].value.length > 18) {
+       	if (document.getElementsByClassName('member_Pwd')[0].value.length < 1 || document.getElementsByClassName('member_Pwd')[0].value.length > 18) {
             alert("비밀번호를 6~18자까지 입력해주세요.")
             $('.member_Pwd').focus();
             $('.member_Pwd').select();

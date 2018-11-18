@@ -4,35 +4,49 @@
 
 <style>
 	.addFriendSearchArea {
-		width: 315px;
-   		height: 337px;
+		width: 318px;
+   		height: 437px;
    		overflow: scroll;
 	}
 	.addFriend {
-		width:298px;
-		padding-left: 5px;
-		padding-top:3px; 
+		width:302px;
+		padding-left: 10px;
+		padding-top:3px;
+		margin-bottom:5px; 
 	}
 	.addFriend-userImg {
-		width:50px;
-		height:50px;
+		width:40px;
+		height:40px;
 		border-radius:50%;
 	}
 	.addFriend-userNickname {
 		display:inline-block;
 		margin:0px;
 		font-size: 12px;
-		width:185px;
+		width:170px;
+		font-weight:bold;
 	}
 	.addFriend-btn {
+		background:#F8AC58;
+		border-radius: 20px;
 		border-style:none;
 		float:right;
-		margin-top: 10px;
+		margin-top: 6px;
 		margin-right: 5px;
 	}
 </style>
 
 <script>
+	var member_Code = ${sessionScope.loginUser.member_Code};
+	
+	$(function(){
+		$('.addFriend-search-btn').keypress(function(key) {
+			if(key.which == 13){
+				addFriendSearch();
+			}
+		});
+	})
+	
 	function addFriendWant(member_Code2){
 		var member_Code1 = ${sessionScope.loginUser.member_Code};
 	
@@ -47,13 +61,34 @@
 			}
 		});
 	}
+	
+	function addFriendSearch(){
+		var member_Nickname = $('.addFriend-search-btn').val();
+		
+		$.ajax({
+			url : 'addFriendSearch.me',
+			data : {
+				member_Nickname : member_Nickname,
+				member_Code : member_Code
+			},
+			success : function(data){
+				$('.addFriend-content').empty();
+				$('.addFriend-content').html(data);
+			}
+		});
+	}
 </script>
 <div class="addFriendSearchArea">
-	<c:forEach var="list" items="${userList}">
-		<div class="addFriend addFriend${list.MEMBER_CODE}">
-			<img class="addFriend-userImg" src="/studyplus/resources/upload/member/thumbnail/${ list.FILES_NAME }"/>
-			<p class="addFriend-userNickname">${list.MEMBER_NICKNAME}</p>
-			<button type="button" class="addFriend-btn btn-primary btn-sm addFriend-btn${list.MEMBER_CODE}" onclick="addFriendWant(${list.MEMBER_CODE})">신청</button>
-		</div>
-	</c:forEach>
+	<div class="addFriend-search">
+		<input type="text" name="member_Nickname" class="form-control addFriend-search-btn" id="InputId" placeholder="닉네임">
+	</div>
+	<c:if test="${userList != null}">
+		<c:forEach var="list" items="${userList}">
+			<div class="addFriend addFriend${list.MEMBER_CODE}">
+				<img class="addFriend-userImg" src="/studyplus/resources/upload/member/thumbnail/${ list.FILES_NAME }"/>
+				<p class="addFriend-userNickname">${list.MEMBER_NICKNAME}</p>
+				<button type="button" class="addFriend-btn btn-primary btn-sm addFriend-btn${list.MEMBER_CODE}" onclick="addFriendWant(${list.MEMBER_CODE})">친구 신청</button>
+			</div>
+		</c:forEach>
+	</c:if>
 </div>

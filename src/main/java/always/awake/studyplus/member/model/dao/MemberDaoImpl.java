@@ -1,5 +1,6 @@
 package always.awake.studyplus.member.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -145,6 +146,20 @@ public class MemberDaoImpl implements MemberDao{
 		}catch(Exception e){
 			throw new MemberException(e.getMessage());
 		}
+	}
+
+	@Override
+	public List<Map<String, Object>> selectCheckSentenceImg(SqlSessionTemplate sqlSession, String indexStr) throws MemberException{
+		List<Map<String, Object>> infoImgNames = null;
+		
+		try {
+			infoImgNames = sqlSession.selectList("Member.selectCheckSentenceImg", indexStr);
+		}catch(Exception e) {
+			throw new MemberException(e.getMessage());
+		}
+		
+		
+		return infoImgNames; 
 	}
 	
 }
