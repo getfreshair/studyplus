@@ -75,12 +75,10 @@ public class AdminController {
 	
 		Map<String, Object> map = new HashMap<String, Object>();	
 	
-		System.out.println("들어오니?1");
 		List<Map<String, Object>> list = as.getAllGroupBoardList();
-		System.out.println("list불러오니"+list);
+
 		ArrayList<Map<String,Object>> snlist = new ArrayList<Map<String,Object>>();
 		for(int i = 0 ; i < list.size(); i++) {
-			System.out.println("들어오니?22");
 			Sentiment sn = NLPfiltering.get_sentiment((String)list.get(i).get("CONTENT"));      
 			if(sn.getScore() <= -0.1) {
 				System.out.print(list.get(i));
@@ -88,12 +86,6 @@ public class AdminController {
 				snlist.add(list.get(i));
 			}
 		}
-/*		for(int j=0; j < snlist.size(); j++) {
-		map.put("option",option);
-		map.put("keyword", snlist[j]);
-		list = as.getGroupBoardList(map);
-		map.put("list", list);
-		}*/
 		
 		System.out.println(snlist);
 	
@@ -693,17 +685,16 @@ public class AdminController {
 			int prCategory = Integer.parseInt(request.getParameter("category"));
 			int prOrder = Integer.parseInt(request.getParameter("prOrder"));
 			String prClick = request.getParameter("prClick");
-			//사진 저장할 경로 지정12152
+		
 			String root = request.getSession().getServletContext().getRealPath("resources");
 			
-			//파일의 경로는 root 하위의 uploadFiles이다.
+			
 			String filePath = root + "\\upload\\admin\\thumbnail";
 			
 			System.out.println(filePath);
-			
-			//파일명 변경
+		
 			String originFileName = photo.getOriginalFilename();
-			String ext = originFileName.substring(originFileName.lastIndexOf(".")); //확장자 분리하기위한 로직
+			String ext = originFileName.substring(originFileName.lastIndexOf(".")); 
 			String changeName = CommonUtils.getRandomString();
 		
 			b.setPr_Company(prCompany);
@@ -713,7 +704,7 @@ public class AdminController {
 			b.setCategory_Code(prCategory);
 			b.setPr_Order(prOrder);
 			b.setPr_ClickMoney(prClick);
-			//업로드된 파일을 지정한 경로에 저장
+			
 			try {
 				System.out.println("여기는 오니?");
 				System.out.println(photo);
@@ -1195,27 +1186,49 @@ public class AdminController {
 	@RequestMapping(value="selectCPPImgAndLink.do")
 	public @ResponseBody Map<String, Object> selectImgAndLink(@RequestParam(value="member_Code")int member_Code){
 		Map<String, Object> pr = null;
-		
+		System.out.println("들어오냐고올ㄴ농리ㅗㄴ이로 니오리" + member_Code);
 		try {
 			pr = as.selectImgAndLink(member_Code);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+		System.out.println("오카이?"+pr);
 		return pr;
 	}
 	@RequestMapping("selectCPCImgAndLink.do")
 	public @ResponseBody Map<String, Object> selectCPCImgAndLink(@RequestParam(value="member_Code")int member_Code){
-		Map<String, Object> pr = null;
+		Map<String, Object> pr = new HashMap<String,Object>();
 		
-		int counting = as.countCPC(member_Code);
-		
-		int prOrder = (int)(Math.random()*counting)+1;
+	/*	int counting = as.countCPC(member_Code);*//*
+		int prOrder = (int)(Math.random()*counting)+1;*/
+		/*System.out.println("가즈아아아아아아아아");*/
 		pr.put("member_Code", member_Code);
-		pr.put("prOrder", prOrder);
-		//pr = as.selectImgAndLink(pr);
+		System.out.println("member_Code : " +member_Code);
 		
-		return pr;
+		
+		try {
+			System.out.println("이건들어옹ㅁㄴ올 ㅣ몬ㅇ리ㅗㄴ이로닠ㅇㄹ ");
+		pr = as.selectCPCImgAndLink(member_Code);
+		System.out.println("오카이"+pr);
+		System.out.println("여길안들어옴??? 왜??? ");
+		int totalClickCount;
+		
+		int clickMoney = Integer.parseInt(pr.get("PR_CLICKMONEY")+"");
+		int contractMoney = Integer.parseInt(pr.get("PR_CONTRACTMONEY")+"");
+		int prCode = Integer.parseInt(pr.get("PR_CODE")+"");
+		totalClickCount = as.checkTotalPRCount(prCode);
+		System.out.println("totalClickCount"+ totalClickCount);
+		System.out.println("clickMoney" + clickMoney);
+		System.out.println("contractMoney" + contractMoney);
+		if(totalClickCount * clickMoney <= contractMoney ) {
+			return pr;
+		}else {
+			return null;
+		}
+		}catch (AdminException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	
@@ -1224,13 +1237,16 @@ public class AdminController {
 	public @ResponseBody int insertPRCount(@RequestParam(value="pr_Code")int pr_Code, @RequestParam(value="member_Code")int member_Code) {
 		int result = -9;
 		HashMap<String, Object> map = new HashMap<String, Object>();
+		System.out.println("Count 가즈아" );
 		map.put("pr_Code", pr_Code);
 		map.put("member_Code",member_Code);
+		System.out.println("pr_Code" + pr_Code);
+		System.out.println("member_Code"+ member_Code);
 		List<Map<String, Object>> list = as.checkPRCount(map);
 		
-		System.out.println(list.get(0).get("COUNT"));
-		
-		if(list.get(0).get("COUNT").equals("0")) {
+		System.out.println("counting"+list.get(0).get("COUNT"));
+		int checkResult = Integer.parseInt(list.get(0).get("COUNT")+"");
+		if(checkResult == 0) {
 			try {
 				result = as.insertPRCount(pr_Code, member_Code);
 			} catch (AdminException e) {

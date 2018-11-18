@@ -226,4 +226,10 @@ public interface AdminDao {
 
 	int countCPC(SqlSessionTemplate sqlSession, int member_Code);
 
+
+	Map<String, Object> selectCPCImgAndLink(SqlSessionTemplate sqlSession, int member_Code);
+
+
+	int checkTotalPRCount(SqlSessionTemplate sqlSession, int prCode);
+
 }
