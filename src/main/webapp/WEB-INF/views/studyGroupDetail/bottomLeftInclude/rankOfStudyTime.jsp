@@ -28,14 +28,18 @@
 		<div class="memberListArea">
 			<div class="memberOneWrapArea">
 <!-- 	반복영역 -->
+	  		  <c:set var="num" value="1"/>
+	  		  
 	  		  <c:forEach var="i" items="${list}">
-<%-- 	  		  <c:forEach var="i" begin="0" end="${fn:length(list) - 1}" step="1" > --%>
+<%-- 	  	  <c:forEach var="i" begin="0" end="${fn:length(list) - 1}" step="1" > --%>
 				<table class="memberInfo">
 					<tr>							
 						<td rowspan="2">
+						  <c:if test="${num <= 3}">
 							<div class="rankImg">
-								<img width="100%" src="${ contextPath }/resources/upload/studygroup/thumbnail/medal.png" />
+								<img width="100%" src="${ contextPath }/resources/images/studyGroupDetail/rank${num}.png" />
 							</div>
+						  </c:if>	
 							<div class="profImg">
 								<img src="${ contextPath }/resources/upload/member/thumbnail/${i.FILES_NAME}" />
 <%-- 								<img src="${ contextPath }/resources/upload/member/thumbnail/${list[i].FILES_NAME}" /> --%>
@@ -59,6 +63,7 @@
 						</div>
 					</td></tr>
 				</table>
+				<c:set var="num" value="${num + 1}"/>
 	  		  </c:forEach>
 			</div>				
 		</div>

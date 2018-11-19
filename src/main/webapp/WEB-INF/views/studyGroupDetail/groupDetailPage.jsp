@@ -25,7 +25,7 @@
 	
 <!-- /* 전체영역 */ -->
 <style>
-	html { overflow-x:auto; } 
+	html { overflow-x:auto; background:#f8f8f8; } 
 	.pageAll * { font-family:맑은고딕 !important; cursor:default; }
 	.pageWrap { width:1200px; margin:0px auto; }
 	.pageContentArea { width:98%; margin:0px auto; }
@@ -34,27 +34,28 @@
 <!-- /* 상단부 */ -->
 <style>
 	.titleArea { width:100%; margin-bottom:20px; display:flex; }
-	.topInfoArea { border-radius:15px; background:rgb(255, 225, 177); padding:25px 0px; text-align:center; 
+	.topInfoArea { border-radius:40px; background:white; padding:25px 0px; text-align:center; 
 					border-style:hidden; box-shadow:4px 5px 5px 1px lightgray; }
 	
-	    .topInfoAllWrapTbl { width:100%; height:100%; margin:0px auto; /* vertical-align:middle; */ }
+	    .topInfoAllWrapTbl { width:100%; height:100%; margin:0px auto; position:relative; }
         .topInfoContWrapTbl { width:100%; height:100%; margin:0px auto; vertical-align:middle; }
 	
-	.groupInfoArea { width:55%; margin-right:0.8%; display:flex; }
-	  .groupInfoLeft { width:45%; padding:0px 10px 0px 15px; border-right:1px solid gray; }
+	.groupInfoArea { width:56.5%; margin-right:0.8%; display:flex; }
+	  .groupInfoLeft { width:46%; padding:0px 10px 0px 15px; border-right:1px solid gray; }
 		.category { background:lightgray; }
-		.groupTitleTblWrap { margin-left:5px; }
+		.groupTitleTblWrap { margin-left:5px; position:relative; }
 		  .groupTitleTbl { width:100%; margin-bottom:0px;/* margin: 0px 0px 5px; */ }
 		  .groupTitleTbl h2 { font-weight:bold; line-height:1.7; font-size:27px; margin:10px 0px 0px; }
  		  .groupTitleTbl .groupIntro { height:55px; padding:15px 15px 15px 5px; font-size:15px; table-layout:fixed; word-break:keep-all; }
 		  .groupOptDetailTbl { width:225px; display:inline-table; font-size:14px; }
  		  .groupOptDetailTbl td { padding:7px 5px 1px 5px; border-bottom:1px solid gray; }
 		  .groupOptDetailTbl strong { float:left; }
-		  .groupOptDetailTbl span { float:right; }
-	  .groupInfoRight { width:55%; padding:0px 15px; }
-	    .radiBtn { background:gray; float:right; cursor:pointer; color:white; border-radius:10px; }
- 	      .groupStatBoxLeft { float:left; background:rgb(211, 0, 0, 0.4); }
- 		  .groupStatBoxRight { float:right; background:rgb(52, 152, 219, 0.4); }
+		  .groupOptDetailTbl div { float:right; }
+		  .dataResultColor { color:#f1bc3c; }
+	  .groupInfoRight { width:54%; padding:0px 15px; }
+	    .radiBtn { background:#00a0e9; float:right; cursor:pointer; color:white; border-radius:10px; }
+ 	      .groupStatBoxLeft { float:left; background:#f8f8f8; }
+ 		  .groupStatBoxRight { float:right; background:#f8f8f8; }
 	 	  .statBox { width:160px; height:220px; border-radius:15px; padding:3px 7px; display:table; }
   		    .statBoxContTbl { display:table-cell; vertical-align:middle; margin:0px; }
   		    .statBoxContTbl tbody { width:160px; height:190px; display:inline-table; vertical-align:middle; }
@@ -64,11 +65,12 @@
    		    .statBoxContTbl tr:nth-child(2n) td div div { padding-top:8px; font-size:13px; display:inline-block; text-align:right;  }
    		    .statBoxContTbl tr:nth-child(2n) td div div strong { float:right;  }
 			.goalRatio { font-weight:bold; font-size:18px !important; padding-top:0px !important; display:table-cell !important; vertical-align:middle; text-align:center !important; }
-
-	.myInfoArea { width:43.2%; padding:25px 15px; }
-	  .joinGroupBtn { font-weight:bold; font-size:25px; }
- 	  .myStatBox { float:left; background:rgb(211, 0, 0, 0.4); }
-	  .lineGraph { background:white; width:100%; height:220px; float:right; padding:3px 7px; display:inline-block; }
+/*   */ 
+	.myInfoArea { width:42.8%; overflow:hidden; position:relative; padding:25px 15px; }
+	  .myInfoAreaBack { position:absolute; top:0%; left:0%; background:rgba(0, 0, 0, 0.3); width:100%; height:100%; }
+	    .joinGroupBtn { font-weight:bold; font-size:25px; color:white; }
+ 	    .myStatBox { float:left; background:#f8f8f8; }
+	    .lineGraph { background:white; width:100%; height:220px; float:right; padding:3px 7px; display:inline-block; }
 </style>	
 	
 <!-- /*	하단 컨텐츠 작성 */ -->
@@ -93,25 +95,25 @@
  		.prevBtn:hover, .nextBtn:hover { cursor:pointer; color:#ed876a; font-weight:bold; }
  		
  	/*	그룹원 리스트 - 회원 표시 공통 영역 */	
- 	  .memberOneWrapArea { width:263px; /* border:1px dashed red; display:inline-block; */ }
-		.memberInfo { margin:10px 0px; }
-		  .memberInfo td { position:relative; padding-left:12px; text-align:left; display:table-cell; vertical-align:middle; }
-		   .rankImg { position:absolute; width:15px; margin-top:-8px; }
+	.memberOneWrapArea { width:263px; /* border:1px dashed red; display:inline-block; */ }
+	  .memberInfo { margin:10px 0px; }
+		.memberInfo td { position:relative; padding-left:12px; text-align:left; display:table-cell; vertical-align:middle; }
+		  .rankImg { position:absolute; width:15px; margin-top:-8px; }
 		    .rankImg img{ margin-left:37px; }
-		   .profImg { width:50px; height:50px; overflow-y:hidden; border-radius:50%; }
+		  .profImg { width:50px; height:50px; overflow-y:hidden; border-radius:50%; }
 		  	.profImg img { width:100%; }
-		  .nickName	{ width:105px; height:50%; font-size:12.5px; line-height:1.2; word-break:break-all; }
-/* 		    .nickName strong { vertical-align:super; } */ 		
-		
-	/* 게시물 영역 */		
+		.nickName { width:105px; height:25.56px; font-size:12.5px; line-height:1.2; word-break:break-all; }
+	
+	/*  게시물 영역 */		
 	.centerContent { width:48.7%; padding-right:1px; margin-right:0.3%; border-right:1px solid gray; }
 	  .centerContentWrap { width:100%; height:100%; display:inline-block; }
-	  .centerIncludeArea { width:100%; overflow:auto; /* background:yellow; */ }
-	/* 실시간 채팅 영역 */	
+	  .centerIncludeArea { width:100%; overflow:auto; }
+	  
+	/*  실시간 채팅 영역 */	
 	.rightContent { width:24%; }
 </style>
 	
-<!-- /*	공통 요소 속성 */ -->
+<!-- /*	 공통 요소 속성 */ -->
 <style>
 	.radiusSmallWrapTd { height:10px; vertical-align:top; max-height:10px;}
 	.radiusBoxSmall { border-radius:15px; margin-bottom:13px; padding:3px 12px; font-size:12px; font-weight:bold; display:table-cell; }
@@ -151,18 +153,19 @@
 										<table class="groupOptDetailTbl">
 											<tr><td>
 												<strong>목표시간</strong>
-												<span>${gr.studyGroup_GoalTime} 시간</span>
+												<div><span class="dataResultColor">${gr.studyGroup_GoalTime}</span><span> 시간</span></div>
 											</td></tr>
 											<tr><td>
 												<strong>참여인원</strong>
-												<span>${gr.gr_Mem_Count} / ${gr.studyGroup_MaxNum} 명</span>
+												<div><span class="dataResultColor">${gr.gr_Mem_Count}</span><span> / ${gr.studyGroup_MaxNum} 명</span></div>
 											</td></tr>
 											<tr><td>
 												<strong>시 작 일</strong>	
-												<span>
+												<div><span>
 													<fmt:formatDate value="${gr.studyGroup_StDate}" pattern="yy. MM. dd."/>
-													(${gr.gr_Dates} 일 째)
-												</span>
+													(<span class="dataResultColor">${gr.gr_Dates}</span> 일 째)
+												</span></div>
+												
 											</td></tr>
 										</table>
 									</td></tr>
@@ -229,7 +232,8 @@
 					</div>
 				</div>
 				
-				<div class="myInfoArea topInfoArea" style="background:">
+				<div class="myInfoArea topInfoArea" style="background-image:url(${ contextPath }/resources/images/studyGroupDetail/study.jpg");">
+					<div><div class="myInfoAreaBack"></div></div>
 					<table class="topInfoAllWrapTbl">
 					<!-- 그룹 미가입시 -->
 					  <c:if test="${joinStatus < 1}">
@@ -239,7 +243,7 @@
 					  </c:if>
 <%--					<c:if test="${joinStatus < 1}"> 		 설정버튼 클릭 하면 그룹 탈퇴 버튼 뜨거나 그룹 설정 버튼 띄우기 --%>
 <!-- 						<tr><td> -->
-<!-- 							<div><a onclick="breakAwayGroup();" href="" class="breakAwayGroupBtn">그룹 가입하기</a></div> -->
+<!-- 							<div><a onclick="breakAwayGroup();" href="" class="breakAwayGroupBtn">그룹 탈퇴하기</a></div> -->
 <!-- 						</td></tr> -->
 <%-- 					</c:if> --%>
 					  
@@ -254,11 +258,7 @@
 									<table class="statBoxContTbl">
 										<tr><td>
 											<h3>나의 주간 순위</h3>
-											<strong>
-										<%-- 	<c:if test="${join eq null}">0 위</c:if>
- 											 	<c:if test="${join ne null}">${join.my_Rank} 위</c:if> --%>
-										  		<c:out value="${join.my_Rank}" default="-"/> 위
-											</strong>
+											<strong><c:out value="${join.my_Rank}" default="-"/> 위</strong>
 										</td></tr>
 										<tr><td><div>
 											<div>
@@ -286,7 +286,7 @@
 										</div></td></tr>
 									</table>
 								</div></td>
-								<td><div class="statBox lineGraph" style="float:right;">
+								<td><div class="statBox lineGraph">
 									<table class="statBoxContTbl">
 										<tr><td width="56%">
 											<div><jsp:include page="topRightGraphArea.jsp"/></div>
@@ -298,6 +298,7 @@
 					  </c:if>
 <!-- 만약 로그인유저가 그룹 멤버라면 보이도록 끝 -->
 					</table>			
+<!-- 					</div> -->
 				</div>
 			</div>
 			
