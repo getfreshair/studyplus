@@ -21,7 +21,10 @@
 	.adminBody {
 		width:1334px;
 		float:left;
-		background:#F0F0F0;
+		background:white;
+	}
+	#accordian{
+		height:1205px !important;
 	}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>

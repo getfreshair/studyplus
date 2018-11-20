@@ -20,7 +20,7 @@
 .adminBody {
 	width: 1334px;
 	float: left;
-	background: #F0F0F0;
+	background: white;
 	padding:10px;
 }
 .content{
