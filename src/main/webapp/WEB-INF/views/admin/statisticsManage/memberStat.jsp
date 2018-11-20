@@ -19,7 +19,7 @@
 .adminBody {
 	width: 1334px;
 	float: left;
-	background: #F0F0F0;
+	background: white;
 }
 .content{
 		float:left;

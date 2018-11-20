@@ -1,12 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%--     
-<%
-	String activeCheck = request.getRequestURL().toString();
-	System.out.println(activeCheck);
-	activeCheck = activeCheck.substring(46,activeCheck.lastIndexOf("/"));
-	System.out.println(activeCheck);
-%> --%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,9 +32,8 @@
 	line-height: 45px;
 	padding: 0px 5px;
 	cursor: pointer;
-	background: #727272;
-	background: linear-gradient(#727272, #002535);
-	
+	/* background: #727272; *//* 
+	background: linear-gradient(#727272, #002535); */
 	z-index:50 !important;
 }
 #accordian h3:hover {
@@ -89,11 +82,6 @@
 h3:hover i{
 	color:gray;
 }
-#ad{
-display:none;
-	opacity:0 !important;
-	
-}
 
 </style>
 <script>
@@ -105,7 +93,6 @@ display:none;
 			}
 		})
 	})
-
 	function goPage(page) {
 		location.href = "movePage.me?page=" + page;
 	}
@@ -115,25 +102,27 @@ display:none;
 	<nav>
 	
 	<div id="accordian">
-	<div id="inform" style="height:170px; width:250px; background:white url('resources/images/admin/sideCalcul.png') 100% bottom no-repeat; float:left; display:inline-block">
-		<img src = "resources/images/admin/heart.png" style = "margin-left:10px ; margin-top:40px;display:inline-block;">
-		<p style="color:black; display:inline-block; font-size:20px">안녕하세요!</p>
+	<div id="inform" style="height:170px; width:251px; background:white url('resources/images/admin/sideCalcul.png') 100% bottom no-repeat; float:left; display:inline-block">
+		<img src = "resources/images/admin/adminPic.jpg" style = "border-radius:50%; width:70px; height:70px; margin-left:10px; margin-bottom:15px;display:inline-block;">
+		<p style="color:black; display:inline-block; font-size:20px; margin-top:50px;line-height:1.5em">안녕하세요!<br>신재익 관리자님</p>
+		<br>
+		<strong><a href="logoutMain.me" style="margin-left:180px" >로그아웃</a></strong>
+		<!-- <p style="color:black; display:inline-block; font-size:15px; margin-left:85px; margin-bottom:50px" >신재익 관리자님</p> -->
 		<br>
 	</div>
 	<iframe scrolling="no" frameborder="no" clocktype="html5" style=" z-index:999; overflow:hidden;border:0;margin:0;padding:0;width:250px;height:100px;"src="https://www.clocklink.com/html5embed.php?clock=044&timezone=JST&color=white&Title=&Message=&Target=&From=2018,1,1,0,0,0&Color=white"></iframe>
 	<ul style="padding-left:0">
 		
 		<li>
-			<i class='fas fa-home' style='font-size:24px; float:left; margin-left:5px ;margin-top:10px;'></i>
-			<h3 onclick="goPage('admin/home')">홈</h3>
+			<img id="dashboard" src = "resources/images/admin/bef_dashboard.png" style = "width:27px; height:27px; float:left; margin-left:15px ; margin-top:7px;display:inline-block;">
+			<!-- <i class='fas fa-home' style='font-size:24px; float:left; margin-left:5px ;margin-top:10px;'></i> -->
+			<h3 onclick="goPage('admin/home')" style="margin-right:65px" id="dash">대시보드</h3>
 		</li>
 		
-		<li <%-- <% if ( activeCheck.equals("memberManage")){ %>
-		class="active"
-		<%} %> --%>
-		>
-			<i class='fas fa-male' style='font-size:24px; float:left; margin-left:12px ;margin-top:10px;'></i>
-			<h3>회원관리<i class='fas fa-angle-down' style='font-size:24px ; margin-left:50px;'></i></h3>
+		<li>
+			<!-- <i class='fas fa-male' style='font-size:24px; float:left; margin-left:12px ;margin-top:10px;'></i> -->
+			<img id="member" src = "resources/images/admin/bef_member.png" style = "width:27px; height:27px; float:left; margin-left:15px ; margin-top:7px;display:inline-block;">
+			<h3 id="mem">회원관리<i class='fas fa-angle-down' style='font-size:24px ; margin-left:50px;'></i></h3>
 			<ul>
 				<li><a onclick="goPage('admin/memberManage/memberList')">회원관리</a></li>
 				<li><a onclick="goPage('admin/memberManage/memberPenalty')">제재회원관리</a></li>
@@ -144,64 +133,54 @@ display:none;
 		class="active"
 		<%} %> --%>
 		>
-			<i class='fas fa-clipboard' style='font-size:24px; float:left; margin-left:5px ;margin-top:10px;'></i>
-			<h3>게시판관리<i class='fas fa-angle-down' style='font-size:24px; margin-left:22px;'></i></h3>
+			<!-- <i class='fas fa-clipboard' style='font-size:24px; float:left; margin-left:5px ;margin-top:10px;'></i> -->
+			<img id="boardImg" src = "resources/images/admin/bef_board.png" style = "width:27px; height:27px; float:left; margin-left:15px ; margin-top:7px;display:inline-block;">
+			<h3 id="board">게시판관리<i class='fas fa-angle-down' style='font-size:24px; margin-left:22px;'></i></h3>
 			<ul>
 				<li><a href ='getNoticeList.do'>공지사항</a></li>
 				<li><a href ='getGroupBoardList.do'>게시판관리</a></li>
 			</ul>
 		</li>
-		<li <%-- <% if ( activeCheck.equals("groupManage")){ %>
-		class="active"
-		<%} %> --%>
-		>
-			<i class='fa fa-group' style='font-size:24px; float:left; margin-left:5px ;margin-top:10px;'></i>
-			<h3>스터디그룹<i class='fas fa-angle-down' style='font-size:24px; margin-left:19px;'></i></h3>
+		<li>
+			<!-- <i class='fa fa-group' style='font-size:24px; float:left; margin-left:5px ;margin-top:10px;'></i> -->
+			<img id="groupImg" src = "resources/images/admin/bef_group.png" style = "width:27px; height:27px; float:left; margin-left:15px ; margin-top:7px;display:inline-block;">
+			<h3 id="group">스터디그룹<i class='fas fa-angle-down' style='font-size:24px; margin-left:19px;'></i></h3>
 			<ul>
 				<li><a onclick="goPage('admin/groupManage/groupList')">그룹 관리</a></li>
 			</ul>
 		</li>
-		<li <%-- <% if ( activeCheck.equals("bannerManage")){ %>
-		class="active"
-		<%} %> --%>
-		>
-			<i class='fas fa-ad' style='font-size:24px; float:left; margin-left:5px ;margin-top:10px;'></i>
-			<h3>광고관리<i class='fas fa-angle-down' style='font-size:24px; margin-left:45px;'></i></h3>
+		<li>
+			<!-- <i class='fas fa-ad' style='font-size:24px; float:left; margin-left:5px ;margin-top:10px;'></i> -->
+			<img id="adImg" src = "resources/images/admin/bef_ad.png" style = "width:27px; height:27px; float:left; margin-left:15px ; margin-top:7px;display:inline-block;">
+			<h3 id="ad">광고관리<i class='fas fa-angle-down' style='font-size:24px; margin-left:45px;'></i></h3>
 			<ul>
 				<li><a href='getPRList.do'>광고등록</a></li>
 				<li><a onclick="goPage('admin/bannerManage/selectBanner')">광고내역보기</a></li>
-			<!-- 	<li><a onclick="goPage('admin/groupManage/groupList')">입금계좌관리</a></li> -->
 			</ul>
 		</li>
-		<li <%-- <% if ( activeCheck.equals("rewardManage")){ %>
-		class="active"
-		<%} %> --%>
-		>
-			<i class='fas fa-gift' style='font-size:24px; float:left; margin-left:5px ;margin-top:10px;'></i>
-			<h3>지급관리<i class='fas fa-angle-down' style='font-size:24px; margin-left:45px;'></i></h3>
+		<li>
+			<!-- <i class='fas fa-gift' style='font-size:24px; float:left; margin-left:5px ;margin-top:10px;'></i> -->
+			<img id="giveImg" src = "resources/images/admin/bef_give.png" style = "width:27px; height:27px; float:left; margin-left:15px ; margin-top:7px;display:inline-block;">
+			<h3 id="give">지급관리<i class='fas fa-angle-down' style='font-size:24px; margin-left:45px;'></i></h3>
 			<ul>
 				<li><a href='getSingleRewardList.do'>개인지급관리</a></li>
 				<li><a href='getGroupRewardList.do'>그룹지급관리</a></li>
 			</ul>
 		</li>
-		<li <%-- <% if ( activeCheck.equals("smsManage")){ %>
-		class="active"
-		<%} %> --%>
-		>
-			<i class='far fa-comment' style='font-size:24px; float:left; margin-left:5px ;margin-top:10px;'></i>
-			<h3>SMS관리<i class='fas fa-angle-down' style='font-size:24px; margin-left:38px;'></i></h3>
+		<li>
+			<!-- <i class='far fa-comment' style='font-size:24px; float:left; margin-left:5px ;margin-top:10px;'></i> -->
+			<img id="smsImg" src = "resources/images/admin/bef_sms.png" style = "width:27px; height:27px; float:left; margin-left:15px ; margin-top:7px;display:inline-block;">
+			<h3 id="sms">SMS관리<i class='fas fa-angle-down' style='font-size:24px; margin-left:38px;'></i></h3>
 			<ul>
 				<li><a onclick="goPage('admin/smsManage/smsSend')">SMS발송</a></li>
 				<li><a onclick="goPage('admin/smsManage/smsHistory')">SMS발송내역</a></li>
 				<!-- <li><a onclick="goPage('admin/smsManage/smsSetting')">SMS환경설정</a></li> -->
 			</ul>
 		</li>
-		<li<%--  <% if ( activeCheck.equals("statisticsManage")){ %>
-		class="active"
-		<%} %> --%>
-		>
-			<i class='far fa-chart-bar' style='font-size:24px; float:left; margin-left:5px ;margin-top:10px;'></i>
-			<h3> 통계<i class='fas fa-angle-down' style='font-size:24px; margin-left:96px;'></i></h3>
+		<li>
+			<!-- <i class='far fa-chart-bar' style='font-size:24px; float:left; margin-left:5px ;margin-top:10px;'></i> -->
+			<img id="graphImg" src = "resources/images/admin/bef_graph.png" style = "width:27px; height:27px; float:left; margin-left:15px ; margin-top:7px;display:inline-block;">
+			<h3 id="graph"> 통계<i class='fas fa-angle-down' style='font-size:24px; margin-left:96px;'></i></h3>
 			<ul>
 				<li><a href="getMemberStatic.do">회원통계</a></li>
 				<li><a href="getContactStatic.do">접속자통계</a></li>
@@ -211,6 +190,32 @@ display:none;
 		</li>
 	</ul>
 </div>
+<script>
+$('#dash')
+.mouseenter(function(){$('#dashboard').attr('src', 'resources/images/admin/aft_dashboard.png');})
+.mouseleave(function(){$('#dashboard').attr('src', 'resources/images/admin/bef_dashboard.png');});
+$('#mem')
+.mouseenter(function(){$('#member').attr('src', 'resources/images/admin/aft_member.png');})
+.mouseleave(function(){$('#member').attr('src', 'resources/images/admin/bef_member.png');});
+$('#board')
+.mouseenter(function(){$('#boardImg').attr('src', 'resources/images/admin/aft_board.png');})
+.mouseleave(function(){$('#boardImg').attr('src', 'resources/images/admin/bef_board.png');});
+$('#group')
+.mouseenter(function(){$('#groupImg').attr('src', 'resources/images/admin/aft_group.png');})
+.mouseleave(function(){$('#groupImg').attr('src', 'resources/images/admin/bef_group.png');});
+$('#give')
+.mouseenter(function(){$('#giveImg').attr('src', 'resources/images/admin/aft_give.png');})
+.mouseleave(function(){$('#giveImg').attr('src', 'resources/images/admin/bef_give.png');});
+$('#sms')
+.mouseenter(function(){$('#smsImg').attr('src', 'resources/images/admin/aft_sms.png');})
+.mouseleave(function(){$('#smsImg').attr('src', 'resources/images/admin/bef_sms.png');});
+$('#graph')
+.mouseenter(function(){$('#graphImg').attr('src', 'resources/images/admin/aft_graph.png');})
+.mouseleave(function(){$('#graphImg').attr('src', 'resources/images/admin/bef_graph.png');});
+$('#ad')
+.mouseenter(function(){$('#adImg').attr('src', 'resources/images/admin/aft_ad.png');})
+.mouseleave(function(){$('#adImg').attr('src', 'resources/images/admin/bef_ad.png');});
+</script>
 </nav>
 </body>
 </html>

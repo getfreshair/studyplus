@@ -18,7 +18,7 @@
 .adminBody {
 	width: 1334px;
 	float: left;
-	background: #F0F0F0;
+	background: white;
 }
 .content{
 		float:left;
@@ -145,7 +145,7 @@ hr{
 												data: [da1,da3],
 												backgroundColor: 
 													['rgba(255,99,132,1)',
-													'rgba(255, 159, 64, 0.2)']
+													'rgba(54, 162, 235, 1)']
 											}]
 									},
 									options: {
