@@ -11,7 +11,7 @@
 .jqs-demo{min-width:auto;}
 .jqs-demo::-webkit-scrollbar {display:none;}
 .tendency_go{display:none; height:100%; background:url("/studyplus/resources/images/planner/bg_tendency.png") no-repeat; background-size:100%;}
-.tendency_go .txt1{color:#4b4b4b; padding:49% 15px 15px 15px; font-size:14px; font-weight:bold;}
+.tendency_go .txt1{color:#4b4b4b; padding:47% 15px 15px 15px; font-size:14px; font-weight:bold;}
 .tendency_go .txt1 span{color:#59a6f4; font-size:18px;}
 .tendency_go a{position:absolute; top:18%; right:6%; width:36%; height:50px;}
 #typelist{overflow-y:scroll; height:400px;}
@@ -166,7 +166,7 @@ $(function(){
 				<div class="tendency_result">
 					<div class="col-sm-6 col-xs-12">
 						<div id="studyTendencyChart"></div>
-						<!-- <p>마지막 진단일 : </p> -->
+						<a href="studyStyleView.sp" style="color:#fff">다시 진단하기</a>
 					</div>
 					<div class="col-sm-6 col-xs-12">
 						<div id ="typelist">

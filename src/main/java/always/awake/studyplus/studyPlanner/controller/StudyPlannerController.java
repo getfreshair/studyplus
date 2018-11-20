@@ -743,7 +743,7 @@ public class StudyPlannerController {
 	//주간 목표 업데이트(페이지 단위)
 	@RequestMapping(value="WeeklyBookGoalUpdateModal.sp", method=RequestMethod.POST)
 	public String WeeklyBookGoalUpdate(HttpSession session, @RequestParam("goalType")int goalType, @RequestParam("goalName")String goalName,
-			@RequestParam("goalPage")int goalPage, @RequestParam("goalAchiev")int goalAchiev, @RequestParam("liIndex")String liIndex,
+			@RequestParam("goalPage")int goalPage, @RequestParam("liIndex")String liIndex,
 			 @RequestParam("bookIsbn")String bookIsbn, @RequestParam("checkWeek")String checkWeek) {
 		
 		Member loginUser = (Member) session.getAttribute("loginUser");
@@ -776,7 +776,6 @@ public class StudyPlannerController {
 			hmap.put("goalType", goalType);
 			hmap.put("goalName", goalName);
 			hmap.put("goalPage", goalPage);
-			hmap.put("goalAchiev", goalAchiev);
 			hmap.put("bookIsbn", bookIsbn);
 			hmap.put("insertDay", insertDay);
 

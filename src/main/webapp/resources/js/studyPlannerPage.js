@@ -1,7 +1,7 @@
 $(function(){
 	snsScrollUp();			//메신저 노출
 	snsSlideChat();			//채팅 슬라이드
-	scrollShadow();			//스크롤박스 하단 그림자
+	//scrollShadow();			//스크롤박스 하단 그림자
 	//-------------- 분석 --------------
 	datePicker();			//데이트피커 날짜선택
 	dateTabBtn();			//주간 월간 선택 버튼
@@ -60,13 +60,18 @@ function snsSlideChat(){
 function scrollShadow(){
 	// 오늘 목표
 	var todayH = $(".today_goals .goals_list").height();
-	if(todayH > 220){
+	console.log("높이 : " + todayH)
+	if(todayH > 290){
 		$(".today_goals").append('<div class="shadow_box"></div>');
+	}else{
+		$(".shadow_box").remove();
 	}
 	// 주간 목표
 	var weekH = $(".weekly_goals .goals_list").height();
-	if(weekH > 220){
+	if(weekH > 290){
 		$(".weekly_goals").append('<div class="shadow_box"></div>');
+	}else{
+		$(".shadow_box").remove();
 	}
 }
 
@@ -967,6 +972,7 @@ function todayGoalsList(){
 							 + '</div>'
 							 + '</li>');
 					
+					
 					//목표 리스트 노출된 부분 공부량 차트 (아래 함수 호출)
 					GoalListChart(achievPer, shortfallPer, i);
 
@@ -1043,10 +1049,13 @@ function todayGoalsList(){
 					//목표 타입이 시간일 경우 시간,분으로 변경
 					var dataType;
 					if(type != 0){
+						var oneAmountHour = Math.floor(((goalAmount/60)/60)%24);
+						var oneAmountMin = Math.floor(((goalAmount/60)%60));
+						
 						var achievHour = Math.floor(((totalAchieveAmount/60)/60)%24);			//총 달성량 시간
-						var achievMin = Math.floor(((totalAchieveAmount/60)%60));							//총 달성량 분
+						var achievMin = Math.floor(((totalAchieveAmount/60)%60));				//총 달성량 분
 						var goalAmountHour = Math.floor(((totalWeekGoalAmount/60)/60)%24);		//총 목표량 시간
-						var goalAmountMin = Math.floor(((totalWeekGoalAmount/60)%60));						//총 목표량 분
+						var goalAmountMin = Math.floor(((totalWeekGoalAmount/60)%60));			//총 목표량 분
 						
 						dataType = achievHour + "시간 " + achievMin + "분"  + ' / ' + goalAmountHour + "시간 " + goalAmountMin + "분";
 					}else{
@@ -1076,7 +1085,7 @@ function todayGoalsList(){
 					//목표 리스트 각 목표 클릭시 상세 팝업창 노출(아래 함수 호출)
 					weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, 
 							achievHour, achievMin, achievPer, shortfallPer, enrolldate, weekDay, goalISBN, 
-							totalAchieveAmount, totalWeekGoalAmount);
+							totalAchieveAmount, totalWeekGoalAmount, oneAmountHour, oneAmountMin);
 					
 				}
 				
@@ -1105,7 +1114,6 @@ function GoalListChart(achievPer, shortfallPer, i){
 		bgColor = "#389cde"; //파
 	}
 	
-	console.log(achievPer)
 	var ctx = document.getElementById("today_donut"+i).getContext('2d');
 	var today_donut = new Chart(ctx, {
 		type: 'doughnut',
@@ -1232,7 +1240,8 @@ function todayGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, 
 
 //주간 목표 리스트, 각 목표 클릭시 상세 팝업창 노출
 function weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour, goalAmountMin, 
-		achievHour, achievMin, achievPer, shortfallPer, enrolldate, weekDay, goalISBN, totalAchieveAmount, totalWeekGoalAmount){
+		achievHour, achievMin, achievPer, shortfallPer, enrolldate, weekDay, goalISBN, totalAchieveAmount, 
+		totalWeekGoalAmount, oneAmountHour, oneAmountMin){
 	
 	$(".weekly_goals li .right_area").click(function(){
 		
@@ -1251,8 +1260,8 @@ function weeklyGoalDetail(goalCode, content, goalAmount, achiev, goalAmountHour,
 			if(liIndex == goalCode){
 				$(this).attr({"data-toggle":"modal", "data-target":"#weeklyDetailViewModal"});
 				$("#weeklyDetailViewModal .time_form #goalName").attr("value",content);
-				$("#weeklyDetailViewModal .time_form #goalTime").attr("value",achievHour);
-				$("#weeklyDetailViewModal .time_form #goalMin").attr("value",achievMin);
+				$("#weeklyDetailViewModal .time_form #goalTime").attr("value",oneAmountHour);
+				$("#weeklyDetailViewModal .time_form #goalMin").attr("value",oneAmountMin);
 				$("#weeklyDetailViewModal .time_form #achiev").text(achievHour + "시간 " + achievMin + "분");
 				$("#weeklyDetailViewModal .time_form #goalAmount").text(goalAmountHour + "시간 " + goalAmountMin + "분");
 				$("#weeklyDetailViewModal .time_form .chart_per").text(achievPer + "%");
@@ -1344,18 +1353,17 @@ function goalAddMdal(){
 
 		//등록 모달 클릭시 데이터 초기화
 		$("#insertTodayModal .bookIpt").empty();
-		//$("#insertTodayModal .bookIpt").attr("value","");
+		$("#insertTodayModal .bookIpt").attr("value","");
 		$("#insertTodayModal .book_img").empty();
 		$("#insertTodayModal .book_info").text("");
 		
 		//모달 내 차트(default)
-		var why = 0;
 		var ctx = document.getElementById("insert_Modal_donut").getContext('2d');
 		var default_donut = new Chart(ctx, {
 			type: 'doughnut',
 			data: data = {
 					datasets: [{
-						data: [why, why],
+						data: [0, 100],
 						backgroundColor: ['#36a2eb']
 					}],
 					labels: ['달성%','미달성%']
@@ -1363,10 +1371,16 @@ function goalAddMdal(){
 		});	
 	});
 	
+	//오늘의 목표 모달 close
+	$('#insertTodayModal').on('hidden.bs.modal',function(){
+		$("#insertTodayModal .isbn_info").show();
+	});
+	
 	//주간 목표 모달 오픈
 	$('#insertWeeklyModal').on('show.bs.modal',function(){
 
 		//등록 모달 클릭시 데이터 초기화
+		$("#insertWeeklyModal .bookIpt").empty();
 		$("#insertWeeklyModal .bookIpt").attr("value","");
 		$("#insertWeeklyModal .book_img").empty();
 		$("#insertWeeklyModal .book_info").text("");
@@ -1378,11 +1392,16 @@ function goalAddMdal(){
 			data: data = {
 					labels: ['달성%','미달성%'],
 					datasets: [{
-						data: [0, 0],
+						data: [0, 100],
 						backgroundColor: ['#36a2eb']
 					}]
 			}
 		});	
+	});
+	
+	//주간 목표 모달 close
+	$('#insertWeeklyModal').on('hidden.bs.modal',function(){
+		$("#insertWeeklyModal .isbn_info").show();
 	});
 
 	
@@ -1432,6 +1451,9 @@ function bookIsbn(searchBook){
 $(function(){
 	//오늘목표 등록용 책검색
 	$(document).on("click","#bookBtn1",function(){
+		$("#insertTodayModal .isbn_info").hide();
+		$("#insertTodayModal .book_img").show();
+		$("#insertTodayModal .book_info").show();
 		var searchBook = ($("#searchIpt1").val()).replace(/ /g,"");
 		console.log(searchBook);
 		bookIsbn(searchBook);
@@ -1444,6 +1466,9 @@ $(function(){
 	});
 	//주간목표 등록용 책검색
 	$(document).on("click","#bookBtn3",function(){
+		$("#insertWeeklyModal .isbn_info").hide();
+		$("#insertWeeklyModal .book_img").show();
+		$("#insertWeeklyModal .book_info").show();
 		var searchBook = ($("#searchIpt3").val()).replace(/ /g,"");
 		console.log(searchBook);
 		bookIsbn(searchBook);

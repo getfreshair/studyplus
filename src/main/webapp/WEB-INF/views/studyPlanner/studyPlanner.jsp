@@ -34,6 +34,7 @@
 	
 	#studyTendencyChart svg{width:100%;}
 	
+	.scroll_area .add_btn{padding:20px 0 50px;}
 	.rank_link, .rank_link:hover, .rank_link:focus{cursor:pointer; color:#fff;}
 	/* .today_goals .scroll_area{display:none;}
 	.today_goals .scroll_area.on{display:block;} */
@@ -54,13 +55,24 @@
 	.modal-body .ipt_wrap input{width:120px; display:inline-block; margin-right:5px;}
 	.modal-body .book_img{padding:30px 0; width:95%; text-align:center;}
 	.modal-body .book_img img{border:1px solid #ddd;}
-	.modal-body .book_info{text-align:center; width:95%; margin:0 auto; font-size:15px;}
+	.modal-body .book_info{text-align:center; width:95%; margin:0 auto; font-size:15px; word-break:keep-all;}
 	.modal-body .bookIpt{width:65%; display:inline-block;}
 	.modal-body .bookIpt + .btn{background:#efeeee; border:1px solid #ddd;}
+	.modal-body .isbn_info{width:95%; text-align:center; padding:20px 0 0;}
+	.modal-body .isbn_info img{width:80%;}
+	.modal-body .isbn_info p{margin:10px 0 0; font-weight:bold; color:#1969ad; font-size:15px;}
+	
+	.sel_wrap label,
+	.up_sel_wrap label{font-weight:normal; margin-bottom:8px; vertical-align:middle; margin-right:15px;}
+	
+	#insertTodayModal .book_img,
+	#insertTodayModal .book_info{display:none;}
+	#insertWeeklyModal .book_info,
+	#insertWeeklyModal .book_img{display:none;}
+	
 </style>
 </head>
 <body>
-
 	<script>
 		var loginFriends = 0;
 		var unreadMsg = 0;
@@ -362,7 +374,7 @@
 		</section>
 		<!-- // section -->
 		
-		<button type="button"style="left:50%; margin-left:-250px;height:40px; position:fixed; bottom:0 ;border:1px solid #f1bc3c;border-radius:40px 40px 0 0;background:#f1bc3c;width:500px; color:white"class="btn btn-danger" onclick="showBlockMain()">차단을 시작하고, 공부 시간 측정하기</button>
+		<button type="button"style="left:50%; margin-left:-250px;height:40px; position:fixed; bottom:0 ;border:1px solid #f1bc3c;border-radius:40px 40px 0 0;background:#f1bc3c;width:500px; color:white; z-index:888;"class="btn btn-danger" onclick="showBlockMain()">차단을 시작하고, 공부 시간 측정하기</button>
 		<script>
 			function showBlockMain(){
 				location.href ="showBlockMain.bl";
