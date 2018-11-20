@@ -20,6 +20,8 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.client.HttpClient;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,10 +57,10 @@ public class blockController {
 	// 위치 차단 설정 화면 전환용 메소드
 	@RequestMapping("showLocation.bl")
 	public String showLocation(HttpServletRequest requeest, Model model) {
-		
+
 		List<String> list = getBlockLocationInfo();
-		
-		model.addAttribute("list",list);
+
+		model.addAttribute("list", list);
 		return "block/blockLocation";
 	}
 
@@ -75,11 +77,12 @@ public class blockController {
 		return mv;
 	}
 
-	// 웹 차단 설정 메인 컨트롤 화면 전환용 메소드 
+	// 웹 차단 설정 메인 컨트롤 화면 전환용 메소드
 	@RequestMapping("showSettingMain.bl")
 	public String showSettingMain(HttpServletRequest request, Model model) {
 		return "block/blockSettingMain";
 	}
+
 	// 스케쥴 정보 받아오는 메소드
 	public StringBuilder getScheduleData() {
 		File dir1 = new File("C:\\studyPlanner");
@@ -97,9 +100,11 @@ public class blockController {
 		StringBuilder scheduleData = new StringBuilder();
 
 		try {
-			
-			if(!schedulaData.exists()) { schedulaData.createNewFile();}
-			
+
+			if (!schedulaData.exists()) {
+				schedulaData.createNewFile();
+			}
+
 			BufferedReader br = new BufferedReader(new FileReader(schedulaData));
 			String temp = "";
 			while ((temp = br.readLine()) != null) {
@@ -114,7 +119,7 @@ public class blockController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(scheduleData.toString().equals("")) {
+		if (scheduleData.toString().equals("")) {
 			scheduleData.append("emptyData");
 		}
 		return scheduleData;
@@ -412,9 +417,9 @@ public class blockController {
 	}
 
 	// 차단할 위치정보 저장용
-	@RequestMapping(value="saveBlockLocationData.bl")
+	@RequestMapping(value = "saveBlockLocationData.bl")
 	public String saveBlockLocationData(String locationInfo) {
-		System.out.println("locationInfo : "  +locationInfo);
+		System.out.println("locationInfo : " + locationInfo);
 		writeBlockLocationData(locationInfo);
 
 		return "redirect:showLocation.bl";
@@ -472,21 +477,22 @@ public class blockController {
 	// 게임중인 유저 리스트 조회용 메소드
 	@RequestMapping("selectUserList.bl")
 	public @ResponseBody List<Object> selectUserList(HttpServletRequest request) {
-		List<Object> plist = bs.selectGamePlayerList(((Member) (request.getSession().getAttribute("loginUser"))).getMember_Code());
+		List<Object> plist = bs
+				.selectGamePlayerList(((Member) (request.getSession().getAttribute("loginUser"))).getMember_Code());
 		System.out.println(plist);
 		return plist;
 	}
-	
+
 	// 게임중인 유저 정보 죄회용 메소드
 	@RequestMapping("renewalPlayer.bl")
 	public @ResponseBody PlayGameUsers renewalPlayer(String msg) {
 		int member_code = Integer.parseInt(msg.substring(0, msg.indexOf(":")));
-		
+
 		PlayGameUsers pgu = bs.selectPlayer(member_code);
-		
+
 		return pgu;
 	}
-	
+
 	@RequestMapping("selectBlockProgramList.bl")
 	public @ResponseBody ArrayList<String> selectBlockProgramList() {
 		ArrayList<String> bplist = new ArrayList<String>();
@@ -494,7 +500,7 @@ public class blockController {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			String temp = "";
-			while((temp = br.readLine()) != null) {
+			while ((temp = br.readLine()) != null) {
 				bplist.add(temp);
 			}
 			br.close();
@@ -507,13 +513,13 @@ public class blockController {
 		}
 		return bplist;
 	}
-	
+
 	@RequestMapping("saveBlockProgram")
-	public void saveBlockProgram(MultipartFile file, HttpServletResponse response){
+	public void saveBlockProgram(MultipartFile file, HttpServletResponse response) {
 		String fileName = file.getOriginalFilename();
 		File saveFile = new File("C:\\studyPlanner\\programData\\settingDatas\\blockProgramList");
 		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(saveFile,true));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(saveFile, true));
 			bw.write(fileName);
 			bw.newLine();
 			bw.flush();
@@ -522,12 +528,30 @@ public class blockController {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+
 		try {
-			response.getWriter().println("차단 프로그램 정보 저장 성공!");
+			response.getWriter().println(fileName);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+
+	/*@RequestMapping("getLocationInformation.bl")
+	public void getLocationInformation(HttpServletResponse response) {
+
+		HttpClient client = new HttpClient();
+				new PostMe("http://localhost:8001/studyplus/WEB-INF/views/getLocationInformation.jsp");
+		
+		try {
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html; charset=UTF-8");
+
+			response.getWriter().println("테스트");
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}*/
 }
