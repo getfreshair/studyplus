@@ -22,10 +22,15 @@
 	<script src="/studyplus/resources/js/jquery-1.11.1.min.js"></script>
 	<script src="/studyplus/resources/js/bootstrap.min.js"></script>
 	
+
+
+
+		
 	
 <!-- /* 전체영역 */ -->
 <style>
-	html { overflow-x:auto; background:#f8f8f8; } 
+	html { overflow-x:auto; }
+	html, body { background:#f8f8f8; font-family:맑은고딕 !important; }
 	.pageAll * { font-family:맑은고딕 !important; cursor:default; }
 	.pageWrap { width:1200px; margin:0px auto; }
 	.pageContentArea { width:98%; margin:0px auto; }
@@ -76,7 +81,7 @@
 <!-- /*	하단 컨텐츠 작성 */ -->
 <style>
 	.contentArea { width:100%; max-height:720px; margin-bottom:10px; display:flex; }
-	.bottomContentArea { background:rgb(235, 235, 235, 0.4); /* height:100%; */ padding:20px 15px; display:inline-block; text-align:center; }
+	.bottomContentArea { background:white; /* height:100%; */ padding:20px 15px; display:inline-block; text-align:center; }
 	
 	
 	/*	그룹원 리스트 영역 */
@@ -702,12 +707,12 @@
 		console.log("changeCnt : " + changeCnt + " / changeDates : " + changeDates + " / changeMonths : " + changeMonths);
 		console.log("periodType : " + periodType + " / dayPick : " + dayPick + " / monthPick : " + monthPick);
 
+// 			"	async : false,	"
 		$.ajax({
 			url:"selectDateByPeriod.sgd",
 			data : { periodType : periodType, 
 					 changeDates : changeDates, changeMonths : changeMonths },
 			type : "POST",
-			async : false,
 			success:function(data) {
 				if(menuType == 2){
 					thisDay2 = "" + data.selectDate.THIS_DAY;

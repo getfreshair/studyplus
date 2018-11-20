@@ -131,6 +131,9 @@ public class SGDetailController {
 		ModelAndView mv = new ModelAndView();
 		int result = -1;
 		
+		//만약 로그인유저와 지울 멤버 코드가 일치하면 자진 탈퇴
+		//일치하지 않는다면 방장 강퇴
+		
 		try {			
 			result = gs.updateDeleteGroupMember(grCode, delMemCode);
 			if(result >= 1) {
@@ -223,12 +226,24 @@ public class SGDetailController {
 		return mv;
 	}
 	
+	@RequestMapping("selectGroupBoardList.sgd")
+	public ModelAndView selectGroupBoardList(@RequestParam int grCode, @RequestParam int boardCode, ModelAndView mv) {
+		
+		try {
+			
+		}catch (Exception e){
+			
+		}
+		
+		return null;
+	}
+	
 	@RequestMapping("selectOneBoardDetailShow.sgd")
 	public ModelAndView selectOneBoardDetailShow(@RequestParam int grCode, @RequestParam int boardCode, ModelAndView mv) {
 		
 		try {
 			
-			System.out.println("모달 페이지 여는 컨트롤러 왔어");
+			System.out.println("모달 페이지 여는 컨트롤러 왔어 -> 그룹코드, 보드코드 받아넘기기");
 			
 //			List<HashMap<String, Object>> list = gs.selectGroupMemberTimeList(grCode, thisDay);
 			
@@ -243,6 +258,30 @@ public class SGDetailController {
 		}
 		
 		return mv;
+	}
+	
+	@RequestMapping(value="goBoardWriteModalPage.sgd")
+	public @ResponseBody ModelAndView goBoardWriteModalPage(ModelAndView mv) {
+		mv.setViewName("studyGroupDetail/bottomCenterInclude/boardWrite");
+		System.out.println("모달에 띄울 페이지 받아옴?" + mv);
+		return mv;
+	}
+	
+	@RequestMapping(value="insertGroupBoardWrite.sgd")
+	public @ResponseBody int insertGroupBoardWrite(@RequestParam int grCode, @RequestParam int memCode, HttpServletResponse response){
+		int result = -1;
+		
+		try {
+			int joinAbleCnt = gs.selectJoinAbleChk(grCode);
+			
+			if(joinAbleCnt >= 1) {	//최대 가능 인원 - 현재 인원이 1보다 크면 가입 가능
+				result = gs.insertGroupJoin(grCode, memCode);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 }

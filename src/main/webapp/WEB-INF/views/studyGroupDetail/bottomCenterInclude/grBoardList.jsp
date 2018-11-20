@@ -13,7 +13,7 @@
 
 <style>
   .boardTop { display:inline-flex; width:100%; }
-	.bordWriteBtn { font-size:13px; color:white; /* font-weight:bold; */ background:rgb(41, 128, 185);
+	.bordWriteBtn { font-size:13px; color:white; /* font-weight:bold; */ background:#00a0e9;
 					border-radius:20px; margin-right:auto; margin-bottom:10px; padding:5px 15px; display:table; }
 	.bordWriteBtn:hover { cursor:pointer; /* color:white; */ font-weight:bold; }
 	.centerFilterMenu { margin-right:15px; padding-left:15px; padding-bottom:10px; border-bottom:1px solid gray;
@@ -32,7 +32,7 @@
 		  .boardCategory { display:inline-block; height:100%; }
 		.boardContentPrevWrap { width:100%; padding:10px; }
 		  .boardContentPreview { width:100%; height:100%; overflow:hidden; }
-			.scrollBlind { width:105%; height:100%; max-height:130px; min-height:20px; overflow-y:scroll; padding-right:5px; }
+			.scrollBlind { width:105.5%; height:100%; max-height:130px; min-height:20px; overflow-y:scroll; padding-right:7px; }
 			.contentPreArea { cursor:pointer !important; font-size:13px; text-align:left; }
   	   .boardBottomStatusWrap { width:100%; }
   	     .bottomLine { border-bottom:1px solid gray; margin:5px 0px; }
@@ -49,18 +49,18 @@
 </head>
 <body>
 	<div class="modalWrap">
-		<div id="oneBoardDetail" class="settingArea">
+		<div id="settingModalArea" class="settingArea">
 			
 		</div>
-		<div id="settingBoardArea" class="w3-modal" style="background:rgba(0, 0, 0, 0.4);"></div>
-	<!-- 	<div id="settingBoardArea" class="w3-modal"></div> -->
+		<div id="settingModalBack" class="w3-modal" style="background:rgba(0, 0, 0, 0.4);"></div>
+		<!-- 	<div id="settingModalBack" class="w3-modal"></div> -->
 	</div>
 	
 
 	<div class="boardListPageWrap">
 	
 			<div class="boardTop">
-				<div id="boardWrite();" class="bordWriteBtn">게시물 쓰기</div>
+				<div onclick="boardWriteModalShow();" class="bordWriteBtn">게시물 쓰기</div>
 				<div class="centerFilterMenu">
 					<span id="" class="menuBtn boardFilterBtn">전체</span>
 					<span>|</span>
@@ -146,9 +146,26 @@
 </body>
 
 <script>	
-	function boardWrite(){
+	function boardWriteModalShow(){
+		
+		alert('안녕하시오'
 		grLeaderCode = '${gr.leaderMem_Code}';
 		alert("그룹장 누구?" + grLeaderCode);
+		//공지 작성 권한 체크용
+		
+		$.ajax({
+			url:"goBoardWriteModalPage.sgd",
+// 			data : { grCode : grCode, boardCode : boardCode },
+			success:function(data) {
+				$('#settingModalArea').empty();
+				$('#settingModalArea').append(data);
+				
+				$('.modalWrap').css({"display":"block"});
+				$('#settingModalArea').css({"display":"inline-block"});
+				$('#settingModalBack').css({"display":"inline-block"});
+			}
+		});
+		
 	}
 	
 	function boardDetailShow(boardCode){
@@ -158,20 +175,20 @@
 			url:"selectOneBoardDetailShow.sgd",
 			data : { grCode : grCode, boardCode : boardCode },
 			success:function(data) {
-				$('#oneBoardDetail').empty();
-				$('#oneBoardDetail').append(data);
+				$('#settingModalArea').empty();
+				$('#settingModalArea').append(data);
 				
 				$('.modalWrap').css({"display":"block"});
-				$('#oneBoardDetail').css({"display":"inline-block"});
-				$('#settingBoardArea').css({"display":"inline-block"});
+				$('#settingModalArea').css({"display":"inline-block"});
+				$('#settingModalBack').css({"display":"inline-block"});
 			}
 		});
 	};
 
 	function displayNone(){
 		$('.modalWrap').css({"display":"none"});
-		document.getElementById('oneBoardDetail').style.display='none';
-		document.getElementById('settingBoardArea').style.display='none';
+		document.getElementById('settingModalArea').style.display='none';
+		document.getElementById('settingModalBack').style.display='none';
 	}
 </script>
 </html>
