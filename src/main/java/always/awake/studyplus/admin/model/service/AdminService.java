@@ -154,4 +154,6 @@ public interface AdminService {
 
 	public int checkTotalPRCount(int prCode)throws AdminException;
 
+	public void updateCPCStatus(int prCode);
+
 }

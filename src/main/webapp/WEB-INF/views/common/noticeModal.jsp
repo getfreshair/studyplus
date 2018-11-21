@@ -14,13 +14,13 @@
 								</div> 
 									<div class="modal-body">
 										<label>제목</label> <input type="text" name="noticeTitle" value="${data[0].NOTICE_TITLE}"
-											class="form-control modalContent modalContent1">
+											class="form-control modalContent modalContent1" readonly>
 										<label>글쓴이</label> <input type="text" name="prTitle" value="관리자"
-											class="form-control modalContent modalContent2">
+											class="form-control modalContent modalContent2" readonly>
 										<label>게시날짜</label> <input type="text" name="prUrl" value="${data[0].NOTICE_ENROLLDATE}"
-											class="form-control modalContent modalContent3">
+											class="form-control modalContent modalContent3" readonly>
 										<label>글내용</label>
-										<textarea class="form-control" id="textArea"  style="width : 100% !important; height:200px !important;">
+										<textarea class="form-control" id="textArea"  style="width : 100% !important; height:200px !important;" readonly>
 			         	 				${data[0].NOTICE_CONTENT}</textarea>
 									</div>
 									<div class="modal-footer">

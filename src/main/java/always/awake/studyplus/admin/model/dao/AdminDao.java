@@ -232,4 +232,7 @@ public interface AdminDao {
 
 	int checkTotalPRCount(SqlSessionTemplate sqlSession, int prCode);
 
+
+	void updateCPCStatus(SqlSessionTemplate sqlSession, int prCode);
+
 }
