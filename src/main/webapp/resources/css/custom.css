@@ -180,6 +180,8 @@ table .board-tit a:hover{color:#1a609c;}
 .sns_wrap .chating{position:absolute; top:0; left:100%; width:100%; height:100%; background:#ffff;}
 /*.sns_wrap .chating.on{display:block;}*/
 
+/* 무엇이든 물어보세요 */
+.chatbotBtnImg:hover {cursor:pointer;}
 
 /* 친구 신청 목록 */
 .need{display:inline-block; width:270px;}

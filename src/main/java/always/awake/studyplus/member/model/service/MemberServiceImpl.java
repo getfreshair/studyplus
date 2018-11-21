@@ -15,6 +15,7 @@ import org.openkoreantext.processor.tokenizer.KoreanTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import always.awake.studyplus.common.CommonUitls;
 import always.awake.studyplus.member.model.dao.MemberDao;
@@ -238,7 +239,7 @@ public class MemberServiceImpl implements MemberService{
 	    		}
 	    	}else{
 	    		if(newSentence.getVerb().equals("줘") || newSentence.getVerb().equals("싶어") || newSentence.getVerb().equals("할래")) {
-	    			questionInfo.put("pageUrl", "insertMemberPage.me");
+	    			questionInfo.put("pageUrl", "insertMemberAgreementPage.me");
 		    		
 		    		return questionInfo;
 	    		}
@@ -321,5 +322,31 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public void addFriendDelete(int friend_Code) throws MemberException {
 		md.addFriendDelete(sqlSession, friend_Code);
+	}
+
+	@Override
+	public int createConfirmNum(String MEMBER_PHONE) throws MemberException{
+		String confirmNum = "";
+		
+		for(int i = 1; i < 7; i++) {
+			confirmNum += String.valueOf((int)(Math.random() * 9) + 1);
+		}
+		
+		return md.createConfirmNum(sqlSession, MEMBER_PHONE, Integer.parseInt(confirmNum));
+	}
+
+	@Override
+	public int selectConfirmNum(String MEMBER_PHONE) {
+		return md.selectConfirmNum(sqlSession, MEMBER_PHONE);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectIdList(String MEMBER_PHONE) {
+		return md.selectIdList(sqlSession, MEMBER_PHONE);
+	}
+
+	@Override
+	public int selectConfirmUserId(String MEMBER_ID) {
+		return md.selectConfirmUserId(sqlSession, MEMBER_ID);
 	}
 }

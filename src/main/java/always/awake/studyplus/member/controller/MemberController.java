@@ -45,8 +45,76 @@ public class MemberController {
 	
 	@RequestMapping(value="insertMemberPage.me")
 	public String insertMemberPage() {
-		return "member/insertMemberPage";
+		return "member/insertMemberPart/insertMemberPage";
 	}
+	
+	@RequestMapping(value="insertMemberAgreementPage.me")
+	public String insertMemberAgreementPage() {
+		return "member/insertMemberPart/insertMemberAgreementPage";
+	}
+	
+	@RequestMapping(value="findMemberIdPage.me")
+	public String findMemberId() {
+		return "member/insertMemberPart/findMemberIdPage";
+	}
+	
+	@RequestMapping(value="findMemberPwdPage.me")
+	public String findMemberPwd() {
+		return "member/insertMemberPart/findMemberPwdPage";
+	}
+	
+	@RequestMapping(value="createConfirmNum.me")
+	public ModelAndView createConfirmNum(@RequestParam(value="MEMBER_PHONE")String MEMBER_PHONE) {
+		ModelAndView mv = new ModelAndView();
+		try {
+			mv.addObject("msg", String.valueOf(ms.createConfirmNum(MEMBER_PHONE)));
+			mv.addObject("rphone", "010-3252-3173");
+			mv.addObject("sphone1", "010");
+			mv.addObject("sphone2", "6551");
+			mv.addObject("sphone3", "5979");
+			mv.addObject("action", "go");
+			
+			mv.setViewName("admin/smsManage/smsSend2");
+		} catch (MemberException e) {
+			e.printStackTrace();
+		}
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="selectConfirmNum.me")
+	public ModelAndView selectConfirmNum(@RequestParam(value="MEMBER_PHONE")String MEMBER_PHONE) {
+		ModelAndView mv = new ModelAndView();
+		
+		mv.addObject("confirmNum", ms.selectConfirmNum(MEMBER_PHONE));
+			
+		mv.setViewName("jsonView");
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="selectIdList.me")
+	public ModelAndView selectIdList(@RequestParam(value="MEMBER_PHONE")String MEMBER_PHONE) {
+		ModelAndView mv = new ModelAndView();
+		
+		mv.addObject("idList", ms.selectIdList(MEMBER_PHONE));
+		
+		mv.setViewName("jsonView");
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="selectConfirmUserId.me")
+	public ModelAndView selectConfirmUserId(@RequestParam(value="MEMBER_ID")String MEMBER_ID) {
+		ModelAndView mv = new ModelAndView();
+		
+		mv.addObject("checkId", ms.selectConfirmUserId(MEMBER_ID));
+		
+		mv.setViewName("jsonView");
+		
+		return mv;
+	}
+	
 	@RequestMapping(value="goAdmin.me")
 	public String goAdmin() {
 		return "admin/home";

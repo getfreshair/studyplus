@@ -114,7 +114,7 @@
                     <p class="line03">프로그램 차단, 스터디 플래너, 스터디 그룹을 통해  체계적인 학습을 하세요.</p>
                 </div>
                 <img class="img01" src="/studyplus/resources/images/main/main_top.gif">
-                <a class="img02" onclick="questionPage()"><img src="/studyplus/resources/images/main/chatbotBtn.png"></a>
+                <a class="img02 chatbotBtnImg" onclick="questionPage()"><img src="/studyplus/resources/images/main/chatbotBtn.png"></a>
                 <a href="#" class="img03"><img src="/studyplus/resources/images/main/main_top_bubble.png"></a>
             </div>
              <!-- // 영역1 -->
@@ -196,9 +196,9 @@
 							<input type="text" name="member_Pwd" class="form-control" id="InputPassword" placeholder="비밀번호를 입력하세요">
 						</div>
 						<div class="btn-center">
-							<a href="#">아이디 찾기</a> |
-							<a href="#">비밀번호 찾기</a> |
-							<a href="insertMemberPage.me">회원가입</a>
+							<a href="findMemberIdPage.me">아이디 찾기</a> |
+							<a href="findMemberPwdPage.me">비밀번호 찾기</a> |
+							<a href="insertMemberAgreementPage.me">회원가입</a>
 							<button type="submit" class="btn btn-primary btn-block">로그인</button>
 						</div>
 					</form>

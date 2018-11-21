@@ -165,4 +165,26 @@
 		FROM FILES
 		WHERE FILES_ORIGINNAME LIKE #{indexStr}
 	</select>
+	
+	<insert id="createConfirmNum" parameterType="map" useGeneratedKeys="true" keyProperty="FINDIDPWDSMS_CONFIRMNUM">
+		INSERT INTO FINDIDPWDSMS VALUES (#{MEMBER_PHONE}, #{confirmNum})
+	</insert>
+	
+	<select id="selectConfirmNum" parameterType="java.lang.String" resultType="_int">
+		SELECT FINDIDPWDSMS_CONFIRMNUM
+		FROM FINDIDPWDSMS
+		WHERE MEMBER_PHONE = #{MEMBER_PHONE}
+	</select>
+	
+	<select id="selectIdList" parameterType="java.lang.String" resultType="map">
+		SELECT MEMBER_ID
+		FROM MEMBER
+		WHERE MEMBER_PHONE = #{MEMBER_PHONE}
+	</select>
+	
+	<select id="selectConfirmUserId" parameterType="java.lang.String" resultType="_int">
+		SELECT COUNT(MEMBER_ID)
+		FROM MEMBER
+		WHERE MEMBER_ID = #{MEMBER_ID}
+	</select>
 </mapper>
