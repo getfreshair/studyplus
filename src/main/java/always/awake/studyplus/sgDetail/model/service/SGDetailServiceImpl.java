@@ -99,4 +99,10 @@ public class SGDetailServiceImpl implements SGDetailService{
 		return list;
 	}
 
+	@Override
+	public int insertGroupBoardWrite(int grCode, String contents, int loginUserCode, int boardType) {
+		int insertResult =  gd.insertGroupBoardWrite(sqlSession, grCode, contents, loginUserCode, boardType);
+		return insertResult;
+	}
+
 }

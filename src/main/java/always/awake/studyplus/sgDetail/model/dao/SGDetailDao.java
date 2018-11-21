@@ -30,7 +30,6 @@ public interface SGDetailDao {
 
 	List<HashMap<String, Object>> selectGroupMemberTimeList(SqlSessionTemplate sqlSession, int grCode, String thisDay);
 
-
-
+	int insertGroupBoardWrite(SqlSessionTemplate sqlSession, int grCode, String contents, int loginUserCode, int boardType);
 	
 }
