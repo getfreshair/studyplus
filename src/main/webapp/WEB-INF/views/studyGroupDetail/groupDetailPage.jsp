@@ -138,7 +138,7 @@
 			<div class="titleArea">
 			<!-- *가입여부 체크 (가입-1 / 미가입-0 ,(**DB상으로는 가입-0, 미가입-1)) -->
 				<input type="hidden" id="grCode" value="${gr.studyGroup_Code}"/>
-<%-- 				<input type="hidden" id="grLeaderCode" value="${gr.leaderMem_Code}"/> --%>
+ 				<input type="hidden" id="grLeaderCode" value="${gr.leaderMem_Code}"/>
 				
 				<div class="groupInfoArea topInfoArea">
 					<div class="groupInfoLeft">
@@ -713,6 +713,7 @@
 			data : { periodType : periodType, 
 					 changeDates : changeDates, changeMonths : changeMonths },
 			type : "POST",
+			
 			success:function(data) {
 				if(menuType == 2){
 					thisDay2 = "" + data.selectDate.THIS_DAY;

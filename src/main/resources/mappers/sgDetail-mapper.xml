@@ -304,4 +304,11 @@
 		]]>		
 	</select>
 	
+	<insert id="insertGroupBoardWrite" parameterType="hashmap">
+		INSERT INTO GROUPBOARD
+		    (GROUPBOARD_CODE, MEMBER_CODE, GROUPBOARD_CONTENT, GROUPBOARD_POSTDATE, GROUPBOARD_TYPE, GROUPBOARD_STATUS, STUDYGROUP_CODE, GROUPBOARD_TITLE)
+		VALUES
+		    (SEQ_GROUPBOARD_GROUPBOARD_CODE.NEXTVAL, #{ loginUserCode }, #{ contents }, SYSDATE, #{ boardType }, 0, #{ grCode }, '냐냐냐')
+	</insert>
+	
 </mapper>

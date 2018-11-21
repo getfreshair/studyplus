@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import always.awake.studyplus.member.model.vo.Files;
 import always.awake.studyplus.member.model.vo.Member;
 import always.awake.studyplus.sgDetail.model.service.SGDetailService;
 import always.awake.studyplus.sgDetail.model.vo.SGDetail;
@@ -23,16 +24,16 @@ public class SGDetailController {
 	@Autowired
 	private SGDetailService gs;
 	
-	@RequestMapping(value="selectOneGroup.sgd", method=RequestMethod.GET)
-	public ModelAndView selectOneGroup(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
+	@RequestMapping(value="selectOneGroup.sgd")
+	public @ResponseBody ModelAndView selectOneGroup(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
 		
 		int grCode = Integer.parseInt(request.getParameter("group_No"));
 			
 		int memCode = ((Member)(request.getSession().getAttribute("loginUser"))).getMember_Code();
-		
-		//		test 지우기
-		memCode = 5;	
-		
+//		
+//		//		test 지우기
+//		memCode = 5;	
+//		
 		try {
 			int joinStatus = gs.selectJoinStatus(grCode, memCode);
 			
@@ -261,23 +262,37 @@ public class SGDetailController {
 	}
 	
 	@RequestMapping(value="goBoardWriteModalPage.sgd")
-	public @ResponseBody ModelAndView goBoardWriteModalPage(ModelAndView mv) {
-		mv.setViewName("studyGroupDetail/bottomCenterInclude/boardWrite");
-		System.out.println("모달에 띄울 페이지 받아옴?" + mv);
+	public ModelAndView goBoardWriteModalPage(@RequestParam int grCode, @RequestParam int grLeaderCode, HttpServletRequest request, ModelAndView mv) {
+		try {
+			System.out.println("들어오지도 않니?");
+			
+			mv.addObject("grCode", grCode);
+			mv.addObject("grLeaderCode", grLeaderCode);
+			
+			Files files_name = ((Member)(request.getSession().getAttribute("loginUser"))).getMember_Files();
+			
+			String loginUserProf = files_name.getFiles_Name();
+			mv.addObject("loginUserProf", loginUserProf);
+			
+			
+			System.out.println(mv.toString());
+			mv.setViewName("studyGroupDetail/bottomCenterInclude/boardWrite");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return mv;
 	}
 	
 	@RequestMapping(value="insertGroupBoardWrite.sgd")
-	public @ResponseBody int insertGroupBoardWrite(@RequestParam int grCode, @RequestParam int memCode, HttpServletResponse response){
+	public @ResponseBody int insertGroupBoardWrite(@RequestParam int grCode, @RequestParam String contents,
+													@RequestParam int loginUserCode, @RequestParam int boardType, HttpServletResponse response){
 		int result = -1;
 		
 		try {
-			int joinAbleCnt = gs.selectJoinAbleChk(grCode);
-			
-			if(joinAbleCnt >= 1) {	//최대 가능 인원 - 현재 인원이 1보다 크면 가입 가능
-				result = gs.insertGroupJoin(grCode, memCode);
-			}
-			
+			result = gs.insertGroupBoardWrite(grCode, contents, loginUserCode, boardType);
+						
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

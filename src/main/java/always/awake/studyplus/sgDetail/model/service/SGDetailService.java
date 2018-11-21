@@ -33,6 +33,8 @@ public interface SGDetailService {
 
 	public List<HashMap<String, Object>> selectGroupMemberTimeList(int grCode, String thisDay);
 
+	public int insertGroupBoardWrite(int grCode, String contents, int loginUserCode, int boardType);
+
 
 	
 	

@@ -110,5 +110,17 @@ public class SGDetailDaoImpl implements SGDetailDao{
 		System.out.println("dao : " + hm);
 		return sqlSession.selectList("SGDetail.selectGroupMemberTimeList", hm);
 	}
+
+	@Override
+	public int insertGroupBoardWrite(SqlSessionTemplate sqlSession, int grCode, String contents, int loginUserCode, int boardType) {
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		
+		hm.put("grCode", grCode);
+		hm.put("contents", contents);
+		hm.put("loginUserCode", loginUserCode);
+		hm.put("boardType", boardType);
+		
+		return sqlSession.insert("SGDetail.insertGroupBoardWrite", hm);
+	}
 	
 }

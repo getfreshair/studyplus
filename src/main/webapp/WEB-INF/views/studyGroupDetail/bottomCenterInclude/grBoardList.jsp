@@ -58,9 +58,8 @@
 	
 
 	<div class="boardListPageWrap">
-	
 			<div class="boardTop">
-				<div onclick="boardWriteModalShow();" class="bordWriteBtn">게시물 쓰기</div>
+				<div onclick="boardWriteModalShow('${ gr.studyGroup_Code }', '${ gr.leaderMem_Code }');" class="bordWriteBtn">게시물 쓰기</div>
 				<div class="centerFilterMenu">
 					<span id="" class="menuBtn boardFilterBtn">전체</span>
 					<span>|</span>
@@ -146,16 +145,16 @@
 </body>
 
 <script>	
-	function boardWriteModalShow(){
-		
-		alert('안녕하시오'
-		grLeaderCode = '${gr.leaderMem_Code}';
-		alert("그룹장 누구?" + grLeaderCode);
-		//공지 작성 권한 체크용
+	function boardWriteModalShow(grCode, grLeaderCode){
+	
+// 		contentType: false,
+// 		processData: false,
+//		async : true,
 		
 		$.ajax({
 			url:"goBoardWriteModalPage.sgd",
-// 			data : { grCode : grCode, boardCode : boardCode },
+			data : { grCode : grCode, grLeaderCode : grLeaderCode },
+			
 			success:function(data) {
 				$('#settingModalArea').empty();
 				$('#settingModalArea').append(data);
@@ -174,6 +173,7 @@
 		$.ajax({
 			url:"selectOneBoardDetailShow.sgd",
 			data : { grCode : grCode, boardCode : boardCode },
+			
 			success:function(data) {
 				$('#settingModalArea').empty();
 				$('#settingModalArea').append(data);
