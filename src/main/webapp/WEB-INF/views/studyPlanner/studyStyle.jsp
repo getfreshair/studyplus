@@ -34,9 +34,11 @@
 	.txt{line-height:1.8; word-break:keep-all;}
 	.resultBtn{font-size:20px; padding:5px 90px; line-height:2;}
 	
-	#typelist dl{border:1px solid #ddd; padding:15px 20px;}
+	#typelist dl{border:1px solid #ddd; padding:15px 20px; background:#f7f7f7;}
 	#typelist dt{line-height:1.8; font-size:16px;}
 	#typelist dd{line-height:1.8; word-break:keep-all; font-size:16px;}
+	
+	.loding_area{display:none; text-align:center; padding:50px 0;}
 </style>
 </head>
 <body>
@@ -71,8 +73,8 @@
 						총 4가지 범주로 나누어, 각 영역별로 11개의 질문을 제시하고 있다.</p>
 						
 						<h3>▶ 학습스타일 진단방법</h3>
-						<p class="txt"><strong>1.</strong> 44개의 질문에 각각 ‘a’또는 'b'중 한 가지를 선택한다. 자신이 'a‘, 'b' 모두에 해당된다고
-						생각될 경우, 좀 더 빈도수가 높은 항목을 선택한다.<br> <strong>2.</strong> 점수계산표에 따라 점수를 계산하여 자신의 학습성향을 파악한다. </p>
+						<p class="txt">1. 44개의 질문에 각각 ‘a’또는 'b'중 한 가지를 선택한다. 자신이 'a‘, 'b' 모두에 해당된다고
+						생각될 경우, 좀 더 빈도수가 높은 항목을 선택한다.<br> 2. 점수계산표에 따라 점수를 계산하여 자신의 학습성향을 파악한다. </p>
 						
 						<h3>▶ 학습스타일 진단 질문지</h3>
 						<table class="tbl-type02" id="surveyList">
@@ -416,194 +418,257 @@
 								
 								$("#typelist").hide();
 								$(".resultBtn").click(function(){
-										
-									//합계
-									var line1 = $("#checklist tr:nth-child(2) input:checked").length;
-									var line2 = $("#checklist tr:nth-child(3) input:checked").length;
-									var line3 = $("#checklist tr:nth-child(5) input:checked").length;
-									var line4 = $("#checklist tr:nth-child(6) input:checked").length;
-									var line5 = $("#checklist tr:nth-child(8) input:checked").length;
-									var line6 = $("#checklist tr:nth-child(9) input:checked").length;
-									var line7 = $("#checklist tr:nth-child(11) input:checked").length;
-									var line8 = $("#checklist tr:nth-child(12) input:checked").length;
-						
-									for(var i = 1; i < 9; i++){
-										//$("#sum1").text(line1);
-										eval('$("#sum' + i +'").text(line' + i +')');
-										//var $sum1 = $("#checklist #sum1").text();
-										eval('var $sum' + i + '= $("#checklist #sum' + i +'").text()');
-										//var $score1 = $("#score1");
-										eval('var $score' + i + '= $("#score' + '8")');
-									}
 									
-									//점수
-									var result1 = Math.abs($sum1 - $sum2);
-									var result2 = Math.abs($sum3 - $sum4);
-									var result3 = Math.abs($sum5 - $sum6);
-									var result4 = Math.abs($sum7 - $sum8);
+									//로딩바
+									$(".loding_area").fadeIn(200).delay(1500);
+									$(".loding_area").fadeOut(60); 
 									
-									if($sum1 > $sum2){
-										$("#score1").text(result1);
-										$("#score2").text(0);
-									}else{
-										$("#score2").text(result1);
-										$("#score1").text(0);
-									}
+									//결과함수 딜레이
+									setTimeout(function() {
+										resultView();
+									}, 1560);
 									
-									if($sum3 > $sum4){
-										$("#score3").text(result2);
-										$("#score4").text(0);
-									}else{
-										$("#score4").text(result2);
-										$("#score3").text(0);
-									}
+									//결과 노출
+									function resultView(){
+										$("#typelist").show();
 									
-									if($sum5 > $sum6){
-										$("#score5").text(result3);
-										$("#score6").text(0);
-									}else{
-										$("#score6").text(result3);
-										$("#score5").text(0);
-									}
-									
-									if($sum7 > $sum8){
-										$("#score7").text(result4);
-										$("#score8").text(0);
-									}else{
-										$("#score8").text(result4);
-										$("#score7").text(0);
-									}
-						
-									$("#typelist").show();
-									$("#typelist dl").hide();
-
-									var sumArr = $sum1 + ","+ $sum2 + ","+ $sum3 + ","+ $sum4 + ","+ 
-												$sum5 + ","+ $sum6 + ","+ $sum7 + ","+ $sum8;
-									//합계 데이터 저장
-									$.ajax({
-										url : "studyStyleResult.sp",
-										data : {sumArr : sumArr},
-										type : "get",
-										success : function(data) {
-											
-											console.log("등록 성공!");
-											$("#studyTendencyChart").empty();
-								
-											$.ajax({
-												url : "studyStyleChart.sp",
-												type : "post",
-												success : function(data) {
-													
-													if(data.length != 0){
-														
-														$(".tendency_go").hide();
-														$(".tendency_result").show();
-														
-														//console.log("데이터 값이 있을때")
-														var date = data[0].STUDYSTYLE_ENROLLDATE;
-														var type1 = data[0].STUDYSTYLE_ACTIVITY;	//활동형
-														var type2 = data[0].STUDYSTYLE_DELIBERATE;	//숙고형
-														var type3 = data[0].STUDYSTYLE_SENSIBILITY;	//감각형
-														var type4 = data[0].STUDYSTYLE_INTUITIVE;	//직관형
-														var type5 = data[0].STUDYSTYLE_PERSPECTIVE;	//시각형
-														var type6 = data[0].STUDYSTYLE_LANGUAGE;	//언어형
-														var type7 = data[0].STUDYSTYLE_SEQUENTIAL;	//순차형
-														var type8 = data[0].STUDYSTYLE_WHOLE;		//총체형
-														
-														for(var i = 1; i < 9; i++){
-															//result1 = Math.floor((type1 / 11) * 100);
-															eval('var result' + i + '= Math.floor((type' + i +'/ 11) * 100)');
-															//console.log(eval('result' + i));
-														}
-														
-														//공부성향 차트
-														var options = {
-																'legend':{
-																	names: ['언어형', '직관형',	'숙고형', '순차형',
-																			'시각형',	'감각형',	'활동형',	'총체형']
-																},
-																'dataset': {
-																	title: '학습스타일 결과',
-																	values: [[result6, result4, result2, result7,
-																			result5, result3, result1, result8]],
-																	bgColor: '#f9f9f9',
-																	fgColor: '#30a1ce',
-																},
-																'chartDiv': 'studyTendencyChart',
-																'chartType': 'radar',
-																'chartSize': { width: 1000, height: 320 }
-														};
-														Nwagon.chart(options);
-														
-														
-														//점수에 따른 결과
-														if(type1 > type2){
-															console.log("활동형");
-															$(".type1_1").show();
-														}else{
-															console.log("숙고형");
-															$(".type1_2").show();
-														}
-														
-														if(type3 > type4){
-															console.log("감각형");
-															$(".type2_1").show();
-														}else{
-															console.log("직관형");
-															$(".type2_2").show();
-														}
-			
-														if(type5 > type6){
-															console.log("사각형");
-															$(".type3_1").show();
-														}else{
-															console.log("언어형");
-															$(".type3_2").show();
-														}
-			
-														if(type7 > type8){
-															console.log("순차형");
-															$(".type4_1").show();
-														}else{
-															console.log("총체형");
-															$(".type4_2").show();
-														}
-			
-													}else{
-														//console.log("데이터가 값이 없을떄")
-														$(".tendency_go").show();
-														$(".tendency_result").hide();
-														for(var i = 1; i < 9; i++){
-															eval('var result' + i + '= 0');
-														}
-													}
-												},
-												error : function() {
-													console.log("에러발생!");
-												}
-											});
-
-										},
-										error : function() {
-											console.log("에러발생!");
-										}
-									});
-								});
-								
-							});
+										//합계
+										var line1 = $("#checklist tr:nth-child(2) input:checked").length;
+										var line2 = $("#checklist tr:nth-child(3) input:checked").length;
+										var line3 = $("#checklist tr:nth-child(5) input:checked").length;
+										var line4 = $("#checklist tr:nth-child(6) input:checked").length;
+										var line5 = $("#checklist tr:nth-child(8) input:checked").length;
+										var line6 = $("#checklist tr:nth-child(9) input:checked").length;
+										var line7 = $("#checklist tr:nth-child(11) input:checked").length;
+										var line8 = $("#checklist tr:nth-child(12) input:checked").length;
 							
+										for(var i = 1; i < 9; i++){
+											//$("#sum1").text(line1);
+											eval('$("#sum' + i +'").text(line' + i +')');
+											//var $sum1 = $("#checklist #sum1").text();
+											eval('var $sum' + i + '= $("#checklist #sum' + i +'").text()');
+											//var $score1 = $("#score1");
+											eval('var $score' + i + '= $("#score' + '8")');
+										}
+										
+										//점수
+										var result1 = Math.abs($sum1 - $sum2);
+										var result2 = Math.abs($sum3 - $sum4);
+										var result3 = Math.abs($sum5 - $sum6);
+										var result4 = Math.abs($sum7 - $sum8);
+										
+										if($sum1 > $sum2){
+											$("#score1").text(result1);
+											$("#score2").text(0);
+										}else{
+											$("#score2").text(result1);
+											$("#score1").text(0);
+										}
+										
+										if($sum3 > $sum4){
+											$("#score3").text(result2);
+											$("#score4").text(0);
+										}else{
+											$("#score4").text(result2);
+											$("#score3").text(0);
+										}
+										
+										if($sum5 > $sum6){
+											$("#score5").text(result3);
+											$("#score6").text(0);
+										}else{
+											$("#score6").text(result3);
+											$("#score5").text(0);
+										}
+										
+										if($sum7 > $sum8){
+											$("#score7").text(result4);
+											$("#score8").text(0);
+										}else{
+											$("#score8").text(result4);
+											$("#score7").text(0);
+										}
+										$("#typelist dl").hide();
+										
+										var sumArr = $sum1 + ","+ $sum2 + ","+ $sum3 + ","+ $sum4 + ","+ 
+													$sum5 + ","+ $sum6 + ","+ $sum7 + ","+ $sum8;
+										//합계 데이터 저장
+										$.ajax({
+											url : "studyStyleResult.sp",
+											data : {sumArr : sumArr},
+											type : "get",
+											success : function(data) {
+												
+												console.log("등록 성공!");
+												$("#studyTendencyChart").empty();
+									
+												//차트에 결과 노출
+												$.ajax({
+													url : "studyStyleChart.sp",
+													type : "post",
+													success : function(data) {
+														
+														if(data.length != 0){
+															
+															$(".tendency_go").hide();
+															$(".tendency_result").show();
+															
+															//console.log("데이터 값이 있을때")
+															var date = data[0].STUDYSTYLE_ENROLLDATE;
+															var type1 = data[0].STUDYSTYLE_ACTIVITY;	//활동형
+															var type2 = data[0].STUDYSTYLE_DELIBERATE;	//숙고형
+															var type3 = data[0].STUDYSTYLE_SENSIBILITY;	//감각형
+															var type4 = data[0].STUDYSTYLE_INTUITIVE;	//직관형
+															var type5 = data[0].STUDYSTYLE_PERSPECTIVE;	//시각형
+															var type6 = data[0].STUDYSTYLE_LANGUAGE;	//언어형
+															var type7 = data[0].STUDYSTYLE_SEQUENTIAL;	//순차형
+															var type8 = data[0].STUDYSTYLE_WHOLE;		//총체형
+															
+															for(var i = 1; i < 9; i++){
+																//result1 = Math.floor((type1 / 11) * 100);
+																eval('var result' + i + '= Math.floor((type' + i +'/ 11) * 100)');
+																//console.log(eval('result' + i));
+															}
+															
+															//공부성향 차트
+															var options = {
+																	'legend':{
+																		names: ['언어형', '직관형',	'숙고형', '순차형',
+																				'시각형',	'감각형',	'활동형',	'총체형']
+																	},
+																	'dataset': {
+																		title: '학습스타일 결과',
+																		values: [[result6, result4, result2, result7,
+																				result5, result3, result1, result8]],
+																		bgColor: '#f9f9f9',
+																		fgColor: '#30a1ce',
+																	},
+																	'chartDiv': 'studyTendencyChart',
+																	'chartType': 'radar',
+																	'chartSize': { width: 1000, height: 320 }
+															};
+															Nwagon.chart(options);
+															
+															
+															//점수에 따른 결과
+															if(type1 > type2){
+																console.log("활동형");
+																$(".type1_1").show();
+															}else{
+																console.log("숙고형");
+																$(".type1_2").show();
+															}
+															
+															if(type3 > type4){
+																console.log("감각형");
+																$(".type2_1").show();
+															}else{
+																console.log("직관형");
+																$(".type2_2").show();
+															}
+				
+															if(type5 > type6){
+																console.log("사각형");
+																$(".type3_1").show();
+															}else{
+																console.log("언어형");
+																$(".type3_2").show();
+															}
+				
+															if(type7 > type8){
+																console.log("순차형");
+																$(".type4_1").show();
+															}else{
+																console.log("총체형");
+																$(".type4_2").show();
+															}
+				
+														}else{
+															//console.log("데이터가 값이 없을떄")
+															$(".tendency_go").show();
+															$(".tendency_result").hide();
+															for(var i = 1; i < 9; i++){
+																eval('var result' + i + '= 0');
+															}
+														}
+													},
+													error : function() {
+														console.log("에러발생!");
+													}
+												});
+	
+											},
+											error : function() {
+												console.log("에러발생!");
+											}
+										});
+									}
+								});
+							});
+								
 							
 							//시연용 데이터 
 							$(function(){
 								$(".testBtn").click(function(){
+									$("input[value=b1]").attr("checked",true);
+									$("input[value=a2]").attr("checked",true);
+									$("input[value=b3]").attr("checked",true);
+									$("input[value=b4]").attr("checked",true);
+									$("input[value=b5]").attr("checked",true);
+									$("input[value=a6]").attr("checked",true);
+									$("input[value=a7]").attr("checked",true);
+									$("input[value=b8]").attr("checked",true);
+									$("input[value=b9]").attr("checked",true);
+									$("input[value=a10]").attr("checked",true);
 									
+									$("input[value=b11]").attr("checked",true);
+									$("input[value=b12]").attr("checked",true);
+									$("input[value=a13]").attr("checked",true);
+									$("input[value=a14]").attr("checked",true);
+									$("input[value=b15]").attr("checked",true);
+									$("input[value=a16]").attr("checked",true);
+									$("input[value=a17]").attr("checked",true);
+									$("input[value=a18]").attr("checked",true);
+									$("input[value=b19]").attr("checked",true);
+									$("input[value=a20]").attr("checked",true);
+									
+									$("input[value=b21]").attr("checked",true);
+									$("input[value=a22]").attr("checked",true);
+									$("input[value=a23]").attr("checked",true);
+									$("input[value=a24]").attr("checked",true);
+									$("input[value=b25]").attr("checked",true);
+									$("input[value=a26]").attr("checked",true);
+									$("input[value=a27]").attr("checked",true);
+									$("input[value=b28]").attr("checked",true);
+									$("input[value=b29]").attr("checked",true);
+									$("input[value=b30]").attr("checked",true);
+									
+									$("input[value=a31]").attr("checked",true);
+									$("input[value=a32]").attr("checked",true);
+									$("input[value=b33]").attr("checked",true);
+									$("input[value=a34]").attr("checked",true);
+									$("input[value=b35]").attr("checked",true);
+									$("input[value=b36]").attr("checked",true);
+									$("input[value=b37]").attr("checked",true);
+									$("input[value=a38]").attr("checked",true);
+									$("input[value=a39]").attr("checked",true);
+									$("input[value=a40]").attr("checked",true);
+									
+									$("input[value=a41]").attr("checked",true);
+									$("input[value=a42]").attr("checked",true);
+									$("input[value=b43]").attr("checked",true);
+									$("input[value=b44]").attr("checked",true);
 								});
 							});
 						</script>
 						
 						<div class="btn-center">
 							<button type="button" class="btn btn-primary resultBtn">결과 확인하기</button>
-							<button type="button" class="btn btn-primary resultBtn testBtn">테스트용 결과 확인</button>
+							<button type="button" class="btn btn-primary resultBtn testBtn">시연용 결과 확인</button>
+						</div>
+						
+						<div class="loding_area">
+							<img alt="" src="/studyplus/resources/images/planner/img_loding.gif">
 						</div>
 						
 						<div id ="typelist">

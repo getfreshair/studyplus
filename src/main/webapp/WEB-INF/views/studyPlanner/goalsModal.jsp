@@ -15,7 +15,7 @@
 					<button type="button" class="btn btn-default">페이지 단위 설정</button>
 				</div>
 				<!-- 시간 단위 설정 -->
-				<form action="TodayTimeGoalAddModal.sp" method="post">
+				<form action="TodayTimeGoalAddModal.sp" method="post" name="myForm1">
 					<div class="time_form">
 						<input type="hidden" value="1" name="goalType">
 						<div class="col-sm-5 col-xs-12 chart_area">
@@ -52,12 +52,16 @@
 				</form>
 				<!-- // 시간 단위 설정 -->
 				<!-- 페이지 단위 설정 -->
-				<form action="TodayBookGoalAddModal.sp" method="post">
+				<form action="TodayBookGoalAddModal.sp" method="post" name="myForm2">
 					<div class="book_form">
 						<input type="hidden" value="0" name="goalType">
 						<div class="col-sm-5 col-xs-12 img_area">
-							<input type="text" class="form-control bookIpt" id="searchIpt1" name="bookIsbn">
+							<input type="text" class="form-control bookIpt" id="searchIpt1" name="bookIsbn" placeholder="ISBN코드 입력">
 							<button type="button" class="btn btn-gray" id="bookBtn1">책검색</button>
+							<div class="isbn_info">
+								<img src="/studyplus/resources/images/planner/img_isbn2.png" alt="">
+								<p>책 뒷면의 ISBN 코드를 <br>입력하세요!</p>
+							</div>
 							<div class="book_img"></div>
 							<p class="book_info"></p>
 						</div>
@@ -149,7 +153,7 @@
 					<div class="book_form">
 						<input type="hidden" value="0" name="goalType">
 						<div class="col-sm-5 col-xs-12 img_area">
-							<input type="text" class="form-control bookIpt" id="searchIpt2" name="bookIsbn">
+							<input type="text" class="form-control bookIpt" id="searchIpt2" name="bookIsbn" placeholder="ISBN코드 입력">
 							<button type="button" class="btn btn-gray" id="bookBtn2">책검색</button>
 							<div class="book_img"></div>
 							<p class="book_info"></p>
@@ -261,8 +265,12 @@
 					<div class="book_form">
 						<input type="hidden" value="0" name="goalType">
 						<div class="col-sm-5 col-xs-12 img_area">
-							<input type="text" class="form-control bookIpt" id="searchIpt3" name="bookIsbn">
+							<input type="text" class="form-control bookIpt" id="searchIpt3" name="bookIsbn" placeholder="ISBN코드 입력">
 							<button type="button" class="btn btn-gray" id="bookBtn3">책검색</button>
+							<div class="isbn_info">
+								<img src="/studyplus/resources/images/planner/img_isbn2.png" alt="">
+								<p>책 뒷면의 ISBN 코드를 <br>입력하세요!</p>
+							</div>
 							<div class="book_img"></div>
 							<p class="book_info"></p>
 						</div>
@@ -392,7 +400,7 @@
 					<div class="book_form">
 						<input type="hidden" value="0" name="goalType">
 						<div class="col-sm-5 col-xs-12 img_area">
-							<input type="text" class="form-control bookIpt" id="searchIpt4" name="bookIsbn">
+							<input type="text" class="form-control bookIpt" id="searchIpt4" name="bookIsbn" placeholder="ISBN코드 입력">
 							<button type="button" class="btn btn-gray" id="bookBtn4">책검색</button>
 							<div class="book_img"></div>
 							<p class="book_info"></p>
