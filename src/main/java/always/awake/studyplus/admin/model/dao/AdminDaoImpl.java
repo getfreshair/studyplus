@@ -566,4 +566,9 @@ public class AdminDaoImpl implements AdminDao {
 	public int checkTotalPRCount(SqlSessionTemplate sqlSession,int prCode) {
 		return sqlSession.selectOne("Admin.checkTotalPRCount", prCode);
 	}
+
+	@Override
+	public void updateCPCStatus(SqlSessionTemplate sqlSession, int prCode) {
+		sqlSession.update("Admin.updateCPCStatus", prCode);
+	}
 }

@@ -434,5 +434,10 @@ public class AdminServiceImpl implements AdminService{
 		return ad.checkTotalPRCount(sqlSession, prCode);
 	}
 
+	@Override
+	public void updateCPCStatus(int prCode) {
+		ad.updateCPCStatus(sqlSession, prCode);
+	}
+
 
 }

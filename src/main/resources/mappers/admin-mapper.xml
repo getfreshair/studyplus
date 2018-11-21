@@ -121,6 +121,12 @@
 		INSERT INTO REWARD (REWARD_CODE, REWARD_TYPE, REWARD_STATUS, REWARD_ISSUEDATE, STUDYGROUP_CODE) VALUES(SEQ_REWARD_REWARD_CODE.NEXTVAL,1,1,SYSDATE,#{code})
 	</insert>
 	
+	<update id="updateCPCStatus" parameterType="_int">
+		UPDATE PR
+		SET PR_STATUS = 1
+		WHERE PR_CODE = #{prCode}
+	</update>
+	
 	<update id="updateNoticeCount">
 		UPDATE NOTICE
 		SET NOTICE_COUNT = (SELECT NOTICE_COUNT FROM NOTICE WHERE NOTICE_CODE = #{noticeCode})+1
@@ -509,17 +515,21 @@
 
 	
 	<select id="selectImgAndLink" parameterType="_int" resultType="map">
-		SELECT pr.PR_CODE, pr.PR_LINK, pr.CATEGORY_CODE, pr.PR_STATUS, f.FILES_NAME
+		SELECT pr.PR_CODE, pr.PR_LINK, pr.CATEGORY_CODE , pr.PR_STATUS , f.FILES_NAME, pr.PR_CONTRACTMONEY, TO_CHAR(pr.PR_ENDDATE,'yyyymmdd') as PR_ENDDATE
 		FROM PR pr
 		LEFT JOIN FILES f ON(pr.PR_CODE = f.PR_CODE)
-		WHERE CATEGORY_CODE IN(SELECT CATEGORY_CODE
+		WHERE CATEGORY_CODE = (SELECT CATEGORY_CODE
+                               FROM(SELECT CATEGORY_CODE
 		                       FROM INTERESTCATEGORY
 		                       WHERE MEMBER_CODE = (SELECT MEMBER_CODE
 		                                       FROM MEMBER
-		                                       WHERE MEMBER_CODE = #{member_Code}))
+		                                       WHERE MEMBER_CODE =#{member_Code})
+                                               ORDER BY DBMS_RANDOM.RANDOM
+                                               )WHERE <![CDATA[ROWNUM <2)
 		AND pr.PR_STATUS = 0
 		AND pr.PR_TYPE = 0
 		AND f.FILES_STATUS = 0
+		AND ROWNUM < 2]]>
 	</select>
 	
 	<select id="selectPRCount" parameterType="map" resultType="_int">

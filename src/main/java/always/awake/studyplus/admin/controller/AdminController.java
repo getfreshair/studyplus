@@ -1192,13 +1192,24 @@ public class AdminController {
 	public @ResponseBody Map<String, Object> selectImgAndLink(@RequestParam(value="member_Code")int member_Code){
 		Map<String, Object> pr = null;
 		System.out.println("들어오냐고올ㄴ농리ㅗㄴ이로 니오리" + member_Code);
+		Date d = new Date();
 		try {
 			pr = as.selectImgAndLink(member_Code);
+			System.out.println("종료일>"+pr.get("PR_ENDDATE"));
+			int endDate = Integer.parseInt(pr.get("PR_ENDDATE")+"");
+			SimpleDateFormat today = new SimpleDateFormat("yyyyMMdd");
+			System.out.println("오늘" + today.format(d));
+			int toDay= Integer.parseInt(today.format(d).toString());
+			if(toDay>endDate) {
+				int prCode = Integer.parseInt(pr.get("PR_CODE").toString());
+				as.updateCPCStatus(prCode);
+				return null;
+			}else {
+				return pr;
+			}
 		}catch(Exception e) {
-			e.printStackTrace();
+			return null;
 		}
-		System.out.println("오카이?"+pr);
-		return pr;
 	}
 	@RequestMapping("selectCPCImgAndLink.do")
 	public @ResponseBody Map<String, Object> selectCPCImgAndLink(@RequestParam(value="member_Code")int member_Code){
@@ -1214,9 +1225,7 @@ public class AdminController {
 		try {
 			System.out.println("이건들어옹ㅁㄴ올 ㅣ몬ㅇ리ㅗㄴ이로닠ㅇㄹ ");
 		pr = as.selectCPCImgAndLink(member_Code);
-		System.out.println("오카이"+pr);
-		System.out.println("여길안들어옴??? 왜??? ");
-		int totalClickCount;
+		int totalClickCount = 0;
 		
 		int clickMoney = Integer.parseInt(pr.get("PR_CLICKMONEY")+"");
 		int contractMoney = Integer.parseInt(pr.get("PR_CONTRACTMONEY")+"");
@@ -1228,12 +1237,12 @@ public class AdminController {
 		if(totalClickCount * clickMoney <= contractMoney ) {
 			return pr;
 		}else {
+			as.updateCPCStatus(prCode);
 			return null;
 		}
 		}catch (AdminException e) {
-			e.printStackTrace();
+			return null;
 		}
-		return null;
 	}
 	
 	
