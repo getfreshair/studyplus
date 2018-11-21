@@ -26,85 +26,101 @@
 
 
 <section>
-	<div class="tabs tabs-style-linemove">
-		<nav>
-			<ul>
-				<li><a href="#section-linemove-1" ><span>Programe Setting</span></a></li>
-				<li><a href="#section-linemove-2" ><span>Web Site Setting</span></a></li>
-				<li><a href="#section-linemove-3" ><span>Schedule Setting</span></a></li>
-				<li><a href="#section-linemove-4" ><span>Location Setting</span></a></li>
-				<li><a href="#section-linemove-5" ><span>preparing..</span></a></li>
-			</ul>
-		</nav>
-		<div class="content-wrap">
-			<section id="section-linemove-1" >
-			<div id="programeDiv"></div>
-				<script>
-					$(function(){
-						$.ajax({
-						     url:"showProgram.bl",
-						     type:"get",
-						     success:function(data){	
-						    	$("#programeDiv").html(data);		
-						     },
-						     error:function(request,status,error){
-						          console.log("code:"+request.status + "\n message : " + request.responseText + "\n error : " + error );
-						          }
-						    })
-					})
-				</script>
-			</section>
-			<section id="section-linemove-2">
-			<%-- <jsp:include page="blockWeb.jsp"/> --%>
-			<div id="webDiv"></div>
-				<script>
-					$(function(){
-						$.ajax({
-						     url:"showWeb.bl",
-						     type:"get",
-						     success:function(data){	
-						    	$("#webDiv").html(data);			
-						     },
-						     error:function(request,status,error){
-						          console.log("code:"+request.status + "\n message : " + request.responseText + "\n error : " + error );
-						          }
-						    })
-					})
-				</script>
-			</section>
-			<section id="section-linemove-3"></section>
-			<section id="section-linemove-4">
-			<%-- <jsp:include page="blockLocation.jsp"/> --%>
-			<div id="locationDiv"></div>
-				<script>
-					$(function(){
-						$.ajax({
-						     url:"showLocation.bl",
-						     type:"get",
-						     success:function(data){	
-						    	$("#locationDiv").html(data);			
-						     },
-						     error:function(request,status,error){
-						          console.log("code:"+request.status + "\n message : " + request.responseText + "\n error : " + error );
-						          }
-						    })
-					})
-				</script>
-			</section>
-			<section id="section-linemove-5"></section>
-		</div><!-- /content -->
-	</div><!-- /tabs -->
+   <div class="tabs tabs-style-linemove">
+      <nav>
+         <ul>
+            <li><a href="#section-linemove-1" ><span>Programe Setting</span></a></li>
+            <li><a href="#section-linemove-2" ><span>Web Site Setting</span></a></li>
+            <li><a href="#section-linemove-3" ><span>Schedule Setting</span></a></li>
+            <li><a href="#section-linemove-4" ><span>Location Setting</span></a></li>
+           	<!-- <li><a href="#section-linemove-5" ><span>preparing..</span></a></li> -->
+         </ul>
+      </nav>
+      <div class="content-wrap">
+         <section id="section-linemove-1" >
+         <div id="programeDiv"></div>
+            <script>
+               $(function(){
+                  $.ajax({
+                       url:"showProgram.bl",
+                       type:"get",
+                       success:function(data){   
+                         $("#programeDiv").html(data);      
+                       },
+                       error:function(request,status,error){
+                            console.log("code:"+request.status + "\n message : " + request.responseText + "\n error : " + error );
+                            }
+                      })
+               })
+            </script>
+         </section>
+         <section id="section-linemove-2">
+         <%-- <jsp:include page="blockWeb.jsp"/> --%>
+         <div id="webDiv"></div>
+            <script>
+               $(function(){
+                  $.ajax({
+                       url:"showWeb.bl",
+                       type:"get",
+                       success:function(data){   
+                         $("#webDiv").html(data);         
+                       },
+                       error:function(request,status,error){
+                            console.log("code:"+request.status + "\n message : " + request.responseText + "\n error : " + error );
+                            }
+                      })
+               })
+            </script>
+         </section>
+         <section id="section-linemove-3">
+         <div id="scheduleDiv"></div>
+            <script>
+               $(function(){
+                  $.ajax({
+                       url:"showSchedule.bl",
+                       type:"get",
+                       success:function(data){   
+                         $("#scheduleDiv").html(data);         
+                       },
+                       error:function(request,status,error){
+                            console.log("code:"+request.status + "\n message : " + request.responseText + "\n error : " + error );
+                            }
+                      })
+               })
+            </script>
+         </section>
+         <section id="section-linemove-4">
+         <%-- <jsp:include page="blockLocation.jsp"/> --%>
+         <div id="locationDiv"></div>
+            <script>
+               $(function(){
+                  $.ajax({
+                       url:"showLocation.bl",
+                       type:"get",
+                       success:function(data){   
+                         $("#locationDiv").html(data);         
+                       },
+                       error:function(request,status,error){
+                            console.log("code:"+request.status + "\n message : " + request.responseText + "\n error : " + error );
+                            }
+                      })
+               })
+            </script>
+         </section>
+         <!-- <section id="section-linemove-5"></section> -->
+      </div><!-- /content -->
+   </div><!-- /tabs -->
 </section>
 
 <script src="/studyplus/resources/js/cbpFWTabs.js"></script>
-		<script>
-			(function() {
+      <script>
+         (function() {
 
-				[].slice.call( document.querySelectorAll( '.tabs' ) ).forEach( function( el ) {
-					new CBPFWTabs( el );
-				});
+            [].slice.call( document.querySelectorAll( '.tabs' ) ).forEach( function( el ) {
+               new CBPFWTabs( el );
+            });
 
-			})();
-		</script>
+         })();
+      </script>
 </body>
 </html>

@@ -74,7 +74,7 @@
 																		+ data[i]
 																		+ "</td>"
 																		+ "</tr>")
-												cnt++;
+												webCnt++;
 											}
 										},
 										error : function(request, status, error) {
@@ -202,7 +202,7 @@
 				<span style="color: red;">*</span>자동으로 추가 하기
 			</h4>
 			<h5 align="left" style="width: 100%; display: inline-block">
-				Study PLUS에서 설정한 차단 권장 프로그램들을 한번에 차단 목록에 추가해줍니다.</h5>
+				Study PLUS에서 설정한 차단 권장 웹 사이트의 URL들을 한번에 차단 목록에 추가해줍니다.</h5>
 			<button
 				style="display: inline-block; margin-left: 65%; margin-top: 20px"
 				type="button" class="btn btn-warning">자동 등록 하기</button>

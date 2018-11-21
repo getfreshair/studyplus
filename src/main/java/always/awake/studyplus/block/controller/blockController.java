@@ -122,12 +122,13 @@ public class blockController {
 
 	// 시간표 설정 화면 전환용 메소드
 	@RequestMapping("showSchedule.bl")
-	public String showSchedule(HttpServletRequest requeest, Model model) {
+	public ModelAndView showSchedule(ModelAndView mv) {
 
 		StringBuilder scheduleData = getScheduleData();
+		mv.addObject("scheduleData", scheduleData.toString());
+		mv.setViewName("block/blockSchedule");
 
-		model.addAttribute("scheduleData", scheduleData.toString());
-		return "block/blockSchedule";
+		return mv;
 	}
 
 	// 임시파일 저장용 메소드
