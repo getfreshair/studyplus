@@ -56,18 +56,21 @@ public class blockController {
 
 	// 위치 차단 설정 화면 전환용 메소드
 	@RequestMapping("showLocation.bl")
-	public String showLocation(HttpServletRequest requeest, Model model) {
+	public ModelAndView showLocation(ModelAndView mv) {
 
 		List<String> list = getBlockLocationInfo();
 
-		model.addAttribute("list", list);
-		return "block/blockLocation";
+		mv.addObject("list", list);
+		mv.setViewName("block/blockLocation");
+		
+		return mv;
 	}
 
 	// 프로그램 차단 설정 화면 전환용 메소드
 	@RequestMapping("showWeb.bl")
-	public String showWeb(HttpServletRequest requeest, Model model) {
-		return "block/blockWeb";
+	public ModelAndView showWeb(ModelAndView mv) {
+		mv.setViewName("block/blockWeb");
+		return mv;
 	}
 
 	// 웹 차단 설정 화면 전환용 메소드
@@ -85,17 +88,9 @@ public class blockController {
 
 	// 스케쥴 정보 받아오는 메소드
 	public StringBuilder getScheduleData() {
-		File dir1 = new File("C:\\studyPlanner");
-		if (!dir1.exists()) {
-			dir1.mkdir();
-		}
 
-		File dir2 = new File("C:\\studyPlanner\\blockPrograms");
-		if (!dir2.exists()) {
-			dir2.mkdir();
-		}
 
-		File schedulaData = new File("C:\\studyPlanner\\blockPrograms\\scheduleData.txt");
+		File schedulaData = new File("C:\\studyPlanner\\programData\\settingDatas\\scheduleData");
 
 		StringBuilder scheduleData = new StringBuilder();
 
@@ -140,16 +135,7 @@ public class blockController {
 	public void blockTimesTempSave(@RequestParam("todayStudyTime") String studyTime,
 			@RequestParam("groupTimmerInfo") String groupTimmerInfo,
 			@RequestParam("goalTimmerInfo") String goalTimmerInfo, HttpServletResponse response) {
-		// 파일 디렉토리 체크
-		File dir1 = new File("C:\\studyPlanner");
-		if (!dir1.exists()) {
-			dir1.mkdir();
-		}
 
-		File dir2 = new File("C:\\studyPlanner\\timmerDatas");
-		if (!dir2.exists()) {
-			dir2.mkdir();
-		}
 
 		// 현재 시간대 설정
 		String timeZone = new SimpleDateFormat("HH").format(new GregorianCalendar().getTimeInMillis());
@@ -387,18 +373,8 @@ public class blockController {
 	@RequestMapping("blockScheduleSave.bl")
 	public void blockScheduleSave(@RequestParam("scheduleData") String scheduleData, HttpServletResponse response) {
 
-		// 파일 디렉토리 체크
-		File dir1 = new File("C:\\studyPlanner");
-		if (!dir1.exists()) {
-			dir1.mkdir();
-		}
 
-		File dir2 = new File("C:\\studyPlanner\\blockPrograms");
-		if (!dir2.exists()) {
-			dir2.mkdir();
-		}
-
-		File schedulaData = new File("C:\\studyPlanner\\blockPrograms\\scheduleData.txt");
+		File schedulaData = new File("C:\\studyPlanner\\programData\\settingDatas\\scheduleData");
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(schedulaData));
 			bw.write(scheduleData);
@@ -418,27 +394,22 @@ public class blockController {
 
 	// 차단할 위치정보 저장용
 	@RequestMapping(value = "saveBlockLocationData.bl")
-	public String saveBlockLocationData(String locationInfo) {
-		System.out.println("locationInfo : " + locationInfo);
-		writeBlockLocationData(locationInfo);
-
-		return "redirect:showLocation.bl";
+	public void saveBlockLocationData(String inputLocation,HttpServletResponse response) {
+		writeBlockLocationData(inputLocation);
+		
+		try {
+			response.getWriter().println(inputLocation.substring(inputLocation.lastIndexOf(":")+1, inputLocation.length()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	// 위치 차단 정보 기록용
 	public void writeBlockLocationData(String locationInfo) {
-		// 파일 디렉토리 체크
-		File dir1 = new File("C:\\studyPlanner");
-		if (!dir1.exists()) {
-			dir1.mkdir();
-		}
 
-		File dir2 = new File("C:\\studyPlanner\\blockPrograms");
-		if (!dir2.exists()) {
-			dir2.mkdir();
-		}
-
-		File locationData = new File("C:\\studyPlanner\\blockPrograms\\locationData.txt");
+		File locationData = new File("C:\\studyPlanner\\programData\\settingDatas\\locationData");
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(locationData, true));
 			bw.write(locationInfo);
@@ -453,7 +424,7 @@ public class blockController {
 
 	// 위치 차단 정보 조회용
 	public List<String> getBlockLocationInfo() {
-		File locationData = new File("C:\\studyPlanner\\blockPrograms\\locationData.txt");
+		File locationData = new File("C:\\studyPlanner\\programData\\settingDatas\\locationData");
 		ArrayList<String> list = new ArrayList<String>();
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(locationData));
@@ -514,7 +485,7 @@ public class blockController {
 		return bplist;
 	}
 
-	@RequestMapping("saveBlockProgram")
+	@RequestMapping("saveBlockProgram.bl")
 	public void saveBlockProgram(MultipartFile file, HttpServletResponse response) {
 		String fileName = file.getOriginalFilename();
 		File saveFile = new File("C:\\studyPlanner\\programData\\settingDatas\\blockProgramList");
@@ -554,4 +525,135 @@ public class blockController {
 			e.printStackTrace();
 		}
 	}*/
+	
+	@RequestMapping("deleteBlockProgram.bl")
+	public @ResponseBody ArrayList<String> deleteBlockProgram(String deleteIndex) {
+		String[] checkNum = deleteIndex.split(",");
+		int cnt = 0;;
+		
+		
+		ArrayList<String> bplist = new ArrayList<String>();
+		File file = new File("C:\\studyPlanner\\programData\\settingDatas\\blockProgramList");
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			String temp = "";
+			while ((temp = br.readLine()) != null) {
+				bplist.add(temp);
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for (int i = 0; i < checkNum.length; i++) {
+			int index = Integer.parseInt(checkNum[i])  - cnt;
+			bplist.remove(index);
+			cnt ++;
+		}
+		
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter("C:\\\\studyPlanner\\\\programData\\\\settingDatas\\\\blockProgramList"));
+			for (int i = 0; i < bplist.size(); i++) {
+				bw.write(bplist.get(i));
+				bw.newLine();
+			}
+			bw.flush();
+			bw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return bplist;
+	}
+	
+	@RequestMapping("selectWebSiteList.bl")
+	public @ResponseBody ArrayList<String> selectWebSiteList() {
+		ArrayList<String> bplist = new ArrayList<String>();
+		File file = new File("C:\\studyPlanner\\programData\\settingDatas\\blockWebList");
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			String temp = "";
+			while ((temp = br.readLine()) != null) {
+				bplist.add(temp);
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return bplist;
+	}
+
+	@RequestMapping("saveWebSite.bl")
+	public void saveWebSite(String URLName, HttpServletResponse response) {
+		File saveFile = new File("C:\\studyPlanner\\programData\\settingDatas\\blockWebList");
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(saveFile, true));
+			bw.write(URLName);
+			bw.newLine();
+			bw.flush();
+			bw.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			response.getWriter().println(URLName);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("deleteWebSite.bl")
+	public @ResponseBody ArrayList<String> deleteWebSite(String deleteIndex) {
+		String[] checkNum = deleteIndex.split(",");
+		int cnt = 0;;
+		
+		
+		ArrayList<String> bplist = new ArrayList<String>();
+		File file = new File("C:\\studyPlanner\\programData\\settingDatas\\blockWebList");
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			String temp = "";
+			while ((temp = br.readLine()) != null) {
+				bplist.add(temp);
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for (int i = 0; i < checkNum.length; i++) {
+			int index = Integer.parseInt(checkNum[i])  - cnt;
+			bplist.remove(index);
+			cnt ++;
+		}
+		
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter("C:\\studyPlanner\\programData\\settingDatas\\blockWebList"));
+			for (int i = 0; i < bplist.size(); i++) {
+				bw.write(bplist.get(i));
+				bw.newLine();
+			}
+			bw.flush();
+			bw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return bplist;
+	}
 }

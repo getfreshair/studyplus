@@ -10,11 +10,11 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
-<script src="http://malsup.github.com/jquery.form.js"></script> 
+<script src="http://malsup.github.com/jquery.form.js"></script>
 <style>
 .programMenu {
 	background: red !important;
-}
+} 
 
 .vl {
 	border-left: 2px solid lightgray;
@@ -71,7 +71,7 @@
 							    	console.log(data);
 							    	for(var i = 0; i < data.length; i ++) {
 							    		$("#programListTable").append(
-							    				"<tr>"+ 
+							    				"<tr class='resetTr'>"+ 
 							    					"<td><input type='checkbox' name='selectBox' class='childCheckBox' value="+i+" /></td>" +
 							    					"<td align='center'>"+data[i]+"</td>"+
 							    				"</tr>"
@@ -129,10 +129,22 @@
 					}
 					console.log(rowid);
 						$.ajax({
-							url:"deleteBlockPrograme.bl",
+							url:"deleteBlockProgram.bl",
 							type:"post",
 							data:{deleteIndex:rowid},
 							success:function(data){
+								$(".resetTr").remove();
+								cnt = 0;
+								for(var i = 0; i < data.length; i ++) {
+									console.log(i);
+						    		$("#programListTable").append(
+						    				"<tr class='resetTr'>"+ 
+						    					"<td><input type='checkbox' name='selectBox' class='childCheckBox' value="+i+" /></td>" +
+						    					"<td align='center'>"+data[i]+"</td>"+
+						    				"</tr>"
+						    				)	
+						    				cnt++;
+						    	}
 								console.log("성공");
 							},
 							error:function(){
@@ -162,7 +174,7 @@
 						data:$("#fileForm").serialize(),
 						success:function(data){
 							$("#programListTable").append(
-				    				"<tr>"+ 
+				    				"<tr class='resetTr'>"+ 
 				    					"<td><input type='checkbox' name='selectBox' class='childCheckBox' value="+cnt+" /></td>" +
 				    					"<td align='center'>"+data+"</td>"+
 				    				"</tr>"
@@ -171,7 +183,7 @@
 						}, error:function(request,status,error){
 					          console.log("code:"+request.status + "\n message : " + request.responseText + "\n error : " + error );
 				        }
-					});
+					};
 					
 					$("#saveBtn").click(function(){
 						console.log($('#file'))
