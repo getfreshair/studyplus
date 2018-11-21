@@ -1,12 +1,12 @@
 package always.awake.studyplus.member.model.dao;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.servlet.ModelAndView;
 
 import always.awake.studyplus.member.model.exception.MemberException;
 import always.awake.studyplus.member.model.vo.Files;
@@ -158,8 +158,39 @@ public class MemberDaoImpl implements MemberDao{
 			throw new MemberException(e.getMessage());
 		}
 		
-		
 		return infoImgNames; 
+	}
+
+	@Override
+	public int createConfirmNum(SqlSessionTemplate sqlSession, String MEMBER_PHONE, int confirmNum) throws MemberException {
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			map.put("MEMBER_PHONE", MEMBER_PHONE);
+			map.put("confirmNum", confirmNum);
+			
+			sqlSession.insert("Member.createConfirmNum", map);
+			
+			return confirmNum;
+		}catch(Exception e) {
+			throw new MemberException(e.getMessage());
+		}
+		
+	}
+
+	@Override
+	public int selectConfirmNum(SqlSessionTemplate sqlSession, String MEMBER_PHONE) {
+		return sqlSession.selectOne("Member.selectConfirmNum", MEMBER_PHONE);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectIdList(SqlSessionTemplate sqlSession, String MEMBER_PHONE) {
+		return sqlSession.selectList("Member.selectIdList", MEMBER_PHONE);
+	}
+
+	@Override
+	public int selectConfirmUserId(SqlSessionTemplate sqlSession, String MEMBER_ID) {
+		return sqlSession.selectOne("Member.selectConfirmUserId", MEMBER_ID);
 	}
 	
 }

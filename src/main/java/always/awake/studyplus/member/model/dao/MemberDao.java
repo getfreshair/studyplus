@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.web.servlet.ModelAndView;
 
 import always.awake.studyplus.member.model.exception.MemberException;
 import always.awake.studyplus.member.model.vo.Files;
@@ -49,5 +50,12 @@ public interface MemberDao {
 
 	List<Map<String, Object>> selectCheckSentenceImg(SqlSessionTemplate sqlSession, String indexStr) throws MemberException;
 
+	int createConfirmNum(SqlSessionTemplate sqlSession, String MEMBER_PHONE, int confirmNum) throws MemberException;
+
+	int selectConfirmNum(SqlSessionTemplate sqlSession, String MEMBER_PHONE);
+
+	List<Map<String, Object>> selectIdList(SqlSessionTemplate sqlSession, String MEMBER_PHONE);
+
+	int selectConfirmUserId(SqlSessionTemplate sqlSession, String MEMBER_ID);
 	
 }

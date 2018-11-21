@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.servlet.ModelAndView;
+
 import always.awake.studyplus.member.model.exception.LoginException;
 import always.awake.studyplus.member.model.exception.MemberException;
 import always.awake.studyplus.member.model.vo.Files;
@@ -35,4 +37,12 @@ public interface MemberService {
 	public void addFriendOk(int friend_Code) throws MemberException;
 
 	public void addFriendDelete(int friend_Code) throws MemberException;
+
+	public int createConfirmNum(String MEMBER_PHONE)throws MemberException;
+
+	public int selectConfirmNum(String MEMBER_PHONE);
+
+	public List<Map<String, Object>> selectIdList(String MEMBER_PHONE);
+
+	public int selectConfirmUserId(String MEMBER_ID);
 }
