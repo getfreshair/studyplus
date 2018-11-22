@@ -59,63 +59,68 @@
 
 	<div class="boardListPageWrap">
 			<div class="boardTop">
-				<div onclick="boardWriteModalShow('${ gr.studyGroup_Code }', '${ gr.leaderMem_Code }');" class="bordWriteBtn">게시물 쓰기</div>
-				<div class="centerFilterMenu">
+				<div onclick="boardWriteModalShow('${ grCode }');" class="bordWriteBtn">게시물 쓰기</div>
+<!-- 				<div class="centerFilterMenu">
 					<span id="" class="menuBtn boardFilterBtn">전체</span>
 					<span>|</span>
 					<span id="" class="menuBtn boardFilterBtn">공지</span>
 					<span>|</span>
 					<span id="" class="menuBtn boardFilterBtn">질문</span>
 					<span>|</span>
-					<span id="" class="menuBtn boardFilterBtn">자유</span>
+					<span id="" class="menuBtn boardFilterBtn">자유</span> -->
 				</div>
 			</div>
 			
 			<div class="boardListWrap">
 				<div class="boardListArea">
-				
-					<div class="boardOneWrap">
-						<div class="boardOneTop">
-							<table class="writeMemberInfoTbl">
-								<tr>							
-									<td rowspan="2" class="writerProfImg"><div class="profImg">
-										<img src="${ contextPath }/resources/upload/member/thumbnail/23f1a78349d748ba827474a6f638d8d4"/>
-		<%-- 								<img src="${ contextPath }/resources/upload/member/thumbnail/${list[i].FILES_NAME}" /> --%>
-									</div></td>
-									<td class="nickName"><strong>닉네임자리</strong></td>
-								</tr>
-								<tr><td class="writeDate">
-	<%-- 								<fmt:formatDate value="${i.JOINGROUP_ENROLLDATE}" pattern="yyyy. MM. dd."/> --%>
-									2018. 11. 17.
-								</td></tr>
-							</table>
-							<div class="boardCategory radiusBoxSmall category">자유</div>
-						</div>
-						
-						<div class="boardContentPrevWrap">
-							<div class="boardContentPreview">
-								<div class="contentPreArea scrollBlind"  onclick="boardDetailShow('1');">
-									발휘하기 웅대한 별과 이상 것이다. 얼마나 소리다.이것은 구하지 얼음에 발휘하기 우리의 쓸쓸하랴? 하였으며, 인생을 생생하며, 보이는 보이는 동산에는 곳으로 웅대한 있는가?
-	
-	같이, 원대하고, 시들어 방황하여도, 눈에 보이는 것이다. 천하를 것은 공자는 창공에 스며들어 이상의 아니다. 못할 보내는 인생의 영원히 것은 오아이스도 그와 이상의 살 것이다. 같이, 물방아 이상, 있음으로써 것이다.발휘하기 웅대한 별과 이상 것이다. 얼마나 소리다.이것은 구하지 얼음에 발휘하기 우리의 쓸쓸하랴? 하였으며, 인생을 생생하며, 보이는 보이는 동산에는 곳으로 웅대한 있는가?
-	
-	같이, 원대하고, 시들어 방황하여도, 눈에 보이는 것이다. 천하를 것은 공자는 창공에 스며들어 이상의 아니다. 못할 보내는 인생의 영원히 것은 오아이스도 그와 이상의 살 것이다. 같이, 물방아 이상, 있음으로써 것이다.
-	
-	이상을 천하를 어디 황금시대를 설산에서 갑 열락의 웅대한 있는가? 인류의 설레는 구하지 오아이스도 능히 우는 하는 있는 이것이다.
-								</div>
-							</div>
-						</div>
-						<div class="boardBottomStatusWrap">
-							<hr class="bottomLine">
-							<div class="boardStatus">
-								<img src="${ contextPath }/resources/images/studyGroupDetail/heartEmpty.png" />
-	<%-- 							<img src="${ contextPath }/resources/images/studyGroupDetail/heartFull.png" /> --%>
-								<strong class="reactCnt">3</strong>
-								<img src="${ contextPath }/resources/images/studyGroupDetail/reply.png" />
-								<strong class="reactCnt">3</strong>
-							</div>
-						</div>
-					</div>
+				  
+				 <c:forEach var="i" items="${boardList}">
+	               <div class="boardOneWrap">
+	                  <div class="boardOneTop">
+	                     <table class="writeMemberInfoTbl">
+	                        <tr>                     
+	                           <td rowspan="2" class="writerProfImg"><div class="profImg">
+	                              <img src="${ contextPath }/resources/upload/member/thumbnail/${i.FILES_NAME}"/>
+	                           </div></td>
+	                           <td class="nickName"><strong>${i.MEMBER_NICKNAME}</strong></td>
+	                        </tr>
+	                        <tr><td class="writeDate">
+	<%--                            <fmt:formatDate value="${i.GROUPBOARD_POSTDATE}" pattern="yyyy. MM. dd."/> --%>
+	                           ${i.GROUPBOARD_POSTDATE}
+	                        </td></tr>
+	                     </table>
+	                     <div class="boardCategory radiusBoxSmall category">
+	                       <c:if test="${i.GROUPBOARD_TYPE == 0}">공지</c:if>
+	                       <c:if test="${i.GROUPBOARD_TYPE == 1}">자유</c:if>
+	                       <c:if test="${i.GROUPBOARD_TYPE == 2}">질문</c:if>
+	                     </div>
+	                  </div>
+	                  
+	                  <div class="boardContentPrevWrap">
+	                     <div class="boardContentPreview">
+	                        <div class="contentPreArea scrollBlind"  onclick="boardDetailShow(${i.GROUPBOARD_CODE});">
+	                           ${i.GROUPBOARD_CONTENT}
+	                        </div>
+	                     </div>
+	                  </div>
+	                  <div class="boardBottomStatusWrap">
+	                     <hr class="bottomLine">
+	                     <div class="boardStatus">
+	                       <c:if test="${i.ISLIKE > 0}">   <!-- 내가 눌렀는지 확인하기 -->
+	                        <img src="${ contextPath }/resources/images/studyGroupDetail/heartFull.png" />
+	                       </c:if>
+	                       <c:if test="${i.ISLIKE == 0}">   <!-- 내가 눌렀는지 확인하기 -->
+	                        <img src="${ contextPath }/resources/images/studyGroupDetail/heartEmpty.png" />
+	                       </c:if>
+	                       
+	                        <strong class="reactCnt">${i.CLICK_LIKE_CNT}</strong>
+	                        <img src="${ contextPath }/resources/images/studyGroupDetail/reply.png" />
+	                        <strong class="reactCnt">${i.REPLY_CNT}</strong>
+	                     </div>
+	                  </div>
+	               </div>
+	             </c:forEach>
+					
 					
 				</div>
 			</div>
@@ -145,11 +150,14 @@
 </body>
 
 <script>	
-	function boardWriteModalShow(grCode, grLeaderCode){
+	function boardWriteModalShow(grCode){
+		var grLeaderCode = $('#grLeaderCode').val();
+		
+		alert(grCode + " / " + grLeaderCode);
 	
 // 		contentType: false,
 // 		processData: false,
-//		async : true,
+//	/* 	async : true, */
 		
 		$.ajax({
 			url:"goBoardWriteModalPage.sgd",

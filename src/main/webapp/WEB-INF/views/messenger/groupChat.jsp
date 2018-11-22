@@ -16,7 +16,7 @@
 	function connect() {
 		// ws://192.168.10.69:8001/studyplus/chat-ws.socket
 		//192.168.43.188:8001/studyplus ws://localhost:8001/studyplus/chat-ws.socket
-		groupWSocket = new WebSocket("ws://192.168.10.69:8001/studyplus/groupChat-ws.groupSocket");
+		groupWSocket = new WebSocket("ws://localhost:8001/studyplus/groupChat-ws.groupSocket");
 		groupWSocket.onopen = onOpen;
 		//서버로부터 메시지를 받으면 호출되는 함수 지정
 		groupWSocket.onmessage = onMessage;
@@ -153,7 +153,7 @@
 <style type="text/css">
 #chatArea {
 	width: 100%;
-	height: 89%;
+	height: 93%;
 	overflow-y: auto;
 	padding-bottom: 5%;
 }
@@ -164,7 +164,7 @@
 }
 
 #message {
-	width: 78%;
+	width: 76%;
 	vertical-align: middle;
 }
 
