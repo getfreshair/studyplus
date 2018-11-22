@@ -35,7 +35,7 @@
 	function connect() { // 접속
 		// ws://192.168.10.69:8001/studyplus/chat-ws.socket
 		//wsocket = new WebSocket("ws://192.168.10.53:8001/studyplus/gameChat-ws.gameSocket");
-		wsocket = new WebSocket("ws://localhost:8001/studyplus/gameChat-ws.gameSocket");
+		wsocket = new WebSocket("ws://192.168.10.53:8001/studyplus/gameChat-ws.gameSocket");
 		wsocket.onopen = onOpen;
 		//서버로부터 메시지를 받으면 호출되는 함수 지정
 		wsocket.onmessage = onMessage;
@@ -73,13 +73,13 @@
 		var div = msg.substr(msg.lastIndexOf(":")+1,msg.length);
 	
 		if(div =="입장"){
+			console.log(msg);
 		$.ajax({
-			     url:"showProgram.bl",
+			     url:"renewalPlayer.bl",
 			     type:"get",
 			     data:{msg:msg
 			          },
 			     success:function(data){
-
 			    	   userArr[userArr.length] = data;
 			    	   rank[rank.length] = rank.length+1;
 			    	   for (var i = 0; i < userArr.length; i++) {
@@ -87,19 +87,19 @@
 
 	  						
 	  						if(i == userArr.length-1){
-		  						var x = Math.floor(Math.random() * 100) + 1
-		  						var y = Math.floor(Math.random() * 100) + 1;
+		  						var x = Math.floor(Math.random() * 60) + 21
+		  						var y = Math.floor(Math.random() * 60) + 21;
 
 		  						 if(((userArr[i].member_Job*1) == ${loginUser.member_Job}) && (userArr[i].location_Name == '${loginUser.location_Name}')){
 		  							locationCnt++;
 		  							jobCnt++;
-		  							$('.gameArea').append("<img id='"+userArr[i].user_Code+"' src='resources/images/block/bothStar.png' style='top:"+x+"%; left:"+y+"%; position:absolute; width:"+size+"px;height:"+size+"px'>");
+		  							$('.gameArea').append("<img id='"+userArr[i].user_Code+"' src='resources/images/block/bothStar.png' value='totalMatch' style='top:"+x+"%; left:"+y+"%; position:absolute; width:"+size+"px;height:"+size+"px'>");
 		  						} else if ((userArr[i].member_Job*1) == ${loginUser.member_Job}){
 		  							jobCnt++;
-		  							$('.gameArea').append("<img id='"+userArr[i].user_Code+"' src='resources/images/block/jobStar.png' style='top:"+x+"%; left:"+y+"%; position:absolute; width:"+size+"px;height:"+size+"px'>");
+		  							$('.gameArea').append("<img id='"+userArr[i].user_Code+"' src='resources/images/block/jobStar.png' value='jobMatch' style='top:"+x+"%; left:"+y+"%; position:absolute; width:"+size+"px;height:"+size+"px'>");
 		  						} else {
 		  							locationCnt++;
-		  							$('.gameArea').append("<img id='"+userArr[i].user_Code+"' src='resources/images/block/locationStar.png' style='top:"+x+"%; left:"+y+"%; position:absolute; width:"+size+"px;height:"+size+"px'>");	  					
+		  							$('.gameArea').append("<img id='"+userArr[i].user_Code+"' src='resources/images/block/locationStar.png' value='locationMatch' style='top:"+x+"%; left:"+y+"%; position:absolute; width:"+size+"px;height:"+size+"px'>");	  					
 		  						}
 	  						} else {
 	  							$('#'+userArr[i].user_Code).css({'width':size+"px",'height':size+"px"});
@@ -113,11 +113,22 @@
 			          }
 			    })
 		} else if(div == "퇴장") {
+			
 			imgId = msg.substr(0,msg.indexOf(":"));
-
+			var removeDiv = $('#'+imgId).attr('value');
+			
+			if(removeDiv == 'totalMatch'){
+				locationCnt--;
+				jobCnt--;
+			} else if ( removeDiv == 'jobMatch'){
+				jobCnt--;
+			} else if (removeDiv == 'locationMatch' ){
+				locationCnt--;
+			}
+			
+			$("#job_span").text(jobCnt +" ");
+			$('#location_span').text(locationCnt+" ");	   
 			$('#'+imgId).remove();
-			
-			
 		}
 	}
 

@@ -34,7 +34,7 @@ if("geolocation" in navigator){
 		<div class="col-xs-11 col-md-6"
 			style="margin-left: 50px; padding-right: 9%; float: left">
 			<div class="form-group" style="margin-left: 30px">
-			<h4 align="left"><span style="color:red;">*</span> 우편주소로 주소 등록</h4>
+			<h4 align="left"><span style="color:red;">*</span> 우편주소로 차단 지역 등록</h4>
 			<div class="form-group" align="left">
 
 				 <input  type="text" id="sample3_postcode" 
@@ -193,9 +193,9 @@ if("geolocation" in navigator){
 								<th style="width:10%"><input id="locationMasterCheckBox" type="checkbox"></th>
 								<th align="center">주소지</th>
 							</tr>
-						<c:forEach var="info" items="${list }">
+						<c:forEach var="info" varStatus="status" items="${list }">
 							<tr class="locationResetTr">
-								<td ><input type="checkbox" name="locationSelectBox" class="locationChildCheckBox"></td>
+								<td ><input type="checkbox" name="locationSelectBox" class="locationChildCheckBox" value="${status.index }"></td>
 								<c:set var="index" value='${fn:indexOf(info,"addr:")}'/>
 								<c:set var="length" value='${fn:length(info)}'/>
 								<td>${fn:substring(info,index+5,length)}</td>
@@ -209,7 +209,81 @@ if("geolocation" in navigator){
 					
 					
 				</div>
-				<button type="button" class="btn btn-default" style="margin-top:20px ; margin-left:70%" id="deleteBtn">삭제하기</button>
+				<button type="button" class="btn btn-default" style="margin-top:20px ; margin-left:70%" id="locationDeleteBtn">삭제하기</button>
+			
+				<script>
+				$(document).ready(function () {
+			  		$('#locationDeleteBtn').click(function(){
+					var checkBoxs = document.getElementsByName("locationSelectBox"); // 체크박스 객체
+					var len = checkBoxs.length;
+					var checkRow = "";
+					var checkCnt = 0;
+					var checkLast = "";
+					var rowid = '';
+					var values = "";
+					var cnt = 0;
+						
+					for(var i = 0; i < len ; i ++){
+						if(checkBoxs[i].checked == true){
+							checkCnt++;
+							checkLast = i;
+						}
+					}
+					for(var i = 0; i < len ; i ++){
+						if(checkBoxs[i].checked == true){
+							checkRow = checkBoxs[i].value;
+							
+							if(checkCnt == 1){
+								rowid += checkRow;
+							} else {
+								if(i == checkLast){
+									rowid += checkRow ;
+								} else {
+									rowid += checkRow + ",";
+								}
+							}
+							
+							cnt ++;
+							checkRow = '';
+						}	
+					}
+					if(rowid === ''){
+						alert('차단을 지역을 선택해 주세요.')
+						return;
+					}
+					console.log(rowid);
+						$.ajax({
+							url:"deleteLocation.bl",
+							type:"post",
+							data:{deleteIndex:rowid},
+							success:function(data){
+								$(".locationResetTr").remove();
+								locationCnt = 0;
+								for(var i = 0; i < data.length; i ++) {
+									console.log(i);
+						    		$("#locationListTable").append(
+						    				"<tr class='locationResetTr'>"+ 
+						    					"<td><input type='checkbox' name='locationSelectBox' class='locationChildCheckBox' value="+i+" /></td>" +
+						    					"<td >"+data[i].substr(data[i].lastIndexOf(":")+1,data[i].length)+"</td>"+
+						    				"</tr>"
+						    				)	
+						    				locationCnt++;
+						    	}
+								console.log("성공");
+							},
+							error:function(){
+								console.log("에러 발생!");
+							}
+							
+						});
+			  		});
+						
+						    $("#masterCheck1").click(function () {
+						        $(".childCheck1").prop('checked', $(this).prop('checked'));
+						    });
+						});
+					
+					</script>
 			
 			</div>
 			</div>
@@ -217,21 +291,146 @@ if("geolocation" in navigator){
 		</div>
 		<div class="vl col-xs-0 col-md-1" align="center"></div>
 		<div style="float: left; height:400px" class="col-xs-11 col-md-4" >
-			<h4 align="left"><span style="color:red;">*</span> 차단 프로그램 검색</h4>
-			<div class="form-group" align="left">
-			<form enctype="multipart/form-data" method="post" id="fileForm">
-				<input type="file" class="btn btn-default" name="file" value="파일 찾기" style="width:100%">
+			<h4 align="left"><span style="color:red;">*</span> 지도로 차단 지역 등록</h4>
+			
+			<div id="map" style="width: 300px; height: 300px;"></div>
 				
-			</form>
-				<button id="saveBtn" style="display: inline-block; margin-left:65% ; margin-top:20px" type="button"
-				class="btn btn-danger">차단 등록 하기</button>
-			</div>
-			<h4 align="left" style="margin-top:80px"><span style="color:red;">*</span>자동으로 추가 하기</h4>
-			<h5 align="left" style="width: 100%; display: inline-block">
-				Study PLUS에서 설정한 차단 권장 프로그램들을 한번에 차단 목록에 추가해줍니다.
-			</h5>
-			<button  style="display: inline-block; margin-left:65% ;margin-top:20px" type="button"
-				class="btn btn-warning">자동 등록 하기</button>
+					<label style="color:gray ;padding-top:5px;font-size:0.8em ;" > * 선택 된 마커를 기준으로 위치를 등록합니다.</label>
+					<input type="button" value="위치 등록하기" class="btn btn-success" style="float:right; margin-right:5%" onclick="clickMapChecker()">
+					<input type="hidden" name="inputLocation2" id="latlngOnMap" value="">
+
+			<script type="text/javascript"
+				src="//dapi.kakao.com/v2/maps/sdk.js?appkey=53bcac1324c96e6414d7bd70d6c22096&libraries=services">
+			</script>
+			<script>
+				function clickMapChecker() {
+					if( $('#latlngOnMap').val() == ""){
+						alert("원하시는 위치를 지도에서 선택 후 저장을 진행해 주세요.");
+						return false;
+					} else {
+						$.ajax({
+							url : "saveBlockLocationDataOnMap.bl",
+							type : "post",
+							data : {
+								
+								inputLocation2 : $('#latlngOnMap').val()
+							},success:function(data){
+	
+								$("#locationListTable").append(
+					    				"<tr class='locationResetTr'>"+ 
+					    					"<td><input type='checkbox' name='locationSelectBox' class='locationChildCheckBox' value="+locationCnt+" /></td>" +
+					    					"<td>"+data+"</td>"+
+					    				"</tr>"
+					    			)
+					    			locationCnt++;
+								$('#sample3_address').val("");
+							}, error:function(request,status,error){
+						          console.log("code:"+request.status + "\n message : " + request.responseText + "\n error : " + error );
+						   
+					        }
+						});  
+					} 
+				}
+				
+				setTimeout(function() {
+					var container = document.getElementById('map');
+					var options = {
+						center : new daum.maps.LatLng(latitude,longitude),
+						level : 3
+					};
+					var map = new daum.maps.Map(container, options);
+					// 지도를 클릭한 위치에 표출할 마커입니다
+					var marker = new daum.maps.Marker({ 
+					    // 지도 중심좌표에 마커를 생성합니다 
+					    position: map.getCenter() 
+					}),infowindow = new daum.maps.InfoWindow({zindex:1});
+					
+					var geocoder = new daum.maps.services.Geocoder();
+					
+					<c:forEach items="${list}" var="item">
+					console.log('${item}');
+					var lat = '${item}'.substr('${item}'.indexOf("lat:")+4,'${item}'.indexOf("/")-5);
+					var lon = '${item}'.substr('${item}'.indexOf("lng:")+4,'${item}'.lastIndexOf("/"));
+					console.log("lat = " + lat + " / lon = " +  lon);
+					console.log('${item}');
+					console.log("------");
+					</c:forEach>
+	
+					
+					
+					// 지도에 표시할 원을 생성합니다
+					var circle = new daum.maps.Circle({
+					    center : new daum.maps.LatLng(latitude, longitude),  // 원의 중심좌표 입니다 
+					    radius: 150, // 미터 단위의 원의 반지름입니다 
+					    strokeWeight: 3, // 선의 두께입니다 
+					    strokeColor: '#75B8FA', // 선의 색깔입니다
+					    strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+					    strokeStyle: 'line', // 선의 스타일 입니다
+					    fillColor: '#CFE7FF', // 채우기 색깔입니다
+					    fillOpacity: 0.7  // 채우기 불투명도 입니다   
+					}); 
+	
+					// 지도에 원을 표시합니다 
+					circle.setMap(map); 
+					
+					// 지도에 마커를 표시합니다
+					marker.setMap(map);
+					// 지도에 클릭 이벤트를 등록합니다
+					// 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+					daum.maps.event.addListener(map, 'click', function(mouseEvent) {
+						searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
+					        if (status === daum.maps.services.Status.OK) {
+					            var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+					            detailAddr += '<div>지번주소 : ' + result[0].address.address_name + '</div>';
+					            
+					            var content = '<div class="bAddr">' +
+					                            '<span class="title">선택한 지역 주소 정보</span>' + 
+					                            detailAddr + 
+					                          '</div>';
+					            // 마커를 클릭한 위치에 표시합니다 
+					            marker.setPosition(mouseEvent.latLng);
+					            marker.setMap(map);
+					            $('#latlngOnMap').val($('#latlngOnMap').val()+"/addr:"+result[0].address.address_name.replace(/<\/?[^>]+(>|$)/g, ""));
+					            
+					            // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
+					            infowindow.setContent(content);
+					            infowindow.open(map, marker);
+					        }   
+					    });
+						
+						daum.maps.event.addListener(map, 'idle', function() {
+						    searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+						});
+	
+						function searchAddrFromCoords(coords, callback) {
+						    // 좌표로 행정동 주소 정보를 요청합니다
+						    geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);         
+						}
+	
+						function searchDetailAddrFromCoords(coords, callback) {
+						    // 좌표로 법정동 상세 주소 정보를 요청합니다
+						    geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+						}
+	
+						// 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
+						function displayCenterInfo(result, status) {
+						    if (status === daum.maps.services.Status.OK) {
+						        var infoDiv = document.getElementById('centerAddr');
+						    }    
+						}
+						// 클릭한 위도, 경도 정보를 가져옵니다 
+						var latlng = mouseEvent.latLng;
+	
+	
+						var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
+						message += '경도는 ' + latlng.getLng() + ' 입니다';
+						
+						$('#latlngOnMap').val("lat:" + latlng.getLat()+"/lng:"+latlng.getLng()) 
+					});
+				}, 1000)
+			</script>
+		</div>
+			
 		</div>
 	</div>
 
