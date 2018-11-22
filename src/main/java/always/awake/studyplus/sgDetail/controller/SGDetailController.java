@@ -2,6 +2,7 @@ package always.awake.studyplus.sgDetail.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -308,7 +309,6 @@ public class SGDetailController {
 		}
 		return result;
 	}
-	
 	   @RequestMapping(value="selectBoardReply.sgd")
 	   public @ResponseBody List<HashMap<String, Object>>selectBoardReply( @RequestParam int boardCode, ModelAndView mv) {
 

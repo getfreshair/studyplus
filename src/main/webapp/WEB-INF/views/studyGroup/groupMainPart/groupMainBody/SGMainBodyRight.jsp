@@ -210,16 +210,18 @@
 			},
 			success : function(data){
 				if(data != ','){
-					for(var key in data){
-						$SGLastBoardArea = $('<div class="SGLastBoardArea">');
-						$SGTitleArea = $('<div class="SGTitleArea">').append(data[key].GROUPBOARD_TITLE);
-						$SGLastBoardArea.append($SGTitleArea);
-						$SGBoardReadCheckArea = $('<div class="SGBoardReadCheckArea">').append($('<img>').attr('src', '/studyplus/resources/images/studyGroup/checked.png'));
-						$SGLastBoardArea.append($SGBoardReadCheckArea);
-						$SGBoardTitleArea = $('<div class="SGBoardTitleArea">').append(data[key].GROUPBOARD_CONTENT);
-						$SGLastBoardArea.append($SGBoardTitleArea);
-						
-						$('.SGBoardListArea').append($SGLastBoardArea);
+					for(var i = 0; i < data.length; i++){
+						if(data[i] != null){
+							$SGLastBoardArea = $('<div class="SGLastBoardArea">');
+							$SGTitleArea = $('<div class="SGTitleArea">').append(data[i].GROUPBOARD_TITLE);
+							$SGLastBoardArea.append($SGTitleArea);
+							$SGBoardReadCheckArea = $('<div class="SGBoardReadCheckArea">').append($('<img>').attr('src', '/studyplus/resources/images/studyGroup/checked.png'));
+							$SGLastBoardArea.append($SGBoardReadCheckArea);
+							$SGBoardTitleArea = $('<div class="SGBoardTitleArea">').append(data[i].GROUPBOARD_CONTENT);
+							$SGLastBoardArea.append($SGBoardTitleArea);
+							
+							$('.SGBoardListArea').append($SGLastBoardArea);
+						}
 					}
 				}
 			}

@@ -2,6 +2,7 @@ package always.awake.studyplus.sgDetail.model.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,7 +112,6 @@ public class SGDetailServiceImpl implements SGDetailService{
 		return insertResult;
 	}
 
-	@Override
 	public List<HashMap<String, Object>> selectOneBoardDetailShow(int grCode, int boardCode) {
 
 		List<HashMap<String, Object>> list = gd.selectOneBoardDetailShow(sqlSession, grCode, boardCode);
@@ -137,6 +137,5 @@ public class SGDetailServiceImpl implements SGDetailService{
 		// TODO Auto-generated method stub
 		return gd.insertReply(sqlSession, boardCode, replyContent, loginUserCode);
 	}
-
 
 }

@@ -45,4 +45,6 @@ public interface MemberService {
 	public List<Map<String, Object>> selectIdList(String MEMBER_PHONE);
 
 	public int selectConfirmUserId(String MEMBER_ID);
+
+	public void changePwd(String member_Id, String member_Pwd);
 }

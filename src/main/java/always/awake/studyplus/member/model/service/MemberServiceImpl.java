@@ -15,7 +15,6 @@ import org.openkoreantext.processor.tokenizer.KoreanTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
 import always.awake.studyplus.common.CommonUitls;
 import always.awake.studyplus.member.model.dao.MemberDao;
@@ -348,5 +347,10 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int selectConfirmUserId(String MEMBER_ID) {
 		return md.selectConfirmUserId(sqlSession, MEMBER_ID);
+	}
+
+	@Override
+	public void changePwd(String member_Id, String member_Pwd) {
+		md.updatePwd(sqlSession, member_Id, passwordEncoder.encode(member_Pwd));
 	}
 }

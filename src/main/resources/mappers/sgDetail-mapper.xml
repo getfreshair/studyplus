@@ -338,7 +338,7 @@
           (SEQ_GROUPBOARD_GROUPBOARD_CODE.NEXTVAL, #{ loginUserCode }, #{ contents }, SYSDATE, #{ boardType }, 0, #{ grCode }, '오늘 날씨 어떤가요?')
    </insert>
    
-	<select id="selectOneBoardDetailShow" parameterType="hashmap" resultType="hashmap">
+   <select id="selectOneBoardDetailShow" parameterType="hashmap" resultType="hashmap">
       SELECT GROUPBOARD_CODE, MEMBER_CODE, MEMBER_NICKNAME, FILES_NAME, GROUPBOARD_CONTENT,
              TO_CHAR(GROUPBOARD_POSTDATE, 'YYYY. MM. DD.') AS "GROUPBOARD_POSTDATE", GROUPBOARD_TYPE, GROUPBOARD_STATUS, STUDYGROUP_CODE,
              GROUPBOARD_DELDATE, GROUPBOARD_TITLE
@@ -405,9 +405,5 @@
    <insert id="insertReply" parameterType="hashmap">
    
       INSERT INTO REPLY VALUES (SEQ_REPLY_REPLY_CODE.nextval, #{ boardCode }, #{ loginUserCode }, SYSDATE, #{ replyContent })
-   </insert>
-   
-   
-   
-   
+  </insert>
 </mapper>

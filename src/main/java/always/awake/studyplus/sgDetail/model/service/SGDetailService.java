@@ -2,6 +2,7 @@ package always.awake.studyplus.sgDetail.model.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import always.awake.studyplus.sgDetail.model.vo.SGDetail;
 
@@ -39,13 +40,10 @@ public interface SGDetailService {
 
 	public List<HashMap<String, Object>> selectOneBoardDetailShow(int grCode, int boardCode);
 
-
 	public List<HashMap<String, Object>> selectBoardReply(int boardCode);
 
 	public HashMap<String, Object> selectBoardTopInfo(int boardCode, int grCode, int loginUserCode);
 
 	public int insertReply(int boardCode, String replyContent, int loginUserCode);
-
-
 
 }

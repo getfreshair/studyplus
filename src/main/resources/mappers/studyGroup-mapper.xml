@@ -140,7 +140,7 @@
 		                                           FROM JOINGROUP
 		                                           GROUP BY STUDYGROUP_CODE) JGC ON(SG.STUDYGROUP_CODE = JGC.STUDYGROUP_CODE)
 		                                 WHERE SG.STUDYGROUP_CODE NOT IN(SELECT STUDYGROUP_CODE
-		                                                                 FROM STUDYGROUP
+		                                                                 FROM JOINGROUP
 		                                                                 WHERE MEMBER_CODE = #{member_Code})
 		                                 GROUP BY ROWNUM, STT.STUDYTIME_TOTAL / JGC.MEMBER_COUNT, SG.STUDYGROUP_CODE
 		                                 ORDER BY STUDYGROUP_GOALPERCENT DESC NULLS LAST)

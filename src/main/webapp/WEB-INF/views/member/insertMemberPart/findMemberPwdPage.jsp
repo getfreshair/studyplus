@@ -35,16 +35,21 @@
 	    padding-bottom: 5px;
 	}
 	.findMemberIdAreaTopInfo p {
-		font-size:15px;
-		text-align:left;
-		margin-top:10px;
-		margin-bottom: 40px;
+		font-size: 13px;
+	    text-align: left;
+	    margin-top: 10px;
+	    margin-bottom: 40px;
+	    font-family: fantasy;
 	}
 	.findMemberIdAreaBodyInfo {
 		border:1px solid #e5e5e5;
 		padding: 30px;
 		text-align:left;
 	}
+	.findMemberIdAreaBodyInfoArea > label {
+		font-family: auto;
+	}
+	
 	.findMemberIdAreaBodyInfoCheckArea {
 		display:inline-block;
 		text-align:left;
@@ -184,6 +189,13 @@
 	    padding: 3px;
 	    background:white;
 	}
+	.tableTdIdCheck {
+    	font-size: 12px;
+    	font-family: fantasy;
+    	padding-left: 5px;
+    	color: #FF4848;
+    	display:none;
+	}
 </style>
 </head>
 <body>
@@ -208,7 +220,8 @@
 				<table class="findMemberIdAreaBodyInfoTable">
 					<tr>
 						<td class="tableFirstTd">아이디</td>
-						<td class="tableIdTd" colspan="4"><input class="MEMBER_ID" type="text"/></td>
+						<td class="tableIdTd"><input class="MEMBER_ID" type="text"/></td>
+						<td><span class="tableTdIdCheck">아이디가 존재하지 않습니다.</span></td>
 					</tr>
 					<tr>
 						<td class="tableFirstTd">휴대전화</td>
@@ -239,7 +252,7 @@
 				<div class="findIdArea">아이디</div>
 				<div class="outputIdArea">
 					<span></span>
-					<input type="text" placeholder="변경할 비밀번호 입력 " class="changePwdArea" name="MEMBER_PWD"/>
+					<input type="text" placeholder="변경할 비밀번호 입력 " class="changePwdArea member_Pwd" name="member_Pwd"/>
 					<button type="button" class="changePwdBtn" onclick="changePwd()">비밀번호 변경</button>
 				</div>
 			</div>
@@ -251,7 +264,13 @@
 			$(this).css('background', 'white');
 		});
 		
+		function changePwd(){
+			location.href='changePwd.me?member_Id=' + $('.MEMBER_ID').val() + '&member_Pwd=' + $('.member_Pwd').val();
+		}
+		
 		function sendNum(){
+			$('.tableTdIdCheck').css('display', 'none');
+			
 			//아이디
 			for (i = 0; i < document.getElementsByClassName('MEMBER_ID')[0].value.length; i++) {
 	            var ch = document.getElementsByClassName('MEMBER_ID')[0].value.charAt(i);
@@ -316,7 +335,7 @@
 							}
 						});
 					}else{
-						alert('out');
+						$('.tableTdIdCheck').css('display', 'block');
 					}
 				}
 			});
@@ -326,6 +345,10 @@
 		function selectIdList(){
 			$('.outputIdArea span').append($('.MEMBER_ID').val());
 			$('.findIdOutputArea').css('display','block');
+			$('.MEMBER_ID').prop('readonly', true);
+			$('.MEMBER_PHONE').prop('readonly', true);
+			$('.btn-default').removeAttr('onclick');
+			
 		}
 	</script>
 	</body>
