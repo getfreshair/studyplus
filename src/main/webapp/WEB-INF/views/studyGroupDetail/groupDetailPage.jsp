@@ -183,7 +183,7 @@
 						<table class="topInfoAllWrapTbl">
 						  <c:if test="${joinStatus >= 1}">
 							<tr><td colspan="2" class="radiusSmallWrapTd">
-								<div onclick="" class="radiBtn radiusBoxSmall">통계보기</div>
+								<div onclick="StatisticsPage(${gr.studyGroup_Code})" class="radiBtn radiusBoxSmall">통계보기</div>
 							</td></tr>
 						  </c:if>
 							<tr><td>
@@ -237,7 +237,7 @@
 					</div>
 				</div>
 				
-				<div class="myInfoArea topInfoArea" style="background-image:url(${ contextPath }/resources/images/studyGroupDetail/study.jpg");">
+				<div class="myInfoArea topInfoArea modifyArea" style="background-image:url(${ contextPath }/resources/images/studyGroupDetail/study.jpg");">
 					<div><div class="myInfoAreaBack"></div></div>
 					<table class="topInfoAllWrapTbl">
 					<!-- 그룹 미가입시 -->
@@ -255,7 +255,7 @@
 					<!-- 그룹 가입시 -->
 					  <c:if test="${joinStatus >= 1}">
 						<tr><td class="radiusSmallWrapTd">
-							<div onclick="" class="radiBtn radiusBoxSmall">설 정</div>
+							<div onclick="studygroupModifyMage()" class="radiBtn radiusBoxSmall">설 정</div>
 						</td></tr>
 						<tr><td>
 							<table class="topInfoContWrapTbl" style="display:table;"><tr>
@@ -746,7 +746,28 @@
 		});
 	}
 </script>
-			
+
+<script>
+	function StatisticsPage(code){
+		location.href="studygroupStatistics.sg?code=" + code;
+	}
+	
+	function studygroupModifyMage(){
+		$.ajax({
+			url:'studygroupModifyMage.sgd',
+			data : {
+				studygroup_Code : ${gr.studyGroup_Code},
+				studygroup_Name : '${gr.studyGroup_Name}',
+				studygroup_Maxnum : ${gr.studyGroup_MaxNum},
+				studygroup_Goaltime : ${gr.studyGroup_GoalTime} 
+			},
+			success : function(data){
+				$('.modifyArea').empty();
+				$('.modifyArea').append(data);
+			}
+		});
+	}
+</script>	
 		</div>
 	</div>
 	</div>	

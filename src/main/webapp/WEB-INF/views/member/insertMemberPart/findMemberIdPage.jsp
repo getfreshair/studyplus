@@ -35,10 +35,11 @@
 	    padding-bottom: 5px;
 	}
 	.findMemberIdAreaTopInfo p {
-		font-size:15px;
-		text-align:left;
-		margin-top:10px;
-		margin-bottom: 40px;
+		font-size: 13px;
+	    text-align: left;
+	    margin-top: 10px;
+	    margin-bottom: 40px;
+	    font-family: fantasy;
 	}
 	.findMemberIdAreaBodyInfo {
 		border:1px solid #e5e5e5;
@@ -57,6 +58,9 @@
 	.findMemberIdAreaBodyInfoArea {
 		display:inline-block;
 		width: 589px;
+	}
+	.findMemberIdAreaBodyInfoArea > label {
+		font-family: auto;
 	}
 	.findMemberIdAreaBodyInfoTable {
 		width:500px;
@@ -157,6 +161,13 @@
 	.findIdOutputArea {
 		display:none;
 	}
+	.tableTdIdCheck {
+    	font-size: 12px;
+    	font-family: fantasy;
+    	padding-left: 5px;
+    	color: #FF4848;
+    	display:none;
+	}
 </style>
 </head>
 <body>
@@ -219,12 +230,20 @@
 					MEMBER_PHONE : $('.MEMBER_PHONE').val()
 				},
 				success : function(data){
-					for(var key in data){
-						for(var value in data[key]){
-							$outputId = $('<div class="outputId">').append(data[key][value].MEMBER_ID);
-							$('.outputIdArea').append($outputId);
-						}
+					if(!(data.idList.length == 0)){
+						for(var key in data){
+							for(var value in data[key]){
+								$outputId = $('<div class="outputId">').append(data[key][value].MEMBER_ID);
+								$('.outputIdArea').append($outputId);
+							}
+						}	
+					}else{
+						$outputId = $('<div class="outputId">').append('<span class="tableTdIdCheck">조회된 아이디가 없습니다.</span>');
+						$('.outputIdArea').append($outputId);
+						$('.tableTdIdCheck').css('display','block');
 					}
+					
+					
 					
 					$('.findIdOutputArea').css('display','block');
 				}
@@ -257,6 +276,8 @@
 						success : function(data){
 							$('.confirmNum').val(data.confirmNum);
 							$('.sendNumPhone').css('display', 'inline-block');
+							$('.btn-default').removeAttr('onclick');
+							$('.MEMBER_PHONE').prop('readonly', true);
 						}
 					});
 				},

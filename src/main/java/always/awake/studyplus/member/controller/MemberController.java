@@ -68,7 +68,7 @@ public class MemberController {
 		ModelAndView mv = new ModelAndView();
 		try {
 			mv.addObject("msg", String.valueOf(ms.createConfirmNum(MEMBER_PHONE)));
-			mv.addObject("rphone", "010-3252-3173");
+			mv.addObject("rphone", MEMBER_PHONE);
 			mv.addObject("sphone1", "010");
 			mv.addObject("sphone2", "6551");
 			mv.addObject("sphone3", "5979");
@@ -80,6 +80,13 @@ public class MemberController {
 		}
 		
 		return mv;
+	}
+	
+	@RequestMapping(value="changePwd.me")
+	public String changePwd(@RequestParam(value="member_Id")String member_Id, @RequestParam(value="member_Pwd")String member_Pwd) {
+		ms.changePwd(member_Id, member_Pwd);
+		
+		return "redirect:logoutMain.me";
 	}
 	
 	@RequestMapping(value="selectConfirmNum.me")

@@ -458,10 +458,6 @@
 		});
 	});
 	
-	function StatisticsPage(code){
-		location.href="studygroupStatistics.sg?code=" + code;
-	}
-	
 	function SGdetailPage(group_No){
 		location.href='selectOneGroup.sgd?group_No=' + group_No;
 	}
@@ -485,7 +481,6 @@
 <body>
 	<div class="SGMainBodyLeftArea">
 		<div class="adArea">
-			<div onclick="StatisticsPage(1100)">스터디 그룹 1100번 임시 통계</div>
 			<img class="SGMainPRImg" onclick="addPRCount()"/>
 			<a href="selectOneGroup.sgd?group_No=1">스터디 그룹 디테일</a>
 		</div>

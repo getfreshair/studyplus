@@ -57,5 +57,7 @@ public interface MemberDao {
 	List<Map<String, Object>> selectIdList(SqlSessionTemplate sqlSession, String MEMBER_PHONE);
 
 	int selectConfirmUserId(SqlSessionTemplate sqlSession, String MEMBER_ID);
+
+	void updatePwd(SqlSessionTemplate sqlSession, String member_Id, String member_Pwd);
 	
 }

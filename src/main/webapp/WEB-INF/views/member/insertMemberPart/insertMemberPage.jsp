@@ -102,7 +102,7 @@
 		border:1px solid #999; 
 		border-radius:0px;
 	}
-	.insertMemberArea input[type='text']{
+	.insertMemberArea input[type='text'], .insertMemberArea input[type='password']{
 		border-radius:10px;
 		border-style:double;
 		border-color:white;
@@ -133,11 +133,9 @@
 		width:510px;
 	}
 	.insertMemberRightArea hr:nth-of-type(4),
-	.insertMemberRightArea hr:nth-of-type(5) {
-		width:550px;
-	}
+	.insertMemberRightArea hr:nth-of-type(5),
 	.insertMemberRightArea hr:nth-of-type(6) {
-		width:420px;
+		width:550px;
 	}
 	.insertMemberBtnArea {
 		display:inline-block;
@@ -185,6 +183,14 @@
 	.phoneArea {
 		display:inline-block;	
 	}
+	.phoneAreaSpan {
+		display: block;
+	    font-size: 11px;
+	    font-family: initial;
+	    margin-top: 5px;
+	    color: crimson;
+	    margin-bottom:10px;
+    }
 </style>
 <script>
 	$(function(){
@@ -394,7 +400,7 @@
 					</div>
 					<hr>
 					<div class="inputMemberInfo">
-						<input type="text" name="member_Pwd" class="member_Pwd" placeholder=" * 비밀번호(6 ~ 18자 이내)"/>
+						<input type="password" name="member_Pwd" class="member_Pwd" placeholder=" * 비밀번호(6 ~ 18자 이내)"/>
 					</div>
 					<hr>
 					<div class="inputMemberInfo">
@@ -477,10 +483,13 @@
 					<hr>
 					<div class="inputMemberInfo phoneArea">
 						<input type="text" name="member_Phone" class="member_Phone" placeholder=" * 휴대폰"/>
+						
 					</div>
+					<span class="phoneAreaSpan">* 아이디 / 비밀번호를 분실하였을 경우 찾을 용도로 사용되니, 정확하게 기재하여 주시기 바랍니다.</span>
 					<div class="inputMemberInfo phoneArea">
-						<label><input type="checkbox" name="member_SMSConfirmation" value="0">문자 발송 동의</label>
+						<label><input type="checkbox" name="member_SMSConfirmation" value="0">이벤트 등 프로모션 알림 메일 수신(선택)</label>
 					</div>
+					
 					<hr>
 				</div>
 				<div class="insertMemberBottomArea">

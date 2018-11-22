@@ -2,6 +2,7 @@ package always.awake.studyplus.sgDetail.model.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,6 +104,11 @@ public class SGDetailServiceImpl implements SGDetailService{
 	public int insertGroupBoardWrite(int grCode, String contents, int loginUserCode, int boardType) {
 		int insertResult =  gd.insertGroupBoardWrite(sqlSession, grCode, contents, loginUserCode, boardType);
 		return insertResult;
+	}
+
+	@Override
+	public void studygroupModify(Map<String, Object> studygroupInfo) {
+		gd.studygroupModify(sqlSession, studygroupInfo);
 	}
 
 }

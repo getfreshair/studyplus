@@ -425,7 +425,7 @@
 							<input type="radio" class="studygroup_Openstatus" name="studygroup_Openstatus" value="1" onclick=""/>
 							비공개
 						</label>
-						<input type="text" name="studygroup_Pwd" class="SGPassword" placeholder="Password Setting"/>
+						<input type="password" name="studygroup_Pwd" class="SGPassword" placeholder="Password Setting"/>
 					</div>
 				</div>
 				<div class="SGInsertBottomArea">

@@ -2,6 +2,7 @@ package always.awake.studyplus.sgDetail.model.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import always.awake.studyplus.sgDetail.model.vo.SGDetail;
 
@@ -35,9 +36,6 @@ public interface SGDetailService {
 
 	public int insertGroupBoardWrite(int grCode, String contents, int loginUserCode, int boardType);
 
+	public void studygroupModify(Map<String, Object> studygroupInfo);
 
-	
-	
-	
-		
 }

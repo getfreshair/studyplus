@@ -2,6 +2,7 @@ package always.awake.studyplus.sgDetail.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -299,4 +300,32 @@ public class SGDetailController {
 		return result;
 	}
 	
+	@RequestMapping(value="studygroupModifyMage.sgd")
+	public ModelAndView studygroupModifyMage(@RequestParam(value="studygroup_Code")String studygroup_Code, @RequestParam(value="studygroup_Name")String studygroup_Name, 
+			@RequestParam(value="studygroup_Maxnum")String studygroup_Maxnum, @RequestParam(value="studygroup_Goaltime")String studygroup_Goaltime) {
+		ModelAndView mv = new ModelAndView();
+		
+		mv.addObject("studygroup_Code", studygroup_Code);
+		mv.addObject("studygroup_Name", studygroup_Name);
+		mv.addObject("studygroup_Maxnum", studygroup_Maxnum);
+		mv.addObject("studygroup_Goaltime", studygroup_Goaltime);
+		mv.setViewName("studyGroupDetail/studygroupModifyPart/studygroupModifyPage");
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="studygroupModify.sgd")
+	public String studygroupModify(@RequestParam(value="studygroup_Code")String studygroup_Code, @RequestParam(value="studygroup_Name")String studygroup_Name, 
+			@RequestParam(value="studygroup_Maxnum")String studygroup_Maxnum, @RequestParam(value="studygroup_Goaltime")String studygroup_Goaltime) {
+		Map<String, Object> studygroupInfo = new HashMap<String, Object>();
+		
+		studygroupInfo.put("studygroup_Code", studygroup_Code);
+		studygroupInfo.put("studygroup_Name", studygroup_Name);
+		studygroupInfo.put("studygroup_Maxnum", studygroup_Maxnum);
+		studygroupInfo.put("studygroup_Goaltime", studygroup_Goaltime);
+		
+		gs.studygroupModify(studygroupInfo);
+		
+		return "redirect:studyGroupMainPage.sg";
+	}
 }

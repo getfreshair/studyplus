@@ -2,6 +2,7 @@ package always.awake.studyplus.sgDetail.model.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
@@ -31,5 +32,7 @@ public interface SGDetailDao {
 	List<HashMap<String, Object>> selectGroupMemberTimeList(SqlSessionTemplate sqlSession, int grCode, String thisDay);
 
 	int insertGroupBoardWrite(SqlSessionTemplate sqlSession, int grCode, String contents, int loginUserCode, int boardType);
+
+	void studygroupModify(SqlSessionTemplate sqlSession, Map<String, Object> studygroupInfo);
 	
 }

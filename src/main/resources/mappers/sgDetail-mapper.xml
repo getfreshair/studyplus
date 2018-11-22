@@ -311,4 +311,9 @@
 		    (SEQ_GROUPBOARD_GROUPBOARD_CODE.NEXTVAL, #{ loginUserCode }, #{ contents }, SYSDATE, #{ boardType }, 0, #{ grCode }, '냐냐냐')
 	</insert>
 	
+	<update id="studygroupModify" parameterType="map">
+		UPDATE STUDYGROUP
+		SET STUDYGROUP_NAME = #{studygroup_Name}, STUDYGROUP_MAXNUM = #{studygroup_Maxnum}, STUDYGROUP_GOALTIME = #{studygroup_Goaltime}
+		WHERE STUDYGROUP_CODE = #{studygroup_Code}
+	</update>
 </mapper>

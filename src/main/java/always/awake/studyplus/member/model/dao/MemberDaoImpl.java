@@ -192,5 +192,15 @@ public class MemberDaoImpl implements MemberDao{
 	public int selectConfirmUserId(SqlSessionTemplate sqlSession, String MEMBER_ID) {
 		return sqlSession.selectOne("Member.selectConfirmUserId", MEMBER_ID);
 	}
+
+	@Override
+	public void updatePwd(SqlSessionTemplate sqlSession, String member_Id, String member_Pwd) {
+		Map<String, Object> memberInfo = new HashMap<String, Object>();
+		
+		memberInfo.put("member_Id", member_Id);
+		memberInfo.put("member_Pwd", member_Pwd);
+		
+		sqlSession.update("Member.updatePwd", memberInfo);
+	}
 	
 }

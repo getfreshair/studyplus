@@ -2,6 +2,7 @@ package always.awake.studyplus.sgDetail.model.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -121,6 +122,11 @@ public class SGDetailDaoImpl implements SGDetailDao{
 		hm.put("boardType", boardType);
 		
 		return sqlSession.insert("SGDetail.insertGroupBoardWrite", hm);
+	}
+
+	@Override
+	public void studygroupModify(SqlSessionTemplate sqlSession, Map<String, Object> studygroupInfo) {
+		sqlSession.update("SGDetail.studygroupModify", studygroupInfo);
 	}
 	
 }
