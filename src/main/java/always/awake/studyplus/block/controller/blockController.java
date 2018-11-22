@@ -51,6 +51,17 @@ public class blockController {
 		HashMap<String, Object> dataMap = bs
 				.selectStudyTimes(((Member) (requeest.getSession().getAttribute("loginUser"))).getMember_Code());
 		model.addAttribute("dataMap", dataMap);
+		
+		File statusFile = new File("C:\\studyPlanner\\programData\\status\\RunStatus");
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(statusFile));
+			bw.write("start");
+			bw.flush();
+			bw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return "block/blockMain";
 	}
 
@@ -124,12 +135,23 @@ public class blockController {
 	@RequestMapping("showSchedule.bl")
 	public ModelAndView showSchedule(ModelAndView mv) {
 
-		StringBuilder scheduleData = getScheduleData();
-		mv.addObject("scheduleData", scheduleData.toString());
+		
 		mv.setViewName("block/blockSchedule");
 
 		return mv;
 	}
+	@RequestMapping("selectScheduleData.bl")
+	public void selectScheduleData(HttpServletResponse response) {
+		StringBuilder scheduleData = getScheduleData();
+		
+		
+		try {
+			response.getWriter().println(scheduleData.toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	};
 
 	// 임시파일 저장용 메소드
 	@RequestMapping("blockTimesTempSave.bl")
@@ -263,6 +285,17 @@ public class blockController {
 		int result = bs.insertStudyTimes(list,
 				((Member) (requeest.getSession().getAttribute("loginUser"))).getMember_Code());
 
+		
+		File statusFile = new File("C:\\studyPlanner\\programData\\status\\RunStatus");
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(statusFile));
+			bw.write("pause");
+			bw.flush();
+			bw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return "redirect:studyPlannerMainPage.sp";
 	}
 
@@ -392,8 +425,21 @@ public class blockController {
 			e.printStackTrace();
 		}
 	}
-
-	// 차단할 위치정보 저장용
+	
+	@RequestMapping(value = "saveBlockLocationDataOnMap.bl")
+	public void saveBlockLocationDataOnMap(String inputLocation2,HttpServletResponse response) {
+		writeBlockLocationData(inputLocation2);
+		
+		try {
+			response.getWriter().println(inputLocation2.substring(inputLocation2.lastIndexOf(":")+1, inputLocation2.length()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	// 차단할 위치정보 저장용 (맵으로 )  
+	// 차단할 위치정보 저장용 (주소로 ) 
 	@RequestMapping(value = "saveBlockLocationData.bl")
 	public void saveBlockLocationData(String inputLocation,HttpServletResponse response) {
 		writeBlockLocationData(inputLocation);
@@ -645,6 +691,50 @@ public class blockController {
 		
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter("C:\\studyPlanner\\programData\\settingDatas\\blockWebList"));
+			for (int i = 0; i < bplist.size(); i++) {
+				bw.write(bplist.get(i));
+				bw.newLine();
+			}
+			bw.flush();
+			bw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return bplist;
+	}
+	
+	@RequestMapping("deleteLocation.bl")
+	public @ResponseBody ArrayList<String> deleteLocation(String deleteIndex) {
+		String[] checkNum = deleteIndex.split(",");
+		int cnt = 0;;
+		
+		
+		ArrayList<String> bplist = new ArrayList<String>();
+		File file = new File("C:\\studyPlanner\\programData\\settingDatas\\locationData");
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			String temp = "";
+			while ((temp = br.readLine()) != null) {
+				bplist.add(temp);
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for (int i = 0; i < checkNum.length; i++) {
+			int index = Integer.parseInt(checkNum[i])  - cnt;
+			bplist.remove(index);
+			cnt ++;
+		}
+		
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter("C:\\studyPlanner\\programData\\settingDatas\\locationData"));
 			for (int i = 0; i < bplist.size(); i++) {
 				bw.write(bplist.get(i));
 				bw.newLine();

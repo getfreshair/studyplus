@@ -6,7 +6,6 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/studyplus/resources/css/bootstrap.css">
 <link rel="stylesheet" href="/studyplus/resources/css/custom.css">
-<script src="/studyplus/resources/js/jquery-1.11.1.min.js"></script>
 <script src="/studyplus/resources/js/bootstrap.min.js"></script>
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="/studyplus/resources/css/normalize.css" />
@@ -15,9 +14,29 @@
 <link rel="stylesheet" type="text/css" href="/studyplus/resources/css/tabstyles.css" />
 <script src="/studyplus/resources/js/modernizr.custom.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=53bcac1324c96e6414d7bd70d6c22096&libraries=services">
-
-</script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=53bcac1324c96e6414d7bd70d6c22096&libraries=services"></script>
+<link rel="stylesheet"href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- <script src="http://malsup.github.com/jquery.form.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/studyplus/resources/dist/jquery.schedule.css">
+  	<link rel="stylesheet" href="/studyplus/resources/dist/jquery.schedule-demo.css"> 
+	<script src="/studyplus/resources/dist/jquery.schedule.js"></script> -->
+<!-- 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>  
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" ></script> -->
+  <!--   <link rel="stylesheet" href="/studyplus/resources/dist/jquery.schedule.css">
+    <link rel="stylesheet" href="/studyplus/resources/dist/jquery.schedule-demo.css">
+    <script src="/studyplus/resources/dist/jquery.schedule.js"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/studyplus/resources/dist/jquery.schedule.css">
+    <link rel="stylesheet" href="/studyplus/resources/dist/jquery.schedule-demo.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="/studyplus/resources/dist/jquery.schedule.js"></script>
+    
 </head>
 <body>
 <!-- Header -->

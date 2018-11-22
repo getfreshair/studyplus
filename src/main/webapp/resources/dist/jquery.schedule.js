@@ -3,7 +3,6 @@
  * https://github.com/Yehzuna/jquery-schedule
  * Thomas BORUSZEWSKI <yehzuna@outlook.com>
  */
-
 ;(function ($, window, document, undefined) {
   'use strict';
 
@@ -588,7 +587,7 @@
       }
 
       var newHeight = Math.floor((height - 16 - 4) / 12) * 12;
-      jb('p')('.jqs-period-title', period).height(newHeight);
+      $('.jqs-period-title', period).height(newHeight);
     },
 
     /**
