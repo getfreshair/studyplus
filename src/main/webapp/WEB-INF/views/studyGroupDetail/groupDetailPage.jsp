@@ -408,7 +408,7 @@
 					<div class="centerContentWrap">
 						<div class="centerIncludeArea">		
 <%-- 							<jsp:include page="bottomCenterInclude/boardWrite.jsp"/> --%>
-							<jsp:include page="bottomCenterInclude/grBoardList.jsp"/>
+<%-- 							<jsp:include page="bottomCenterInclude/grBoardList.jsp"/> --%>
 						</div>
 					</div>
 				</div>
@@ -421,12 +421,13 @@
 
 <!-- 페이지 호출시 -->
 <script>
-// 	var grLeaderCode = $('#grLeaderCode').val();
 	$(function(){
 		var grCode = $('#grCode').val();
 		var loginUserCode = '${loginUser}';
 		
  		selectGrMemList(grCode, loginUserCode);
+ 		
+ 		selectGrBoardList(grCode, loginUserCode);
  		
  		$.ajax({
 			url : "${contextPath}/web/groupChat.groupSocket",
@@ -512,6 +513,7 @@
 // 			alert("2번 메뉴 : " + menuType);
 			
 			if(periodType == 1){
+				
 				if(dayPick != 1){
 					dayPick = 1;
 					monthPick = 0;
@@ -726,7 +728,6 @@
 					
 					$('#thisWeek').text(data.selectDate.THIS_WEEK + " " + data.selectDate.WEEK_NUM);
 					$('#thisMonth').text(data.selectDate.THIS_MONTH);
-// 					$('#weekNum').text(data.selectDate.WEEK_NUM);
 				
 				console.log("에이작스 결과 => " + " / menuType : " + menuType);
 				console.log("변경 된 thisDay2 : " + thisDay2);
@@ -742,6 +743,21 @@
 				}else if(menuType == 3){
 					selectGrMemTimeListPage(grCode, thisDay3);
 				}
+			}
+		});
+	}
+</script>
+
+<script>
+	function selectGrBoardList(grCode, loginUserCode){
+		$.ajax({
+			url:"selectGroupBoardList.sgd",
+			data : { grCode : grCode , loginUserCode : loginUserCode},
+			type : "POST",
+			success:function(data) {
+				console.log(data);
+				$('.centerIncludeArea').empty();
+				$('.centerIncludeArea').append(data);
 			}
 		});
 	}

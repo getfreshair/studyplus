@@ -31,5 +31,14 @@ public interface SGDetailDao {
 	List<HashMap<String, Object>> selectGroupMemberTimeList(SqlSessionTemplate sqlSession, int grCode, String thisDay);
 
 	int insertGroupBoardWrite(SqlSessionTemplate sqlSession, int grCode, String contents, int loginUserCode, int boardType);
+
+	List<HashMap<String, Object>> selectGroupBoardList(SqlSessionTemplate sqlSession, int grCode, int loginUserCode);
 	
+	List<HashMap<String, Object>> selectOneBoardDetailShow(SqlSessionTemplate sqlSession, int grCode, int boardCode);
+	
+	  List<HashMap<String, Object>> selectBoardReply(SqlSessionTemplate sqlSession, int boardCode);
+
+	   HashMap<String, Object> selectBoardTopInfo(SqlSessionTemplate sqlSession, int boardCode, int grCode,  int loginUserCode);
+
+	   int insertReply(SqlSessionTemplate sqlSession, int boardCode, String replyContent, int loginUserCode)
 }

@@ -6,205 +6,205 @@
   
 <mapper namespace="SGDetail">
 
-	<resultMap type="always.awake.studyplus.sgDetail.model.vo.SGDetail" id="SGDetailResultSet">
-		<id property="studyGroup_Code" column="STUDYGROUP_CODE"/>
-		
-		<result property="studyGroup_Code" column="STUDYGROUP_CODE"/>
-		<result property="studyGroup_Name" column="STUDYGROUP_NAME"/>
-		<result property="leaderMem_Code" column="LEADER_CODE"/>	<!-- 로그인 유저 코드 -->
-		<result property="member_Code" column="MEMBER_CODE"/>	<!-- 로그인 유저 코드 -->
-		<result property="member_NickName" column="MEMBER_NICKNAME"/>
-		<result property="location_Code" column="LOCATION_CODE"/>
-		<result property="location_Name" column="LOCATION_NAME"/>
-		<result property="category_Code" column="CATEGORY_CODE"/>
-		<result property="category_Name" column="CATEGORY_NAME"/> <!-- //* -->
-		<result property="studyGroup_GoalTime" column="STUDYGROUP_GOALTIME"/>
-		<result property="studyGroup_MaxNum" column="STUDYGROUP_MAXNUM"/>
-		<result property="studyGroup_Intro" column="STUDYGROUP_INTRO"/>
-		<result property="studyGroup_Status" column="STUDYGROUP_STATUS"/> <!-- //** -->
-		<result property="studyGroup_StDate" column="STUDYGROUP_STDATE"/>
-		<result property="studyGroup_EdDate" column="STUDYGROUP_EDDATE"/>
-		<result property="studyGroup_OpenStatus" column="STUDYGROUP_OPENSTATUS"/>
-		<result property="studyGroup_Pwd" column="STUDYGROUP_PWD"/>
-		
-		<result property="gr_Mem_Count" column="GR_MEM_CNT"/> <!-- //* -->
-		<result property="gr_Dates" column="GR_DATES"/> <!-- //* -->
+   <resultMap type="always.awake.studyplus.sgDetail.model.vo.SGDetail" id="SGDetailResultSet">
+      <id property="studyGroup_Code" column="STUDYGROUP_CODE"/>
+      
+      <result property="studyGroup_Code" column="STUDYGROUP_CODE"/>
+      <result property="studyGroup_Name" column="STUDYGROUP_NAME"/>
+      <result property="leaderMem_Code" column="LEADER_CODE"/>   <!-- 로그인 유저 코드 -->
+      <result property="member_Code" column="MEMBER_CODE"/>   <!-- 로그인 유저 코드 -->
+      <result property="member_NickName" column="MEMBER_NICKNAME"/>
+      <result property="location_Code" column="LOCATION_CODE"/>
+      <result property="location_Name" column="LOCATION_NAME"/>
+      <result property="category_Code" column="CATEGORY_CODE"/>
+      <result property="category_Name" column="CATEGORY_NAME"/> <!-- //* -->
+      <result property="studyGroup_GoalTime" column="STUDYGROUP_GOALTIME"/>
+      <result property="studyGroup_MaxNum" column="STUDYGROUP_MAXNUM"/>
+      <result property="studyGroup_Intro" column="STUDYGROUP_INTRO"/>
+      <result property="studyGroup_Status" column="STUDYGROUP_STATUS"/> <!-- //** -->
+      <result property="studyGroup_StDate" column="STUDYGROUP_STDATE"/>
+      <result property="studyGroup_EdDate" column="STUDYGROUP_EDDATE"/>
+      <result property="studyGroup_OpenStatus" column="STUDYGROUP_OPENSTATUS"/>
+      <result property="studyGroup_Pwd" column="STUDYGROUP_PWD"/>
+      
+      <result property="gr_Mem_Count" column="GR_MEM_CNT"/> <!-- //* -->
+      <result property="gr_Dates" column="GR_DATES"/> <!-- //* -->
 
-		<result property="gr_Rank" column="GR_RANK"/> <!-- //* -->		
-		<result property="gr_Week_Total" column="GR_WEEK_TOTAL"/> <!-- //* -->
-		<result property="gr_Day_Total" column="GR_DAY_TOTAL"/> <!-- //* -->
+      <result property="gr_Rank" column="GR_RANK"/> <!-- //* -->      
+      <result property="gr_Week_Total" column="GR_WEEK_TOTAL"/> <!-- //* -->
+      <result property="gr_Day_Total" column="GR_DAY_TOTAL"/> <!-- //* -->
 
-		<result property="my_Rank" column="MY_RANK"/> <!-- //* -->		
-		<result property="my_Week_Total" column="MY_WEEK_TOTAL"/> <!-- //* -->
-		<result property="my_Day_Total" column="MY_DAY_TOTAL"/> <!-- //* -->
+      <result property="my_Rank" column="MY_RANK"/> <!-- //* -->      
+      <result property="my_Week_Total" column="MY_WEEK_TOTAL"/> <!-- //* -->
+      <result property="my_Day_Total" column="MY_DAY_TOTAL"/> <!-- //* -->
 
-		<result property="gr_Fulfill_Mem_Cnt" column="GR_WEEK_FULFILL_CNT"/> <!-- //* -->		
-		<result property="gr_Week_Fulfill_Ratio" column="GR_WEEK_FULFILL_RATIO"/> <!-- //* -->	
-	</resultMap>
-	
-	<select id="selectJoinStatus" resultType="_int" parameterType="hashmap">
-		SELECT COUNT(*) AS "JOINSTATUS"
-		FROM JOINGROUP JG
-		WHERE STUDYGROUP_CODE = #{ grCode } AND JOINGROUP_STATUS = 0 AND MEMBER_CODE = #{ memCode }
-	</select>
-	
-<!-- 	*//중요//* => TO_DATE('2018/11/02') -> SYSDATE로 날짜 변경하기 -->
-	<!-- select 그룹  detail 쿼리 -->
-	<select id="selectOneGrDetailLeftTop" resultMap="SGDetailResultSet" parameterType="_int">
-		SELECT LOCATION_NAME, CATEGORY_NAME, STUDYGROUP_CODE,
-		       STUDYGROUP_NAME, STUDYGROUP_INTRO, MEMBER_CODE AS "LEADER_CODE",
-		       (STUDYGROUP_GOALTIME / 3600) AS "STUDYGROUP_GOALTIME",
-		       GR_MEM_CNT, STUDYGROUP_MAXNUM, STUDYGROUP_STDATE,
-		       TRUNC((SYSDATE - STUDYGROUP_STDATE) + 1) AS "GR_DATES"
-		FROM STUDYGROUP
-		JOIN CATEGORY USING(CATEGORY_CODE)
-		JOIN LOCATION USING(LOCATION_CODE),
-		   ( SELECT COUNT(*) AS "GR_MEM_CNT"
-		     FROM JOINGROUP WHERE STUDYGROUP_CODE = #{ grCode } AND JOINGROUP_STATUS = 0 )
-		WHERE STUDYGROUP_CODE = #{ grCode }
-	</select>
-	
-	<select id="selectOneGrDetailRightTop" resultMap="SGDetailResultSet" parameterType="_int">
-		SELECT WEEK_ST, WEEK_END, STUDYGROUP_CODE, GR_WEEK_TOTAL,
-		       RANK() OVER (PARTITION BY CATEGORY_NAME ORDER BY GR_WEEK_TOTAL DESC) AS "GR_RANK",
-		       GR_DAY_TOTAL, GR_WEEK_FULFILL_RATIO, GR_WEEK_FULFILL_CNT
-		FROM ( SELECT STUDYGROUP_CODE, SUM(STUDYTIME_STUDYTIME) AS "GR_WEEK_TOTAL"
-		       FROM STUDYTIME 
-		       WHERE STUDYTIME_DIVISION = 1
-		       AND STUDYTIME_DATE BETWEEN TRUNC(SYSDATE, 'DY')
-		                          AND TRUNC(SYSDATE, 'DY') + 6.99999
-		       GROUP BY STUDYGROUP_CODE )
-		JOIN ( SELECT STUDYGROUP_CODE, SUM(STUDYTIME_STUDYTIME) AS "GR_DAY_TOTAL"
-		       FROM STUDYTIME
-		       WHERE STUDYTIME_DIVISION = 1
-		       AND STUDYTIME_DATE LIKE SYSDATE
-		       GROUP BY STUDYGROUP_CODE ) USING(STUDYGROUP_CODE)
-		JOIN ( SELECT STUDYGROUP_CODE, GR_MEM_CNT,
-		              AVG((GR_FULFILL_CNT / GR_MEM_CNT) * 100) AS "GR_WEEK_FULFILL_RATIO",
-		              AVG(GR_FULFILL_CNT) AS "GR_WEEK_FULFILL_CNT"
-		       FROM ( SELECT STUDYTIME_DATE, STUDYGROUP_CODE,
-		                     SUM(DECODE(GR_FULFILL_STATUS, 1, 1)) AS "GR_FULFILL_CNT", GR_MEM_CNT
-		              FROM ( SELECT STUDYTIME_DATE, ST.STUDYGROUP_CODE, ST.MEMBER_CODE, MEM_WEEKDAY_TOTAL,
-		                            DECODE(SIGN(MEM_WEEKDAY_TOTAL - GR.STUDYGROUP_GOALTIME), 1, 1, 0, 1, -1, 0) AS "GR_FULFILL_STATUS"
-		                     FROM ( SELECT TRUNC(STUDYTIME_DATE) AS "STUDYTIME_DATE",
-		                                   STUDYGROUP_CODE, MEMBER_CODE,
-		                                   SUM(STUDYTIME_STUDYTIME) AS "MEM_WEEKDAY_TOTAL"
-		                            FROM STUDYTIME
-		                            WHERE STUDYTIME_DIVISION = 1
-		                            AND STUDYTIME_DATE BETWEEN TRUNC(SYSDATE, 'DY')
-		                                               AND TRUNC(SYSDATE, 'DY') + 6.99999
-		                            GROUP BY TRUNC(STUDYTIME_DATE), STUDYGROUP_CODE, MEMBER_CODE ) ST
-		                     JOIN STUDYGROUP GR ON(ST.STUDYGROUP_CODE = GR.STUDYGROUP_CODE) ),
-		                   ( SELECT COUNT(*) AS "GR_MEM_CNT"
-		                     FROM JOINGROUP
-		                     WHERE STUDYGROUP_CODE = #{ grCode }
-		                     AND JOINGROUP_STATUS = 0 )
-		              GROUP BY STUDYTIME_DATE, STUDYGROUP_CODE, GR_MEM_CNT )
-		       GROUP BY STUDYGROUP_CODE, GR_MEM_CNT ) USING(STUDYGROUP_CODE)
-		JOIN STUDYGROUP USING(STUDYGROUP_CODE)
-		JOIN CATEGORY USING(CATEGORY_CODE),
-		   ( SELECT TRUNC(SYSDATE, 'DY') "WEEK_ST",
-		            TRUNC(SYSDATE, 'DY') + 6.99999 "WEEK_END"
-		     FROM DUAL )
-		WHERE STUDYGROUP_CODE = #{ grCode }
-	</select>
-	
-	<select id="selectOneJoinGrDetailTop" resultMap="SGDetailResultSet" parameterType="hashmap">
-		SELECT STUDYGROUP_CODE, MY_WEEK_TOTAL, MY_DAY_TOTAL, MY_RANK
-		FROM ( SELECT STUDYGROUP_CODE, MEMBER_CODE, MY_WEEK_TOTAL, MY_RANK
-		       FROM ( SELECT STUDYGROUP_CODE, MEMBER_CODE, MY_WEEK_TOTAL,
-		                     RANK() OVER (PARTITION BY STUDYGROUP_CODE ORDER BY MY_WEEK_TOTAL DESC) AS "MY_RANK"
-		              FROM ( SELECT STUDYGROUP_CODE, MEMBER_CODE, SUM(STUDYTIME_STUDYTIME) AS "MY_WEEK_TOTAL"
-		                     FROM STUDYTIME
-		                     WHERE STUDYTIME_DIVISION = 1
-		                     AND STUDYTIME_DATE BETWEEN TRUNC(SYSDATE, 'DY')
-		                     					AND TRUNC(SYSDATE, 'DY') + 6.99999
-		                     GROUP BY STUDYGROUP_CODE, MEMBER_CODE )
-		              WHERE STUDYGROUP_CODE = #{ grCode } )
-		       WHERE MEMBER_CODE = #{ memCode } )
-		JOIN ( SELECT STUDYGROUP_CODE, MEMBER_CODE, SUM(STUDYTIME_STUDYTIME) AS "MY_DAY_TOTAL"
-		       FROM STUDYTIME
-		       WHERE STUDYTIME_DIVISION = 1 AND MEMBER_CODE = #{ memCode }
-		       AND STUDYTIME_DATE LIKE SYSDATE
-		       GROUP BY STUDYGROUP_CODE, MEMBER_CODE ) USING(STUDYGROUP_CODE)
-	</select>
-	
-	<select id="selectJoinAbleChk" resultType="_int">
-		SELECT (STUDYGROUP_MAXNUM - GR_MEM_CNT) AS "JOIN_ABLE_CNT"
-		FROM (SELECT COUNT(*) AS "GR_MEM_CNT", STUDYGROUP_CODE
-		      FROM JOINGROUP
-		      WHERE STUDYGROUP_CODE = #{ grCode } AND JOINGROUP_STATUS = 0
-		      GROUP BY STUDYGROUP_CODE)
-		JOIN STUDYGROUP USING(STUDYGROUP_CODE)
-	</select>
-	
-	<insert id="insertGroupJoin" parameterType="SGDetail">
-		INSERT INTO JOINGROUP
-			(JOINGROUP_CODE, STUDYGROUP_CODE, MEMBER_CODE, JOINGROUP_ENROLLDATE, JOINGROUP_STATUS, JOINGROUP_DELETEDATE)
-		VALUES
-			(SEQ_JOINGROUP_JOINGROUP_CODE.NEXTVAL, #{ studyGroup_Code }, #{ member_Code }, SYSDATE, 0, NULL)
-	</insert>
-	
-	<select id="selectGroupMemberList" parameterType="_int" resultType="java.util.HashMap">
-		SELECT JG.STUDYGROUP_CODE, JG.MEMBER_CODE, MEMBER_NICKNAME, SG.MEMBER_CODE AS "LEADER_CODE",
-			   DECODE(JG.MEMBER_CODE, SG.MEMBER_CODE, 1, 0) AS "DIV_MEM_ROLE",
-			   FILES_NAME, JOINGROUP_ENROLLDATE, JOINGROUP_STATUS
-		FROM JOINGROUP JG
-		JOIN MEMBER M ON(JG.MEMBER_CODE = M.MEMBER_CODE)
-		JOIN STUDYGROUP SG ON(JG.STUDYGROUP_CODE = SG.STUDYGROUP_CODE)
-		JOIN FILES FL ON(JG.MEMBER_CODE = FL.MEMBER_CODE)
-		WHERE JOINGROUP_STATUS = 0
-		AND JG.STUDYGROUP_CODE = #{ grCode }
-		ORDER BY DIV_MEM_ROLE DESC, JOINGROUP_ENROLLDATE ASC		
-	</select>
-	
-	<update id="updateChangeGroupLeader" parameterType="hashmap">
-		UPDATE STUDYGROUP
-		SET MEMBER_CODE = #{ afterLeaderCode }
-		WHERE STUDYGROUP_CODE = #{ grCode }
-		AND MEMBER_CODE = #{ nowLeaderCode }
-	</update>
-	
-	<update id="updateDeleteJoinMemberStatus" parameterType="hashmap">
-		UPDATE JOINGROUP
-		SET JOINGROUP_STATUS = 1, JOINGROUP_DELETEDATE = SYSDATE
-		WHERE STUDYGROUP_CODE = #{ grCode }
-		AND MEMBER_CODE = #{ delMemCode }
-		AND JOINGROUP_STATUS = 0
-		AND JOINGROUP_DELETEDATE IS NULL
-	</update>
-	
-	<select id="selectChangeDatesInfo" parameterType="_int" resultType="hashmap">
-		SELECT TO_CHAR(SELECT_DATE, 'YYYY-MM-DD') AS "THIS_DAY",
-			   TO_CHAR(SELECT_DATE, 'YYYY-MM') AS "THIS_WEEK",
-			   TO_CHAR(SELECT_DATE, 'YYYY-MM') AS "THIS_MONTH",
-			   TO_CHAR(SELECT_DATE, 'W') AS "WEEK_NUM",
-			   TO_CHAR(SELECT_DATE, 'MM') AS "MONTH",
-			   TO_CHAR(LAST_DAY(SELECT_DATE), 'DD') AS "MONTH_LASTDAY"
-		FROM ( SELECT (SYSDATE + #{ changeDates }) AS "SELECT_DATE" FROM DUAL)  
-	</select>
-	<select id="selectChangeMonthsInfo" parameterType="_int" resultType="hashmap">
-		SELECT TO_CHAR(SELECT_DATE, 'YYYY-MM-DD') AS "THIS_DAY",
-			   TO_CHAR(SELECT_DATE, 'YYYY-MM') AS "THIS_WEEK",
-			   TO_CHAR(SELECT_DATE, 'YYYY-MM') AS "THIS_MONTH",
-			   TO_CHAR(SELECT_DATE, 'W') AS "WEEK_NUM",
-			   TO_CHAR(SELECT_DATE, 'MM') AS "MONTH",
-			   TO_CHAR(LAST_DAY(SELECT_DATE), 'DD') AS "MONTH_LASTDAY"
-		FROM ( SELECT ADD_MONTHS(SYSDATE, #{ changeMonths }) as "SELECT_DATE" FROM DUAL)
-	</select>
-	
-	<select id="selectGroupMemberRankList" parameterType="hashmap" resultType="hashmap">
-		<![CDATA[
-    		WITH DATE_PERIOD AS
-					( SELECT DECODE(#{ periodType },
-									1, TRUNC(TO_DATE(#{ thisDay })),
-									2, TRUNC(TO_DATE(#{ thisDay }), 'DY'),
-									3, TRUNC(TO_DATE(#{ thisDay }), 'MM')) AS "ST_DATE",
-			                 DECODE(#{ periodType },
-			                 		1, TRUNC(TO_DATE(#{ thisDay })),
-			                 		2, TRUNC(TO_DATE(#{ thisDay }), 'DY') + 6,
-			                 		3, LAST_DAY(TRUNC(TO_DATE(#{ thisDay })))) + 0.99999 AS "END_DATE"
-			          FROM DUAL ),
+      <result property="gr_Fulfill_Mem_Cnt" column="GR_WEEK_FULFILL_CNT"/> <!-- //* -->      
+      <result property="gr_Week_Fulfill_Ratio" column="GR_WEEK_FULFILL_RATIO"/> <!-- //* -->   
+   </resultMap>
+   
+   <select id="selectJoinStatus" resultType="_int" parameterType="hashmap">
+      SELECT COUNT(*) AS "JOINSTATUS"
+      FROM JOINGROUP JG
+      WHERE STUDYGROUP_CODE = #{ grCode } AND JOINGROUP_STATUS = 0 AND MEMBER_CODE = #{ memCode }
+   </select>
+   
+<!--    *//중요//* => TO_DATE('2018/11/02') -> SYSDATE로 날짜 변경하기 -->
+   <!-- select 그룹  detail 쿼리 -->
+   <select id="selectOneGrDetailLeftTop" resultMap="SGDetailResultSet" parameterType="_int">
+      SELECT LOCATION_NAME, CATEGORY_NAME, STUDYGROUP_CODE,
+             STUDYGROUP_NAME, STUDYGROUP_INTRO, MEMBER_CODE AS "LEADER_CODE",
+             (STUDYGROUP_GOALTIME / 3600) AS "STUDYGROUP_GOALTIME",
+             GR_MEM_CNT, STUDYGROUP_MAXNUM, STUDYGROUP_STDATE,
+             TRUNC((SYSDATE - STUDYGROUP_STDATE) + 1) AS "GR_DATES"
+      FROM STUDYGROUP
+      JOIN CATEGORY USING(CATEGORY_CODE)
+      JOIN LOCATION USING(LOCATION_CODE),
+         ( SELECT COUNT(*) AS "GR_MEM_CNT"
+           FROM JOINGROUP WHERE STUDYGROUP_CODE = #{ grCode } AND JOINGROUP_STATUS = 0 )
+      WHERE STUDYGROUP_CODE = #{ grCode }
+   </select>
+   
+   <select id="selectOneGrDetailRightTop" resultMap="SGDetailResultSet" parameterType="_int">
+      SELECT WEEK_ST, WEEK_END, STUDYGROUP_CODE, GR_WEEK_TOTAL,
+             RANK() OVER (PARTITION BY CATEGORY_NAME ORDER BY GR_WEEK_TOTAL DESC) AS "GR_RANK",
+             GR_DAY_TOTAL, GR_WEEK_FULFILL_RATIO, GR_WEEK_FULFILL_CNT
+      FROM ( SELECT STUDYGROUP_CODE, SUM(STUDYTIME_STUDYTIME) AS "GR_WEEK_TOTAL"
+             FROM STUDYTIME 
+             WHERE STUDYTIME_DIVISION = 1
+             AND STUDYTIME_DATE BETWEEN TRUNC(SYSDATE, 'DY')
+                                AND TRUNC(SYSDATE, 'DY') + 6.99999
+             GROUP BY STUDYGROUP_CODE )
+      JOIN ( SELECT STUDYGROUP_CODE, SUM(STUDYTIME_STUDYTIME) AS "GR_DAY_TOTAL"
+             FROM STUDYTIME
+             WHERE STUDYTIME_DIVISION = 1
+             AND STUDYTIME_DATE LIKE SYSDATE
+             GROUP BY STUDYGROUP_CODE ) USING(STUDYGROUP_CODE)
+      JOIN ( SELECT STUDYGROUP_CODE, GR_MEM_CNT,
+                    AVG((GR_FULFILL_CNT / GR_MEM_CNT) * 100) AS "GR_WEEK_FULFILL_RATIO",
+                    AVG(GR_FULFILL_CNT) AS "GR_WEEK_FULFILL_CNT"
+             FROM ( SELECT STUDYTIME_DATE, STUDYGROUP_CODE,
+                           SUM(DECODE(GR_FULFILL_STATUS, 1, 1)) AS "GR_FULFILL_CNT", GR_MEM_CNT
+                    FROM ( SELECT STUDYTIME_DATE, ST.STUDYGROUP_CODE, ST.MEMBER_CODE, MEM_WEEKDAY_TOTAL,
+                                  DECODE(SIGN(MEM_WEEKDAY_TOTAL - GR.STUDYGROUP_GOALTIME), 1, 1, 0, 1, -1, 0) AS "GR_FULFILL_STATUS"
+                           FROM ( SELECT TRUNC(STUDYTIME_DATE) AS "STUDYTIME_DATE",
+                                         STUDYGROUP_CODE, MEMBER_CODE,
+                                         SUM(STUDYTIME_STUDYTIME) AS "MEM_WEEKDAY_TOTAL"
+                                  FROM STUDYTIME
+                                  WHERE STUDYTIME_DIVISION = 1
+                                  AND STUDYTIME_DATE BETWEEN TRUNC(SYSDATE, 'DY')
+                                                     AND TRUNC(SYSDATE, 'DY') + 6.99999
+                                  GROUP BY TRUNC(STUDYTIME_DATE), STUDYGROUP_CODE, MEMBER_CODE ) ST
+                           JOIN STUDYGROUP GR ON(ST.STUDYGROUP_CODE = GR.STUDYGROUP_CODE) ),
+                         ( SELECT COUNT(*) AS "GR_MEM_CNT"
+                           FROM JOINGROUP
+                           WHERE STUDYGROUP_CODE = #{ grCode }
+                           AND JOINGROUP_STATUS = 0 )
+                    GROUP BY STUDYTIME_DATE, STUDYGROUP_CODE, GR_MEM_CNT )
+             GROUP BY STUDYGROUP_CODE, GR_MEM_CNT ) USING(STUDYGROUP_CODE)
+      JOIN STUDYGROUP USING(STUDYGROUP_CODE)
+      JOIN CATEGORY USING(CATEGORY_CODE),
+         ( SELECT TRUNC(SYSDATE, 'DY') "WEEK_ST",
+                  TRUNC(SYSDATE, 'DY') + 6.99999 "WEEK_END"
+           FROM DUAL )
+      WHERE STUDYGROUP_CODE = #{ grCode }
+   </select>
+   
+   <select id="selectOneJoinGrDetailTop" resultMap="SGDetailResultSet" parameterType="hashmap">
+      SELECT STUDYGROUP_CODE, MY_WEEK_TOTAL, MY_DAY_TOTAL, MY_RANK
+      FROM ( SELECT STUDYGROUP_CODE, MEMBER_CODE, MY_WEEK_TOTAL, MY_RANK
+             FROM ( SELECT STUDYGROUP_CODE, MEMBER_CODE, MY_WEEK_TOTAL,
+                           RANK() OVER (PARTITION BY STUDYGROUP_CODE ORDER BY MY_WEEK_TOTAL DESC) AS "MY_RANK"
+                    FROM ( SELECT STUDYGROUP_CODE, MEMBER_CODE, SUM(STUDYTIME_STUDYTIME) AS "MY_WEEK_TOTAL"
+                           FROM STUDYTIME
+                           WHERE STUDYTIME_DIVISION = 1
+                           AND STUDYTIME_DATE BETWEEN TRUNC(SYSDATE, 'DY')
+                                          AND TRUNC(SYSDATE, 'DY') + 6.99999
+                           GROUP BY STUDYGROUP_CODE, MEMBER_CODE )
+                    WHERE STUDYGROUP_CODE = #{ grCode } )
+             WHERE MEMBER_CODE = #{ memCode } )
+      JOIN ( SELECT STUDYGROUP_CODE, MEMBER_CODE, SUM(STUDYTIME_STUDYTIME) AS "MY_DAY_TOTAL"
+             FROM STUDYTIME
+             WHERE STUDYTIME_DIVISION = 1 AND MEMBER_CODE = #{ memCode }
+             AND STUDYTIME_DATE LIKE SYSDATE
+             GROUP BY STUDYGROUP_CODE, MEMBER_CODE ) USING(STUDYGROUP_CODE)
+   </select>
+   
+   <select id="selectJoinAbleChk" resultType="_int">
+      SELECT (STUDYGROUP_MAXNUM - GR_MEM_CNT) AS "JOIN_ABLE_CNT"
+      FROM (SELECT COUNT(*) AS "GR_MEM_CNT", STUDYGROUP_CODE
+            FROM JOINGROUP
+            WHERE STUDYGROUP_CODE = #{ grCode } AND JOINGROUP_STATUS = 0
+            GROUP BY STUDYGROUP_CODE)
+      JOIN STUDYGROUP USING(STUDYGROUP_CODE)
+   </select>
+   
+   <insert id="insertGroupJoin" parameterType="SGDetail">
+      INSERT INTO JOINGROUP
+         (JOINGROUP_CODE, STUDYGROUP_CODE, MEMBER_CODE, JOINGROUP_ENROLLDATE, JOINGROUP_STATUS, JOINGROUP_DELETEDATE)
+      VALUES
+         (SEQ_JOINGROUP_JOINGROUP_CODE.NEXTVAL, #{ studyGroup_Code }, #{ member_Code }, SYSDATE, 0, NULL)
+   </insert>
+   
+   <select id="selectGroupMemberList" parameterType="_int" resultType="java.util.HashMap">
+      SELECT JG.STUDYGROUP_CODE, JG.MEMBER_CODE, MEMBER_NICKNAME, SG.MEMBER_CODE AS "LEADER_CODE",
+            DECODE(JG.MEMBER_CODE, SG.MEMBER_CODE, 1, 0) AS "DIV_MEM_ROLE",
+            FILES_NAME, JOINGROUP_ENROLLDATE, JOINGROUP_STATUS
+      FROM JOINGROUP JG
+      JOIN MEMBER M ON(JG.MEMBER_CODE = M.MEMBER_CODE)
+      JOIN STUDYGROUP SG ON(JG.STUDYGROUP_CODE = SG.STUDYGROUP_CODE)
+      JOIN FILES FL ON(JG.MEMBER_CODE = FL.MEMBER_CODE)
+      WHERE JOINGROUP_STATUS = 0
+      AND JG.STUDYGROUP_CODE = #{ grCode }
+      ORDER BY DIV_MEM_ROLE DESC, JOINGROUP_ENROLLDATE ASC      
+   </select>
+   
+   <update id="updateChangeGroupLeader" parameterType="hashmap">
+      UPDATE STUDYGROUP
+      SET MEMBER_CODE = #{ afterLeaderCode }
+      WHERE STUDYGROUP_CODE = #{ grCode }
+      AND MEMBER_CODE = #{ nowLeaderCode }
+   </update>
+   
+   <update id="updateDeleteJoinMemberStatus" parameterType="hashmap">
+      UPDATE JOINGROUP
+      SET JOINGROUP_STATUS = 1, JOINGROUP_DELETEDATE = SYSDATE
+      WHERE STUDYGROUP_CODE = #{ grCode }
+      AND MEMBER_CODE = #{ delMemCode }
+      AND JOINGROUP_STATUS = 0
+      AND JOINGROUP_DELETEDATE IS NULL
+   </update>
+   
+   <select id="selectChangeDatesInfo" parameterType="_int" resultType="hashmap">
+      SELECT TO_CHAR(SELECT_DATE, 'YYYY-MM-DD') AS "THIS_DAY",
+            TO_CHAR(SELECT_DATE, 'YYYY-MM') AS "THIS_WEEK",
+            TO_CHAR(SELECT_DATE, 'YYYY-MM') AS "THIS_MONTH",
+            TO_CHAR(SELECT_DATE, 'W') AS "WEEK_NUM",
+            TO_CHAR(SELECT_DATE, 'MM') AS "MONTH",
+            TO_CHAR(LAST_DAY(SELECT_DATE), 'DD') AS "MONTH_LASTDAY"
+      FROM ( SELECT (SYSDATE + #{ changeDates }) AS "SELECT_DATE" FROM DUAL)  
+   </select>
+   <select id="selectChangeMonthsInfo" parameterType="_int" resultType="hashmap">
+      SELECT TO_CHAR(SELECT_DATE, 'YYYY-MM-DD') AS "THIS_DAY",
+            TO_CHAR(SELECT_DATE, 'YYYY-MM') AS "THIS_WEEK",
+            TO_CHAR(SELECT_DATE, 'YYYY-MM') AS "THIS_MONTH",
+            TO_CHAR(SELECT_DATE, 'W') AS "WEEK_NUM",
+            TO_CHAR(SELECT_DATE, 'MM') AS "MONTH",
+            TO_CHAR(LAST_DAY(SELECT_DATE), 'DD') AS "MONTH_LASTDAY"
+      FROM ( SELECT ADD_MONTHS(SYSDATE, #{ changeMonths }) as "SELECT_DATE" FROM DUAL)
+   </select>
+   
+   <select id="selectGroupMemberRankList" parameterType="hashmap" resultType="hashmap">
+      <![CDATA[
+          WITH DATE_PERIOD AS
+               ( SELECT DECODE(#{ periodType },
+                           1, TRUNC(TO_DATE(#{ thisDay })),
+                           2, TRUNC(TO_DATE(#{ thisDay }), 'DY'),
+                           3, TRUNC(TO_DATE(#{ thisDay }), 'MM')) AS "ST_DATE",
+                          DECODE(#{ periodType },
+                                1, TRUNC(TO_DATE(#{ thisDay })),
+                                2, TRUNC(TO_DATE(#{ thisDay }), 'DY') + 6,
+                                3, LAST_DAY(TRUNC(TO_DATE(#{ thisDay })))) + 0.99999 AS "END_DATE"
+                   FROM DUAL ),
                  TIME_RESULT AS
                     ( SELECT ST_DATE, END_DATE, STUDYGROUP_CODE, MEMBER_CODE,
                              MEM_PERIOD_TOTAL, RANK() OVER(ORDER BY MEM_PERIOD_TOTAL DESC) AS "TIME_RANK"
@@ -216,99 +216,198 @@
                              AND STUDYTIME_DATE BETWEEN ST_DATE AND END_DATE
                              GROUP BY ST_DATE, END_DATE, STUDYGROUP_CODE, MEMBER_CODE
                            ) )
-			SELECT ST_DATE, END_DATE, STUDYGROUP_CODE, MEMBER_CODE, MEMBER_NICKNAME,
-			       MEM_PERIOD_TOTAL, MAX_TIME, NVL(MEM_PERIOD_TOTAL/DECODE(MAX_TIME, 0, NULL, MAX_TIME), 0) * 100 AS "MEM_TOTAL_RATIO",
+         SELECT ST_DATE, END_DATE, STUDYGROUP_CODE, MEMBER_CODE, MEMBER_NICKNAME,
+                MEM_PERIOD_TOTAL, MAX_TIME, NVL(MEM_PERIOD_TOTAL/DECODE(MAX_TIME, 0, NULL, MAX_TIME), 0) * 100 AS "MEM_TOTAL_RATIO",
                    MEM_FULFILL_STATUS, FILES_NAME
-			FROM ( SELECT P.ST_DATE, P.END_DATE, STUDYGROUP_CODE, MEMBER_CODE,
-			              NVL(MEM_PERIOD_TOTAL, 0) AS "MEM_PERIOD_TOTAL",
+         FROM ( SELECT P.ST_DATE, P.END_DATE, STUDYGROUP_CODE, MEMBER_CODE,
+                       NVL(MEM_PERIOD_TOTAL, 0) AS "MEM_PERIOD_TOTAL",
                           NVL(MAX_TIME, ( SELECT MEM_PERIOD_TOTAL FROM TIME_RESULT WHERE TIME_RANK = 1 )) AS "MAX_TIME",
-			              NVL(DECODE(SIGN(MEM_PERIOD_TOTAL - STUDYGROUP_GOALTIME), 1, 1, 0, 1, -1, 0), 0) AS "MEM_FULFILL_STATUS"
-			       FROM ( SELECT STUDYGROUP_CODE, MEMBER_CODE FROM JOINGROUP
-			              WHERE ( TRUNC(JOINGROUP_ENROLLDATE) <= TRUNC(TO_DATE(#{ thisDay }))
-			              	  		AND TRUNC(JOINGROUP_DELETEDATE) >= TRUNC(TO_DATE(#{ thisDay }))
-			                  OR (TRUNC(JOINGROUP_ENROLLDATE) <= TRUNC(TO_DATE(#{ thisDay })))
-			                  		AND JOINGROUP_STATUS = 0 )
-			              AND STUDYGROUP_CODE = #{ grCode }
-			              GROUP BY STUDYGROUP_CODE, MEMBER_CODE )
-			       LEFT JOIN( SELECT ST_DATE, END_DATE, STUDYGROUP_CODE, MEMBER_CODE,
+                       NVL(DECODE(SIGN(MEM_PERIOD_TOTAL - STUDYGROUP_GOALTIME), 1, 1, 0, 1, -1, 0), 0) AS "MEM_FULFILL_STATUS"
+                FROM ( SELECT STUDYGROUP_CODE, MEMBER_CODE FROM JOINGROUP
+                       WHERE ( TRUNC(JOINGROUP_ENROLLDATE) <= TRUNC(TO_DATE(#{ thisDay }))
+                                  AND TRUNC(JOINGROUP_DELETEDATE) >= TRUNC(TO_DATE(#{ thisDay }))
+                           OR (TRUNC(JOINGROUP_ENROLLDATE) <= TRUNC(TO_DATE(#{ thisDay })))
+                                 AND JOINGROUP_STATUS = 0 )
+                       AND STUDYGROUP_CODE = #{ grCode }
+                       GROUP BY STUDYGROUP_CODE, MEMBER_CODE )
+                LEFT JOIN( SELECT ST_DATE, END_DATE, STUDYGROUP_CODE, MEMBER_CODE,
                                      R1.MEM_PERIOD_TOTAL, TIME_RANK, R2.MEM_PERIOD_TOTAL AS "MAX_TIME" 
                               FROM ( SELECT * FROM TIME_RESULT ) R1,
                                    ( SELECT MEM_PERIOD_TOTAL FROM TIME_RESULT WHERE TIME_RANK = 1 ) R2 )
                    USING(STUDYGROUP_CODE, MEMBER_CODE),
-			     ( SELECT STUDYGROUP_GOALTIME FROM STUDYGROUP WHERE STUDYGROUP_CODE = #{ grCode } ),
-			     ( SELECT * FROM DATE_PERIOD ) P )
-			JOIN ( SELECT MEMBER_CODE, MEMBER_NICKNAME, FILES_NAME
-			       FROM MEMBER
-			       JOIN FILES USING(MEMBER_CODE) ) USING(MEMBER_CODE)
-			ORDER BY MEM_PERIOD_TOTAL DESC, MEMBER_NICKNAME ASC
-		]]>
-	</select>
-	
-	<select id="selectGroupMemberTimeList" parameterType="hashmap" resultType="hashmap">
-		<![CDATA[	
-			SELECT * FROM (
-			WITH ENROLL_MEMBER_LIST AS ( 
-			                       SELECT RANK()OVER(PARTITION BY STUDYGROUP_CODE
-			                                         ORDER BY DIV_MEM_ROLE DESC, JOINGROUP_ENROLLDATE ASC) AS "SEQ",
-			                              STUDYGROUP_CODE, MEMBER_CODE, JOINGROUP_ENROLLDATE, DIV_MEM_ROLE,
-			                              MEMBER_NICKNAME, FILES_NAME, STUDYGROUP_GOALTIME
-			                       FROM (
-			                              SELECT STUDYGROUP_CODE, JG.MEMBER_CODE AS "MEMBER_CODE", STUDYGROUP_GOALTIME,
-			                                     JOINGROUP_ENROLLDATE, MEMBER_NICKNAME, FILES_NAME,
-			                                     DECODE(JG.MEMBER_CODE, GR.MEMBER_CODE, 1, 0) AS "DIV_MEM_ROLE"
-			                              FROM JOINGROUP JG
-			                              JOIN STUDYGROUP GR USING(STUDYGROUP_CODE)
-			                              JOIN ( SELECT MEMBER_CODE, MEMBER_NICKNAME, FILES_NAME
-			                                     FROM MEMBER
-			                                     JOIN FILES USING(MEMBER_CODE) ) M ON(JG.MEMBER_CODE = M.MEMBER_CODE)
-			                              WHERE ( ( TRUNC(JOINGROUP_ENROLLDATE) <= TRUNC(TO_DATE(#{ thisDay }), 'DY') + 6.99999
-			                                          AND TRUNC(JOINGROUP_DELETEDATE) >= TRUNC(TO_DATE(#{ thisDay }), 'DY') )
-			                                     OR
-			                                      ( TRUNC(JOINGROUP_ENROLLDATE) <= TRUNC(TO_DATE(#{ thisDay }), 'DY') + 6.99999
-			                                           AND JOINGROUP_STATUS = 0 ) ) ) ),
-			     PIVOT_TBL AS (
-			            SELECT SEQ, NVL(MEM_DAY_TOTAL, 0) AS "MEM_DAY_TOTAL", MEMBER_CODE, MEMBER_NICKNAME, FILES_NAME, CURR_DAY, STUDYGROUP_GOALTIME 
-			            FROM ( SELECT SEQ, STUDYGROUP_CODE, MEMBER_CODE,
-			                          JOINGROUP_ENROLLDATE
-			                        , STUDYTIME_DATE, NVL(MEM_DAY_TOTAL, 0) AS "MEM_DAY_TOTAL", STUDYGROUP_GOALTIME,
-			                          DECODE(SIGN(MEM_DAY_TOTAL - STUDYGROUP_GOALTIME), 1, 1, 0, 1, -1, 0) AS "MEM_FULFILL_STATUS"
-			                        , MEMBER_NICKNAME, DIV_MEM_ROLE, FILES_NAME
-			                   FROM ( SELECT SEQ, STUDYGROUP_CODE, MEMBER_CODE,
-			                                 JOINGROUP_ENROLLDATE, DIV_MEM_ROLE,
-			                                 MEMBER_NICKNAME, FILES_NAME, STUDYGROUP_GOALTIME
-			                          FROM ENROLL_MEMBER_LIST
-			                          WHERE ( SEQ, STUDYGROUP_CODE, MEMBER_CODE )
-			                             IN ( SELECT MAX(SEQ) AS "SEQ", STUDYGROUP_CODE, MEMBER_CODE
-			                                  FROM ENROLL_MEMBER_LIST
-			                                  GROUP BY STUDYGROUP_CODE, MEMBER_CODE )
-			                          ORDER BY STUDYGROUP_CODE ASC, SEQ ASC )
-			                   LEFT JOIN
-			                        ( SELECT TRUNC(STUDYTIME_DATE) AS "STUDYTIME_DATE", STUDYGROUP_CODE, MEMBER_CODE,
-			                                 SUM(STUDYTIME_STUDYTIME) AS "MEM_DAY_TOTAL"
-			                          FROM STUDYTIME
-			                          WHERE STUDYTIME_DIVISION = 1
-			                          AND STUDYTIME_DATE BETWEEN TRUNC(TO_DATE(#{ thisDay }), 'DY')
-			                                             AND TRUNC(TO_DATE(#{ thisDay }), 'DY') + 6.99999
-			                          GROUP BY TRUNC(STUDYTIME_DATE), STUDYGROUP_CODE, MEMBER_CODE ) USING(STUDYGROUP_CODE, MEMBER_CODE)
-			                   WHERE STUDYGROUP_CODE = #{ grCode } )
-			            FULL OUTER JOIN ( SELECT TO_CHAR(TRUNC(TO_DATE(#{ thisDay }), 'DY') + LEVEL - 1, 'DAY') AS "CURR_DAY",
-			                                    (TRUNC(TO_DATE(#{ thisDay }), 'DY') + LEVEL - 1) AS "CURR_DATE"
-			                              FROM DUAL CONNECT BY LEVEL <= 7 ) ON(STUDYTIME_DATE = CURR_DATE)
-			            ORDER BY SEQ ASC
-			                  )
-			SELECT * FROM PIVOT_TBL
-			PIVOT ( MAX(MEM_DAY_TOTAL) FOR CURR_DAY IN('일요일' AS "SUN", '월요일' AS "MON", '화요일' AS "TUE", '수요일' AS "WED", '목요일' AS "THU", '금요일' AS "FRI", '토요일' AS "SAT") ) )
-			WHERE MEMBER_CODE IS NOT NULL
-			ORDER BY SEQ ASC
-			
-		]]>		
-	</select>
-	
-	<insert id="insertGroupBoardWrite" parameterType="hashmap">
-		INSERT INTO GROUPBOARD
-		    (GROUPBOARD_CODE, MEMBER_CODE, GROUPBOARD_CONTENT, GROUPBOARD_POSTDATE, GROUPBOARD_TYPE, GROUPBOARD_STATUS, STUDYGROUP_CODE, GROUPBOARD_TITLE)
-		VALUES
-		    (SEQ_GROUPBOARD_GROUPBOARD_CODE.NEXTVAL, #{ loginUserCode }, #{ contents }, SYSDATE, #{ boardType }, 0, #{ grCode }, '냐냐냐')
-	</insert>
-	
+              ( SELECT STUDYGROUP_GOALTIME FROM STUDYGROUP WHERE STUDYGROUP_CODE = #{ grCode } ),
+              ( SELECT * FROM DATE_PERIOD ) P )
+         JOIN ( SELECT MEMBER_CODE, MEMBER_NICKNAME, FILES_NAME
+                FROM MEMBER
+                JOIN FILES USING(MEMBER_CODE) ) USING(MEMBER_CODE)
+         ORDER BY MEM_PERIOD_TOTAL DESC, MEMBER_NICKNAME ASC
+      ]]>
+   </select>
+   
+   <select id="selectGroupMemberTimeList" parameterType="hashmap" resultType="hashmap">
+      <![CDATA[   
+         SELECT * FROM (
+         WITH ENROLL_MEMBER_LIST AS ( 
+                                SELECT RANK()OVER(PARTITION BY STUDYGROUP_CODE
+                                                  ORDER BY DIV_MEM_ROLE DESC, JOINGROUP_ENROLLDATE ASC) AS "SEQ",
+                                       STUDYGROUP_CODE, MEMBER_CODE, JOINGROUP_ENROLLDATE, DIV_MEM_ROLE,
+                                       MEMBER_NICKNAME, FILES_NAME, STUDYGROUP_GOALTIME
+                                FROM (
+                                       SELECT STUDYGROUP_CODE, JG.MEMBER_CODE AS "MEMBER_CODE", STUDYGROUP_GOALTIME,
+                                              JOINGROUP_ENROLLDATE, MEMBER_NICKNAME, FILES_NAME,
+                                              DECODE(JG.MEMBER_CODE, GR.MEMBER_CODE, 1, 0) AS "DIV_MEM_ROLE"
+                                       FROM JOINGROUP JG
+                                       JOIN STUDYGROUP GR USING(STUDYGROUP_CODE)
+                                       JOIN ( SELECT MEMBER_CODE, MEMBER_NICKNAME, FILES_NAME
+                                              FROM MEMBER
+                                              JOIN FILES USING(MEMBER_CODE) ) M ON(JG.MEMBER_CODE = M.MEMBER_CODE)
+                                       WHERE ( ( TRUNC(JOINGROUP_ENROLLDATE) <= TRUNC(TO_DATE(#{ thisDay }), 'DY') + 6.99999
+                                                   AND TRUNC(JOINGROUP_DELETEDATE) >= TRUNC(TO_DATE(#{ thisDay }), 'DY') )
+                                              OR
+                                               ( TRUNC(JOINGROUP_ENROLLDATE) <= TRUNC(TO_DATE(#{ thisDay }), 'DY') + 6.99999
+                                                    AND JOINGROUP_STATUS = 0 ) ) ) ),
+              PIVOT_TBL AS (
+                     SELECT SEQ, NVL(MEM_DAY_TOTAL, 0) AS "MEM_DAY_TOTAL", MEMBER_CODE, MEMBER_NICKNAME, FILES_NAME, CURR_DAY, STUDYGROUP_GOALTIME 
+                     FROM ( SELECT SEQ, STUDYGROUP_CODE, MEMBER_CODE,
+                                   JOINGROUP_ENROLLDATE
+                                 , STUDYTIME_DATE, NVL(MEM_DAY_TOTAL, 0) AS "MEM_DAY_TOTAL", STUDYGROUP_GOALTIME,
+                                   DECODE(SIGN(MEM_DAY_TOTAL - STUDYGROUP_GOALTIME), 1, 1, 0, 1, -1, 0) AS "MEM_FULFILL_STATUS"
+                                 , MEMBER_NICKNAME, DIV_MEM_ROLE, FILES_NAME
+                            FROM ( SELECT SEQ, STUDYGROUP_CODE, MEMBER_CODE,
+                                          JOINGROUP_ENROLLDATE, DIV_MEM_ROLE,
+                                          MEMBER_NICKNAME, FILES_NAME, STUDYGROUP_GOALTIME
+                                   FROM ENROLL_MEMBER_LIST
+                                   WHERE ( SEQ, STUDYGROUP_CODE, MEMBER_CODE )
+                                      IN ( SELECT MAX(SEQ) AS "SEQ", STUDYGROUP_CODE, MEMBER_CODE
+                                           FROM ENROLL_MEMBER_LIST
+                                           GROUP BY STUDYGROUP_CODE, MEMBER_CODE )
+                                   ORDER BY STUDYGROUP_CODE ASC, SEQ ASC )
+                            LEFT JOIN
+                                 ( SELECT TRUNC(STUDYTIME_DATE) AS "STUDYTIME_DATE", STUDYGROUP_CODE, MEMBER_CODE,
+                                          SUM(STUDYTIME_STUDYTIME) AS "MEM_DAY_TOTAL"
+                                   FROM STUDYTIME
+                                   WHERE STUDYTIME_DIVISION = 1
+                                   AND STUDYTIME_DATE BETWEEN TRUNC(TO_DATE(#{ thisDay }), 'DY')
+                                                      AND TRUNC(TO_DATE(#{ thisDay }), 'DY') + 6.99999
+                                   GROUP BY TRUNC(STUDYTIME_DATE), STUDYGROUP_CODE, MEMBER_CODE ) USING(STUDYGROUP_CODE, MEMBER_CODE)
+                            WHERE STUDYGROUP_CODE = #{ grCode } )
+                     FULL OUTER JOIN ( SELECT TO_CHAR(TRUNC(TO_DATE(#{ thisDay }), 'DY') + LEVEL - 1, 'DAY') AS "CURR_DAY",
+                                             (TRUNC(TO_DATE(#{ thisDay }), 'DY') + LEVEL - 1) AS "CURR_DATE"
+                                       FROM DUAL CONNECT BY LEVEL <= 7 ) ON(STUDYTIME_DATE = CURR_DATE)
+                     ORDER BY SEQ ASC
+                           )
+         SELECT * FROM PIVOT_TBL
+         PIVOT ( MAX(MEM_DAY_TOTAL) FOR CURR_DAY IN('일요일' AS "SUN", '월요일' AS "MON", '화요일' AS "TUE", '수요일' AS "WED", '목요일' AS "THU", '금요일' AS "FRI", '토요일' AS "SAT") ) )
+         WHERE MEMBER_CODE IS NOT NULL
+         ORDER BY SEQ ASC
+         
+      ]]>      
+   </select>
+   
+   <select id="selectGroupBoardList" parameterType="hashmap" resultType="hashmap">
+      SELECT GROUPBOARD_CODE, MEMBER_CODE, MEMBER_NICKNAME, FILES_NAME, GROUPBOARD_CONTENT,
+                TO_CHAR(GROUPBOARD_POSTDATE, 'YYYY. MM. DD.') AS "GROUPBOARD_POSTDATE", GROUPBOARD_TYPE, GROUPBOARD_STATUS, STUDYGROUP_CODE,
+                GROUPBOARD_DELDATE, GROUPBOARD_TITLE
+              , NVL(CLICK_LIKE_CNT, 0) AS "CLICK_LIKE_CNT", NVL(REPLY_CNT, 0) AS "REPLY_CNT" ,NVL(ISLIKE, 0) AS "ISLIKE"
+      FROM ( SELECT GROUPBOARD_CODE, MEMBER_CODE, MEMBER_NICKNAME, FILES_NAME, GROUPBOARD_CONTENT,
+                          GROUPBOARD_POSTDATE, GROUPBOARD_TYPE, GROUPBOARD_STATUS, STUDYGROUP_CODE, 
+                          GROUPBOARD_DELDATE, GROUPBOARD_TITLE
+             FROM GROUPBOARD
+             JOIN ( SELECT MEMBER_CODE, MEMBER_NICKNAME, FILES_NAME
+                    FROM MEMBER
+                    JOIN FILES USING(MEMBER_CODE) ) USING(MEMBER_CODE)
+                    WHERE STUDYGROUP_CODE = #{ grCode }  )
+      LEFT JOIN ( SELECT COUNT(MEMBER_CODE) AS "CLICK_LIKE_CNT", GROUPBOARD_CODE
+                  FROM BOARDLIKE
+                  GROUP BY GROUPBOARD_CODE ) USING(GROUPBOARD_CODE)
+      LEFT JOIN ( SELECT COUNT(REPLY_CODE) AS "REPLY_CNT", GROUPBOARD_CODE
+                  FROM REPLY
+                  GROUP BY GROUPBOARD_CODE) USING (GROUPBOARD_CODE)
+      LEFT JOIN( SELECT COUNT(GROUPBOARD_CODE) AS "ISLIKE", GROUPBOARD_CODE
+                FROM BOARDLIKE
+                WHERE MEMBER_CODE = #{ loginUserCode } 
+                GROUP BY GROUPBOARD_CODE) USING (GROUPBOARD_CODE)
+      WHERE GROUPBOARD_STATUS = 0
+      ORDER BY GROUPBOARD_POSTDATE DESC
+   </select>
+   
+   <insert id="insertGroupBoardWrite" parameterType="hashmap">
+      INSERT INTO GROUPBOARD
+          (GROUPBOARD_CODE, MEMBER_CODE, GROUPBOARD_CONTENT, GROUPBOARD_POSTDATE, GROUPBOARD_TYPE, GROUPBOARD_STATUS, STUDYGROUP_CODE, GROUPBOARD_TITLE)
+      VALUES
+          (SEQ_GROUPBOARD_GROUPBOARD_CODE.NEXTVAL, #{ loginUserCode }, #{ contents }, SYSDATE, #{ boardType }, 0, #{ grCode }, '오늘 날씨 어떤가요?')
+   </insert>
+   
+	<select id="selectOneBoardDetailShow" parameterType="hashmap" resultType="hashmap">
+      SELECT GROUPBOARD_CODE, MEMBER_CODE, MEMBER_NICKNAME, FILES_NAME, GROUPBOARD_CONTENT,
+             TO_CHAR(GROUPBOARD_POSTDATE, 'YYYY. MM. DD.') AS "GROUPBOARD_POSTDATE", GROUPBOARD_TYPE, GROUPBOARD_STATUS, STUDYGROUP_CODE,
+             GROUPBOARD_DELDATE, GROUPBOARD_TITLE
+           , NVL(CLICK_LIKE_CNT, 0) AS "CLICK_LIKE_CNT", NVL(REPLY_CNT, 0) AS "REPLY_CNT" ,NVL(ISLIKE, 0) AS "ISLIKE"
+      FROM ( SELECT GROUPBOARD_CODE, MEMBER_CODE, MEMBER_NICKNAME, FILES_NAME, GROUPBOARD_CONTENT,
+                          GROUPBOARD_POSTDATE, GROUPBOARD_TYPE, GROUPBOARD_STATUS, STUDYGROUP_CODE, 
+                          GROUPBOARD_DELDATE, GROUPBOARD_TITLE
+             FROM GROUPBOARD
+             JOIN ( SELECT MEMBER_CODE, MEMBER_NICKNAME, FILES_NAME
+                    FROM MEMBER
+                    JOIN FILES USING(MEMBER_CODE) ) USING(MEMBER_CODE)
+                    WHERE STUDYGROUP_CODE = #{ grCode }  )
+      LEFT JOIN ( SELECT COUNT(MEMBER_CODE) AS "CLICK_LIKE_CNT", GROUPBOARD_CODE
+                  FROM BOARDLIKE
+                  GROUP BY GROUPBOARD_CODE ) USING(GROUPBOARD_CODE)
+      LEFT JOIN ( SELECT COUNT(REPLY_CODE) AS "REPLY_CNT", GROUPBOARD_CODE
+                  FROM REPLY
+                  GROUP BY GROUPBOARD_CODE) USING (GROUPBOARD_CODE)
+      LEFT JOIN( SELECT COUNT(GROUPBOARD_CODE) AS "ISLIKE", GROUPBOARD_CODE
+                FROM BOARDLIKE
+                WHERE MEMBER_CODE = #{ grCode } 
+                GROUP BY GROUPBOARD_CODE) USING (GROUPBOARD_CODE)
+      WHERE GROUPBOARD_STATUS = 0
+      AND GROUPBOARD_CODE = #{ boardCode } 
+   </select>
+   
+   <select id="selectBoardReply" parameterType="_int" resultType="hashmap">
+      SELECT TO_CHAR(REPLY_DATE, 'YY/MM/DD') AS REPLY_DATE, REPLY_CONTENT, MEMBER_NICKNAME, FILES_NAME
+      FROM REPLY
+      JOIN (SELECT MEMBER_CODE, MEMBER_NICKNAME, FILES_NAME
+              FROM MEMBER
+              JOIN FILES USING(MEMBER_CODE)) USING(MEMBER_CODE)
+      WHERE GROUPBOARD_CODE = #{ boardCode }
+      ORDER BY REPLY_DATE DESC
+   </select>
+   
+   <select id="selectBoardTopInfo" parameterType="hashmap" resultType="hashmap">
+      SELECT GROUPBOARD_CODE, MEMBER_CODE, MEMBER_NICKNAME, FILES_NAME, GROUPBOARD_CONTENT,
+             TO_CHAR(GROUPBOARD_POSTDATE, 'YYYY. MM. DD.') AS "GROUPBOARD_POSTDATE", GROUPBOARD_TYPE, GROUPBOARD_STATUS, STUDYGROUP_CODE,
+             GROUPBOARD_DELDATE, GROUPBOARD_TITLE
+           , NVL(CLICK_LIKE_CNT, 0) AS "CLICK_LIKE_CNT", NVL(REPLY_CNT, 0) AS "REPLY_CNT" ,NVL(ISLIKE, 0) AS "ISLIKE"
+      FROM ( SELECT GROUPBOARD_CODE, MEMBER_CODE, MEMBER_NICKNAME, FILES_NAME, GROUPBOARD_CONTENT,
+                          GROUPBOARD_POSTDATE, GROUPBOARD_TYPE, GROUPBOARD_STATUS, STUDYGROUP_CODE, 
+                          GROUPBOARD_DELDATE, GROUPBOARD_TITLE
+             FROM GROUPBOARD
+             JOIN ( SELECT MEMBER_CODE, MEMBER_NICKNAME, FILES_NAME
+                    FROM MEMBER
+                    JOIN FILES USING(MEMBER_CODE) ) USING(MEMBER_CODE)
+                    WHERE STUDYGROUP_CODE = #{ grCode }  )
+      LEFT JOIN ( SELECT COUNT(MEMBER_CODE) AS "CLICK_LIKE_CNT", GROUPBOARD_CODE
+                  FROM BOARDLIKE
+                  GROUP BY GROUPBOARD_CODE ) USING(GROUPBOARD_CODE)
+      LEFT JOIN ( SELECT COUNT(REPLY_CODE) AS "REPLY_CNT", GROUPBOARD_CODE
+                  FROM REPLY
+                  GROUP BY GROUPBOARD_CODE) USING (GROUPBOARD_CODE)
+      LEFT JOIN( SELECT COUNT(GROUPBOARD_CODE) AS "ISLIKE", GROUPBOARD_CODE
+                FROM BOARDLIKE
+                WHERE MEMBER_CODE = #{ loginUserCode } 
+                GROUP BY GROUPBOARD_CODE) USING (GROUPBOARD_CODE)
+      WHERE GROUPBOARD_STATUS = 0
+      AND GROUPBOARD_CODE = #{ boardCode } 
+   </select>
+   
+   <insert id="insertReply" parameterType="hashmap">
+   
+      INSERT INTO REPLY VALUES (SEQ_REPLY_REPLY_CODE.nextval, #{ boardCode }, #{ loginUserCode }, SYSDATE, #{ replyContent })
+   </insert>
+   
+   
+   
+   
 </mapper>
