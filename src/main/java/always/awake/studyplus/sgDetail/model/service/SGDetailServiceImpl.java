@@ -17,26 +17,26 @@ public class SGDetailServiceImpl implements SGDetailService{
 	private SqlSessionTemplate sqlSession;
 	@Autowired
 	private SGDetailDao gd;
-	
+
 	@Override
 	public int selectJoinStatus(int grCode, int memCode) {
 		int joinStatus = gd.selectJoinStatus(sqlSession, grCode, memCode);
 		System.out.println("가입여부 확인 서비스 res -> joinStatus : < " + joinStatus + " >");
 		return joinStatus;
 	}
-	
+
 	@Override
 	public SGDetail selectOneGrDetailLeftTop(int grCode) {
 		SGDetail grLeftTop = gd.selectOneGrDetailLeftTop(sqlSession, grCode);
 		return grLeftTop;
 	}
-	
+
 	@Override
 	public SGDetail selectOneGrDetailRightTop(int grCode) {
 		SGDetail grRightTop = gd.selectOneGrDetailRightTop(sqlSession, grCode);
 		return grRightTop;
 	}
-	
+
 	@Override
 	public SGDetail selectOneJoinGrDetailTop(int grCode, int memCode) {
 		SGDetail joinGrTop = gd.selectOneJoinGrDetailTop(sqlSession, grCode, memCode);
@@ -101,14 +101,41 @@ public class SGDetailServiceImpl implements SGDetailService{
 	}
 
 	@Override
+	public List<HashMap<String, Object>> selectGroupBoardList(int grCode, int loginUserCode) {
+		List<HashMap<String, Object>> list = gd.selectGroupBoardList(sqlSession, grCode, loginUserCode);
+		return list;
+	}
+
+	@Override
 	public int insertGroupBoardWrite(int grCode, String contents, int loginUserCode, int boardType) {
 		int insertResult =  gd.insertGroupBoardWrite(sqlSession, grCode, contents, loginUserCode, boardType);
 		return insertResult;
 	}
 
+	public List<HashMap<String, Object>> selectOneBoardDetailShow(int grCode, int boardCode) {
+
+		List<HashMap<String, Object>> list = gd.selectOneBoardDetailShow(sqlSession, grCode, boardCode);
+		return list;
+	}
+
 	@Override
-	public void studygroupModify(Map<String, Object> studygroupInfo) {
-		gd.studygroupModify(sqlSession, studygroupInfo);
+	public List<HashMap<String, Object>> selectBoardReply(int boardCode) {
+
+		List<HashMap<String, Object>> list = gd.selectBoardReply(sqlSession, boardCode);
+		return list;
+	}
+
+	@Override
+	public HashMap<String, Object> selectBoardTopInfo(int boardCode, int grCode,  int loginUserCode) {
+
+		HashMap<String, Object> hmap = gd.selectBoardTopInfo(sqlSession, boardCode, grCode, loginUserCode);
+		return hmap;
+	}
+
+	@Override
+	public int insertReply(int boardCode, String replyContent, int loginUserCode) {
+		// TODO Auto-generated method stub
+		return gd.insertReply(sqlSession, boardCode, replyContent, loginUserCode);
 	}
 
 }

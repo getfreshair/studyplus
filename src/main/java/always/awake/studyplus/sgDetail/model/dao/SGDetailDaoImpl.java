@@ -113,6 +113,15 @@ public class SGDetailDaoImpl implements SGDetailDao{
 	}
 
 	@Override
+	public List<HashMap<String, Object>> selectGroupBoardList(SqlSessionTemplate sqlSession, int grCode, int loginUserCode) {
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		
+		hm.put("grCode", grCode);
+		hm.put("loginUserCode", loginUserCode);
+		return sqlSession.selectList("SGDetail.selectGroupBoardList", hm);
+	}
+	
+	@Override
 	public int insertGroupBoardWrite(SqlSessionTemplate sqlSession, int grCode, String contents, int loginUserCode, int boardType) {
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		
@@ -128,5 +137,43 @@ public class SGDetailDaoImpl implements SGDetailDao{
 	public void studygroupModify(SqlSessionTemplate sqlSession, Map<String, Object> studygroupInfo) {
 		sqlSession.update("SGDetail.studygroupModify", studygroupInfo);
 	}
+	
+	@Override
+	   public List<HashMap<String, Object>> selectOneBoardDetailShow(SqlSessionTemplate sqlSession, int grCode,
+	         int boardCode) {
+	      HashMap<String, Object> hm = new HashMap<String, Object>();
+	      
+	      hm.put("grCode", grCode);
+	      hm.put("boardCode", boardCode);
+	      return sqlSession.selectList("SGDetail.selectOneBoardDetailShow", hm);
+   }
+	
+	   @Override
+	   public List<HashMap<String, Object>> selectBoardReply(SqlSessionTemplate sqlSession, int boardCode) {
+	      
+	      return sqlSession.selectList("SGDetail.selectBoardReply", boardCode);
+	   }
+
+	   @Override
+	   public HashMap<String, Object> selectBoardTopInfo(SqlSessionTemplate sqlSession, int boardCode, int grCode, int loginUserCode) {
+
+	      HashMap<String, Object> hm = new HashMap<String, Object>();
+	      
+	      hm.put("boardCode", boardCode);
+	      hm.put("grCode", grCode);
+	      hm.put("loginUserCode", loginUserCode);
+	      return sqlSession.selectOne("SGDetail.selectBoardTopInfo", hm);
+	   }
+
+	   @Override
+	   public int insertReply(SqlSessionTemplate sqlSession, int boardCode, String replyContent, int loginUserCode) {
+	      
+	      HashMap<String, Object> hm = new HashMap<String, Object>();
+	      
+	      hm.put("boardCode", boardCode);
+	      hm.put("replyContent", replyContent);
+	      hm.put("loginUserCode", loginUserCode);
+	      return sqlSession.insert("SGDetail.insertReply", hm);
+	   }
 	
 }

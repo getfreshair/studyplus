@@ -9,9 +9,9 @@ import always.awake.studyplus.sgDetail.model.vo.SGDetail;
 public interface SGDetailService {
 
 	public int selectJoinStatus(int grCode, int memCode);
-	
+
 	public SGDetail selectOneGrDetailLeftTop(int grCode);
-	
+
 	public SGDetail selectOneGrDetailRightTop(int grCode);
 
 	public SGDetail selectOneJoinGrDetailTop(int grCode, int memCode);
@@ -34,8 +34,16 @@ public interface SGDetailService {
 
 	public List<HashMap<String, Object>> selectGroupMemberTimeList(int grCode, String thisDay);
 
+	public List<HashMap<String, Object>> selectGroupBoardList(int grCode, int loginUserCode);
+
 	public int insertGroupBoardWrite(int grCode, String contents, int loginUserCode, int boardType);
 
-	public void studygroupModify(Map<String, Object> studygroupInfo);
+	public List<HashMap<String, Object>> selectOneBoardDetailShow(int grCode, int boardCode);
+
+	public List<HashMap<String, Object>> selectBoardReply(int boardCode);
+
+	public HashMap<String, Object> selectBoardTopInfo(int boardCode, int grCode, int loginUserCode);
+
+	public int insertReply(int boardCode, String replyContent, int loginUserCode);
 
 }

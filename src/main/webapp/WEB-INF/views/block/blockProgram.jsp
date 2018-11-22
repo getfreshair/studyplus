@@ -3,14 +3,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script
+<!-- <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
 <script src="http://malsup.github.com/jquery.form.js"></script>
+<script src="http://malsup.github.com/jquery.form.js"></script> -->
 <style>
 .programMenu {
 	background: red !important;
@@ -52,7 +51,7 @@
 					</table>
 					
 					<script>
-						cnt = 0;
+						programeCnt = 0;
 						$("#masterCheckBox").click(function(){
 							if($("#masterCheckBox").prop("checked")){
 					            $(".childCheckBox").prop("checked",true);
@@ -76,7 +75,7 @@
 							    					"<td align='center'>"+data[i]+"</td>"+
 							    				"</tr>"
 							    				)	
-							    				cnt++;
+							    				programeCnt++;
 							    	}
 							     },
 							     error:function(request,status,error){
@@ -134,7 +133,7 @@
 							data:{deleteIndex:rowid},
 							success:function(data){
 								$(".resetTr").remove();
-								cnt = 0;
+								programeCnt = 0;
 								for(var i = 0; i < data.length; i ++) {
 									console.log(i);
 						    		$("#programListTable").append(
@@ -143,7 +142,7 @@
 						    					"<td align='center'>"+data[i]+"</td>"+
 						    				"</tr>"
 						    				)	
-						    				cnt++;
+						    				programeCnt++;
 						    	}
 								console.log("성공");
 							},
@@ -171,15 +170,16 @@
 					var option = {
 						url:"saveBlockProgram.bl",
 						type:"post",
+						
 						data:$("#fileForm").serialize(),
 						success:function(data){
 							$("#programListTable").append(
 				    				"<tr class='resetTr'>"+ 
-				    					"<td><input type='checkbox' name='selectBox' class='childCheckBox' value="+cnt+" /></td>" +
+				    					"<td><input type='checkbox' name='selectBox' class='childCheckBox' value="+programeCnt+" /></td>" +
 				    					"<td align='center'>"+data+"</td>"+
 				    				"</tr>"
 				    			)
-				    			cnt++;
+				    			programeCnt++;
 						}, error:function(request,status,error){
 					          console.log("code:"+request.status + "\n message : " + request.responseText + "\n error : " + error );
 				        }

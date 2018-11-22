@@ -35,6 +35,24 @@ hr{
 th{
 	text-align: center !important;
 }
+
+.loding_area{
+	display:none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -90px;
+    z-index:999;}
+.loding_dim{
+	display:none;
+    background: #000;
+    opacity: 0.3;
+    height: 1100px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;}
+
 </style>
 </head>
 <body>
@@ -101,6 +119,10 @@ th{
 									</tr>
 						</c:forEach>
 					</table>
+				<div class="loding_area">
+					<img alt="" src="/studyplus/resources/images/planner/img_loding.gif">
+				</div>
+				<div class="loding_dim"></div>
 		<div id="pagingArea" align="center">
 			<c:if test="${data.pi.currentPage <= 1}">
 				[이전] &nbsp;
@@ -162,13 +184,20 @@ th{
 								font-size:14px; display:inline-block;">불량게시물탐지</button>
 					</div>
 					<script>
+				
 						function searchBlack(){
+							$(".loding_area").fadeIn(200);
+							
+							$(".loding_dim").fadeIn(200);
+						
 							$.ajax({
 								url:"searchBlack.do",
 								type:"post",
 								success:function(data){
 									console.log("들어왔어엉");
 									createTable(data);
+									$(".loding_area").fadeOut(60);
+									$(".loding_dim").fadeOut(60);
 									$(function(){
 							  			$('#penaltyBoard').click(function(){
 							  			var checkBoxs = document.getElementsByName("selectBoardCode"); // 체크박스 객체
