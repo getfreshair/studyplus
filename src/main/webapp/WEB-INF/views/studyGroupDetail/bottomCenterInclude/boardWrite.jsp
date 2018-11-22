@@ -142,7 +142,6 @@
 // // 			 alert(boardType);
 // 		 };
 		
-		alert("에디터 : " + editor);
 
 		if(editor == ""){
 			alert("게시글을 작성 해주세요.");
@@ -153,13 +152,11 @@
 // 		}else if(editor != "" && boardType != ""){
 		}else if(editor != ""){
 			
-			alert("오니?");
+	
 			var saveChk = confirm("게시글을 등록 하시겠습니까?");
 			
 			if(saveChk){
 // 				alert(boardType);
-				alert(editor);
-				alert(saveChk);
 				
 				$.ajax({
 					url:"insertGroupBoardWrite.sgd",

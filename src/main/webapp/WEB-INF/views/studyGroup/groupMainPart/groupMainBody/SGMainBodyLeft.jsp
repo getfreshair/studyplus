@@ -482,7 +482,6 @@
 	<div class="SGMainBodyLeftArea">
 		<div class="adArea">
 			<img class="SGMainPRImg" onclick="addPRCount()"/>
-			<a href="selectOneGroup.sgd?group_No=1">스터디 그룹 디테일</a>
 		</div>
 		<div class="SGListChangeBtnArea">
 			<ul class="SGListChangeUl">

@@ -153,7 +153,6 @@
 	function boardWriteModalShow(grCode){
 		var grLeaderCode = $('#grLeaderCode').val();
 		
-		alert(grCode + " / " + grLeaderCode);
 	
 // 		contentType: false,
 // 		processData: false,

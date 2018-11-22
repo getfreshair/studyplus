@@ -16,7 +16,7 @@
 	function connect() {
 		// ws://192.168.10.69:8001/studyplus/chat-ws.socket
 		//192.168.43.188:8001/studyplus ws://localhost:8001/studyplus/chat-ws.socket
-		groupWSocket = new WebSocket("ws://localhost:8001/studyplus/groupChat-ws.groupSocket");
+		groupWSocket = new WebSocket("ws://192.168.10.69:8001/studyplus/groupChat-ws.groupSocket");
 		groupWSocket.onopen = onOpen;
 		//서버로부터 메시지를 받으면 호출되는 함수 지정
 		groupWSocket.onmessage = onMessage;

@@ -45,12 +45,12 @@
 	    .topInfoAllWrapTbl { width:100%; height:100%; margin:0px auto; position:relative; }
         .topInfoContWrapTbl { width:100%; height:100%; margin:0px auto; vertical-align:middle; }
 	
-	.groupInfoArea { width:56.5%; margin-right:0.8%; display:flex; }
-	  .groupInfoLeft { width:46%; padding:0px 10px 0px 15px; border-right:1px solid gray; }
+	.groupInfoArea { width:57.5%; margin-right:0.8%; display:flex; }
+	  .groupInfoLeft { width:47%; padding:0px 10px 0px 15px; border-right:1px solid gray; }
 		.category { background:lightgray; }
 		.groupTitleTblWrap { margin-left:5px; position:relative; }
 		  .groupTitleTbl { width:100%; margin-bottom:0px;/* margin: 0px 0px 5px; */ }
-		  .groupTitleTbl h2 { font-weight:bold; line-height:1.7; font-size:27px; margin:10px 0px 0px; }
+		  .groupTitleTbl h2 { font-weight:bold; line-height:1.7; font-size:25px; margin:10px 0px 0px; }
  		  .groupTitleTbl .groupIntro { height:55px; padding:15px 15px 15px 5px; font-size:15px; table-layout:fixed; word-break:keep-all; }
 		  .groupOptDetailTbl { width:225px; display:inline-table; font-size:14px; }
  		  .groupOptDetailTbl td { padding:7px 5px 1px 5px; border-bottom:1px solid gray; }
@@ -327,7 +327,7 @@
 					}
 			},
 			error : function(){
-				alert("에러냐?");
+				location.href="selectOneGroup.sgd?group_No=" + grCode;
 			}
 		});
 	}
